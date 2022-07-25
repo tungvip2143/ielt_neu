@@ -4,19 +4,26 @@ import { Provider } from "react-redux";
 import { I18nextProvider } from "react-i18next";
 import App from "./App";
 import reportWebVitals from "./reportWebVitals";
+import { CacheProvider } from '@emotion/react';
+import createEmotionCache from "theme/createEmotionCache";
 
 import i18n from "i18n";
 import store from "redux/store";
 import "./index.css";
+
+const cache = createEmotionCache()
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   <I18nextProvider i18n={i18n}>
+    <CacheProvider value={cache}>
     <Provider store={store}>
       <App />
     </Provider>
+    </CacheProvider>
+    
   </I18nextProvider>
 );
 
