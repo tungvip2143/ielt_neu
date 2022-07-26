@@ -1,0 +1,19 @@
+import React from "react";
+//
+import Typography from "@mui/material/Typography";
+//! type
+interface Typographys {
+  children?: string;
+  styleTypography?: {
+    fontSize?: string;
+    color?: string;
+    fontWeight?: number;
+    paddingBottom?: string;
+  };
+}
+const TypographyCommon: React.FC<Typographys> = ({ children, styleTypography }) => {
+  //! Render
+  return <Typography sx={{ ...styleTypography }}>{children}</Typography>;
+};
+
+export default TypographyCommon;
