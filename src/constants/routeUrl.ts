@@ -1,5 +1,6 @@
 export const RouteBase = {
   Home: "/",
-  Dashboard: "/dashboard",
+  Ielts: "/ielts",
   Login: "/login",
+  IeltsListening:"/ielts/listening"
 };

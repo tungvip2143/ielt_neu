@@ -208,7 +208,7 @@ export const theme : ThemeOptions = createTheme({
       contrastText: '#FFFFFF',
     },
     error: {
-      main: '#D14343',
+      main: '#FFB020',
       light: '#DA6868',
       dark: '#922E2E',
       contrastText: '#FFFFFF',
