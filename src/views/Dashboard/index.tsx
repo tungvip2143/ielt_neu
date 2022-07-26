@@ -19,7 +19,7 @@ import TitleSecond from "components/Typography/TitleSecond";
 import TextMediumLarge from "components/Typography/TextMediumLarge";
 
 import TextMedium from "components/Typography/TextMedium";
-import TextMediumBold from "components/Typography/TextMediumBold";
+import TextSubBold from "components/Typography/TextSubBold";
 
 import TextSmall from "components/Typography/TextSmall";
 import TextSmallMedium from "components/Typography/TextSmallMedium";
@@ -68,7 +68,7 @@ const Dashboard: React.FC = (props) => {
         <DescSmall>DescSmall</DescSmall>
         <TextMediumLarge>Text Medium Large</TextMediumLarge>
         <TextMedium>Text Medium.</TextMedium>
-        <TextMediumBold>TextMediumBold</TextMediumBold>
+        <TextSubBold>TextSubBold</TextSubBold>
         <TextSmall>Text Small </TextSmall>
         <TextSmallMedium>TextSmallMedium</TextSmallMedium>
         {/*  */}
