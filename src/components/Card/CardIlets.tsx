@@ -9,6 +9,8 @@ import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import TextTitleCard from "components/Typography/TextTitleCard";
 import TextSubCard from "components/Typography/TextSubCard";
 import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
+import { Link } from "react-router-dom";
+import LinkCustom from "components/Link";
 //! type
 interface Exam {
   exam: {
@@ -17,6 +19,7 @@ interface Exam {
     nameExam: string;
     image: string;
     hoverColor: string;
+    path : string;
   };
 }
 const CardIlets = ({ exam }: Exam) => {
@@ -38,19 +41,21 @@ const CardIlets = ({ exam }: Exam) => {
   //! Render
   return (
     <Grid item xs={12} sm={6} md={6} lg={3}>
-      <Card sx={CardList} className={exam.hoverColor}>
-        <Box sx={{ maxWidth: "112px", pb: "15px" }}>
-          <TextTitleCard>{exam.typeExam}</TextTitleCard>
-        </Box>
-        <Stack direction="row" spacing={1} sx={{ pb: "25px" }}>
-          <AccessAlarmIcon />
-          <TextSubCard>{exam.timeExam}</TextSubCard>
-        </Stack>
-        <ButtonOutLineCommon>{exam.nameExam}</ButtonOutLineCommon>
-        <Box>
-          <img style={{ transform: "translateX(-30px)" }} src={exam.image} alt="" />
-        </Box>
-      </Card>
+      <LinkCustom to={exam.path}>
+        <Card sx={CardList} className={exam.hoverColor}>
+          <Box sx={{ maxWidth: "112px", pb: "15px" }}>
+            <TextTitleCard>{exam.typeExam}</TextTitleCard>
+          </Box>
+          <Stack direction="row" spacing={1} sx={{ pb: "25px" }}>
+            <AccessAlarmIcon />
+            <TextSubCard>{exam.timeExam}</TextSubCard>
+          </Stack>
+          <ButtonOutLineCommon>{exam.nameExam}</ButtonOutLineCommon>
+          <Box>
+            <img style={{ transform: "translateX(-30px)" }} src={exam.image} alt="" />
+          </Box>
+        </Card>
+     </LinkCustom>
     </Grid>
   );
 };

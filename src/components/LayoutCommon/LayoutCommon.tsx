@@ -55,8 +55,8 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
       <Box sx={{ minHeight: "600px", background: data.background2 }}>
         <Grid container className="container" sx={{ transform: "translateY(-40px)" }}>
           {exams.map(
-            (item: { typeExam: string; timeExam: string; nameExam: string; image: string; hoverColor: string }) => (
-              <CardIlets exam={item} />
+            (item: { typeExam: string; timeExam: string; nameExam: string; image: string; hoverColor: string,path:string }) => (
+              <CardIlets key={item.nameExam}  exam={item} />
             )
           )}
         </Grid>

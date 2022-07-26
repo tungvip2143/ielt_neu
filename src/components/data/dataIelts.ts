@@ -6,6 +6,7 @@ export const dataIlets = [
     nameExam: "ilets",
     image: "https://i.testglider.com/static/img/selectSection/section-test-listening.svg",
     hoverColor: "",
+    path:"/ielts/listening"
   },
   {
     id: 2,
@@ -14,6 +15,7 @@ export const dataIlets = [
     nameExam: "IELTS Academic",
     image: "https://i.testglider.com/static/img/selectSection/section-test-reading.svg",
     hoverColor: "hover-card-bg-yellow",
+    path:"#"
   },
   {
     id: 3,
@@ -22,6 +24,7 @@ export const dataIlets = [
     nameExam: "IELTS Academic",
     image: "https://i.testglider.com/static/img/selectSection/section-test-writing.svg",
     hoverColor: "hover-card-bg-blue",
+    path:"#"
   },
   {
     id: 4,
@@ -30,5 +33,6 @@ export const dataIlets = [
     nameExam: "ilets",
     image: "https://i.testglider.com/static/img/selectSection/section-test-speaking.svg",
     hoverColor: "hover-card-bg-orange",
+    path:"#"
   },
 ];
