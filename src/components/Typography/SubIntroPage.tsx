@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface TextMedium {
+interface SubIntroPage {
   children: string;
 }
 
-const TextMedium: React.FC<TextMedium> = ({ children }) => {
+const SubIntroPage: React.FC<SubIntroPage> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: { xs: "18px" },
-    color: "#606166",
+    fontSize: { xs: "16px", lg: "20px" },
+    color: "#36373B",
     fontWeight: 300,
-    pb: "48px",
+    pb: "30px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default TextMedium;
+export default SubIntroPage;

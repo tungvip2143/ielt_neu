@@ -9,7 +9,7 @@ interface TextTitleCard {
 const TextTitleCard: React.FC<TextTitleCard> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "24px",
+    fontSize: { xs: "24px", lg: "24px" },
     color: "#36373B",
     fontWeight: 700,
     // pb: "32px",

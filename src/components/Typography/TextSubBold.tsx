@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface TextMedium {
+interface TextSubBold {
   children: string;
 }
 
-const TextMedium: React.FC<TextMedium> = ({ children }) => {
+const TextSubBold: React.FC<TextSubBold> = ({ children }) => {
   //! State
   const styleText = {
     fontSize: { xs: "18px" },
-    color: "#606166",
-    fontWeight: 300,
-    pb: "48px",
+    color: "rgb(17, 17, 20)",
+    fontWeight: 700,
+    pb: "10px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default TextMedium;
+export default TextSubBold;

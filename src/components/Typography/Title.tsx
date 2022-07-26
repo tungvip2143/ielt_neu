@@ -9,7 +9,7 @@ interface Title {
 const Title: React.FC<Title> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "36px",
+    fontSize: { xs: "24px", lg: "36px" },
     color: "#000000",
     fontWeight: 700,
     pb: "36px",

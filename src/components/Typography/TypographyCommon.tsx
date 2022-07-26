@@ -5,7 +5,7 @@ import Typography from "@mui/material/Typography";
 interface Typographys {
   children?: string;
   styleTypography?: {
-    fontSize?: string;
+    fontSize?: object;
     color?: string;
     fontWeight?: number;
     paddingBottom?: string;

@@ -1,7 +1,16 @@
 import React from "react";
 import useGetTodoList from "hooks/todos/useGetTodoList";
 import { useTranslation } from "react-i18next";
+//
+import IntroHome from "components/HomePage/IntroHome";
+import FavouriteStudents from "components/HomePage/FavouriteStudents";
 
+//
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import Button from "@mui/material/Button";
+import Grid from "@mui/material/Grid";
+//
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
   const { data: todoList, loading } = useGetTodoList();
@@ -12,16 +21,12 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <div>
-      <span>{t("message:hello")}</span>
-      List Todo Example
-      <hr />
-      {todoList.map((todo) => (
-        <div key={todo.id}>
-          {todo.id} - {todo.title}
-        </div>
-      ))}
-    </div>
+    <Box>
+      <div className="container">
+        <IntroHome />
+      </div>
+      <FavouriteStudents />
+    </Box>
   );
 };
 export default HomePage;

@@ -9,7 +9,7 @@ interface TextMediumLarge {
 const TextMediumLarge: React.FC<TextMediumLarge> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "24px",
+    fontSize: { xs: "18px", lg: "24px" },
     color: "rgb(54, 55, 59)",
     fontWeight: 700,
     pb: "12px",

@@ -9,7 +9,7 @@ interface TitleSecond {
 const TitleSecond: React.FC<TitleSecond> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "32px",
+    fontSize: { xs: "22px", lg: "32px" },
     color: "#000000",
     fontWeight: 700,
     pb: "32px",

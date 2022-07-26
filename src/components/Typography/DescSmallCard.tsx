@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface TextMediumBold {
+interface DescSmallCard {
   children: string;
 }
 
-const TextMediumBold: React.FC<TextMediumBold> = ({ children }) => {
+const DescSmallCard: React.FC<DescSmallCard> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "18px",
-    color: "rgb(17, 17, 20)",
-    fontWeight: 700,
-    pb: "48px",
+    fontSize: { xs: "16px" },
+    color: "#36373B",
+    fontWeight: 300,
+    // pb: "16px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default TextMediumBold;
+export default DescSmallCard;

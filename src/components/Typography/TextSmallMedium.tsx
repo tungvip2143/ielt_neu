@@ -9,7 +9,7 @@ interface TextSmallMedium {
 const TextSmallMedium: React.FC<TextSmallMedium> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "16px",
+    fontSize: { xs: "16px" },
     color: "rgb(17, 74, 198)",
     fontWeight: 500,
   };
