@@ -1,14 +1,14 @@
-import React from "react";
-import { Link } from "react-router-dom";
-import {Box,Grid,Stack,Button,Container,Divider} from "@mui/material"
+import { Button, Container, Divider, Grid, Stack } from "@mui/material";
+import ContainerCustom from "components/Container";
 import LinkCustom from "components/Link";
+import React from "react";
 
 const Header: React.FC = (props) => {
 
   // TODO : Refactor Header
   return (
     <Container maxWidth="xl" sx={{display:"flex",justifyContent:"center",py:1,borderBottom:"1px solid #e7eaed",position:"fixed",zIndex:999,background:"#fff"}}>
-      <Grid container lg={9} xl={8} sx={{justifyContent:"space-between"}} >
+      <ContainerCustom lg={9} xl={8} sx={{justifyContent:"space-between"}} >
       <Grid item sx={{display:"flex",alignItems:"center"}}>
         <LinkCustom to={"/"}>
         Logo
@@ -17,10 +17,10 @@ const Header: React.FC = (props) => {
       <Grid item>
         <Stack spacing={2} direction="row">
         <Button>
-          <LinkCustom to="TOFFL">TOEFL</LinkCustom>
+          <LinkCustom to="/TOFFL">TOEFL</LinkCustom>
           </Button>
         <Button>
-          <LinkCustom to="ielts">IELTS</LinkCustom>
+          <LinkCustom to="/ielts">IELTS</LinkCustom>
         </Button>
       </Stack>
       </Grid>
@@ -44,10 +44,7 @@ const Header: React.FC = (props) => {
           <Button variant="contained">TRY FOR FREE</Button>
         </Stack>
       </Grid>
-      {/* <Link to="/">Home</Link>
-      <Link to="/login">Login</Link>
-      <Link to="/dashboard">Dashboard</Link> */}
-    </Grid>
+    </ContainerCustom>
     </Container>
     
   );
