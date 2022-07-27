@@ -9,6 +9,9 @@ import { RouteBase } from "constants/routeUrl";
 import DefaultLayout from "layout/DefaultLayout";
 import LoginPage from "views/Login";
 import IeltsListening from "views/Ielts/listening";
+import IeltsReading from "views/Ielts/reading";
+import IeltsWriting from "views/Ielts/writing";
+import IeltsSpeaking from "views/Ielts/speaking";
 
 const App: React.FC = () => {
   //! Render
@@ -19,6 +22,9 @@ const App: React.FC = () => {
       <Switch>
         <Route path={RouteBase.Login} exact component={LoginPage} />
         <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
+        <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
+        <Route path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
+        <Route path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
         <Route path={RouteBase.Home}  component={DefaultLayout} />
         
       </Switch>
