@@ -9,10 +9,9 @@ interface DescSmall {
 const DescSmall: React.FC<DescSmall> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "14px",
+    fontSize: { xs: "14px" },
     color: "#A09FA4",
     fontWeight: 300,
-    maxWidth: "224px",
     // pb: "32px",
   };
   //! Render

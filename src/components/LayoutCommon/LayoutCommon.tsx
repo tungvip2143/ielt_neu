@@ -49,14 +49,23 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
       <Box sx={{ p: "50px 0 100px 0", background: data.background, zIndex: "-1", position: "relative" }}>
         <div className="container">
           <TitleSecond>{data.sub}</TitleSecond>
-          <DescSmall>{data.desc}</DescSmall>
+          <Box sx={{ maxWidth: "224px" }}>
+            <DescSmall>{data.desc}</DescSmall>
+          </Box>
         </div>
       </Box>
       <Box sx={{ minHeight: "600px", background: data.background2 }}>
         <Grid container className="container" sx={{ transform: "translateY(-40px)" }}>
           {exams.map(
-            (item: { typeExam: string; timeExam: string; nameExam: string; image: string; hoverColor: string,path:string }) => (
-              <CardIlets key={item.nameExam}  exam={item} />
+            (item: {
+              typeExam: string;
+              timeExam: string;
+              nameExam: string;
+              image: string;
+              hoverColor: string;
+              path: string;
+            }) => (
+              <CardIlets key={item.nameExam} exam={item} />
             )
           )}
         </Grid>

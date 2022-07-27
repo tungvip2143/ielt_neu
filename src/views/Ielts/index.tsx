@@ -3,28 +3,7 @@ import { useTranslation } from "react-i18next";
 import { changeLang } from "helpers/lang";
 import "App.css";
 //
-import ButtonCommon from "../../components/Button/index";
-//
-import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
-import ButtonFullBg from "components/Button/ButtonFullBg";
-//
-import ButtonLarge from "components/Button/ButtonLarge";
-import ButtonLargeRed from "components/Button/ButtonLargeRed";
-//
-import ButtonBuyNow from "components/Button/ButtonBuyNow";
-//
-import Title from "components/Typography/Title";
-import TitleSecond from "components/Typography/TitleSecond";
 
-import TextMediumLarge from "components/Typography/TextMediumLarge";
-
-import TextMedium from "components/Typography/TextMedium";
-import TextMediumBold from "components/Typography/TextMediumBold";
-
-import TextSmall from "components/Typography/TextSmall";
-import TextSmallMedium from "components/Typography/TextSmallMedium";
-import DescSmall from "components/Typography/DescSmall";
-//
 import LayoutCommon from "components/LayoutCommon/LayoutCommon";
 import { dataIlets } from "components/data/dataIelts";
 
@@ -73,7 +52,7 @@ const Ielts: React.FC = (props) => {
         <TextSmallMedium>TextSmallMedium</TextSmallMedium>
       </div> */}
 
- {/* TODO : đặt margin theo heigh của header */}
+      {/* TODO : đặt margin theo heigh của header */}
       <div>
         <LayoutCommon data={dataLayoutCommon} exams={dataIlets} />
       </div>

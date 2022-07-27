@@ -9,7 +9,7 @@ interface TextSmall {
 const TextSmall: React.FC<TextSmall> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "16px",
+    fontSize: { xs: "16px" },
     color: "#606166",
     fontWeight: 300,
     // pb: "16px",
