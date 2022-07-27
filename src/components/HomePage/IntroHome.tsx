@@ -6,9 +6,9 @@ import ButtonLarge from "components/Button/ButtonLarge";
 import ButtonLargeRed from "components/Button/ButtonLargeRed";
 
 //
-import Box from "@mui/material/Box";
-import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
+// import Box from "@mui/material/Box";
+// import Typography from "@mui/material/Typography";
+// import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 //
 import introRight from "assets/image/home/intro-home.webp";

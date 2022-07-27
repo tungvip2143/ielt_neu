@@ -1,15 +1,20 @@
 import React from "react";
 import useGetTodoList from "hooks/todos/useGetTodoList";
 import { useTranslation } from "react-i18next";
+import "App.css";
 //
 import IntroHome from "components/HomePage/IntroHome";
 import FavouriteStudents from "components/HomePage/FavouriteStudents";
+import InformationData from "components/HomePage/InformationData";
+import Steps from "components/HomePage/Steps";
+import ChoosePlan from "components/HomePage/ChoosePlan";
 
 //
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
+
+// import Button from "@mui/material/Button";
+// import Grid from "@mui/material/Grid";
 //
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
@@ -21,11 +26,21 @@ const HomePage: React.FC = () => {
   }
 
   return (
-    <Box>
+    <Box sx={{ background: "#fff" }}>
       <div className="container">
         <IntroHome />
       </div>
       <FavouriteStudents />
+      <div className="container">
+        <InformationData />
+      </div>
+      <Steps />
+      <Typography sx={{ textAlign: "center" }} variant="body1" color="initial">
+        *Learn more about our scoring system from our FAQ
+      </Typography>
+      <div className="container">
+        <ChoosePlan />
+      </div>
     </Box>
   );
 };

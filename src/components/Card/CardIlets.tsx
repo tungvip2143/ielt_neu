@@ -9,11 +9,14 @@ import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import TextTitleCard from "components/Typography/TextTitleCard";
 import TextSubCard from "components/Typography/TextSubCard";
 import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
+
 import TextSubBold from "components/Typography/TextSubBold";
 import TextSmall from "components/Typography/TextSmall";
 //
 import LockIcon from "@mui/icons-material/Lock";
 
+import { Link } from "react-router-dom";
+import LinkCustom from "components/Link";
 //! type
 interface Exam {
   exam: {
@@ -22,6 +25,7 @@ interface Exam {
     nameExam: string;
     image: string;
     hoverColor: string;
+    path: string;
   };
 }
 const CardIlets = ({ exam }: Exam) => {

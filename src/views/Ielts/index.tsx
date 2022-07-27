@@ -28,7 +28,7 @@ import DescSmall from "components/Typography/DescSmall";
 import LayoutCommon from "components/LayoutCommon/LayoutCommon";
 import { dataIlets } from "components/data/dataIelts";
 
-const Dashboard: React.FC = (props) => {
+const Ielts: React.FC = (props) => {
   //! State
   const { t } = useTranslation();
 
@@ -45,7 +45,7 @@ const Dashboard: React.FC = (props) => {
   //! Render
   return (
     <div>
-      <span>Example multiple lang (i18n)</span>
+      {/* <span>Example multiple lang (i18n)</span>
       <h4>{t("shared:hello")}</h4>
       <div>
         <button onClick={onChangeLanguage("vi")}>Vi lang</button>
@@ -71,12 +71,13 @@ const Dashboard: React.FC = (props) => {
         <TextSubBold>TextSubBold</TextSubBold>
         <TextSmall>Text Small </TextSmall>
         <TextSmallMedium>TextSmallMedium</TextSmallMedium>
-        {/*  */}
-      </div>
-      <div style={{ margin: "100px 0" }}>
+      </div> */}
+
+ {/* TODO : đặt margin theo heigh của header */}
+      <div>
         <LayoutCommon data={dataLayoutCommon} exams={dataIlets} />
       </div>
     </div>
   );
 };
-export default Dashboard;
+export default Ielts;

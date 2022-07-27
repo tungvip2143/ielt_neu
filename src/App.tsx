@@ -8,6 +8,7 @@ import { theme } from "theme";
 import { RouteBase } from "constants/routeUrl";
 import DefaultLayout from "layout/DefaultLayout";
 import LoginPage from "views/Login";
+import IeltsListening from "views/Ielts/listening";
 
 const App: React.FC = () => {
   //! Render
@@ -17,7 +18,9 @@ const App: React.FC = () => {
       <Router>
       <Switch>
         <Route path={RouteBase.Login} exact component={LoginPage} />
-        <Route path={RouteBase.Home} component={DefaultLayout} />
+        <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
+        <Route path={RouteBase.Home}  component={DefaultLayout} />
+        
       </Switch>
     </Router>
     </ThemeProvider>

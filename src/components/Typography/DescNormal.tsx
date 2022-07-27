@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface Title {
+interface DescNormal {
   children: string;
 }
 
-const Title: React.FC<Title> = ({ children }) => {
+const DescNormal: React.FC<DescNormal> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: { xs: "24px", sm: "30px", md: "36px" },
-    color: "#000000",
-    fontWeight: 700,
-    pb: "36px",
+    fontSize: { xs: "18px" },
+    color: "#36373B",
+    fontWeight: 300,
+    pb: "20px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default Title;
+export default DescNormal;

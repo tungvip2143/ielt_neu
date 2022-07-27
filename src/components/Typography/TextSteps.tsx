@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface Title {
+interface TextSteps {
   children: string;
 }
 
-const Title: React.FC<Title> = ({ children }) => {
+const TextSteps: React.FC<TextSteps> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: { xs: "24px", sm: "30px", md: "36px" },
-    color: "#000000",
-    fontWeight: 700,
-    pb: "36px",
+    fontSize: { xs: "18px" },
+    color: "#0B2283",
+    fontWeight: 500,
+    pb: "20px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default Title;
+export default TextSteps;
