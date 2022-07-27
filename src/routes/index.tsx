@@ -32,7 +32,7 @@ const routes = [
     exact: true,
     name: "Home",
     component: HomePage,
-    isPrivate: true,
+    isPrivate: false,
   },
   { name: "404", component: Page404 },
 ];

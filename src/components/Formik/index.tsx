@@ -3,6 +3,8 @@ import { Formik,Form,FormikProps } from 'formik';
 import {Box,Button,Grid,Card} from "@mui/material";
 import ArrowBackIosIcon from '@mui/icons-material/ArrowBackIos';
 import CheckBoxOutlinedIcon from '@mui/icons-material/CheckBoxOutlined';
+import { useHistory } from "react-router-dom";
+
 
 export interface  FormikWizadProps {
     initialValues : object,
@@ -20,7 +22,7 @@ interface FormikComProps {
 }
 
  function FormikWizard (props:  FormikWizadProps) {
-    // !State
+    // !Destructure Props
     const {initialValues,children, stepNumber, onStep, text,onSubmit,...rest} = props
 
     // !Variable
@@ -28,6 +30,7 @@ interface FormikComProps {
     const step = steps[stepNumber];
     const totalSteps = steps.length;
     const isLastStep = stepNumber === totalSteps - 1;
+    const history = useHistory()
 
     // !Function
 
@@ -48,6 +51,8 @@ interface FormikComProps {
     }
   };
 
+  const handleBackToIeltsPage=()=>history.push("/ielts")
+
   return (
     <Formik
     initialValues={initialValues}
@@ -56,7 +61,7 @@ interface FormikComProps {
       {(formik:FormikProps<any>)=>(
         <Form>
             <Box sx={{p:"8px 16px",background:"#36373b",display:"flex",alignItems:"center",justifyContent:"space-between",position:"fixed",zIndex:999,width:"100%"}}>
-                <Button startIcon={<ArrowBackIosIcon/>}>EXIT</Button>
+                <Button onClick={handleBackToIeltsPage} startIcon={<ArrowBackIosIcon/>}>EXIT</Button>
                 {stepNumber === 1 && <Button type='submit' endIcon={<CheckBoxOutlinedIcon/>}>SUBMIT</Button> }
             </Box>
             <Grid container sx={{p:2,marginTop:"56px"}}>
