@@ -17,6 +17,7 @@ import IeltsSections from "components/Ielts";
 import ReviewAndScore from "components/Review";
 import LinkCustom from "components/Link";
 import Container from "components/Container";
+import Text from "components/Typography";
 //
 // ! type
 interface dataLayout {
@@ -33,6 +34,7 @@ interface dataLayout {
 const LayoutCommon = ({ data, exams }: dataLayout) => {
   return (
     <Box>
+      <Text.CardTitle sx={{ pd: 1 }}>test</Text.CardTitle>
       <Box
         sx={{
           background: data.background,
@@ -49,18 +51,23 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
           color="error"
           startIcon={<FlutterDashIcon sx={{ fontSize: "20px" }} />}
         >
-          <LinkCustom to="/ielts">
-          {data.title}
-          </LinkCustom>
+          <LinkCustom to="/ielts">{data.title}</LinkCustom>
         </Button>
         <Button>
-          <LinkCustom to="/ielts/scores">
-          Review
-          </LinkCustom>
-          </Button>
+          <LinkCustom to="/ielts/scores">Review</LinkCustom>
+        </Button>
       </Box>
-      <Box sx={{ p: "50px 10px 100px 10px", background: data.background, zIndex: "-1", position: "relative",display:"flex",justifyContent:"center" }}>
-        <Container sx={{display:"flex",flexDirection:"column"}} lg={9}>
+      <Box
+        sx={{
+          p: "50px 10px 100px 10px",
+          background: data.background,
+          zIndex: "-1",
+          position: "relative",
+          display: "flex",
+          justifyContent: "center",
+        }}
+      >
+        <Container sx={{ display: "flex", flexDirection: "column" }} lg={9}>
           <TitleSecond>{data.sub}</TitleSecond>
           <DescSmall>{data.desc}</DescSmall>
         </Container>
@@ -68,8 +75,8 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
       <Box sx={{ minHeight: "600px", background: data.background2 }}>
         <Container lg={9} className="container" sx={{ transform: "translateY(-40px)" }}>
           <Switch>
-            <Route path="/ielts" exact component={IeltsSections}/>
-            <Route path="/ielts/scores" exact component={ReviewAndScore}/>
+            <Route path="/ielts" exact component={IeltsSections} />
+            <Route path="/ielts/scores" exact component={ReviewAndScore} />
           </Switch>
         </Container>
       </Box>
