@@ -2,19 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface TextSmallMedium {
+interface Sub20BoldIlets {
   children: string;
 }
 
-const TextSmallMedium: React.FC<TextSmallMedium> = ({ children }) => {
+const Sub20BoldIlets: React.FC<Sub20BoldIlets> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "16px",
-    color: "rgb(17, 74, 198)",
-    fontWeight: 500,
+    fontSize: { xs: "16px", sm: "20px" },
+    color: "#36373B",
+    fontWeight: 700,
+    // pb: "20px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default TextSmallMedium;
+export default Sub20BoldIlets;

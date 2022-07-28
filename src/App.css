@@ -19,3 +19,8 @@
 .hover-card-bg-orange:hover {
   background: rgb(255, 203, 116);
 }
+/* ul */
+ul {
+  list-style-type: disc;
+  margin-left: 15px;
+}
