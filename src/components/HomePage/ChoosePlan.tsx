@@ -2,6 +2,7 @@ import React from "react";
 //
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+
 //
 import DescNormal from "../../components/Typography/DescNormal";
 const ChoosePlan = () => {

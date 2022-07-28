@@ -1,9 +1,10 @@
+import "App.css";
+import { changeLang } from "helpers/lang";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { changeLang } from "helpers/lang";
-import "App.css";
-import LayoutCommon from "components/LayoutCommon/LayoutCommon";
+
 import { dataIlets } from "components/data/dataIelts";
+import LayoutCommon from "components/LayoutCommon/LayoutCommon";
 
 const Ielts: React.FC = (props) => {
   //! State
@@ -22,7 +23,6 @@ const Ielts: React.FC = (props) => {
   //! Render
   return (
     <div>
-
       {/* TODO : đặt margin theo heigh của header */}
       <div>
         <LayoutCommon data={dataLayoutCommon} exams={dataIlets} />
