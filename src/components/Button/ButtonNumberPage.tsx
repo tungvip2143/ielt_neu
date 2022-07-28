@@ -1,7 +1,7 @@
 import React from "react";
 //
 interface ButtonNumberPage {
-  children?: string;
+  children?: any;
 }
 import ButtonCommon from "./index";
 const ButtonNumberPage: React.FC<ButtonNumberPage> = ({ children }) => {
@@ -12,8 +12,8 @@ const ButtonNumberPage: React.FC<ButtonNumberPage> = ({ children }) => {
     fontSize: "12px",
     textTransform: "uppercase",
     background: "#333",
-    width: "24px",
-    height: "20px",
+    width: "25px",
+    height: "22px",
     minWidth: "unset",
     p: "0",
     mr: "3px",

@@ -87,9 +87,12 @@ function FormikWizard(props: FormikWizadProps) {
             }}
           >
             <Button startIcon={<ArrowBackIosIcon />}>EXIT</Button>
-            <Box>
-              <CountDown />
-            </Box>
+            {stepNumber === 1 && (
+              <Box>
+                <CountDown />
+              </Box>
+            )}
+
             {stepNumber === 1 && (
               <Button type="submit" endIcon={<CheckBoxOutlinedIcon />}>
                 SUBMIT

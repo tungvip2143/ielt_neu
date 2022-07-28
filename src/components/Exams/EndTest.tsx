@@ -21,16 +21,14 @@ const EndTest = () => {
     textAlign: "center",
   };
   return (
-    <Card sx={card}>
-      <Box sx={content}>
-        <TitleSecond>You have reached the end of the test</TitleSecond>
-        <Desc16>All of your answer have been saved.</Desc16>
-        <Desc16>Please click the end test button below to finish the test</Desc16>
-        <Box sx={{ mt: "50px" }}>
-          <ButtonStartTest>End Test</ButtonStartTest>
-        </Box>
+    <Box sx={content}>
+      <TitleSecond>You have reached the end of the test</TitleSecond>
+      <Desc16>All of your answer have been saved.</Desc16>
+      <Desc16>Please click the end test button below to finish the test</Desc16>
+      <Box sx={{ mt: "50px" }}>
+        <ButtonStartTest>End Test</ButtonStartTest>
       </Box>
-    </Card>
+    </Box>
   );
 };
 
