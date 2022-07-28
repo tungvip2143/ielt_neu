@@ -24,7 +24,6 @@ const Ielts: React.FC = (props) => {
   return (
     <div>
       {/* TODO : đặt margin theo heigh của header */}
-
       <div>
         <LayoutCommon data={dataLayoutCommon} exams={dataIlets} />
       </div>

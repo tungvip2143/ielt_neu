@@ -10,9 +10,9 @@ const DescNormal: React.FC<DescNormal> = ({ children }) => {
   //! State
   const styleText = {
     fontSize: { xs: "18px" },
-    color: "#36373B",
+    color: "#606166",
     fontWeight: 300,
-    pb: "20px",
+    // pb: "48px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;

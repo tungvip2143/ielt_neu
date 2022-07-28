@@ -1,13 +1,10 @@
-import React from "react";
 //
-import TitleIntroPage from "components/Typography/TitleIntroPage";
-import SubIntroPage from "components/Typography/SubIntroPage";
 import ButtonLarge from "components/Button/ButtonLarge";
 import ButtonLargeRed from "components/Button/ButtonLargeRed";
 
 //
-import Text from "components/Typography/index";
 import Grid from "@mui/material/Grid";
+import Text from "components/Typography/index";
 //
 import introRight from "assets/image/home/intro-home.webp";
 const IntroHome = () => {
