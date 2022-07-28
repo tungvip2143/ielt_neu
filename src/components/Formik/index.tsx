@@ -6,6 +6,8 @@ import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
 import { useHistory } from "react-router-dom";
 //
 import CountDown from "components/Countdown/CountDown";
+import { useModal } from "hooks/Modal/useModal";
+import Modal from "components/Modal";
 export interface FormikWizadProps {
   initialValues: object;
   stepNumber: number;
@@ -47,9 +49,10 @@ const cssButton = {
 function FormikWizard(props: FormikWizadProps) {
   // !State
   const { initialValues, children, stepNumber, onStep, text, onSubmit, ...rest } = props;
+  const [open, setOpen] = React.useState<boolean>(false);
 
   // !Hook
-  const history = useHistory()
+  const history = useHistory();
 
   // !Variable
   const steps = React.Children.toArray(children);
@@ -77,8 +80,13 @@ function FormikWizard(props: FormikWizadProps) {
   };
 
   // Back ielts page
-  const handleBackIeltsSelection =()=>history.push("/ielts")
-  
+  const handleShowModal = () => setOpen(true);
+
+  const handleCloseModal = () => setOpen(false);
+
+  const handleBackIeltsSelection = () => history.push("/ielts");
+  // history.push("/ielts")
+
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: FormikProps<any>) => (
@@ -95,7 +103,9 @@ function FormikWizard(props: FormikWizadProps) {
               width: "100%",
             }}
           >
-            <Button onClick={handleBackIeltsSelection} startIcon={<ArrowBackIosIcon />}>EXIT</Button>
+            <Button onClick={handleShowModal} startIcon={<ArrowBackIosIcon />}>
+              EXIT
+            </Button>
             {stepNumber === 1 && (
               <Box>
                 <CountDown />
@@ -120,6 +130,21 @@ function FormikWizard(props: FormikWizadProps) {
               )}
             </Grid>
           </Grid>
+          {open && (
+            <Modal onClose={handleCloseModal} open={open}>
+              <Modal.Title>Leave the Test ?</Modal.Title>
+              <Modal.Content>
+                The modal component provides a solid foundation for creating dialogs, popovers, lightboxes, or whatever
+                else.
+              </Modal.Content>
+              <Modal.Button
+                onCancel={handleCloseModal}
+                onConfirm={handleBackIeltsSelection}
+                cancel="Cancel"
+                confirm="Confirm"
+              />
+            </Modal>
+          )}
         </Form>
       )}
     </Formik>
