@@ -1,5 +1,29 @@
 import { createTheme,ThemeOptions } from '@mui/material';
 
+declare module '@mui/material/styles' {
+  interface TypographyVariants {
+   title: React.CSSProperties;
+   cardTitle: React.CSSProperties;
+   subCardTitle:React.CSSProperties
+  }
+
+  // allow configuration using `createTheme`
+  interface TypographyVariantsOptions {
+    title ?: React.CSSProperties;
+    cardTitle ?:React.CSSProperties;
+    subCardTitle:React.CSSProperties
+  }
+}
+
+// Update the Typography's variant prop options
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    title: true;
+    cardTitle :true;
+    subCardTitle:true;
+  }
+}
+
 export const theme : ThemeOptions = createTheme({
   breakpoints: {
     values: {
@@ -265,9 +289,10 @@ export const theme : ThemeOptions = createTheme({
       lineHeight: 1.57,
     },
     subtitle1: {
-      fontSize: '1rem',
-      fontWeight: 500,
-      lineHeight: 1.75,
+      fontSize: "32px",
+      color: "#000000",
+      fontWeight: 700,
+      paddingBottom: "32px",
     },
     subtitle2: {
       fontSize: '0.875rem',
@@ -316,5 +341,21 @@ export const theme : ThemeOptions = createTheme({
       fontSize: '1.125rem',
       lineHeight: 1.375,
     },
+    title:{
+      fontSize: "36px",
+      color: "#000000",
+      fontWeight: 700,
+      paddingBottom: "36px",
+    },
+    cardTitle:{
+      fontSize: "24px",
+      color: "#36373B",
+      fontWeight: 700,
+    },
+    subCardTitle:{
+      fontSize: "16px",
+      color: "#36373B",
+      fontWeight: 500,
+    }
   },
 });
