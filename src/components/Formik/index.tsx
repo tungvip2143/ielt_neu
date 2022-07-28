@@ -101,16 +101,14 @@ function FormikWizard(props: FormikWizadProps) {
           </Box>
           <Grid container sx={{ p: 2, marginTop: "56px" }}>
             <Grid item lg={12} md={12}>
-              <Card sx={card}>
-                {step}
-                {stepNumber === 0 && (
-                  <Box sx={{ display: "flex", justifyContent: "center", mt: "50px" }}>
-                    <Button sx={cssButton} onClick={nextStep}>
-                      {text}
-                    </Button>
-                  </Box>
-                )}
-              </Card>
+              {step}
+              {stepNumber === 0 && (
+                <Box sx={{ display: "flex", justifyContent: "center", mt: "50px" }}>
+                  <Button sx={cssButton} onClick={nextStep}>
+                    {text}
+                  </Button>
+                </Box>
+              )}
             </Grid>
           </Grid>
         </Form>

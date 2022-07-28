@@ -18,32 +18,34 @@ interface Data {
 
 const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest }: Data) => {
   const card = {
-    width: "99%",
+    width: { xs: "100%", md: "90%", lg: "80%" },
     borderRadius: "16px",
     margin: "0 auto",
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
     padding: "50px 50px",
   };
   return (
-    <Box sx={{ width: { xs: "100%", sm: "90%", md: "660px" }, margin: "0 auto" }}>
-      <Box sx={{ textAlign: "center", p: "20px 0 50px 0" }}>
-        <TitleSecond>{typeExam}</TitleSecond>
-        <Desc16>{timeExam}</Desc16>
-      </Box>
-      <Box sx={{ pb: "30px" }}>
-        <Box sx={{ mb: "20px" }}>
-          <Sub20BoldIlets>Instructions To Test Takes</Sub20BoldIlets>
+    <Card sx={card}>
+      <Box sx={{ width: { xs: "100%", sm: "90%", md: "660px" }, margin: "0 auto" }}>
+        <Box sx={{ textAlign: "center", p: "20px 0 50px 0" }}>
+          <TitleSecond>{typeExam}</TitleSecond>
+          <Desc16>{timeExam}</Desc16>
         </Box>
-        {instructionsToTest}
-      </Box>
-      <Box>
-        <Box sx={{ mb: "20px" }}>
-          <Sub20BoldIlets>Information For Test Takes</Sub20BoldIlets>
+        <Box sx={{ pb: "30px" }}>
+          <Box sx={{ mb: "20px" }}>
+            <Sub20BoldIlets>Instructions To Test Takes</Sub20BoldIlets>
+          </Box>
+          {instructionsToTest}
         </Box>
+        <Box>
+          <Box sx={{ mb: "20px" }}>
+            <Sub20BoldIlets>Information For Test Takes</Sub20BoldIlets>
+          </Box>
 
-        {informationForTest}
+          {informationForTest}
+        </Box>
       </Box>
-    </Box>
+    </Card>
   );
 };
 
