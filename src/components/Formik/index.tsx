@@ -3,6 +3,7 @@ import { Formik, Form, FormikProps } from "formik";
 import { Box, Button, Grid, Card } from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import CheckBoxOutlinedIcon from "@mui/icons-material/CheckBoxOutlined";
+import { useHistory } from "react-router-dom";
 //
 import CountDown from "components/Countdown/CountDown";
 export interface FormikWizadProps {
@@ -20,9 +21,35 @@ interface FormikComProps {
   text?: string;
 }
 
+const card = {
+  width: "99%",
+  borderRadius: "16px",
+  margin: "0 auto",
+  boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+  padding: "50px 50px",
+};
+const cssButton = {
+  padding: "10px 0px",
+  width: { xs: "100%", sm: "70%", md: "50%", lg: "30%" },
+  maxWidth: "400px",
+  borderRadius: "10px",
+  color: "#fff",
+  fontWeight: 700,
+  fontSize: "18px",
+  textTransform: "uppercase",
+  margin: "0 auto",
+  background: "#333",
+  "&:hover": {
+    background: "#333",
+  },
+};
+
 function FormikWizard(props: FormikWizadProps) {
   // !State
   const { initialValues, children, stepNumber, onStep, text, onSubmit, ...rest } = props;
+
+  // !Hook
+  const history = useHistory()
 
   // !Variable
   const steps = React.Children.toArray(children);
@@ -48,28 +75,10 @@ function FormikWizard(props: FormikWizadProps) {
       nextStep();
     }
   };
-  const card = {
-    width: "99%",
-    borderRadius: "16px",
-    margin: "0 auto",
-    boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-    padding: "50px 50px",
-  };
-  const cssButton = {
-    padding: "10px 0px",
-    width: { xs: "100%", sm: "70%", md: "50%", lg: "30%" },
-    maxWidth: "400px",
-    borderRadius: "10px",
-    color: "#fff",
-    fontWeight: 700,
-    fontSize: "18px",
-    textTransform: "uppercase",
-    margin: "0 auto",
-    background: "#333",
-    "&:hover": {
-      background: "#333",
-    },
-  };
+
+  // Back ielts page
+  const handleBackIeltsSelection =()=>history.push("/ielts")
+  
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: FormikProps<any>) => (
@@ -86,7 +95,7 @@ function FormikWizard(props: FormikWizadProps) {
               width: "100%",
             }}
           >
-            <Button startIcon={<ArrowBackIosIcon />}>EXIT</Button>
+            <Button onClick={handleBackIeltsSelection} startIcon={<ArrowBackIosIcon />}>EXIT</Button>
             {stepNumber === 1 && (
               <Box>
                 <CountDown />

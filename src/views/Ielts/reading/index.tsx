@@ -5,7 +5,7 @@ import { Box } from "@mui/material";
 import RulesExam from "components/Exams/RulesExam";
 import Desc16 from "components/Typography/Desc16";
 //
-import StartDoingHomework from "components/Exams/StartDoingHomework";
+import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
 
 export interface ReadingProps {}
@@ -52,7 +52,7 @@ export default function IeltsReading(props: ReadingProps) {
         instructionsToTest={<InstructionsToTest />}
         informationForTest={<InformationForTest />}
       />
-      <StartDoingHomework />
+      <ExamTest />
       <EndTest />
     </FormikCom>
   );

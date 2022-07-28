@@ -16,4 +16,9 @@ const TypographyCommon: React.FC<Typographys> = ({ children, styleTypography }) 
   return <Typography sx={{ ...styleTypography }}>{children}</Typography>;
 };
 
+const Title : React.FC =(props)=>{
+
+  return <Typography></Typography>
+}
+
 export default TypographyCommon;

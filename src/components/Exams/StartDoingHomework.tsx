@@ -8,7 +8,7 @@ import CardExercise from "components/Card/CardExercise";
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 //
 // import ButtonNumberPage from "components/Button/ButtonNumberPage";
-const StartDoingHomework = () => {
+const ExamText = () => {
   const part = "Part 1";
   const guide = "Read the text below and answer questions 1-13";
   return (
@@ -26,4 +26,4 @@ const StartDoingHomework = () => {
   );
 };
 
-export default StartDoingHomework;
+export default ExamText;
