@@ -34,7 +34,6 @@ interface dataLayout {
 const LayoutCommon = ({ data, exams }: dataLayout) => {
   return (
     <Box>
-      <Text.CardTitle sx={{ pd: 1 }}>test</Text.CardTitle>
       <Box
         sx={{
           background: data.background,

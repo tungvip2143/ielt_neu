@@ -19,3 +19,6 @@
 .hover-card-bg-orange:hover {
   background: rgb(255, 203, 116);
 }
+tr {
+  /* border-top: 2px solid #ccc; */
+}
