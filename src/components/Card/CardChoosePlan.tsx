@@ -19,7 +19,7 @@ const CardChoosePlan = ({ header, desc, discounted }: Data) => {
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
   };
   return (
-    <Grid item xs={12} md={3.6} sx={{ m: "0 25px" }}>
+    <Grid item xs={12} md={3.6} sx={{ m: "0 25px", height: "100% !important" }}>
       <Card sx={card}>
         <Box>{header}</Box>
         <Box sx={{ m: "16px 0" }}>

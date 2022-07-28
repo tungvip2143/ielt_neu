@@ -7,6 +7,7 @@ import Grid from "@mui/material/Grid";
 // import Typography from "@mui/material/Typography";
 import CardFevoriteStudent from "components/Card/CardFevoriteStudent";
 import { dataFavouriteStudents } from "components/data/dataFavouriteStudents";
+import Text from "components/Typography/index";
 const FavouriteStudents = () => {
   const FavouriteStudents = {
     padding: "100px 0",
@@ -15,7 +16,7 @@ const FavouriteStudents = () => {
   return (
     <Box sx={FavouriteStudents}>
       <Box sx={{ textAlign: "center" }}>
-        <Title>Loved by students from 200+ countries</Title>
+        <Text.Title>Loved by students from 200+ countries</Text.Title>
       </Box>
       <Grid container>
         {dataFavouriteStudents.map((user) => (

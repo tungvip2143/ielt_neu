@@ -5,18 +5,20 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
-
+import Switch from "@mui/material/Switch";
 //
-import DescNormal from "components/Typography/DescNormal";
 import CardChoosePlan from "components/Card/CardChoosePlan";
+//
+import Text from "components/Typography/index";
+import { Link } from "react-router-dom";
 
 const ChoosePlan = () => {
   const Header = () => {
     return (
       <>
-        <Typography sx={{ fontSize: "24px", color: "#114AC6", fontWeight: "bold" }}>Subscription Pass</Typography>
+        <Text.CardTitle sx={{ color: "#114AC6" }}>Subscription Pass</Text.CardTitle>
         <Stack direction="row" spacing={1} sx={{ p: "10px 0" }}>
-          <Typography sx={{ fontSize: "20px", color: "#114AC6", fontWeight: "bold" }}>$39,99</Typography>
+          <Text.Sub20Bold sx={{ color: "#114AC6" }}>$39,99</Text.Sub20Bold>
           <Typography
             sx={{
               fontSize: "14px",
@@ -31,7 +33,7 @@ const ChoosePlan = () => {
           </Typography>
         </Stack>
         <Stack direction="row" spacing={1}>
-          <Typography sx={{ fontSize: "48px", color: "#114AC6", fontWeight: "bold" }}>$29,99</Typography>
+          <Text.TitleIntroPage sx={{ color: "#114AC6" }}>$29,99</Text.TitleIntroPage>
           <Typography sx={{ fontSize: "14px", color: "#114AC6", fontWeight: "bold", marginTop: "35px !important" }}>
             USD
           </Typography>
@@ -42,20 +44,67 @@ const ChoosePlan = () => {
   const Desc = () => {
     return (
       <>
-        <Stack direction="column" spacing={2} sx={{ maxWidth: "250px", mt: "30px !important" }}>
+        <Stack direction="column" spacing={2} sx={{ maxWidth: "250px", mt: "30px !important", minHeight: "200px" }}>
           <Stack direction="row" spacing={1}>
-            <CheckCircleIcon sx={{ fontSize: "24px", color: "#114AC6" }} />
-            <Typography sx={{ fontSize: "14px", color: "#114AC6" }}>
-              For users who plan to study for more than month
-            </Typography>
+            <CheckCircleIcon sx={{ fontSize: "24px", color: "#80A8FF" }} />
+            <Text.Desc14medium>For users who plan to study for more than month</Text.Desc14medium>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <CheckCircleIcon sx={{ fontSize: "24px", color: "#114AC6" }} />
-            <Typography sx={{ fontSize: "14px", color: "#114AC6" }}>Access to 12 full mock test</Typography>
+            <CheckCircleIcon sx={{ fontSize: "24px", color: "#80A8FF" }} />
+            <Text.Desc14medium>Access to 12 full mock test</Text.Desc14medium>
           </Stack>
           <Stack direction="row" spacing={1}>
-            <CheckCircleIcon sx={{ fontSize: "24px", color: "#114AC6" }} />
-            <Typography sx={{ fontSize: "14px", color: "#114AC6" }}>Recurring billing every month</Typography>
+            <CheckCircleIcon sx={{ fontSize: "24px", color: "#80A8FF" }} />
+            <Text.Desc14medium>Recurring billing every month</Text.Desc14medium>
+          </Stack>
+          <Stack direction="row" spacing={1} sx={{ alignItems: "center", mt: "40px !important" }}>
+            <Switch defaultChecked color="info" />
+            <Typography sx={{ fontSize: "12px", fontWeight: "bold", color: "#114AC6" }}>25% DISCOUNTED!</Typography>
+          </Stack>
+        </Stack>
+      </>
+    );
+  };
+  //
+  const HeaderRight = () => {
+    return (
+      <>
+        <Text.CardTitle sx={{ color: "#114AC6" }}>7-Day Pass</Text.CardTitle>
+        <Stack direction="row" spacing={1} sx={{ p: "10px 0" }}>
+          <Text.Sub20Bold sx={{ color: "#114AC6" }}>$19,99</Text.Sub20Bold>
+          <Typography
+            sx={{
+              fontSize: "14px",
+              color: "#DEF876",
+              fontWeight: "bold",
+              p: "3px 10px",
+              background: "#114AC6",
+              borderRadius: "5px",
+            }}
+          >
+            25% OFF
+          </Typography>
+        </Stack>
+        <Stack direction="row" spacing={1}>
+          <Text.TitleIntroPage sx={{ color: "#114AC6" }}>$14,99</Text.TitleIntroPage>
+          <Typography sx={{ fontSize: "14px", color: "#114AC6", fontWeight: "bold", marginTop: "35px !important" }}>
+            USD
+          </Typography>
+        </Stack>
+      </>
+    );
+  };
+  const DescRight = () => {
+    return (
+      <>
+        <Stack direction="column" spacing={2} sx={{ maxWidth: "250px", mt: "30px !important", minHeight: "200px" }}>
+          <Stack direction="row" spacing={1}>
+            <CheckCircleIcon sx={{ fontSize: "24px", color: "#80A8FF" }} />
+            <Text.Desc14medium>For users who need last minute TOEFL practice</Text.Desc14medium>
+          </Stack>
+          <Stack direction="row" spacing={1}>
+            <CheckCircleIcon sx={{ fontSize: "24px", color: "#80A8FF" }} />
+            <Text.Desc14medium>Access to 12 full mock test</Text.Desc14medium>
           </Stack>
         </Stack>
       </>
@@ -64,15 +113,18 @@ const ChoosePlan = () => {
   return (
     <Box sx={{ p: "100px 0" }}>
       <Box sx={{ textAlign: "center" }}>
-        <Typography sx={{ fontSize: "48px", fontWeight: "bold", color: "#000000", pb: "5px" }}>
-          Choose the best plan for you
-        </Typography>
-        <DescNormal>Join the 2,500,000+ students currently studying with TestGlider</DescNormal>
+        <Text.TitleIntroPage>Choose the best plan for you</Text.TitleIntroPage>
+        <Text.DescNormal>Join the 2,500,000+ students currently studying with TestGlider</Text.DescNormal>
       </Box>
       <Grid container sx={{ justifyContent: "center", mt: "80px" }}>
         <CardChoosePlan header={<Header />} desc={<Desc />} />
-        <CardChoosePlan header={<Header />} desc={<Desc />} />
+        <CardChoosePlan header={<HeaderRight />} desc={<DescRight />} />
       </Grid>
+      <Link to="" style={{ textAlign: "center" }}>
+        <Text.Sub20Bold sx={{ color: "#114AC6", marginTop: "40px !important" }}>
+          Learn more about our features
+        </Text.Sub20Bold>
+      </Link>
     </Box>
   );
 };

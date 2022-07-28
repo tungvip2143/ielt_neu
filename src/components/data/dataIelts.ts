@@ -15,7 +15,7 @@ export const dataIlets = [
     nameExam: "IELTS Academic",
     image: "https://i.testglider.com/static/img/selectSection/section-test-reading.svg",
     hoverColor: "hover-card-bg-yellow",
-    path:"#"
+    path:"/ielts/reading"
   },
   {
     id: 3,
@@ -24,15 +24,15 @@ export const dataIlets = [
     nameExam: "IELTS Academic",
     image: "https://i.testglider.com/static/img/selectSection/section-test-writing.svg",
     hoverColor: "hover-card-bg-blue",
-    path:"#"
+    path:"/ielts/writing"
   },
   {
     id: 4,
     typeExam: "Speaking Section",
     timeExam: "Grades within 4 days",
-    nameExam: "ilets",
+    nameExam: "ielts",
     image: "https://i.testglider.com/static/img/selectSection/section-test-speaking.svg",
     hoverColor: "hover-card-bg-orange",
-    path:"#"
+    path:"/ielts/speaking"
   },
 ];

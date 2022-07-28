@@ -19,8 +19,8 @@ import ImgStep3 from "assets/image/home/step3.png";
 import Title from "components/Typography/Title";
 import DescNormal from "components/Typography/DescNormal";
 import TextSteps from "components/Typography/TextSteps";
-import Typography from "@mui/material/Typography";
-import Sub20Bold from "components/Typography/Sub20Bold";
+//
+import Text from "components/Typography/index";
 
 const Steps = () => {
   const StepsForGoodLeft = () => {
@@ -57,21 +57,21 @@ const Steps = () => {
             <Box sx={rounded}>1</Box>
             <Stack direction="row" spacing={2} sx={itemRight}>
               <FlutterDashIcon sx={{ fontSize: "30px" }} />
-              <Sub20Bold>Take a Practice Test</Sub20Bold>
+              <Text.Sub20Bold>Take a Practice Test</Text.Sub20Bold>
             </Stack>
           </Stack>
           <Stack direction="row" spacing={5} sx={{ alignItems: "center", mb: "50px" }}>
             <Box sx={rounded}>2</Box>
             <Stack direction="row" spacing={2} sx={itemRight}>
               <LibraryBooksIcon sx={{ fontSize: "30px", color: "#8A8C91" }} />
-              <Sub20Bold>Get Scores Instantly</Sub20Bold>
+              <Text.Sub20Bold>Get Scores Instantly</Text.Sub20Bold>
             </Stack>
           </Stack>
           <Stack direction="row" spacing={5} sx={{ alignItems: "center" }}>
             <Box sx={rounded}>3</Box>
             <Stack direction="row" spacing={2} sx={itemRight}>
               <WbTwilightIcon sx={{ fontSize: "30px", color: "#8A8C91" }} />
-              <Sub20Bold>Review & Improve</Sub20Bold>
+              <Text.Sub20Bold>Review & Improve</Text.Sub20Bold>
             </Stack>
           </Stack>
         </Card>
@@ -86,12 +86,12 @@ const Steps = () => {
     return (
       <Box sx={{ mt: { xs: "50px", lg: "0" }, transform: { xs: "0", md: "translateX(200px)", lg: "translateX(0)" } }}>
         <Box sx={{ maxWidth: "400px" }}>
-          <Title>{steps.title}</Title>
+          <Text.Title>{steps.title}</Text.Title>
         </Box>
         <Box sx={{ maxWidth: "400px" }}>
-          <DescNormal>{steps.desc}</DescNormal>
+          <Text.DescNormal>{steps.desc}</Text.DescNormal>
         </Box>
-        <Button variant="text" endIcon={<KeyboardArrowDownIcon />}>
+        <Button sx={{ color: "#5B5C61" }} variant="text" endIcon={<KeyboardArrowDownIcon />}>
           SEE HOW
         </Button>
       </Box>
@@ -125,11 +125,11 @@ const Steps = () => {
   const Left = () => {
     return (
       <Box>
-        <TextSteps>{step1.step}</TextSteps>
+        <Text.DescNormal sx={{ color: "#0B2283", fontWeight: "500" }}>{step1.step}</Text.DescNormal>
         <Box sx={{ maxWidth: "400px" }}>
-          <Title>{step1.title}</Title>
-          <DescNormal>{step1.desc}</DescNormal>
-          <DescNormal>{step1.desc2}</DescNormal>
+          <Text.Title>{step1.title}</Text.Title>
+          <Text.DescNormal>{step1.desc}</Text.DescNormal>
+          <Text.DescNormal>{step1.desc2}</Text.DescNormal>
         </Box>
       </Box>
     );
@@ -145,11 +145,11 @@ const Steps = () => {
   const Left2 = () => {
     return (
       <Box>
-        <TextSteps>{step2.step}</TextSteps>
+        <Text.DescNormal sx={{ color: "#0B2283", fontWeight: "500" }}>{step2.step}</Text.DescNormal>
         <Box sx={{ maxWidth: "400px" }}>
-          <Title>{step2.title}</Title>
-          <DescNormal>{step2.desc}</DescNormal>
-          <DescNormal>{step2.desc2}</DescNormal>
+          <Text.Title>{step2.title}</Text.Title>
+          <Text.DescNormal>{step2.desc}</Text.DescNormal>
+          <Text.DescNormal>{step2.desc2}</Text.DescNormal>
         </Box>
       </Box>
     );
@@ -165,11 +165,11 @@ const Steps = () => {
   const Left3 = () => {
     return (
       <Box>
-        <TextSteps>{step3.step}</TextSteps>
+        <Text.DescNormal sx={{ color: "#0B2283", fontWeight: "500" }}>{step3.step}</Text.DescNormal>
         <Box sx={{ maxWidth: "400px" }}>
-          <Title>{step3.title}</Title>
-          <DescNormal>{step3.desc}</DescNormal>
-          <DescNormal>{step3.desc2}</DescNormal>
+          <Text.Title>{step3.title}</Text.Title>
+          <Text.DescNormal>{step3.desc}</Text.DescNormal>
+          <Text.DescNormal>{step3.desc2}</Text.DescNormal>
         </Box>
       </Box>
     );

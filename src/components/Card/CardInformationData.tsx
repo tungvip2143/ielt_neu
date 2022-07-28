@@ -5,7 +5,7 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 //
-import DescSmallCard from "components/Typography/DescSmallCard";
+import Text from "components/Typography/index";
 // ! type
 interface Data {
   data: {
@@ -38,13 +38,13 @@ const CardInformationData = ({ data }: Data) => {
       </Box>
       <Box>
         <Stack direction="row" spacing={1} sx={{ width: "fit-content", margin: "0 auto", marginBottom: "20px" }}>
-          <Typography sx={{ fontSize: "48px", fontWeight: "bold", color: "#2196F3" }}>{data.stats}</Typography>
+          <Text.TitleIntroPage sx={{ color: "#2196F3" }}>{data.stats}</Text.TitleIntroPage>
           <Typography sx={{ color: "text", fontWeight: "medium", marginTop: "32px !important" }}>
             {data.type}
           </Typography>
         </Stack>
         <Box sx={{ textAlign: "center", maxWidth: "272px", margin: "0 auto" }}>
-          <DescSmallCard>{data.content}</DescSmallCard>
+          <Text.DescSmallCard>{data.content}</Text.DescSmallCard>
         </Box>
       </Box>
     </Grid>

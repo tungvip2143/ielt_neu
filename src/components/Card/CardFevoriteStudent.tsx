@@ -2,6 +2,7 @@ import React from "react";
 //
 import DescSmallCard from "components/Typography/DescSmallCard";
 import DescMedium from "components/Typography/DescMedium";
+import Text from "components/Typography/index";
 
 //
 import Card from "@mui/material/Card";
@@ -38,10 +39,10 @@ const CardFevoriteStudent = ({ user }: User) => {
     <Grid item xs={12} sm={2.4}>
       <Card sx={card}>
         <Box sx={cardContent}>
-          <DescSmallCard>{user.content}</DescSmallCard>
+          <Text.DescSmallCard>{user.content}</Text.DescSmallCard>
         </Box>
         <Stack sx={cardUser} direction="row" spacing={2}>
-          <DescMedium>{user.name}</DescMedium>
+          <Text.DescMedium>{user.name}</Text.DescMedium>
           <AccountCircleIcon sx={{ fontSize: "30px", color: "#ACC5FF", background: "#fff" }} />
         </Stack>
       </Card>
