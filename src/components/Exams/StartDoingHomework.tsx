@@ -13,7 +13,7 @@ const ExamText = () => {
   const guide = "Read the text below and answer questions 1-13";
   return (
     <Box>
-      <Box sx={{ width: "90%", margin: "0 auto" }}>
+      <Box sx={{ width: "80%", margin: "0 auto" }}>
         <CardPart part={part} guide={guide} />
         <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
           <CardExercise />

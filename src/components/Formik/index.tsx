@@ -90,7 +90,7 @@ function FormikWizard(props: FormikWizadProps) {
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: FormikProps<any>) => (
-        <Form>
+        <Form style={{ height: "100vh", overflow: "hidden" }}>
           <Box
             sx={{
               p: "8px 16px",
@@ -118,7 +118,7 @@ function FormikWizard(props: FormikWizadProps) {
               </Button>
             )}
           </Box>
-          <Grid container sx={{ p: 2, marginTop: "56px" }}>
+          <Grid container sx={{ pt: 2, marginTop: "56px" }}>
             <Grid item lg={12} md={12}>
               {step}
               {stepNumber === 0 && (
