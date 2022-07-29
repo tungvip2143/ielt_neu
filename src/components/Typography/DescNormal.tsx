@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface TextMediumBold {
+interface DescNormal {
   children: string;
 }
 
-const TextMediumBold: React.FC<TextMediumBold> = ({ children }) => {
+const DescNormal: React.FC<DescNormal> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "18px",
-    color: "rgb(17, 17, 20)",
-    fontWeight: 700,
-    pb: "48px",
+    fontSize: { xs: "18px" },
+    color: "#606166",
+    fontWeight: 300,
+    // pb: "48px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default TextMediumBold;
+export default DescNormal;

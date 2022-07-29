@@ -2,20 +2,20 @@ import React from "react";
 import TypographyCommon from "./TypographyCommon";
 
 //! type
-interface TextMedium {
+interface Desc16 {
   children: string;
 }
 
-const TextMedium: React.FC<TextMedium> = ({ children }) => {
+const Desc16: React.FC<Desc16> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "18px",
-    color: "#606166",
+    fontSize: { xs: "16px" },
+    color: "#5B5C61",
     fontWeight: 300,
-    pb: "48px",
+    // pb: "48px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;
 };
 
-export default TextMedium;
+export default Desc16;

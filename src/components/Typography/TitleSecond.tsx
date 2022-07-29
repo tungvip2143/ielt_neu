@@ -9,10 +9,10 @@ interface TitleSecond {
 const TitleSecond: React.FC<TitleSecond> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "32px",
+    fontSize: { xs: "20px", sm: "32px" },
     color: "#000000",
     fontWeight: 700,
-    pb: "32px",
+    pb: "12px",
   };
   //! Render
   return <TypographyCommon styleTypography={styleText}>{children}</TypographyCommon>;

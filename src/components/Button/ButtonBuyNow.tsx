@@ -6,7 +6,8 @@ interface ButtonBuyNow {
 import ButtonCommon from "./index";
 const ButtonBuyNow: React.FC<ButtonBuyNow> = ({ children }) => {
   const cssButton = {
-    padding: "10px 100px",
+    // padding: "10px 100px",
+    width: "100%",
     borderRadius: "12px",
     color: "rgb(17, 74, 198)",
     fontWeight: 700,

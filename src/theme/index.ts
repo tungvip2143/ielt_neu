@@ -1,30 +1,53 @@
-import { createTheme,ThemeOptions } from '@mui/material';
+import { createTheme, ThemeOptions } from "@mui/material";
 
-declare module '@mui/material/styles' {
+declare module "@mui/material/styles" {
   interface TypographyVariants {
-   title: React.CSSProperties;
-   cardTitle: React.CSSProperties;
-   subCardTitle:React.CSSProperties
+    titleIntroPage: React.CSSProperties;
+    title: React.CSSProperties;
+    cardTitle: React.CSSProperties;
+    subCardTitle: React.CSSProperties;
+    subIntroPage: React.CSSProperties;
+    descSmallCard: React.CSSProperties;
+    descMedium: React.CSSProperties;
+    sub20Bold: React.CSSProperties;
+    descNormal: React.CSSProperties;
+    desc14medium: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    title ?: React.CSSProperties;
-    cardTitle ?:React.CSSProperties;
-    subCardTitle:React.CSSProperties
+    titleIntroPage?: React.CSSProperties;
+
+    title?: React.CSSProperties;
+    cardTitle?: React.CSSProperties;
+    subCardTitle: React.CSSProperties;
+    subIntroPage: React.CSSProperties;
+    descSmallCard: React.CSSProperties;
+    descMedium: React.CSSProperties;
+    sub20Bold: React.CSSProperties;
+    descNormal: React.CSSProperties;
+    desc14medium: React.CSSProperties;
   }
 }
 
 // Update the Typography's variant prop options
-declare module '@mui/material/Typography' {
+declare module "@mui/material/Typography" {
   interface TypographyPropsVariantOverrides {
+    titleIntroPage: true;
+
     title: true;
-    cardTitle :true;
-    subCardTitle:true;
+    cardTitle: true;
+    subCardTitle: true;
+    subIntroPage: true;
+    descSmallCard: true;
+    descMedium: true;
+    sub20Bold: true;
+    descNormal: true;
+    desc14medium: true;
   }
 }
 
-export const theme : ThemeOptions = createTheme({
+export const theme: ThemeOptions = createTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -38,8 +61,8 @@ export const theme : ThemeOptions = createTheme({
     MuiAppBar: {
       styleOverrides: {
         root: {
-          backgroundColor: '#ffffff',
-          color: '#65748B',
+          backgroundColor: "#ffffff",
+          color: "#65748B",
         },
       },
     },
@@ -49,25 +72,25 @@ export const theme : ThemeOptions = createTheme({
       },
       styleOverrides: {
         root: {
-          textTransform: 'none',
+          textTransform: "none",
         },
         sizeSmall: {
-          padding: '6px 16px',
+          padding: "6px 16px",
         },
         sizeMedium: {
-          padding: '8px 20px',
+          padding: "8px 20px",
         },
         sizeLarge: {
-          padding: '11px 24px',
+          padding: "11px 24px",
         },
         textSizeSmall: {
-          padding: '7px 12px',
+          padding: "7px 12px",
         },
         textSizeMedium: {
-          padding: '9px 16px',
+          padding: "9px 16px",
         },
         textSizeLarge: {
-          padding: '12px 16px',
+          padding: "12px 16px",
         },
       },
     },
@@ -79,9 +102,9 @@ export const theme : ThemeOptions = createTheme({
     MuiCardContent: {
       styleOverrides: {
         root: {
-          padding: '32px 24px',
-          '&:last-child': {
-            paddingBottom: '32px',
+          padding: "32px 24px",
+          "&:last-child": {
+            paddingBottom: "32px",
           },
         },
       },
@@ -89,53 +112,53 @@ export const theme : ThemeOptions = createTheme({
     MuiCardHeader: {
       defaultProps: {
         titleTypographyProps: {
-          variant: 'h6',
+          variant: "h6",
         },
         subheaderTypographyProps: {
-          variant: 'body2',
+          variant: "body2",
         },
       },
       styleOverrides: {
         root: {
-          padding: '32px 24px',
+          padding: "32px 24px",
         },
       },
     },
     MuiCssBaseline: {
       styleOverrides: {
-        '*': {
-          boxSizing: 'border-box',
+        "*": {
+          boxSizing: "border-box",
           margin: 0,
           padding: 0,
         },
         html: {
-          MozOsxFontSmoothing: 'grayscale',
-          WebkitFontSmoothing: 'antialiased',
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100%',
-          width: '100%',
+          MozOsxFontSmoothing: "grayscale",
+          WebkitFontSmoothing: "antialiased",
+          display: "flex",
+          flexDirection: "column",
+          minHeight: "100%",
+          width: "100%",
         },
         body: {
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-          minHeight: '100%',
-          width: '100%',
+          display: "flex",
+          flex: "1 1 auto",
+          flexDirection: "column",
+          minHeight: "100%",
+          width: "100%",
         },
-        '#__next': {
-          display: 'flex',
-          flex: '1 1 auto',
-          flexDirection: 'column',
-          height: '100%',
-          width: '100%',
+        "#__next": {
+          display: "flex",
+          flex: "1 1 auto",
+          flexDirection: "column",
+          height: "100%",
+          width: "100%",
         },
       },
     },
     MuiOutlinedInput: {
       styleOverrides: {
         notchedOutline: {
-          borderColor: '#E6E8F0',
+          borderColor: "#E6E8F0",
         },
       },
     },
@@ -145,11 +168,11 @@ export const theme : ThemeOptions = createTheme({
           fontSize: 14,
           fontWeight: 500,
           lineHeight: 1.71,
-          minWidth: 'auto',
+          minWidth: "auto",
           paddingLeft: 0,
           paddingRight: 0,
-          textTransform: 'none',
-          '& + &': {
+          textTransform: "none",
+          "& + &": {
             marginLeft: 24,
           },
         },
@@ -158,7 +181,7 @@ export const theme : ThemeOptions = createTheme({
     MuiTypography: {
       styleOverrides: {
         root: {
-          color: '#65748B',
+          // color: "#65748B",
         },
       },
     },
@@ -166,20 +189,20 @@ export const theme : ThemeOptions = createTheme({
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: '#F3F4F6',
-          '.MuiTableCell-root': {
-            color: '#374151',
+          backgroundColor: "#F3F4F6",
+          ".MuiTableCell-root": {
+            color: "#374151",
           },
-          borderBottom: 'none',
-          '& .MuiTableCell-root': {
-            borderBottom: 'none',
-            fontSize: '12px',
+          borderBottom: "none",
+          "& .MuiTableCell-root": {
+            borderBottom: "none",
+            fontSize: "12px",
             fontWeight: 600,
             lineHeight: 1,
             letterSpacing: 0.5,
-            textTransform: 'uppercase',
+            textTransform: "uppercase",
           },
-          '& .MuiTableCell-paddingCheckbox': {
+          "& .MuiTableCell-paddingCheckbox": {
             paddingTop: 4,
             paddingBottom: 4,
           },
@@ -189,102 +212,102 @@ export const theme : ThemeOptions = createTheme({
   },
   palette: {
     action: {
-      active: '#6B7280',
-      focus: 'rgba(55, 65, 81, 0.12)',
-      hover: 'rgba(55, 65, 81, 0.04)',
-      selected: 'rgba(55, 65, 81, 0.08)',
-      disabledBackground: 'rgba(55, 65, 81, 0.12)',
-      disabled: 'rgba(55, 65, 81, 0.26)',
+      active: "#6B7280",
+      focus: "rgba(55, 65, 81, 0.12)",
+      hover: "rgba(55, 65, 81, 0.04)",
+      selected: "rgba(55, 65, 81, 0.08)",
+      disabledBackground: "rgba(55, 65, 81, 0.12)",
+      disabled: "rgba(55, 65, 81, 0.26)",
     },
     background: {
-      default: '#F9FAFC',
-      paper: '#FFFFFF',
+      default: "#F9FAFC",
+      paper: "#FFFFFF",
     },
-    divider: '#E6E8F0',
+    divider: "#E6E8F0",
     primary: {
-      main: '#5048E5',
-      light: '#828DF8',
-      dark: '#3832A0',
-      contrastText: '#FFFFFF',
+      main: "#5048E5",
+      light: "#828DF8",
+      dark: "#3832A0",
+      contrastText: "#FFFFFF",
     },
     secondary: {
-      main: '#10B981',
-      light: '#3FC79A',
-      dark: '#0B815A',
-      contrastText: '#FFFFFF',
+      main: "#10B981",
+      light: "#3FC79A",
+      dark: "#0B815A",
+      contrastText: "#FFFFFF",
     },
     success: {
-      main: '#14B8A6',
-      light: '#43C6B7',
-      dark: '#0E8074',
-      contrastText: '#FFFFFF',
+      main: "#14B8A6",
+      light: "#43C6B7",
+      dark: "#0E8074",
+      contrastText: "#FFFFFF",
     },
     info: {
-      main: '#2196F3',
-      light: '#64B6F7',
-      dark: '#0B79D0',
-      contrastText: '#FFFFFF',
+      main: "#2196F3",
+      light: "#64B6F7",
+      dark: "#0B79D0",
+      contrastText: "#FFFFFF",
     },
     warning: {
-      main: '#FFB020',
-      light: '#FFBF4C',
-      dark: '#B27B16',
-      contrastText: '#FFFFFF',
+      main: "#FFB020",
+      light: "#FFBF4C",
+      dark: "#B27B16",
+      contrastText: "#FFFFFF",
     },
     error: {
-      main: '#FFB020',
-      light: '#DA6868',
-      dark: '#922E2E',
-      contrastText: '#FFFFFF',
+      main: "#FFB020",
+      light: "#DA6868",
+      dark: "#922E2E",
+      contrastText: "#FFFFFF",
     },
     text: {
-      primary: '#121828',
-      secondary: '#65748B',
-      disabled: 'rgba(55, 65, 81, 0.48)',
+      primary: "#121828",
+      secondary: "#65748B",
+      disabled: "rgba(55, 65, 81, 0.48)",
     },
   },
   shape: {
     borderRadius: 8,
   },
   shadows: [
-    'none',
-    '0px 1px 1px rgba(100, 116, 139, 0.06), 0px 1px 2px rgba(100, 116, 139, 0.1)',
-    '0px 1px 2px rgba(100, 116, 139, 0.12)',
-    '0px 1px 4px rgba(100, 116, 139, 0.12)',
-    '0px 1px 5px rgba(100, 116, 139, 0.12)',
-    '0px 1px 6px rgba(100, 116, 139, 0.12)',
-    '0px 2px 6px rgba(100, 116, 139, 0.12)',
-    '0px 3px 6px rgba(100, 116, 139, 0.12)',
-    '0px 2px 4px rgba(31, 41, 55, 0.06), 0px 4px 6px rgba(100, 116, 139, 0.12)',
-    '0px 5px 12px rgba(100, 116, 139, 0.12)',
-    '0px 5px 14px rgba(100, 116, 139, 0.12)',
-    '0px 5px 15px rgba(100, 116, 139, 0.12)',
-    '0px 6px 15px rgba(100, 116, 139, 0.12)',
-    '0px 7px 15px rgba(100, 116, 139, 0.12)',
-    '0px 8px 15px rgba(100, 116, 139, 0.12)',
-    '0px 9px 15px rgba(100, 116, 139, 0.12)',
-    '0px 10px 15px rgba(100, 116, 139, 0.12)',
-    '0px 12px 22px -8px rgba(100, 116, 139, 0.25)',
-    '0px 13px 22px -8px rgba(100, 116, 139, 0.25)',
-    '0px 14px 24px -8px rgba(100, 116, 139, 0.25)',
-    '0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)',
-    '0px 25px 50px rgba(100, 116, 139, 0.25)',
-    '0px 25px 50px rgba(100, 116, 139, 0.25)',
-    '0px 25px 50px rgba(100, 116, 139, 0.25)',
-    '0px 25px 50px rgba(100, 116, 139, 0.25)',
+    "none",
+    "0px 1px 1px rgba(100, 116, 139, 0.06), 0px 1px 2px rgba(100, 116, 139, 0.1)",
+    "0px 1px 2px rgba(100, 116, 139, 0.12)",
+    "0px 1px 4px rgba(100, 116, 139, 0.12)",
+    "0px 1px 5px rgba(100, 116, 139, 0.12)",
+    "0px 1px 6px rgba(100, 116, 139, 0.12)",
+    "0px 2px 6px rgba(100, 116, 139, 0.12)",
+    "0px 3px 6px rgba(100, 116, 139, 0.12)",
+    "0px 2px 4px rgba(31, 41, 55, 0.06), 0px 4px 6px rgba(100, 116, 139, 0.12)",
+    "0px 5px 12px rgba(100, 116, 139, 0.12)",
+    "0px 5px 14px rgba(100, 116, 139, 0.12)",
+    "0px 5px 15px rgba(100, 116, 139, 0.12)",
+    "0px 6px 15px rgba(100, 116, 139, 0.12)",
+    "0px 7px 15px rgba(100, 116, 139, 0.12)",
+    "0px 8px 15px rgba(100, 116, 139, 0.12)",
+    "0px 9px 15px rgba(100, 116, 139, 0.12)",
+    "0px 10px 15px rgba(100, 116, 139, 0.12)",
+    "0px 12px 22px -8px rgba(100, 116, 139, 0.25)",
+    "0px 13px 22px -8px rgba(100, 116, 139, 0.25)",
+    "0px 14px 24px -8px rgba(100, 116, 139, 0.25)",
+    "0px 10px 10px rgba(31, 41, 55, 0.04), 0px 20px 25px rgba(31, 41, 55, 0.1)",
+    "0px 25px 50px rgba(100, 116, 139, 0.25)",
+    "0px 25px 50px rgba(100, 116, 139, 0.25)",
+    "0px 25px 50px rgba(100, 116, 139, 0.25)",
+    "0px 25px 50px rgba(100, 116, 139, 0.25)",
   ],
   typography: {
     button: {
       fontWeight: 600,
     },
-    fontFamily: 'Roboto',
+    fontFamily: "Roboto",
     body1: {
-      fontSize: '1rem',
+      fontSize: "1rem",
       fontWeight: 400,
       lineHeight: 1.5,
     },
     body2: {
-      fontSize: '0.875rem',
+      fontSize: "0.875rem",
       fontWeight: 400,
       lineHeight: 1.57,
     },
@@ -295,67 +318,104 @@ export const theme : ThemeOptions = createTheme({
       paddingBottom: "32px",
     },
     subtitle2: {
-      fontSize: '0.875rem',
+      fontSize: "0.875rem",
       fontWeight: 500,
       lineHeight: 1.57,
     },
     overline: {
-      fontSize: '0.75rem',
+      fontSize: "0.75rem",
       fontWeight: 600,
-      letterSpacing: '0.5px',
+      letterSpacing: "0.5px",
       lineHeight: 2.5,
-      textTransform: 'uppercase',
+      textTransform: "uppercase",
     },
     caption: {
-      fontSize: '0.75rem',
+      fontSize: "0.75rem",
       fontWeight: 400,
       lineHeight: 1.66,
     },
     h1: {
       fontWeight: 700,
-      fontSize: '3.5rem',
+      fontSize: "3.5rem",
       lineHeight: 1.375,
     },
     h2: {
       fontWeight: 700,
-      fontSize: '3rem',
+      fontSize: "3rem",
       lineHeight: 1.375,
     },
     h3: {
       fontWeight: 700,
-      fontSize: '2.25rem',
+      fontSize: "2.25rem",
       lineHeight: 1.375,
     },
     h4: {
       fontWeight: 700,
-      fontSize: '2rem',
+      fontSize: "2rem",
       lineHeight: 1.375,
     },
     h5: {
       fontWeight: 600,
-      fontSize: '1.5rem',
+      fontSize: "1.5rem",
       lineHeight: 1.375,
     },
     h6: {
       fontWeight: 600,
-      fontSize: '1.125rem',
+      fontSize: "1.125rem",
       lineHeight: 1.375,
     },
-    title:{
+    titleIntroPage: {
+      fontSize: "48px",
+      color: "#000000 ",
+      fontWeight: 700,
+    },
+    title: {
       fontSize: "36px",
       color: "#000000",
       fontWeight: 700,
       paddingBottom: "36px",
     },
-    cardTitle:{
+    cardTitle: {
       fontSize: "24px",
       color: "#36373B",
       fontWeight: 700,
     },
-    subCardTitle:{
+    subCardTitle: {
       fontSize: "16px",
       color: "#36373B",
       fontWeight: 500,
-    }
+    },
+    subIntroPage: {
+      fontSize: "20px",
+      color: "#36373B",
+      fontWeight: 300,
+      paddingBottom: "30px",
+    },
+    descSmallCard: {
+      fontSize: "16px",
+      color: "#36373B",
+      fontWeight: 300,
+    },
+    descMedium: {
+      fontSize: "18px",
+      color: "#36373B",
+      fontWeight: 500,
+    },
+    sub20Bold: {
+      fontSize: "20px",
+      color: "#8A8C91",
+      fontWeight: 700,
+    },
+    descNormal: {
+      fontSize: "18px",
+      color: "#5B5C61",
+      fontWeight: 300,
+      paddingBottom: "20px",
+    },
+    desc14medium: {
+      fontSize: "14px",
+      color: "#114AC6",
+      fontWeight: 500,
+    },
   },
 });

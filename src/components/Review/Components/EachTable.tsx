@@ -160,7 +160,18 @@ const EachTable = ({ panelId }: EachTableI) => {
           </TableHead>
           <TableBody>
             {isLoading ? (
-              <CircularProgress />
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  width: "100vw",
+                  height: "100vh",
+                  background: "#eeeeee",
+                }}
+              >
+                <CircularProgress />
+              </Box>
             ) : (
               data.map((item: any) => (
                 <TableRow key={item.id} sx={tbRow}>

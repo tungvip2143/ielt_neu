@@ -32,16 +32,41 @@ interface dataLayout {
 }
 
 const LayoutCommon = ({ data, exams }: dataLayout) => {
+  const contentList = {
+    display: { xs: "block", md: "flex", lg: "block" },
+  };
+  const contentListTitle = {
+    p: "50px 0 100px 0",
+    zIndex: "-1",
+    position: "relative",
+    width: { xs: "100%", md: "35%", lg: "100%" },
+  };
+  const contentListExams = {
+    minHeight: "600px",
+    width: { xs: "100%", md: "65%", lg: "100%" },
+  };
+  const content = {
+    position: "absolute",
+    top: "50px",
+    zIndex: "999",
+    left: "0",
+    right: "0",
+    margin: "auto",
+  };
+  const contentListExamsContainer = {
+    transform: { xs: "translateY(-40px)", md: "translateY(20px)", lg: "translateY(-40px)" },
+    display: { xs: "block", md: "block", lg: "flex" },
+  };
   return (
-    <Box>
+    <Box sx={{ position: "relative" }}>
       <Box
         sx={{
           background: data.background,
           boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px",
-          display: "flex",
           justifyContent: "center",
           zIndex: "10",
           position: "relative",
+          display: { xs: "none", lg: "flex" },
         }}
       >
         <Button

@@ -9,7 +9,7 @@ interface TextSubCard {
 const TextSubCard: React.FC<TextSubCard> = ({ children }) => {
   //! State
   const styleText = {
-    fontSize: "16px",
+    fontSize: { xs: "16px" },
     color: "#36373B",
     fontWeight: 500,
     // pb: "32px",

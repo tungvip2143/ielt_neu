@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import Button from "@mui/material/Button";
+import {Button,ButtonProps} from "@mui/material";
 
 interface ButtonI {
   className?: string;
@@ -48,4 +48,6 @@ const ButtonCommon: React.FC<ButtonI> = ({
     </Button>
   );
 };
+
+
 export default ButtonCommon;
