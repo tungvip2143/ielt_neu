@@ -1,0 +1,7 @@
+export enum TypeExamEnum {
+  LISTENING = "LISTENING",
+  WRITTING = "WRITTING",
+
+  READING = "READING",
+  SPEAKING = "SPEAKING",
+}
