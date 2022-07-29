@@ -13,10 +13,10 @@ interface Data {
   isShowSale?: boolean;
   desc: React.ReactNode;
   discounted?: React.ReactNode;
-  image?: React.ReactNode;
+  className?: string;
 }
 import ButtonBuyNow from "components/Button/ButtonBuyNow";
-const CardChoosePlan = ({ header, headerNoSale, desc, discounted, image, isShowSale }: Data) => {
+const CardChoosePlan = ({ header, headerNoSale, desc, discounted, isShowSale, className }: Data) => {
   // ! State
   console.log(isShowSale);
   // ! Function
@@ -27,7 +27,6 @@ const CardChoosePlan = ({ header, headerNoSale, desc, discounted, image, isShowS
   };
   const cardChoosePlanItem = {
     m: { xs: "0", md: "0 25px" },
-    height: "100% !important",
     mt: { xs: "30px", lg: "0" },
     maxWidth: "400px !important",
   };
@@ -35,14 +34,13 @@ const CardChoosePlan = ({ header, headerNoSale, desc, discounted, image, isShowS
 
   return (
     <Grid item xs={12} md={5} lg={3.6} sx={cardChoosePlanItem}>
-      <Card sx={card}>
+      <Card className={className} sx={card}>
         <Box sx={{ minHeight: "150px" }}>{isShowSale ? header : headerNoSale}</Box>
         <Box sx={{ m: "16px 0" }}>
           <ButtonBuyNow>Buy now</ButtonBuyNow>
         </Box>
         <Box>{desc}</Box>
         <Box>{discounted}</Box>
-        {/* {image} */}
       </Card>
     </Grid>
   );

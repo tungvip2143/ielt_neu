@@ -130,17 +130,7 @@ const ChoosePlan = () => {
       </>
     );
   };
-  const Image = () => {
-    return (
-      <Box sx={{ position: "absolute", bottom: "0", right: "0", width: "50%" }}>
-        <img
-          style={{ width: "100%" }}
-          src="https://www.testglider.com/_next/static/images/30dayPassSubBg-d287dc4499b5b6e0cffd6e97bf04ac1a.webp"
-          alt=""
-        />
-      </Box>
-    );
-  };
+
   const DescRight = () => {
     return (
       <>
@@ -163,8 +153,8 @@ const ChoosePlan = () => {
             sx={{
               mt: "20px !important",
               height: "38px",
-              background: "rgba(255, 255, 255, 0.5)",
-              backdropFilter: "blur(4px)",
+              // background: "rgba(255, 255, 255, 0.5)",
+              // backdropFilter: "blur(4px)",
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -189,10 +179,15 @@ const ChoosePlan = () => {
           header={<Header />}
           headerNoSale={<HeaderNoSale />}
           desc={<Desc />}
-          image={<Image />}
           isShowSale={isShowSale}
+          className="img-choose-plan-left"
         />
-        <CardChoosePlan header={<HeaderRight />} desc={<DescRight />} isShowSale={true} />
+        <CardChoosePlan
+          header={<HeaderRight />}
+          desc={<DescRight />}
+          isShowSale={true}
+          className="img-choose-plan-right"
+        />
       </Grid>
 
       <Link to="" style={{ textAlign: "center" }}>
