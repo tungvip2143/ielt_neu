@@ -2,6 +2,7 @@ import React, { useState } from "react";
 //
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
+
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import CheckCircleIcon from "@mui/icons-material/CheckCircle";
@@ -13,6 +14,7 @@ import CardChoosePlan from "components/Card/CardChoosePlan";
 import Text from "components/Typography/index";
 import { Link } from "react-router-dom";
 
+//
 const ChoosePlan = () => {
   // ! State
   const [isShowSale, isSetShow] = useState(true);
@@ -168,12 +170,16 @@ const ChoosePlan = () => {
   };
   //
   // ! Render
+
   return (
     <Box sx={{ p: "100px 0" }}>
       <Box sx={{ textAlign: "center" }}>
-        <Text.TitleIntroPage>Choose the best plan for you</Text.TitleIntroPage>
+        <Typography sx={{ fontSize: "48px", fontWeight: "bold", color: "#000000", pb: "5px" }}>
+          Choose the best plan for you
+        </Typography>
         <Text.DescNormal>Join the 2,500,000+ students currently studying with TestGlider</Text.DescNormal>
       </Box>
+
       <Grid container sx={{ justifyContent: "center", mt: "80px" }}>
         <CardChoosePlan
           header={<Header />}

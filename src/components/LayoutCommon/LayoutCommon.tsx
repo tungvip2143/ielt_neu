@@ -1,7 +1,5 @@
 import React from "react";
 //
-import TitleSecond from "components/Typography/TitleSecond";
-import DescSmall from "components/Typography/DescSmall";
 import CardIlets from "components/Card/CardIlets";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 
@@ -17,6 +15,7 @@ import IeltsSections from "components/Ielts";
 import ReviewAndScore from "components/Review";
 import LinkCustom from "components/Link";
 import Container from "components/Container";
+import Text from "components/Typography";
 //
 // ! type
 interface dataLayout {
@@ -80,7 +79,6 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
           <LinkCustom to="/ielts/scores">Review</LinkCustom>
         </Button>
       </Box>
-
       <Box
         sx={{
           p: "50px 10px 100px 10px",
@@ -92,8 +90,8 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
         }}
       >
         <Container sx={{ display: "flex", flexDirection: "column" }} lg={9}>
-          <TitleSecond>{data.sub}</TitleSecond>
-          <DescSmall>{data.desc}</DescSmall>
+          <Text.Title>{data.sub}</Text.Title>
+          <Text.DescSmallCard>{data.desc}</Text.DescSmallCard>
         </Container>
       </Box>
       <Box sx={{ minHeight: "600px", background: data.background2 }}>

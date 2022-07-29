@@ -1,14 +1,11 @@
-import React from "react";
 //
-import DescSmallCard from "components/Typography/DescSmallCard";
-import DescMedium from "components/Typography/DescMedium";
 import Text from "components/Typography/index";
 
 //
-import Card from "@mui/material/Card";
 import Box from "@mui/material/Box";
-import Stack from "@mui/material/Stack";
+import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
+import Stack from "@mui/material/Stack";
 
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 //! type

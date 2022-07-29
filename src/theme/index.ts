@@ -4,6 +4,8 @@ declare module "@mui/material/styles" {
   interface TypographyVariants {
     titleIntroPage: React.CSSProperties;
     title: React.CSSProperties;
+    title32bold: React.CSSProperties;
+
     cardTitle: React.CSSProperties;
     subCardTitle: React.CSSProperties;
     subIntroPage: React.CSSProperties;
@@ -19,6 +21,8 @@ declare module "@mui/material/styles" {
     titleIntroPage?: React.CSSProperties;
 
     title?: React.CSSProperties;
+    title32bold: React.CSSProperties;
+
     cardTitle?: React.CSSProperties;
     subCardTitle: React.CSSProperties;
     subIntroPage: React.CSSProperties;
@@ -36,6 +40,8 @@ declare module "@mui/material/Typography" {
     titleIntroPage: true;
 
     title: true;
+    title32bold: true;
+
     cardTitle: true;
     subCardTitle: true;
     subIntroPage: true;
@@ -374,6 +380,11 @@ export const theme: ThemeOptions = createTheme({
       color: "#000000",
       fontWeight: 700,
       paddingBottom: "36px",
+    },
+    title32bold: {
+      fontSize: "32px",
+      color: "#000000",
+      fontWeight: 700,
     },
     cardTitle: {
       fontSize: "24px",

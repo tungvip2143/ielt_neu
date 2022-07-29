@@ -1,24 +1,20 @@
-import React, { useRef } from "react";
 //
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import Button from "@mui/material/Button";
+import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
 
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import FlutterDashIcon from "@mui/icons-material/FlutterDash";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import WbTwilightIcon from "@mui/icons-material/WbTwilight";
 
 //
-import CardStep from "components/Card/CardStep";
 import ImgStep1 from "assets/image/home/step1.png";
 import ImgStep2 from "assets/image/home/step2.png";
 import ImgStep3 from "assets/image/home/step3.png";
+import CardStep from "components/Card/CardStep";
 //
-import Title from "components/Typography/Title";
-import DescNormal from "components/Typography/DescNormal";
-import TextSteps from "components/Typography/TextSteps";
 //
 import Text from "components/Typography/index";
 
