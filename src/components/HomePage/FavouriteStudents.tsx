@@ -18,7 +18,7 @@ const FavouriteStudents = () => {
       <Box sx={{ textAlign: "center" }}>
         <Text.Title>Loved by students from 200+ countries</Text.Title>
       </Box>
-      <Grid container>
+      <Grid container className="container-students">
         {dataFavouriteStudents.map((user) => (
           <CardFevoriteStudent user={user} />
         ))}

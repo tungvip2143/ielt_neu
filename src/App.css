@@ -11,6 +11,9 @@
   margin: 0 auto;
   padding: 0 20px;
 }
+a {
+  text-decoration: none;
+}
 @media (min-width: 900px) and (max-width: 1200px) {
   .container {
     width: 768px;
@@ -43,4 +46,30 @@
 }
 .hover-card-bg-orange:hover {
   background: rgb(255, 203, 116);
+}
+
+/* when price sale */
+.cost-money::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #114ac6;
+  top: 15px;
+}
+/*  */
+@keyframes run {
+  0% {
+    transform: translateX(-10rem);
+  }
+  0% {
+    transform: translateX(-10rem);
+  }
+}
+.container-students {
+  animation-name: run;
+  animation-duration: 90s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
 }

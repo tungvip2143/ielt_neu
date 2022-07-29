@@ -6,6 +6,7 @@ import Box from "@mui/material/Box";
 export interface Props extends TypographyProps {
   children: React.ReactNode;
   sx?: object;
+  className?: string;
 }
 // tương ứng với TitleIntroPage
 const TitleIntroPage = (props: Props) => {
