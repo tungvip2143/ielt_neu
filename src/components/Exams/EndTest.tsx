@@ -6,7 +6,7 @@ import Card from "@mui/material/Card";
 import TitleSecond from "components/Typography/TitleSecond";
 import Desc16 from "components/Typography/Desc16";
 import ButtonStartTest from "components/Button/ButtonStartTest";
-import {useHistory} from "react-router-dom"
+import { useHistory } from "react-router-dom";
 
 const card = {
   p: "48px 32px",
@@ -22,12 +22,11 @@ const content = {
 };
 
 const EndTest = () => {
-
   // !Hook
-  const history=useHistory()
+  const history = useHistory();
 
-  const handleEndTest =()=>history.push("/ielts/scores")
-  
+  const handleEndTest = () => history.push("/ielts/scores");
+
   return (
     <Card sx={card}>
       <Box sx={content}>

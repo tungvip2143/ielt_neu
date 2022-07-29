@@ -14,7 +14,7 @@ import ChoosePlan from "components/HomePage/ChoosePlan";
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 //
-import Text from "components/Typography/index";
+
 
 // import Button from "@mui/material/Button";
 // import Grid from "@mui/material/Grid";

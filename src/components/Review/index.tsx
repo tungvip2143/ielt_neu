@@ -1,106 +1,134 @@
-import { Card, Grid } from '@mui/material';
-import { styled } from '@mui/material/styles';
-import Tab from '@mui/material/Tab';
-import Tabs from '@mui/material/Tabs';
-import { ieltsApi } from 'api/ieltsResults';
-import TableCustom from 'components/Table';
-import * as React from 'react';
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import { useState } from "react";
+//
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import CreateIcon from "@mui/icons-material/Create";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import Grid from "@mui/material/Grid";
+import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
+//
+import EachTable from "./Components/EachTable";
+import { TypeExamEnum } from "constants/enum";
 
-interface TabPanelProps {
-  children?: React.ReactNode;
-  index: number;
-  value: number;
-}
+//
 
-const header = ["Section","Band Score","Name","Session Date"]
+const cssBotton = {
+  width: "100%",
+  color: "#ccc",
 
-function TabPanel(props: TabPanelProps) {
-  const { children, value, index,...other } = props;
+  "&:hover": {
+    backgroundColor: "#ffffff",
+    borderRadius: "15px",
+  },
+};
 
+export default function BasicTable() {
+  const [panal, setPanal] = useState<TypeExamEnum>(TypeExamEnum.LISTENING);
+  //
+  const typeExams = [
+    {
+      id: TypeExamEnum.LISTENING,
+      name: "Listening",
+      icon: <HeadphonesIcon />,
+    },
+    {
+      id: TypeExamEnum.READING,
+      name: "Reading",
+      icon: <AutoStoriesIcon sx={panal === "READING" ? { color: "#B0D909" } : {}} />,
+    },
+    {
+      id: TypeExamEnum.WRITTING,
+      name: "Writing",
+      icon: <CreateIcon sx={panal === "WRITTING" ? { color: "#8CE5EC" } : {}} />,
+    },
+    {
+      id: TypeExamEnum.SPEAKING,
+      name: "Speaking",
+      icon: <KeyboardVoiceIcon sx={panal === "SPEAKING" ? { color: "#FF9700" } : {}} />,
+    },
+  ];
+  //
+  const colorButon = () => {
+    if (panal === TypeExamEnum.LISTENING) {
+      return "red";
+    }
+    if (panal === TypeExamEnum.READING) {
+      return "#B0D909";
+    }
+    if (panal === TypeExamEnum.WRITTING) {
+      return "#8CE5EC";
+    }
+    if (panal === TypeExamEnum.SPEAKING) {
+      return "#FF9700";
+    }
+  };
   return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-<>        {children}
-</>      )}
-    </div>
+    <Box sx={{ width: "100%", position: "relative" }}>
+      <Box sx={{ background: "#fff", p: "10px 10px", borderTopLeftRadius: "20px", borderTopRightRadius: "20px" }}>
+        <Box
+          sx={{
+            display: "flex",
+            background: "#F3F4F6",
+            p: "5px 5px",
+            borderRadius: "15px",
+            justifyContent: "space-between",
+          }}
+        >
+          {typeExams.map((item: any) => {
+            return (
+              <Box key={item.id} sx={{ display: "flex", justifyContent: "center", m: "0 3px", width: { xs: "24%" } }}>
+                <Button
+                  style={
+                    item.id === panal
+                      ? {
+                          background: "#fff",
+                          color: colorButon(),
+                          boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+                          borderRadius: "15px",
+                        }
+                      : {}
+                  }
+                  onClick={() => setPanal(item.id)}
+                  variant="text"
+                  sx={cssBotton}
+                  startIcon={item.icon}
+                >
+                  {item.name}
+                </Button>
+              </Box>
+            );
+          })}
+        </Box>
+      </Box>
+      {typeExams.map((type) => {
+        if (type.id === panal) {
+          return <EachTable panelId={type.id} />;
+        }
+
+        return null;
+      })}
+      <Box
+        sx={{
+          display: { xs: "flex", lg: "none" },
+          position: {
+            xs: "absolute",
+            lg: "unset",
+          },
+          top: "0",
+          right: "0",
+          left: "0",
+          width: "100%",
+          height: "100%",
+          background: "#fff",
+          justifyContent: "center",
+          alignItems: "center",
+          opacity: "0.7",
+        }}
+      >
+        <NoEncryptionGmailerrorredIcon sx={{ fontSize: "200px" }} />
+      </Box>
+    </Box>
   );
 }
-
-function a11yProps(index: number) {
-  return {
-    id: `simple-tab-${index}`,
-    'aria-controls': `simple-tabpanel-${index}`,
-  };
-}
-
-export default function ReviewAndScore() {
-  const [value, setValue] = React.useState(0);
-  const [data,setData] = React.useState<any>(null)
-
-  const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
-  };
-
-//   !Function
-
-const fetchListeningResult = async ()=>{
-    const response = await ieltsApi.getIeltListeningsResult()
-    setData(response.data)
-}
-const fetchReadingResults = async ()=>{
-    const response = await ieltsApi.getIeltReadingResult()
-    setData(response.data)
-}
- 
-const fetchWritingResults = async ()=>{
-    setData(null)
-}
-const fetchSpeackingResults = async ()=>{
-    setData(null)
-}
-
-// !Effect
-
-React.useEffect(()=>{
-    fetchListeningResult()
-},[])
-
-  return (
-    <Grid container sx={{ width: '100%' }}>
-        <Grid item lg={12} md={12} xl={12}>
-            <Card>
-                    <Tabs sx={{p:1}} value={value} onChange={handleChange} aria-label="basic tabs example">
-                        <ReviewTab onClick={fetchListeningResult}  label="Listenning" {...a11yProps(0)} />                     
-                        <ReviewTab onClick={fetchReadingResults} label="Reading" {...a11yProps(1)} />
-                        <ReviewTab onClick={fetchWritingResults} label="Writing" {...a11yProps(2)} />
-                        <ReviewTab onClick={fetchSpeackingResults} label="Speaking" {...a11yProps(3)} />
-                    </Tabs>
-                <TabPanel  value={value} index={0}>
-                    <TableCustom  header={header} data={data} />
-                </TabPanel>
-                <TabPanel value={value} index={1}>
-                    <TableCustom  header={header} data={data} /> 
-               </TabPanel>
-                <TabPanel value={value} index={2}>
-                    <  TableCustom  header={header} data={data} /> 
-               </TabPanel>
-                <TabPanel value={value} index={3}>
-                    <TableCustom  header={header} data={data} /> 
-               </TabPanel>
-            </Card>
-        </Grid>
-      
-    </Grid>
-  );
-}
-
-const ReviewTab = styled(Tab)`
-width:25%;
-height:40px
-`

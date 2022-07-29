@@ -1,12 +1,20 @@
 import * as React from "react";
 import { TypographyProps } from "@mui/system";
+
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
+
 
 export interface Props extends TypographyProps {
   children: React.ReactNode;
   sx?: object;
 }
+
+// tương ứng với Title
+const Titte = (props: Props) => {
+  return <Typography variant="title">{props.children}</Typography>;
+};
+
 // tương ứng với TitleIntroPage
 const TitleIntroPage = (props: Props) => {
   const { children, ...rest } = props;
@@ -16,6 +24,8 @@ const TitleIntroPage = (props: Props) => {
     </Typography>
   );
 };
+
+
 // tương ứng với Title
 const Title = (props: Props) => {
   return (
@@ -95,6 +105,8 @@ const SubCardTitle = (props: Props) => {
   return <Typography variant="subCardTitle">{props.children}</Typography>;
 };
 
+
+
 const Text = {
   TitleIntroPage,
   Title,
@@ -108,5 +120,6 @@ const Text = {
   DescNormal,
   Desc14medium,
 };
+
 
 export default Text;

@@ -44,8 +44,25 @@
 .hover-card-bg-orange:hover {
   background: rgb(255, 203, 116);
 }
+
+/* pagination */
+ul.pagination.justify-content-center {
+  display: flex;
+  gap: 20px 20px;
+  list-style-type: none;
+  justify-content: center;
+  /* padding-top: 30px; */
+}
+a.page-link {
+  padding: 5px 15px;
+  cursor: pointer;
+}
+li.page-item.active a {
+  border: 2px solid #ccc;
+}
 /* ul */
 ul {
   list-style-type: disc;
   margin-left: 15px;
+
 }

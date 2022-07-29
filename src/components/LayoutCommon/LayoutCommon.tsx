@@ -17,6 +17,7 @@ import IeltsSections from "components/Ielts";
 import ReviewAndScore from "components/Review";
 import LinkCustom from "components/Link";
 import Container from "components/Container";
+import Text from "components/Typography";
 //
 // ! type
 interface dataLayout {
@@ -80,7 +81,6 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
           <LinkCustom to="/ielts/scores">Review</LinkCustom>
         </Button>
       </Box>
-
       <Box
         sx={{
           p: "50px 10px 100px 10px",
