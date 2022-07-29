@@ -59,17 +59,21 @@ a {
   top: 15px;
 }
 /*  */
-@keyframes run {
+/* @keyframes run {
   0% {
-    transform: translateX(-10rem);
+    transform: translateX(-160px);
   }
-  0% {
-    transform: translateX(-10rem);
+  100% {
+    transform: translateX(-1000px);
   }
 }
 .container-students {
   animation-name: run;
-  animation-duration: 90s;
+  animation-duration: 10s;
   animation-timing-function: linear;
   animation-iteration-count: infinite;
-}
+} */
+/* .container-students-demo {
+  display: flex;
+  flex-wrap: wrap;
+} */

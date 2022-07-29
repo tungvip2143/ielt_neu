@@ -36,7 +36,7 @@ const CardFevoriteStudent = ({ user }: User) => {
     justifyContent: "flex-end",
   };
   return (
-    <Grid item xs={12} sm={2.4}>
+    <Grid sx={{ width: "19%" }}>
       <Card sx={card}>
         <Box sx={cardContent}>
           <Text.DescSmallCard>{user.content}</Text.DescSmallCard>
