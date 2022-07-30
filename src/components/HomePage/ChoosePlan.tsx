@@ -29,7 +29,21 @@ const ChoosePlan = () => {
       return "SUBSCRIBE AND GET 25% OFF!";
     }
   };
+  const unitMoney = {
+    fontSize: "14px",
+    color: "#114AC6",
+    fontWeight: "bold",
+    marginTop: "35px !important",
+  };
   console.log(isShowSale);
+  const footer = {
+    alignItems: "center",
+    background: "rgba(255, 255, 255, 0.5)",
+    backdropFilter: "blur(4px)",
+    p: "5px 10px",
+    borderBottomLeftRadius: "16px",
+    borderBottomRightRadius: "16px",
+  };
   const Header = () => {
     return (
       <>
@@ -38,24 +52,20 @@ const ChoosePlan = () => {
           <Text.Sub20Bold className="cost-money" sx={{ color: "#114AC6", position: "relative" }}>
             $39,99
           </Text.Sub20Bold>
-          <Typography
+          <Text.Desc14medium
             sx={{
-              fontSize: "14px",
               color: "#DEF876",
-              fontWeight: "bold",
               p: "3px 10px",
               background: "#114AC6",
               borderRadius: "5px",
             }}
           >
             25% OFF
-          </Typography>
+          </Text.Desc14medium>
         </Stack>
         <Stack direction="row" spacing={1}>
           <Text.TitleIntroPage sx={{ color: "#114AC6" }}>$29,99</Text.TitleIntroPage>
-          <Typography sx={{ fontSize: "14px", color: "#114AC6", fontWeight: "bold", marginTop: "35px !important" }}>
-            USD
-          </Typography>
+          <Typography sx={unitMoney}>USD</Typography>
         </Stack>
       </>
     );
@@ -67,9 +77,7 @@ const ChoosePlan = () => {
 
         <Stack direction="row" spacing={1}>
           <Text.TitleIntroPage sx={{ color: "#114AC6" }}>$39,99</Text.TitleIntroPage>
-          <Typography sx={{ fontSize: "14px", color: "#114AC6", fontWeight: "bold", marginTop: "35px !important" }}>
-            USD
-          </Typography>
+          <Typography sx={unitMoney}>USD</Typography>
         </Stack>
       </>
     );
@@ -93,14 +101,15 @@ const ChoosePlan = () => {
             </Stack>
           </Stack>
         </Box>
-
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center", mt: "20px !important" }}>
-          <Switch defaultChecked color="info" checked={isShowSale} onChange={hanldeShowSale} />
-          <Typography sx={{ fontSize: "12px", fontWeight: "bold", color: "#114AC6" }}>
-            {showDescButtonSale()}
-          </Typography>
-        </Stack>
       </>
+    );
+  };
+  const Footer = () => {
+    return (
+      <Stack direction="row" spacing={1} sx={footer}>
+        <Switch defaultChecked color="info" checked={isShowSale} onChange={hanldeShowSale} />
+        <Typography sx={{ fontSize: "12px", fontWeight: "bold", color: "#114AC6" }}>{showDescButtonSale()}</Typography>
+      </Stack>
     );
   };
   //
@@ -125,9 +134,7 @@ const ChoosePlan = () => {
         </Stack>
         <Stack direction="row" spacing={1}>
           <Text.TitleIntroPage sx={{ color: "#114AC6" }}>$14,99</Text.TitleIntroPage>
-          <Typography sx={{ fontSize: "14px", color: "#114AC6", fontWeight: "bold", marginTop: "35px !important" }}>
-            USD
-          </Typography>
+          <Typography sx={unitMoney}>USD</Typography>
         </Stack>
       </>
     );
@@ -148,15 +155,18 @@ const ChoosePlan = () => {
             </Stack>
           </Stack>
         </Box>
+      </>
+    );
+  };
+  const FooterRight = () => {
+    return (
+      <Stack direction="row" spacing={1} sx={{ ...footer, justifyContent: "center" }}>
         <Link to="/">
           <Stack
             direction="row"
             spacing={1}
             sx={{
-              mt: "20px !important",
               height: "38px",
-              // background: "rgba(255, 255, 255, 0.5)",
-              // backdropFilter: "blur(4px)",
               justifyContent: "center",
               alignItems: "center",
             }}
@@ -165,7 +175,7 @@ const ChoosePlan = () => {
             <ChevronRightIcon sx={{ color: "#114AC6" }} />
           </Stack>
         </Link>
-      </>
+      </Stack>
     );
   };
   //
@@ -174,9 +184,7 @@ const ChoosePlan = () => {
   return (
     <Box sx={{ p: "100px 0" }}>
       <Box sx={{ textAlign: "center" }}>
-        <Typography sx={{ fontSize: "48px", fontWeight: "bold", color: "#000000", pb: "5px" }}>
-          Choose the best plan for you
-        </Typography>
+        <Text.TitleIntroPage sx={{ pb: "5px" }}>Choose the best plan for you</Text.TitleIntroPage>
         <Text.DescNormal>Join the 2,500,000+ students currently studying with TestGlider</Text.DescNormal>
       </Box>
 
@@ -187,17 +195,19 @@ const ChoosePlan = () => {
           desc={<Desc />}
           isShowSale={isShowSale}
           className="img-choose-plan-left"
+          footer={<Footer />}
         />
         <CardChoosePlan
           header={<HeaderRight />}
           desc={<DescRight />}
           isShowSale={true}
           className="img-choose-plan-right"
+          footer={<FooterRight />}
         />
       </Grid>
 
       <Link to="" style={{ textAlign: "center" }}>
-        <Text.Sub20Bold sx={{ color: "#114AC6", marginTop: "40px !important" }}>
+        <Text.Sub20Bold className="learn-feature" sx={{ color: "#114AC6", marginTop: "40px !important" }}>
           Learn more about our features
         </Text.Sub20Bold>
       </Link>

@@ -64,6 +64,11 @@ const EachTable = ({ panelId }: EachTableI) => {
       boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px",
     },
   };
+  const buttonReview = {
+    color: "red",
+    border: "1px solid red",
+    "&:hover": { border: "1px solid red", background: "#fff" },
+  };
 
   return (
     <Box sx={{ width: "100%" }}>
@@ -77,7 +82,7 @@ const EachTable = ({ panelId }: EachTableI) => {
         }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead sx={{ background: "#fff", borderTop: "1px solid #eeeeee", color: "#B8BCC0 " }}>
+          <TableHead sx={{ background: "#fff", borderTop: "1px solid #eeeeee", color: "#B8BCC0 ", p: "0 44px" }}>
             <TableRow>
               <TableCell
                 sx={{
@@ -85,8 +90,9 @@ const EachTable = ({ panelId }: EachTableI) => {
                   width: "150px",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
+                  pl: "44px !important",
                 }}
-                align="center"
               >
                 Section
               </TableCell>
@@ -96,6 +102,7 @@ const EachTable = ({ panelId }: EachTableI) => {
                   width: "120px",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
                 }}
                 size="small"
               >
@@ -106,6 +113,8 @@ const EachTable = ({ panelId }: EachTableI) => {
                   color: "#B8BCC0 !important",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
+                  width: "300px !important",
                 }}
               >
                 Name
@@ -115,16 +124,17 @@ const EachTable = ({ panelId }: EachTableI) => {
                   color: "#B8BCC0 !important",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
                 }}
                 size="small"
                 align="center"
               >
                 Session Date
               </TableCell>
-              <TableCell sx={{ color: "#B8BCC0 !important" }} size="small" align="center"></TableCell>
+              <TableCell sx={{ color: "#B8BCC0 !important", pr: "44px" }} size="small"></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody sx={{ p: "0 44px" }}>
             {isLoading ? (
               <Box
                 sx={{
@@ -141,24 +151,29 @@ const EachTable = ({ panelId }: EachTableI) => {
             ) : (
               data.map((item: any) => (
                 <TableRow key={item.id} sx={tbRow}>
-                  <TableCell component="th" align="center">
+                  <TableCell
+                    sx={{
+                      pl: "44px !important",
+                    }}
+                    component="th"
+                  >
                     {renderIconByPanel()}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell>
                     <Typography
                       align="center"
                       sx={{ fontWeight: "bold", display: "inline", fontSize: "20px", color: "#36373B" }}
                     >
                       0/
                     </Typography>
-                    <Typography sx={{ color: "#B8BCC0 ", display: "inline", fontSize: "20px" }}>9</Typography>
+                    <Typography sx={{ color: "#8A8C91 ", display: "inline", fontSize: "20px" }}>9</Typography>
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold", color: "#36373B" }}>Section Test #2</TableCell>
-                  <TableCell sx={{ color: "#B8BCC0 " }} align="center">
+                  <TableCell sx={{ color: "#8A8C91 " }} align="center">
                     28 Jul 2022, 06:32
                   </TableCell>
-                  <TableCell align="center">
-                    <Button variant="outlined" sx={{ color: "red", border: "1px solid red" }}>
+                  <TableCell sx={{ pr: "44px" }} align="right">
+                    <Button variant="outlined" sx={buttonReview}>
                       REVIEW
                     </Button>
                   </TableCell>

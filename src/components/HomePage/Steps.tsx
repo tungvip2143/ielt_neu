@@ -104,7 +104,7 @@ const Steps = () => {
   };
   const step2 = {
     step: "STEP 1",
-    title: "Choose how  YOU want to practice.",
+    title: "Get your results immediately.",
     desc: "Select your practice based on your schedule and learning style to improve your score at your own pace.",
     desc2:
       "Timed with spoken instructions, our tests are modeled after real TOEFL exam materials and created by TOEFL experts.",
@@ -112,7 +112,7 @@ const Steps = () => {
   };
   const step3 = {
     step: "STEP 1",
-    title: "Choose how  YOU want to practice.",
+    title: "Focus on what you need to improve.",
     desc: "Select your practice based on your schedule and learning style to improve your score at your own pace.",
     desc2:
       "Timed with spoken instructions, our tests are modeled after real TOEFL exam materials and created by TOEFL experts.",
