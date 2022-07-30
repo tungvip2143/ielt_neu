@@ -12,6 +12,7 @@ const FavouriteStudents = () => {
   const FavouriteStudents = {
     padding: "100px 0",
     background: "rgb(214,227,254)",
+    overflow: "hidden",
   };
   return (
     <Box sx={FavouriteStudents}>

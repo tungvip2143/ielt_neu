@@ -21,6 +21,7 @@ import Pagination from "@mui/material/Pagination";
 import ReactPaginate from "react-paginate";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import useGetData from "hooks/users/useGetData";
 
 interface EachTableI {
   panelId: TypeExamEnum;
@@ -28,34 +29,10 @@ interface EachTableI {
 
 const EachTable = ({ panelId }: EachTableI) => {
   //! State
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  console.log(data);
+  const { data, pageCount, isLoading, handleChangePage } = useGetData(panelId);
+
   //! Function
-  const limit = 5;
-  const currentPage = Math.ceil(10 / 5);
-  useEffect(() => {
-    const fetchData = async () => {
-      let endpoint = "users";
-      // if (panelId === TypeExamEnum.READING) {
-      //   endpoint = "posts";
-      // }
 
-      try {
-        setLoading(true);
-        const res = await httpServices.get(`https://jsonplaceholder.typicode.com/${endpoint}?_page=1&_limit=${limit}`);
-        setData(res.data);
-        setLoading(false);
-      } catch (error) {}
-    };
-
-    fetchData();
-  }, [panelId]);
-  //
-  const [page, setPage] = useState(1);
-  // const handleChange = (event, value) => {
-  //   setPage(value);
-  // };
   //! Render
   const renderIconByPanel = () => {
     if (panelId === TypeExamEnum.LISTENING) {
@@ -74,24 +51,13 @@ const EachTable = ({ panelId }: EachTableI) => {
 
     return <HeadphonesIcon sx={{ color: "red" }} />;
   };
-  // ! pagination
-  const fetchComments = async (currentPage: any) => {
-    const res = await httpServices.get(
-      `https://jsonplaceholder.typicode.com/users?_page=${currentPage}&_limit=${limit}`
-    );
-    return res.data;
-  };
-  //
+
+  //! Pagination
   const handlePageClick = async (data: any) => {
-    console.log(data.selected);
-
-    const currentPage = data.selected + 1;
-
-    const commentsFormServer = await fetchComments(currentPage);
-
-    setData(commentsFormServer);
+    const page = data.selected;
+    handleChangePage(page);
   };
-  //
+
   const tbRow = {
     borderTop: "1.5px solid #eeeeee",
     "&:hover": {
@@ -206,7 +172,7 @@ const EachTable = ({ panelId }: EachTableI) => {
             previousLabel={<KeyboardArrowLeftIcon />}
             nextLabel={<ChevronRightIcon />}
             breakLabel={"..."}
-            pageCount={currentPage}
+            pageCount={pageCount}
             marginPagesDisplayed={2}
             pageRangeDisplayed={3}
             onPageChange={handlePageClick}
