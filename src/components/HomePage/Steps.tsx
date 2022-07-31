@@ -21,7 +21,7 @@ import Text from "components/Typography/index";
 const Steps = () => {
   const StepsForGoodLeft = () => {
     const card = {
-      padding: { xs: "50px 20px", sm: "50px 50px" },
+      padding: { xs: "50px 20px", sm: "20px 24px", md: "50px 50px" },
       boxShadow: "rgba(0, 0, 0, 0.25) 0px 5px 15px",
     };
     const rounded = {
@@ -31,16 +31,17 @@ const Steps = () => {
       justifyContent: "center",
       alignItems: "center",
       fontSize: "20px",
-      width: "30px",
-      height: "30px",
+      width: "28px",
+      height: "28px",
       color: "#8A8C91",
     };
     const itemRight = {
       width: { xs: "100%", md: "70%" },
-      p: "20px 30px",
+      p: { xs: "12px", sm: "12px", md: "20px 30px" },
       background: "#F7F9FB",
       borderRadius: "10px",
       color: "#8A8C91",
+      ml: { xs: "20px !important", md: "40px" },
       "&:hover": {
         backgroundColor: "#bbdefb",
         // color: "#2196f3 ",
@@ -50,21 +51,27 @@ const Steps = () => {
       <Box sx={{ pr: { xs: "0", lg: "100px" }, transform: { md: "translateX(-120px)", lg: "translateX(0)" } }}>
         <Card sx={card}>
           <Stack direction="row" spacing={5} sx={{ alignItems: "center", mb: "50px" }}>
-            <Box sx={rounded}>1</Box>
+            <Box sx={{ width: "40px" }}>
+              <Box sx={rounded}>1</Box>
+            </Box>
             <Stack direction="row" spacing={2} sx={itemRight}>
               <FlutterDashIcon sx={{ fontSize: "30px" }} />
               <Text.Sub20Bold>Take a Practice Test</Text.Sub20Bold>
             </Stack>
           </Stack>
           <Stack direction="row" spacing={5} sx={{ alignItems: "center", mb: "50px" }}>
-            <Box sx={rounded}>2</Box>
+            <Box sx={{ width: "40px" }}>
+              <Box sx={rounded}>2</Box>
+            </Box>
             <Stack direction="row" spacing={2} sx={itemRight}>
               <LibraryBooksIcon sx={{ fontSize: "30px", color: "#8A8C91" }} />
               <Text.Sub20Bold>Get Scores Instantly</Text.Sub20Bold>
             </Stack>
           </Stack>
           <Stack direction="row" spacing={5} sx={{ alignItems: "center" }}>
-            <Box sx={rounded}>3</Box>
+            <Box sx={{ width: "40px" }}>
+              <Box sx={rounded}>3</Box>
+            </Box>
             <Stack direction="row" spacing={2} sx={itemRight}>
               <WbTwilightIcon sx={{ fontSize: "30px", color: "#8A8C91" }} />
               <Text.Sub20Bold>Review & Improve</Text.Sub20Bold>

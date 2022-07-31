@@ -105,7 +105,32 @@ const Desc14medium = (props: Props) => {
 };
 // tương ứng với TextSubCard
 const SubCardTitle = (props: Props) => {
-  return <Typography variant="subCardTitle">{props.children}</Typography>;
+  const { children, ...rest } = props;
+
+  return (
+    <Typography component="p" variant="subCardTitle" {...rest}>
+      {props.children}
+    </Typography>
+  );
+};
+// font size 16px
+const Desc16 = (props: Props) => {
+  const { children, ...rest } = props;
+
+  return (
+    <Typography component="p" variant="desc16" {...rest}>
+      {props.children}
+    </Typography>
+  );
+};
+// font size 14px
+const DescSmall = (props: Props) => {
+  const { children, ...rest } = props;
+  return (
+    <Typography component="p" variant="descSmall" {...rest}>
+      {props.children}
+    </Typography>
+  );
 };
 
 const Text = {
@@ -121,6 +146,8 @@ const Text = {
   Sub20Bold,
   DescNormal,
   Desc14medium,
+  Desc16,
+  DescSmall,
 };
 
 export default Text;

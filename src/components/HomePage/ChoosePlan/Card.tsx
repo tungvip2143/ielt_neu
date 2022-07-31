@@ -13,9 +13,7 @@ import CardChoosePlan from "components/Card/CardChoosePlan";
 //
 import Text from "components/Typography/index";
 import { Link } from "react-router-dom";
-
-//
-const ChoosePlan = () => {
+const Card = () => {
   // ! State
   const [isShowSale, isSetShow] = useState(true);
   //
@@ -179,40 +177,28 @@ const ChoosePlan = () => {
     );
   };
   //
+
   // ! Render
 
   return (
-    <Box sx={{ p: "100px 0" }}>
-      <Box sx={{ textAlign: "center" }}>
-        <Text.TitleIntroPage sx={{ pb: "5px" }}>Choose the best plan for you</Text.TitleIntroPage>
-        <Text.DescNormal>Join the 2,500,000+ students currently studying with TestGlider</Text.DescNormal>
-      </Box>
-
-      <Grid container sx={{ justifyContent: "center", mt: "80px" }}>
-        <CardChoosePlan
-          header={<Header />}
-          headerNoSale={<HeaderNoSale />}
-          desc={<Desc />}
-          isShowSale={isShowSale}
-          className="img-choose-plan-left"
-          footer={<Footer />}
-        />
-        <CardChoosePlan
-          header={<HeaderRight />}
-          desc={<DescRight />}
-          isShowSale={true}
-          className="img-choose-plan-right"
-          footer={<FooterRight />}
-        />
-      </Grid>
-
-      <Link to="" style={{ textAlign: "center" }}>
-        <Text.Sub20Bold className="learn-feature" sx={{ color: "#114AC6", marginTop: "40px !important" }}>
-          Learn more about our features
-        </Text.Sub20Bold>
-      </Link>
-    </Box>
+    <Grid container sx={{ justifyContent: "center", mt: "50px" }}>
+      <CardChoosePlan
+        header={<Header />}
+        headerNoSale={<HeaderNoSale />}
+        desc={<Desc />}
+        isShowSale={isShowSale}
+        className="img-choose-plan-left"
+        footer={<Footer />}
+      />
+      <CardChoosePlan
+        header={<HeaderRight />}
+        desc={<DescRight />}
+        isShowSale={true}
+        className="img-choose-plan-right"
+        footer={<FooterRight />}
+      />
+    </Grid>
   );
 };
 
-export default ChoosePlan;
+export default Card;

@@ -27,16 +27,16 @@ const CardChoosePlan = ({ header, headerNoSale, desc, discounted, isShowSale, cl
     position: "relative",
   };
   const cardChoosePlanItem = {
-    m: { xs: "0", md: "0 25px" },
-    mt: { xs: "30px", lg: "0" },
+    m: { xs: "0", md: "0 15px", lg: "0 25px 0 25px" },
+    mt: { xs: "50px", lg: "0" },
     maxWidth: "400px !important",
-    boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+    boxShadow: "rgba(0, 0, 0, 0.2) 0px 5px 15px",
     borderRadius: "16px",
   };
   // ! Render
 
   return (
-    <Grid item className={className} xs={12} md={5} lg={3.6} sx={cardChoosePlanItem}>
+    <Grid item className={className} xs={12} md={5.5} lg={3.6} sx={cardChoosePlanItem}>
       <Box sx={card}>
         <Box sx={{ minHeight: "150px" }}>{isShowSale ? header : headerNoSale}</Box>
         <Box sx={{ m: "16px 0" }}>

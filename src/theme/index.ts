@@ -14,6 +14,8 @@ declare module "@mui/material/styles" {
     sub20Bold: React.CSSProperties;
     descNormal: React.CSSProperties;
     desc14medium: React.CSSProperties;
+    desc16: React.CSSProperties;
+    descSmall: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -31,6 +33,8 @@ declare module "@mui/material/styles" {
     sub20Bold: React.CSSProperties;
     descNormal: React.CSSProperties;
     desc14medium: React.CSSProperties;
+    desc16: React.CSSProperties;
+    descSmall: React.CSSProperties;
   }
 }
 
@@ -50,6 +54,8 @@ declare module "@mui/material/Typography" {
     sub20Bold: true;
     descNormal: true;
     desc14medium: true;
+    desc16: true;
+    descSmall: true;
   }
 }
 
@@ -57,9 +63,9 @@ export const theme: ThemeOptions = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 600,
-      md: 900,
-      lg: 1200,
+      sm: 576,
+      md: 768,
+      lg: 1080,
       xl: 1920,
     },
   },
@@ -427,6 +433,14 @@ export const theme: ThemeOptions = createTheme({
       fontSize: "14px",
       color: "#114AC6",
       fontWeight: 500,
+    },
+    desc16: {
+      fontSize: "16px",
+      fontWeight: 300,
+    },
+    descSmall: {
+      fontSize: "14px",
+      fontWeight: 300,
     },
   },
 });
