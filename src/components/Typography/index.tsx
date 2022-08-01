@@ -51,8 +51,10 @@ const CardTitle = (props: Props) => {
 
 // tương ứng với TitleSecond
 const SubTitle = (props: Props) => {
+  const { children, ...rest } = props;
+
   return (
-    <Typography component="p" variant="subtitle1">
+    <Typography component="p" variant="subtitle" {...rest}>
       {props.children}
     </Typography>
   );

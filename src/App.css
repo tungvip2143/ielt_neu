@@ -109,24 +109,14 @@ ul {
 /* accordion */
 .accordion::before {
   display: none;
-  /* bottom: 10px !important;
-  height: 1px !important;
-  background-color: #333 !important;
-  top: unset !important; */
 }
-/* .accordion1::after {
-  display: block;
-  bottom: 10px !important;
-  height: 2px !important;
-  background-color: #333 !important;
-  top: unset !important;
-}  */
+
 .accordion {
   box-shadow: none !important;
   background-color: unset !important;
   border-bottom: 1px solid #333;
   border-radius: 0 !important;
 }
-/* .accordion1 {
-  box-shadow: none !important;
-}  */
+.card-help:hover .icon-help {
+  color: #333;
+}
