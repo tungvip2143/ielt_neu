@@ -6,7 +6,6 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import CreateIcon from "@mui/icons-material/Create";
 import HeadphonesIcon from "@mui/icons-material/Headphones";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
-import Grid from "@mui/material/Grid";
 import NoEncryptionGmailerrorredIcon from "@mui/icons-material/NoEncryptionGmailerrorred";
 //
 import EachTable from "./Components/EachTable";
@@ -16,7 +15,7 @@ import { TypeExamEnum } from "constants/enum";
 
 const cssBotton = {
   width: "100%",
-  color: "#ccc",
+  color: "#8A8C91",
 
   "&:hover": {
     backgroundColor: "#ffffff",

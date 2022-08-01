@@ -3,10 +3,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Stack from "@mui/material/Stack";
-
 //
-import Sub20BoldIlets from "components/Typography/Sub20BoldIlets";
-import DescSmall from "components/Typography/DescSmall";
+import Text from "components/Typography/index";
 //
 // ! type
 interface Data {
@@ -24,8 +22,8 @@ const CardPart = ({ part, guide }: Data) => {
   return (
     <Card sx={card}>
       <Stack direction="row" spacing={4} sx={{ alignItems: "center" }}>
-        <Sub20BoldIlets>{part}</Sub20BoldIlets>
-        <DescSmall>{guide}</DescSmall>
+        <Text.Sub20Bold>{part}</Text.Sub20Bold>
+        <Text.DescSmallCard>{guide}</Text.DescSmallCard>
       </Stack>
     </Card>
   );

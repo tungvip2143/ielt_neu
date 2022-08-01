@@ -7,26 +7,29 @@
   margin-left: 50px;
 }
 .container {
-  width: 1200px;
+  width: 1120px;
   margin: 0 auto;
   padding: 0 20px;
 }
-@media (min-width: 900px) and (max-width: 1200px) {
+a {
+  text-decoration: none;
+}
+@media (min-width: 768px) and (max-width: 1080px) {
   .container {
     width: 768px;
     margin: 0 auto;
     padding: 0 20px;
   }
 }
-@media (min-width: 600px) and (max-width: 900px) {
+@media (min-width: 576px) and (max-width: 768px) {
   .container {
-    width: 80%;
+    width: 426px;
     /* max-width: 900px; */
     margin: 0 auto;
     padding: 0 20px;
   }
 }
-@media (max-width: 600px) {
+@media (max-width: 576px) {
   .container {
     width: 100%;
     max-width: 600px;
@@ -45,6 +48,42 @@
   background: rgb(255, 203, 116);
 }
 
+/* when price sale */
+.cost-money::after {
+  content: "";
+  display: block;
+  position: absolute;
+  width: 100%;
+  height: 2px;
+  background-color: #114ac6;
+  top: 15px;
+}
+/* animation comment students */
+@keyframes run {
+  0% {
+    transform: translateX(0px);
+  }
+  100% {
+    transform: translateX(-2000px);
+  }
+}
+.container-students {
+  animation-name: run;
+  animation-duration: 90s;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}
+/*  */
+.img-choose-plan-left {
+  background: url("https://www.testglider.com/_next/static/images/30dayPassSubBg-d287dc4499b5b6e0cffd6e97bf04ac1a.webp")
+    no-repeat;
+  background-size: cover;
+}
+.img-choose-plan-right {
+  background: url("https://www.testglider.com/_next/static/images/7dayPassBg-1a65c541b730dd78818ec08e467ec68d.webp")
+    no-repeat;
+  background-size: cover;
+}
 /* pagination */
 ul.pagination.justify-content-center {
   display: flex;
@@ -64,5 +103,28 @@ li.page-item.active a {
 ul {
   list-style-type: disc;
   margin-left: 15px;
-
 }
+/* accordion */
+.accordion::before {
+  display: none;
+  /* bottom: 10px !important;
+  height: 1px !important;
+  background-color: #333 !important;
+  top: unset !important; */
+}
+/* .accordion1::after {
+  display: block;
+  bottom: 10px !important;
+  height: 2px !important;
+  background-color: #333 !important;
+  top: unset !important;
+}  */
+.accordion {
+  box-shadow: none !important;
+  background-color: unset !important;
+  border-bottom: 1px solid #333;
+  border-radius: 0 !important;
+}
+/* .accordion1 {
+  box-shadow: none !important;
+}  */

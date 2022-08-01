@@ -1,20 +1,20 @@
 import React from "react";
 import useGetTodoList from "hooks/todos/useGetTodoList";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 import "App.css";
 //
 import IntroHome from "components/HomePage/IntroHome";
 import FavouriteStudents from "components/HomePage/FavouriteStudents";
 import InformationData from "components/HomePage/InformationData";
 import Steps from "components/HomePage/Steps";
-import ChoosePlan from "components/HomePage/ChoosePlan";
+import ChoosePlan from "components/HomePage/ChoosePlan/ChoosePlan";
+import StartPractiveFree from "components/HomePage/StartPractiveFree";
 
 //
 import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
 //
-
+import ButtonCommon from "components/Button/ButtonCommon";
 
 // import Button from "@mui/material/Button";
 // import Grid from "@mui/material/Grid";
@@ -44,6 +44,7 @@ const HomePage: React.FC = () => {
       <div className="container">
         <ChoosePlan />
       </div>
+      <StartPractiveFree />
     </Box>
   );
 };

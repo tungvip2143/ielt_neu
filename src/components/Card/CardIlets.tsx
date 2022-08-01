@@ -1,17 +1,19 @@
 import React from "react";
 //
 import Box from "@mui/material/Box";
-import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
+//
+import Card from "@mui/material/Card";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 //
-import TextTitleCard from "components/Typography/TextTitleCard";
-import TextSubCard from "components/Typography/TextSubCard";
+import Text from "components/Typography/index";
+// import TextTitleCard from "components/Typography/TextTitleCard";
+// import TextSubCard from "components/Typography/TextSubCard";
 import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
 
-import TextSubBold from "components/Typography/TextSubBold";
-import TextSmall from "components/Typography/TextSmall";
+// import TextSubBold from "components/Typography/TextSubBold";
+// import TextSmall from "components/Typography/TextSmall";
 //
 import LockIcon from "@mui/icons-material/Lock";
 
@@ -54,11 +56,11 @@ const CardIlets = ({ exam }: Exam) => {
           <Box sx={contentList}>
             <Box>
               <Box sx={{ maxWidth: { xs: "100%", lg: "112px" }, pb: "15px" }}>
-                <TextTitleCard>{exam.typeExam}</TextTitleCard>
+                <Text.Sub20Bold>{exam.typeExam}</Text.Sub20Bold>
               </Box>
               <Stack direction="row" spacing={1} sx={{ pb: "25px" }}>
                 <AccessAlarmIcon />
-                <TextSubCard>{exam.timeExam}</TextSubCard>
+                <Text.SubCardTitle>{exam.timeExam}</Text.SubCardTitle>
               </Stack>
               <ButtonOutLineCommon>{exam.nameExam}</ButtonOutLineCommon>
             </Box>
@@ -83,8 +85,8 @@ const CardIlets = ({ exam }: Exam) => {
           >
             <Stack sx={{ width: "100%" }} direction="row" spacing={2}>
               <Box sx={{ width: { xs: "90%", md: "60%", lg: "" } }}>
-                <TextSubBold>Access from PC, please.</TextSubBold>
-                <TextSmall>We currently do not support tests for mobile and tablet.</TextSmall>
+                <Text.Sub20Bold>Access from PC, please.</Text.Sub20Bold>
+                <Text.DescSmallCard>We currently do not support tests for mobile and tablet.</Text.DescSmallCard>
               </Box>
               <Box>
                 <LockIcon sx={{ fontSize: "100px", color: "#ccc", zIndex: 10 }} />

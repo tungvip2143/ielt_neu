@@ -4,6 +4,8 @@ declare module "@mui/material/styles" {
   interface TypographyVariants {
     titleIntroPage: React.CSSProperties;
     title: React.CSSProperties;
+    title32bold: React.CSSProperties;
+
     cardTitle: React.CSSProperties;
     subCardTitle: React.CSSProperties;
     subIntroPage: React.CSSProperties;
@@ -12,6 +14,8 @@ declare module "@mui/material/styles" {
     sub20Bold: React.CSSProperties;
     descNormal: React.CSSProperties;
     desc14medium: React.CSSProperties;
+    desc16: React.CSSProperties;
+    descSmall: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -19,6 +23,8 @@ declare module "@mui/material/styles" {
     titleIntroPage?: React.CSSProperties;
 
     title?: React.CSSProperties;
+    title32bold: React.CSSProperties;
+
     cardTitle?: React.CSSProperties;
     subCardTitle: React.CSSProperties;
     subIntroPage: React.CSSProperties;
@@ -27,6 +33,8 @@ declare module "@mui/material/styles" {
     sub20Bold: React.CSSProperties;
     descNormal: React.CSSProperties;
     desc14medium: React.CSSProperties;
+    desc16: React.CSSProperties;
+    descSmall: React.CSSProperties;
   }
 }
 
@@ -36,6 +44,8 @@ declare module "@mui/material/Typography" {
     titleIntroPage: true;
 
     title: true;
+    title32bold: true;
+
     cardTitle: true;
     subCardTitle: true;
     subIntroPage: true;
@@ -44,6 +54,8 @@ declare module "@mui/material/Typography" {
     sub20Bold: true;
     descNormal: true;
     desc14medium: true;
+    desc16: true;
+    descSmall: true;
   }
 }
 
@@ -51,9 +63,9 @@ export const theme: ThemeOptions = createTheme({
   breakpoints: {
     values: {
       xs: 0,
-      sm: 600,
-      md: 1000,
-      lg: 1200,
+      sm: 576,
+      md: 768,
+      lg: 1080,
       xl: 1920,
     },
   },
@@ -373,7 +385,11 @@ export const theme: ThemeOptions = createTheme({
       fontSize: "36px",
       color: "#000000",
       fontWeight: 700,
-      paddingBottom: "36px",
+    },
+    title32bold: {
+      fontSize: "32px",
+      color: "#000000",
+      fontWeight: 700,
     },
     cardTitle: {
       fontSize: "24px",
@@ -416,6 +432,14 @@ export const theme: ThemeOptions = createTheme({
       fontSize: "14px",
       color: "#114AC6",
       fontWeight: 500,
+    },
+    desc16: {
+      fontSize: "16px",
+      fontWeight: 300,
+    },
+    descSmall: {
+      fontSize: "14px",
+      fontWeight: 300,
     },
   },
 });

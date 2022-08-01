@@ -3,10 +3,7 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 //
-import TitleSecond from "components/Typography/TitleSecond";
-import Sub20BoldIlets from "components/Typography/Sub20BoldIlets";
-import Desc16 from "components/Typography/Desc16";
-import ButtonStartTest from "components/Button/ButtonStartTest";
+import Text from "components/Typography/index";
 
 // ! type
 interface Data {
@@ -28,18 +25,18 @@ const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest 
     <Card sx={card}>
       <Box sx={{ width: { xs: "100%", sm: "90%", md: "660px" }, margin: "0 auto" }}>
         <Box sx={{ textAlign: "center", p: "20px 0 50px 0" }}>
-          <TitleSecond>{typeExam}</TitleSecond>
-          <Desc16>{timeExam}</Desc16>
+          <Text.Title32bold>{typeExam}</Text.Title32bold>
+          <Text.DescSmallCard>{timeExam}</Text.DescSmallCard>
         </Box>
         <Box sx={{ pb: "30px" }}>
           <Box sx={{ mb: "20px" }}>
-            <Sub20BoldIlets>Instructions To Test Takes</Sub20BoldIlets>
+            <Text.Sub20Bold>Instructions To Test Takes</Text.Sub20Bold>
           </Box>
           {instructionsToTest}
         </Box>
         <Box>
           <Box sx={{ mb: "20px" }}>
-            <Sub20BoldIlets>Information For Test Takes</Sub20BoldIlets>
+            <Text.Sub20Bold>Information For Test Takes</Text.Sub20Bold>
           </Box>
 
           {informationForTest}

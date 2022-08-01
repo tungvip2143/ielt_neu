@@ -3,8 +3,8 @@ import React from "react";
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 //
-import TitleSecond from "components/Typography/TitleSecond";
-import Desc16 from "components/Typography/Desc16";
+import Text from "components/Typography/index";
+
 import ButtonStartTest from "components/Button/ButtonStartTest";
 import { useHistory } from "react-router-dom";
 
@@ -30,9 +30,9 @@ const EndTest = () => {
   return (
     <Card sx={card}>
       <Box sx={content}>
-        <TitleSecond>You have reached the end of the test</TitleSecond>
-        <Desc16>All of your answer have been saved.</Desc16>
-        <Desc16>Please click the end test button below to finish the test</Desc16>
+        <Text.Title>You have reached the end of the test</Text.Title>
+        <Text.DescSmallCard>All of your answer have been saved.</Text.DescSmallCard>
+        <Text.DescSmallCard>Please click the end test button below to finish the test</Text.DescSmallCard>
         <Box sx={{ mt: "50px" }}>
           <ButtonStartTest onClick={handleEndTest}>End Test</ButtonStartTest>
         </Box>

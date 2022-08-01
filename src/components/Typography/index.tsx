@@ -4,16 +4,13 @@ import { TypographyProps } from "@mui/system";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 
-
 export interface Props extends TypographyProps {
   children: React.ReactNode;
   sx?: object;
+  className?: string;
 }
 
 // tương ứng với Title
-const Titte = (props: Props) => {
-  return <Typography variant="title">{props.children}</Typography>;
-};
 
 // tương ứng với TitleIntroPage
 const TitleIntroPage = (props: Props) => {
@@ -25,11 +22,19 @@ const TitleIntroPage = (props: Props) => {
   );
 };
 
-
 // tương ứng với Title
 const Title = (props: Props) => {
+  const { children, ...rest } = props;
+
   return (
-    <Typography component="p" variant="title">
+    <Typography component="p" variant="title" {...rest}>
+      {props.children}
+    </Typography>
+  );
+};
+const Title32bold = (props: Props) => {
+  return (
+    <Typography component="p" variant="title32bold">
       {props.children}
     </Typography>
   );
@@ -102,14 +107,38 @@ const Desc14medium = (props: Props) => {
 };
 // tương ứng với TextSubCard
 const SubCardTitle = (props: Props) => {
-  return <Typography variant="subCardTitle">{props.children}</Typography>;
+  const { children, ...rest } = props;
+
+  return (
+    <Typography component="p" variant="subCardTitle" {...rest}>
+      {props.children}
+    </Typography>
+  );
 };
+// font size 16px
+const Desc16 = (props: Props) => {
+  const { children, ...rest } = props;
 
-
+  return (
+    <Typography component="p" variant="desc16" {...rest}>
+      {props.children}
+    </Typography>
+  );
+};
+// font size 14px
+const DescSmall = (props: Props) => {
+  const { children, ...rest } = props;
+  return (
+    <Typography component="p" variant="descSmall" {...rest}>
+      {props.children}
+    </Typography>
+  );
+};
 
 const Text = {
   TitleIntroPage,
   Title,
+  Title32bold,
   SubTitle,
   CardTitle,
   SubCardTitle,
@@ -119,7 +148,8 @@ const Text = {
   Sub20Bold,
   DescNormal,
   Desc14medium,
+  Desc16,
+  DescSmall,
 };
-
 
 export default Text;

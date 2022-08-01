@@ -8,7 +8,7 @@ const CardExercise = () => {
   const card = {
     p: "24px 32px",
     borderRadius: "20px",
-    height: "1000px",
+    height: "630px",
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
     overflowY: "scroll",
   };

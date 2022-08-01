@@ -21,6 +21,7 @@ import Pagination from "@mui/material/Pagination";
 import ReactPaginate from "react-paginate";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import useGetData from "hooks/users/useGetData";
 
 interface EachTableI {
   panelId: TypeExamEnum;
@@ -28,34 +29,10 @@ interface EachTableI {
 
 const EachTable = ({ panelId }: EachTableI) => {
   //! State
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
-  console.log(data);
+  const { data, pageCount, isLoading, handleChangePage } = useGetData(panelId);
+
   //! Function
-  const limit = 5;
-  const currentPage = Math.ceil(10 / 5);
-  useEffect(() => {
-    const fetchData = async () => {
-      let endpoint = "users";
-      // if (panelId === TypeExamEnum.READING) {
-      //   endpoint = "posts";
-      // }
 
-      try {
-        setLoading(true);
-        const res = await httpServices.get(`https://jsonplaceholder.typicode.com/${endpoint}?_page=1&_limit=${limit}`);
-        setData(res.data);
-        setLoading(false);
-      } catch (error) {}
-    };
-
-    fetchData();
-  }, [panelId]);
-  //
-  const [page, setPage] = useState(1);
-  // const handleChange = (event, value) => {
-  //   setPage(value);
-  // };
   //! Render
   const renderIconByPanel = () => {
     if (panelId === TypeExamEnum.LISTENING) {
@@ -74,29 +51,23 @@ const EachTable = ({ panelId }: EachTableI) => {
 
     return <HeadphonesIcon sx={{ color: "red" }} />;
   };
-  // ! pagination
-  const fetchComments = async (currentPage: any) => {
-    const res = await httpServices.get(
-      `https://jsonplaceholder.typicode.com/users?_page=${currentPage}&_limit=${limit}`
-    );
-    return res.data;
-  };
-  //
+
+  //! Pagination
   const handlePageClick = async (data: any) => {
-    console.log(data.selected);
-
-    const currentPage = data.selected + 1;
-
-    const commentsFormServer = await fetchComments(currentPage);
-
-    setData(commentsFormServer);
+    const page = data.selected;
+    handleChangePage(page);
   };
-  //
+
   const tbRow = {
     borderTop: "1.5px solid #eeeeee",
     "&:hover": {
       boxShadow: "rgba(0, 0, 0, 0.15) 0px 5px 15px",
     },
+  };
+  const buttonReview = {
+    color: "red",
+    border: "1px solid red",
+    "&:hover": { border: "1px solid red", background: "#fff" },
   };
 
   return (
@@ -111,7 +82,7 @@ const EachTable = ({ panelId }: EachTableI) => {
         }}
       >
         <Table sx={{ minWidth: 650 }} aria-label="simple table">
-          <TableHead sx={{ background: "#fff", borderTop: "1px solid #eeeeee", color: "#B8BCC0 " }}>
+          <TableHead sx={{ background: "#fff", borderTop: "1px solid #eeeeee", color: "#B8BCC0 ", p: "0 44px" }}>
             <TableRow>
               <TableCell
                 sx={{
@@ -119,8 +90,9 @@ const EachTable = ({ panelId }: EachTableI) => {
                   width: "150px",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
+                  pl: "44px !important",
                 }}
-                align="center"
               >
                 Section
               </TableCell>
@@ -130,6 +102,7 @@ const EachTable = ({ panelId }: EachTableI) => {
                   width: "120px",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
                 }}
                 size="small"
               >
@@ -140,6 +113,8 @@ const EachTable = ({ panelId }: EachTableI) => {
                   color: "#B8BCC0 !important",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
+                  width: "300px !important",
                 }}
               >
                 Name
@@ -149,16 +124,17 @@ const EachTable = ({ panelId }: EachTableI) => {
                   color: "#B8BCC0 !important",
                   textTransform: "capitalize !important",
                   fontWeight: "500 !important",
+                  fontSize: "14px !important",
                 }}
                 size="small"
                 align="center"
               >
                 Session Date
               </TableCell>
-              <TableCell sx={{ color: "#B8BCC0 !important" }} size="small" align="center"></TableCell>
+              <TableCell sx={{ color: "#B8BCC0 !important", pr: "44px" }} size="small"></TableCell>
             </TableRow>
           </TableHead>
-          <TableBody>
+          <TableBody sx={{ p: "0 44px" }}>
             {isLoading ? (
               <Box
                 sx={{
@@ -175,24 +151,29 @@ const EachTable = ({ panelId }: EachTableI) => {
             ) : (
               data.map((item: any) => (
                 <TableRow key={item.id} sx={tbRow}>
-                  <TableCell component="th" align="center">
+                  <TableCell
+                    sx={{
+                      pl: "44px !important",
+                    }}
+                    component="th"
+                  >
                     {renderIconByPanel()}
                   </TableCell>
-                  <TableCell align="center">
+                  <TableCell>
                     <Typography
                       align="center"
                       sx={{ fontWeight: "bold", display: "inline", fontSize: "20px", color: "#36373B" }}
                     >
                       0/
                     </Typography>
-                    <Typography sx={{ color: "#B8BCC0 ", display: "inline", fontSize: "20px" }}>9</Typography>
+                    <Typography sx={{ color: "#8A8C91 ", display: "inline", fontSize: "20px" }}>9</Typography>
                   </TableCell>
                   <TableCell sx={{ fontWeight: "bold", color: "#36373B" }}>Section Test #2</TableCell>
-                  <TableCell sx={{ color: "#B8BCC0 " }} align="center">
+                  <TableCell sx={{ color: "#8A8C91 " }} align="center">
                     28 Jul 2022, 06:32
                   </TableCell>
-                  <TableCell align="center">
-                    <Button variant="outlined" sx={{ color: "red", border: "1px solid red" }}>
+                  <TableCell sx={{ pr: "44px" }} align="right">
+                    <Button variant="outlined" sx={buttonReview}>
                       REVIEW
                     </Button>
                   </TableCell>
@@ -206,7 +187,7 @@ const EachTable = ({ panelId }: EachTableI) => {
             previousLabel={<KeyboardArrowLeftIcon />}
             nextLabel={<ChevronRightIcon />}
             breakLabel={"..."}
-            pageCount={currentPage}
+            pageCount={pageCount}
             marginPagesDisplayed={2}
             pageRangeDisplayed={3}
             onPageChange={handlePageClick}
