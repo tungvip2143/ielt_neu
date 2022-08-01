@@ -385,7 +385,6 @@ export const theme: ThemeOptions = createTheme({
       fontSize: "36px",
       color: "#000000",
       fontWeight: 700,
-      paddingBottom: "36px",
     },
     title32bold: {
       fontSize: "32px",

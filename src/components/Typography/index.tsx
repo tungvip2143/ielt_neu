@@ -24,8 +24,10 @@ const TitleIntroPage = (props: Props) => {
 
 // tương ứng với Title
 const Title = (props: Props) => {
+  const { children, ...rest } = props;
+
   return (
-    <Typography component="p" variant="title">
+    <Typography component="p" variant="title" {...rest}>
       {props.children}
     </Typography>
   );

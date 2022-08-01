@@ -7,15 +7,20 @@ interface Data {
   data: {
     title: string;
     desc: string;
-    color?: string;
+    fontSize?: string;
+    colorTitle?: string;
+    colorDesc?: string;
   };
 }
 
 const TitleSection = ({ data }: Data) => {
+  // ! State
+
+  // ! Render
   return (
     <Box sx={{ textAlign: "center" }}>
-      <Text.TitleIntroPage sx={{ pb: "5px", color: data.color }}>{data.title}</Text.TitleIntroPage>
-      <Text.DescNormal>{data.desc}</Text.DescNormal>
+      <Text.Title sx={{ pb: "5px", color: data.colorTitle, fontSize: data.fontSize }}>{data.title}</Text.Title>
+      <Text.DescNormal sx={{ color: data.colorDesc, fontWeight: "medium" }}>{data.desc}</Text.DescNormal>
     </Box>
   );
 };

@@ -8,6 +8,8 @@ export interface Props extends TypographyProps {
   children: React.ReactNode;
   sx?: object;
   className?: string;
+  endIcon?: React.ReactNode;
+  startIcon?: React.ReactNode;
   onChange?: React.FormEventHandler<HTMLButtonElement>;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
