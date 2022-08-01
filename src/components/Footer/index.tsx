@@ -147,7 +147,7 @@ const Footer: React.FC = (props) => {
         </Box>
         <Grid container>
           <Grid item xs={12} md={7}>
-            <Text.DescSmall sx={{ color: "#C1D5FF", textAlign: "center" }}>
+            <Text.DescSmall sx={{ color: "#C1D5FF", textAlign: { xs: "center", lg: "unset" } }}>
               © 2021. Databank Inc. All rights reserved. Customer support: support@data-bank.ai
             </Text.DescSmall>
           </Grid>

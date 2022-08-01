@@ -120,3 +120,19 @@ ul {
 .card-help:hover .icon-help {
   color: #333;
 }
+/*  */
+
+.ilets {
+  background-color: #ffe5ea;
+  border-radius: 8px;
+}
+.ilets p {
+  color: red !important;
+}
+.toefl {
+  background-color: #e4edfe;
+  border-radius: 8px;
+}
+.toefl p {
+  color: #114ac6 !important;
+}

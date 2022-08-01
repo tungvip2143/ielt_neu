@@ -50,10 +50,10 @@ const CardIlets = ({ exam }: Exam) => {
           <Box sx={contentList}>
             <Box>
               <Box sx={{ maxWidth: { xs: "100%", lg: "112px" }, pb: "15px" }}>
-                <Text.Sub20Bold>{exam.typeExam}</Text.Sub20Bold>
+                <Text.CardTitle>{exam.typeExam}</Text.CardTitle>
               </Box>
               <Stack direction="row" spacing={1} sx={{ pb: "25px" }}>
-                <AccessAlarmIcon />
+                <AccessAlarmIcon sx={{ color: "#36373B" }} />
                 <Text.SubCardTitle>{exam.timeExam}</Text.SubCardTitle>
               </Stack>
               <ButtonOutLineCommon>{exam.nameExam}</ButtonOutLineCommon>
