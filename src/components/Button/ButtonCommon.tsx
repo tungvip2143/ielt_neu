@@ -29,8 +29,18 @@ const ButtonOutline = (props: Props) => {
     </Button>
   );
 };
+//
+const ButtonNumber = (props: Props) => {
+  const { children, ...rest } = props;
+  return (
+    <Button component="button" variant="contained" {...rest}>
+      {props.children}
+    </Button>
+  );
+};
 const ButtonCommon = {
   ButtonFullBg,
   ButtonOutline,
+  ButtonNumber,
 };
 export default ButtonCommon;

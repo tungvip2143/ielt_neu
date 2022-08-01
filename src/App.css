@@ -37,7 +37,9 @@ a {
     padding: 0 10px;
   }
 }
-
+.hover-card-bg-red:hover {
+  background: rgb(255, 160, 176);
+}
 .hover-card-bg-yellow:hover {
   background: rgb(239, 252, 187);
 }

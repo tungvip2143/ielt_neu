@@ -1,4 +1,3 @@
-import Pricing from "../views/Pricing/Pricing";
 export const RouteBase = {
   Home: "/",
   Ielts: "/ielts",
@@ -8,4 +7,5 @@ export const RouteBase = {
   IeltsWriting: "/ielts/writing",
   IeltsSpeaking: "/ielts/speaking",
   Pricing: "/pricing",
+  ReviewExams: "/review-exams",
 };

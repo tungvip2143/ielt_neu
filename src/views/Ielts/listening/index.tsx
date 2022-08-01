@@ -1,32 +1,34 @@
-import * as React from 'react';
-import {Container,Box,Button,Card} from "@mui/material";
-import { makeStyles } from '@mui/styles';
-import KeyboardArrowLeftIcon  from '@mui/icons-material/KeyboardArrowLeft';
+import * as React from "react";
+import { Container, Box, Button, Card } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+//
+import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
+import FormikCom from "components/Formik/index";
+import ExamTest from "components/Exams/StartDoingHomework";
+import EndTest from "components/Exams/EndTest";
 
-const useStyle = makeStyles((theme?:any)=>{
-root:{};
-header:{}
-})
+const useStyle = makeStyles((theme?: any) => {
+  root: {
+  }
+  header: {
+  }
+});
 
+export interface IeltsListeningProps {}
 
-export interface IeltsListeningProps {
-}
+export default function IeltsListening(props: IeltsListeningProps) {
+  // !Style
+  const classes = useStyle();
 
-export default function IeltsListening (props: IeltsListeningProps) {
-// !Style
-const classes = useStyle()
-
-// TODO : chinh height động cho header
+  // TODO : chinh height động cho header
   return (
     <>
-        <Container sx={{height:"60px",background:"#36373b",display:"flex",alignItem:"center",justifyContent:"space-between"}} maxWidth="xl">
-        <Button variant="outlined" startIcon={<KeyboardArrowLeftIcon/>} size="medium" >EXIT</Button>
-        <Button variant="outlined" >SUBMIT</Button>
-        </Container>    
-        <Container maxWidth="xl" sx={{height:`calc(100vh - 60px)`}}>
-            <Card sx={{height:"100%"}}>abc</Card>
-        </Container>
+      <FormikCom initialValues={{}} text="submit">
+        <RulesExamStep1 />
+        <ExamTest />
+        <EndTest />
+      </FormikCom>
     </>
-    
   );
 }

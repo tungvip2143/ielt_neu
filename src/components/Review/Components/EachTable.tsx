@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
@@ -173,9 +174,11 @@ const EachTable = ({ panelId }: EachTableI) => {
                     28 Jul 2022, 06:32
                   </TableCell>
                   <TableCell sx={{ pr: "44px" }} align="right">
-                    <Button variant="outlined" sx={buttonReview}>
-                      REVIEW
-                    </Button>
+                    <Link to="/review-exams">
+                      <Button variant="outlined" sx={buttonReview}>
+                        REVIEW
+                      </Button>
+                    </Link>
                   </TableCell>
                 </TableRow>
               ))

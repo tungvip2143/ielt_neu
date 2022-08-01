@@ -13,6 +13,7 @@ import IeltsReading from "views/Ielts/reading";
 import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
+import ReviewExams from "views/Review/ReviewExams";
 
 const App: React.FC = () => {
   //! Render
@@ -27,6 +28,7 @@ const App: React.FC = () => {
           <Route path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
           <Route path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
+          <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
 
           <Route path={RouteBase.Home} component={DefaultLayout} />
         </Switch>
