@@ -90,9 +90,42 @@ const Header: React.FC = (props) => {
             </Stack>
           </Grid>
         </Grid>
+        <Grid item>
+          <Stack spacing={2} direction="row">
+            <Button>
+              <LinkCustom to="/TOFFL">TOEFL</LinkCustom>
+            </Button>
+            <Button>
+              <LinkCustom to="/ielts">IELTS</LinkCustom>
+            </Button>
+          </Stack>
+        </Grid>
+        <Divider orientation="vertical" />
+        <Grid item>
+          <Stack direction="row">
+            <Button>
+              <LinkCustom to="/pricing">Pricing</LinkCustom>
+            </Button>
+            <Button>
+              <LinkCustom to="#">Comunitiy</LinkCustom>
+            </Button>
+            <Button>
+              <LinkCustom to="#">User Reviews</LinkCustom>
+            </Button>
+            <Button>
+              <LinkCustom to="/admin">Admin</LinkCustom>
+            </Button>
+          </Stack>
+        </Grid>
+        <Grid item>
+          <Stack spacing={2} direction="row">
+            <Button variant="outlined">Login</Button>
+            <Button variant="contained">TRY FOR FREE</Button>
+          </Stack>
+        </Grid>
       </div>
     </Box>
-  );
-};
+  )
+}
 
 export default Header;
