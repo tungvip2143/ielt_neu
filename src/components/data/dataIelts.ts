@@ -5,8 +5,8 @@ export const dataIlets = [
     timeExam: "Grades within 2 min.",
     nameExam: "ilets",
     image: "https://i.testglider.com/static/img/selectSection/section-test-listening.svg",
-    hoverColor: "",
-    path:"/ielts/listening"
+    hoverColor: "hover-card-bg-red",
+    path: "/ielts/listening",
   },
   {
     id: 2,
@@ -15,7 +15,7 @@ export const dataIlets = [
     nameExam: "IELTS Academic",
     image: "https://i.testglider.com/static/img/selectSection/section-test-reading.svg",
     hoverColor: "hover-card-bg-yellow",
-    path:"/ielts/reading"
+    path: "/ielts/reading",
   },
   {
     id: 3,
@@ -24,7 +24,7 @@ export const dataIlets = [
     nameExam: "IELTS Academic",
     image: "https://i.testglider.com/static/img/selectSection/section-test-writing.svg",
     hoverColor: "hover-card-bg-blue",
-    path:"/ielts/writing"
+    path: "/ielts/writing",
   },
   {
     id: 4,
@@ -33,6 +33,6 @@ export const dataIlets = [
     nameExam: "ielts",
     image: "https://i.testglider.com/static/img/selectSection/section-test-speaking.svg",
     hoverColor: "hover-card-bg-orange",
-    path:"/ielts/speaking"
+    path: "/ielts/speaking",
   },
 ];

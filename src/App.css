@@ -37,7 +37,9 @@ a {
     padding: 0 10px;
   }
 }
-
+.hover-card-bg-red:hover {
+  background: rgb(255, 160, 176);
+}
 .hover-card-bg-yellow:hover {
   background: rgb(239, 252, 187);
 }
@@ -107,24 +109,30 @@ ul {
 /* accordion */
 .accordion::before {
   display: none;
-  /* bottom: 10px !important;
-  height: 1px !important;
-  background-color: #333 !important;
-  top: unset !important; */
 }
-/* .accordion1::after {
-  display: block;
-  bottom: 10px !important;
-  height: 2px !important;
-  background-color: #333 !important;
-  top: unset !important;
-}  */
+
 .accordion {
   box-shadow: none !important;
   background-color: unset !important;
   border-bottom: 1px solid #333;
   border-radius: 0 !important;
 }
-/* .accordion1 {
-  box-shadow: none !important;
-}  */
+.card-help:hover .icon-help {
+  color: #333;
+}
+/*  */
+
+.ilets {
+  background-color: #ffe5ea;
+  border-radius: 8px;
+}
+.ilets p {
+  color: red !important;
+}
+.toefl {
+  background-color: #e4edfe;
+  border-radius: 8px;
+}
+.toefl p {
+  color: #114ac6 !important;
+}

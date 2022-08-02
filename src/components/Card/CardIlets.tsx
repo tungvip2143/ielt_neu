@@ -1,4 +1,5 @@
 import React from "react";
+
 //
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
@@ -8,12 +9,8 @@ import Card from "@mui/material/Card";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 //
 import Text from "components/Typography/index";
-// import TextTitleCard from "components/Typography/TextTitleCard";
-// import TextSubCard from "components/Typography/TextSubCard";
 import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
 
-// import TextSubBold from "components/Typography/TextSubBold";
-// import TextSmall from "components/Typography/TextSmall";
 //
 import LockIcon from "@mui/icons-material/Lock";
 
@@ -40,9 +37,6 @@ const CardIlets = ({ exam }: Exam) => {
     cursor: "pointer",
     position: "relative",
     marginBottom: { xs: "20px", lg: "0" },
-    "&:hover": {
-      background: "rgb(255,160,176)",
-    },
   };
   const contentList = {
     display: { xs: "flex", sm: "flex", md: "flex", lg: "block" },
@@ -56,10 +50,10 @@ const CardIlets = ({ exam }: Exam) => {
           <Box sx={contentList}>
             <Box>
               <Box sx={{ maxWidth: { xs: "100%", lg: "112px" }, pb: "15px" }}>
-                <Text.Sub20Bold>{exam.typeExam}</Text.Sub20Bold>
+                <Text.CardTitle>{exam.typeExam}</Text.CardTitle>
               </Box>
               <Stack direction="row" spacing={1} sx={{ pb: "25px" }}>
-                <AccessAlarmIcon />
+                <AccessAlarmIcon sx={{ color: "#36373B" }} />
                 <Text.SubCardTitle>{exam.timeExam}</Text.SubCardTitle>
               </Stack>
               <ButtonOutLineCommon>{exam.nameExam}</ButtonOutLineCommon>

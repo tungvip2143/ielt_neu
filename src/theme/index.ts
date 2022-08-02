@@ -8,6 +8,8 @@ declare module "@mui/material/styles" {
 
     cardTitle: React.CSSProperties;
     subCardTitle: React.CSSProperties;
+    subtitle: React.CSSProperties;
+
     subIntroPage: React.CSSProperties;
     descSmallCard: React.CSSProperties;
     descMedium: React.CSSProperties;
@@ -27,6 +29,8 @@ declare module "@mui/material/styles" {
 
     cardTitle?: React.CSSProperties;
     subCardTitle: React.CSSProperties;
+    subtitle: React.CSSProperties;
+
     subIntroPage: React.CSSProperties;
     descSmallCard: React.CSSProperties;
     descMedium: React.CSSProperties;
@@ -56,6 +60,7 @@ declare module "@mui/material/Typography" {
     desc14medium: true;
     desc16: true;
     descSmall: true;
+    subtitle: true;
   }
 }
 
@@ -323,11 +328,10 @@ export const theme: ThemeOptions = createTheme({
       fontWeight: 400,
       lineHeight: 1.57,
     },
-    subtitle1: {
+    subtitle: {
       fontSize: "32px",
       color: "#000000",
       fontWeight: 700,
-      paddingBottom: "32px",
     },
     subtitle2: {
       fontSize: "0.875rem",
