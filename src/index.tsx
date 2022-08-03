@@ -6,22 +6,26 @@ import App from "./App";
 import reportWebVitals from "./reportWebVitals";
 import { CacheProvider } from "@emotion/react";
 import createEmotionCache from "theme/createEmotionCache";
+import { QueryClientProvider, QueryClient } from "react-query";
 
 import i18n from "i18n";
 import store from "redux/store";
 import "./index.css";
 
 const cache = createEmotionCache();
+const client = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <I18nextProvider i18n={i18n}>
-    <CacheProvider value={cache}>
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </CacheProvider>
-  </I18nextProvider>
+  <QueryClientProvider client={client}>
+    <I18nextProvider i18n={i18n}>
+      <CacheProvider value={cache}>
+        <Provider store={store}>
+          <App />
+        </Provider>
+      </CacheProvider>
+    </I18nextProvider>
+  </QueryClientProvider>
 );
 
 // If you want to start measuring performance in your app, pass a function

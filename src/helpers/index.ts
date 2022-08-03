@@ -4,7 +4,7 @@ export const convertToFormSelect = (
   list: List<any> | any = [],
   fieldForLabel: string | number | undefined = undefined,
   fieldForValue: string | number | undefined = undefined,
-  noneOption: boolean | undefined = false,
+  noneOption: boolean | undefined = false
 ) => {
   if (!fieldForLabel || !fieldForValue) {
     return [
@@ -33,4 +33,20 @@ export const convertToFormSelect = (
     return listReturn;
   }
   return [{ label: "None", value: "" }, ...list];
+};
+
+export const getErrorMsg = (error: any) => {
+  if (error?.response?.data?.error?.message) {
+    return error.response.data.error.message;
+  }
+
+  if (error?.response?.data?.message) {
+    return error?.response?.data?.message;
+  }
+
+  if (error?.toString()) {
+    return error?.toString();
+  }
+
+  return "Something wrong!";
 };

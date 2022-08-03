@@ -5,7 +5,7 @@ class Services {
 
   constructor() {
     this.axios = axios;
-    this.axios.defaults.withCredentials = true;
+    // this.axios.defaults.withCredentials = true;
 
     //! Interceptor request
     this.axios.interceptors.request.use(

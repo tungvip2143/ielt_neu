@@ -1,12 +1,19 @@
-import * as React from 'react';
+import LoadingPage from "components/Loading";
+import useGetTodoList from "hooks/todos/useGetTodoList";
+import * as React from "react";
 
-export interface IeltsSpeakingProps {
-}
+export interface IeltsSpeakingProps {}
 
-export default function IeltsSpeaking (props: IeltsSpeakingProps) {
+export default function IeltsSpeaking(props: IeltsSpeakingProps) {
+  const { data, isLoading } = useGetTodoList();
+  if (isLoading) {
+    return <div>Loading....</div>;
+  }
   return (
-    <div>
-      Speaking
-    </div>
+    <>
+      {data?.data?.map((el) => (
+        <div key={el.id}>{el.title}</div>
+      ))}
+    </>
   );
 }
