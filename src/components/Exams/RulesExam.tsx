@@ -4,7 +4,10 @@ import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 //
 import Text from "components/Typography/index";
-
+//
+import { useStepExam } from "../../provider/StepExamProvider";
+import { TypeStepExamEnum } from "constants/enum";
+import ButtonCommon from "components/Button/ButtonCommon";
 // ! type
 interface Data {
   typeExam: string;
@@ -14,13 +17,29 @@ interface Data {
 }
 
 const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest }: Data) => {
+  const { handler } = useStepExam();
+
   const card = {
-    width: { xs: "100%", md: "90%", lg: "80%" },
+    width: { xs: "100%", md: "90%", lg: "85%" },
     borderRadius: "16px",
     margin: "0 auto",
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
     padding: "50px 50px",
+    mt: "30px",
   };
+  const buttonSubmit = {
+    width: "50%",
+    background: "#111114",
+    color: "#fff",
+    maxWidth: "425px",
+    textTransform: "uppercase",
+    letterSpacing: "2px",
+    "&:hover": {
+      background: "#111114",
+    },
+  };
+
+  //! Render
   return (
     <Card sx={card}>
       <Box sx={{ width: { xs: "100%", sm: "90%", md: "660px" }, margin: "0 auto" }}>
@@ -30,17 +49,27 @@ const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest 
         </Box>
         <Box sx={{ pb: "30px" }}>
           <Box sx={{ mb: "20px" }}>
-            <Text.Sub20Bold>Instructions To Test Takes</Text.Sub20Bold>
+            <Text.Sub20Bold sx={{ color: "#36373b" }}>Instructions To Test Takes</Text.Sub20Bold>
           </Box>
           {instructionsToTest}
         </Box>
         <Box>
           <Box sx={{ mb: "20px" }}>
-            <Text.Sub20Bold>Information For Test Takes</Text.Sub20Bold>
+            <Text.Sub20Bold sx={{ color: "#36373b" }}>Information For Test Takes</Text.Sub20Bold>
           </Box>
 
           {informationForTest}
         </Box>
+      </Box>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: "40px" }}>
+        <ButtonCommon.ButtonFullBg
+          sx={buttonSubmit}
+          onClick={() => {
+            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP2);
+          }}
+        >
+          start test
+        </ButtonCommon.ButtonFullBg>
       </Box>
     </Card>
   );

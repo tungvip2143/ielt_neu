@@ -1,11 +1,13 @@
-import React from "react";
-//
+import React, { Fragment } from "react";
 import RulesExam from "components/Exams/RulesExam";
 import Text from "components/Typography/index";
+
 const RulesExamStep1 = () => {
+  //! State
   const typeExam = "ILETS ACADEMY READING";
   const timeExam = "you will have 60 minutes to do the Reading test";
   //
+
   const InstructionsToTest = () => {
     return (
       <ul>
@@ -18,6 +20,7 @@ const RulesExamStep1 = () => {
       </ul>
     );
   };
+
   const InformationForTest = () => {
     return (
       <ul>
@@ -38,13 +41,16 @@ const RulesExamStep1 = () => {
       </ul>
     );
   };
+
   return (
-    <RulesExam
-      typeExam={typeExam}
-      timeExam={timeExam}
-      instructionsToTest={<InstructionsToTest />}
-      informationForTest={<InformationForTest />}
-    />
+    <Fragment>
+      <RulesExam
+        typeExam={typeExam}
+        timeExam={timeExam}
+        instructionsToTest={<InstructionsToTest />}
+        informationForTest={<InformationForTest />}
+      />
+    </Fragment>
   );
 };
 

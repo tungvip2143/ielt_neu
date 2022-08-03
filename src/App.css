@@ -136,3 +136,7 @@ ul {
 .toefl p {
   color: #114ac6 !important;
 }
+/*  */
+.accordion-title::before {
+  display: none !important;
+}
