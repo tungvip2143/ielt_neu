@@ -1,12 +1,11 @@
 import FormikCom from "components/Formik";
-import * as React from "react";
-import { Box } from "@mui/material";
 //
 import RulesExam from "components/Exams/RulesExam";
+import Text from "components/Typography";
 //
-import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
-import Text from "components/Typography/index";
+import ExamTest from "components/Exams/StartDoingHomework";
+
 export interface ReadingProps {}
 
 export default function IeltsWriting(props: ReadingProps) {
@@ -17,10 +16,10 @@ export default function IeltsWriting(props: ReadingProps) {
     return (
       <ul>
         <li>
-          <Text.DescSmallCard>Answer all the questions </Text.DescSmallCard>
+          <Text.Desc16>Answer all the questions </Text.Desc16>
         </li>
         <li>
-          <Text.DescSmallCard>You can change your answer at any time during the test </Text.DescSmallCard>
+          <Text.Desc16>You can change your answer at any time during the test </Text.Desc16>
         </li>
       </ul>
     );
@@ -29,18 +28,16 @@ export default function IeltsWriting(props: ReadingProps) {
     return (
       <ul>
         <li>
-          <Text.DescSmallCard>There are 40 questions in this test</Text.DescSmallCard>
+          <Text.Desc16>There are 40 questions in this test</Text.Desc16>
         </li>
         <li>
-          <Text.DescSmallCard>Each questions carries one mark </Text.DescSmallCard>
+          <Text.Desc16>Each questions carries one mark </Text.Desc16>
         </li>
         <li>
-          <Text.DescSmallCard>The test clock will show you when there are 5 minutes remaining</Text.DescSmallCard>
+          <Text.Desc16>The test clock will show you when there are 5 minutes remaining</Text.Desc16>
         </li>
         <li>
-          <Text.DescSmallCard>
-            You can prepare a piece of paper and a pencil to take notes during this test
-          </Text.DescSmallCard>
+          <Text.Desc16>You can prepare a piece of paper and a pencil to take notes during this test</Text.Desc16>
         </li>
       </ul>
     );
