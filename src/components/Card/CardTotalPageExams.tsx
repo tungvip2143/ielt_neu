@@ -21,7 +21,7 @@ interface CardTotalPageExamsI {
 const box = {
   background: "#fff",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-  transform: "translateY(-50px)",
+  transform: "translateY(-100px)",
   p: "10px 0px",
 };
 

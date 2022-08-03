@@ -9,8 +9,8 @@ import Stack from "@mui/material/Stack";
 //
 import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
+//
 // !type
-
 interface TOFFLI {
   partRenderSelected: any;
   questionSelected: any;

@@ -1,4 +1,5 @@
 import React from "react";
+import { dataLeft } from "./DataLeftChangePart";
 //
 import Box from "@mui/material/Box";
 import CardExercise from "components/Card/CardExercise";
@@ -16,7 +17,7 @@ const Step2ExamContent = (props: any) => {
   //! State
   const [questions, setQuestions] = useState(dataDummy);
   const [questionSelected, setQuestionSelected] = useState("1");
-  const [partSelected, setPartSelected] = useState<any>("part3");
+  const [partSelected, setPartSelected] = useState<any>("part1");
   //
 
   const onClickPage = (id: string) => {
@@ -28,20 +29,12 @@ const Step2ExamContent = (props: any) => {
     setPartSelected(part);
   };
 
+  console.log("questions", questions);
   const questionsWithPageNumber = useMemo(() => {
     let index = 0;
+
     return Object.entries(questions).reduce((obj, el) => {
-      {
-        console.log("obj", obj);
-      }
-      {
-        console.log("el", el);
-      }
-
       const [part, questionEachPart] = el as any;
-      console.log("part", part);
-      console.log("questionEachPart", questionEachPart);
-
       questionEachPart.forEach((q: any) => {
         console.log("q", q);
 
@@ -56,13 +49,16 @@ const Step2ExamContent = (props: any) => {
       return obj;
     }, {});
   }, [questions]);
-  //
-  const dataLeft = () => {
-    if ("part1") {
-      return { quang: "quang" };
+
+  const dataTest = () => {
+    const setDataChangeLeftPart = dataLeft as any;
+    if (!isEmpty(setDataChangeLeftPart[partSelected])) {
+      return setDataChangeLeftPart[partSelected];
     }
+    return null;
   };
 
+  //
   const partRenderSelected = useMemo(() => {
     const questionsWithPageNumberTemp = questionsWithPageNumber as any;
     console.log(questionsWithPageNumberTemp);
@@ -80,7 +76,7 @@ const Step2ExamContent = (props: any) => {
     <Box sx={{ position: "relative" }}>
       <Box sx={{ width: "80%", margin: "0 auto" }}>
         <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-          <CardExercise content={<CardLeft dataChangePart={partRenderSelected} />} />
+          <CardExercise content={<CardLeft dataChangePart={dataTest()} />} />
           <CardExercise
             content={<TOFFL questionSelected={questionSelected} partRenderSelected={partRenderSelected} />}
           />

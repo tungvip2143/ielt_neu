@@ -1,12 +1,17 @@
 import { useState, useEffect } from "react";
-import Stack from "@mui/material/Stack";
+import { Box, Stack } from "@mui/material";
 
 //
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Text from "components/Typography/index";
-
+//
+import Radio from "@mui/material/Radio";
+import RadioGroup from "@mui/material/RadioGroup";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import FormControl from "@mui/material/FormControl";
+import FormLabel from "@mui/material/FormLabel";
 //
 interface PropsItemQuestion {
   expanded: any;
@@ -23,7 +28,12 @@ interface PropsItemQuestion {
   };
 }
 const ItemQuestion = ({ question, ...remainProps }: PropsItemQuestion) => {
-  // console.log("id123", remainProps.expanded);
+  const [value, setValue] = useState("a");
+  //
+
+  const handleChange = (event: any) => {
+    setValue(event.target.value);
+  };
 
   return (
     <>
@@ -46,22 +56,19 @@ const ItemQuestion = ({ question, ...remainProps }: PropsItemQuestion) => {
         </Stack>
         <AccordionDetails>
           <Stack direction="column" spacing={2}>
-            <Stack direction="row" spacing={1}>
-              <Text.Desc16 sx={{ fontWeight: "bold" }}>A.</Text.Desc16>
-              <Text.Desc16>{question?.answers?.a}</Text.Desc16>
-            </Stack>
-            <Stack direction="row" spacing={1}>
-              <Text.Desc16 sx={{ fontWeight: "bold" }}>B.</Text.Desc16>
-              <Text.Desc16>{question?.answers?.b}</Text.Desc16>
-            </Stack>
-            <Stack direction="row" spacing={1}>
-              <Text.Desc16 sx={{ fontWeight: "bold" }}>C.</Text.Desc16>
-              <Text.Desc16>{question?.answers?.c}</Text.Desc16>
-            </Stack>
-            <Stack direction="row" spacing={1}>
-              <Text.Desc16 sx={{ fontWeight: "bold" }}>D.</Text.Desc16>
-              <Text.Desc16>{question?.answers?.d}</Text.Desc16>
-            </Stack>
+            <FormControl>
+              <RadioGroup
+                aria-labelledby="demo-controlled-radio-buttons-group"
+                name="controlled-radio-buttons-group"
+                value={value}
+                onChange={handleChange}
+              >
+                <FormControlLabel value="a" control={<Radio />} label={`A. ${question?.answers?.a}`} />
+                <FormControlLabel value="b" control={<Radio />} label={`B. ${question?.answers?.b}`} />
+                <FormControlLabel value="c" control={<Radio />} label={`C. ${question?.answers?.c}`} />
+                <FormControlLabel value="d" control={<Radio />} label={`D. ${question?.answers?.d}`} />
+              </RadioGroup>
+            </FormControl>
           </Stack>
         </AccordionDetails>
       </Accordion>

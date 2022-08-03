@@ -11,13 +11,11 @@ const ExamTest = () => {
   const guide = "Read the text below and answer questions 1-13";
 
   return (
-    <Box sx={{ height: "100vh", overflow: "hidden" }}>
-      <Box sx={{ mt: "30px" }}>
-        <Box sx={{ width: "80%", margin: "0 auto" }}>
-          <CardPart part={part} guide={guide} />
-        </Box>
-        <Step2ExamContent />
+    <Box>
+      <Box sx={{ width: "80%", margin: "0 auto" }}>
+        <CardPart part={part} guide={guide} />
       </Box>
+      <Step2ExamContent />
     </Box>
   );
 };

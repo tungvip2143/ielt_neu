@@ -4,18 +4,26 @@ import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
+//
+import { Box, Button } from "@mui/material";
+//
+import Header from "views/Ielts/Header/Header";
 
 export interface IeltsListeningProps {}
 
 const IeltsListening = (props: IeltsListeningProps) => {
   const { step } = useStepExam();
+  const { handler } = useStepExam();
 
   return (
-    <React.Fragment>
-      {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
-      {step === TypeStepExamEnum.STEP2 && <ExamTest />}
-      {step === TypeStepExamEnum.STEP3 && <EndTest />}
-    </React.Fragment>
+    <Box sx={{ height: "100vh", overflow: "hidden" }}>
+      <Header />
+      <Box sx={{ mt: "80px" }}>
+        {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
+        {step === TypeStepExamEnum.STEP2 && <ExamTest />}
+        {step === TypeStepExamEnum.STEP3 && <EndTest />}
+      </Box>
+    </Box>
   );
 };
 

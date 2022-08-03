@@ -106,48 +106,42 @@ class IeltsResult {
 }
 
 export const dataDummy = {
-  part1: {
-    questionLeft: [
-      {
-        id: 1,
-        question: "When you rang, I .......... my bike.",
-        answers: {
-          a: "cleaned",
-          b: "was cleaning",
-          c: "used to clean",
-          d: "clean",
-        },
-        typeAnswer: "multiple",
-        index: 0,
+  part1: [
+    {
+      id: 1,
+      question: "When you rang, I .......... my bike.",
+      answers: {
+        a: "cleaned",
+        b: "was cleaning",
+        c: "used to clean",
+        d: "clean",
       },
-      {
-        id: 2,
-        question: "At my last basketball club, we .......... every Saturday for three hours.",
-        answers: {
-          a: "were training",
-          b: "training",
-          c: "train",
-          d: "used to train",
-        },
-        typeAnswer: "multiple",
-      },
-      {
-        id: 3,
-        question: "Leon never .......... about it, but he was once a world champion skier.",
-        answers: {
-          a: "talks",
-          b: "is talking",
-          c: "was talking",
-          d: "talk",
-        },
-        typeAnswer: "multiple",
-      },
-    ],
-    reading: {
-      content: "hakefhksdhfkhsdkfhksdhfkhsd",
+      typeAnswer: "multiple",
+      index: 0,
     },
-  },
-
+    {
+      id: 2,
+      question: "At my last basketball club, we .......... every Saturday for three hours.",
+      answers: {
+        a: "were training",
+        b: "training",
+        c: "train",
+        d: "used to train",
+      },
+      typeAnswer: "multiple",
+    },
+    {
+      id: 3,
+      question: "Leon never .......... about it, but he was once a world champion skier.",
+      answers: {
+        a: "talks",
+        b: "is talking",
+        c: "was talking",
+        d: "talk",
+      },
+      typeAnswer: "multiple",
+    },
+  ],
   part2: [
     {
       id: 4,
