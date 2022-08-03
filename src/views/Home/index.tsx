@@ -21,12 +21,12 @@ import ButtonCommon from "components/Button/ButtonCommon";
 //
 const HomePage: React.FC = () => {
   const { t } = useTranslation();
-  const { data: todoList, loading } = useGetTodoList();
+  // const { data: todoList, loading } = useGetTodoList();
 
   //! Render
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+  // if (loading) {
+  //   return <div>Loading...</div>;
+  // }
 
   return (
     <Box sx={{ background: "#fff" }}>
