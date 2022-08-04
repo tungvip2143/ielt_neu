@@ -8,6 +8,7 @@ import { TypeStepExamEnum } from "constants/enum";
 import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
+import RulesListening from "components/RulesExams/RulesListening";
 
 export interface IeltsListeningProps {}
 
@@ -18,8 +19,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
     <Box sx={{ height: "100vh", overflow: "hidden" }}>
       <Header />
       <Box sx={{ mt: "80px" }}>
-        {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
-        {step === TypeStepExamEnum.STEP2 && <ExamTest />}
+        {step === TypeStepExamEnum.STEP1 && <RulesListening />}
+        {/* {step === TypeStepExamEnum.STEP2 && <ExamTest />} */}
         {step === TypeStepExamEnum.STEP3 && <EndTest />}
       </Box>
     </Box>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -6,8 +6,9 @@ import Grid from "@mui/material/Grid";
 // ! type
 
 interface Props {
-  content: React.ReactNode;
+  content: any;
 }
+
 const CardExercise = ({ content }: Props) => {
   const card = {
     p: "24px 32px",

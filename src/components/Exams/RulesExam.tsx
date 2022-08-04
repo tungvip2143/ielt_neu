@@ -24,7 +24,7 @@ const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest 
     borderRadius: "16px",
     margin: "0 auto",
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-    padding: "50px 50px",
+    padding: "48px 50px 44px 50px",
     mt: "30px",
   };
   const buttonSubmit = {
@@ -43,12 +43,12 @@ const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest 
   return (
     <Card sx={card}>
       <Box sx={{ width: { xs: "100%", sm: "90%", md: "660px" }, margin: "0 auto" }}>
-        <Box sx={{ textAlign: "center", p: "20px 0 50px 0" }}>
+        <Box sx={{ textAlign: "center", p: "0px 0 40px 0" }}>
           <Text.Title32bold>{typeExam}</Text.Title32bold>
-          <Text.DescSmallCard>{timeExam}</Text.DescSmallCard>
+          <Text.DescSmallCard sx={{ mt: "12px" }}>{timeExam}</Text.DescSmallCard>
         </Box>
-        <Box sx={{ pb: "30px" }}>
-          <Box sx={{ mb: "20px" }}>
+        <Box sx={{ pb: "24px" }}>
+          <Box sx={{ mb: "12px" }}>
             <Text.Sub20Bold sx={{ color: "#36373b" }}>Instructions To Test Takes</Text.Sub20Bold>
           </Box>
           {instructionsToTest}

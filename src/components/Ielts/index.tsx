@@ -11,15 +11,16 @@ interface PropsBg3 {
 }
 export default function IeltsSections({ bg }: PropsBg3) {
   const dataTitleIntroExam = {
-    title: "Scores & Review",
-    desc: "Check out your results, and see how you can improve your score.",
+    title: "Practice",
+    desc: `Practice with accurate IELTS tests
+    to improve your score.`,
     background: "rgb(255,245,247)",
   };
   return (
     <Box>
       <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
         <div className="container">
-          <Box sx={{ width: "252px" }}>
+          <Box sx={{ width: "252px", ml: "10px" }}>
             <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
           </Box>
         </div>

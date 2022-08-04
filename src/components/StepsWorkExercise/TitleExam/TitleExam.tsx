@@ -4,8 +4,8 @@ import Text from "components/Typography/index";
 // !type
 interface Props {
   dataNumber: {
-    from: number;
-    to: number;
+    from: any;
+    to: any;
   };
 }
 

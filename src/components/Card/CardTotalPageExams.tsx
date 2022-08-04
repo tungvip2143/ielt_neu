@@ -11,6 +11,7 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import { ieltsApi } from "api/ieltsResults";
 import { makeStyles } from "@mui/styles";
 import ButtonCommon from "components/Button/ButtonCommon";
+import { object } from "yup";
 
 interface CardTotalPageExamsI {
   questions: any;
@@ -37,6 +38,8 @@ const useStyles = makeStyles((theme) => {
       fontSize: "14px",
       fontWeight: "bold",
       color: "#000000",
+      marginRight: "15px",
+      textTransform: "capitalize",
     },
     eachQuestion: {
       background: "#333",
@@ -53,17 +56,44 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-
+const nextPage = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  background: "#333",
+  p: "8px",
+  borderRadius: "5px",
+};
 const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected }: CardTotalPageExamsI) => {
-  console.log("questionSelected", questionSelected);
-  const [highlightPage, setHighlightPage] = useState(questionSelected);
-  useEffect(() => {
-    setHighlightPage(questionSelected);
-  }, [questionSelected]);
+  // console.log("questionSelected", questionSelected);
+  // console.log("questions", questions);
+
+  const [highlightPage, setHighlightPage] = useState();
+
   //! State
   const classes = useStyles();
-  //
 
+  //
+  const renderPartValues = (partValues: any) => {
+    return Object.entries(partValues?.questions).map(([keyGoup, partGroup]: any) => {
+      return partGroup.map((item: any) => {
+        const handleClickQuestion = () => {
+          onClickPage(item.id);
+          setHighlightPage(item.id);
+        };
+        return (
+          <div
+            key={keyGoup}
+            className={classes.eachQuestion}
+            onClick={handleClickQuestion}
+            style={highlightPage === item.id ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+          >
+            <span>{item.id}</span>
+          </div>
+        );
+      });
+    });
+  };
   //! Effect
 
   //! Render
@@ -73,60 +103,27 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
           <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap" } }}>
             {Object.entries(questions).map(([partKey, partValues]: any, index) => {
-              console.log("partKey", partKey);
+              // console.log("partKey", partKey);
               // console.log("partValues", partValues);
-
               return (
-                <div key={partKey} className={classes.eachItem} onClick={() => onClickPart(partKey)}>
-                  <div className={classes.part}>Part: {index + 1}</div>
-                  <Stack direction="row" spacing={0.5} sx={{ ml: "10px" }}>
-                    {(partValues || []).map((value: any) => {
-                      console.log("value", value);
-                      const handleHighLightPage = () => {
-                        setHighlightPage(questionSelected);
-                        onClickPage(value.id);
-                      };
-                      return (
-                        <div
-                          key={value.id}
-                          className={classes.eachQuestion}
-                          onClick={handleHighLightPage}
-                          style={highlightPage === value.id ? { background: "#2196F3", borderRadius: "50%" } : {}}
-                        >
-                          {value.index}
-                        </div>
-                      );
-                    })}
-                  </Stack>
-                </div>
+                <>
+                  <div key={partKey} className={classes.eachItem} onClick={() => onClickPart(partKey)}>
+                    <div className={classes.part}>{partKey}</div>
+                    <Stack direction="row" spacing={0.5}>
+                      {renderPartValues(partValues)}
+                    </Stack>
+                  </div>
+                </>
               );
             })}
           </Box>
 
           <Box sx={{ width: { md: "20%" } }}>
             <Stack direction="row" spacing={1.5} sx={{ justifyContent: "flex-end" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "#333",
-                  p: "8px",
-                  borderRadius: "5px",
-                }}
-              >
+              <Box sx={nextPage}>
                 <KeyboardArrowLeftIcon sx={{ color: "#fff", fontSize: "24px" }} />
               </Box>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  background: "#333",
-                  p: "8px",
-                  borderRadius: "5px",
-                }}
-              >
+              <Box sx={nextPage}>
                 <KeyboardArrowRightIcon sx={{ color: "#fff", fontSize: "24px" }} />
               </Box>
             </Stack>

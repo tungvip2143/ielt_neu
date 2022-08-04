@@ -14,21 +14,23 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 //
 interface PropsItemQuestion {
-  expanded: any;
-  question?: {
-    id: number;
-    question: string;
-    typeAnswer?: string;
-    answers?: {
-      a: string;
-      b: string;
-      c: string;
-      d: string;
-    };
-  };
-  onCollapse: (id: any) => (e: any, expanded: any) => void;
+  expanded?: any;
+  // question?: {
+  //   id: number;
+  //   question: string;
+  //   typeAnswer?: string;
+  //   answers?: {
+  //     a: string;
+  //     b: string;
+  //     c: string;
+  //     d: string;
+  //   };
+  question?: any;
+
+  // onCollapse: (id: any) => (e: any, expanded: any) => void;
+  onCollapse?: any;
 }
-const ItemQuestion = ({ question, onCollapse, expanded, ...remainProps }: PropsItemQuestion) => {
+const ItemQuestion = ({ question, expanded, onCollapse, ...remainProps }: PropsItemQuestion) => {
   // const [value, setValue] = useState("a");
   // const [expanded, setExpanded] = useState(remainProps.expanded);
 

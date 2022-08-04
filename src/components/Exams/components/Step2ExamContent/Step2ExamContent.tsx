@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { dataLeft } from "./DataLeftChangePart";
 //
 import Box from "@mui/material/Box";
@@ -23,55 +23,24 @@ const Step2ExamContent = (props: any) => {
   //
 
   const onClickPage = (id: string) => {
-    // console.log("id test", id);
+    console.log("id test", id);
     setQuestionSelected(id);
   };
 
   const onClickPart = (part: string) => {
     setPartSelected(part);
-  };
-
-  const questionsWithPageNumber = useMemo(() => {
-    let index = 0;
-
-    return Object.entries(questions).reduce((obj, el) => {
-      const [part, questionEachPart] = el as any;
-      questionEachPart.forEach((q: any) => {
-        console.log("q", q);
-
-        index = index + 1;
-        q.index = index;
-      });
-
-      obj = {
-        ...obj,
-        [part]: questionEachPart,
-      };
-      return obj;
-    }, {});
-  }, [questions]);
-
-  console.log("questionsWithPageNumber", questionsWithPageNumber);
-
-  const dataTest = () => {
-    const setDataChangeLeftPart = dataLeft as any;
-    if (!isEmpty(setDataChangeLeftPart[partSelected])) {
-      return setDataChangeLeftPart[partSelected];
-    }
-    return null;
+    console.log("part", part);
   };
 
   //
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = questionsWithPageNumber as any;
-    console.log("questionsWithPageNumberTemp", questionsWithPageNumberTemp);
-
+    const questionsWithPageNumberTemp = ieltsReadingDataDummy as any;
     if (!isEmpty(questionsWithPageNumberTemp[partSelected])) {
       return questionsWithPageNumberTemp[partSelected];
     }
 
     return null;
-  }, [questionsWithPageNumber, partSelected]);
+  }, [ieltsReadingDataDummy, partSelected]);
   //
 
   //! Render
@@ -79,7 +48,7 @@ const Step2ExamContent = (props: any) => {
     <Box sx={{ position: "relative" }}>
       <Box sx={{ width: "80%", margin: "0 auto" }}>
         <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-          <CardExercise content={<CardLeft dataChangePart={dataTest()} />} />
+          <CardExercise content={<CardLeft dataChangePart={partRenderSelected} />} />
           <CardExercise
             content={
               <TOFFL
@@ -96,7 +65,7 @@ const Step2ExamContent = (props: any) => {
         questionSelected={questionSelected}
         onClickPart={onClickPart}
         onClickPage={onClickPage}
-        questions={questionsWithPageNumber}
+        questions={ieltsReadingDataDummy}
       />
     </Box>
   );
