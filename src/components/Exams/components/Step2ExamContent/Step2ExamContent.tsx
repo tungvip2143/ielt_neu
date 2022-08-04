@@ -9,7 +9,7 @@ import Grid from "@mui/material/Grid";
 //
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { useState } from "react";
-import { dataDummy } from "api/ieltsResults";
+import { dataDummy, ieltsReadingDataDummy } from "api/ieltsResults";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
 
@@ -31,7 +31,6 @@ const Step2ExamContent = (props: any) => {
     setPartSelected(part);
   };
 
-  console.log("questions", questions);
   const questionsWithPageNumber = useMemo(() => {
     let index = 0;
 
@@ -52,6 +51,8 @@ const Step2ExamContent = (props: any) => {
     }, {});
   }, [questions]);
 
+  console.log("questionsWithPageNumber", questionsWithPageNumber);
+
   const dataTest = () => {
     const setDataChangeLeftPart = dataLeft as any;
     if (!isEmpty(setDataChangeLeftPart[partSelected])) {
@@ -63,7 +64,7 @@ const Step2ExamContent = (props: any) => {
   //
   const partRenderSelected = useMemo(() => {
     const questionsWithPageNumberTemp = questionsWithPageNumber as any;
-    console.log(questionsWithPageNumberTemp);
+    console.log("questionsWithPageNumberTemp", questionsWithPageNumberTemp);
 
     if (!isEmpty(questionsWithPageNumberTemp[partSelected])) {
       return questionsWithPageNumberTemp[partSelected];

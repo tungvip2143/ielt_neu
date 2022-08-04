@@ -105,7 +105,7 @@ class IeltsResult {
   }
 }
 
-const ieltsReadingDataDummy = {
+export const ieltsReadingDataDummy = {
   part1: {
     reading: "abc",
     questions: [
