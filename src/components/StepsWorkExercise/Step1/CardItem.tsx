@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { Box, Stack } from "@mui/material";
 
 //
@@ -26,18 +26,28 @@ interface PropsItemQuestion {
       d: string;
     };
   };
+  onCollapse: (id: any) => (e: any, expanded: any) => void;
 }
-const ItemQuestion = ({ question, ...remainProps }: PropsItemQuestion) => {
-  const [value, setValue] = useState("a");
-  //
+const ItemQuestion = ({ question, onCollapse, expanded, ...remainProps }: PropsItemQuestion) => {
+  // const [value, setValue] = useState("a");
+  // const [expanded, setExpanded] = useState(remainProps.expanded);
 
-  const handleChange = (event: any) => {
-    setValue(event.target.value);
-  };
+  // const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+  //   console.log("newExpanded", newExpanded);
+  //   setExpanded(newExpanded ? id : false);
+  // };
+  // useEffect(() => {
+  //   setExpanded(remainProps.expanded);
+  // }, [remainProps.expanded]);
 
   return (
     <>
-      <Accordion sx={{ boxShadow: "none" }} className="accordion-title" expanded={remainProps.expanded}>
+      <Accordion
+        sx={{ boxShadow: "none" }}
+        className="accordion-title"
+        expanded={expanded === question?.id}
+        onChange={onCollapse(question?.id)}
+      >
         <Stack
           direction="row"
           spacing={2}
@@ -60,8 +70,8 @@ const ItemQuestion = ({ question, ...remainProps }: PropsItemQuestion) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={value}
-                onChange={handleChange}
+                // value={value}
+                // onChange={handleChange}
               >
                 <FormControlLabel value="a" control={<Radio />} label={`A. ${question?.answers?.a}`} />
                 <FormControlLabel value="b" control={<Radio />} label={`B. ${question?.answers?.b}`} />

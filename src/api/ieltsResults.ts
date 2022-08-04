@@ -105,6 +105,132 @@ class IeltsResult {
   }
 }
 
+const ieltsReadingDataDummy = {
+  part1: {
+    reading: "abc",
+    questions: [
+      {
+        typeAnswer: "multiple",
+        group: [
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+        ],
+      },
+      {
+        typeAnswer: "multiple",
+        group: [
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+        ],
+      },
+    ],
+  },
+  part2: {
+    reading: "abc",
+    questions: [
+      {
+        typeAnswer: "multiple",
+        group: [
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+        ],
+      },
+    ],
+  },
+  part3: {
+    reading: "abc",
+    questions: [
+      {
+        typeAnswer: "multiple",
+        group: [
+          {
+            id: 1,
+            question: "When you rang, I .......... my bike.",
+            answers: {
+              a: "cleaned",
+              b: "was cleaning",
+              c: "used to clean",
+              d: "clean",
+            },
+            index: 0,
+          },
+        ],
+      },
+    ],
+  },
+};
+
 export const dataDummy = {
   part1: [
     {

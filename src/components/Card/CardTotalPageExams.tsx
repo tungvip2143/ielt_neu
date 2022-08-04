@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -16,6 +16,7 @@ interface CardTotalPageExamsI {
   questions: any;
   onClickPage: (id: string) => void;
   onClickPart: (id: string) => void;
+  questionSelected?: string;
 }
 
 const box = {
@@ -53,9 +54,12 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const CardTotalPageExams = ({ questions, onClickPart, onClickPage }: CardTotalPageExamsI) => {
-  console.log(questions);
-  const [highlightPage, setHighlightPage] = useState(1);
+const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected }: CardTotalPageExamsI) => {
+  console.log("questionSelected", questionSelected);
+  const [highlightPage, setHighlightPage] = useState(questionSelected);
+  useEffect(() => {
+    setHighlightPage(questionSelected);
+  }, [questionSelected]);
   //! State
   const classes = useStyles();
   //
@@ -77,9 +81,9 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage }: CardTotalPa
                   <div className={classes.part}>Part: {index + 1}</div>
                   <Stack direction="row" spacing={0.5} sx={{ ml: "10px" }}>
                     {(partValues || []).map((value: any) => {
-                      // console.log("value", value);
+                      console.log("value", value);
                       const handleHighLightPage = () => {
-                        setHighlightPage(value.id);
+                        setHighlightPage(questionSelected);
                         onClickPage(value.id);
                       };
                       return (

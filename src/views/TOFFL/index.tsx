@@ -14,18 +14,26 @@ import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 interface TOFFLI {
   partRenderSelected: any;
   questionSelected: any;
+  onClickPage: (id: string) => void;
 }
 
-const TOFFL = ({ partRenderSelected, questionSelected }: TOFFLI) => {
-  // console.log("partRenderSelected", partRenderSelected);
-  // console.log("questionSelected", questionSelected);
+const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) => {
+  const [expanded, setExpanded] = useState(questionSelected);
 
   //! Number
-  console.log("questionSelected", questionSelected);
   const dataNumber = {
     from: partRenderSelected?.[0]?.index,
     to: partRenderSelected?.[partRenderSelected.length - 1]?.index,
   };
+
+  const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+    setExpanded(newExpanded ? id : false);
+    onClickPage(id);
+  };
+
+  useEffect(() => {
+    setExpanded(questionSelected);
+  }, [questionSelected]);
 
   //! Render
   return (
@@ -33,7 +41,7 @@ const TOFFL = ({ partRenderSelected, questionSelected }: TOFFLI) => {
       <TitleExam dataNumber={dataNumber} />
       <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
         {partRenderSelected.map((item: any) => {
-          return <ItemQuestion expanded={questionSelected == item.id ?? "1"} key={item.id} question={item} />;
+          return <ItemQuestion expanded={expanded} onCollapse={handleCollapse} key={item.id} question={item} />;
         })}
       </Stack>
     </Box>

@@ -13,7 +13,6 @@ export interface IeltsListeningProps {}
 
 const IeltsListening = (props: IeltsListeningProps) => {
   const { step } = useStepExam();
-  const { handler } = useStepExam();
 
   return (
     <Box sx={{ height: "100vh", overflow: "hidden" }}>

@@ -16,8 +16,10 @@ import { useMemo } from "react";
 const Step2ExamContent = (props: any) => {
   //! State
   const [questions, setQuestions] = useState(dataDummy);
-  const [questionSelected, setQuestionSelected] = useState("1");
+  const [questionSelected, setQuestionSelected] = useState<any>(questions.part1[0].id);
   const [partSelected, setPartSelected] = useState<any>("part1");
+
+  console.log("questionSelected2", questionSelected);
   //
 
   const onClickPage = (id: string) => {
@@ -78,12 +80,23 @@ const Step2ExamContent = (props: any) => {
         <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
           <CardExercise content={<CardLeft dataChangePart={dataTest()} />} />
           <CardExercise
-            content={<TOFFL questionSelected={questionSelected} partRenderSelected={partRenderSelected} />}
+            content={
+              <TOFFL
+                onClickPage={onClickPage}
+                questionSelected={questionSelected}
+                partRenderSelected={partRenderSelected}
+              />
+            }
           />
         </Grid>
       </Box>
 
-      <CardTotalPageExams onClickPart={onClickPart} onClickPage={onClickPage} questions={questionsWithPageNumber} />
+      <CardTotalPageExams
+        questionSelected={questionSelected}
+        onClickPart={onClickPart}
+        onClickPage={onClickPage}
+        questions={questionsWithPageNumber}
+      />
     </Box>
   );
 };
