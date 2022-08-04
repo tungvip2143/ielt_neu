@@ -22,7 +22,7 @@ const CreateQuestionWriting = (props: Props) => {
   //   defaultValues: validationSchema.getDefault(),
   // });
   // const { control, register } = useForm();
-  const { register, control, handleSubmit, reset, watch } = useForm<any>({
+  const { register, control, handleSubmit, reset, watch, setValue } = useForm<any>({
     defaultValues: {
       test: [{ question: "Bill", levelType: "Luo" }],
     },
@@ -64,7 +64,7 @@ const CreateQuestionWriting = (props: Props) => {
       </div>
       <Card sx={{ minWidth: 275 }} className="p-[20px]">
         {fields.map((field, index) => (
-          <div className="flex items-end">
+          <div key={field.id} className="flex items-end">
             <InputCommon
               id="standard-basic"
               label="Question"
@@ -81,9 +81,7 @@ const CreateQuestionWriting = (props: Props) => {
               variant="standard"
               style={{ marginLeft: 20 }}
               name={`test[${index}].levelType`}
-              setValue={(fieldName: any, value: any) => {
-                update(index, { ...fields[index], levelType: value });
-              }}
+              setValue={setValue}
             />
             {fields.length > 1 && (
               <RemoveCircleOutlineIcon
