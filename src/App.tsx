@@ -15,6 +15,7 @@ import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
 import ReviewExams from "views/Review/ReviewExams";
 import Admin from "views/Admin/Admin";
+import AdminLayout from "layout/AdminLayout";
 
 const App: React.FC = () => {
   //! Render
@@ -23,6 +24,7 @@ const App: React.FC = () => {
       <CssBaseline />
       <Router>
         <Switch>
+
           <Route path={RouteBase.Login} exact component={LoginPage} />
           <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
           <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
@@ -31,8 +33,9 @@ const App: React.FC = () => {
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
 
-          <Route path={RouteBase.Admin} exact component={Admin} />
+          <Route path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
+          {/* Admin site */}
         </Switch>
       </Router>
     </ThemeProvider>

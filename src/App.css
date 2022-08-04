@@ -136,3 +136,6 @@ ul {
 .toefl p {
   color: #114ac6 !important;
 }
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

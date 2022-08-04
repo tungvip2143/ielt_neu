@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Modal as ModalMui, Box, Button as ButtonMui, ButtonProps, Stack, StackProps } from "@mui/material";
 import Text from "components/Typography";
-import InputFieldSelect from "components/CustomField/InputFieldSelect";
 
 export interface Props {
     children?: React.ReactNode;
