@@ -15,7 +15,12 @@ const ReadingSkill = () => {
     <div>
       <div className="text-end mb-4">
         {!openCreateScreen && (
-          <ButtonUpload titleButton="Create question" icon={<AddIcon />} onClick={() => setOpenCreateScreen(true)} />
+          <ButtonUpload
+            titleButton="Create question"
+            icon={<AddIcon />}
+            onClick={() => setOpenCreateScreen(true)}
+            style={{ background: "#9155FE" }}
+          />
         )}
       </div>
       {openCreateScreen && <CreateQuestionReading onClose={() => setOpenCreateScreen(false)} />}

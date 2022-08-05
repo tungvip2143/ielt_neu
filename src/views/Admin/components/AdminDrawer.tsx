@@ -2,7 +2,6 @@ import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import SupervisorAccountIcon from "@mui/icons-material/SupervisorAccount";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -57,8 +56,14 @@ const AdminDrawer = () => {
       anchor="left"
     >
       <Toolbar>
-        <SupervisorAccountIcon />
-        <Typography style={{ marginLeft: 3 }}>IELTS ADMIN</Typography>
+        {/* <SupervisorAccountIcon /> */}
+        <Typography style={{ marginLeft: 3, display: "flex", justifyContent: "center" }}>
+          <img
+            src="https://trungtamnn.ntu.edu.vn/uploads/41/images/news/5217/img/ielts-210714103534.png"
+            width={100}
+            height={80}
+          />
+        </Typography>
       </Toolbar>
       <Divider />
       <List>
