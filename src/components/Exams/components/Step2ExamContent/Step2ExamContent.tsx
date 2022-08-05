@@ -15,8 +15,8 @@ import { useMemo } from "react";
 
 const Step2ExamContent = (props: any) => {
   //! State
-  const [questions, setQuestions] = useState(dataDummy);
-  const [questionSelected, setQuestionSelected] = useState<any>(questions.part1[0].id);
+  const [questions, setQuestions] = useState(ieltsReadingDataDummy);
+  const [questionSelected, setQuestionSelected] = useState<any>(questions.part1.questions.group[0].id);
   const [partSelected, setPartSelected] = useState<any>("part1");
 
   console.log("questionSelected2", questionSelected);

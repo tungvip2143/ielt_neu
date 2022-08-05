@@ -14,12 +14,24 @@ import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
 import ReviewExams from "views/Review/ReviewExams";
+import { ToastContainer } from "react-toastify";
 
 const App: React.FC = () => {
   //! Render
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Router>
         <Switch>
           <Route path={RouteBase.Login} exact component={LoginPage} />

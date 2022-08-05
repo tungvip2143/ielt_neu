@@ -33,14 +33,9 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
   useEffect(() => {
     from();
   }, []);
-  // const from = partRenderSelected.questions[0].index;
-  // console.log(from);
-  // const to = partRenderSelected.questions.group.length * 2;
   const dataNumber = {
     from: "1",
     to: "6",
-    // from: partRenderSelected?.[0]?.index,
-    // to: partRenderSelected?.[partRenderSelected.length - 1]?.index,
   };
   //
   const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -54,9 +49,6 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
   //
   const renderPartValueGroup = (partRenderSelected: any) => {
     return Object.entries(partRenderSelected?.questions).map(([keyGoup, partGroup]: any) => {
-      // console.log(keyGoup);
-      // console.log(partGroup);
-
       return partGroup.map((item: any) => {
         return (
           <>

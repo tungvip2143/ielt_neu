@@ -8,11 +8,20 @@ import { TypeStepExamEnum } from "constants/enum";
 import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
+import { useIeltsListening, useIeltsReading } from "hooks/ielts/useIelts";
+import { useSelector } from "react-redux";
+import LoadingPage from "components/Loading";
 
 export interface IeltsReadingProps {}
 
 const IeltsReading = (props: IeltsReadingProps) => {
   const { step } = useStepExam();
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { data, isLoading } = useIeltsReading(testCode);
+  console.log("data", data?.data?.data);
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <Box sx={{ height: "100vh", overflow: "hidden" }}>

@@ -341,6 +341,242 @@ export const ieltsReadingDataDummy = {
     },
   },
 };
+export const ieltsReadingDataDummy2 = {
+  part1: {
+    reading: "abc",
+    questions: {
+      // typeAnswer: "multiple",
+      group: [
+        {
+          id: 1,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+          index: 0,
+        },
+        {
+          id: 2,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 3,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+      ],
+      group2: [
+        {
+          id: 4,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 5,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 6,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+      ],
+    },
+
+    contentReading: {
+      title: "Snow White and the Seven Dwarfs",
+      desc: "asdfgkhfksdahfkhakhk",
+    },
+  },
+  part2: {
+    reading: "abc",
+    questions: {
+      // typeAnswer: "multiple",
+      group3: [
+        {
+          id: 7,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 8,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 9,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+      ],
+      gruop4: [
+        {
+          id: 10,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 11,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 12,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+      ],
+    },
+    contentReading: {
+      title: "The Frog Prince: The Princess and the Frog",
+      desc: "asdfgkhfksdahfkhakhk",
+    },
+  },
+  part3: {
+    reading: "abc",
+    questions: {
+      // typeAnswer: "multiple",
+      group5: [
+        {
+          id: 13,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 14,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 15,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+      ],
+      group6: [
+        {
+          id: 16,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 17,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 18,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+        {
+          id: 19,
+          question: "When you rang, I .......... my bike.",
+          answers: {
+            a: "cleaned",
+            b: "was cleaning",
+            c: "used to clean",
+            d: "clean",
+          },
+        },
+      ],
+    },
+    contentReading: {
+      title: "Goldilocks and the Three Bears",
+      desc: "asdfgkhfksdahfkhakhk",
+    },
+  },
+};
 
 export const dataDummy = {
   part1: [
