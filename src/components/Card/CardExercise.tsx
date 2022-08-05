@@ -1,10 +1,15 @@
-import React from "react";
+import React, { useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
 import Grid from "@mui/material/Grid";
+// ! type
 
-const CardExercise = () => {
+interface Props {
+  content: any;
+}
+
+const CardExercise = ({ content }: Props) => {
   const card = {
     p: "24px 32px",
     borderRadius: "20px",
@@ -14,7 +19,7 @@ const CardExercise = () => {
   };
   return (
     <Grid item xs={12} sm={12} md={6} lg={5.9}>
-      <Card sx={card}></Card>
+      <Card sx={card}>{content}</Card>
     </Grid>
   );
 };

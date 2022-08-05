@@ -3,10 +3,12 @@ import Loader from "react-loader-spinner";
 
 const style={
   width:"100%",
-  height:"100%",
+  top:0,
+  left:0,
   display:"flex",
   justifyContent:"center",
-  alignItems:"center"
+  alignItems:"center",
+  position:"absolute"
 }
 
 

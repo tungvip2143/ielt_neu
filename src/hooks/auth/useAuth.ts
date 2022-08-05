@@ -2,7 +2,8 @@ import { showSuccess } from "./../../helpers/toast";
 import { getErrorMsg } from "./../../helpers/index";
 import { showError } from "helpers/toast";
 import { useMutation } from "react-query";
-import authService from "services/authService";
+import authService from "services/authServices";
+
 export const useSignUp = () => {
   return useMutation(authService.signUp, {
     onError: (error) => showError(getErrorMsg(error)),
@@ -13,7 +14,6 @@ export const useSignUp = () => {
 export const useLogin = () => {
   return useMutation(authService.login, {
     onError: (error) => showError(getErrorMsg(error)),
-    onSuccess: (response: any) => showSuccess(response?.data?.message),
   });
 };
 

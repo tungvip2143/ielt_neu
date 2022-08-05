@@ -7,11 +7,14 @@ import { Redirect } from "react-router-dom";
 import Button from "components/Button";
 import useSagaCreators from "hooks/useSagaCreators";
 import { authActions } from "redux/creators/modules/auth";
+import { useLogin } from "hooks/auth/useAuth";
 
 const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
+
+  const { mutateAsync: login } = useLogin();
 
   if (isLogin) {
     return <Redirect to="/" />;
@@ -25,14 +28,10 @@ const LoginPage = (props: any) => {
         username: "",
         password: "",
       }}
-      onSubmit={(values) => {
-        const { username, password } = values;
-        dispatch(authActions.login, {
-          username,
-          password,
-          callbacks: {
-            onSuccess: () => {},
-            onFailed: () => {},
+      onSubmit={async (values) => {
+        await login(values, {
+          onSuccess: (response) => {
+            dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token });
           },
         });
       }}
@@ -40,7 +39,7 @@ const LoginPage = (props: any) => {
       {(propsFormik) => (
         <Form>
           <ErrorFocus />
-          <div>username: don & password: don</div>
+          <div>username: admin & password: 123456</div>
           <div>
             <label htmlFor="username">UserName</label>
             <FastField component={InputField} name="username" />

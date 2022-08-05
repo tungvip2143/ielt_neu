@@ -1,5 +1,5 @@
 import { Button, Container, Divider, Grid, Stack } from "@mui/material";
-import { NavLink } from "react-router-dom";
+import { NavLink, useHistory } from "react-router-dom";
 import ContainerCustom from "components/Container";
 import LinkCustom from "components/Link";
 import React from "react";
@@ -8,35 +8,43 @@ import Box from "@mui/material/Box";
 //
 import imgLogo from "assets/image/logo/logo.svg";
 import Text from "components/Typography/index";
+
+const TextExams = {
+  color: "#000000 !important",
+  fontSize: "18px !important",
+  p: "6px 20px",
+  "&:hover": {
+    background: "#ffe5ea",
+    borderRadius: "10px",
+  },
+};
+const TextExams1 = {
+  color: "#000000 !important",
+  fontSize: "18px !important",
+  p: "6px 20px",
+  "&:hover": {
+    background: "#e4edfe",
+    borderRadius: "10px",
+  },
+};
+const TextSecond = {
+  fontWeight: "bold",
+  color: "#5b5c61",
+  p: "8px 16px",
+  "&:hover": {
+    background: "#f7f9fb",
+    borderRadius: "16px",
+  },
+};
+
 const Header: React.FC = (props) => {
   // TODO : Refactor Header
-  const TextExams = {
-    color: "#000000 !important",
-    fontSize: "18px !important",
-    p: "6px 20px",
-    "&:hover": {
-      background: "#ffe5ea",
-      borderRadius: "10px",
-    },
-  };
-  const TextExams1 = {
-    color: "#000000 !important",
-    fontSize: "18px !important",
-    p: "6px 20px",
-    "&:hover": {
-      background: "#e4edfe",
-      borderRadius: "10px",
-    },
-  };
-  const TextSecond = {
-    fontWeight: "bold",
-    color: "#5b5c61",
-    p: "8px 16px",
-    "&:hover": {
-      background: "#f7f9fb",
-      borderRadius: "16px",
-    },
-  };
+
+  // !State
+  const history = useHistory();
+
+  const handleLogin = () => history.push("/login");
+
   return (
     <Box
       sx={{
@@ -83,7 +91,11 @@ const Header: React.FC = (props) => {
           </Grid>
           <Grid item xs={4} md={4}>
             <Stack spacing={2} direction="row" sx={{ justifyContent: "flex-end" }}>
-              <Button variant="outlined" sx={{ color: "#5b5c61", border: "1px solid rgb(91, 92, 97)" }}>
+              <Button
+                variant="outlined"
+                sx={{ color: "#5b5c61", border: "1px solid rgb(91, 92, 97)" }}
+                onClick={handleLogin}
+              >
                 Login
               </Button>
               <Button variant="contained">TRY FOR FREE</Button>

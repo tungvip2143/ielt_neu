@@ -2,14 +2,15 @@ import React, { Fragment } from "react";
 import RulesExam from "components/Exams/RulesExam";
 import Text from "components/Typography/index";
 
-const RulesExamStep1 = () => {
+const RulesListening = () => {
   //! State
-  const typeExam = "ILETS ACADEMY READING";
-  const timeExam = "you will have 60 minutes to do the Reading test";
+  const typeExam = "ILETS ACADEMY LISTENING";
+  const timeExam = "you will have 30 minutes to do the Reading test";
   //
   const li = {
-    pb: "6px",
+    mb: "6px",
   };
+
   const InstructionsToTest = () => {
     return (
       <ul>
@@ -33,8 +34,15 @@ const RulesExamStep1 = () => {
           <Text.DescSmallCard sx={li}>Each questions carries one mark </Text.DescSmallCard>
         </li>
         <li>
+          <Text.DescSmallCard sx={li}>There are four parts to the test</Text.DescSmallCard>
+        </li>
+        <li>
+          <Text.DescSmallCard sx={li}>You will hear each part onece</Text.DescSmallCard>
+        </li>
+        <li>
           <Text.DescSmallCard sx={li}>
-            The test clock will show you when there are 5 minutes remaining
+            For each part of the test there will be time foe you to look through the questions and time for you to check
+            your answers
           </Text.DescSmallCard>
         </li>
         <li>
@@ -58,4 +66,4 @@ const RulesExamStep1 = () => {
   );
 };
 
-export default RulesExamStep1;
+export default RulesListening;
