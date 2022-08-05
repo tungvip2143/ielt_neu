@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import { RouteBase } from "constants/routeUrl";
 import { useState } from "react";
 import CreateQuestionReading from "./CreateQuestionReading";
+import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
 
 const ReadingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState(false);
-  console.log("openCreateScreen", openCreateScreen);
+
 
   return (
     <div>

@@ -6,28 +6,56 @@ import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import { DataAnswer, LevelType, QuestionType } from "constants/questionType";
 import { QuestionTypeI, ResponseParams } from "interfaces/questionInterface";
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline';
+import CloseIcon from '@mui/icons-material/Close';
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
+import ReadingService from "services/ReadingService";
 
 export interface Props {
   onClose: () => void;
 }
+const dataMock: any = []
 const CreateQuestionReading = (props: Props) => {
   const { onClose } = props;
   const editorRef = useRef<any>();
 
-  const validationSchema = yup.object().shape({});
+  const validationSchema = yup.object().shape({
+    questionSimple: yup.string()
+      .required('This field is required!')
+      .min(6, 'This field must be at least 6 characters')
+      .max(200, 'This field must not exceed 200 characters'),
+    questionType: yup.object().required('This field is required!'),
+    question: yup.string().required('This field is required!'),
+    levelType: yup.string().required('This field is required!'),
+    firstAnswer: yup.string().required('This field is required!'),
+    secondAnswer: yup.string().required('This field is required!'),
+    thirdAnswer: yup.string().required('This field is required!'),
+    fourAnswer: yup.string().required('This field is required!'),
+    correctAnswer: yup.string().required('This field is required!'),
+  })
   const [questionType, setQuestionType] = useState<number | undefined | string>(0);
+  const [dataMockQuestion, setDataMockQuestion] = useState(dataMock)
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: validationSchema.getDefault(),
   });
 
   const { control, handleSubmit, setValue, getValues } = formController;
-  const onSubmit = (data: any) => {};
+
+  const [openQuestion, setOpenQuestion] = useState(false)
+  const onSubmit = async (data: any) => {
+    // try {
+    //   const response = await ReadingService.postListDataReadingService({
+
+    //   })
+    // } catch (error) {
+    //   console.log("error");
+
+    // }
+  };
 
   const renderMultiChoice = (item: any) => {
     return (
@@ -67,13 +95,28 @@ const CreateQuestionReading = (props: Props) => {
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
-        <Button variant="contained">Save</Button>
+        <Button variant="contained" type="submit" >Save</Button>
         <Button variant="contained" style={{ background: "#f44336" }} onClick={onClose}>
           Cancel
         </Button>
       </Stack>
     );
   };
+
+  const onAddQuestion = () => {
+    // dataMock.push()
+    const question = {
+      id: dataMockQuestion.length + 1,
+      question: 'Question 5',
+      correct: 'b'
+    }
+    setDataMockQuestion((pre: any) => [...pre, question])
+    setOpenQuestion(true)
+  }
+  const onCloseAddQuestion = () => {
+    //
+  }
+
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
@@ -87,6 +130,71 @@ const CreateQuestionReading = (props: Props) => {
           }}
         />
       </Card>
+      <AddCircleOutlineIcon onClick={onAddQuestion} fontSize="large" className="text-[#9155FF] cursor-grab pb-3" />
+      {
+        openQuestion && dataMockQuestion?.map((item: any, index: number) => {
+          return <Card sx={{ minWidth: 275 }} key={index} className="p-[20px] min-h-[250px] mb-3 relative">
+            <div className="flex justify-end w-full absolute top-px right-px bottom-0.5 h-14"  >
+              <CloseIcon onClick={onCloseAddQuestion} fontSize="large" className="text-[#f44336] mb-10 cursor-grab pt-1 pb-2 w-4 h-4" />
+            </div>
+            <FormGroup>
+              <SelectField
+                control={control}
+                options={QuestionType}
+                label="Type Of QuestFion"
+                name="questionType"
+                setValue={formController.setValue}
+                onChangeExtra={(e) => {
+                  setValue("questionType", e?.value);
+                  setQuestionType(e?.value);
+                }}
+              />
+            </FormGroup>
+            <div className="questionContainer">
+              <InputCommon
+                id="standard-basic"
+                label="Question"
+                variant="standard"
+                // name="question"
+                name={item?.question}
+                control={control}
+                required
+                fullWidth
+              />
+              <SelectField
+                control={control}
+                options={LevelType}
+                label="Level"
+                variant="standard"
+                style={{ marginLeft: 20 }}
+                name="levelType"
+                setValue={formController.setValue}
+              />
+            </div>
+            <Box
+              component="form"
+              sx={{
+                "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+              }}
+              noValidate
+              autoComplete="off"
+            >
+              <div className="answerContainer">{renderViewAnswer(questionType)}</div>
+              {(questionType === 1 || questionType === 3) && (
+                <InputCommon
+                  control={control}
+                  id="standard-basic"
+                  label="Correct answer"
+                  variant="standard"
+                  // name="correctAnswer"
+                  name={item?.correct}
+                />
+              )}
+            </Box>
+          </Card>
+        })
+      }
+
       <Card sx={{ minWidth: 275 }} className="p-[20px] min-h-[250px]">
         <FormGroup>
           <SelectField
@@ -141,6 +249,7 @@ const CreateQuestionReading = (props: Props) => {
           )}
         </Box>
       </Card>
+
       {renderButton()}
     </form>
   );
