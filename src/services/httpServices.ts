@@ -1,11 +1,14 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { BASE_URL } from "constants/api";
 
 class Services {
   axios: AxiosInstance;
 
   constructor() {
-    this.axios = axios;
-    this.axios.defaults.withCredentials = true;
+    this.axios = axios.create({
+      baseURL: BASE_URL,
+      timeout: 60000,
+    })
 
     //! Interceptor request
     this.axios.interceptors.request.use(
@@ -33,7 +36,7 @@ class Services {
       function (config) {
         if (config.headers) {
           // Do something before request is sent
-          config.headers.sessionId = token;
+          config.headers.Authorization = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5leHRsZXZlbHZuLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwiX2lkIjoiNjJlYTM4MDQ1NThkZGViNmI1YTA0ZDNjIiwiaWF0IjoxNjU5NjMzMzI5LCJleHAiOjE2NjIyMjUzMjl9.dLd_-qMoO3qczHiqt-xPtYjhqX8hvbhBrrbUmOUHmnU';
         }
         return config;
       },
