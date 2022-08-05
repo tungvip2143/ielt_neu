@@ -9,13 +9,20 @@ import CreateQuestionListening from "./CreateQuestion";
 const ListeningSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState(false);
   console.log("openCreateScreen", openCreateScreen);
-  
+
   return (
     <div>
       <div className="text-end mb-4">
-        <ButtonUpload titleButton="Create question" icon={<AddIcon />} onClick={() => setOpenCreateScreen(true)} style={{background:'#9155FE'}} />
+        {!openCreateScreen && (
+          <ButtonUpload
+            titleButton="Create question"
+            icon={<AddIcon />}
+            onClick={() => setOpenCreateScreen(true)}
+            style={{ background: "#9155FE" }}
+          />
+        )}
       </div>
-      {openCreateScreen && <CreateQuestionListening />}
+      {openCreateScreen && <CreateQuestionListening onClose={() => setOpenCreateScreen(false)} />}
       {!openCreateScreen && <TableCommon />}
     </div>
   );

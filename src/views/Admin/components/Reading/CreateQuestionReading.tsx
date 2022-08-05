@@ -47,7 +47,9 @@ const CreateQuestionReading = (props: Props) => {
   const renderViewAnswer = (type: number | undefined | string) => {
     switch (type) {
       case 1:
-        return DataAnswer.map((item: QuestionTypeI) => renderMultiChoice(item));
+        return DataAnswer.map((item: QuestionTypeI, index: number) => {
+          return <div key={index}>{renderMultiChoice(item)}</div>;
+        });
       case 3:
         return DataAnswer.map((item: QuestionTypeI) => renderMultiChoice(item));
       default:
@@ -77,70 +79,72 @@ const CreateQuestionReading = (props: Props) => {
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px]">
-        <Editor
-          onInit={(evt, editor) => (editorRef.current = editor)}
-          initialValue="<p>This is the initial content of the editor.</p>"
-          init={{
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
-        />
-      </Card>
-      <Card sx={{ minWidth: 275 }} className="p-[20px] min-h-[250px]">
-        <FormGroup>
-          <SelectField
-            control={control}
-            options={QuestionType}
-            label="Type Of Question"
-            name="questionType"
-            setValue={formController.setValue}
-            onChangeExtra={(e) => {
-              setValue("questionType", e?.value);
-              setQuestionType(e?.value);
+      <div className="flex">
+        <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
+          <Editor
+            onInit={(evt, editor) => (editorRef.current = editor)}
+            initialValue="<p>This is the initial content of the editor.</p>"
+            init={{
+              plugins: "link image code",
+              toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
             }}
           />
-        </FormGroup>
-        <div className="questionContainer">
-          <InputCommon
-            id="standard-basic"
-            label="Question"
-            variant="standard"
-            name="question"
-            control={control}
-            required
-            fullWidth
-          />
-          <SelectField
-            control={control}
-            options={LevelType}
-            label="Level"
-            variant="standard"
-            style={{ marginLeft: 20 }}
-            name="levelType"
-            setValue={formController.setValue}
-          />
-        </div>
-        <Box
-          component="form"
-          sx={{
-            "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <div className="answerContainer">{renderViewAnswer(questionType)}</div>
-          {(questionType === 1 || questionType === 3) && (
-            <InputCommon
+        </Card>
+        <Card sx={{ minWidth: 275 }} className="p-[20px] min-h-[250px] flex-1 ml-[20px]">
+          <FormGroup>
+            <SelectField
               control={control}
-              id="standard-basic"
-              label="Correct answer"
-              variant="standard"
-              name="correctAnswer"
+              options={QuestionType}
+              label="Type Of Question"
+              name="questionType"
+              setValue={formController.setValue}
+              onChangeExtra={(e) => {
+                setValue("questionType", e?.value);
+                setQuestionType(e?.value);
+              }}
             />
-          )}
-        </Box>
-      </Card>
+          </FormGroup>
+          <div className="questionContainer">
+            <InputCommon
+              id="standard-basic"
+              label="Question"
+              variant="standard"
+              name="question"
+              control={control}
+              required
+              fullWidth
+            />
+            <SelectField
+              control={control}
+              options={LevelType}
+              label="Level"
+              variant="standard"
+              style={{ marginLeft: 20 }}
+              name="levelType"
+              setValue={formController.setValue}
+            />
+          </div>
+          <Box
+            component="form"
+            sx={{
+              "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+            }}
+            noValidate
+            autoComplete="off"
+          >
+            <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType)}</div>
+            {(questionType === 1 || questionType === 3) && (
+              <InputCommon
+                control={control}
+                id="standard-basic"
+                label="Correct answer"
+                variant="standard"
+                name="correctAnswer"
+              />
+            )}
+          </Box>
+        </Card>
+      </div>
       {renderButton()}
     </form>
   );

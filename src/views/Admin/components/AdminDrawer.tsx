@@ -57,12 +57,8 @@ const AdminDrawer = () => {
     >
       <Toolbar>
         {/* <SupervisorAccountIcon /> */}
-        <Typography style={{ marginLeft: 3, display: "flex", justifyContent: "center" }}>
-          <img
-            src="https://trungtamnn.ntu.edu.vn/uploads/41/images/news/5217/img/ielts-210714103534.png"
-            width={100}
-            height={80}
-          />
+        <Typography style={{ marginLeft: 3, textAlign: "center", color: "white", fontSize: 26, fontWeight: "bold" }}>
+          IELTS ADMIN
         </Typography>
       </Toolbar>
       <Divider />
@@ -73,11 +69,17 @@ const AdminDrawer = () => {
               <ListItemButton
                 onClick={() => setSelectItem(index)}
                 style={{
-                  background: selectItem === index ? "#9155FE" : "transparent",
-                  color: selectItem === index ? "#ffff" : "#534F58",
+                  background:
+                    selectItem === index
+                      ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
+                      : "transparent",
+                  color: "#ffff",
+                  borderTopRightRadius: 25,
+                  borderBottomRightRadius: 25,
+                  marginRight: 10
                 }}
               >
-                <ListItemIcon style={{ color: selectItem === index ? "white" : "#534F58" }}>{el.icon}</ListItemIcon>
+                <ListItemIcon style={{ color: "white" }}>{el.icon}</ListItemIcon>
                 <ListItemText primary={el.title} />
               </ListItemButton>
             </ListItem>
