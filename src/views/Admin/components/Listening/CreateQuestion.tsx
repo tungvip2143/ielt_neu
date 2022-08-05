@@ -13,11 +13,30 @@ import { QuestionTypeI, ResponseParams } from "interfaces/questionInterface";
 import { useForm } from "react-hook-form";
 import * as yup from "yup";
 import { DriveEtaOutlined } from "@mui/icons-material";
+import ButtonSave from "components/Button/ButtonSave";
+import SaveIcon from "@mui/icons-material/Save";
+import ButtonCancel from "components/Button/ButtonCancel";
+import BlockIcon from "@mui/icons-material/Block";
 
 export interface Props {
   onClose: () => void;
 }
 
+const validationSchema = yup.object().shape({
+  questionSimple: yup
+    .string()
+    .required("This field is required!")
+    .min(6, "This field must be at least 6 characters")
+    .max(200, "This field must not exceed 200 characters"),
+  questionType: yup.object().required("This field is required!"),
+  question: yup.string().required("This field is required!"),
+  levelType: yup.string().required("This field is required!"),
+  firstAnswer: yup.string().required("This field is required!"),
+  secondAnswer: yup.string().required("This field is required!"),
+  thirdAnswer: yup.string().required("This field is required!"),
+  fourAnswer: yup.string().required("This field is required!"),
+  correctAnswer: yup.string().required("This field is required!"),
+});
 const CreateQuestionListening = (props: Props) => {
   const { onClose } = props;
   const imageRef = useRef<any>();
@@ -25,7 +44,6 @@ const CreateQuestionListening = (props: Props) => {
   const editorRef = useRef<any>();
   const [selectedImage, setSelectedImage] = useState(null);
   const [selectFile, setSelectFile] = useState(null);
-  const validationSchema = yup.object().shape({});
   const [questionType, setQuestionType] = useState<number | undefined | string>(1);
 
   const handleOpenFileInput = () => {
@@ -44,7 +62,6 @@ const CreateQuestionListening = (props: Props) => {
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: validationSchema.getDefault(),
   });
 
   const { control, handleSubmit, setValue, getValues } = formController;
@@ -87,10 +104,8 @@ const CreateQuestionListening = (props: Props) => {
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
-        <Button variant="contained">Save</Button>
-        <Button variant="contained" style={{ background: "#f44336" }} onClick={onClose}>
-          Cancel
-        </Button>
+        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onClose} />
       </Stack>
     );
   };
@@ -127,49 +142,13 @@ const CreateQuestionListening = (props: Props) => {
               setSelectFile(event.target.files[0]);
             }}
           />
-          <div className="text-center">
-            <ButtonUpload titleButton="Upload audio" onClick={handleOpenFile} style={{ marginTop: 20 }}></ButtonUpload>
+          <div className="text-start">
+            <ButtonUpload
+              titleButton="Upload audio"
+              onClick={handleOpenFile}
+              style={{ marginTop: 20, background: "#9155FE" }}
+            ></ButtonUpload>
           </div>
-          {/* <div className="text-center">
-        {selectedImage && (
-          <div>
-            <img alt="not fount" width={"250px"} src={URL.createObjectURL(selectedImage)} />
-          </div>
-        )}
-        <input
-          ref={imageRef}
-          className="hidden"
-          type="file"
-          name="imageFile"
-          onChange={(event: any) => {
-            setSelectedImage(event.target.files[0]);
-          }}
-        />
-        <div>
-          <ButtonUpload titleButton="Upload image" onClick={handleOpenFileInput}></ButtonUpload>
-        </div>
-        {selectFile && (
-          <AudioPlayer
-            autoPlay={false}
-            preload="none"
-            style={{ borderRadius: "1rem", textAlign: "center" }}
-            src={URL.createObjectURL(selectFile)}
-            onPlay={(e) => console.log("onPlay")}
-            showJumpControls={false}
-            loop={false}
-          />
-        )}
-        <input
-          ref={fileRef}
-          className="hidden"
-          type="file"
-          name="listenFile"
-          onChange={(event: any) => {
-            setSelectFile(event.target.files[0]);
-          }}
-        />
-        <ButtonUpload titleButton="Upload audio" onClick={handleOpenFile}></ButtonUpload>
-      </div> */}
         </div>
         <Card sx={{ minWidth: 275 }} className="p-[20px] flex-1 ml-[20px]">
           <FormGroup>

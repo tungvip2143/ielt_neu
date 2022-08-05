@@ -8,7 +8,6 @@ import CreateQuestionWriting from "./CreateQuestionWriting";
 
 const WritingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState(false);
-  console.log("openCreateScreen", openCreateScreen);
 
   return (
     <div>

@@ -8,7 +8,6 @@ import CreateQuestionSpeaking from "./CreateQuestionSpeaking";
 
 const SpeakingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState(false);
-  console.log("openCreateScreen", openCreateScreen);
 
   return (
     <div>

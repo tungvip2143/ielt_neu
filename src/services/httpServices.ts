@@ -8,7 +8,11 @@ class Services {
     this.axios = axios.create({
       baseURL: BASE_URL,
       timeout: 60000,
-    })
+      headers: {
+        Authorization:
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5leHRsZXZlbHZuLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwiX2lkIjoiNjJlYzBjMzNhMGVjOTJjNGNlMzliODY3IiwiaWF0IjoxNjU5Njg0ODY4LCJleHAiOjE2NjIyNzY4Njh9.zz79pBQeXhSQ8WYDbeMxdSW8DKSxHeHHD3MO5V7Bf_o",
+      },
+    });
 
     //! Interceptor request
     this.axios.interceptors.request.use(
@@ -36,7 +40,8 @@ class Services {
       function (config) {
         if (config.headers) {
           // Do something before request is sent
-          config.headers.Authorization = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5leHRsZXZlbHZuLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwiX2lkIjoiNjJlYTM4MDQ1NThkZGViNmI1YTA0ZDNjIiwiaWF0IjoxNjU5NjMzMzI5LCJleHAiOjE2NjIyMjUzMjl9.dLd_-qMoO3qczHiqt-xPtYjhqX8hvbhBrrbUmOUHmnU';
+          config.headers.Authorization =
+            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5leHRsZXZlbHZuLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwiX2lkIjoiNjJlYzBjMzNhMGVjOTJjNGNlMzliODY3IiwiaWF0IjoxNjU5Njg3OTk3LCJleHAiOjE2NjIyNzk5OTd9.oyMCZxtd3wlQckf9MPn0M5WkrUoy49rpV8XyLFV7w7M";
         }
         return config;
       },

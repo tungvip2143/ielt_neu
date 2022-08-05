@@ -1068,7 +1068,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.3.1", "@babel/runtime@^7.8.3":
+"@babel/runtime@^7.18.6", "@babel/runtime@^7.3.1", "@babel/runtime@^7.8.3":
   version "7.18.9"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.18.9.tgz#b4fcfce55db3d2e5e080d2490f608a3b9f407f4a"
   integrity sha512-lkqXDcvlFT5rvEjiu6+QYO+1GXrEHRo2LOtS7E4GtX5ESIZOgepqsZBVIj6Pv+a6zqsya9VCgiK1KAK4BvJDAw==
@@ -2005,6 +2005,17 @@
   resolved "https://registry.yarnpkg.com/@mui/types/-/types-7.1.5.tgz#5e5cc49d719bc86522983359bc1f90eddcff0624"
   integrity sha512-HnRXrxgHJYJcT8ZDdDCQIlqk0s0skOKD7eWs9mJgBUu70hyW4iA6Kiv3yspJR474RFH8hysKR65VVSzUSzkuwA==
 
+"@mui/utils@^5.4.1", "@mui/utils@^5.9.3":
+  version "5.9.3"
+  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.9.3.tgz#a11e0824f00b7ea40257b390060ce167fe861d02"
+  integrity sha512-l0N5bcrenE9hnwZ/jPecpIRqsDFHkPXoFUcmkgysaJwVZzJ3yQkGXB47eqmXX5yyGrSc6HksbbqXEaUya+siew==
+  dependencies:
+    "@babel/runtime" "^7.17.2"
+    "@types/prop-types" "^15.7.5"
+    "@types/react-is" "^16.7.1 || ^17.0.0"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+
 "@mui/utils@^5.9.1":
   version "5.9.1"
   resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.9.1.tgz"
@@ -2016,16 +2027,16 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
-"@mui/utils@^5.9.3":
-  version "5.9.3"
-  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.9.3.tgz#a11e0824f00b7ea40257b390060ce167fe861d02"
-  integrity sha512-l0N5bcrenE9hnwZ/jPecpIRqsDFHkPXoFUcmkgysaJwVZzJ3yQkGXB47eqmXX5yyGrSc6HksbbqXEaUya+siew==
+"@mui/x-data-grid@^5.15.1":
+  version "5.15.1"
+  resolved "https://registry.yarnpkg.com/@mui/x-data-grid/-/x-data-grid-5.15.1.tgz#1514bee45dc760a832349cf2a754aee802eb3514"
+  integrity sha512-KTWrXRvhtudhONrjanpmSijgvMfWGiuX83RZxBpVPdiM4h0furLtltpmk++V3inEcGUeEFEj1qfx4ssiTuNJtw==
   dependencies:
-    "@babel/runtime" "^7.17.2"
-    "@types/prop-types" "^15.7.5"
-    "@types/react-is" "^16.7.1 || ^17.0.0"
+    "@babel/runtime" "^7.18.6"
+    "@mui/utils" "^5.4.1"
+    clsx "^1.2.1"
     prop-types "^15.8.1"
-    react-is "^18.2.0"
+    reselect "^4.1.6"
 
 "@nodelib/fs.scandir@2.1.5":
   version "2.1.5"
@@ -9054,6 +9065,11 @@ requires-port@^1.0.0:
   version "1.0.0"
   resolved "https://registry.npmjs.org/requires-port/-/requires-port-1.0.0.tgz"
   integrity sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==
+
+reselect@^4.1.6:
+  version "4.1.6"
+  resolved "https://registry.yarnpkg.com/reselect/-/reselect-4.1.6.tgz#19ca2d3d0b35373a74dc1c98692cdaffb6602656"
+  integrity sha512-ZovIuXqto7elwnxyXbBtCPo9YFEr3uJqj2rRbcOOog1bmu2Ag85M4hixSwFWyaBMKXNgvPaJ9OSu9SkBPIeJHQ==
 
 resize-observer-polyfill@^1.5.0:
   version "1.5.1"

@@ -63,7 +63,7 @@ const CreateQuestionSpeaking = (props: Props) => {
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
-        <Button variant="contained">Save</Button>
+        <Button variant="contained" style={{background: '#9155FE'}}>Save</Button>
         <Button variant="contained" style={{ background: "#f44336" }} onClick={onClose}>
           Cancel
         </Button>

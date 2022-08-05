@@ -17,7 +17,9 @@ const AdminScreen = () => {
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" style={{ justifyContent: "end" }}>
-        <Button variant="contained">Save</Button>
+        <Button variant="contained" style={{ background: "#9155FE" }}>
+          Save
+        </Button>
         <Button variant="contained" style={{ background: "#f44336" }} onClick={() => setIsOpen(false)}>
           Cancel
         </Button>

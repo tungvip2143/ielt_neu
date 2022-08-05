@@ -7,11 +7,27 @@ export interface ResponseParams {
   thirdAnswer: string;
   fourAnswer: string;
   questionSimple: string;
-  correctAnswer: string
+  correctAnswer: string;
+  parts: string;
+  partTitle: string;
+  levelPart: string
 }
 
 export interface QuestionTypeI {
   title: string;
   name: string;
   answer: string;
+}
+
+export interface ReadingQuestionResponse {
+  answer: string;
+  createdAt: string;
+  deleted: false;
+  explanationText: string;
+  groupId: string;
+  id: string;
+  level: string;
+  questionText: string;
+  skill: string;
+  updatedAt: string;
 }

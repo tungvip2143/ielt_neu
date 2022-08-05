@@ -1,19 +1,21 @@
+import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import HeadsetIcon from "@mui/icons-material/Headset";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
 import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import { RouteBase } from "constants/routeUrl";
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import "./Styles.scss";
+
 const drawerWidth = 240;
 
 const MenuData = [
@@ -41,6 +43,7 @@ const MenuData = [
 
 const AdminDrawer = () => {
   const [selectItem, setSelectItem] = useState<number>(0);
+  const [isActive, setIsActive] = useState(false);
 
   return (
     <Drawer
@@ -63,28 +66,32 @@ const AdminDrawer = () => {
       </Toolbar>
       <Divider />
       <List>
-        {MenuData.map((el, index) => (
-          <Link to={el.link}>
-            <ListItem key={index} disablePadding>
-              <ListItemButton
+        <div className="menuContainer" onClick={() => setIsActive(!isActive)}>
+          <div className="flex items-center">
+            <AccountBalanceIcon sx={{ fontSize: "20px" }} />
+            <Typography style={{ marginLeft: 12 }}>Question bank</Typography>
+          </div>
+          {isActive ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
+        </div>
+        {!isActive &&
+          MenuData.map((el, index) => (
+            <Link to={el.link}>
+              <div
                 onClick={() => setSelectItem(index)}
+                key={index}
+                className="subMenuContainer"
                 style={{
                   background:
                     selectItem === index
                       ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
                       : "transparent",
-                  color: "#ffff",
-                  borderTopRightRadius: 25,
-                  borderBottomRightRadius: 25,
-                  marginRight: 10
                 }}
               >
-                <ListItemIcon style={{ color: "white" }}>{el.icon}</ListItemIcon>
-                <ListItemText primary={el.title} />
-              </ListItemButton>
-            </ListItem>
-          </Link>
-        ))}
+                {<RadioButtonUncheckedIcon sx={{ fontSize: "15px" }} />}
+                <Typography style={{ marginLeft: 15 }}>{el.title}</Typography>
+              </div>
+            </Link>
+          ))}
       </List>
       <Divider />
     </Drawer>
