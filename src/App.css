@@ -175,3 +175,20 @@ ul {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+/*  */
+.accordion-title::before {
+  display: none !important;
+}
+/*  */
+.hight-light-practive {
+  color: #df0a31 !important;
+}
+.hight-light-practive a {
+  color: #df0a31 !important;
+}
+.hight-light-review span svg {
+  color: #df0a31 !important;
+}
+.hight-light-review {
+  color: #df0a31 !important;
+}

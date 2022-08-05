@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./styles/scss/styles.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
 import { theme } from "theme";
-
+import ScrollToTop from "components/ScrollToTop/ScrollToTop";
 import { RouteBase } from "constants/routeUrl";
 import DefaultLayout from "layout/DefaultLayout";
 import LoginPage from "views/Login";
@@ -16,12 +16,24 @@ import Pricing from "views/Pricing/Pricing";
 import ReviewExams from "views/Review/ReviewExams";
 import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
+import { ToastContainer } from "react-toastify";
 
 const App: React.FC = () => {
   //! Render
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
+      <ToastContainer
+        position="top-right"
+        autoClose={1000}
+        hideProgressBar={false}
+        newestOnTop={false}
+        closeOnClick
+        rtl={false}
+        pauseOnFocusLoss
+        draggable
+        pauseOnHover
+      />
       <Router>
         <Switch>
 

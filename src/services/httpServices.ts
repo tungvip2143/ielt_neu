@@ -40,8 +40,8 @@ class Services {
       function (config) {
         if (config.headers) {
           // Do something before request is sent
-          config.headers.Authorization =
-            "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5leHRsZXZlbHZuLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwiX2lkIjoiNjJlYzBjMzNhMGVjOTJjNGNlMzliODY3IiwiaWF0IjoxNjU5Njg3OTk3LCJleHAiOjE2NjIyNzk5OTd9.oyMCZxtd3wlQckf9MPn0M5WkrUoy49rpV8XyLFV7w7M";
+          config.headers["Authorization"] = `Bearer ${token}`;
+          // config.headers.sessionId = token;
         }
         return config;
       },
