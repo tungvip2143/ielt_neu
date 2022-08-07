@@ -5,7 +5,7 @@ class Services {
 
   constructor() {
     this.axios = axios;
-    this.axios.defaults.withCredentials = true;
+    this.axios.defaults.withCredentials = false;
 
     //! Interceptor request
     this.axios.interceptors.request.use(
@@ -44,11 +44,11 @@ class Services {
     );
   }
 
-  get(url: string, config?: AxiosRequestConfig) {
-    return this.axios.get(url, config);
+  get(url: string, params?: any) {
+    return this.axios.get(url, { params });
   }
 
-  post(url: string, data: any, config?: AxiosRequestConfig) {
+  post(url: string, data?: any, config?: AxiosRequestConfig) {
     return this.axios.post(url, data, config);
   }
 
@@ -58,6 +58,9 @@ class Services {
 
   put(url: string, data: any, config?: AxiosRequestConfig) {
     return this.axios.put(url, data, config);
+  }
+  patch(url: string, data: any, config?: AxiosRequestConfig) {
+    return this.axios.patch(url, data, config);
   }
 }
 

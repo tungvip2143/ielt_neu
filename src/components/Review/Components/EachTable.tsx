@@ -23,6 +23,7 @@ import ReactPaginate from "react-paginate";
 import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import useGetData from "hooks/users/useGetData";
+import { useIeltsResult } from "hooks/ielts/useIelts";
 
 interface EachTableI {
   panelId: TypeExamEnum;
@@ -30,7 +31,9 @@ interface EachTableI {
 
 const EachTable = ({ panelId }: EachTableI) => {
   //! State
-  const { data, pageCount, isLoading, handleChangePage } = useGetData(panelId);
+  // const { data, pageCount, isLoading, handleChangePage } = useGetData(panelId);
+  const { data } = useIeltsResult({ skill: "READING" });
+  console.log("review data", data);
 
   //! Function
 
@@ -56,7 +59,7 @@ const EachTable = ({ panelId }: EachTableI) => {
   //! Pagination
   const handlePageClick = async (data: any) => {
     const page = data.selected;
-    handleChangePage(page);
+    // handleChangePage(page);
   };
 
   const tbRow = {
@@ -73,7 +76,7 @@ const EachTable = ({ panelId }: EachTableI) => {
 
   return (
     <Box sx={{ width: "100%" }}>
-      <TableContainer
+      {/* <TableContainer
         component={Paper}
         sx={{
           borderBottomLeftRadius: "20px",
@@ -206,7 +209,7 @@ const EachTable = ({ panelId }: EachTableI) => {
             activeClassName={"active"}
           />
         </Box>
-      </TableContainer>
+      </TableContainer> */}
     </Box>
   );
 };

@@ -7,6 +7,7 @@ export const dataIlets = [
     image: "https://i.testglider.com/static/img/selectSection/section-test-listening.svg",
     hoverColor: "hover-card-bg-red",
     path: "/ielts/listening",
+    skill: "LISTENING",
   },
   {
     id: 2,
@@ -16,6 +17,7 @@ export const dataIlets = [
     image: "https://i.testglider.com/static/img/selectSection/section-test-reading.svg",
     hoverColor: "hover-card-bg-yellow",
     path: "/ielts/reading",
+    skill: "READING",
   },
   {
     id: 3,
@@ -25,6 +27,7 @@ export const dataIlets = [
     image: "https://i.testglider.com/static/img/selectSection/section-test-writing.svg",
     hoverColor: "hover-card-bg-blue",
     path: "/ielts/writing",
+    skill: "WRITING",
   },
   {
     id: 4,
@@ -34,5 +37,6 @@ export const dataIlets = [
     image: "https://i.testglider.com/static/img/selectSection/section-test-speaking.svg",
     hoverColor: "hover-card-bg-orange",
     path: "/ielts/speaking",
+    skill: "SPEAKING",
   },
 ];

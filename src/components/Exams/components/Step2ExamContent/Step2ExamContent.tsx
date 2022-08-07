@@ -12,52 +12,70 @@ import { useState } from "react";
 import { dataDummy, ieltsReadingDataDummy } from "api/ieltsResults";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
+import { group } from "console";
+import { IELT_TEST } from "interfaces/testType";
+import Writing from "views/Ielts/writing/component/Writing";
+
+interface Props {
+  data?: any;
+}
 
 const Step2ExamContent = (props: any) => {
+  const { data, test } = props;
+  console.log("step2 data", data);
   //! State
-  const [questions, setQuestions] = useState(ieltsReadingDataDummy);
-  const [questionSelected, setQuestionSelected] = useState<any>(questions.part1.questions.group[0].id);
-  const [partSelected, setPartSelected] = useState<any>("part1");
+  const [questions, setQuestions] = useState(data);
 
-  console.log("questionSelected2", questionSelected);
-  //
+  // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
+  const [questionSelected, setQuestionSelected] = useState<any>("1");
+  const [groupSelected, setGroupSelected] = useState({
+    part: 0,
+    group: 0,
+  });
 
-  const onClickPage = (id: string) => {
-    console.log("id test", id);
-    setQuestionSelected(id);
+  const onClickPage = (groupRenderSelected: any) => {
+    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
+    console.log("groupRenderSelected", groupRenderSelected);
   };
 
-  const onClickPart = (part: string) => {
-    setPartSelected(part);
-    console.log("part", part);
+  const onClickPart = (groupRenderSelected: any) => {
+    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
+    console.log("part", groupRenderSelected);
   };
 
-  //
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = ieltsReadingDataDummy as any;
-    if (!isEmpty(questionsWithPageNumberTemp[partSelected])) {
-      return questionsWithPageNumberTemp[partSelected];
+    console.log("group select", groupSelected);
+    const questionsWithPageNumberTemp = questions as any;
+    if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
+      return questionsWithPageNumberTemp[groupSelected?.part];
     }
 
     return null;
-  }, [ieltsReadingDataDummy, partSelected]);
+  }, [ieltsReadingDataDummy, groupSelected]);
   //
-
+  console.log("partRenderSelected11", partRenderSelected);
   //! Render
   return (
     <Box sx={{ position: "relative" }}>
       <Box sx={{ width: "80%", margin: "0 auto" }}>
         <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-          <CardExercise content={<CardLeft dataChangePart={partRenderSelected} />} />
-          <CardExercise
-            content={
-              <TOFFL
-                onClickPage={onClickPage}
-                questionSelected={questionSelected}
-                partRenderSelected={partRenderSelected}
-              />
-            }
-          />
+          <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} />
+          {test === IELT_TEST.WRITING && (
+            <CardExercise
+              content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
+            />
+          )}
+          {test === IELT_TEST.READING && (
+            <CardExercise
+              content={
+                <TOFFL
+                  onClickPage={onClickPage}
+                  questionSelected={questionSelected}
+                  partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                />
+              }
+            />
+          )}
         </Grid>
       </Box>
 
@@ -65,7 +83,8 @@ const Step2ExamContent = (props: any) => {
         questionSelected={questionSelected}
         onClickPart={onClickPart}
         onClickPage={onClickPage}
-        questions={ieltsReadingDataDummy}
+        questions={questions}
+        test={test}
       />
     </Box>
   );

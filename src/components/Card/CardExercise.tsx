@@ -16,6 +16,7 @@ const CardExercise = ({ content }: Props) => {
     height: "630px",
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
     overflowY: "scroll",
+    // height:"100%"
   };
   return (
     <Grid item xs={12} sm={12} md={6} lg={5.9}>
