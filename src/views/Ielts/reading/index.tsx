@@ -55,8 +55,13 @@ const IeltsReading = (props: IeltsReadingProps) => {
       return el.questionId && el.studentAnswer;
     });
     const body = { values: { answers }, testCode };
+    console.log("body234", body);
     await submitIeltsReadingTest(body, {
-      onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
+      onSuccess: () => {
+        console.log("Checked345");
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+      },
+      onError: (err) => console.log("error submit", err),
     });
   };
 
