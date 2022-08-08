@@ -24,7 +24,7 @@ export interface Props {
   openModal: any;
   onCloseModal?: () => void;
   id: number | string;
-  fetchData: any
+  fetchData: any;
 }
 
 const ModalCreateQuestion = (props: Props) => {
@@ -98,6 +98,7 @@ const ModalCreateQuestion = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
+    const keys = ["A", "B", "C", "D"];
     const body = {
       level: "A1",
       answerList: "<p>Text</p>",
@@ -106,25 +107,31 @@ const ModalCreateQuestion = (props: Props) => {
       questionTypeTips: editorRef.current.getContent(),
       questionBox: data.questionText,
       questionType: data.questionType,
-      questions: [
-        {
-          answer: data.correctAnswer,
-          explanationText: "<p>Text</p>",
-          questionText: data.question,
-          options: renderOption(data.questionType),
-        },
-      ],
+      questions: data?.questionReading?.map((el: any) => ({
+        ...el,
+        options: el.options?.map((e: any, index: number) => ({ key: keys[index], text: e })),
+      })  ),
+      // [
+      //   {
+      //     answer: data.correctAnswer,
+      //     explanationText: "<p>Text</p>",
+      //     questionText: data.question,
+      //     options: renderOption(data.questionType),
+      //   },
+      // ],
       partId: id,
     };
+
+    console.log("body", body, data);
+
     try {
       const response = await ReadingService.postCreateQuestionGroupReading(body);
       if (response.data.statusCode === 200) {
         console.log();
-        
-        alert("Create question group success!");
-        fetchData()
-        onCloseModal();
 
+        alert("Create question group success!");
+        fetchData();
+        onCloseModal();
       }
     } catch (error) {
       console.log("error", error, fetchData);
@@ -136,14 +143,14 @@ const ModalCreateQuestion = (props: Props) => {
     handleSubmit(onSubmit)();
   };
 
-  const renderMultiChoice = (item: any, index: number) => {
+  const renderMultiChoice = (item: any, index: number, indexQuestion: number) => {
     return (
       <InputCommon
         control={control}
         id="standard-basic"
         label={item.title}
         variant="standard"
-        name={`${item.name}_${index}`}
+        name={`questionReading[${indexQuestion}].options[${index}]`}
         InputProps={{
           startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
         }}
@@ -151,11 +158,11 @@ const ModalCreateQuestion = (props: Props) => {
     );
   };
 
-  const renderViewAnswer = (type?: number | undefined | string) => {
+  const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
       case "MULTIPLE_CHOICE_1_ANSWER":
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
-          return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer)}</div>;
+          return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
         });
       default:
         return (
@@ -164,7 +171,7 @@ const ModalCreateQuestion = (props: Props) => {
             id="standard-basic"
             label="Correct answer"
             variant="standard"
-            name="questionSimple"
+            name={`questionSimple_${index}`}
           />
         );
     }
@@ -227,7 +234,7 @@ const ModalCreateQuestion = (props: Props) => {
         </div>
         {fields.map((field, index) => {
           console.log("field", field);
-          
+
           return (
             <div key={field.id} className="flex items-center">
               <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
@@ -250,8 +257,8 @@ const ModalCreateQuestion = (props: Props) => {
                   noValidate
                   autoComplete="off"
                 >
-                  <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType)}</div>
-                  {(questionType === "MULTIPLE_CHOICE_1_ANSWER") && (
+                  <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
+                  {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
                     <InputCommon
                       control={control}
                       id="standard-basic"

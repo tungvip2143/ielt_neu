@@ -256,62 +256,6 @@ const CreateQuestionReading = (props: Props) => {
                     </Button>
                   </div>
                 </Card>
-                // <Card sx={{ minWidth: 275 }} className="p-[20px] min-h-[250px] flex-1 mb-[10px]">
-                //   <FormGroup>
-                //     <SelectField
-                //       control={control}
-                //       options={dataQuestionType}
-                //       label="Type Of Question"
-                //       name="questionType"
-                //       setValue={el.questionType}
-                //       disabled
-                //     />
-                //   </FormGroup>
-                //   <div className="questionContainer">
-                //     <InputCommon
-                //       id="standard-basic"
-                //       label="Question"
-                //       variant="standard"
-                //       name="question"
-                //       control={control}
-                //       required
-                //       fullWidth
-                //       disabled
-                //       value={el.questionBox}
-                //     />
-                //     <SelectField
-                //       control={control}
-                //       options={dataLevels}
-                //       label="Level"
-                //       variant="standard"
-                //       style={{ marginLeft: 20 }}
-                //       name="levelType"
-                //       setValue={el.level}
-                //       disabled
-                //     />
-                //   </div>
-                //   <Box
-                //     component="form"
-                //     sx={{
-                //       "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                //     }}
-                //     noValidate
-                //     autoComplete="off"
-                //   >
-                //     <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType)}</div>
-                //     {(questionType === 1 || questionType === 3) && (
-                //       <InputCommon
-                //         control={control}
-                //         id="standard-basic"
-                //         label="Correct answer"
-                //         variant="standard"
-                //         name="correctAnswer"
-                //         disabled
-                //         value={el.answer}
-                //       />
-                //     )}
-                //   </Box>
-                // </Card>
               );
             })}
           </div>
