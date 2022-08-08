@@ -1,5 +1,7 @@
 export interface ResponseParams {
   questionType: number | undefined | string;
+  questionText: string;
+  questionTip: string;
   question: string;
   levelType: string;
   firstAnswer: string;
@@ -10,7 +12,7 @@ export interface ResponseParams {
   correctAnswer: string;
   parts: string;
   partTitle: string;
-  levelPart: string
+  levelPart: string;
 }
 
 export interface QuestionTypeI {
@@ -30,4 +32,10 @@ export interface ReadingQuestionResponse {
   questionText: string;
   skill: string;
   updatedAt: string;
+}
+
+export interface PartI {
+  level: string;
+  passageTitle: string;
+  passageText: string;
 }

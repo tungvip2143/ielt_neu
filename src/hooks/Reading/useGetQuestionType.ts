@@ -1,17 +1,17 @@
 import { useEffect, useState } from "react";
 import ReadingService from "services/ReadingService";
 
-const useGetLevels = () => {
-  const [dataLevel, setDataLevel] = useState([]);
+const useGetQuestionType = () => {
+  const [dataQuestionType, setDataQuestionType] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListLevels();
+        const response = await ReadingService.getListQuestionType();
         if (response.data.statusCode === 200) {
-          setDataLevel(response.data.data.map((el: any) => ({ label: el, value: el })));
+          setDataQuestionType(response.data.data.map((el: any) => ({ label: el, value: el })));
         }
         setLoading(false);
       } catch (error) {
@@ -22,7 +22,7 @@ const useGetLevels = () => {
     fetchData();
   }, []);
 
-  return [dataLevel, loading, error];
+  return [dataQuestionType, loading, error];
 };
 
-export default useGetLevels;
+export default useGetQuestionType;

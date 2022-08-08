@@ -1,135 +1,229 @@
-import { yupResolver } from "@hookform/resolvers/yup";
-import { Button, Card, FormGroup, InputAdornment, Stack } from "@mui/material";
-import { Box } from "@mui/system";
-import SelectField from "components/CustomField/SelectField";
+import AddIcon from "@mui/icons-material/Add";
+import BlockIcon from "@mui/icons-material/Block";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import SaveIcon from "@mui/icons-material/Save";
+import UndoIcon from "@mui/icons-material/Undo";
+import { Button, Card, Stack, Typography } from "@mui/material";
+import { Editor } from "@tinymce/tinymce-react";
+import ButtonCancel from "components/Button/ButtonCancel";
+import ButtonSave from "components/Button/ButtonSave";
+import ButtonUpload from "components/Button/ButtonUpload";
 import InputCommon from "components/Input";
-import { DataAnswer, LevelType, QuestionType } from "constants/questionType";
-import { QuestionTypeI, ResponseParams } from "interfaces/questionInterface";
-import React, { useState } from "react";
-import { useForm } from "react-hook-form";
+import React, { useRef, useState } from "react";
+import { useFieldArray, useForm } from "react-hook-form";
+import SelectField from "components/CustomField/SelectField";
 import * as yup from "yup";
+import { LevelType } from "constants/questionType";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import AudioPlayer from "react-h5-audio-player";
 
 export interface Props {
   onClose: () => void;
+  openCreateScreen: any;
 }
-const CreateQuestionSpeaking = (props: Props) => {
-  const { onClose } = props;
-  const validationSchema = yup.object().shape({});
-  const [questionType, setQuestionType] = useState<number | undefined | string>(1);
+const CreateQuestionWriting = (props: Props) => {
+  const editorRef = useRef<any>();
+  const { onClose, openCreateScreen } = props;
+  const [isEdit, setIsEdit] = useState(false);
+  const fileRef = useRef<any>();
+  const [selectFile, setSelectFile] = useState(null);
 
-  const formController = useForm<ResponseParams>({
-    mode: "onChange",
-    resolver: yupResolver(validationSchema),
-    defaultValues: validationSchema.getDefault(),
+  const validationSchema = yup.object().shape({});
+
+  const { register, control, handleSubmit, reset, watch, setValue } = useForm<any>({
+    defaultValues: {
+      test: [{ question: "Bill", levelType: "Luo" }],
+    },
   });
 
-  const { control, handleSubmit, setValue, getValues } = formController;
-  const onSubmit = (data: any) => {};
+  const { fields, append, prepend, remove, swap, move, insert, update } = useFieldArray({
+    control, // control props comes from useForm (optional: if you are using FormContext)
+    name: "test", // unique name for your Field Array
+  });
 
-  const renderMultiChoice = (item: any) => {
+  const onAddQuestion = () => {
+    append({ question: "Bill", levelType: "Luo" });
+  };
+
+  const onRemoveQuestion = (index: number) => {
+    remove(index);
+  };
+
+  const onSubmit = (data: any) => console.log("data", data);
+
+  const handleOpenFile = () => {
+    fileRef.current.click();
+  };
+
+  const renderButtonUpdate = () => {
     return (
-      <InputCommon
-        control={control}
-        id="standard-basic"
-        label={item.title}
-        variant="standard"
-        name={item.name}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-        }}
-      />
+      <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={onClose}>
+          Back
+        </Button>
+        {!isEdit ? (
+          <Button variant="contained" onClick={() => setIsEdit(true)}>
+            <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
+            Edit
+          </Button>
+        ) : (
+          <>
+            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
+          </>
+        )}
+      </Stack>
     );
   };
 
-  const renderViewAnswer = (type: number | undefined | string) => {
-    switch (type) {
-      case 1:
-        return DataAnswer.map((item: QuestionTypeI) => renderMultiChoice(item));
-      case 3:
-        return DataAnswer.map((item: QuestionTypeI) => renderMultiChoice(item));
-      default:
-        return (
-          <InputCommon
-            control={control}
-            id="standard-basic"
-            label="Correct answer"
-            variant="standard"
-            name="questionSimple"
-          />
-        );
-        break;
-    }
-  };
-  const renderButton = () => {
+  const renderButtonCreate = () => {
     return (
-      <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
-        <Button variant="contained" style={{background: '#9155FE'}}>Save</Button>
-        <Button variant="contained" style={{ background: "#f44336" }} onClick={onClose}>
-          Cancel
-        </Button>
+      <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
+        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onClose} />{" "}
       </Stack>
     );
   };
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-      <Card sx={{ minWidth: 275 }} className="p-[20px]">
-        <FormGroup>
-          <SelectField
-            control={control}
-            options={QuestionType}
-            label="Type Of Question"
-            name="questionType"
-            setValue={formController.setValue}
-            onChangeExtra={(e) => {
-              setValue("questionType", e?.value);
-              setQuestionType(e?.value);
-            }}
-          />
-        </FormGroup>
-        <div className="questionContainer">
-          <InputCommon
-            id="standard-basic"
-            label="Question"
-            variant="standard"
-            name="question"
-            control={control}
-            required
-            fullWidth
-          />
-          <SelectField
-            control={control}
-            options={LevelType}
-            label="Level"
-            variant="standard"
-            style={{ marginLeft: 20 }}
-            name="levelType"
-            setValue={formController.setValue}
-          />
-        </div>
-        <Box
-          component="form"
-          sx={{
-            "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-          }}
-          noValidate
-          autoComplete="off"
-        >
-          <div className="answerContainer">{renderViewAnswer(questionType)}</div>
-          {(questionType === 1 || questionType === 3) && (
-            <InputCommon
-              control={control}
-              id="standard-basic"
-              label="Correct answer"
-              variant="standard"
-              name="correctAnswer"
-            />
-          )}
-        </Box>
-        {renderButton()}
+      {openCreateScreen.type === "update" && renderButtonUpdate()}
+      <Card style={{ marginBottom: "15px", padding: 20 }}>
+        <Typography style={{ fontWeight: "bold" }}>
+          {openCreateScreen.type === "update" ? "Update part" : "Create part"}
+        </Typography>
+        <InputCommon
+          id="standard-basic"
+          label="Passage title"
+          variant="standard"
+          name="partTitle"
+          control={control}
+          required
+          fullWidth
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
       </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
+        <Editor
+          onInit={(evt, editor) => {
+            editorRef.current = editor;
+          }}
+          initialValue={"<p>This is the initial content of the editor.</p>"}
+          init={{
+            plugins: "link image code",
+            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+          }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      {selectFile && (
+        <AudioPlayer
+          // autoPlay
+          preload="none"
+          style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
+          src={URL.createObjectURL(selectFile)}
+          onPlay={(e) => console.log("onPlay")}
+          showJumpControls={false}
+          loop={false}
+        />
+      )}
+      <input
+        ref={fileRef}
+        className="hidden"
+        type="file"
+        name="listenFile"
+        onChange={(event: any) => {
+          setSelectFile(event.target.files[0]);
+        }}
+      />
+      <div className="text-end mb-2">
+        <ButtonUpload titleButton="Upload audio" onClick={handleOpenFile} disabled={openCreateScreen.type === "update" && !isEdit} />
+      </div>
+      {openCreateScreen.type === "create" && renderButtonCreate()}
+      {openCreateScreen.type === "update" && (
+        <>
+          <div className="text-end mb-2">
+            <ButtonUpload
+              titleButton="Create question"
+              icon={<AddIcon />}
+              style={{ background: "#9155FE" }}
+              onClick={onAddQuestion}
+            />
+          </div>
+          <Card sx={{ minWidth: 275 }} className="p-[20px]">
+            {fields.map((field, index) => (
+              <div key={field.id} className="flex items-end">
+                <InputCommon
+                  id="standard-basic"
+                  label="Question"
+                  variant="standard"
+                  name={`test[${index}].question`}
+                  control={control}
+                  required
+                  fullWidth
+                />
+                <SelectField
+                  control={control}
+                  options={LevelType}
+                  label="Level"
+                  variant="standard"
+                  style={{ marginLeft: 20 }}
+                  name={`test[${index}].levelType`}
+                  setValue={setValue}
+                />
+                {fields.length > 1 && (
+                  <RemoveCircleOutlineIcon
+                    className="text-[#F44335] cursor-grab ml-[20px]"
+                    onClick={() => onRemoveQuestion(index)}
+                  />
+                )}
+              </div>
+            ))}
+            <div style={{ display: "flex", justifyContent: "end", marginTop: 10 }}>
+              <Button color="success">Save</Button>
+              <Button color="error">Delete</Button>
+            </div>
+          </Card>
+        </>
+      )}
     </form>
+    // <form onSubmit={handleSubmit(onSubmit)}>
+    //   <div className="text-end mb-2">
+    //     <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab ml-[10px]" onClick={onAddQuestion} />
+    //   </div>
+    //   <Card sx={{ minWidth: 275 }} className="p-[20px]">
+    //     {fields.map((field, index) => (
+    //       <div key={field.id} className="flex items-end">
+    //         <InputCommon
+    //           id="standard-basic"
+    //           label="Question"
+    //           variant="standard"
+    //           name={`test[${index}].question`}
+    //           control={control}
+    //           required
+    //           fullWidth
+    //         />
+    //         <SelectField
+    //           control={control}
+    //           options={LevelType}
+    //           label="Level"
+    //           variant="standard"
+    //           style={{ marginLeft: 20 }}
+    //           name={`test[${index}].levelType`}
+    //           setValue={setValue}
+    //         />
+    //         {fields.length > 1 && (
+    //           <RemoveCircleOutlineIcon
+    //             className="text-[#F44335] cursor-grab ml-[20px]"
+    //             onClick={() => onRemoveQuestion(index)}
+    //           />
+    //         )}
+    //       </div>
+    //     ))}
+    //     {renderButton()}
+    //   </Card>
+    // </form>
   );
 };
 
-export default CreateQuestionSpeaking;
+export default CreateQuestionWriting;

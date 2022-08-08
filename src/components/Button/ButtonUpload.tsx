@@ -8,12 +8,13 @@ export interface Props {
   children?: React.ReactNode;
   style?: React.CSSProperties;
   icon?: any;
+  disabled?: boolean
 }
 
 const ButtonUpload = (props: Props) => {
-  const { titleButton, type, className, onClick, style, icon, children } = props;
+  const { titleButton, type, className, onClick, style, icon, disabled, children } = props;
   return (
-    <Button variant="contained" type={type} className={className} onClick={onClick} style={style}>
+    <Button variant="contained" type={type} className={className} onClick={onClick} style={style} disabled={disabled}>
       {icon}
       <label htmlFor="image" style={{ cursor: "grab" }}>
         {titleButton}

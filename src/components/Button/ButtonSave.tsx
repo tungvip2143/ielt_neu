@@ -3,7 +3,7 @@ interface ButtonSave {
   title?: string;
   icon?: any;
   type?: "submit" | "button" | "reset";
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
 }
 import ButtonCommon from "./index";
 const ButtonSave: React.FC<ButtonSave> = ({ title, icon, type, onClick }) => {

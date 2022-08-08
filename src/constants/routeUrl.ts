@@ -13,6 +13,6 @@ export const RouteBase = {
   Listening: "/admin/listening",
   Speaking: "/admin/speaking",
   Writing: "/admin/writing",
-  Reading: "/admin/Reading",
+  Reading: "/admin/reading",
   
 };

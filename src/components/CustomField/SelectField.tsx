@@ -19,6 +19,7 @@ interface Props<T> {
   onChangeExtra?: (data: IitemSelect | null) => void;
   options: IitemSelect[];
   style?: any;
+  disabled?: boolean;
 }
 
 const ErrorText = styled(FormHelperText)`
@@ -26,32 +27,47 @@ const ErrorText = styled(FormHelperText)`
 `;
 
 const SelectField = <T extends FieldValues>(props: Props<T>) => {
-  const { control, setValue, name, label, required, variant, labelColor, options, onChangeExtra, style, ...res } =
-    props;
+  const {
+    control,
+    setValue,
+    name,
+    label,
+    required,
+    variant,
+    labelColor,
+    options,
+    onChangeExtra,
+    style,
+    disabled,
+    ...res
+  } = props;
 
   return (
     <Controller
-      render={({ field, fieldState: { error } }) => (
-        <FormControl fullWidth>
-          <Autocomplete
-            value={options.find((item) => item.value === field.value)}
-            disablePortal
-            id="combo-box-demo"
-            onChange={(e, item) => {
-              setValue(field?.name, item?.value);
-              onChangeExtra && onChangeExtra(item);
-            }}
-            renderInput={(params) => {
-              return <TextField {...params} label={label} fullWidth variant={variant} />;
-            }}
-            options={options}
-            disableClearable={!field?.value}
-            style={style}
-            {...res}
-          />
-          {error?.message && <ErrorText>{error?.message && error.message}</ErrorText>}
-        </FormControl>
-      )}
+      render={({ field, fieldState: { error } }) => {
+        return (
+          <FormControl fullWidth>
+            <Autocomplete
+              value={options.find((item) => item.value === field.value) || { label: "", value: "" }}
+              disablePortal
+              id="combo-box-demo"
+              onChange={(e, item) => {
+                setValue(field?.name, item?.value);
+                onChangeExtra && onChangeExtra(item);
+              }}
+              renderInput={(params) => {
+                return <TextField {...params} label={label} fullWidth variant={variant} />;
+              }}
+              options={options}
+              disableClearable={!field?.value}
+              style={style}
+              disabled={disabled}
+              {...res}
+            />
+            {error?.message && <ErrorText>{error?.message && error.message}</ErrorText>}
+          </FormControl>
+        );
+      }}
       name={name}
       control={control}
     />

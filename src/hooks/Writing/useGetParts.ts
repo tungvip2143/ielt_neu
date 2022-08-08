@@ -1,6 +1,6 @@
 import MPartReading from "models/Reading/Part.model";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import writingServices from "services/writingServices";
 
 const useGetParts = () => {
   const [dataParts, setDataParts] = useState<MPartReading[]>([]);
@@ -10,7 +10,7 @@ const useGetParts = () => {
 
   const refetchDataTable = async () => {
     try {
-      const response = await ReadingService.getListParts();
+      const response = await writingServices.getListParts();
       if (response.data.statusCode === 200) {
         const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
         setDataParts(parts);
@@ -24,7 +24,7 @@ const useGetParts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListParts();
+        const response = await writingServices.getListParts();
         if (response.data.statusCode === 200) {
           const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
           setDataParts(parts);
