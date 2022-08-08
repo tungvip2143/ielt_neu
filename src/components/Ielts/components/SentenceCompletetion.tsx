@@ -9,7 +9,9 @@ const SentenceCompletetion = (props: Props) => {
   const { data } = props;
   console.log("sentence data", data);
   Handlebars.registerHelper("blank", function (blankId: any) {
-    return new Handlebars.SafeString(`<input id="input-${blankId}" type="text" value="" maxlength="30">`);
+    return new Handlebars.SafeString(
+      `<input style={{border:"1px solid #ccc"}} id="input-${blankId}" type="text" value="" maxlength="30">`
+    );
   });
   const test: any = Handlebars.compile(data?.question?.questionText);
   return (

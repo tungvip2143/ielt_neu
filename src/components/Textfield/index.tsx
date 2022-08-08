@@ -46,8 +46,8 @@ export const TextField = (props: Props) => {
       fullWidth={fullWidth}
       className={className}
       onChange={handleChange}
-      error={isTouched && Boolean(errorMessage)}
-      helperText={isTouched && errorMessage}
+      // error={isTouched && Boolean(errorMessage)}
+      // helperText={isTouched && errorMessage}
     />
   );
 };
