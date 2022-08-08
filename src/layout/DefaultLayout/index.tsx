@@ -9,20 +9,19 @@ const DefaultLayout: React.FC = (props) => {
   return (
     <>
       <Header />
-      <main className="main-container" style={{marginTop:"60px"}}>
+      <main className="main-container" style={{ marginTop: "60px" }}>
         <Suspense fallback="Loading...">
           <Switch>
             {routes.map((route: any, idx: any) => {
               if (route.isPrivate) {
                 return <PrivateRoute key={idx} path={route.path} exact={route.exact} component={route.component} />;
               }
-              return  <Route key={idx}  path={route.path} exact={route.exact} component={route.component} />
-                    
+              return <Route key={idx} path={route.path} exact={route.exact} component={route.component} />;
             })}
           </Switch>
         </Suspense>
       </main>
-      <Footer />
+      {/* <Footer /> */}
     </>
   );
 };

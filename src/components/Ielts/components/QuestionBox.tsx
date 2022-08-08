@@ -12,7 +12,7 @@ const QuestionBox = (props: Props) => {
   console.log("questionBox", questionBox);
   Handlebars.registerHelper("blank", function (blankId: any) {
     return new Handlebars.SafeString(
-      `<input name='answers[6].studentAnswer'  id="input-${blankId}" type="text" value="" maxlength="30">`
+      `<input name='answers'  id="input-${blankId}" type="text" value="" maxlength="30">`
     );
   });
 

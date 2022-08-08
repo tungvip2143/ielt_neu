@@ -34,30 +34,33 @@ const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
   const { data, questionBox } = props;
-  const index = Number(data?.question?.displayNumber) - 1;
 
   console.log("data3456", data);
   const { setFieldValue } = useFormikContext();
 
-  const handleFocus = () => {
+  const handleFocus = (index: number) => {
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
   };
 
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        {data?.map((question: any) => (
-          <div className={classes.question} key={question._id}>
-            {`${question?.question?.displayNumber}.`}
-            {ReactHtmlParser(question?.question?.questionText)}
-            <FastField
-              onFocus={handleFocus}
-              component={TextField}
-              name={`answers[${index}].studentAnswer`}
-              size="small"
-            />
-          </div>
-        ))}
+        {data?.map((question: any) => {
+          const index = Number(question?.question?.displayNumber) - 1;
+          console.log("question", data);
+          return (
+            <div className={classes.question} key={question._id}>
+              {`${question?.question?.displayNumber}.`}
+              {ReactHtmlParser(question?.question?.questionText)}
+              <FastField
+                onFocus={() => handleFocus(index)}
+                component={TextField}
+                name={`answers[${index}].studentAnswer`}
+                size="small"
+              />
+            </div>
+          );
+        })}
       </div>
       <div className={classes.questionBox}>{ReactHtmlParser(questionBox)}</div>
     </div>
