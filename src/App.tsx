@@ -14,6 +14,8 @@ import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
 import ReviewExams from "views/Review/ReviewExams";
+import Admin from "views/Admin/Admin";
+import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
@@ -25,6 +27,7 @@ const App: React.FC = () => {
       <ToastContainer position="top-right" autoClose={1000} />
       <Router>
         <Switch>
+
           <Route path={RouteBase.Login} exact component={LoginPage} />
           <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
           <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
@@ -33,7 +36,9 @@ const App: React.FC = () => {
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
 
+          <Route path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
+          {/* Admin site */}
         </Switch>
       </Router>
     </ThemeProvider>

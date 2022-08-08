@@ -61,7 +61,6 @@ const IeltsReading = (props: IeltsReadingProps) => {
         console.log("Checked345");
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
       },
-      onError: (err) => console.log("error submit", err),
     });
   };
 

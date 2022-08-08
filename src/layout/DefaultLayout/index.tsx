@@ -1,5 +1,5 @@
 import React, { Fragment, Suspense } from "react";
-import { Route, Switch } from "react-router-dom";
+import { Route, Switch, BrowserRouter } from "react-router-dom";
 import Footer from "components/Footer";
 import Header from "components/Header";
 import routes from "routes";
@@ -7,7 +7,7 @@ import PrivateRoute from "components/PrivateRoute";
 
 const DefaultLayout: React.FC = (props) => {
   return (
-    <Fragment>
+    <>
       <Header />
       <main className="main-container" style={{ marginTop: "60px" }}>
         <Suspense fallback="Loading...">
@@ -22,7 +22,7 @@ const DefaultLayout: React.FC = (props) => {
         </Suspense>
       </main>
       {/* <Footer /> */}
-    </Fragment>
+    </>
   );
 };
 

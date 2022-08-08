@@ -1,9 +1,18 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from "axios";
+import { BASE_URL } from "constants/api";
 
 class Services {
   axios: AxiosInstance;
 
   constructor() {
+    // this.axios = axios.create({
+    //   baseURL: BASE_URL,
+    //   timeout: 60000,
+    //   // headers: {
+    //   //   Authorization:
+    //   //     "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQG5leHRsZXZlbHZuLmNvbSIsInVzZXJuYW1lIjoiYWRtaW4iLCJ1c2VyVHlwZSI6IlNVUEVSX0FETUlOIiwiX2lkIjoiNjJlYzBjMzNhMGVjOTJjNGNlMzliODY3IiwiaWF0IjoxNjU5Njg0ODY4LCJleHAiOjE2NjIyNzY4Njh9.zz79pBQeXhSQ8WYDbeMxdSW8DKSxHeHHD3MO5V7Bf_o",
+    //   // },
+    // });
     this.axios = axios;
     this.axios.defaults.withCredentials = false;
 

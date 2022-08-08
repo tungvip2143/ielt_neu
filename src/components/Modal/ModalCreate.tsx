@@ -1,12 +1,14 @@
 import * as React from "react";
 import { Modal as ModalMui, Box, Button as ButtonMui, ButtonProps, Stack, StackProps } from "@mui/material";
 import Text from "components/Typography";
+import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 
 export interface Props {
   children?: React.ReactNode;
   sx?: object;
   onClose: () => void;
   open: boolean;
+  titleModal?: string | React.ReactElement;
 }
 
 interface IProps {
@@ -31,16 +33,20 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: "80%",
+  width: "60%",
   bgcolor: "background.paper",
   borderRadius: "5px",
   boxShadow: 24,
-  p: 4,
+  px:4,
+  py:2,
+  overflow: "scroll",
+  height: "100%",
+  maxHeight: 700,
 };
 
-function Modal(props: Props) {
+function ModalCreate(props: Props) {
   // !Destructure props
-  const { children, onClose, open } = props;
+  const { children, onClose, open, titleModal } = props;
 
   // !State
 
@@ -52,6 +58,12 @@ function Modal(props: Props) {
       aria-describedby="modal-modal-description"
     >
       <Stack spacing={1} sx={style}>
+        <div className="flex items-center mb-[10px] justify-between">
+          {titleModal}
+          <div className="text-end cursor-grab">
+            <CloseOutlinedIcon onClick={onClose} />
+          </div>
+        </div>
         {children}
       </Stack>
     </ModalMui>
@@ -80,8 +92,8 @@ const Button: React.FC<ButtonMuiProps> = (props) => {
   );
 };
 
-Modal.Title = Title;
-Modal.Content = Content;
-Modal.Button = Button;
+ModalCreate.Title = Title;
+ModalCreate.Content = Content;
+ModalCreate.Button = Button;
 
-export default Modal;
+export default ModalCreate;
