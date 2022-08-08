@@ -16,7 +16,7 @@ const ReadingSkill = () => {
 
   const onDeletePart = async (item: any) => {
     try {
-      const response = ReadingService.deletePart(item?.id);
+      await ReadingService.deletePart(item?.id);
       alert("Delete part success!");
       refetchDataTable();
       // }
