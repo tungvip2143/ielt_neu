@@ -45,7 +45,7 @@ const ItemQuestion = ({
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-      return <MatchingType data={data} />;
+      return <MatchingType questionBox={questionBox} data={data} />;
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return <QuestionBox questionBox={questionBox} />;
@@ -57,7 +57,7 @@ const ItemQuestion = ({
       return <MachingHeading data={data} />;
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart image={image} />;
+      return <FlowChart question={question} image={image} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return <SentenceCompletetion data={data} />;

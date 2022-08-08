@@ -127,7 +127,7 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
     <Box sx={box}>
       <Box sx={{ width: "80%", margin: "0 auto" }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap" } }}>
+          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
             {questions?.map((group: any, index: number) => {
               console.log("partKey", group);
               // console.log("partValues", partValues);

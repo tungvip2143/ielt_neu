@@ -56,13 +56,15 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
-      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS
     ) {
       return (
         <ItemQuestion
           image={partRenderSelected?.image}
           questionType={questionType}
-          questionBox={partRenderSelected.questionBox}
+          questionBox={partRenderSelected?.questionBox}
+          question={partRenderSelected?.questions}
         />
       );
     }
@@ -75,7 +77,7 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
             questionType={questionType}
             expanded={expanded}
             onCollapse={handleCollapse}
-            questionBox={partRenderSelected.questionBox}
+            questionBox={partRenderSelected?.questionBox}
           />
         </>
       );

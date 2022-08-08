@@ -35,7 +35,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const CardLeft = ({ dataChangePart, test }: Props) => {
-  console.log("content-p2", dataChangePart?.passageText);
+  console.log("content-p2", dataChangePart);
   const classes = useStyles();
 
   return (
@@ -46,10 +46,16 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
       )}
       {test === IELT_TEST.WRITING && (
         <div className={classes.container}>
-          <Text.Sub20Bold>{ReactHtmlParser(dataChangePart?.question?.title)}</Text.Sub20Bold>
+          <span>
+            <strong>{ReactHtmlParser(dataChangePart?.question?.title)}</strong>
+          </span>
           <Text.Desc16>{ReactHtmlParser(dataChangePart?.question?.text)}</Text.Desc16>
           <div className={classes.div}>
-            <img className={classes.img} src={dataChangePart?.question?.image} alt="writing part 1" />
+            <img
+              className={classes.img}
+              src={dataChangePart?.question?.image}
+              alt={`writing part ${dataChangePart?.question?.displayNumber}`}
+            />
           </div>
         </div>
       )}

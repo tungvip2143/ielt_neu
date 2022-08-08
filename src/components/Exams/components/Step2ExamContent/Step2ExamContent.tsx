@@ -15,6 +15,8 @@ import { useMemo } from "react";
 import { group } from "console";
 import { IELT_TEST } from "interfaces/testType";
 import Writing from "views/Ielts/writing/component/Writing";
+import CardPart from "components/Card/CardPart";
+import ReactHtmlParser from "react-html-parser";
 
 interface Props {
   data?: any;
@@ -56,37 +58,44 @@ const Step2ExamContent = (props: any) => {
   console.log("partRenderSelected11", partRenderSelected);
   //! Render
   return (
-    <Box sx={{ position: "relative" }}>
+    <>
       <Box sx={{ width: "80%", margin: "0 auto" }}>
-        <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-          <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} />
-          {test === IELT_TEST.WRITING && (
-            <CardExercise
-              content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
-            />
-          )}
-          {test === IELT_TEST.READING && (
-            <CardExercise
-              content={
-                <TOFFL
-                  onClickPage={onClickPage}
-                  questionSelected={questionSelected}
-                  partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
-                />
-              }
-            />
-          )}
-        </Grid>
+        <CardPart part={groupSelected.part + 1}>
+          {/* {ReactHtmlParser(partRenderSelected?.groups[groupSelected.group]?.directionText)} */}
+        </CardPart>
       </Box>
+      <Box sx={{ position: "relative" }}>
+        <Box sx={{ width: "80%", margin: "0 auto" }}>
+          <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
+            <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} />
+            {test === IELT_TEST.WRITING && (
+              <CardExercise
+                content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
+              />
+            )}
+            {test === IELT_TEST.READING && (
+              <CardExercise
+                content={
+                  <TOFFL
+                    onClickPage={onClickPage}
+                    questionSelected={questionSelected}
+                    partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                  />
+                }
+              />
+            )}
+          </Grid>
+        </Box>
 
-      <CardTotalPageExams
-        questionSelected={questionSelected}
-        onClickPart={onClickPart}
-        onClickPage={onClickPage}
-        questions={questions}
-        test={test}
-      />
-    </Box>
+        <CardTotalPageExams
+          questionSelected={questionSelected}
+          onClickPart={onClickPart}
+          onClickPage={onClickPage}
+          questions={questions}
+          test={test}
+        />
+      </Box>
+    </>
   );
 };
 

@@ -4,7 +4,6 @@ import Box from "@mui/material/Box";
 import CardPart from "components/Card/CardPart";
 //
 import Step2ExamContent from "components/Exams/components/Step2ExamContent/Step2ExamContent";
-import ReactHtmlParser from "react-html-parser";
 import { useEffect, useState } from "react";
 import { useFormikContext } from "formik";
 // import ButtonNumberPage from "components/Button/ButtonNumberPage";
@@ -20,9 +19,6 @@ const ExamTest = (props: Props) => {
 
   return (
     <Box>
-      <Box sx={{ width: "80%", margin: "0 auto" }}>
-        {/* <CardPart part={part.partNumber}>{ReactHtmlParser(part?.groups[0]?.directionText)}</CardPart> */}
-      </Box>
       <Step2ExamContent data={data} {...rest} />
     </Box>
   );
