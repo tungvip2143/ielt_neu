@@ -50,7 +50,7 @@ const CreateQuestionReading = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(openCreateScreen?.element?.id);
-  const [dataReading, loading, error, , refetchQuestionGroup] = useGetListReadingQuestion(
+  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(
     openCreateScreen?.element?.id
   );
   const [isEdit, setIsEdit] = useState(false);
@@ -150,7 +150,7 @@ const CreateQuestionReading = (props: Props) => {
           onClose();
         }
       } catch (error) {
-        console.log("error");
+        console.log("error", error);
       }
     }
     if (openCreateScreen.type === "update") {
@@ -167,14 +167,14 @@ const CreateQuestionReading = (props: Props) => {
           onClose();
         }
       } catch (error) {
-        console.log("error");
+        console.log("error", error);
       }
     }
   };
 
-  const onDelete = (id: number | string) => {
+  const onDelete = async (id: number | string) => {
     try {
-      ReadingService.deleteQuestionGroup(id);
+      await ReadingService.deleteQuestionGroup(id);
       alert("Delete question group success");
       refetchQuestionGroup();
       // }
@@ -182,6 +182,7 @@ const CreateQuestionReading = (props: Props) => {
       console.log("error");
     }
   };
+
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
@@ -246,10 +247,10 @@ const CreateQuestionReading = (props: Props) => {
                     style={{ marginTop: el.questionBox ? "10px" : 0 }}
                   />
                   <div style={{ display: "flex", justifyContent: "end", marginTop: 10 }}>
-                    <Button onClick={() => setOpenModal({ type: "detail", id: el.id })}>Detail</Button>
+                    {/* <Button onClick={() => setOpenModal({ type: "detail", id: el.id })}>Detail</Button>
                     <Button color="success" onClick={() => setOpenModal({ type: "updateQuestion" })}>
                       Update
-                    </Button>
+                    </Button> */}
                     <Button color="error" onClick={() => onDelete(el.id)}>
                       Delete
                     </Button>

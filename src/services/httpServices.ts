@@ -65,12 +65,11 @@ class Services {
     return this.axios.delete(url, config);
   }
 
-
   put(url: string, data: any, config?: AxiosRequestConfig) {
     return this.axios.put(url, data, config);
   }
   patch(url: string, data: any, config?: AxiosRequestConfig) {
-    return this.axios.patch(url, data, config);
+    return this.axios.put(url, data, config);
   }
 }
 
