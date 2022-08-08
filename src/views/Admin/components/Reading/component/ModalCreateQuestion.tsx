@@ -119,13 +119,15 @@ const ModalCreateQuestion = (props: Props) => {
     try {
       const response = await ReadingService.postCreateQuestionGroupReading(body);
       if (response.data.statusCode === 200) {
+        console.log();
+        
         alert("Create question group success!");
         fetchData()
         onCloseModal();
 
       }
     } catch (error) {
-      console.log("error");
+      console.log("error", error, fetchData);
     }
   };
 
@@ -134,14 +136,14 @@ const ModalCreateQuestion = (props: Props) => {
     handleSubmit(onSubmit)();
   };
 
-  const renderMultiChoice = (item: any) => {
+  const renderMultiChoice = (item: any, index: number) => {
     return (
       <InputCommon
         control={control}
         id="standard-basic"
         label={item.title}
         variant="standard"
-        name={item.name}
+        name={`${item.name}_${index}`}
         InputProps={{
           startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
         }}
@@ -152,12 +154,8 @@ const ModalCreateQuestion = (props: Props) => {
   const renderViewAnswer = (type?: number | undefined | string) => {
     switch (type) {
       case "MULTIPLE_CHOICE_1_ANSWER":
-        return DataAnswer.map((item: QuestionTypeI, index: number) => {
-          return <div key={index}>{renderMultiChoice(item)}</div>;
-        });
-      case 3:
-        return DataAnswer.map((item: QuestionTypeI, index: number) => {
-          return <div key={index}>{renderMultiChoice(item)}</div>;
+        return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
+          return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer)}</div>;
         });
       default:
         return (
@@ -243,15 +241,6 @@ const ModalCreateQuestion = (props: Props) => {
                     required
                     fullWidth
                   />
-                  {/* <SelectField
-                    control={control}
-                    options={dataLevels}
-                    label="Level"
-                    variant="standard"
-                    style={{ marginLeft: 20 }}
-                    name={`questionReading[${index}].levelType`}
-                    setValue={setValue}
-                  /> */}
                 </div>
                 <Box
                   component="form"
@@ -262,7 +251,7 @@ const ModalCreateQuestion = (props: Props) => {
                   autoComplete="off"
                 >
                   <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType)}</div>
-                  {(questionType === 1 || questionType === 3) && (
+                  {(questionType === "MULTIPLE_CHOICE_1_ANSWER") && (
                     <InputCommon
                       control={control}
                       id="standard-basic"

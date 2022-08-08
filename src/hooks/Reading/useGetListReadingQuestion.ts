@@ -1,4 +1,5 @@
 import MReading from "models/Reading/Reading.model";
+import { useCallback } from "react";
 import { useEffect, useState } from "react";
 import ReadingService from "services/ReadingService";
 
@@ -8,18 +9,20 @@ const useGetListReadingQuestion = (id: any) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
-  const refetchQuestionGroup = async () => {
-    if (!id) return;
-    try {
-      const response = await ReadingService.getListQuestionGroup(id);
-      if (response.data.statusCode === 200) {
-        setDataReading(response?.data?.data || []);
-        // setMetaReading(response?.data?.data?.paging || {});
+  const refetchQuestionGroup = useCallback(async () => {
+    if (id) {
+      try {
+        const response = await ReadingService.getListQuestionGroup(id);
+        if (response.data.statusCode === 200) {
+          setDataReading(response?.data?.data || []);
+          // setMetaReading(response?.data?.data?.paging || {});
+        }
+      } catch (error: any) {
+        setError(error);
       }
-    } catch (error: any) {
-      setError(error);
     }
-  };
+  }, [id, setError, setDataReading, ReadingService.getListQuestionGroup]);
+
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -38,6 +41,7 @@ const useGetListReadingQuestion = (id: any) => {
       fetchData();
     }
   }, [id]);
+
 
   return [dataReading, loading, error, refetchQuestionGroup];
 };
