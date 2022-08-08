@@ -53,6 +53,7 @@ const AdminDrawer = () => {
         "& .MuiDrawer-paper": {
           width: drawerWidth,
           boxSizing: "border-box",
+          background: "rgb(40, 36, 61)",
         },
       }}
       variant="permanent"
