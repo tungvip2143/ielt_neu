@@ -12,12 +12,14 @@ import { ieltsApi } from "api/ieltsResults";
 import { makeStyles } from "@mui/styles";
 import ButtonCommon from "components/Button/ButtonCommon";
 import { object } from "yup";
+import { IELT_TEST } from "interfaces/testType";
 
 interface CardTotalPageExamsI {
   questions: any;
   onClickPage: (id: string) => void;
   onClickPart: (id: string) => void;
   questionSelected?: string;
+  test?: string;
 }
 
 const box = {
@@ -31,7 +33,6 @@ const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
-      width: "34%",
       paddingBottom: "10px",
     },
     part: {
@@ -64,9 +65,9 @@ const nextPage = {
   p: "8px",
   borderRadius: "5px",
 };
-const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected }: CardTotalPageExamsI) => {
+const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected, test }: CardTotalPageExamsI) => {
   // console.log("questionSelected", questionSelected);
-  // console.log("questions", questions);
+  console.log("questions", questions);
 
   const [highlightPage, setHighlightPage] = useState();
 
@@ -74,22 +75,47 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
   const classes = useStyles();
 
   //
-  const renderPartValues = (partValues: any) => {
-    return Object.entries(partValues?.questions).map(([keyGoup, partGroup]: any) => {
-      return partGroup.map((item: any) => {
-        const handleClickQuestion = () => {
-          onClickPage(item.id);
-          setHighlightPage(item.id);
+  const renderPartValues = (partValues: any, index: number) => {
+    let sectionRender: any = {};
+    if (test === IELT_TEST.WRITING) {
+      const handleClickQuestion = (part: any, group: any) => {
+        sectionRender.part = index;
+        onClickPage(sectionRender);
+        setHighlightPage(partValues.questionId);
+      };
+      return (
+        <>
+          <div
+            key={partValues.id}
+            className={classes.eachQuestion}
+            onClick={() => handleClickQuestion(partValues, index)}
+            style={highlightPage === partValues.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+          >
+            <span>{partValues.question.displayNumber}</span>
+          </div>
+        </>
+      );
+    }
+
+    return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
+      return partGroup.questions.map((item: any, index: number) => {
+        const handleClickQuestion = (part: any, group: any) => {
+          sectionRender.part = partValues.partNumber - 1;
+          sectionRender.group = partGroup.groupNumber - 1;
+          onClickPage(sectionRender);
+          setHighlightPage(item.questionId);
         };
         return (
-          <div
-            key={keyGoup}
-            className={classes.eachQuestion}
-            onClick={handleClickQuestion}
-            style={highlightPage === item.id ? { background: "#4C80F1", borderRadius: "50%" } : {}}
-          >
-            <span>{item.id}</span>
-          </div>
+          <>
+            <div
+              key={item.id}
+              className={classes.eachQuestion}
+              onClick={() => handleClickQuestion(partValues, partGroup)}
+              style={highlightPage === item.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+            >
+              <span>{item.question.displayNumber}</span>
+            </div>
+          </>
         );
       });
     });
@@ -101,16 +127,21 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
     <Box sx={box}>
       <Box sx={{ width: "80%", margin: "0 auto" }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap" } }}>
-            {Object.entries(questions).map(([partKey, partValues]: any, index) => {
-              // console.log("partKey", partKey);
+          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
+            {questions?.map((group: any, index: number) => {
+              console.log("partKey", group);
               // console.log("partValues", partValues);
+              // console.log("questions12", Object.entries(questions));
               return (
                 <>
-                  <div key={partKey} className={classes.eachItem} onClick={() => onClickPart(partKey)}>
-                    <div className={classes.part}>{partKey}</div>
+                  <div
+                    key={group.partNumber}
+                    className={classes.eachItem}
+                    // onClick={() => onClickPart(group.partNumber)}
+                  >
+                    <div className={classes.part}>{`Part ${group.partNumber || index + 1}`}</div>
                     <Stack direction="row" spacing={0.5}>
-                      {renderPartValues(partValues)}
+                      {renderPartValues(group, index)}
                     </Stack>
                   </div>
                 </>

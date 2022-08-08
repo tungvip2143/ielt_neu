@@ -17,23 +17,14 @@ import ReviewExams from "views/Review/ReviewExams";
 import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
   //! Render
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <ToastContainer
-        position="top-right"
-        autoClose={1000}
-        hideProgressBar={false}
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-      />
+      <ToastContainer position="top-right" autoClose={1000} />
       <Router>
         <Switch>
 

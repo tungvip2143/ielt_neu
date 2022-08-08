@@ -14,8 +14,20 @@ export const useIeltsListening = () => {
   });
 };
 
-export const useIeltsWritting = () => {
+export const useIeltsWritting = (testCode: any) => {
   return useQuery("get ielts writting data", ieltsService.getIeltsWritting, {
+    onError: (error) => showError(getErrorMsg(error)),
+    meta: testCode,
+  });
+};
+export const useUpdateIeltsWriting = () => {
+  return useMutation(ieltsService.updateIeltsWriting, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+
+export const useFinishIeltsWritingTest = () => {
+  return useMutation(ieltsService.finishIeltsWriting, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
@@ -27,8 +39,24 @@ export const useIeltsReading = (testCode: any) => {
   });
 };
 
+export const useUpdateIeltsReadingTest = () => {
+  return useMutation(ieltsService.updateIeltsReading, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+export const useFinishIeltsReadingTest = () => {
+  return useMutation(ieltsService.finishIeltsReading, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+
 export const useIeltsSpeaking = () => {
   return useQuery("get ielts speaking data", ieltsService.getIeltsSpeaking, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+export const useIeltsResult = (query: any) => {
+  return useQuery(`${query} `, ieltsService.getIeltsTestResult, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
