@@ -9,6 +9,8 @@ import Stack from "@mui/material/Stack";
 //
 import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
+import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
+
 //
 // !type
 interface TOFFLI {
@@ -21,13 +23,13 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(questionSelected);
   const [dataPartGruop, setDataPartGroup] = useState();
-
+  console.log("partRenderSelected2", partRenderSelected);
   //! Number
 
   const from = () => {
-    partRenderSelected?.questions[0]?.map((item: any) => {
-      console.log("item");
-    });
+    // partRenderSelected?.questions[0]?.map((item: any) => {
+    //   console.log("item");
+    // });
   };
 
   useEffect(() => {
@@ -48,21 +50,44 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
   }, [questionSelected]);
   //
   const renderPartValueGroup = (partRenderSelected: any) => {
-    return Object.entries(partRenderSelected?.questions).map(([keyGoup, partGroup]: any) => {
-      return partGroup.map((item: any) => {
-        return (
-          <>
-            <ItemQuestion key={keyGoup} question={item} expanded={expanded} onCollapse={handleCollapse} />
-          </>
-        );
-      });
+    console.log("partRenderSelected", partRenderSelected);
+    const questionType = partRenderSelected?.questionType;
+    if (
+      questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS
+    ) {
+      return (
+        <ItemQuestion
+          image={partRenderSelected?.image}
+          questionType={questionType}
+          questionBox={partRenderSelected?.questionBox}
+          question={partRenderSelected?.questions}
+        />
+      );
+    }
+    return partRenderSelected?.questions?.map((question: any) => {
+      return (
+        <>
+          <ItemQuestion
+            key={question._id}
+            question={question}
+            questionType={questionType}
+            expanded={expanded}
+            onCollapse={handleCollapse}
+            questionBox={partRenderSelected?.questionBox}
+          />
+        </>
+      );
     });
   };
 
   //! Render
   return (
     <Box>
-      <TitleExam dataNumber={dataNumber} />
+      <TitleExam dataNumber={dataNumber} title={partRenderSelected} />
       <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
         {renderPartValueGroup(partRenderSelected)}
         {/* {partRenderSelected.map((item: any) => {

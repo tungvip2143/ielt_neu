@@ -61,7 +61,7 @@ const Header: React.FC = (props) => {
       <div className="container">
         <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
           <Grid item xs={8} md={8}>
-            <Grid container sx={{ justifyContent: "space-between" }}>
+            <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
               <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to={"/"}>
                   <img src={imgLogo} alt="" />
@@ -86,10 +86,13 @@ const Header: React.FC = (props) => {
                 <NavLink to="#">
                   <Text.DescSmall sx={TextSecond}>User Reviews</Text.DescSmall>
                 </NavLink>
+                <NavLink to="/admin">
+                  <Text.DescSmall sx={TextSecond}>Admin</Text.DescSmall>
+                </NavLink>
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4} md={4}>
+          <Grid item xs={4} md={3}>
             <Stack spacing={2} direction="row" sx={{ justifyContent: "flex-end" }}>
               <Button
                 variant="outlined"
@@ -102,7 +105,7 @@ const Header: React.FC = (props) => {
             </Stack>
           </Grid>
         </Grid>
-        <Grid item>
+        {/* <Grid item>
           <Stack spacing={2} direction="row">
             <Button>
               <LinkCustom to="/TOFFL">TOEFL</LinkCustom>
@@ -111,8 +114,8 @@ const Header: React.FC = (props) => {
               <LinkCustom to="/ielts">IELTS</LinkCustom>
             </Button>
           </Stack>
-        </Grid>
-        <Divider orientation="vertical" />
+        </Grid> */}
+        {/* <Divider orientation="vertical" />
         <Grid item>
           <Stack direction="row">
             <Button>
@@ -134,10 +137,10 @@ const Header: React.FC = (props) => {
             <Button variant="outlined">Login</Button>
             <Button variant="contained">TRY FOR FREE</Button>
           </Stack>
-        </Grid>
+        </Grid> */}
       </div>
     </Box>
-  )
-}
+  );
+};
 
 export default Header;
