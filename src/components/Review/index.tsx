@@ -16,6 +16,7 @@ import Card from "@mui/material/Card";
 //
 import TitleIntroExam from "components/TitleIntroExam/TitleIntroExam";
 import Text from "components/Typography/index";
+import { useIeltsResult } from "hooks/ielts/useIelts";
 
 // ! type
 interface PropsBg {
@@ -37,6 +38,8 @@ const cssBotton = {
 export default function BasicTable({ bg }: PropsBg) {
   console.log(bg);
   const [panal, setPanal] = useState<TypeExamEnum>(TypeExamEnum.LISTENING);
+  const { data } = useIeltsResult({ skill: "READING" });
+  console.log("review data", data);
   //
   const typeExams = [
     {

@@ -7,6 +7,10 @@ import Text from "components/Typography/index";
 
 import ButtonStartTest from "components/Button/ButtonStartTest";
 import { useHistory } from "react-router-dom";
+import { useFinishIeltsReadingTest, useFinishIeltsWritingTest } from "hooks/ielts/useIelts";
+import { useSelector } from "react-redux";
+import { IELT_TEST } from "interfaces/testType";
+import LoadingPage from "components/Loading";
 
 const card = {
   p: "48px 32px",
@@ -21,11 +25,36 @@ const content = {
   textAlign: "center",
 };
 
-const EndTest = () => {
+interface Props {
+  test?: string;
+}
+
+const EndTest = (props: Props) => {
+  const { test } = props;
   // !Hook
   const history = useHistory();
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
-  const handleEndTest = () => history.push("/ielts/scores");
+  const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
+  const { mutateAsync: finishIeltsWriting, isLoading: writingLoading } = useFinishIeltsWritingTest();
+  // const {}=
+
+  const handleEndTest = async () => {
+    if (test === IELT_TEST.READING) {
+      await finishIeltsReading(testCode, {
+        onSuccess: () => history.push("/ielts/scores"),
+      });
+    }
+    if (test === IELT_TEST.WRITING) {
+      await finishIeltsWriting(testCode, {
+        onSuccess: () => history.push("/ielts/scores"),
+      });
+    }
+  };
+
+  if (readingLoading || writingLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <Card sx={card}>

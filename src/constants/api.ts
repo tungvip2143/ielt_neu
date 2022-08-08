@@ -14,8 +14,13 @@ export const IELTS_URL = (testCode?: any) => {
     IELTS: `${ROOT_URL}/ielts`,
     LISTENING: `${ROOT_URL}/ielts/listening`,
     READING: `${ROOT_URL}/tests/${testCode?.meta}/reading`,
-    WRITTING: `${ROOT_URL}/ielts/writting`,
-    SPEAKING: `${ROOT_URL}/ielts/speaking`,
+    WRITTING: `${ROOT_URL}/tests/${testCode?.meta}/writing`,
+    SPEAKING: `${ROOT_URL}/tests/speaking`,
     TEST_CODE: `${ROOT_URL}/tests/prepare`,
+    SUBMIT_READING_TEST: `${ROOT_URL}/tests/${testCode}`,
+    SUBMIT_WRITING_TEST: `${ROOT_URL}/tests/${testCode}`,
+    FINISH_READING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
+    FINISH_WRITING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
+    RESULT: `${ROOT_URL}/tests/results`,
   };
 };

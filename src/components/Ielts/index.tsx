@@ -36,6 +36,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
                 image: string;
                 hoverColor: string;
                 path: string;
+                skill: string;
               }) => (
                 <CardIlets key={item.nameExam} exam={item} />
               )

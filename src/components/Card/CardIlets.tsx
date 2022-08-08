@@ -42,6 +42,7 @@ interface Exam {
     image: string;
     hoverColor: string;
     path: string;
+    skill: string;
   };
 }
 const CardIlets = ({ exam }: Exam) => {
@@ -52,10 +53,12 @@ const CardIlets = ({ exam }: Exam) => {
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
   const history = useHistory();
 
+  console.log("skill", exam);
+
   // !Function
   const handleTest = async () => {
     await createTestCode(
-      { skill: "READING" },
+      { skill: exam.skill },
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
