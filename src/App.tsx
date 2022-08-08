@@ -18,16 +18,17 @@ import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useCheckAuth } from "hooks/auth/useCheckAuth";
 
 const App: React.FC = () => {
   //! Render
+  useCheckAuth();
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
       <ToastContainer position="top-right" autoClose={1000} />
       <Router>
         <Switch>
-
           <Route path={RouteBase.Login} exact component={LoginPage} />
           <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
           <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
