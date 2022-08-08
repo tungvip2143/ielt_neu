@@ -19,10 +19,11 @@ import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCheckAuth } from "hooks/auth/useCheckAuth";
+import PrivateRoute from "components/PrivateRoute";
 
 const App: React.FC = () => {
-  //! Render
   useCheckAuth();
+  //! Render
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
@@ -30,14 +31,14 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path={RouteBase.Login} exact component={LoginPage} />
-          <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
-          <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
-          <Route path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
-          <Route path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
+          <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
+          <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
+          <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
+          <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
 
-          <Route path={RouteBase.Admin} component={AdminLayout} />
+          <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}
         </Switch>
