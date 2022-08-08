@@ -64,7 +64,8 @@ const Header: React.FC = (props) => {
             <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
               <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to={"/"}>
-                  <img src={imgLogo} alt="" />
+                  {/* <img src={imgLogo} alt="" /> */}
+                  Logo
                 </NavLink>
                 <NavLink to="/TOFFL" activeClassName="toefl" className="nav-link">
                   <Text.Sub20Bold sx={TextExams1}>TOEFL</Text.Sub20Bold>
