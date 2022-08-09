@@ -38,7 +38,9 @@ const cssBotton = {
 export default function BasicTable({ bg }: PropsBg) {
   console.log(bg);
   const [panal, setPanal] = useState<TypeExamEnum>(TypeExamEnum.LISTENING);
-
+  const { data } = useIeltsResult({ skill: "READING" });
+  console.log("review data", data);
+  //
   const typeExams = [
     {
       id: TypeExamEnum.LISTENING,

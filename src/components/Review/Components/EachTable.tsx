@@ -46,7 +46,6 @@ interface EachTableI {
 
 const EachTable = ({ panelId }: EachTableI) => {
   //! State
-
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
   const { data, isLoading, refetch } = useIeltsResult({ skill: panelId, page });

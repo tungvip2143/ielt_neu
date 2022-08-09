@@ -12,6 +12,7 @@ const PrivateRoute = (props: any) => {
   }
 
   return <Redirect to="/login" />;
+  // return <Redirect to="/admin/login" />;
 };
 
 export default PrivateRoute;

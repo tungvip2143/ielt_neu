@@ -9,10 +9,10 @@ export const RouteBase = {
   Pricing: "/pricing",
   ReviewExams: "/review-exams",
   Admin: "/admin",
+  AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   Listening: "/admin/listening",
   Speaking: "/admin/speaking",
   Writing: "/admin/writing",
   Reading: "/admin/reading",
-  
 };

@@ -3,6 +3,9 @@ import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
 import { useLocation } from "react-router-dom";
+import ButtonCommon from "components/Button";
+import useSagaCreators from "hooks/useSagaCreators";
+import { authActions } from "redux/creators/modules/auth";
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
@@ -11,7 +14,12 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 
 export default function AdminBreadcrumbs() {
   const location = useLocation();
-  console.log('location', location);
+  const { dispatch } = useSagaCreators();
+  console.log("location", location);
+
+  const onLogout = () => {
+    dispatch(authActions.logout);
+  };
   return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
@@ -23,6 +31,8 @@ export default function AdminBreadcrumbs() {
         </Link> */}
         <Typography color="text.primary">Breadcrumbs</Typography>
       </Breadcrumbs>
+
+      <ButtonCommon onClick={onLogout}>Logout</ButtonCommon>
     </div>
   );
 }

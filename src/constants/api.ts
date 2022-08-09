@@ -18,7 +18,6 @@ export const AUTH_URL = {
 };
 
 export const IELTS_URL = (testCode?: any) => {
-  console.log("testCode", testCode);
   return {
     IELTS: `${ROOT_URL}/ielts`,
     LISTENING: `${ROOT_URL}/ielts/listening`,

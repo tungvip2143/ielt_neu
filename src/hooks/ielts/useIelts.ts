@@ -56,7 +56,6 @@ export const useIeltsSpeaking = () => {
   });
 };
 export const useIeltsResult = (query: any) => {
-  console.log("query", query);
   return useQuery(["get ielts results", query], () => ieltsService.getIeltsTestResult(query), {
     onError: (error) => showError(getErrorMsg(error)),
   });
