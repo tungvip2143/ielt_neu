@@ -42,8 +42,9 @@ class IeltsService {
     return httpServices.get(IELTS_URL().SPEAKING);
   }
 
-  getIeltsTestResult(query: any) {
-    return httpServices.get(IELTS_URL().RESULT, query);
+  getIeltsTestResult(query: { page: number; skill: string; pageSize: number }) {
+    const { page = 1, skill, pageSize = 5 } = query;
+    return httpServices.get(`${IELTS_URL().RESULT}?page=${page}&pageSize=${pageSize}&skill=${skill}`);
   }
 }
 
