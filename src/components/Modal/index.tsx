@@ -39,10 +39,10 @@ const style = {
 };
 
 function Modal(props: Props) {
-  //! Destructure props
+  // !Destructure props
   const { children, onClose, open } = props;
 
-  //! State
+  // !State
 
   return (
     <ModalMui

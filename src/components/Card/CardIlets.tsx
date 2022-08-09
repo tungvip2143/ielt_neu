@@ -64,6 +64,11 @@ const CardIlets = ({ exam }: Exam) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
           history.push(exam.path);
         },
+        onError: (err: any) => {
+          if (err.response.data.statusCode === 401) {
+            history.push("/login");
+          }
+        },
       }
     );
   };

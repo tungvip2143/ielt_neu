@@ -18,7 +18,8 @@ export const authSagas = {
       const infoLocalStorage = authServices.getUserLocalStorage();
       if (!isEmpty(infoLocalStorage)) {
         const { token } = infoLocalStorage;
-        yield put({ type: authActions.saveInfoUser, payload: { token } });
+        yield httpServices.attachTokenToHeader(token);
+        yield put({ type: authActions.saveInfoUserSuccess, token });
       } else {
         yield put({ type: authActions.saveInfoUserFailed });
       }

@@ -105,7 +105,7 @@ const Card = () => {
   const Footer = () => {
     return (
       <Stack direction="row" spacing={1} sx={footer}>
-        <Switch  color="info" checked={isShowSale} onChange={hanldeShowSale} />
+        <Switch defaultChecked color="info" checked={isShowSale} onChange={hanldeShowSale} />
         <Typography sx={{ fontSize: "12px", fontWeight: "bold", color: "#114AC6" }}>{showDescButtonSale()}</Typography>
       </Stack>
     );

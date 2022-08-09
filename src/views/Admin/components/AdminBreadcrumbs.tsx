@@ -14,13 +14,12 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 
 export default function AdminBreadcrumbs() {
   const location = useLocation();
-  const { dispatch  } = useSagaCreators();
-  console.log('location', location);
+  const { dispatch } = useSagaCreators();
+  console.log("location", location);
 
   const onLogout = () => {
     dispatch(authActions.logout);
-  }
-  
+  };
   return (
     <div role="presentation" onClick={handleClick}>
       <Breadcrumbs aria-label="breadcrumb">
@@ -33,9 +32,7 @@ export default function AdminBreadcrumbs() {
         <Typography color="text.primary">Breadcrumbs</Typography>
       </Breadcrumbs>
 
-      <ButtonCommon onClick={onLogout}>
-        Logout
-      </ButtonCommon>
+      <ButtonCommon onClick={onLogout}>Logout</ButtonCommon>
     </div>
   );
 }
