@@ -8,6 +8,7 @@ import Button from "components/Button";
 import useSagaCreators from "hooks/useSagaCreators";
 import { authActions } from "redux/creators/modules/auth";
 import { useLogin } from "hooks/auth/useAuth";
+import { RouteBase } from "constants/routeUrl";
 
 const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
@@ -17,7 +18,7 @@ const LoginPage = (props: any) => {
   const { mutateAsync: login } = useLogin();
 
   if (isLogin) {
-    return <Redirect to="/" />;
+    return <Redirect to={RouteBase.Admin} />;
   }
 
   return (
