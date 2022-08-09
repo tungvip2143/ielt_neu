@@ -21,6 +21,7 @@ import Stack from "@mui/material/Stack";
 import Title from "./components/Title";
 import Footer from "./components/Footer";
 import CardView from "./components/CardView";
+import { RouteBase } from "constants/routeUrl";
 //
 const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
@@ -29,7 +30,7 @@ const LoginPage = (props: any) => {
 
   const { mutateAsync: login } = useLogin();
   if (isLogin) {
-    return <Redirect to="/" />;
+    return <Redirect to={RouteBase.Admin} />;
   }
   const history = useHistory();
 

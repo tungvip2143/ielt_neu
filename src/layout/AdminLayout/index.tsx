@@ -22,6 +22,7 @@ const AdminLayout: React.FC = (props) => {
             <Route path={RouteBase.Speaking} exact component={SpeakingSkill} />
             <Route path={RouteBase.Writing} exact component={WritingSkill} />
             <Route path={RouteBase.Reading} exact component={ReadingSkill} />
+
             {/* {routes.map((route: any, idx: any) => {
               if (route.isPrivate) {
                 return <PrivateRoute key={idx} path={route.path} exact={route.exact} component={route.component} />;

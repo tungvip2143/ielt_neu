@@ -56,7 +56,7 @@ export const useIeltsSpeaking = () => {
   });
 };
 export const useIeltsResult = (query: any) => {
-  return useQuery(`${query} `, ieltsService.getIeltsTestResult, {
+  return useQuery(["get ielts results", query], () => ieltsService.getIeltsTestResult(query), {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };

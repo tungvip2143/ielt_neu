@@ -53,9 +53,9 @@ export default function BasicTable({ bg }: PropsBg) {
       icon: <AutoStoriesIcon sx={panal === "READING" ? { color: "#B0D909" } : {}} />,
     },
     {
-      id: TypeExamEnum.WRITTING,
+      id: TypeExamEnum.WRITING,
       name: "Writing",
-      icon: <CreateIcon sx={panal === "WRITTING" ? { color: "#8CE5EC" } : {}} />,
+      icon: <CreateIcon sx={panal === "WRITING" ? { color: "#8CE5EC" } : {}} />,
     },
     {
       id: TypeExamEnum.SPEAKING,
@@ -71,7 +71,7 @@ export default function BasicTable({ bg }: PropsBg) {
     if (panal === TypeExamEnum.READING) {
       return "#B0D909";
     }
-    if (panal === TypeExamEnum.WRITTING) {
+    if (panal === TypeExamEnum.WRITING) {
       return "#8CE5EC";
     }
     if (panal === TypeExamEnum.SPEAKING) {

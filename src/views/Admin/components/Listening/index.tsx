@@ -12,7 +12,6 @@ import CreateQuestionListening from "./component";
 const ListeningSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataParts, loading, error, refetchDataTable, metaPart] = useGetParts();
-
   const onDeletePart = async (item: any) => {
     try {
       const response = ReadingService.deletePart(item?.id);

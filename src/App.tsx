@@ -26,6 +26,7 @@ import SignUp from "views/Login/SignUp";
 
 const App: React.FC = () => {
   useCheckAuth();
+
   //! Render
   return (
     <ThemeProvider theme={theme}>
@@ -40,9 +41,7 @@ const App: React.FC = () => {
           <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
-          <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
-          <Route path={RouteBase.SignUp} exact component={SignUp} />
-
+          <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}
