@@ -20,6 +20,7 @@ const useGetParts = () => {
       setError(error);
     }
   };
+console.log('metaPart',metaPart);
 
   useEffect(() => {
     const fetchData = async () => {

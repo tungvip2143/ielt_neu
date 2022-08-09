@@ -5,23 +5,19 @@ import useGetParts from "hooks/Reading/useGetParts";
 import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
+import { TRUE } from "sass";
 import httpServices from "services/httpServices";
 import ReadingService from "services/ReadingService";
 import CreateQuestionListening from "./component";
+import ModalDelete from "./component/ModalDeleteBtn";
 
 const ListeningSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataParts, loading, error, refetchDataTable, metaPart] = useGetParts();
 
-  const onDeletePart = async (item: any) => {
-    try {
-      const response = ReadingService.deletePart(item?.id);
-      alert("Delete part success!");
-      refetchDataTable();
-      // }
-    } catch (error) {
-      console.log("error");
-    }
+  const onSubmitRemove = async (item: any) => {
+    //* TODO: call API to remove item;
+    alert(JSON.stringify(item));
   };
 
   return (
@@ -52,9 +48,9 @@ const ListeningSkill = () => {
           meta={metaPart}
           count={metaPart.total}
           onEdit={(e: MHeaderTable) => {
-            setOpenCreateScreen({ type: "update", element: e });
-          }}
-          onDelete={onDeletePart}
+            ({ type: "update", element: e });
+          }} 
+          onSubmitRemove={onSubmitRemove}
         />
       )}
     </div>

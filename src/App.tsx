@@ -18,8 +18,13 @@ import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import useCheckAuth from "hooks/useCheckAuth";
+import PrivateRoute from "components/PrivateRoute";
 
 const App: React.FC = () => {
+  //* Check authentication
+  useCheckAuth();
+
   //! Render
   return (
     <ThemeProvider theme={theme}>
@@ -27,7 +32,6 @@ const App: React.FC = () => {
       <ToastContainer position="top-right" autoClose={1000} />
       <Router>
         <Switch>
-
           <Route path={RouteBase.Login} exact component={LoginPage} />
           <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
           <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
@@ -36,7 +40,8 @@ const App: React.FC = () => {
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
 
-          <Route path={RouteBase.Admin} component={AdminLayout} />
+          <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
+          <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}
         </Switch>
