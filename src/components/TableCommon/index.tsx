@@ -11,6 +11,8 @@ import MHeaderTable from "models/HeaderTable.model";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
 import { Box } from "@mui/material";
+import Modal from "components/Modal";
+import useToggleDialog from "hooks/useToggleDialog";
 
 interface ITableCommon {
   count?: number;
@@ -24,6 +26,7 @@ interface ITableCommon {
   customAction?: any;
   onEdit?: (row: any) => void;
   onDelete?: (row: any) => void;
+  onSubmitRemove?: (row:any) => void;
 }
 
 export default function TableCommon({
@@ -38,11 +41,13 @@ export default function TableCommon({
   customAction,
   onEdit = () => {},
   onDelete = () => {},
+  onSubmitRemove = () => {},
 }: ITableCommon) {
   const [tableMeta, setTableMeta] = React.useState({
     page,
     rowsPerPage,
   });
+  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
 
   const handleChangePage = (event: unknown, newPage: number) => {
     onChangePage(newPage);
@@ -52,17 +57,29 @@ export default function TableCommon({
     setTableMeta({ page: 0, rowsPerPage: +event.target.value });
     onChangRowsPerPage(+event.target.value);
   };
+
   const renderAction = (row: any, index: number) => {
     if (customAction) return customAction();
+    console.log('row', row)
     return (
       <TableCell key={`action-${index}}`} align={"center"}>
+        {/* Modal remove each row */}
+        {shouldRenderRemove && (
+          <Modal open={openRemove} onClose={toggleRemove}>
+            Are you sure you want to delete {row.passageTitle}
+
+            <button onClick={() => onSubmitRemove(row)}>Yes</button>
+            <button onClick={toggleRemove}>No</button>
+          </Modal>
+        )}
+
         <BorderColorOutlinedIcon
-          style={{ fontSize: 18, cursor: "grab", color: "#9155FF",marginRight: 10 }}
+          style={{ fontSize: 18, cursor: "grab", color: "#9155FF", marginRight: 10 }}
           onClick={() => onEdit(row)}
         />
         <DeleteForeverOutlinedIcon
           style={{ fontSize: 20, cursor: "grab", color: "#F44335" }}
-          onClick={() => onDelete(row)}
+          onClick={toggleRemove}
         />
       </TableCell>
     );

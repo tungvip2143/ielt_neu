@@ -76,7 +76,7 @@ const AdminDrawer = () => {
         </div>
         {!isActive &&
           MenuData.map((el, index) => (
-            <Link to={el.link}>
+            <Link to={el.link} key={index}>
               <div
                 onClick={() => setSelectItem(index)}
                 key={index}
