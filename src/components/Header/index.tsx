@@ -69,9 +69,9 @@ const Header: React.FC = (props) => {
     >
       <div className="container">
         <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Grid item xs={8} md={8}>
+          <Grid item xs={8} md={7.5}>
             <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
-              <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Grid item xs={4} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to={"/"}>
                   {/* <img src={imgLogo} alt="" /> */}
                   Logo
@@ -86,7 +86,7 @@ const Header: React.FC = (props) => {
                 </NavLink>
               </Grid>
               <Box sx={{ width: "1px", height: "30px", background: "#e7eaed" }} />
-              <Grid item xs={5.5} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Grid item xs={7} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to="/pricing">
                   <Text.DescSmall sx={TextSecond}>Pricing</Text.DescSmall>
                 </NavLink>

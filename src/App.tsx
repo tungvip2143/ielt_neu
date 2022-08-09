@@ -20,6 +20,9 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
+//
+import LoginEmail from "views/Login/LoginEmail";
+import SignUp from "views/Login/SignUp";
 
 const App: React.FC = () => {
   useCheckAuth();
@@ -37,6 +40,8 @@ const App: React.FC = () => {
           <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
+          <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
+          <Route path={RouteBase.SignUp} exact component={SignUp} />
 
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />

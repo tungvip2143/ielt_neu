@@ -14,7 +14,9 @@ import { useIeltsWritting, useUpdateIeltsWriting } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
 import LoadingPage from "components/Loading";
 import { IELT_TEST } from "interfaces/testType";
-
+//
+import { useHistory } from "react-router-dom";
+import ModalExit from "components/Modal/ModalExit";
 export interface IeltsReadingProps {}
 
 const initialsValues = {
@@ -27,6 +29,7 @@ const initialsValues = {
 };
 
 const IeltsWriting = (props: IeltsReadingProps) => {
+  const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
@@ -45,7 +48,18 @@ const IeltsWriting = (props: IeltsReadingProps) => {
       }
     );
   };
+  //
+  const history = useHistory();
 
+  //
+  const handleShowModal = () => {
+    setOpen(true);
+  };
+  const handleCloseModal = () => setOpen(false);
+  //
+  const handleBackIeltsSelection = () => {
+    history.push("/ielts");
+  };
   return (
     <Formik
       initialValues={initialsValues}
@@ -56,12 +70,20 @@ const IeltsWriting = (props: IeltsReadingProps) => {
       {(formik: any) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header />
+            <Header onShowModalExit={handleShowModal} />
             <Box sx={{ mt: "80px" }}>
               {step === TypeStepExamEnum.STEP1 && <RulesWriting />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.WRITING} data={data?.data?.data} />}
               {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.WRITING} />}
             </Box>
+            {open && (
+              <ModalExit
+                open={open}
+                width="560px"
+                handleCloseModal={handleCloseModal}
+                handleBackIeltsSelection={handleBackIeltsSelection}
+              />
+            )}
           </Box>
         </Form>
       )}

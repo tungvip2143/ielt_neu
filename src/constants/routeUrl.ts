@@ -14,5 +14,6 @@ export const RouteBase = {
   Speaking: "/admin/speaking",
   Writing: "/admin/writing",
   Reading: "/admin/reading",
-  
+  LoginEmail: "/login/email",
+  SignUp: "/login/sign-up",
 };
