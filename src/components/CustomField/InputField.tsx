@@ -1,6 +1,7 @@
 import React, { Fragment } from "react";
 
 const InputField = (props: any) => {
+  console.log("props", props);
   const {
     form,
     field,
@@ -30,12 +31,12 @@ const InputField = (props: any) => {
         id={name}
         maxLength={maxLength}
         value={value}
-        placeholder={placeholder}
+        // placeholder={placeholder}
         disabled={disabled}
         invalid={invalid || (!!errors[name] && touched[name])}
         onKeyDown={onKeyDown}
       />
-      {errors[name] && <div>{errors[name]}</div>}
+      {errors[name] && <div className="error">{errors[name]}</div>}
     </Fragment>
   );
 };
