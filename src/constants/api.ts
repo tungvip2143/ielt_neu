@@ -41,5 +41,13 @@ export const ADMIN_READING_URL = (id?: string | number) => {
     GET_LIST_QUESTION_GROUP: `${ROOT_URL}/question-parts/${id}/groups`,
     PATCH_UPDATE_PART: `${ROOT_URL}/question-parts/reading/`,
     DELETE_QUESTION_GROUP: `${ROOT_URL}/question-groups/`,
+    PATCH_UPDATE_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
+    GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
+  };
+};
+
+export const ADMIN_WRITING_URL = () => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/question-parts?sort=createdAt%3ADESC&skill=WRITING`,
   };
 };

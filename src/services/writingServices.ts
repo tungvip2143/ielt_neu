@@ -1,9 +1,9 @@
-import { ADMIN_READING_URL } from "./../constants/api";
+import { ADMIN_WRITING_URL } from "./../constants/api";
 import httpServices from "./httpServices";
 
 class writingServices {
-  getListParts() {
-    return httpServices.get(ADMIN_READING_URL("WRITING").GET_LIST_PARTS);
+  getListParts(params: any = {}) {
+    return httpServices.get(ADMIN_WRITING_URL().GET_LIST_PARTS, { params });
   }
 }
 export default new writingServices();

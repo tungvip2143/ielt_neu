@@ -2,6 +2,9 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AddIcon from "@mui/icons-material/Add";
 import BlockIcon from "@mui/icons-material/Block";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import UndoIcon from "@mui/icons-material/Undo";
 import { Button, Card, InputAdornment, Stack, Typography } from "@mui/material";
@@ -11,10 +14,8 @@ import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import InputCommon from "components/Input";
 import { DataAnswer } from "constants/questionType";
-import useGetLevels from "hooks/Reading/useGetLevel";
 import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
 import useGetPartDetail from "hooks/Reading/useGetPartDetail";
-import useGetQuestionType from "hooks/Reading/useGetQuestionType";
 import { QuestionTypeI, ResponseParams } from "interfaces/questionInterface";
 import { isEmpty } from "lodash";
 import React, { useRef, useState } from "react";
@@ -50,12 +51,8 @@ const CreateQuestionReading = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(openCreateScreen?.element?.id);
-  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(
-    openCreateScreen?.element?.id
-  );
+  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(openCreateScreen?.element?.id);
   const [isEdit, setIsEdit] = useState(false);
-
-  console.log("dataPartDetail", dataPartDetail);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -78,31 +75,6 @@ const CreateQuestionReading = (props: Props) => {
         }}
       />
     );
-  };
-
-  const renderViewAnswer = (type: number | undefined | string) => {
-    switch (type) {
-      case 1:
-        return DataAnswer.map((item: QuestionTypeI, index: number) => {
-          return <div key={index}>{renderMultiChoice(item)}</div>;
-        });
-      case 3:
-        return DataAnswer.map((item: QuestionTypeI, index: number) => {
-          return <div key={index}>{renderMultiChoice(item)}</div>;
-        });
-      default:
-        return (
-          <InputCommon
-            control={control}
-            id="standard-basic"
-            label="Correct answer"
-            variant="standard"
-            name="questionSimple"
-            disabled
-          />
-        );
-        break;
-    }
   };
 
   const renderButtonUpdate = () => {
@@ -183,17 +155,13 @@ const CreateQuestionReading = (props: Props) => {
     }
   };
 
-
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
       <Card style={{ marginBottom: "15px", padding: 20 }}>
-        <Typography style={{ fontWeight: "bold" }}>
-          {openCreateScreen.type === "update" ? "Update part" : "Create part"}
-        </Typography>
+        <Typography style={{ fontWeight: "bold" }}>Reading title</Typography>
         <InputCommon
           id="standard-basic"
-          label="Passage title"
           variant="standard"
           name="partTitle"
           control={control}
@@ -234,6 +202,20 @@ const CreateQuestionReading = (props: Props) => {
             {(dataReading || []).map((el: any, index: number) => {
               return (
                 <Card style={{ marginBottom: "15px", padding: 20 }} key={index}>
+                  <div style={{ display: "flex", justifyContent: "end" }}>
+                    <InfoOutlinedIcon
+                      style={{ color: "#5048E5", fontSize: "20px", cursor: "grab" }}
+                      onClick={() => setOpenModal({ type: "detailQuestion", id: el.id })}
+                    />
+                    <EditIcon
+                      style={{ color: "#15B8A6", fontSize: "20px", cursor: "grab", marginLeft: 10, marginRight: 10 }}
+                      onClick={() => setOpenModal({ type: "updateQuestion", id: el.id })}
+                    />
+                    <HighlightOffOutlinedIcon
+                      style={{ color: "#f44336", fontSize: "20px", cursor: "grab" }}
+                      onClick={() => onDelete(el.id)}
+                    />
+                  </div>
                   <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
                   <InputCommon
                     id="standard-basic"
@@ -246,15 +228,6 @@ const CreateQuestionReading = (props: Props) => {
                     disabled
                     style={{ marginTop: el.questionBox ? "10px" : 0 }}
                   />
-                  <div style={{ display: "flex", justifyContent: "end", marginTop: 10 }}>
-                    {/* <Button onClick={() => setOpenModal({ type: "detail", id: el.id })}>Detail</Button>
-                    <Button color="success" onClick={() => setOpenModal({ type: "updateQuestion" })}>
-                      Update
-                    </Button> */}
-                    <Button color="error" onClick={() => onDelete(el.id)}>
-                      Delete
-                    </Button>
-                  </div>
                 </Card>
               );
             })}
@@ -274,3 +247,5 @@ const CreateQuestionReading = (props: Props) => {
 };
 
 export default CreateQuestionReading;
+
+const styles = {};

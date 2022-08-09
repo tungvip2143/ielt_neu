@@ -110,89 +110,52 @@ const CreateQuestionWriting = (props: Props) => {
         />
       </Card>
       {openCreateScreen.type === "create" && renderButtonCreate()}
-      {openCreateScreen.type === "update" && (
-        <>
-          <div className="text-end mb-2">
-            <ButtonUpload
-              titleButton="Create question"
-              icon={<AddIcon />}
-              style={{ background: "#9155FE" }}
-              onClick={onAddQuestion}
+      {/* <div className="text-end mb-2">
+        <ButtonUpload
+          titleButton="Create question"
+          icon={<AddIcon />}
+          style={{ background: "#9155FE" }}
+          onClick={onAddQuestion}
+        />
+      </div> */}
+      <Card sx={{ minWidth: 275 }} className="p-[20px] mt-[10px]">
+        {fields.map((field, index) => (
+          <div key={field.id} className="flex items-end">
+            <InputCommon
+              id="standard-basic"
+              label="Question"
+              variant="standard"
+              name={`test[${index}].question`}
+              control={control}
+              required
+              fullWidth
             />
+            <SelectField
+              control={control}
+              options={[
+                { label: "Part 1", value: "part_1" },
+                { label: "Part 2", value: "part_2" },
+              ]}
+              label="Level"
+              variant="standard"
+              style={{ marginLeft: 20 }}
+              name={`test[${index}].levelType`}
+              setValue={setValue}
+            />
+            {fields.length > 1 && (
+              <RemoveCircleOutlineIcon
+                className="text-[#F44335] cursor-grab ml-[20px]"
+                onClick={() => onRemoveQuestion(index)}
+              />
+            )}
           </div>
-          <Card sx={{ minWidth: 275 }} className="p-[20px]">
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex items-end">
-                <InputCommon
-                  id="standard-basic"
-                  label="Question"
-                  variant="standard"
-                  name={`test[${index}].question`}
-                  control={control}
-                  required
-                  fullWidth
-                />
-                <SelectField
-                  control={control}
-                  options={LevelType}
-                  label="Level"
-                  variant="standard"
-                  style={{ marginLeft: 20 }}
-                  name={`test[${index}].levelType`}
-                  setValue={setValue}
-                />
-                {fields.length > 1 && (
-                  <RemoveCircleOutlineIcon
-                    className="text-[#F44335] cursor-grab ml-[20px]"
-                    onClick={() => onRemoveQuestion(index)}
-                  />
-                )}
-              </div>
-            ))}
-            <div style={{ display: "flex", justifyContent: "end", marginTop: 10 }}>
-              <Button color="success">Save</Button>
-              <Button color="error">Delete</Button>
-            </div>
-          </Card>
-        </>
-      )}
+        ))}
+        <div style={{ display: "flex", justifyContent: "end", marginTop: 10 }}>
+          <Button color="success">Save</Button>
+          <Button color="error">Delete</Button>
+        </div>
+      </Card>
     </form>
-    // <form onSubmit={handleSubmit(onSubmit)}>
-    //   <div className="text-end mb-2">
-    //     <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab ml-[10px]" onClick={onAddQuestion} />
-    //   </div>
-    //   <Card sx={{ minWidth: 275 }} className="p-[20px]">
-    //     {fields.map((field, index) => (
-    //       <div key={field.id} className="flex items-end">
-    //         <InputCommon
-    //           id="standard-basic"
-    //           label="Question"
-    //           variant="standard"
-    //           name={`test[${index}].question`}
-    //           control={control}
-    //           required
-    //           fullWidth
-    //         />
-    //         <SelectField
-    //           control={control}
-    //           options={LevelType}
-    //           label="Level"
-    //           variant="standard"
-    //           style={{ marginLeft: 20 }}
-    //           name={`test[${index}].levelType`}
-    //           setValue={setValue}
-    //         />
-    //         {fields.length > 1 && (
-    //           <RemoveCircleOutlineIcon
-    //             className="text-[#F44335] cursor-grab ml-[20px]"
-    //             onClick={() => onRemoveQuestion(index)}
-    //           />
-    //         )}
-    //       </div>
-    //     ))}
-    //     {renderButton()}
-    //   </Card>
-    // </form>
   );
 };
 
