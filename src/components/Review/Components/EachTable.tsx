@@ -82,7 +82,6 @@ const EachTable = ({ panelId }: EachTableI) => {
   //! Pagination
   const handlePageClick = async (page: any) => {
     setPage(page.selected + 1);
-    // handleChangePage(page.selected);
   };
 
   if (isLoading) {
