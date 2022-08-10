@@ -3,20 +3,21 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
-import useGetParts from "hooks/Reading/useGetParts";
+import useGetQuestion from "hooks/Writing/useGetQuestion";
 import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
 import ReadingService from "services/ReadingService";
+import writingServices from "services/writingServices";
 import CreateQuestionWriting from "./CreateQuestionWriting";
 
 const WritingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
-  const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
+  const [dataQuestion, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetQuestion();
 
   const onDeletePart = async (id: any) => {
     try {
-      await ReadingService.deletePart(id);
+      await writingServices.deleteQuestion(id);
       alert("Delete part success!");
       refetchDataTable();
     } catch (error) {
@@ -39,7 +40,7 @@ const WritingSkill = () => {
       {!isEmpty(openCreateScreen) && (
         <CreateQuestionWriting
           openCreateScreen={openCreateScreen}
-          // refetchDataTable={refetchDataTable}
+          refetchDataTable={refetchDataTable}
           onClose={() => setOpenCreateScreen({})}
         />
       )}
@@ -49,11 +50,11 @@ const WritingSkill = () => {
             columns={[
               {
                 flex: 1,
-                field: "passageTitle",
+                field: "title",
                 renderHeader: () => <Typography style={styles.titleTable}>Writing title</Typography>,
               },
               {
-                flex: 1,
+                flex: 0.5,
                 field: "level",
                 renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
               },
@@ -89,7 +90,7 @@ const WritingSkill = () => {
               totalRow: metaPart?.totalRow,
             }}
             loading={loading}
-            rows={dataParts}
+            rows={dataQuestion}
             onPageChange={onPageChange}
             onPageSizeChange={onPageSizeChange}
           />

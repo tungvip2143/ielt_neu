@@ -13,10 +13,9 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import InputCommon from "components/Input";
-import { DataAnswer } from "constants/questionType";
 import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
 import useGetPartDetail from "hooks/Reading/useGetPartDetail";
-import { QuestionTypeI, ResponseParams } from "interfaces/questionInterface";
+import { ResponseParams } from "interfaces/questionInterface";
 import { isEmpty } from "lodash";
 import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -29,26 +28,13 @@ export interface Props {
   openCreateScreen: any;
   refetchDataTable?: any;
 }
-const dataMock: any = [];
 const CreateQuestionReading = (props: Props) => {
   const { onClose, openCreateScreen, refetchDataTable } = props;
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
 
   const validationSchema = yup.object().shape({
-    // questionSimple: yup
-    //   .string()
-    //   .required("This field is required!")
-    //   .min(6, "This field must be at least 6 characters")
-    //   .max(200, "This field must not exceed 200 characters"),
-    // questionType: yup.mixed().required("This field is required!"),
-    // question: yup.string().required("This field is required!"),
-    // levelType: yup.mixed().required("This field is required!"),
-    // firstAnswer: yup.string().required("This field is required!"),
-    // secondAnswer: yup.string().required("This field is required!"),
-    // thirdAnswer: yup.string().required("This field is required!"),
-    // fourAnswer: yup.string().required("This field is required!"),
-    // correctAnswer: yup.string().required("This field is required!"),
+    partTitle: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(openCreateScreen?.element?.id);
   const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(openCreateScreen?.element?.id);
@@ -61,21 +47,6 @@ const CreateQuestionReading = (props: Props) => {
   });
 
   const { control, handleSubmit, setValue, getValues } = formController;
-
-  const renderMultiChoice = (item: any) => {
-    return (
-      <InputCommon
-        control={control}
-        id="standard-basic"
-        label={item.title}
-        variant="standard"
-        name={item.name}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-        }}
-      />
-    );
-  };
 
   const renderButtonUpdate = () => {
     return (
@@ -174,6 +145,7 @@ const CreateQuestionReading = (props: Props) => {
       </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <Editor
+          apiKey="no-api-key"
           onInit={(evt, editor) => {
             editorRef.current = editor;
           }}
@@ -186,6 +158,7 @@ const CreateQuestionReading = (props: Props) => {
           }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
+        <Typography>{isEmpty(editorRef?.current?.getContent()) && "This is field required"}</Typography>
       </Card>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
@@ -247,5 +220,3 @@ const CreateQuestionReading = (props: Props) => {
 };
 
 export default CreateQuestionReading;
-
-const styles = {};

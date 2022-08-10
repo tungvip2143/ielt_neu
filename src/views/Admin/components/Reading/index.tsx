@@ -4,12 +4,10 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
-import TableCommon from "components/TableCommon";
 import useGetParts from "hooks/Reading/useGetParts";
 import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
-import httpServices from "services/httpServices";
 import ReadingService from "services/ReadingService";
 import CreateQuestionReading from "./component";
 
@@ -73,6 +71,9 @@ const ReadingSkill = () => {
               {
                 flex: 0.3,
                 field: "action",
+                filterable: false,
+                hideSortIcons: true,
+                disableColumnMenu: true,
                 renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
                 renderCell: (items: any) => {
                   return (

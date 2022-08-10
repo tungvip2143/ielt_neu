@@ -36,6 +36,7 @@ const InputCommon = <T extends FieldValues>(props: Props<T>) => {
               hiddenLabel
               label={label}
               InputProps={InputProps}
+              InputLabelProps={{ shrink: true }}
               {...field}
               {...rest}
             />

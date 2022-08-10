@@ -1,3 +1,4 @@
+import { yupResolver } from "@hookform/resolvers/yup";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BlockIcon from "@mui/icons-material/Block";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
@@ -17,6 +18,7 @@ import { QuestionTypeI } from "interfaces/questionInterface";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import ReadingService from "services/ReadingService";
+import * as yup from "yup";
 
 export interface Props {
   openModal: any;
@@ -24,6 +26,23 @@ export interface Props {
   id: number | string;
   fetchData: any;
 }
+
+const validationSchema = yup.object().shape({
+  // questionBox: yup.string().required("This is field required"),
+  // questionType: yup.mixed().required("This is field required"),
+  // questions: yup.array(
+  //   yup.object({
+  //     questionText: yup.string().required("This is field required"),
+  //     answer: yup.string().required("This is field required"),
+  //     options: yup.array(
+  //       yup.object({
+  //         key: yup.mixed().required("This is field required"),
+  //         text: yup.mixed().required("This is field required"),
+  //       })
+  //     ),
+  //   })
+  // ),
+});
 
 const ModalCreateQuestion = (props: Props) => {
   const { openModal, onCloseModal = () => {}, id, fetchData } = props;
@@ -33,13 +52,15 @@ const ModalCreateQuestion = (props: Props) => {
   const [dataLevels] = useGetLevels();
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
-  console.log("questionType", questionType);
 
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
+    mode: "onChange",
+    resolver: yupResolver(validationSchema),
     defaultValues: {
+      section: "",
       questions: dataQuestionDetail?.questions?.map((el: any) => ({
         answer: "",
-        explanationText: "<p>Text</p>",
+        explanationText: "",
         questionText: el?.questionBox,
         options: el.options?.map((e: any) => [{ key: e.key, text: e.text }]),
       })) || [{ key: "a", text: "<p>Text</p>" }],
@@ -51,7 +72,7 @@ const ModalCreateQuestion = (props: Props) => {
     name: "questions",
   });
   const onAddQuestion = () => {
-    append({ questionType: "", levelType: "" });
+    append({ section: "" });
   };
 
   const resetAsyncForm = useCallback(
@@ -82,7 +103,7 @@ const ModalCreateQuestion = (props: Props) => {
     if (openModal.type === "createQuestion") {
       const body = {
         level: "A1",
-        answerList: "<p>Text</p>",
+        answerList: matchingRef && matchingRef?.current?.getContent(),
         directionText: editorRef.current.getContent(),
         image: "uploads/2022/01/01/pepe.png",
         questionTypeTips: editorRef.current.getContent(),
@@ -115,7 +136,7 @@ const ModalCreateQuestion = (props: Props) => {
     if (openModal.type === "updateQuestion") {
       const body = {
         level: "A1",
-        answerList: "<p>Text</p>",
+        answerList: matchingRef && matchingRef?.current?.getContent(),
         directionText: editorRef.current.getContent(),
         image: "uploads/2022/01/01/pepe.png",
         questionTypeTips: editorRef.current.getContent(),
@@ -173,8 +194,6 @@ const ModalCreateQuestion = (props: Props) => {
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
           return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
         });
-      case "MATCHING_HEADINGS":
-        return;
       default:
         return (
           <InputCommon
@@ -206,12 +225,12 @@ const ModalCreateQuestion = (props: Props) => {
       open={openModal}
       onClose={onCloseModal}
       titleModal={
-        dataQuestionDetail?.questionBox ? (
+        dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
           <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.questionBox}</Typography>
         ) : (
           <InputCommon
             id="standard-basic"
-            label="Question group"
+            label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
             variant="standard"
             name="questionBox"
             control={control}
@@ -244,27 +263,52 @@ const ModalCreateQuestion = (props: Props) => {
             setValue("questionType", e?.value);
             setQuestionType(e?.value);
           }}
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, marginBottom: questionType === "MATCHING_HEADINGS" ? 20 : 0 }}
           disabled={openModal.type === "detailQuestion"}
         />
-        {(openModal.type !== "detailQuestion" || questionType === "MATCHING_HEADINGS") && (
-          <div className="text-end mb-2">
+        {openModal.type !== "detailQuestion" && questionType !== "MATCHING_HEADINGS" && (
+          <div className="text-end">
             <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
           </div>
         )}
         {questionType === "MATCHING_HEADINGS" ? (
-          <Editor
-            onInit={(evt, matching) => {
-              matchingRef.current = matching;
-            }}
-            initialValue="Matching heading"
-            init={{
-              height: 200,
-              plugins: "link image code",
-              toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-            }}
-            disabled={openModal.type === "detailQuestion"}
-          />
+          <>
+            <Editor
+              onInit={(evt, matching) => {
+                matchingRef.current = matching;
+              }}
+              initialValue="Matching heading"
+              init={{
+                height: 200,
+                plugins: "link image code",
+                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+              }}
+              disabled={openModal.type === "detailQuestion"}
+            />
+            <div className="text-end">
+              <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+            </div>
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
         ) : (
           <>
             {fields.map((field, index) => {

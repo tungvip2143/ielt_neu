@@ -49,5 +49,10 @@ export const ADMIN_READING_URL = (id?: string | number) => {
 export const ADMIN_WRITING_URL = () => {
   return {
     GET_LIST_PARTS: `${ROOT_URL}/question-parts?sort=createdAt%3ADESC&skill=WRITING`,
+    POST_CREATE_PART: `${ROOT_URL}/questions/writing`,
+    GET_LIST_QUESTION: `${ROOT_URL}/questions?sort=createdAt%3ADESC&skill=WRITING`,
+    GET_DETAIL_QUESTION: `${ROOT_URL}/questions/`,
+    PATCH_UPDATE_QUESTION: `${ROOT_URL}/questions/writing/`,
+    DELETE_QUESTION: `${ROOT_URL}/questions/`,
   };
 };
