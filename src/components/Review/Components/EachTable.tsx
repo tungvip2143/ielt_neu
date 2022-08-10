@@ -1,32 +1,27 @@
-import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import CreateIcon from "@mui/icons-material/Create";
+import HeadphonesIcon from "@mui/icons-material/Headphones";
+import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import Box from "@mui/material/Box";
+import Button from "@mui/material/Button";
+import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
-import Paper from "@mui/material/Paper";
-import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import httpServices from "services/httpServices";
-import CircularProgress from "@mui/material/CircularProgress";
-import HeadphonesIcon from "@mui/icons-material/Headphones";
-import { TypeExamEnum } from "constants/enum";
-import AutoStoriesIcon from "@mui/icons-material/AutoStories";
-import CreateIcon from "@mui/icons-material/Create";
-import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import Typography from "@mui/material/Typography";
-import Pagination from "@mui/material/Pagination";
+import { TypeExamEnum } from "constants/enum";
+import { useEffect, useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 //
-import ReactPaginate from "react-paginate";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import useGetData from "hooks/users/useGetData";
-import { useIeltsResult } from "hooks/ielts/useIelts";
 import LoadingPage from "components/Loading";
 import { format } from "date-fns";
-import { isEmpty } from "lodash";
+import { useIeltsResult } from "hooks/ielts/useIelts";
+import Pagination from "components/Pagination";
+import useSagaCreators from "hooks/useSagaCreators";
+import { IeltsActions } from "redux/creators/modules/ielts";
 
 const tbRow = {
   borderTop: "1.5px solid #eeeeee",
@@ -48,8 +43,10 @@ const EachTable = ({ panelId }: EachTableI) => {
   //! State
   const [results, setResults] = useState([]);
   const [page, setPage] = useState(1);
+  const { dispatch } = useSagaCreators();
   const { data, isLoading, refetch } = useIeltsResult({ skill: panelId, page });
-
+  const history = useHistory();
+  // !Effect
   useEffect(() => {
     setResults(data?.data?.data?.data);
   }, [isLoading, page]);
@@ -58,6 +55,10 @@ const EachTable = ({ panelId }: EachTableI) => {
   }, [page]);
 
   //! Function
+  const handleReview = (testCode: number) => {
+    dispatch(IeltsActions.saveTestCode, { testCode });
+    history.push("/ielts/review/reading");
+  };
 
   //! Render
   const renderIconByPanel = () => {
@@ -79,8 +80,8 @@ const EachTable = ({ panelId }: EachTableI) => {
   };
 
   //! Pagination
-  const handlePageClick = async (page: any) => {
-    setPage(page.selected + 1);
+  const handleChangePage = (event: React.ChangeEvent<unknown>, value: number) => {
+    setPage(value);
   };
 
   if (isLoading) {
@@ -179,36 +180,16 @@ const EachTable = ({ panelId }: EachTableI) => {
                   {format(new Date(item.finishedDate), "dd-MM-yyyy")}
                 </TableCell>
                 <TableCell sx={{ pr: "44px" }} align="right">
-                  <Link to="/review-exams">
-                    <Button variant="outlined" sx={buttonReview}>
-                      REVIEW
-                    </Button>
-                  </Link>
+                  <Button variant="outlined" sx={buttonReview} onClick={() => handleReview(item.testCode)}>
+                    REVIEW
+                  </Button>
                 </TableCell>
               </TableRow>
             ))}
           </TableBody>
         </Table>
         <Box sx={{ display: "flex", justifyContent: "center", p: "30px 0", borderTop: "1px solid #eeeeee" }}>
-          <ReactPaginate
-            previousLabel={<KeyboardArrowLeftIcon />}
-            nextLabel={<ChevronRightIcon />}
-            breakLabel={"..."}
-            pageCount={data?.data?.data?.paging?.totalPage}
-            marginPagesDisplayed={2}
-            pageRangeDisplayed={3}
-            onPageChange={handlePageClick}
-            containerClassName={"pagination justify-content-center"}
-            pageClassName={"page-item"}
-            pageLinkClassName={"page-link"}
-            previousClassName={"page-item"}
-            previousLinkClassName={"page-link-icon"}
-            nextClassName={"page-item"}
-            nextLinkClassName={"page-link-icon"}
-            breakClassName={"page-item"}
-            breakLinkClassName={"page-link"}
-            activeClassName={"active"}
-          />
+          <Pagination totalPage={data?.data?.data?.paging?.totalPage} onChangePage={handleChangePage} page={page} />
         </Box>
       </TableContainer>
     </Box>

@@ -13,7 +13,7 @@ import IeltsReading from "views/Ielts/reading";
 import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
-import ReviewExams from "views/Review/ReviewExams";
+import ReviewReading from "views/Review/reading";
 import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
@@ -40,7 +40,7 @@ const App: React.FC = () => {
           <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
           <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
-          <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
+          <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
