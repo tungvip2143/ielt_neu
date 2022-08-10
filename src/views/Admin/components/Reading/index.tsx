@@ -83,7 +83,6 @@ const ReadingSkill = () => {
                       }}
                       onSubmitRemove={onDeletePart}
                       row={items}
-                      // onDelete={() => onDeletePart(items.id)}
                     />
                   );
                 },

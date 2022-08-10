@@ -15,9 +15,9 @@ const WritingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataQuestion, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetQuestion();
 
-  const onDeletePart = async (id: any) => {
+  const onDeletePart = async (item: any) => {
     try {
-      await writingServices.deleteQuestion(id);
+      await writingServices.deleteQuestion(item?.id);
       alert("Delete part success!");
       refetchDataTable();
     } catch (error) {
@@ -75,10 +75,11 @@ const WritingSkill = () => {
                 renderCell: (items: any) => {
                   return (
                     <CommonActionMenu
-                      onEdit={(e: MHeaderTable) => {
+                      onEdit={() => {
                         setOpenCreateScreen({ type: "update", element: items.row });
                       }}
-                      onDelete={() => onDeletePart(items.id)}
+                      onSubmitRemove={onDeletePart}
+                      row={items}
                     />
                   );
                 },
