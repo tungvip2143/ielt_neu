@@ -6,7 +6,6 @@ const useToggleDialog = () => {
 
   const toggle = useCallback(() => {
     setOpen((prev) => !prev);
-
     setTimeout(() => {
       setClosing((prev) => !prev);
     }, 2000);

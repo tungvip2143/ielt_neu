@@ -12,12 +12,12 @@ import CreateQuestionListening from "./component";
 const ListeningSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataParts, loading, error, refetchDataTable, metaPart] = useGetParts();
-  const onDeletePart = async (item: any) => {
+
+  const onSubmitRemove = async (item: any) => {
+    //* TODO: call API to remove item;
     try {
-      const response = ReadingService.deletePart(item?.id);
-      alert("Delete part success!");
+      await ReadingService.deletePart(item?.id);
       refetchDataTable();
-      // }
     } catch (error) {
       console.log("error");
     }
@@ -51,9 +51,9 @@ const ListeningSkill = () => {
           meta={metaPart}
           count={metaPart.total}
           onEdit={(e: MHeaderTable) => {
-            setOpenCreateScreen({ type: "update", element: e });
+            ({ type: "update", element: e });
           }}
-          onDelete={onDeletePart}
+          onSubmitRemove={onSubmitRemove}
         />
       )}
     </div>
