@@ -10,9 +10,9 @@ import TableRow from "@mui/material/TableRow";
 import MHeaderTable from "models/HeaderTable.model";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined";
-import { Box } from "@mui/material";
-import Modal from "components/Modal";
+import { Box, Button } from "@mui/material";
 import useToggleDialog from "hooks/useToggleDialog";
+import CommonStyles from "components/CommonStyles";
 
 interface ITableCommon {
   count?: number;
@@ -28,6 +28,53 @@ interface ITableCommon {
   onDelete?: (row: any) => void;
   onSubmitRemove?: (row: any) => void;
 }
+
+interface TableCellActionsI {
+  row: any;
+  onSubmitRemove: (row: any) => void;
+  onEdit: (row: any) => void;
+}
+
+const TableCellActions = ({ row, onSubmitRemove, onEdit }: TableCellActionsI) => {
+  //! State
+  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
+
+  //! Render
+  return (
+    <TableCell align={"center"}>
+      {/* Modal remove each row */}
+      {shouldRenderRemove && (
+        <CommonStyles.Modal
+          open={openRemove}
+          toggle={toggleRemove}
+          header="Title"
+          content={
+            <React.Fragment>
+              Are you sure you want to delete{" "}
+              <span style={{ color: "red", fontStyle: "italic" }}>{row.passageTitle}</span>
+            </React.Fragment>
+          }
+          footer={
+            <React.Fragment>
+              <Button variant="contained" color="error" onClick={() => onSubmitRemove(row)}>
+                Yes
+              </Button>
+              <Button variant="outlined" color="error" onClick={toggleRemove}>
+                No
+              </Button>
+            </React.Fragment>
+          }
+        />
+      )}
+
+      <BorderColorOutlinedIcon
+        style={{ fontSize: 18, cursor: "grab", color: "#9155FF", marginRight: 10 }}
+        onClick={() => onEdit(row)}
+      />
+      <DeleteForeverOutlinedIcon style={{ fontSize: 20, cursor: "grab", color: "#F44335" }} onClick={toggleRemove} />
+    </TableCell>
+  );
+};
 
 export default function TableCommon({
   count = 0,
@@ -47,7 +94,6 @@ export default function TableCommon({
     page,
     rowsPerPage,
   });
-  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
 
   const handleChangePage = (event: unknown, newPage: number) => {
     onChangePage(newPage);
@@ -60,24 +106,7 @@ export default function TableCommon({
 
   const renderAction = (row: any, index: number) => {
     if (customAction) return customAction();
-    return (
-      <TableCell key={`action-${index}}`} align={"center"}>
-        {/* Modal remove each row */}
-        {shouldRenderRemove && (
-          <Modal open={openRemove} onClose={toggleRemove}>
-            Are you sure you want to delete {row.passageTitle}
-            <button onClick={() => onSubmitRemove(row)}>Yes</button>
-            <button onClick={toggleRemove}>No</button>
-          </Modal>
-        )}
-
-        <BorderColorOutlinedIcon
-          style={{ fontSize: 18, cursor: "grab", color: "#9155FF", marginRight: 10 }}
-          onClick={() => onEdit(row)}
-        />
-        <DeleteForeverOutlinedIcon style={{ fontSize: 20, cursor: "grab", color: "#F44335" }} onClick={toggleRemove} />
-      </TableCell>
-    );
+    return <TableCellActions key={index} row={row} onEdit={onEdit} onSubmitRemove={onSubmitRemove} />;
   };
 
   return (

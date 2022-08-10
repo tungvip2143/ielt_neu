@@ -27,7 +27,7 @@ const WritingSkill = () => {
 
   return (
     <div>
-      <div className="text-end mb-4">
+      <div style={{ textAlign: "end", marginBottom: 10 }}>
         {isEmpty(openCreateScreen) && (
           <ButtonUpload
             titleButton="Create writing"

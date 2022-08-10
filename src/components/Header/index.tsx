@@ -8,6 +8,9 @@ import Box from "@mui/material/Box";
 //
 import imgLogo from "assets/image/logo/logo.svg";
 import Text from "components/Typography/index";
+import { GetAuthSelector } from "redux/selectors";
+import useSagaCreators from "hooks/useSagaCreators";
+import { authActions } from "redux/creators/modules/auth";
 
 const TextExams = {
   color: "#000000 !important",
@@ -42,8 +45,14 @@ const Header: React.FC = (props) => {
 
   // !State
   const history = useHistory();
+  const auth = GetAuthSelector();
+  const { isLogin } = auth;
+  const { dispatch } = useSagaCreators();
 
   const handleLogin = () => history.push("/login");
+  const handleLogout = () => {
+    dispatch(authActions.logout);
+  };
 
   return (
     <Box
@@ -60,9 +69,9 @@ const Header: React.FC = (props) => {
     >
       <div className="container">
         <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Grid item xs={8} md={8}>
+          <Grid item xs={8} md={7.5}>
             <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
-              <Grid item xs={6} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Grid item xs={4} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to={"/"}>
                   {/* <img src={imgLogo} alt="" /> */}
                   Logo
@@ -77,7 +86,7 @@ const Header: React.FC = (props) => {
                 </NavLink>
               </Grid>
               <Box sx={{ width: "1px", height: "30px", background: "#e7eaed" }} />
-              <Grid item xs={5.5} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
+              <Grid item xs={7} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to="/pricing">
                   <Text.DescSmall sx={TextSecond}>Pricing</Text.DescSmall>
                 </NavLink>
@@ -95,50 +104,27 @@ const Header: React.FC = (props) => {
           </Grid>
           <Grid item xs={4} md={3}>
             <Stack spacing={2} direction="row" sx={{ justifyContent: "flex-end" }}>
-              <Button
-                variant="outlined"
-                sx={{ color: "#5b5c61", border: "1px solid rgb(91, 92, 97)" }}
-                onClick={handleLogin}
-              >
-                Login
-              </Button>
+              {isLogin ? (
+                <Button
+                  variant="outlined"
+                  sx={{ color: "#5b5c61", border: "1px solid rgb(91, 92, 97)" }}
+                  onClick={handleLogout}
+                >
+                  Logout
+                </Button>
+              ) : (
+                <Button
+                  variant="outlined"
+                  sx={{ color: "#5b5c61", border: "1px solid rgb(91, 92, 97)" }}
+                  onClick={handleLogin}
+                >
+                  Login
+                </Button>
+              )}
               <Button variant="contained">TRY FOR FREE</Button>
             </Stack>
           </Grid>
         </Grid>
-        {/* <Grid item>
-          <Stack spacing={2} direction="row">
-            <Button>
-              <LinkCustom to="/TOFFL">TOEFL</LinkCustom>
-            </Button>
-            <Button>
-              <LinkCustom to="/ielts">IELTS</LinkCustom>
-            </Button>
-          </Stack>
-        </Grid> */}
-        {/* <Divider orientation="vertical" />
-        <Grid item>
-          <Stack direction="row">
-            <Button>
-              <LinkCustom to="/pricing">Pricing</LinkCustom>
-            </Button>
-            <Button>
-              <LinkCustom to="#">Comunitiy</LinkCustom>
-            </Button>
-            <Button>
-              <LinkCustom to="#">User Reviews</LinkCustom>
-            </Button>
-            <Button>
-              <LinkCustom to="/admin">Admin</LinkCustom>
-            </Button>
-          </Stack>
-        </Grid>
-        <Grid item>
-          <Stack spacing={2} direction="row">
-            <Button variant="outlined">Login</Button>
-            <Button variant="contained">TRY FOR FREE</Button>
-          </Stack>
-        </Grid> */}
       </div>
     </Box>
   );

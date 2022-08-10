@@ -175,7 +175,7 @@ ul {
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/*  */
+/* 
 .accordion-title::before {
   display: none !important;
 }
@@ -191,4 +191,10 @@ ul {
 }
 .hight-light-review {
   color: #df0a31 !important;
+}
+/* yup */
+.error {
+  color: red;
+  font-size: 14px;
+  margin-top: 8px;
 }

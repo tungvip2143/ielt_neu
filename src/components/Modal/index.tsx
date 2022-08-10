@@ -1,24 +1,32 @@
 import * as React from "react";
 import { Modal as ModalMui, Box, Button as ButtonMui, ButtonProps, Stack, StackProps } from "@mui/material";
 import Text from "components/Typography";
+import { theme } from "theme";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 
 export interface Props {
   children?: React.ReactNode;
   sx?: object;
   onClose: () => void;
   open: boolean;
+  width?: string;
 }
 
 interface IProps {
   children?: React.ReactNode;
   sx?: object;
+  className?: string;
 }
 
 interface ButtonMuiProps extends ButtonProps {
   cancel: string;
   confirm: string;
+  background?: any;
+  color?: any;
+  letterSpacing?: any;
+  padding?: any;
   onCancel: () => void;
-  onConfirm: () => void;
+  onConfirm?: () => void;
 }
 
 interface StackMuiProps extends StackProps {
@@ -26,24 +34,35 @@ interface StackMuiProps extends StackProps {
   label?: string;
 }
 
-const style = {
-  position: "absolute" as "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: "80%",
-  bgcolor: "background.paper",
-  borderRadius: "5px",
-  boxShadow: 24,
-  p: 4,
+const btnCancle = {
+  p: "6px 16px",
+  color: "#5b5c61",
+  border: "1px solid #5b5c61",
+  textTransform: "uppercase",
+  letterSpacing: "2px",
+  "&:hover": {
+    background: "none",
+    border: "1px solid #5b5c61",
+  },
 };
 
 function Modal(props: Props) {
-  //! Destructure props
-  const { children, onClose, open } = props;
+  // !Destructure props
+  const { children, onClose, open, width } = props;
 
-  //! State
-
+  // !State
+  const style = {
+    position: "absolute" as "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    width: width,
+    bgcolor: "background.paper",
+    borderRadius: "16px",
+    boxShadow: 24,
+    p: "20px",
+    border: "none",
+  };
   return (
     <ModalMui
       open={open}
@@ -59,21 +78,34 @@ function Modal(props: Props) {
 }
 
 const Title = (props: IProps) => {
-  return <Text.CardTitle>{props.children}</Text.CardTitle>;
+  const { children, ...rest } = props;
+
+  return <Text.Sub20Bold {...rest}>{props.children}</Text.Sub20Bold>;
 };
 
 const Content = (props: IProps) => {
-  return <Text.SubCardTitle>{props.children}</Text.SubCardTitle>;
+  return <div>{props.children}</div>;
 };
 
 const Button: React.FC<ButtonMuiProps> = (props) => {
-  const { children, cancel, confirm, onCancel, onConfirm, ...rest } = props;
+  const { children, cancel, confirm, onCancel, onConfirm, background, color, padding, ...rest } = props;
+  const btnConfirm = {
+    background: background,
+    color: color,
+    padding: padding,
+    letterSpacing: "2px",
+    textTransform: "uppercase",
+
+    "&:hover": {
+      background: background,
+    },
+  };
   return (
     <Stack direction="row" spacing={1} sx={{ display: "flex", justifyContent: "flex-end" }}>
-      <ButtonMui onClick={onCancel} variant="outlined" {...rest}>
+      <ButtonMui sx={btnCancle} onClick={onCancel} variant="outlined" {...rest}>
         {cancel}
       </ButtonMui>
-      <ButtonMui onClick={onConfirm} variant="contained" {...rest}>
+      <ButtonMui sx={btnConfirm} onClick={onConfirm} variant="contained" {...rest}>
         {confirm}
       </ButtonMui>
     </Stack>

@@ -5,7 +5,7 @@ import ieltsService from "services/ieltsService";
 
 export const useIeltsTestCode = () => {
   return useMutation(ieltsService.createIeltsTestCode, {
-    onError: (error) => showError(getErrorMsg(error)),
+    // onError: (error) => showError(getErrorMsg(error)),
   });
 };
 export const useIeltsListening = () => {
@@ -56,7 +56,7 @@ export const useIeltsSpeaking = () => {
   });
 };
 export const useIeltsResult = (query: any) => {
-  return useQuery(`${query} `, ieltsService.getIeltsTestResult, {
+  return useQuery(["get ielts results", query], () => ieltsService.getIeltsTestResult(query), {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };

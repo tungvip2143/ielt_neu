@@ -8,7 +8,10 @@ import CountDown from "components/Countdown/CountDown";
 import { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
 import { useFormikContext } from "formik";
-
+// ! type
+interface Props {
+  onShowModalExit?: any;
+}
 const header = {
   p: "13px 0px",
   background: "#36373b",
@@ -31,15 +34,21 @@ const btnSubmitStep2 = {
   color: "#b8bcc0",
 };
 
-const Header = () => {
+const Header = ({ onShowModalExit }: Props) => {
   const { step } = useStepExam();
 
   const { handleSubmit } = useFormikContext();
-
+  const hanldeShowModalExit = () => {
+    onShowModalExit();
+  };
   return (
     <Box sx={header}>
       <Box sx={headerContent}>
-        <Button sx={buttonExit} startIcon={<ArrowBackIosIcon sx={{ fontSize: "24px !important" }} />}>
+        <Button
+          onClick={hanldeShowModalExit}
+          sx={buttonExit}
+          startIcon={<ArrowBackIosIcon sx={{ fontSize: "24px !important" }} />}
+        >
           EXIT
         </Button>
         {step === TypeStepExamEnum.STEP2 && <CountDown />}
