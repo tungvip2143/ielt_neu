@@ -1,24 +1,24 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import { Box, Card, InputAdornment, Stack, Typography } from "@mui/material";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import BlockIcon from "@mui/icons-material/Block";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import SaveIcon from "@mui/icons-material/Save";
+import { Box, InputAdornment, Stack, Typography } from "@mui/material";
+import { Editor } from "@tinymce/tinymce-react";
+import ButtonCancel from "components/Button/ButtonCancel";
+import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import { DataAnswer } from "constants/questionType";
+import useGetDetailQuestion from "hooks/Reading/useGetDetailQuestion";
 import useGetLevels from "hooks/Reading/useGetLevel";
 import useGetQuestionType from "hooks/Reading/useGetQuestionType";
-import { QuestionTypeI, ResponseParams } from "interfaces/questionInterface";
-import { useCallback, useRef, useState } from "react";
+import { QuestionTypeI } from "interfaces/questionInterface";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
-import { Editor } from "@tinymce/tinymce-react";
-import ButtonCancel from "components/Button/ButtonCancel";
-import ButtonSave from "components/Button/ButtonSave";
-import BlockIcon from "@mui/icons-material/Block";
-import SaveIcon from "@mui/icons-material/Save";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import ReadingService from "services/ReadingService";
-import httpServices from "services/httpServices";
-import { useEffect } from "react";
+import * as yup from "yup";
 
 export interface Props {
   openModal: any;
@@ -27,114 +27,144 @@ export interface Props {
   fetchData: any;
 }
 
+const validationSchema = yup.object().shape({
+  // questionBox: yup.string().required("This is field required"),
+  // questionType: yup.mixed().required("This is field required"),
+  // questions: yup.array(
+  //   yup.object({
+  //     questionText: yup.string().required("This is field required"),
+  //     answer: yup.string().required("This is field required"),
+  //     options: yup.array(
+  //       yup.object({
+  //         key: yup.mixed().required("This is field required"),
+  //         text: yup.mixed().required("This is field required"),
+  //       })
+  //     ),
+  //   })
+  // ),
+});
+
 const ModalCreateQuestion = (props: Props) => {
   const { openModal, onCloseModal = () => {}, id, fetchData } = props;
   const editorRef = useRef<any>();
+  const matchingRef = useRef<any>();
   const [questionType, setQuestionType] = useState<number | undefined | string>("");
   const [dataLevels] = useGetLevels();
   const [dataQuestionType] = useGetQuestionType();
-  const [detailQuestion, setDetailQuestion] = useState<any>();
-
-  console.log("detailQuestion", detailQuestion);
+  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
 
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
+    mode: "onChange",
+    resolver: yupResolver(validationSchema),
     defaultValues: {
-      questionReading: detailQuestion?.questions?.map((el: any) =>
-        el.options?.map((e: any) => [{ key: e.key, text: e.text }])
-      ) || [{ key: "a", text: "<p>Text</p>" }],
+      section: "",
+      questions: dataQuestionDetail?.questions?.map((el: any) => ({
+        answer: "",
+        explanationText: "",
+        questionText: el?.questionBox,
+        options: el.options?.map((e: any) => [{ key: e.key, text: e.text }]),
+      })) || [{ key: "a", text: "<p>Text</p>" }],
     },
   });
+
   const { fields, append, prepend, remove, swap, move, insert, update } = useFieldArray({
     control,
-    name: "questionReading",
+    name: "questions",
   });
   const onAddQuestion = () => {
-    append({ questionType: "", levelType: "" });
+    append({ section: "" });
   };
-
-  const questionGroupDetail = async () => {
-    httpServices
-      .get(`http://103.226.250.81:8688/api/v1/question-groups/reading/${openModal.id}`)
-      .then((response) => {
-        if (response?.data?.statusCode === 200) {
-          setDetailQuestion(response.data.data);
-        }
-      })
-      .catch((err) => err);
-  };
-
-  useEffect(() => {
-    questionGroupDetail();
-  }, [openModal.id]);
 
   const resetAsyncForm = useCallback(
     async (data: any) => {
-      // reset({
-      //   questionText: data.questionBox,
-      //   questionType: data.questionType,
-      // });
-      setValue("questionText", data.questionBox);
+      setValue("questionBox", data.questionBox);
       setValue("questionType", data.questionType);
-      // setValue("question", )
       setQuestionType(data.questionType);
+      setValue(
+        "questions",
+        data?.questions.map((el: any) => ({
+          questionText: el.questionText,
+          answer: el.answer,
+          options: el.options.map((option: any) => option.text),
+        }))
+      );
     },
     [reset, setQuestionType]
   );
 
   useEffect(() => {
-    if (detailQuestion?.id) {
-      resetAsyncForm(detailQuestion);
+    if (dataQuestionDetail?.id) {
+      resetAsyncForm(dataQuestionDetail);
     }
-  }, [detailQuestion?.id, dataQuestionType?.length]);
-
-  const renderOption = (type: any) => {
-    switch (type) {
-      case "MULTIPLE_CHOICE_1_ANSWER":
-        return DataAnswer.map((el) => ({ key: el.answer, text: getValues(el.name) }));
-
-      default:
-        return [];
-    }
-  };
+  }, [dataQuestionDetail?.id, dataQuestionType?.length]);
 
   const onSubmit = async (data: any) => {
     const keys = ["A", "B", "C", "D"];
-    const body = {
-      level: "A1",
-      answerList: "<p>Text</p>",
-      directionText: editorRef.current.getContent(),
-      image: "uploads/2022/01/01/pepe.png",
-      questionTypeTips: editorRef.current.getContent(),
-      questionBox: data.questionText,
-      questionType: data.questionType,
-      questions: data?.questionReading?.map((el: any) => ({
-        ...el,
-        options: el.options?.map((e: any, index: number) => ({ key: keys[index], text: e })),
-      })  ),
-      // [
-      //   {
-      //     answer: data.correctAnswer,
-      //     explanationText: "<p>Text</p>",
-      //     questionText: data.question,
-      //     options: renderOption(data.questionType),
-      //   },
-      // ],
-      partId: id,
-    };
+    if (openModal.type === "createQuestion") {
+      const body = {
+        level: "A1",
+        answerList: matchingRef && matchingRef?.current?.getContent(),
+        directionText: editorRef.current.getContent(),
+        image: "uploads/2022/01/01/pepe.png",
+        questionTypeTips: editorRef.current.getContent(),
+        questionBox: data.questionBox,
+        questionType: data.questionType,
+        questions: data?.questions?.map((el: any) => {
+          return {
+            ...el,
+            options:
+              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
+                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                : [],
+          };
+        }),
 
-    console.log("body", body, data);
+        partId: id,
+      };
 
-    try {
-      const response = await ReadingService.postCreateQuestionGroupReading(body);
-      if (response.data.statusCode === 200) {
-        console.log();
-
-        alert("Create question group success!");
-        fetchData();
-        onCloseModal();
+      try {
+        const response = await ReadingService.postCreateQuestionGroupReading(body);
+        if (response.data.statusCode === 200) {
+          alert("Create question group success!");
+          fetchData();
+          onCloseModal();
+        }
+      } catch (error) {
+        console.log("error", error, fetchData);
       }
-    } catch (error) {
-      console.log("error", error, fetchData);
+    }
+    if (openModal.type === "updateQuestion") {
+      const body = {
+        level: "A1",
+        answerList: matchingRef && matchingRef?.current?.getContent(),
+        directionText: editorRef.current.getContent(),
+        image: "uploads/2022/01/01/pepe.png",
+        questionTypeTips: editorRef.current.getContent(),
+        questionBox: data.questionBox,
+        questionType: data.questionType,
+        questions: data?.questions?.map((el: any) => {
+          return {
+            ...el,
+            options:
+              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
+                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                : [],
+          };
+        }),
+
+        partId: id,
+      };
+
+      try {
+        const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
+        if (response.data.statusCode === 200) {
+          alert("Update question group success!");
+          fetchData();
+          onCloseModal();
+        }
+      } catch (error) {
+        console.log("error", error, fetchData);
+      }
     }
   };
 
@@ -150,14 +180,14 @@ const ModalCreateQuestion = (props: Props) => {
         id="standard-basic"
         label={item.title}
         variant="standard"
-        name={`questionReading[${indexQuestion}].options[${index}]`}
+        name={`questions[${indexQuestion}].options[${index}]`}
         InputProps={{
           startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
         }}
+        disabled={openModal.type === "detailQuestion"}
       />
     );
   };
-
   const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
       case "MULTIPLE_CHOICE_1_ANSWER":
@@ -171,7 +201,8 @@ const ModalCreateQuestion = (props: Props) => {
             id="standard-basic"
             label="Correct answer"
             variant="standard"
-            name={`questionSimple_${index}`}
+            name={`questions[${index}].answer`}
+            disabled={openModal.type === "detailQuestion"}
           />
         );
     }
@@ -194,15 +225,19 @@ const ModalCreateQuestion = (props: Props) => {
       open={openModal}
       onClose={onCloseModal}
       titleModal={
-        <InputCommon
-          id="standard-basic"
-          label="Question title"
-          variant="standard"
-          name="questionText"
-          control={control}
-          required
-          fullWidth
-        />
+        dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
+          <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.questionBox}</Typography>
+        ) : (
+          <InputCommon
+            id="standard-basic"
+            label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
+            variant="standard"
+            name="questionBox"
+            control={control}
+            required
+            fullWidth
+          />
+        )
       }
     >
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
@@ -210,12 +245,13 @@ const ModalCreateQuestion = (props: Props) => {
           onInit={(evt, editor) => {
             editorRef.current = editor;
           }}
-          initialValue={detailQuestion ? detailQuestion?.directionText : "<p>Question tip.</p>"}
+          initialValue={dataQuestionDetail ? dataQuestionDetail?.directionText : "<p>Question tip.</p>"}
           init={{
             height: 200,
             plugins: "link image code",
             toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
           }}
+          disabled={openModal.type === "detailQuestion"}
         />
         <SelectField
           control={control}
@@ -227,57 +263,103 @@ const ModalCreateQuestion = (props: Props) => {
             setValue("questionType", e?.value);
             setQuestionType(e?.value);
           }}
-          style={{ marginTop: 20 }}
+          style={{ marginTop: 20, marginBottom: questionType === "MATCHING_HEADINGS" ? 20 : 0 }}
+          disabled={openModal.type === "detailQuestion"}
         />
-        <div className="text-end mb-2">
-          <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-        </div>
-        {fields.map((field, index) => {
-          console.log("field", field);
-
-          return (
-            <div key={field.id} className="flex items-center">
-              <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                <div className="questionContainer">
+        {openModal.type !== "detailQuestion" && questionType !== "MATCHING_HEADINGS" && (
+          <div className="text-end">
+            <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+          </div>
+        )}
+        {questionType === "MATCHING_HEADINGS" ? (
+          <>
+            <Editor
+              onInit={(evt, matching) => {
+                matchingRef.current = matching;
+              }}
+              initialValue="Matching heading"
+              init={{
+                height: 200,
+                plugins: "link image code",
+                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+              }}
+              disabled={openModal.type === "detailQuestion"}
+            />
+            <div className="text-end">
+              <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+            </div>
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between">
                   <InputCommon
-                    id="standard-basic"
-                    label="Question"
-                    variant="standard"
-                    name={`questionReading[${index}].question`}
                     control={control}
-                    required
-                    fullWidth
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
                   />
-                </div>
-                <Box
-                  component="form"
-                  sx={{
-                    "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                  }}
-                  noValidate
-                  autoComplete="off"
-                >
-                  <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
-                  {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Correct answer"
-                      variant="standard"
-                      name={`questionReading[${index}].correctAnswer`}
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
                     />
                   )}
-                </Box>
-              </div>
-              {fields.length > 1 && (
-                <RemoveCircleOutlineIcon
-                  className="text-[#F44335] cursor-grab ml-[20px]"
-                  onClick={() => onRemoveQuestion(index)}
-                />
-              )}
-            </div>
-          );
-        })}
+                </div>
+              );
+            })}
+          </>
+        ) : (
+          <>
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id} className="flex items-center">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                    <div className="questionContainer">
+                      <InputCommon
+                        id="standard-basic"
+                        label="Question"
+                        variant="standard"
+                        name={`questions[${index}].questionText`}
+                        control={control}
+                        required
+                        fullWidth
+                        disabled={openModal.type === "detailQuestion"}
+                      />
+                    </div>
+                    <Box
+                      component="form"
+                      sx={{
+                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
+                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
+                        <InputCommon
+                          control={control}
+                          id="standard-basic"
+                          label="Correct answer"
+                          variant="standard"
+                          name={`questions[${index}].answer`}
+                          disabled={openModal.type === "detailQuestion"}
+                        />
+                      )}
+                    </Box>
+                  </div>
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        )}
+
         {renderButton()}
       </form>
     </ModalCreate>

@@ -6,8 +6,8 @@ class ReadingService {
   postCreateQuestionGroupReading(body: any) {
     return httpServices.post(POST_LIST_READING_QUESTIONS, body);
   }
-  getListParts() {
-    return httpServices.get(ADMIN_READING_URL().GET_LIST_PARTS);
+  getListParts(params: any = {}) {
+    return httpServices.get(ADMIN_READING_URL().GET_LIST_PARTS, { params });
   }
   getPartDetail(id: any) {
     return httpServices.get(ADMIN_READING_URL().GET_PART_DETAIL + id);
@@ -24,14 +24,20 @@ class ReadingService {
   deletePart(id: any) {
     return httpServices.delete(ADMIN_READING_URL().DELETE_PART + id);
   }
+  patchUpdatePart(id: any, body: any) {
+    return httpServices.patch(ADMIN_READING_URL().PATCH_UPDATE_PART + id, body);
+  }
   getListQuestionGroup(id: any) {
     return httpServices.get(ADMIN_READING_URL(id).GET_LIST_QUESTION_GROUP);
   }
-  patchUpdatePart(id: any, body: any){
-    return httpServices.patch(ADMIN_READING_URL().PATCH_UPDATE_PART + id, body)
+  getDetailQuestionGroup(id: any) {
+    return httpServices.get(ADMIN_READING_URL(id).GET_DETAIL_QUESTION_GROUP + id);
   }
-  deleteQuestionGroup(id: any){
-    return httpServices.delete(ADMIN_READING_URL().DELETE_QUESTION_GROUP + id)
+  deleteQuestionGroup(id: any) {
+    return httpServices.delete(ADMIN_READING_URL().DELETE_QUESTION_GROUP + id);
+  }
+  patchUpdateQuestionGroup(id: any, body: any) {
+    return httpServices.patch(ADMIN_READING_URL().PATCH_UPDATE_QUESTION_GROUP + id, body);
   }
 }
 export default new ReadingService();

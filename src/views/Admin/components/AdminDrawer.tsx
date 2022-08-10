@@ -67,8 +67,8 @@ const AdminDrawer = () => {
       </Toolbar>
       <Divider />
       <List>
-        <div className="menuContainer" onClick={() => setIsActive(!isActive)}>
-          <div className="flex items-center">
+        <div style={{ display: "flex" }} className="menuContainer" onClick={() => setIsActive(!isActive)}>
+          <div className="flex items-center" style={{ display: "flex" }}>
             <AccountBalanceIcon sx={{ fontSize: "20px" }} />
             <Typography style={{ marginLeft: 12 }}>Question bank</Typography>
           </div>

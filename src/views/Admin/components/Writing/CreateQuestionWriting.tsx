@@ -1,95 +1,121 @@
-import AddIcon from "@mui/icons-material/Add";
+import { yupResolver } from "@hookform/resolvers/yup";
 import BlockIcon from "@mui/icons-material/Block";
-import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import SaveIcon from "@mui/icons-material/Save";
-import UndoIcon from "@mui/icons-material/Undo";
-import { Button, Card, Stack, Typography } from "@mui/material";
+import { Button } from "@mui/material";
+import { Card, Stack, Typography } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
-import ButtonUpload from "components/Button/ButtonUpload";
-import InputCommon from "components/Input";
-import React, { useRef, useState } from "react";
-import { useFieldArray, useForm } from "react-hook-form";
 import SelectField from "components/CustomField/SelectField";
+import InputCommon from "components/Input";
+import useGetDetailQuestion from "hooks/Writing/useGetDetailQuestion";
+import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useForm } from "react-hook-form";
+import writingServices from "services/writingServices";
 import * as yup from "yup";
-import { LevelType } from "constants/questionType";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
+import UndoIcon from "@mui/icons-material/Undo";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 
 export interface Props {
   onClose: () => void;
   openCreateScreen: any;
+  refetchDataTable?: any;
 }
 const CreateQuestionWriting = (props: Props) => {
   const editorRef = useRef<any>();
-  const { onClose, openCreateScreen } = props;
+  const { onClose, openCreateScreen, refetchDataTable } = props;
   const [isEdit, setIsEdit] = useState(false);
+  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openCreateScreen?.element?.id);
 
   const validationSchema = yup.object().shape({});
 
   const { register, control, handleSubmit, reset, watch, setValue } = useForm<any>({
-    defaultValues: {
-      test: [{ question: "Bill", levelType: "Luo" }],
+    mode: "onChange",
+    resolver: yupResolver(validationSchema),
+    defaultValues: validationSchema.getDefault({}),
+  });
+
+  const onSubmit = async (data: any) => {
+    if (openCreateScreen.type === "create") {
+      const body = {
+        level: "A1",
+        analysisType: "NONE",
+        questionType: "LINE_GRAPH",
+        image: "uploads/2022/01/01/pepe.png",
+        questionText: data.questionText,
+        title: data.title,
+        tips: editorRef.current.getContent(),
+        usefulGrammarNVocab: "<p>Text</p>",
+        ideaSuggestion: "<p>Text</p>",
+        organization: "<p>Text</p>",
+        modelAnswer: "<p>Text</p>",
+      };
+      const response = await writingServices.postCreateQuestion(body);
+      if (response?.data?.statusCode === 200) {
+        alert("Create writing part success");
+        refetchDataTable();
+        onClose();
+      }
+    }
+    if (openCreateScreen.type === "update") {
+      const body = {
+        level: "A1",
+        analysisType: "NONE",
+        questionType: "LINE_GRAPH",
+        image: "uploads/2022/01/01/pepe.png",
+        questionText: data.questionText,
+        title: data.title,
+        tips: editorRef.current.getContent(),
+        usefulGrammarNVocab: "<p>Text</p>",
+        ideaSuggestion: "<p>Text</p>",
+        organization: "<p>Text</p>",
+        modelAnswer: "<p>Text</p>",
+      };
+      const response = await writingServices.patchUpdateQuestion(openCreateScreen?.element?.id, body);
+      if (response?.data?.statusCode === 200) {
+        alert("Update writing part success");
+        refetchDataTable();
+        onClose();
+      }
+    }
+  };
+
+  const resetAsyncForm = useCallback(
+    async (data: any) => {
+      reset({
+        title: data?.title,
+        questionText: data?.questionText,
+        part: data?.level,
+      });
     },
-  });
+    [reset]
+  );
 
-  const { fields, append, prepend, remove, swap, move, insert, update } = useFieldArray({
-    control, // control props comes from useForm (optional: if you are using FormContext)
-    name: "test", // unique name for your Field Array
-  });
+  useEffect(() => {
+    if (dataQuestionDetail?.id) {
+      resetAsyncForm(dataQuestionDetail);
+    }
+  }, [dataQuestionDetail?.id]);
 
-  const onAddQuestion = () => {
-    append({ question: "Bill", levelType: "Luo" });
-  };
-
-  const onRemoveQuestion = (index: number) => {
-    remove(index);
-  };
-
-  const onSubmit = (data: any) => console.log("data", data);
-
-  const renderButtonUpdate = () => {
-    return (
-      <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
-        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={onClose}>
-          Back
-        </Button>
-        {!isEdit ? (
+  return (
+    <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
+      {!isEdit && openCreateScreen.type === "update" && (
+        <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
+          <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={onClose}>
+            Back
+          </Button>
           <Button variant="contained" onClick={() => setIsEdit(true)}>
             <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
             Edit
           </Button>
-        ) : (
-          <>
-            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
-            <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
-          </>
-        )}
-      </Stack>
-    );
-  };
-
-  const renderButtonCreate = () => {
-    return (
-      <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
-        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onClose} />{" "}
-      </Stack>
-    );
-  };
-
-  return (
-    <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-      {openCreateScreen.type === "update" && renderButtonUpdate()}
+        </Stack>
+      )}
       <Card style={{ marginBottom: "15px", padding: 20 }}>
-        <Typography style={{ fontWeight: "bold" }}>
-          {openCreateScreen.type === "update" ? "Update part" : "Create part"}
-        </Typography>
+        <Typography style={{ fontWeight: "bold" }}>Writing title</Typography>
         <InputCommon
           id="standard-basic"
-          label="Passage title"
           variant="standard"
-          name="partTitle"
+          name="title"
           control={control}
           required
           fullWidth
@@ -101,7 +127,9 @@ const CreateQuestionWriting = (props: Props) => {
           onInit={(evt, editor) => {
             editorRef.current = editor;
           }}
-          initialValue={"<p>This is the initial content of the editor.</p>"}
+          initialValue={
+            dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "<p>This is the initial content of the editor.</p>"
+          }
           init={{
             plugins: "link image code",
             toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
@@ -109,91 +137,52 @@ const CreateQuestionWriting = (props: Props) => {
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
-      {openCreateScreen.type === "create" && renderButtonCreate()}
-      {openCreateScreen.type === "update" && (
-        <>
-          <div className="text-end mb-2">
-            <ButtonUpload
-              titleButton="Create question"
-              icon={<AddIcon />}
-              style={{ background: "#9155FE" }}
-              onClick={onAddQuestion}
-            />
-          </div>
-          <Card sx={{ minWidth: 275 }} className="p-[20px]">
-            {fields.map((field, index) => (
-              <div key={field.id} className="flex items-end">
-                <InputCommon
-                  id="standard-basic"
-                  label="Question"
-                  variant="standard"
-                  name={`test[${index}].question`}
-                  control={control}
-                  required
-                  fullWidth
-                />
-                <SelectField
-                  control={control}
-                  options={LevelType}
-                  label="Level"
-                  variant="standard"
-                  style={{ marginLeft: 20 }}
-                  name={`test[${index}].levelType`}
-                  setValue={setValue}
-                />
-                {fields.length > 1 && (
-                  <RemoveCircleOutlineIcon
-                    className="text-[#F44335] cursor-grab ml-[20px]"
-                    onClick={() => onRemoveQuestion(index)}
-                  />
-                )}
-              </div>
-            ))}
-            <div style={{ display: "flex", justifyContent: "end", marginTop: 10 }}>
-              <Button color="success">Save</Button>
-              <Button color="error">Delete</Button>
-            </div>
-          </Card>
-        </>
+
+      <div style={styles.questionGroup}>
+        <div className="flex items-end">
+          <InputCommon
+            id="standard-basic"
+            label="Question"
+            variant="standard"
+            name="questionText"
+            control={control}
+            required
+            fullWidth
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+          <SelectField
+            control={control}
+            options={[
+              { label: "Part 1", value: "part_1" },
+              { label: "Part 2", value: "part_2" },
+            ]}
+            label="Part"
+            variant="standard"
+            style={{ marginLeft: 20 }}
+            name="part"
+            setValue={setValue}
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+        </div>
+      </div>
+      {/* </Card> */}
+      {(isEdit || openCreateScreen.type === "create") && (
+        <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
+          <ButtonSave type="submit" icon={<SaveIcon />} />
+          <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onClose} />
+        </Stack>
       )}
     </form>
-    // <form onSubmit={handleSubmit(onSubmit)}>
-    //   <div className="text-end mb-2">
-    //     <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab ml-[10px]" onClick={onAddQuestion} />
-    //   </div>
-    //   <Card sx={{ minWidth: 275 }} className="p-[20px]">
-    //     {fields.map((field, index) => (
-    //       <div key={field.id} className="flex items-end">
-    //         <InputCommon
-    //           id="standard-basic"
-    //           label="Question"
-    //           variant="standard"
-    //           name={`test[${index}].question`}
-    //           control={control}
-    //           required
-    //           fullWidth
-    //         />
-    //         <SelectField
-    //           control={control}
-    //           options={LevelType}
-    //           label="Level"
-    //           variant="standard"
-    //           style={{ marginLeft: 20 }}
-    //           name={`test[${index}].levelType`}
-    //           setValue={setValue}
-    //         />
-    //         {fields.length > 1 && (
-    //           <RemoveCircleOutlineIcon
-    //             className="text-[#F44335] cursor-grab ml-[20px]"
-    //             onClick={() => onRemoveQuestion(index)}
-    //           />
-    //         )}
-    //       </div>
-    //     ))}
-    //     {renderButton()}
-    //   </Card>
-    // </form>
   );
 };
 
 export default CreateQuestionWriting;
+
+const styles = {
+  questionGroup: {
+    background: "#FFFFFF",
+    borderRadius: 8,
+    padding: 20,
+    boxShadow: "0px 1px 1px rgb(100 116 139 / 6%), 0px 1px 2px rgb(100 116 139 / 10%)",
+  },
+};

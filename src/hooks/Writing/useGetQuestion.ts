@@ -1,11 +1,11 @@
 import { PAGE_SIZE } from "constants/constants";
 import MPagination from "models/Pagination.model";
-import MPartReading from "models/Reading/Part.model";
+import MQuestionWriting from "models/Writing/Question.model";
 import { useEffect, useState } from "react";
 import writingServices from "services/writingServices";
 
-const useGetParts = () => {
-  const [dataParts, setDataParts] = useState<MPartReading[]>([]);
+const useGetQuestion = () => {
+  const [dataQuestion, setDataQuestion] = useState<MQuestionWriting[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
@@ -28,10 +28,10 @@ const useGetParts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await writingServices.getListParts(params);
+        const response = await writingServices.getListQuestion(params);
         if (response.data.statusCode === 200) {
-          const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
-          setDataParts(parts);
+          const parts = MQuestionWriting.parsePartListFromResponse(response?.data?.data?.data || []);
+          setDataQuestion(parts);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }
         setLoading(false);
@@ -50,7 +50,7 @@ const useGetParts = () => {
     setParams({ pageSize, page: 1 });
   };
 
-  return [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
+  return [dataQuestion, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
 };
 
-export default useGetParts;
+export default useGetQuestion;
