@@ -42,6 +42,7 @@ const App: React.FC = () => {
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
+          <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}
