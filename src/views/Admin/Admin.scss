@@ -1,0 +1,29 @@
+.questionContainer {
+  width: 100%;
+  display: flex;
+  margin-bottom: 10px;
+}
+.answerContainer {
+  display: flex;
+}
+.buttonContainerStyles{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.buttonSaveStyles{
+  :hover{
+    background: red;
+  }
+}
+.css-18jfu8d-MuiDivider-root {
+  margin: 0;
+  -webkit-flex-shrink: 0;
+  -ms-flex-negative: 0;
+  flex-shrink: 0;
+  border-width: 0;
+  border-style: solid;
+  border-color: #E6E8F0;
+  border-bottom-width: thin;
+  display: none;
+}

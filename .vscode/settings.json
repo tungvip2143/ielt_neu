@@ -1,0 +1,23 @@
+{
+<<<<<<< HEAD
+  "editor.formatOnSave": true,
+  "eslint.enable": true,
+  "files.eol": "\n",
+  "typescript.tsdk": "node_modules/typescript/lib",
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
+  "typescript.referencesCodeLens.enabled": true
+}
+=======
+    "editor.formatOnSave": true,
+    "eslint.enable": true,
+    "files.eol": "\n",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "editor.codeActionsOnSave": {
+      "source.fixAll.eslint": true
+    },
+    "typescript.referencesCodeLens.enabled": true,
+  }
+  
+>>>>>>> b12c3f5a8657347c353baea499edc18530e66cb8
