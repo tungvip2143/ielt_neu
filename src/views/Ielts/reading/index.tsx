@@ -18,15 +18,6 @@ import { useHistory } from "react-router-dom";
 import ModalExit from "components/Modal/ModalExit";
 export interface IeltsReadingProps {}
 
-// const initialValues = {
-//   answers: [
-//     {
-//       questionId: "",
-//       studentAnswer: "",
-//     },
-//   ],
-// };
-
 const initialValues = function () {
   let value = {
     questionId: "",
@@ -38,7 +29,6 @@ const initialValues = function () {
   }
   return { answers };
 };
-// console.log("initialValues1", initialValues1());
 
 const IeltsReading = (props: IeltsReadingProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
