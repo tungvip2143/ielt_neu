@@ -15,9 +15,9 @@ const ReadingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
 
-  const onDeletePart = async (id: any) => {
+  const onDeletePart = async (item: any) => {
     try {
-      await ReadingService.deletePart(id);
+      await ReadingService.deletePart(item?.id);
       alert("Delete part success!");
       refetchDataTable();
     } catch (error) {
@@ -78,10 +78,12 @@ const ReadingSkill = () => {
                 renderCell: (items: any) => {
                   return (
                     <CommonActionMenu
-                      onEdit={(e: MHeaderTable) => {
+                      onEdit={() => {
                         setOpenCreateScreen({ type: "update", element: items.row });
                       }}
-                      onDelete={() => onDeletePart(items.id)}
+                      onSubmitRemove={onDeletePart}
+                      row={items}
+                      // onDelete={() => onDeletePart(items.id)}
                     />
                   );
                 },

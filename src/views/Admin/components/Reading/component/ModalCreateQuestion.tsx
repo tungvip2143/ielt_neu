@@ -28,20 +28,15 @@ export interface Props {
 }
 
 const validationSchema = yup.object().shape({
-  // questionBox: yup.string().required("This is field required"),
-  // questionType: yup.mixed().required("This is field required"),
-  // questions: yup.array(
-  //   yup.object({
-  //     questionText: yup.string().required("This is field required"),
-  //     answer: yup.string().required("This is field required"),
-  //     options: yup.array(
-  //       yup.object({
-  //         key: yup.mixed().required("This is field required"),
-  //         text: yup.mixed().required("This is field required"),
-  //       })
-  //     ),
-  //   })
-  // ),
+  questionBox: yup.string().required("This is field required"),
+  questionType: yup.mixed().required("This is field required"),
+  questions: yup.array(
+    yup.object({
+      questionText: yup.string().required("This is field required"),
+      answer: yup.string().required("This is field required"),
+      options: yup.array(yup.string().required("mmm")),
+    })
+  ),
 });
 
 const ModalCreateQuestion = (props: Props) => {
