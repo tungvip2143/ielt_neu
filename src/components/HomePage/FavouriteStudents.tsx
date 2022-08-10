@@ -22,14 +22,14 @@ const FavouriteStudents = () => {
       <Box className="container-students">
         <Grid container sx={{ flexWrap: "unset !important" }}>
           {dataFavouriteStudents.map((user) => (
-            <CardFevoriteStudent user={user} key={user.name}/>
+            <CardFevoriteStudent user={user} />
           ))}
         </Grid>
       </Box>
 
       <Grid container sx={{ flexWrap: "unset !important", ml: "-200px" }} className="container-students">
         {dataFavouriteStudents.map((user) => (
-          <CardFevoriteStudent user={user} key={user.name}/>
+          <CardFevoriteStudent user={user} />
         ))}
       </Grid>
     </Box>

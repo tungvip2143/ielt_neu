@@ -21,16 +21,15 @@ import Stack from "@mui/material/Stack";
 import Title from "./components/Title";
 import Footer from "./components/Footer";
 import CardView from "./components/CardView";
-import { RouteBase } from "constants/routeUrl";
 //
-const LoginPage = (props: any) => {
+const SignUp = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
 
   const { mutateAsync: login } = useLogin();
   if (isLogin) {
-    return <Redirect to={RouteBase.Admin} />;
+    return <Redirect to="/" />;
   }
   const history = useHistory();
 
@@ -41,41 +40,38 @@ const LoginPage = (props: any) => {
     justifyContent: "center",
     alignItems: "center",
   };
-  const handleLoginEmail = () => {
-    history.push("/login/email");
-  };
-  const handleSignUp = () => {
-    history.push("/login/sign-up");
+  const handleLogin = () => {
+    history.push("/login");
   };
   //
   const dataGoogle = {
-    title: "Continue with Google",
+    title: "Sign up with Google",
     img: ImgGoogle,
     bg: "#4285f4",
     color: "#fff",
   };
   const dataFacebook = {
-    title: "Continue with Facebook",
+    title: "Sign up with Facebook",
     img: ImgFacebook,
     bg: "#fff",
     color: "#5b5c61",
   };
   const dataApple = {
-    title: "Continue with Apple",
+    title: "Sign up with Apple",
     img: ImgApple,
     bg: "#fff",
     color: "#5b5c61",
   };
   const dataEmail = {
-    title: "Continue with Email",
+    title: "Sign up with Email",
     img: ImgEmail,
     bg: "#fff",
     color: "#5b5c61",
   };
   //
   const content = {
-    desc: "No account",
-    title: "Sign Up",
+    desc: "Already have an account?",
+    title: "Login",
   };
   return (
     <Formik
@@ -110,14 +106,14 @@ const LoginPage = (props: any) => {
           <Button type="submit">Submit</Button>
           <Box sx={container}>
             <CardView>
-              <Title>Login</Title>
+              <Title>Sign up</Title>
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
                 <ItemSocial data={dataGoogle} />
                 <ItemSocial data={dataFacebook} />
                 <ItemSocial data={dataApple} />
-                <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
+                <ItemSocial data={dataEmail} />
               </Stack>
-              <Footer content={content} onClick={handleSignUp} />
+              <Footer onClick={handleLogin} content={content} />
             </CardView>
           </Box>
         </Form>
@@ -125,4 +121,4 @@ const LoginPage = (props: any) => {
     </Formik>
   );
 };
-export default LoginPage;
+export default SignUp;

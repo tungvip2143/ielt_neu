@@ -36,16 +36,18 @@ const contentList = {
 };
 interface Exam {
   exam: {
+    id: number;
     typeExam: string;
     timeExam: string;
     nameExam: string;
     image: string;
     hoverColor: string;
     path: string;
-    skill: string;
+    skill?: string;
   };
+  onClick?: any;
 }
-const CardIlets = ({ exam }: Exam) => {
+const CardIlets = ({ exam, onClick }: Exam) => {
   //! State
   const { dispatch } = useSagaCreators();
 
@@ -54,7 +56,9 @@ const CardIlets = ({ exam }: Exam) => {
   const history = useHistory();
 
   console.log("skill", exam);
-
+  const handleShowModal = () => {
+    onClick();
+  };
   // !Function
   const handleTest = async () => {
     await createTestCode(
@@ -62,7 +66,12 @@ const CardIlets = ({ exam }: Exam) => {
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          history.push(exam.path);
+          handleShowModal();
+        },
+        onError: (err: any) => {
+          if (err.response.data.statusCode === 401) {
+            history.push("/login");
+          }
         },
       }
     );

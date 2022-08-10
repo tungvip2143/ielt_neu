@@ -5,7 +5,6 @@ import useGetParts from "hooks/Reading/useGetParts";
 import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
-import { TRUE } from "sass";
 import httpServices from "services/httpServices";
 import ReadingService from "services/ReadingService";
 import CreateQuestionListening from "./component";

@@ -7,13 +7,14 @@ export const RouteBase = {
   IeltsWriting: "/ielts/writing",
   IeltsSpeaking: "/ielts/speaking",
   Pricing: "/pricing",
-  ReviewExams: "/review-exams",
+  ReviewReading: "/ielts/review/reading",
   Admin: "/admin",
-  AdminLogin: '/admin/login',
+  AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   Listening: "/admin/listening",
   Speaking: "/admin/speaking",
   Writing: "/admin/writing",
   Reading: "/admin/reading",
-  
+  LoginEmail: "/login/email",
+  SignUp: "/login/sign-up",
 };

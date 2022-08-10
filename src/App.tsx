@@ -13,16 +13,18 @@ import IeltsReading from "views/Ielts/reading";
 import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
-import ReviewExams from "views/Review/ReviewExams";
+import ReviewReading from "views/Review/reading";
 import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import useCheckAuth from "hooks/useCheckAuth";
+import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
+//
+import LoginEmail from "views/Login/LoginEmail";
+import SignUp from "views/Login/SignUp";
 
 const App: React.FC = () => {
-  //* Check authentication
   useCheckAuth();
 
   //! Render
@@ -33,13 +35,12 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path={RouteBase.Login} exact component={LoginPage} />
-          <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
-          <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
-          <Route path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
-          <Route path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
+          <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
+          <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
+          <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
+          <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
-          <Route path={RouteBase.ReviewExams} exact component={ReviewExams} />
-
+          <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
