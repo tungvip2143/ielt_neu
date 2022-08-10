@@ -17,7 +17,24 @@ import Card from "@mui/material/Card";
 import TitleIntroExam from "components/TitleIntroExam/TitleIntroExam";
 import Text from "components/Typography/index";
 import { useIeltsResult } from "hooks/ielts/useIelts";
-
+import { themeCssSx } from "../../ThemeCssSx/ThemeCssSx";
+//
+const lock = {
+  display: { xs: "flex", lg: "none" },
+  position: {
+    xs: "absolute",
+    lg: "unset",
+  },
+  top: "0",
+  right: "0",
+  left: "0",
+  width: "100%",
+  height: "100%",
+  background: "#fff",
+  justifyContent: "center",
+  alignItems: "center",
+  opacity: "0.7",
+};
 // ! type
 interface PropsBg {
   bg: {
@@ -50,32 +67,32 @@ export default function BasicTable({ bg }: PropsBg) {
     {
       id: TypeExamEnum.READING,
       name: "Reading",
-      icon: <AutoStoriesIcon sx={panal === "READING" ? { color: "#B0D909" } : {}} />,
+      icon: <AutoStoriesIcon sx={panal === "READING" ? { color: themeCssSx.colorIcons.reading } : {}} />,
     },
     {
       id: TypeExamEnum.WRITING,
       name: "Writing",
-      icon: <CreateIcon sx={panal === "WRITING" ? { color: "#8CE5EC" } : {}} />,
+      icon: <CreateIcon sx={panal === "WRITING" ? { color: themeCssSx.colorIcons.writing } : {}} />,
     },
     {
       id: TypeExamEnum.SPEAKING,
       name: "Speaking",
-      icon: <KeyboardVoiceIcon sx={panal === "SPEAKING" ? { color: "#FF9700" } : {}} />,
+      icon: <KeyboardVoiceIcon sx={panal === "SPEAKING" ? { color: themeCssSx.colorIcons.speaking } : {}} />,
     },
   ];
   //
   const colorButon = () => {
     if (panal === TypeExamEnum.LISTENING) {
-      return "red";
+      return themeCssSx.colorIcons.listening;
     }
     if (panal === TypeExamEnum.READING) {
-      return "#B0D909";
+      return themeCssSx.colorIcons.reading;
     }
     if (panal === TypeExamEnum.WRITING) {
-      return "#8CE5EC";
+      return themeCssSx.colorIcons.writing;
     }
     if (panal === TypeExamEnum.SPEAKING) {
-      return "#FF9700";
+      return themeCssSx.colorIcons.speaking;
     }
   };
   //
@@ -84,48 +101,79 @@ export default function BasicTable({ bg }: PropsBg) {
     desc: "Check out your results, and see how you can improve your score.",
     background: "rgb(255,245,247)",
   };
+  const conteiner = {
+    p: "50px 10px 100px 10px",
+    background: dataTitleIntroExam.background,
+    position: "relative",
+    display: "flex",
+    justifyContent: "center",
+  };
+  const containerTitle = {
+    display: { xs: "block", sm: "flex" },
+    justifyContent: "space-between",
+    alignItems: "center",
+  };
+  const card = {
+    p: "20px 20px",
+    borderRadius: "12px",
+    maxWidth: "124px",
+    m: { xs: "0 auto", sm: "0" },
+    mt: { xs: "30px", sm: "0" },
+  };
+  const cardHelp = {
+    p: "24px 22px",
+    borderRadius: "12px",
+    "&:hover": {
+      backgroundColor: "#f7f9fb",
+    },
+  };
+  const iconHelp = {
+    fontSize: "40px",
+    mb: "5px",
+    color: "#9ca3af",
+  };
+  const headerReviesConteiner = {
+    width: "100%",
+    position: "relative",
+    transform: "translateY(-40px)",
+  };
+  const headerContent = {
+    background: "#fff",
+    p: "10px 10px",
+    borderTopLeftRadius: "20px",
+    borderTopRightRadius: "20px",
+  };
+
+  const headerContent2 = {
+    display: "flex",
+    background: "#F3F4F6",
+    p: "5px 5px",
+    borderRadius: "15px",
+    justifyContent: "space-between",
+  };
+  const headerItem = {
+    display: "flex",
+    justifyContent: "center",
+    m: "0 3px",
+    width: { xs: "24%" },
+  };
+  const highLightButon = {
+    background: "#fff",
+    color: colorButon(),
+    boxShadow: "rgba(0, 0, 0, 0.20) 0px 5px 15px",
+    borderRadius: "15px",
+  };
   return (
     <Box>
-      <Box
-        sx={{
-          p: "50px 10px 100px 10px",
-          background: dataTitleIntroExam.background,
-          position: "relative",
-          display: "flex",
-          justifyContent: "center",
-        }}
-      >
+      <Box sx={conteiner}>
         <div className="container">
-          <Box
-            sx={{
-              display: { xs: "block", sm: "flex" },
-              justifyContent: "space-between",
-              alignItems: "center",
-            }}
-          >
+          <Box sx={containerTitle}>
             <Box sx={{ width: "252px" }}>
               <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
             </Box>
-            <Card
-              sx={{
-                p: "20px 20px",
-                borderRadius: "12px",
-                maxWidth: "124px",
-                m: { xs: "0 auto", sm: "0" },
-                mt: { xs: "30px", sm: "0" },
-              }}
-            >
-              <Box
-                className="card-help"
-                sx={{
-                  p: "24px 22px",
-                  borderRadius: "12px",
-                  "&:hover": {
-                    backgroundColor: "#f7f9fb",
-                  },
-                }}
-              >
-                <HelpIcon className="icon-help" sx={{ fontSize: "40px", mb: "5px", color: "#9ca3af" }} />
+            <Card sx={card}>
+              <Box className="card-help" sx={cardHelp}>
+                <HelpIcon className="icon-help" sx={iconHelp} />
                 <Text.Desc16 sx={{ textAlign: "center", color: "#9ca3af" }}>help</Text.Desc16>
               </Box>
             </Card>
@@ -134,34 +182,14 @@ export default function BasicTable({ bg }: PropsBg) {
       </Box>
       <Box sx={{ background: bg.background2, pb: "100px" }}>
         <div className="container">
-          <Box sx={{ width: "100%", position: "relative", transform: "translateY(-40px)" }}>
-            <Box sx={{ background: "#fff", p: "10px 10px", borderTopLeftRadius: "20px", borderTopRightRadius: "20px" }}>
-              <Box
-                sx={{
-                  display: "flex",
-                  background: "#F3F4F6",
-                  p: "5px 5px",
-                  borderRadius: "15px",
-                  justifyContent: "space-between",
-                }}
-              >
+          <Box sx={headerReviesConteiner}>
+            <Box sx={headerContent}>
+              <Box sx={headerContent2}>
                 {typeExams.map((item: any) => {
                   return (
-                    <Box
-                      key={item.id}
-                      sx={{ display: "flex", justifyContent: "center", m: "0 3px", width: { xs: "24%" } }}
-                    >
+                    <Box key={item.id} sx={headerItem}>
                       <Button
-                        style={
-                          item.id === panal
-                            ? {
-                                background: "#fff",
-                                color: colorButon(),
-                                boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-                                borderRadius: "15px",
-                              }
-                            : {}
-                        }
+                        style={item.id === panal ? { ...highLightButon } : {}}
                         onClick={() => setPanal(item.id)}
                         variant="text"
                         sx={cssBotton}
@@ -181,24 +209,7 @@ export default function BasicTable({ bg }: PropsBg) {
 
               return null;
             })}
-            <Box
-              sx={{
-                display: { xs: "flex", lg: "none" },
-                position: {
-                  xs: "absolute",
-                  lg: "unset",
-                },
-                top: "0",
-                right: "0",
-                left: "0",
-                width: "100%",
-                height: "100%",
-                background: "#fff",
-                justifyContent: "center",
-                alignItems: "center",
-                opacity: "0.7",
-              }}
-            >
+            <Box sx={lock}>
               <NoEncryptionGmailerrorredIcon sx={{ fontSize: "200px" }} />
             </Box>
           </Box>

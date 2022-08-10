@@ -12,10 +12,12 @@ export const themeCssSx = {
   color: {
     title: {
       titleSection: "#000000",
+      titleTableHead: "#B8BCC0",
     },
     desc: {
       smallGray: "#b8bcc0",
       modal: "#5b5c61",
+      common: "#36373B",
     },
   },
   bg: {

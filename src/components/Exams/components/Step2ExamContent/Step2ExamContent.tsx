@@ -17,6 +17,7 @@ import { IELT_TEST } from "interfaces/testType";
 import Writing from "views/Ielts/writing/component/Writing";
 import CardPart from "components/Card/CardPart";
 import ReactHtmlParser from "react-html-parser";
+import { useFormikContext } from "formik";
 
 interface Props {
   data?: any;
@@ -24,9 +25,12 @@ interface Props {
 
 const Step2ExamContent = (props: any) => {
   const { data, test } = props;
+  console.log("test", test);
   console.log("step2 data", data);
+
   //! State
   const [questions, setQuestions] = useState(data);
+  console.log("question", questions);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
   const [questionSelected, setQuestionSelected] = useState<any>("1");
@@ -54,6 +58,7 @@ const Step2ExamContent = (props: any) => {
 
     return null;
   }, [ieltsReadingDataDummy, groupSelected]);
+
   //
   console.log("partRenderSelected11", partRenderSelected);
   //! Render

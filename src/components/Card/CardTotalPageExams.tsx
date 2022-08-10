@@ -13,6 +13,8 @@ import { makeStyles } from "@mui/styles";
 import ButtonCommon from "components/Button/ButtonCommon";
 import { object } from "yup";
 import { IELT_TEST } from "interfaces/testType";
+import { useFormikContext } from "formik";
+import { Student } from "../../constants/enum";
 
 interface CardTotalPageExamsI {
   questions: any;
@@ -73,6 +75,9 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
 
   //! State
   const classes = useStyles();
+  const { values }: any = useFormikContext();
+
+  console.log("values", values);
 
   //
   const renderPartValues = (partValues: any, index: number) => {
@@ -90,6 +95,7 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
             className={classes.eachQuestion}
             onClick={() => handleClickQuestion(partValues, index)}
             style={highlightPage === partValues.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+            // style={values.answers[]}
           >
             <span>{partValues.question.displayNumber}</span>
           </div>
@@ -99,22 +105,30 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
 
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
       return partGroup.questions.map((item: any, index: number) => {
+        console.log("item", item.question.displayNumber);
         const handleClickQuestion = (part: any, group: any) => {
           sectionRender.part = partValues.partNumber - 1;
           sectionRender.group = partGroup.groupNumber - 1;
           onClickPage(sectionRender);
           setHighlightPage(item.questionId);
         };
+        const add = Number(item.question.displayNumber) - 1;
+        console.log("add", add);
         return (
           <>
-            <div
+            <Box
               key={item.id}
               className={classes.eachQuestion}
               onClick={() => handleClickQuestion(partValues, partGroup)}
-              style={highlightPage === item.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+              style={values?.answers[`${add}`]?.studentAnswer ? { background: "#90caf9", borderRadius: "50%" } : {}}
+              sx={
+                highlightPage === item.questionId
+                  ? { background: "#4C80F1 !important", borderRadius: "50%" }
+                  : { background: "red" }
+              }
             >
               <span>{item.question.displayNumber}</span>
-            </div>
+            </Box>
           </>
         );
       });

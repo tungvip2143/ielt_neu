@@ -23,7 +23,8 @@ import PrivateRoute from "components/PrivateRoute";
 //
 import LoginEmail from "views/Login/LoginEmail";
 import SignUp from "views/Login/SignUp";
-
+import HeaderResponsive from "./components/Header/HeaderResponsive";
+//
 const App: React.FC = () => {
   useCheckAuth();
 
@@ -42,6 +43,8 @@ const App: React.FC = () => {
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
+          <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
+          <Route path={RouteBase.SignUp} exact component={SignUp} />
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}

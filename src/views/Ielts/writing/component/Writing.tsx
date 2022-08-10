@@ -23,6 +23,7 @@ const Writing = (props: Props) => {
   console.log("groupSelected", groupSelected);
 
   const { values, setFieldValue } = useFormikContext();
+  console.log("setFieldValue", setFieldValue);
 
   console.log("writing values", values);
   const handleFocus = () => {

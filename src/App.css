@@ -198,3 +198,7 @@ ul {
   font-size: 14px;
   margin-top: 8px;
 }
+/* exam */
+input#input-undefined {
+  border: 1px solid #ccc;
+}

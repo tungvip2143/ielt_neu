@@ -32,6 +32,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  console.log("testCode", testCode);
 
   const { data, isLoading } = useIeltsWritting(testCode);
   const { mutateAsync: updateIeltsWriting } = useUpdateIeltsWriting();

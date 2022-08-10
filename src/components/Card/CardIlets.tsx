@@ -65,6 +65,7 @@ const CardIlets = ({ exam, onClick }: Exam) => {
       { skill: exam.skill },
       {
         onSuccess: (response) => {
+          console.log("response", response);
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
           handleShowModal();
         },

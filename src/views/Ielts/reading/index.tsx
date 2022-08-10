@@ -47,7 +47,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    const body = { values: { answers }, testCode };
+    const body = { values: { answers }, testCode: 9 };
     console.log("body234", body);
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
