@@ -38,7 +38,11 @@ const ReadingSkill = () => {
         )}
       </div>
       {!isEmpty(openCreateScreen) && (
-        <CreateQuestionReading openCreateScreen={openCreateScreen} refetchDataTable={refetchDataTable} onClose={() => setOpenCreateScreen({})} />
+        <CreateQuestionReading
+          openCreateScreen={openCreateScreen}
+          refetchDataTable={refetchDataTable}
+          onClose={() => setOpenCreateScreen({})}
+        />
       )}
       {isEmpty(openCreateScreen) && (
         <TableCommon

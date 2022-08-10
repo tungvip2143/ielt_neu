@@ -9,7 +9,6 @@ import { TRUE } from "sass";
 import httpServices from "services/httpServices";
 import ReadingService from "services/ReadingService";
 import CreateQuestionListening from "./component";
-import ModalDelete from "./component/ModalDeleteBtn";
 
 const ListeningSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
@@ -17,7 +16,12 @@ const ListeningSkill = () => {
 
   const onSubmitRemove = async (item: any) => {
     //* TODO: call API to remove item;
-    alert(JSON.stringify(item));
+    try {
+      await ReadingService.deletePart(item?.id);
+      refetchDataTable();
+    } catch (error) {
+      console.log("error");
+    }
   };
 
   return (
@@ -49,7 +53,7 @@ const ListeningSkill = () => {
           count={metaPart.total}
           onEdit={(e: MHeaderTable) => {
             ({ type: "update", element: e });
-          }} 
+          }}
           onSubmitRemove={onSubmitRemove}
         />
       )}
