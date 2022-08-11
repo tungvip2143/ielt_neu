@@ -1,17 +1,14 @@
-import React, { useState, useMemo, useEffect } from "react";
+import { useState } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
-import CardNumberPage from "./CardNumberPage";
 //
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 //
-import { ieltsApi } from "api/ieltsResults";
 import { makeStyles } from "@mui/styles";
-import ButtonCommon from "components/Button/ButtonCommon";
-import { object } from "yup";
+import { useFormikContext } from "formik";
 import { IELT_TEST } from "interfaces/testType";
 
 interface CardTotalPageExamsI {
@@ -67,13 +64,11 @@ const nextPage = {
 };
 const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected, test }: CardTotalPageExamsI) => {
   // console.log("questionSelected", questionSelected);
-  console.log("questions", questions);
-
   const [highlightPage, setHighlightPage] = useState();
 
   //! State
   const classes = useStyles();
-
+  const { values }: any = useFormikContext();
   //
   const renderPartValues = (partValues: any, index: number) => {
     let sectionRender: any = {};
@@ -90,6 +85,7 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
             className={classes.eachQuestion}
             onClick={() => handleClickQuestion(partValues, index)}
             style={highlightPage === partValues.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+            // style={values.answers[]}
           >
             <span>{partValues.question.displayNumber}</span>
           </div>
@@ -105,16 +101,22 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
           onClickPage(sectionRender);
           setHighlightPage(item.questionId);
         };
+        const add = Number(item.question.displayNumber) - 1;
         return (
           <>
-            <div
+            <Box
               key={item.id}
               className={classes.eachQuestion}
               onClick={() => handleClickQuestion(partValues, partGroup)}
-              style={highlightPage === item.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+              style={values?.answers[`${add}`]?.studentAnswer ? { background: "#90caf9", borderRadius: "50%" } : {}}
+              sx={
+                highlightPage === item.questionId
+                  ? { background: "#4C80F1 !important", borderRadius: "50%" }
+                  : { background: "red" }
+              }
             >
               <span>{item.question.displayNumber}</span>
-            </div>
+            </Box>
           </>
         );
       });
