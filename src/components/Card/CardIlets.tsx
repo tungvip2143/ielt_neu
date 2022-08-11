@@ -34,6 +34,19 @@ const contentList = {
   display: { xs: "flex", sm: "flex", md: "flex", lg: "block" },
   justifyContent: { xs: "space-between", lg: "" },
 };
+const lock = {
+  display: { xs: "flex", lg: "none" },
+  position: "absolute",
+  background: { xs: "#fff", lg: "0" },
+  opacity: "0.9",
+  width: "100%",
+  height: "100%",
+  zIndex: 999,
+  borderRadius: "15px",
+  top: 0,
+  left: 0,
+  padding: "50px 30px",
+};
 interface Exam {
   exam: {
     id: number;
@@ -46,8 +59,9 @@ interface Exam {
     skill?: string;
   };
   onClick?: any;
+  onSelectExam: boolean;
 }
-const CardIlets = ({ exam, onClick }: Exam) => {
+const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
   //! State
   const { dispatch } = useSagaCreators();
 
@@ -66,7 +80,13 @@ const CardIlets = ({ exam, onClick }: Exam) => {
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          handleShowModal();
+          {
+            if (onSelectExam) {
+              handleShowModal();
+            } else {
+              alert("please select exam");
+            }
+          }
         },
         onError: (err: any) => {
           if (err.response.data.statusCode === 401) {
@@ -97,21 +117,7 @@ const CardIlets = ({ exam, onClick }: Exam) => {
             <img style={{ transform: "translateX(-20px)", width: "100%" }} src={exam.image} alt="" />
           </Box>
         </Box>
-        <Box
-          sx={{
-            display: { xs: "flex", lg: "none" },
-            position: "absolute",
-            background: { xs: "#fff", lg: "0" },
-            opacity: "0.9",
-            width: "100%",
-            height: "100%",
-            zIndex: 999,
-            borderRadius: "15px",
-            top: 0,
-            left: 0,
-            padding: "50px 30px",
-          }}
-        >
+        <Box sx={lock}>
           <Stack sx={{ width: "100%" }} direction="row" spacing={2}>
             <Box sx={{ width: { xs: "90%", md: "60%", lg: "" } }}>
               <Text.Sub20Bold>Access from PC, please.</Text.Sub20Bold>

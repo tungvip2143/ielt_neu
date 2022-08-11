@@ -15,6 +15,8 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import Modal from "components/Modal";
 import { useHistory } from "react-router-dom";
 import Stack from "@mui/material/Stack";
+//
+import SelectExam from "./components/SelectExam/SelectExam";
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
   bg: string;
@@ -53,13 +55,18 @@ export default function IeltsSections({ bg }: PropsBg3) {
   const [open, setOpen] = React.useState<boolean>(false);
   const [id, setId] = React.useState<number>();
   const [isShowIcon, isSetShowIcon] = React.useState<boolean>(false);
-  console.log("show-icon", isShowIcon);
+  const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
+
+  console.log("isSelectExam", isSelectExam);
 
   console.log(id);
   const history = useHistory();
 
   const handleCloseModal = () => setOpen(false);
-
+  //
+  const handleUnlockExam = (success: boolean) => {
+    setIsSelectExam(success);
+  };
   const handleBackIeltsSelection = () => {
     if (id === 1) {
       history.push("/ielts/listening");
@@ -109,12 +116,19 @@ export default function IeltsSections({ bg }: PropsBg3) {
     to improve your score.`,
     background: "rgb(255,245,247)",
   };
+  const containerTitle = {
+    display: "flex",
+    justifyContent: "space-between",
+  };
   return (
     <Box>
       <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
         <div className="container">
-          <Box sx={{ width: "252px", ml: "10px" }}>
-            <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
+          <Box sx={containerTitle}>
+            <Box sx={{ width: "252px", ml: "10px" }}>
+              <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
+            </Box>
+            <SelectExam onSelectExam={handleUnlockExam} />
           </Box>
         </div>
       </Box>
@@ -135,7 +149,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
                   setOpen(true);
                   setId(item.id);
                 };
-                return <CardIlets onClick={handleShowModal} key={item.id} exam={item} />;
+                return <CardIlets onSelectExam={isSelectExam} onClick={handleShowModal} key={item.id} exam={item} />;
               }
             )}
           </Grid>
