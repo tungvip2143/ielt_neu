@@ -12,6 +12,7 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
+import { TRUE } from "sass";
 
 type Props = {
   question: any;
@@ -19,19 +20,28 @@ type Props = {
   expanded?: any;
   onCollapse?: any;
   QUESTION_TYPE?: any;
+  idShowQuestion?: any;
+  onHightLightNumberPage?: any;
 };
 
 const IdentifyInformationType = (props: Props) => {
-  const { question, questionType, expanded, onCollapse, QUESTION_TYPE } = props;
+  const { question, questionType, expanded, onCollapse, QUESTION_TYPE, idShowQuestion, onHightLightNumberPage } = props;
+  console.log("idshowQuestion", idShowQuestion);
+
   const displayNumber = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
+
+  const handleClickHightLightPage = () => {
+    onHightLightNumberPage(question.question.displayNumber);
+  };
   return (
     <>
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={expanded === question?.questionId}
-        onChange={onCollapse(question?.questionId)}
+        expanded={expanded == question.question.displayNumber}
+        onChange={onCollapse(question.question.displayNumber)}
+        onClick={handleClickHightLightPage}
       >
         <Stack
           direction="row"
@@ -46,10 +56,8 @@ const IdentifyInformationType = (props: Props) => {
             id="panel1a-header"
             sx={{ p: "0 !important", display: "flex" }}
           >
-            <Text.DescSmall>
-              {question.question.displayNumber}
-              {ReactHtmlParser(question.question.questionText)}
-            </Text.DescSmall>
+            <Text.DescSmall sx={{ mr: "5px" }}>{question.question.displayNumber}.</Text.DescSmall>
+            <Text.DescSmall>{ReactHtmlParser(question.question.questionText)}</Text.DescSmall>
           </AccordionSummary>
         </Stack>
 

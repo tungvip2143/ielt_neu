@@ -24,7 +24,7 @@ const initialValues = function () {
     studentAnswer: "",
   };
   let answers = [];
-  for (let i = 0; i < 20; i++) {
+  for (let i = 0; i < 40; i++) {
     answers.push(value);
   }
   return { answers };
@@ -34,7 +34,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsReading(testCode);
+  const { data, isLoading } = useIeltsReading(9);
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
   const [ieltsReadingData, setIeltsReadingData] = React.useState(data?.data?.data);
@@ -47,7 +47,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    const body = { values: { answers }, testCode };
+    const body = { values: { answers }, testCode: 9 };
     console.log("body234", body);
     await submitIeltsReadingTest(body, {
       onSuccess: () => {

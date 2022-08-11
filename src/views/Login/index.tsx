@@ -95,19 +95,6 @@ const LoginPage = (props: any) => {
     >
       {(propsFormik) => (
         <Form>
-          <ErrorFocus />
-          <div>username: admin & password: 123456</div>
-          <div>
-            <label htmlFor="username">UserName</label>
-            <FastField component={InputField} name="username" />
-          </div>
-
-          <div>
-            <label htmlFor="password">Password</label>
-            <FastField component={InputField} name="password" type="password" />
-          </div>
-
-          <Button type="submit">Submit</Button>
           <Box sx={container}>
             <CardView>
               <Title>Login</Title>

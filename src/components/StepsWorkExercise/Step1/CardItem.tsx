@@ -13,6 +13,8 @@ interface PropsItemQuestion {
   expanded?: any;
   questionBox?: any;
   question?: any;
+  idShowQuestion?: any;
+  onHightLightNumberPage?: (displayNumber: string) => void;
 
   // onCollapse: (id: any) => (e: any, expanded: any) => void;
   onCollapse?: any;
@@ -26,9 +28,11 @@ const ItemQuestion = ({
   questionType,
   questionBox,
   image,
+  onHightLightNumberPage,
   ...remainProps
 }: PropsItemQuestion) => {
   console.log("questionType", questionType);
+
   // const [value, setValue] = useState("a");
   // const [expanded, setExpanded] = useState(remainProps.expanded);
 
@@ -74,6 +78,7 @@ const ItemQuestion = ({
           question={question}
           expanded={expanded}
           onCollapse={onCollapse}
+          onHightLightNumberPage={onHightLightNumberPage}
         />
       );
     }
