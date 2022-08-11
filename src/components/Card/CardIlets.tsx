@@ -1,25 +1,24 @@
-import React from "react";
-
 //
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 //
-import Card from "@mui/material/Card";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
+import Card from "@mui/material/Card";
 //
-import Text from "components/Typography/index";
 import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
+import Text from "components/Typography/index";
 
 //
 import LockIcon from "@mui/icons-material/Lock";
 
-import { Link, useHistory } from "react-router-dom";
-import LinkCustom from "components/Link";
+import { useFormikContext } from "formik";
 import { useIeltsTestCode } from "hooks/ielts/useIelts";
-import { useDispatch } from "react-redux";
 import useSagaCreators from "hooks/useSagaCreators";
+import { useHistory } from "react-router-dom";
 import { IeltsActions } from "redux/creators/modules/ielts";
+import { useEffect } from "react";
+import { isEmpty } from "lodash";
 
 const CardList = {
   borderRadius: "15px",
@@ -64,29 +63,27 @@ interface Exam {
 const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
   //! State
   const { dispatch } = useSagaCreators();
+  const { values, handleSubmit }: any = useFormikContext();
 
   // !Hook
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
   const history = useHistory();
 
-  console.log("skill", exam);
   const handleShowModal = () => {
     onClick();
   };
   // !Function
   const handleTest = async () => {
+    handleSubmit();
+    if (!values.exam.label) {
+      return;
+    }
     await createTestCode(
       { skill: exam.skill },
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          {
-            if (onSelectExam) {
-              handleShowModal();
-            } else {
-              alert("please select exam");
-            }
-          }
+          history.push(`${exam.path}`);
         },
         onError: (err: any) => {
           if (err.response.data.statusCode === 401) {
