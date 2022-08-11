@@ -17,13 +17,18 @@ interface TOFFLI {
   partRenderSelected?: any;
   questionSelected?: any;
   onClickPage: (id: string) => void;
+  onHightLightNumberPage: (displayNumber: string) => void;
+  showQuestion?: any;
 }
 
-const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) => {
+const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion, onHightLightNumberPage }: TOFFLI) => {
+  console.log("showQuestion", showQuestion);
   // console.log(partRenderSelected.questions.group?.[0]?.index);
-  const [expanded, setExpanded] = useState(questionSelected);
+  const [expanded, setExpanded] = useState(showQuestion);
   const [dataPartGruop, setDataPartGroup] = useState();
   console.log("partRenderSelected2", partRenderSelected);
+  console.log("questionSelected", questionSelected);
+
   //! Number
 
   const from = () => {
@@ -44,10 +49,12 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
     setExpanded(newExpanded ? id : false);
     onClickPage(id);
   };
-
   useEffect(() => {
-    setExpanded(questionSelected);
-  }, [questionSelected]);
+    setExpanded(showQuestion);
+  }, [showQuestion]);
+  // useEffect(() => {
+  //   setExpanded(questionSelected);
+  // }, [questionSelected]);
   //
   const renderPartValueGroup = (partRenderSelected: any) => {
     console.log("partRenderSelected", partRenderSelected);
@@ -69,6 +76,7 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
       );
     }
     return partRenderSelected?.questions?.map((question: any) => {
+      console.log("abc", question);
       return (
         <>
           <ItemQuestion
@@ -78,6 +86,7 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage }: TOFFLI) =>
             expanded={expanded}
             onCollapse={handleCollapse}
             questionBox={partRenderSelected?.questionBox}
+            onHightLightNumberPage={onHightLightNumberPage}
           />
         </>
       );
