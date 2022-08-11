@@ -1,9 +1,9 @@
-import * as React from "react";
-import { dataIlets } from "components/data/dataIelts";
-import CardIlets from "components/Card/CardIlets";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
+import CardIlets from "components/Card/CardIlets";
+import { dataIlets } from "components/data/dataIelts";
 import TitleIntroExam from "components/TitleIntroExam/TitleIntroExam";
+import * as React from "react";
 //
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
 import CreateIcon from "@mui/icons-material/Create";
@@ -12,9 +12,15 @@ import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 import Typography from "@mui/material/Typography";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
+import Stack from "@mui/material/Stack";
 import Modal from "components/Modal";
 import { useHistory } from "react-router-dom";
-import Stack from "@mui/material/Stack";
+//
+import { makeStyles } from "@mui/styles";
+import { FastField, Form, Formik } from "formik";
+import { AutoCompletedMui } from "components/Autocomplete";
+import * as yup from "yup";
+
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
   bg: string;
@@ -26,7 +32,38 @@ interface propsModal {
     icon?: React.ReactNode;
   };
 }
-export interface IeltsSectionsProps {}
+
+const useStyles = makeStyles((theme) => ({
+  containerTitle: {
+    display: "flex",
+    justifyContent: "space-between",
+  },
+  modalContent: {
+    p: "0 10px",
+    border: "1px solid #ccc",
+    borderRadius: "12px",
+    m: "10px  0 20px 0",
+  },
+  title: {
+    color: themeCssSx.color.desc.smallGray,
+    fontSize: themeCssSx.fontSize.descSmallest,
+    fontWeight: 700,
+    mb: "8px",
+  },
+
+  line: {
+    width: "80%",
+    height: "8px",
+    background: themeCssSx.bg.gray,
+    borderLeft: "2px solid red",
+    borderRadius: "2px",
+  },
+  examSemester: {
+    width: "252px",
+    marginLeft: "10px",
+  },
+}));
+
 const dataModal = [
   {
     id: 1,
@@ -49,17 +86,42 @@ const dataModal = [
     icon: <KeyboardVoiceIcon sx={{ color: themeCssSx.colorIcons.speaking, fontSize: themeCssSx.fontIcons.normal }} />,
   },
 ];
+
+const examSemester = [
+  { id: 1, label: "Level1" },
+  { id: 2, label: "Level2" },
+  { id: 3, label: "Level3" },
+  { id: 4, label: "Level4" },
+  { id: 5, label: "Level5" },
+];
+
+const initialValues = {
+  exam: {
+    label: "",
+    id: "",
+  },
+};
+
+const validationSchema = yup.object().shape({
+  exam: yup.object().shape({
+    label: yup.string().required("please choose exam before start"),
+  }),
+});
+
 export default function IeltsSections({ bg }: PropsBg3) {
+  // !State
+  const classes = useStyles();
   const [open, setOpen] = React.useState<boolean>(false);
   const [id, setId] = React.useState<number>();
-  const [isShowIcon, isSetShowIcon] = React.useState<boolean>(false);
-  console.log("show-icon", isShowIcon);
+  const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
 
-  console.log(id);
   const history = useHistory();
 
   const handleCloseModal = () => setOpen(false);
-
+  //
+  const handleUnlockExam = (success: boolean) => {
+    setIsSelectExam(success);
+  };
   const handleBackIeltsSelection = () => {
     if (id === 1) {
       history.push("/ielts/listening");
@@ -71,35 +133,12 @@ export default function IeltsSections({ bg }: PropsBg3) {
       history.push("/ielts/speaking");
     }
   };
-  //
-  const modalContent = {
-    p: "0 10px",
-    border: "1px solid #ccc",
-    borderRadius: "12px",
-    m: "10px  0 20px 0",
-  };
-  //
   const ItemModal = ({ dataModal }: propsModal) => {
-    const title = {
-      color: themeCssSx.color.desc.smallGray,
-      fontSize: themeCssSx.fontSize.descSmallest,
-      fontWeight: 700,
-      mb: "8px",
-    };
-    const line = {
-      width: "80%",
-      height: "8px",
-      background: themeCssSx.bg.gray,
-      borderLeft: "2px solid red",
-      borderRadius: "2px",
-    };
-    //
-
     return (
       <Box sx={{ width: "25%", display: "flex", flexDirection: "column", alignItems: "center" }}>
         <Box sx={id === dataModal.id ? { visibility: "visible" } : { visibility: "hidden" }}>{dataModal.icon}</Box>
-        <Typography sx={title}>{dataModal.title}</Typography>
-        <Box sx={line}></Box>
+        <Typography className={classes.title}>{dataModal.title}</Typography>
+        <Box className={classes.line}></Box>
       </Box>
     );
   };
@@ -109,60 +148,88 @@ export default function IeltsSections({ bg }: PropsBg3) {
     to improve your score.`,
     background: "rgb(255,245,247)",
   };
+
+  const onSubmitExam = (values: any) => {
+    console.log("values", values);
+  };
+
   return (
-    <Box>
-      <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
-        <div className="container">
-          <Box sx={{ width: "252px", ml: "10px" }}>
-            <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
+    <Formik
+      initialValues={initialValues}
+      validationSchema={validationSchema}
+      onSubmit={(values) => onSubmitExam(values)}
+    >
+      {(formik: any) => (
+        <Form>
+          <Box>
+            <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
+              <div className="container">
+                <Box className={classes.containerTitle}>
+                  <Box className={classes.examSemester}>
+                    <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
+                  </Box>
+                  <FastField
+                    label="Select Exam"
+                    component={AutoCompletedMui}
+                    name="exam"
+                    options={examSemester}
+                    sx={{ width: "300px" }}
+                  />
+
+                  <div className={classes.examSemester}></div>
+                </Box>
+              </div>
+            </Box>
+            <Box sx={{ background: bg, pb: "100px" }}>
+              <div className="container">
+                <Grid container sx={{ transform: "translateY(-40px)" }}>
+                  {dataIlets.map(
+                    (item: {
+                      id: number;
+                      typeExam: string;
+                      timeExam: string;
+                      nameExam: string;
+                      image: string;
+                      hoverColor: string;
+                      path: string;
+                    }) => {
+                      const handleShowModal = () => {
+                        setOpen(true);
+                        setId(item.id);
+                      };
+                      return (
+                        <CardIlets onSelectExam={isSelectExam} onClick={handleShowModal} key={item.id} exam={item} />
+                      );
+                    }
+                  )}
+                </Grid>
+              </div>
+              {open && (
+                <Modal onClose={handleCloseModal} open={open} width="388px">
+                  <Modal.Title sx={{ color: "#000000" }}>Would you like to resume your unfinished test?</Modal.Title>
+                  <Modal.Content>
+                    <Box className={classes.modalContent}>
+                      <Stack direction="row" spacing={1} sx={{ p: "12px 0 16px 0" }}>
+                        {dataModal.map((item: any) => {
+                          return <ItemModal dataModal={item} />;
+                        })}
+                      </Stack>
+                    </Box>
+                  </Modal.Content>
+                  <Modal.Button
+                    onCancel={handleBackIeltsSelection}
+                    onConfirm={handleCloseModal}
+                    cancel="NO, START NEW"
+                    confirm="YES, RESUME"
+                    background="#df0a31"
+                    color=""
+                  />
+                </Modal>
+              )}
+            </Box>
           </Box>
-        </div>
-      </Box>
-      <Box sx={{ background: bg, pb: "100px" }}>
-        <div className="container">
-          <Grid container sx={{ transform: "translateY(-40px)" }}>
-            {dataIlets.map(
-              (item: {
-                id: number;
-                typeExam: string;
-                timeExam: string;
-                nameExam: string;
-                image: string;
-                hoverColor: string;
-                path: string;
-              }) => {
-                const handleShowModal = () => {
-                  setOpen(true);
-                  setId(item.id);
-                };
-                return <CardIlets onClick={handleShowModal} key={item.id} exam={item} />;
-              }
-            )}
-          </Grid>
-        </div>
-        {open && (
-          <Modal onClose={handleCloseModal} open={open} width="388px">
-            <Modal.Title sx={{ color: "#000000" }}>Would you like to resume your unfinished test?</Modal.Title>
-            <Modal.Content>
-              <Box sx={modalContent}>
-                <Stack direction="row" spacing={1} sx={{ p: "12px 0 16px 0" }}>
-                  {dataModal.map((item: any) => {
-                    return <ItemModal dataModal={item} />;
-                  })}
-                </Stack>
-              </Box>
-            </Modal.Content>
-            <Modal.Button
-              onCancel={handleBackIeltsSelection}
-              onConfirm={handleCloseModal}
-              cancel="NO, START NEW"
-              confirm="YES, RESUME"
-              background="#df0a31"
-              color=""
-            />
-          </Modal>
-        )}
-      </Box>
-    </Box>
+        </Form>
+      )}
+    </Formik>
   );
 }
