@@ -4,16 +4,18 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
+import { RouteBase } from "constants/routeUrl";
 import useGetParts from "hooks/Reading/useGetParts";
 import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
+import { Link, useHistory } from "react-router-dom";
 import ReadingService from "services/ReadingService";
-import CreateQuestionReading from "./component";
+// import CreateQuestionReading from "./component";
 
 const ReadingSkill = () => {
-  const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
+  const history = useHistory();
 
   const onDeletePart = async (item: any) => {
     try {
@@ -28,78 +30,70 @@ const ReadingSkill = () => {
   return (
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
-        {isEmpty(openCreateScreen) && (
+        <Link to={RouteBase.CreateReading}>
           <ButtonUpload
             titleButton="Create reading"
             icon={<AddIcon />}
-            onClick={() => setOpenCreateScreen({ type: "create" })}
+            onClick={() => {}}
             style={{ background: "#9155FE" }}
           />
-        )}
+        </Link>
       </div>
-      {!isEmpty(openCreateScreen) && (
-        <CreateQuestionReading
-          openCreateScreen={openCreateScreen}
-          refetchDataTable={refetchDataTable}
-          onClose={() => setOpenCreateScreen({})}
+
+      <Card>
+        <CommonDataGrid
+          columns={[
+            {
+              flex: 1,
+              field: "passageTitle",
+              renderHeader: () => <Typography style={styles.titleTable}>Reading title</Typography>,
+            },
+            {
+              flex: 1,
+              field: "level",
+              renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
+            },
+            {
+              flex: 1,
+              field: "createdAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
+            },
+            {
+              flex: 1,
+              field: "updatedAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
+            },
+            {
+              flex: 0.3,
+              field: "action",
+              filterable: false,
+              hideSortIcons: true,
+              disableColumnMenu: true,
+              renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
+              renderCell: (items: any) => {
+                return (
+                  <CommonActionMenu
+                    onEdit={() => {
+                      history.push(RouteBase.UpdateReadingWId(items.id));
+                    }}
+                    onSubmitRemove={onDeletePart}
+                    row={items}
+                  />
+                );
+              },
+            },
+          ]}
+          pagination={{
+            page: metaPart?.page,
+            pageSize: metaPart?.pageSize,
+            totalRow: metaPart?.totalRow,
+          }}
+          loading={loading}
+          rows={dataParts}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
         />
-      )}
-      {isEmpty(openCreateScreen) && (
-        <Card>
-          <CommonDataGrid
-            columns={[
-              {
-                flex: 1,
-                field: "passageTitle",
-                renderHeader: () => <Typography style={styles.titleTable}>Reading title</Typography>,
-              },
-              {
-                flex: 1,
-                field: "level",
-                renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
-              },
-              {
-                flex: 1,
-                field: "createdAt",
-                renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
-              },
-              {
-                flex: 1,
-                field: "updatedAt",
-                renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
-              },
-              {
-                flex: 0.3,
-                field: "action",
-                filterable: false,
-                hideSortIcons: true,
-                disableColumnMenu: true,
-                renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-                renderCell: (items: any) => {
-                  return (
-                    <CommonActionMenu
-                      onEdit={() => {
-                        setOpenCreateScreen({ type: "update", element: items.row });
-                      }}
-                      onSubmitRemove={onDeletePart}
-                      row={items}
-                    />
-                  );
-                },
-              },
-            ]}
-            pagination={{
-              page: metaPart?.page,
-              pageSize: metaPart?.pageSize,
-              totalRow: metaPart?.totalRow,
-            }}
-            loading={loading}
-            rows={dataParts}
-            onPageChange={onPageChange}
-            onPageSizeChange={onPageSizeChange}
-          />
-        </Card>
-      )}
+      </Card>
     </div>
   );
 };

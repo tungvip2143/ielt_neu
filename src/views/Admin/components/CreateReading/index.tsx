@@ -7,7 +7,7 @@ import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import UndoIcon from "@mui/icons-material/Undo";
-import { Button, Card, InputAdornment, Stack, Typography } from "@mui/material";
+import { Button, Card, Stack, Typography } from "@mui/material";
 import { Editor } from "@tinymce/tinymce-react";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
@@ -17,41 +17,61 @@ import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
 import useGetPartDetail from "hooks/Reading/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
 import { isEmpty } from "lodash";
-import React, { useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
+import { useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
 import ModalCreateQuestion from "./ModalCreateQuestion";
 
 export interface Props {
-  onClose: () => void;
-  openCreateScreen: any;
-  refetchDataTable?: any;
+  openCreateScreen: {
+    type: string;
+  };
 }
 const CreateQuestionReading = (props: Props) => {
-  const { onClose, openCreateScreen, refetchDataTable } = props;
+  const { openCreateScreen } = props;
+  const params = useParams<any>();
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
+  const [err, setErr] = useState("");
 
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
+    // questionTip: yup.string().required("This field is required!"),
   });
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(openCreateScreen?.element?.id);
-  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(openCreateScreen?.element?.id);
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
+  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: { partTitle: openCreateScreen?.element?.passageTitle || "" },
+    defaultValues: { partTitle: dataPartDetail?.passageTitle || "" },
   });
 
-  const { control, handleSubmit, setValue, getValues } = formController;
+  const { control, handleSubmit, setValue, getValues, reset } = formController;
+
+  const resetAsyncForm = useCallback(
+    async (data: any) => {
+      reset({
+        partTitle: data?.passageTitle,
+      });
+    },
+    [reset]
+  );
+
+  useEffect(() => {
+    if (dataPartDetail?.id) {
+      resetAsyncForm(dataPartDetail);
+    }
+  }, [dataPartDetail?.id]);
 
   const renderButtonUpdate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
-        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={onClose}>
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.back()}>
           Back
         </Button>
         {!isEdit ? (
@@ -72,8 +92,8 @@ const CreateQuestionReading = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
-        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onClose} />{" "}
+        <ButtonSave type="submit" icon={<SaveIcon sx={{ fontSize: "20px" }} />} />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.back()} />{" "}
       </Stack>
     );
   };
@@ -84,16 +104,14 @@ const CreateQuestionReading = (props: Props) => {
         passageTitle: data.partTitle,
         passageText: editorRef.current.getContent(),
       };
-
       try {
         const response = await ReadingService.postCreatePart(body);
         if (response.data.statusCode === 200) {
-          alert("Create part success!");
-          refetchDataTable();
-          onClose();
+          toast.success("Create part success!");
+          history.back();
         }
-      } catch (error) {
-        console.log("error", error);
+      } catch (error: any) {
+        toast.error(error);
       }
     }
     if (openCreateScreen.type === "update") {
@@ -101,16 +119,14 @@ const CreateQuestionReading = (props: Props) => {
         passageTitle: data.partTitle,
         passageText: editorRef.current.getContent(),
       };
-
       try {
-        const response = await ReadingService.patchUpdatePart(openCreateScreen?.element?.id, body);
+        const response = await ReadingService.patchUpdatePart(params?.id, body);
         if (response.data.statusCode === 200) {
-          alert("Update part success!");
-          refetchDataTable();
-          onClose();
+          toast.success("Update part success!");
+          history.back();
         }
-      } catch (error) {
-        console.log("error", error);
+      } catch (error: any) {
+        toast.error(error);
       }
     }
   };
@@ -120,7 +136,6 @@ const CreateQuestionReading = (props: Props) => {
       await ReadingService.deleteQuestionGroup(id);
       alert("Delete question group success");
       refetchQuestionGroup();
-      // }
     } catch (error) {
       console.log("error");
     }
@@ -138,13 +153,13 @@ const CreateQuestionReading = (props: Props) => {
           control={control}
           required
           fullWidth
-          defaultValue={dataPartDetail && dataPartDetail.passageTitle}
           disabled={openCreateScreen.type === "update" && !isEdit}
           style={{ marginTop: dataPartDetail?.passageTitle ? "10px" : 0 }}
         />
       </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <Editor
+          tagName="questionTip"
           apiKey="no-api-key"
           onInit={(evt, editor) => {
             editorRef.current = editor;
@@ -158,7 +173,7 @@ const CreateQuestionReading = (props: Props) => {
           }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        <Typography>{isEmpty(editorRef?.current?.getContent()) && "This is field required"}</Typography>
+        <Typography>{err}</Typography>
       </Card>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
@@ -177,7 +192,7 @@ const CreateQuestionReading = (props: Props) => {
                 <Card style={{ marginBottom: "15px", padding: 20 }} key={index}>
                   <div style={{ display: "flex", justifyContent: "end" }}>
                     <InfoOutlinedIcon
-                      style={{ color: "#5048E5", fontSize: "20px", cursor: "grab" }}
+                      style={styles.buttonDetail}
                       onClick={() => setOpenModal({ type: "detailQuestion", id: el.id })}
                     />
                     <EditIcon
@@ -212,7 +227,7 @@ const CreateQuestionReading = (props: Props) => {
           fetchData={refetchQuestionGroup}
           openModal={openModal}
           onCloseModal={() => setOpenModal({})}
-          id={openCreateScreen?.element?.id}
+          id={params?.id}
         />
       )}
     </form>
@@ -220,3 +235,11 @@ const CreateQuestionReading = (props: Props) => {
 };
 
 export default CreateQuestionReading;
+
+const styles = {
+  buttonDetail: {
+    color: "#5048E5",
+    fontSize: "20px",
+    cursor: "grab",
+  },
+};

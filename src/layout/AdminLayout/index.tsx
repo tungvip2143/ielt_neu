@@ -2,6 +2,8 @@ import { RouteBase } from "constants/routeUrl";
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
+import CreateQuestionReading from "views/Admin/components/CreateReading";
+import CreateQuestionWriting from "views/Admin/components/CreateWriting";
 import DefaultAdminLayout from "views/Admin/components/DefaultAdminLayout";
 import ListeningSkill from "views/Admin/components/Listening";
 import ReadingSkill from "views/Admin/components/Reading";
@@ -21,6 +23,28 @@ const AdminLayout: React.FC = (props) => {
             <Route path={RouteBase.Listening} exact component={ListeningSkill} />
             <Route path={RouteBase.Speaking} exact component={SpeakingSkill} />
             <Route path={RouteBase.Writing} exact component={WritingSkill} />
+            <Route path={RouteBase.Reading} exact component={ReadingSkill} />
+            <Route
+              path={RouteBase.CreateReading}
+              exact
+              component={() => <CreateQuestionReading openCreateScreen={{ type: "create" }} />}
+            />
+            <Route
+              path={RouteBase.UpdateReading}
+              exact
+              component={() => <CreateQuestionReading openCreateScreen={{ type: "update" }} />}
+            />
+            <Route
+              path={RouteBase.CreateWriting}
+              exact
+              component={() => <CreateQuestionWriting openCreateScreen={{ type: "create" }} />}
+            />
+            <Route
+              path={RouteBase.UpdateWriting}
+              exact
+              component={() => <CreateQuestionWriting openCreateScreen={{ type: "update" }} />}
+            />
+            <Route path={RouteBase.Reading} exact component={ReadingSkill} />
             <Route path={RouteBase.Reading} exact component={ReadingSkill} />
 
             {/* {routes.map((route: any, idx: any) => {

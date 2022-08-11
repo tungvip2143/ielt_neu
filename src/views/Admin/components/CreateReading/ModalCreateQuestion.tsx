@@ -17,6 +17,8 @@ import useGetQuestionType from "hooks/Reading/useGetQuestionType";
 import { QuestionTypeI } from "interfaces/questionInterface";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
+import { useLocation, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
 
@@ -44,7 +46,6 @@ const ModalCreateQuestion = (props: Props) => {
   const editorRef = useRef<any>();
   const matchingRef = useRef<any>();
   const [questionType, setQuestionType] = useState<number | undefined | string>("");
-  const [dataLevels] = useGetLevels();
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
 
@@ -120,7 +121,7 @@ const ModalCreateQuestion = (props: Props) => {
       try {
         const response = await ReadingService.postCreateQuestionGroupReading(body);
         if (response.data.statusCode === 200) {
-          alert("Create question group success!");
+          toast.success("Create question group success!");
           fetchData();
           onCloseModal();
         }
@@ -153,7 +154,7 @@ const ModalCreateQuestion = (props: Props) => {
       try {
         const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
         if (response.data.statusCode === 200) {
-          alert("Update question group success!");
+          toast.success("Update question group success!");
           fetchData();
           onCloseModal();
         }
