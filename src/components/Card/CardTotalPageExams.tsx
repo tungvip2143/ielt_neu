@@ -113,25 +113,22 @@ const CardTotalPageExams = ({
           onClickPageNumber(item.question.displayNumber);
           setDisplayNumber(item.question.displayNumber);
         };
+        const add = Number(item.question.displayNumber) - 1;
 
         const hightLightNumberPageOnclickQuestion = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
             return { background: "#4C80F1", borderRadius: "50%" };
+          } else if (values?.answers[`${add}`]?.studentAnswer) {
+            return { background: "#90caf9", borderRadius: "50%" };
           }
         };
-        const add = Number(item.question.displayNumber) - 1;
         return (
           <>
             <Box
               key={item.id}
               className={classes.eachQuestion}
               onClick={() => handleClickQuestion(partValues, partGroup)}
-              style={values?.answers[`${add}`]?.studentAnswer ? { background: "#90caf9", borderRadius: "50%" } : {}}
-              sx={
-                highlightPage === item.questionId
-                  ? { background: "#4C80F1 !important", borderRadius: "50%" }
-                  : { background: "red" }
-              }
+              style={hightLightNumberPageOnclickQuestion()}
             >
               <span>{item.question.displayNumber}</span>
             </Box>
