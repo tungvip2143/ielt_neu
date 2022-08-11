@@ -8,18 +8,18 @@ import CardNumberPage from "./CardNumberPage";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 //
-import { ieltsApi } from "api/ieltsResults";
 import { makeStyles } from "@mui/styles";
-import ButtonCommon from "components/Button/ButtonCommon";
-import { object } from "yup";
 import { IELT_TEST } from "interfaces/testType";
 
 interface CardTotalPageExamsI {
   questions: any;
   onClickPage: (id: string) => void;
   onClickPart: (id: string) => void;
+  setDisplayNumber?: any;
   questionSelected?: string;
+  hightLightNumberPage: any;
   test?: string;
+  onClickPageNumber: (id: string) => void;
 }
 
 const box = {
@@ -65,7 +65,15 @@ const nextPage = {
   p: "8px",
   borderRadius: "5px",
 };
-const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected, test }: CardTotalPageExamsI) => {
+const CardTotalPageExams = ({
+  questions,
+  onClickPart,
+  onClickPage,
+  test,
+  setDisplayNumber,
+  hightLightNumberPage,
+  onClickPageNumber,
+}: CardTotalPageExamsI) => {
   // console.log("questionSelected", questionSelected);
   console.log("questions", questions);
 
@@ -103,7 +111,14 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
           sectionRender.part = partValues.partNumber - 1;
           sectionRender.group = partGroup.groupNumber - 1;
           onClickPage(sectionRender);
-          setHighlightPage(item.questionId);
+          onClickPageNumber(item.question.displayNumber);
+          setDisplayNumber(item.question.displayNumber);
+        };
+
+        const hightLightNumberPageOnclickQuestion = () => {
+          if (hightLightNumberPage == item.question.displayNumber) {
+            return { background: "#4C80F1", borderRadius: "50%" };
+          }
         };
         return (
           <>
@@ -111,7 +126,7 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
               key={item.id}
               className={classes.eachQuestion}
               onClick={() => handleClickQuestion(partValues, partGroup)}
-              style={highlightPage === item.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+              style={hightLightNumberPageOnclickQuestion()}
             >
               <span>{item.question.displayNumber}</span>
             </div>

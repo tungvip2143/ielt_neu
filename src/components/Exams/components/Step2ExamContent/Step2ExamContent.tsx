@@ -34,6 +34,10 @@ const Step2ExamContent = (props: any) => {
     part: 0,
     group: 0,
   });
+  const [showQuestion, setShowQuestion] = useState();
+  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>();
+
+  console.log("hightLightNumberPage", hightLightNumberPage);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -44,7 +48,12 @@ const Step2ExamContent = (props: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
     console.log("part", groupRenderSelected);
   };
-
+  const onClickShowQuestion = (displayNumber: any) => {
+    setShowQuestion(displayNumber);
+  };
+  const hightLightNumberPageClickQuestion = (displayNumber: any) => {
+    setHightLightNumberPage(displayNumber);
+  };
   const partRenderSelected = useMemo(() => {
     console.log("group select", groupSelected);
     const questionsWithPageNumberTemp = questions as any;
@@ -80,6 +89,8 @@ const Step2ExamContent = (props: any) => {
                     onClickPage={onClickPage}
                     questionSelected={questionSelected}
                     partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                    showQuestion={showQuestion}
+                    onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   />
                 }
               />
@@ -93,6 +104,9 @@ const Step2ExamContent = (props: any) => {
           onClickPage={onClickPage}
           questions={questions}
           test={test}
+          setDisplayNumber={onClickShowQuestion}
+          hightLightNumberPage={hightLightNumberPage}
+          onClickPageNumber={hightLightNumberPageClickQuestion}
         />
       </Box>
     </>
