@@ -15,8 +15,11 @@ interface CardTotalPageExamsI {
   questions: any;
   onClickPage: (id: string) => void;
   onClickPart: (id: string) => void;
+  setDisplayNumber?: any;
   questionSelected?: string;
+  hightLightNumberPage: any;
   test?: string;
+  onClickPageNumber: (id: string) => void;
 }
 
 const box = {
@@ -62,7 +65,15 @@ const nextPage = {
   p: "8px",
   borderRadius: "5px",
 };
-const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelected, test }: CardTotalPageExamsI) => {
+const CardTotalPageExams = ({
+  questions,
+  onClickPart,
+  onClickPage,
+  test,
+  setDisplayNumber,
+  hightLightNumberPage,
+  onClickPageNumber,
+}: CardTotalPageExamsI) => {
   // console.log("questionSelected", questionSelected);
   const [highlightPage, setHighlightPage] = useState();
 
@@ -99,7 +110,14 @@ const CardTotalPageExams = ({ questions, onClickPart, onClickPage, questionSelec
           sectionRender.part = partValues.partNumber - 1;
           sectionRender.group = partGroup.groupNumber - 1;
           onClickPage(sectionRender);
-          setHighlightPage(item.questionId);
+          onClickPageNumber(item.question.displayNumber);
+          setDisplayNumber(item.question.displayNumber);
+        };
+
+        const hightLightNumberPageOnclickQuestion = () => {
+          if (hightLightNumberPage == item.question.displayNumber) {
+            return { background: "#4C80F1", borderRadius: "50%" };
+          }
         };
         const add = Number(item.question.displayNumber) - 1;
         return (
