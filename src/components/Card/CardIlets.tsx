@@ -83,7 +83,7 @@ const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          history.push(`${exam.path}`);
+          handleShowModal();
         },
         onError: (err: any) => {
           if (err.response.data.statusCode === 401) {
