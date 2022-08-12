@@ -19,9 +19,17 @@ interface TOFFLI {
   onClickPage: (id: string) => void;
   onHightLightNumberPage: (displayNumber: string) => void;
   showQuestion?: any;
+  action?: string;
 }
 
-const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion, onHightLightNumberPage }: TOFFLI) => {
+const TOFFL = ({
+  partRenderSelected,
+  questionSelected,
+  onClickPage,
+  showQuestion,
+  onHightLightNumberPage,
+  action,
+}: TOFFLI) => {
   console.log("showQuestion", showQuestion);
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
@@ -87,6 +95,7 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
             onCollapse={handleCollapse}
             questionBox={partRenderSelected?.questionBox}
             onHightLightNumberPage={onHightLightNumberPage}
+            action={action}
           />
         </>
       );

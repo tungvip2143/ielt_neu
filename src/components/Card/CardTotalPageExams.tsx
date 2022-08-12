@@ -6,10 +6,14 @@ import Stack from "@mui/material/Stack";
 //
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
-import { IELT_TEST } from "interfaces/testType";
+import { ACTION, IELT_TEST } from "interfaces/testType";
+import ButtonCommon from "components/Button/ButtonCommon";
+import Text from "components/Typography";
+import { dataTotalNumber } from "components/data/dataNumberPageExam";
 
 interface CardTotalPageExamsI {
   questions: any;
@@ -20,6 +24,7 @@ interface CardTotalPageExamsI {
   hightLightNumberPage: any;
   test?: string;
   onClickPageNumber: (id: string) => void;
+  action?: string;
 }
 
 const box = {
@@ -31,6 +36,26 @@ const box = {
 
 const useStyles = makeStyles((theme) => {
   return {
+    container: {
+      // padding: "0 16px",
+    },
+    header: {
+      padding: "13px 16px",
+      background: "#36373b",
+      width: "100%",
+      display: "flex",
+      gap: 16,
+      alignItems: "center",
+    },
+    navLeft: {
+      width: "180px",
+      padding: "40px 16px",
+      background: "#f0f9ff",
+      height: `calc(100vh - 63px)`,
+    },
+    content: {
+      padding: "0 16px",
+    },
     eachItem: {
       display: "flex",
       paddingBottom: "10px",
@@ -73,6 +98,7 @@ const CardTotalPageExams = ({
   setDisplayNumber,
   hightLightNumberPage,
   onClickPageNumber,
+  action = ACTION.TEST,
 }: CardTotalPageExamsI) => {
   // console.log("questionSelected", questionSelected);
   const [highlightPage, setHighlightPage] = useState();
@@ -110,17 +136,18 @@ const CardTotalPageExams = ({
           sectionRender.part = partValues.partNumber - 1;
           sectionRender.group = partGroup.groupNumber - 1;
           onClickPage(sectionRender);
-          onClickPageNumber(item.question.displayNumber);
-          setDisplayNumber(item.question.displayNumber);
+          onClickPageNumber(item?.question?.displayNumber);
+          setDisplayNumber(item?.question?.displayNumber);
         };
         const add = Number(item.question.displayNumber) - 1;
 
         const hightLightNumberPageOnclickQuestion = () => {
-          if (hightLightNumberPage == item.question.displayNumber) {
+          if (hightLightNumberPage == item?.question?.displayNumber) {
             return { background: "#4C80F1", borderRadius: "50%" };
-          } else if (values?.answers[`${add}`]?.studentAnswer) {
-            return { background: "#90caf9", borderRadius: "50%" };
           }
+          // else if (values?.answers[`${add}`]?.studentAnswer) {
+          //   return { background: "#90caf9", borderRadius: "50%" };
+          // }
         };
         return (
           <>
@@ -130,7 +157,7 @@ const CardTotalPageExams = ({
               onClick={() => handleClickQuestion(partValues, partGroup)}
               style={hightLightNumberPageOnclickQuestion()}
             >
-              <span>{item.question.displayNumber}</span>
+              <span>{item?.question?.displayNumber}</span>
             </Box>
           </>
         );
@@ -141,44 +168,95 @@ const CardTotalPageExams = ({
 
   //! Render
   return (
-    <Box sx={box}>
-      <Box sx={{ width: "80%", margin: "0 auto" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
-            {questions?.map((group: any, index: number) => {
-              console.log("partKey", group);
-              // console.log("partValues", partValues);
-              // console.log("questions12", Object.entries(questions));
-              return (
-                <>
-                  <div
-                    key={group.partNumber}
-                    className={classes.eachItem}
-                    // onClick={() => onClickPart(group.partNumber)}
-                  >
-                    <div className={classes.part}>{`Part ${group.partNumber || index + 1}`}</div>
-                    <Stack direction="row" spacing={0.5}>
-                      {renderPartValues(group, index)}
-                    </Stack>
-                  </div>
-                </>
-              );
-            })}
-          </Box>
+    <>
+      {action === ACTION.TEST && (
+        <Box sx={box}>
+          <Box sx={{ width: "80%", margin: "0 auto" }}>
+            <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+              <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
+                {questions?.map((group: any, index: number) => {
+                  console.log("partKey", group);
+                  // console.log("partValues", partValues);
+                  // console.log("questions12", Object.entries(questions));
+                  return (
+                    <>
+                      <div
+                        key={group.partNumber}
+                        className={classes.eachItem}
+                        // onClick={() => onClickPart(group.partNumber)}
+                      >
+                        <div className={classes.part}>{`Part ${group.partNumber || index + 1}`}</div>
+                        <Stack direction="row" spacing={0.5}>
+                          {renderPartValues(group, index)}
+                        </Stack>
+                      </div>
+                    </>
+                  );
+                })}
+              </Box>
 
-          <Box sx={{ width: { md: "20%" } }}>
-            <Stack direction="row" spacing={1.5} sx={{ justifyContent: "flex-end" }}>
-              <Box sx={nextPage}>
-                <KeyboardArrowLeftIcon sx={{ color: "#fff", fontSize: "24px" }} />
+              <Box sx={{ width: { md: "20%" } }}>
+                <Stack direction="row" spacing={1.5} sx={{ justifyContent: "flex-end" }}>
+                  <Box sx={nextPage}>
+                    <KeyboardArrowLeftIcon sx={{ color: "#fff", fontSize: "24px" }} />
+                  </Box>
+                  <Box sx={nextPage}>
+                    <KeyboardArrowRightIcon sx={{ color: "#fff", fontSize: "24px" }} />
+                  </Box>
+                </Stack>
               </Box>
-              <Box sx={nextPage}>
-                <KeyboardArrowRightIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-            </Stack>
+            </Box>
           </Box>
         </Box>
-      </Box>
-    </Box>
+      )}
+      {action === ACTION.REVIEW && (
+        <div className={classes.container}>
+          <Box className={classes.navLeft}>
+            <ButtonCommon.ButtonFullBg
+              sx={{
+                background: "#E8EAED",
+                color: "#000000",
+                width: "100%",
+                p: "6px !important",
+                "&:hover": { background: "#E8EAED" },
+              }}
+            >
+              Score : 0/9
+            </ButtonCommon.ButtonFullBg>
+            <Stack direction="row" sx={{ justifyContent: "space-between", m: "32px 0 24px 0" }}>
+              <Text.DescSmall sx={{ color: "#111114", fontSize: "12px", fontWeight: "bold" }}>Reading</Text.DescSmall>
+              <KeyboardArrowUpIcon />
+            </Stack>
+            <Stack direction="row" sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
+              {questions?.map((group: any, index: number) => {
+                return (
+                  <>{renderPartValues(group, index)}</>
+                  // <ButtonCommon.ButtonNumber
+                  //   sx={{
+                  //     background: "#E8EAED",
+                  //     width: "24px !important",
+                  //     height: "24px",
+                  //     minWidth: "0 !important",
+                  //     p: "0 !important",
+                  //     mt: "5px",
+                  //     borderRadius: "0 !important",
+                  //     fontSize: "12px !important",
+                  //     color: "#D7000D !important",
+                  //     fontWeight: "300 !important",
+                  //     "&:hover": {
+                  //       background: "#E8EAED",
+                  //     },
+                  //   }}
+                  // >
+                  //   {item.number}
+                  // </ButtonCommon.ButtonNumber>
+                );
+              })}
+            </Stack>
+          </Box>
+        </div>
+      )}
+    </>
   );
 };
 

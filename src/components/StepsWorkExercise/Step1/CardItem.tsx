@@ -20,6 +20,7 @@ interface PropsItemQuestion {
   onCollapse?: any;
   questionType?: string;
   image?: string;
+  action?: string;
 }
 const ItemQuestion = ({
   question = [],
@@ -29,6 +30,7 @@ const ItemQuestion = ({
   questionBox,
   image,
   onHightLightNumberPage,
+  action,
   ...remainProps
 }: PropsItemQuestion) => {
   console.log("questionType", questionType);
@@ -79,6 +81,7 @@ const ItemQuestion = ({
           expanded={expanded}
           onCollapse={onCollapse}
           onHightLightNumberPage={onHightLightNumberPage}
+          action={action}
         />
       );
     }

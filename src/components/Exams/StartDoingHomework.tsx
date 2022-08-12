@@ -6,6 +6,7 @@ import CardPart from "components/Card/CardPart";
 import Step2ExamContent from "components/Exams/components/Step2ExamContent/Step2ExamContent";
 import { useEffect, useState } from "react";
 import { useFormikContext } from "formik";
+import { ACTION } from "interfaces/testType";
 // import ButtonNumberPage from "components/Button/ButtonNumberPage";
 
 interface Props {
@@ -19,7 +20,7 @@ const ExamTest = (props: Props) => {
 
   return (
     <Box>
-      <Step2ExamContent data={data} {...rest} />
+      <Step2ExamContent action={ACTION.TEST} data={data} {...rest} />
     </Box>
   );
 };

@@ -13,6 +13,7 @@ import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
 import { TRUE } from "sass";
+import { ACTION } from "interfaces/testType";
 
 type Props = {
   question: any;
@@ -22,10 +23,20 @@ type Props = {
   QUESTION_TYPE?: any;
   idShowQuestion?: any;
   onHightLightNumberPage?: any;
+  action?: string;
 };
 
 const IdentifyInformationType = (props: Props) => {
-  const { question, questionType, expanded, onCollapse, QUESTION_TYPE, idShowQuestion, onHightLightNumberPage } = props;
+  const {
+    question,
+    questionType,
+    expanded,
+    onCollapse,
+    QUESTION_TYPE,
+    idShowQuestion,
+    onHightLightNumberPage,
+    action,
+  } = props;
   console.log("idshowQuestion", idShowQuestion);
 
   const displayNumber = Number(question.question.displayNumber) - 1;
@@ -68,7 +79,9 @@ const IdentifyInformationType = (props: Props) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={values?.answers[displayNumber]?.studentAnswer}
+                value={
+                  action === ACTION.REVIEW ? question?.studentAnswer : values?.answers[displayNumber]?.studentAnswer
+                }
                 // onChange={handleChange}
               >
                 {question.question.options.map((answer: any) => {
@@ -82,7 +95,11 @@ const IdentifyInformationType = (props: Props) => {
                           index={displayNumber}
                           component={Radio}
                           name={`answers[${displayNumber}].studentAnswer`}
-                          //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
+                          // value={
+                          //   action === ACTION.REVIEW
+                          //     ? question?.studentAnswer
+                          //     : values?.answers[displayNumber]?.studentAnswer
+                          // }
                         />
                       }
                       label={`${answer.key}. ${answer?.text}`}
@@ -102,7 +119,9 @@ const IdentifyInformationType = (props: Props) => {
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
                   name="controlled-radio-buttons-group"
-                  value={values?.answers[displayNumber]?.studentAnswer}
+                  value={
+                    action === ACTION.REVIEW ? question?.studentAnswer : values?.answers[displayNumber]?.studentAnswer
+                  }
                   // onChange={handleChange}
                 >
                   <FormControlLabel

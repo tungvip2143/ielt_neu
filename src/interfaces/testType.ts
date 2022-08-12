@@ -4,3 +4,8 @@ export enum IELT_TEST {
   LISTENING = "LISTENING",
   SPEAKING = "SPEAKING",
 }
+
+export enum ACTION {
+  REVIEW = "REVIEW",
+  TEST = "TEST",
+}
