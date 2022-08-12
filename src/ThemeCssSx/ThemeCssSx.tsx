@@ -16,6 +16,7 @@ export const themeCssSx = {
     desc: {
       smallGray: "#b8bcc0",
       modal: "#5b5c61",
+      common: "#36373b",
     },
   },
   bg: {

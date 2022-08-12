@@ -17,7 +17,8 @@ import Card from "@mui/material/Card";
 import TitleIntroExam from "components/TitleIntroExam/TitleIntroExam";
 import Text from "components/Typography/index";
 import { useIeltsResult } from "hooks/ielts/useIelts";
-
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+//
 // ! type
 interface PropsBg {
   bg: {

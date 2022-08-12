@@ -56,8 +56,16 @@ const EachTable = ({ panelId }: EachTableI) => {
 
   //! Function
   const handleReview = (testCode: number) => {
-    dispatch(IeltsActions.saveTestCode, { testCode });
-    history.push("/ielts/review/reading");
+    if (panelId === TypeExamEnum.LISTENING) {
+      history.push("/ielts/review/listening");
+    } else if (panelId === TypeExamEnum.READING) {
+      dispatch(IeltsActions.saveTestCode, { testCode });
+      history.push("/ielts/review/reading");
+    } else if (panelId === TypeExamEnum.WRITING) {
+      history.push("/ielts/review/writing");
+    } else if (panelId === TypeExamEnum.SPEAKING) {
+      history.push("/ielts/review/speaking");
+    }
   };
 
   //! Render

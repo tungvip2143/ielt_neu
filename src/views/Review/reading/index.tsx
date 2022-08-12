@@ -6,7 +6,12 @@ import LoadingPage from "components/Loading";
 import ReviewContainer from "components/Review/Components/ReviewContainer";
 import { useGetReadingResultByTestCode } from "hooks/review/useIeltsReview";
 import { useSelector } from "react-redux";
-
+//
+// !TYPE
+interface Props {
+  typeExam: any;
+  title: any;
+}
 const BoxExam = () => {
   const boxExam = {
     p: "24px 32px",
@@ -17,10 +22,9 @@ const BoxExam = () => {
     border: "1px solid #ccc",
   };
 
-  return <Box sx={boxExam}></Box>;
+  return <Box sx={boxExam}>quang</Box>;
 };
-
-const ReviewReading = () => {
+const ReviewReading = (typeExam: Props) => {
   // !State
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
   const { data, isLoading } = useGetReadingResultByTestCode(testCode);
@@ -29,7 +33,7 @@ const ReviewReading = () => {
     return <LoadingPage />;
   }
   return (
-    <ReviewContainer>
+    <ReviewContainer typeExam={typeExam}>
       <BoxExam />
       <BoxExam />
     </ReviewContainer>

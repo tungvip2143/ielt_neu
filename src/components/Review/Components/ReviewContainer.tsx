@@ -11,6 +11,10 @@ import { dataTotalNumber } from "components/data/dataNumberPageExam";
 import Header from "views/Ielts/Header/Header";
 import { Button } from "@mui/material";
 import { makeStyles } from "@mui/styles";
+import TitleTypeExam from "./TitleTypeExam";
+import Writing from "../../../views/Ielts/writing/component/Writing";
+//
+// ! type
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -36,60 +40,44 @@ const useStyles = makeStyles((theme) => ({
 }));
 interface Props {
   children: React.ReactNode;
+  typeExam?: any;
+  title?: any;
 }
+const btn = {
+  background: "#E8EAED",
+  width: "24px !important",
+  height: "24px",
+  minWidth: "0 !important",
+  p: "0 !important",
+  mt: "5px",
+  borderRadius: "0 !important",
+  fontSize: "12px !important",
+  color: "#D7000D !important",
+  fontWeight: "300 !important",
+  "&:hover": {
+    background: "#E8EAED",
+  },
+};
 
 const ReviewContainer = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { children } = props;
+  const { children, typeExam, title } = props;
+  console.log("props", props);
   return (
     <div className={classes.container}>
       <div className={classes.header}>
         <Button size="small" variant="outlined">
           Exit
         </Button>
-        <Text.Sub20Bold>ABC</Text.Sub20Bold>
+        <Text.Sub20Bold>ABC</Text.Sub20Bold>s
       </div>
       <Stack className={classes.content} direction={{ xs: "column", lg: "row" }} spacing={3}>
         <Box className={classes.navLeft}>
-          <ButtonCommon.ButtonFullBg
-            sx={{
-              background: "#E8EAED",
-              color: "#000000",
-              width: "100%",
-              p: "6px !important",
-              "&:hover": { background: "#E8EAED" },
-            }}
-          >
-            Score : 0/9
-          </ButtonCommon.ButtonFullBg>
-          <Stack direction="row" sx={{ justifyContent: "space-between", m: "32px 0 24px 0" }}>
-            <Text.DescSmall sx={{ color: "#111114", fontSize: "12px", fontWeight: "bold" }}>Reading</Text.DescSmall>
-            <KeyboardArrowUpIcon />
-          </Stack>
+          <TitleTypeExam typeExam={typeExam} title={title} />
           <Stack direction="row" sx={{ flexWrap: "wrap", justifyContent: "space-between" }}>
             {dataTotalNumber.map((item) => {
-              return (
-                <ButtonCommon.ButtonNumber
-                  sx={{
-                    background: "#E8EAED",
-                    width: "24px !important",
-                    height: "24px",
-                    minWidth: "0 !important",
-                    p: "0 !important",
-                    mt: "5px",
-                    borderRadius: "0 !important",
-                    fontSize: "12px !important",
-                    color: "#D7000D !important",
-                    fontWeight: "300 !important",
-                    "&:hover": {
-                      background: "#E8EAED",
-                    },
-                  }}
-                >
-                  {item.number}
-                </ButtonCommon.ButtonNumber>
-              );
+              return <ButtonCommon.ButtonNumber sx={btn}>{item.number}</ButtonCommon.ButtonNumber>;
             })}
           </Stack>
         </Box>

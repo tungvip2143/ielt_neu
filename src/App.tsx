@@ -14,6 +14,8 @@ import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
 import ReviewReading from "views/Review/reading";
+import ReviewWriting from "components/Review/ReviewWriting";
+
 import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
@@ -23,7 +25,7 @@ import PrivateRoute from "components/PrivateRoute";
 //
 import LoginEmail from "views/Login/LoginEmail";
 import SignUp from "views/Login/SignUp";
-
+//
 const App: React.FC = () => {
   useCheckAuth();
 
@@ -40,9 +42,15 @@ const App: React.FC = () => {
           <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
           <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
-          <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
+          <Route path={RouteBase.ReviewReading} exact>
+            <ReviewReading typeExam="reading" title="Score : 0/9" />
+          </Route>
+          <Route path={RouteBase.ReviewWriting} exact>
+            <ReviewWriting typeExam="writing" title="Grading" />
+          </Route>
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
+          <Route path={RouteBase.SignUp} exact component={SignUp} />
           <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}

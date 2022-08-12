@@ -8,6 +8,8 @@ export const RouteBase = {
   IeltsSpeaking: "/ielts/speaking",
   Pricing: "/pricing",
   ReviewReading: "/ielts/review/reading",
+  ReviewWriting: "/ielts/review/writing",
+
   Admin: "/admin",
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
