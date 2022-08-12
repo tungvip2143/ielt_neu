@@ -27,7 +27,13 @@ const MachingHeading = (props: Props) => {
   return (
     <div className={classes.root}>
       {ReactHtmlParser(data?.question?.questionText)}
-      <FastField size="small" name={`answers[${index}].studentAnswer`} onFocus={handleFocus} component={TextField} />
+      <FastField
+        size="small"
+        name={`answers[${index}].studentAnswer`}
+        onFocus={handleFocus}
+        component={TextField}
+        value={data.question.answer}
+      />
     </div>
   );
 };

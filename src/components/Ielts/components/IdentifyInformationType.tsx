@@ -14,7 +14,7 @@ import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
 import { TRUE } from "sass";
 import { ACTION } from "interfaces/testType";
-
+import { ANSWERMULTIPLECHOICE } from "../../../constants/answer";
 type Props = {
   question: any;
   questionType: any;
@@ -37,7 +37,8 @@ const IdentifyInformationType = (props: Props) => {
     onHightLightNumberPage,
     action,
   } = props;
-  console.log("idshowQuestion", idShowQuestion);
+  console.log("action", action);
+  console.log("questionAbc", question);
 
   const displayNumber = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
@@ -45,6 +46,24 @@ const IdentifyInformationType = (props: Props) => {
   const handleClickHightLightPage = () => {
     onHightLightNumberPage(question.question.displayNumber);
   };
+  // const showAnswerReviewA = () => {
+  //   if (action == ACTION.REVIEW) {
+  //     return question.question.answer === "TRUE";
+  //   } else {
+  //     return false;
+  //   }
+  // };
+  // const showAnswerReviewB = () => {
+  //   if (action == ACTION.REVIEW) {
+  //     return question.question.answer == "FALSE";
+  //   }
+  // };
+  // const showAnswerReviewC = () => {
+  //   if (action == ACTION.REVIEW) {
+  //     return question.question.answer == "NOT GIVEN";
+  //   }
+  // };
+
   return (
     <>
       <Accordion
@@ -85,6 +104,12 @@ const IdentifyInformationType = (props: Props) => {
                 // onChange={handleChange}
               >
                 {question.question.options.map((answer: any) => {
+                  console.log("answerQuestion", answer);
+                  const checkCase = () => {
+                    if (action == ACTION.REVIEW) {
+                      return question.question.answer === answer.key;
+                    }
+                  };
                   return (
                     <FormControlLabel
                       key={answer._id}
@@ -95,6 +120,9 @@ const IdentifyInformationType = (props: Props) => {
                           index={displayNumber}
                           component={Radio}
                           name={`answers[${displayNumber}].studentAnswer`}
+                          // checked={question.question.answer === answer.key}
+                          checked={checkCase()}
+
                           // value={
                           //   action === ACTION.REVIEW
                           //     ? question?.studentAnswer
@@ -132,6 +160,8 @@ const IdentifyInformationType = (props: Props) => {
                         index={displayNumber}
                         component={Radio}
                         name={`answers[${displayNumber}].studentAnswer`}
+                        // checked={showAnswerReviewA}
+                        checked={question.question.answer === "TRUE"}
                         // value={true}
                       />
                     }
@@ -145,6 +175,9 @@ const IdentifyInformationType = (props: Props) => {
                         index={displayNumber}
                         component={Radio}
                         name={`answers[${displayNumber}].studentAnswer`}
+                        // checked={showAnswerReviewB}
+                        checked={question.question.answer == "FALSE"}
+
                         // value={false}
                       />
                     }
@@ -158,6 +191,9 @@ const IdentifyInformationType = (props: Props) => {
                         index={displayNumber}
                         component={Radio}
                         name={`answers[${displayNumber}].studentAnswer`}
+                        // checked={showAnswerReviewC}
+
+                        checked={question.question.answer == "NOT GIVEN"}
                         // value={"NOT_GIVEN"}
                       />
                     }

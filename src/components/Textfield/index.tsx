@@ -25,10 +25,24 @@ interface Props extends FastFieldProps {
   size?: "small" | "medium" | undefined;
   onFocus?: () => void;
   autoFocus: any;
+
+  value?: any;
 }
 export const TextField = (props: Props) => {
-  const { label, type = "text", onKeyDown, fullWidth = false, field, form, className, size = "small", onFocus } = props;
-  const { name, value } = field;
+  const {
+    label,
+    type = "text",
+    onKeyDown,
+    fullWidth = false,
+    field,
+    form,
+    className,
+    size = "small",
+    onFocus,
+    value,
+  } = props;
+  const { name } = field;
+  console.log("valueInput", props);
   const { errors, touched, handleChange } = form;
 
   const isTouched = getIn(touched, name);

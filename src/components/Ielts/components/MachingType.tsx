@@ -48,6 +48,7 @@ const MachingType = (props: Props) => {
         {data?.map((question: any) => {
           const index = Number(question?.question?.displayNumber) - 1;
           console.log("question", data);
+          console.log("questionabc", question);
           return (
             <div className={classes.question} key={question._id}>
               {`${question?.question?.displayNumber}.`}
@@ -57,6 +58,7 @@ const MachingType = (props: Props) => {
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}
                 size="small"
+                value={question.question.answer}
               />
             </div>
           );

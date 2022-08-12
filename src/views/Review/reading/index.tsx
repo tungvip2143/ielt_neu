@@ -10,7 +10,8 @@ import { Form, Formik } from "formik";
 import { useGetReadingResultByTestCode } from "hooks/review/useIeltsReview";
 import { ACTION, IELT_TEST } from "interfaces/testType";
 import { useSelector } from "react-redux";
-
+//
+import HeaderReview from "../HeaderReview/HeaderReview";
 const BoxExam = () => {
   const boxExam = {
     p: "24px 32px",
@@ -28,7 +29,7 @@ const ReviewReading = () => {
   // !State
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
   const { data, isLoading } = useGetReadingResultByTestCode(testCode);
-
+  console.log("data", data);
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -37,6 +38,7 @@ const ReviewReading = () => {
       {(formik: any) => (
         <Form>
           {/* <ReviewContainer> */}
+          <HeaderReview />
           <Step2ExamContent action={ACTION.REVIEW} test={IELT_TEST.READING} data={data?.data?.data?.reading} />
           {/* </ReviewContainer> */}
         </Form>

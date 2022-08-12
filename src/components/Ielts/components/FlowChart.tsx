@@ -35,6 +35,7 @@ const FlowChart = (props: Props) => {
       <img src={image} alt="flow chart" />
       <div className={classes.answerBox}>
         {question?.map((answer: any) => {
+          console.log("partAnswerItem", answer.question.answer);
           return (
             <div className={classes.answer}>
               <span>
@@ -44,6 +45,7 @@ const FlowChart = (props: Props) => {
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
+                value={answer.question.answer}
               />
             </div>
           );
