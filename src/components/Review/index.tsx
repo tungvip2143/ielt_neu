@@ -17,7 +17,8 @@ import Card from "@mui/material/Card";
 import TitleIntroExam from "components/TitleIntroExam/TitleIntroExam";
 import Text from "components/Typography/index";
 import { useIeltsResult } from "hooks/ielts/useIelts";
-
+import { useLocation } from "react-router-dom";
+//
 // ! type
 interface PropsBg {
   bg: {
@@ -34,10 +35,12 @@ const cssBotton = {
     borderRadius: "15px",
   },
 };
-
+// const data = useLocation();
 export default function BasicTable({ bg }: PropsBg) {
-  console.log(bg);
-  const [panal, setPanal] = useState<TypeExamEnum>(TypeExamEnum.LISTENING);
+  let { state }: any = useLocation();
+  console.log("location", state?.type);
+
+  const [panal, setPanal] = useState<any>(state?.type);
   const { data } = useIeltsResult({ skill: "READING" });
   console.log("review data", data);
   //
