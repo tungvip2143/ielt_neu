@@ -2,7 +2,7 @@ import MPartReading from "models/Reading/Part.model";
 import { useEffect, useState } from "react";
 import ReadingService from "services/ReadingService";
 
-const useGetParts = (id: any) => {
+const useGetPartDetail = (id: any) => {
   const [dataPartDetail, setDataPartDetail] = useState<MPartReading>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -41,4 +41,4 @@ const useGetParts = (id: any) => {
   return [dataPartDetail, loading, error, refetchData];
 };
 
-export default useGetParts;
+export default useGetPartDetail;

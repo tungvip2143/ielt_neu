@@ -11,6 +11,12 @@ import { useState } from "react";
 import ReadingService from "services/ReadingService";
 import CreateQuestionReading from "./component";
 
+const styles = {
+  titleTable: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+};
 const ReadingSkill = () => {
   const [openCreateScreen, setOpenCreateScreen] = useState({});
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
@@ -105,10 +111,3 @@ const ReadingSkill = () => {
 };
 
 export default ReadingSkill;
-
-const styles = {
-  titleTable: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-};

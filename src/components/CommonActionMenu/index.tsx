@@ -7,6 +7,7 @@ import DeleteForeverOutlinedIcon from "@mui/icons-material/DeleteForeverOutlined
 import MoreVertOutlinedIcon from "@mui/icons-material/MoreVertOutlined";
 import useToggleDialog from "hooks/useToggleDialog";
 import CommonStyles from "components/CommonStyles";
+import { Typography } from "@mui/material";
 
 interface TableCellActionsI {
   row: any;
@@ -26,6 +27,7 @@ export default function CommonActionMenu({ row, onEdit, onSubmitRemove = () => {
   const TableCellActions = ({ row, onSubmitRemove, onEdit }: TableCellActionsI) => {
     //! State
     const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
+    console.log("row", row);
 
     //! Render
     return (
@@ -49,20 +51,19 @@ export default function CommonActionMenu({ row, onEdit, onSubmitRemove = () => {
           <CommonStyles.Modal
             open={openRemove}
             toggle={toggleRemove}
-            header="Title"
-            content={
-              <React.Fragment>
-                Are you sure you want to delete{" "}
-                <span style={{ color: "red", fontStyle: "italic" }}>{row.passageTitle}</span>
-              </React.Fragment>
-            }
+            header="Delete Confirmation"
+            content={<div>Are you sure you want to delete?</div>}
             footer={
               <React.Fragment>
-                <Button variant="contained" color="error" onClick={() => onSubmitRemove(row)}>
-                  Yes
+                <Button variant="outlined" sx={{ color: "black", fontWeight: "500" }} onClick={toggleRemove}>
+                  Cancel
                 </Button>
-                <Button variant="outlined" color="error" onClick={toggleRemove}>
-                  No
+                <Button
+                  variant="contained"
+                  style={{ background: "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)" }}
+                  onClick={() => onSubmitRemove(row)}
+                >
+                  Delete
                 </Button>
               </React.Fragment>
             }

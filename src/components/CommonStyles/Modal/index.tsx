@@ -12,6 +12,7 @@ import Typography from "@mui/material/Typography";
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   "& .MuiDialogContent-root": {
     padding: theme.spacing(2),
+    width: "500px",
   },
   "& .MuiDialogActions-root": {
     padding: theme.spacing(1),
@@ -28,22 +29,17 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
   const { children, onClose, ...other } = props;
 
   return (
-    <DialogTitle sx={{ m: 0, p: 2 }} {...other}>
+    <DialogTitle
+      sx={{
+        m: 0,
+        p: 2,
+        background: "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)",
+        color: "white",
+        fontWeight: "bold",
+      }}
+      {...other}
+    >
       {children}
-      {onClose ? (
-        <IconButton
-          aria-label="close"
-          onClick={onClose}
-          sx={{
-            position: "absolute",
-            right: 8,
-            top: 8,
-            color: (theme) => theme.palette.grey[500],
-          }}
-        >
-          <CloseIcon />
-        </IconButton>
-      ) : null}
     </DialogTitle>
   );
 };
@@ -61,14 +57,8 @@ export default function Modal({ open, toggle, header, content, footer }: ModalI)
       <BootstrapDialogTitle id="customized-dialog-title" onClose={toggle}>
         {header}
       </BootstrapDialogTitle>
-      <DialogContent>{content}</DialogContent>
-      <DialogActions>
-        {footer || (
-          <Button autoFocus onClick={toggle}>
-            Save changes
-          </Button>
-        )}
-      </DialogActions>
+      <DialogContent dividers>{content}</DialogContent>
+      <DialogActions>{footer}</DialogActions>
     </BootstrapDialog>
   );
 }
