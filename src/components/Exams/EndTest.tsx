@@ -14,7 +14,7 @@ import LoadingPage from "components/Loading";
 
 const card = {
   p: "48px 32px",
-  width: { xs: "100%", md: "80%" },
+  width: { xs: "90%", md: "80%" },
   borderRadius: "16px",
   margin: "0 auto",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",

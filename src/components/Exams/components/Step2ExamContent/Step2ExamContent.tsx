@@ -17,7 +17,8 @@ import { IELT_TEST } from "interfaces/testType";
 import Writing from "views/Ielts/writing/component/Writing";
 import CardPart from "components/Card/CardPart";
 import ReactHtmlParser from "react-html-parser";
-
+import FooterExamResponsive from "./FooterExamResponsive";
+//
 interface Props {
   data?: any;
 }
@@ -68,14 +69,23 @@ const Step2ExamContent = (props: any) => {
   //! Render
   return (
     <>
-      <Box sx={{ width: "80%", margin: "0 auto" }}>
+      <Box sx={{ width: "95%", margin: "0 auto" }}>
         <CardPart part={groupSelected.part + 1}>
           {/* {ReactHtmlParser(partRenderSelected?.groups[groupSelected.group]?.directionText)} */}
         </CardPart>
       </Box>
       <Box sx={{ position: "relative" }}>
-        <Box sx={{ width: "80%", margin: "0 auto" }}>
-          <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
+        <Box sx={{ width: "95%", margin: "0 auto" }}>
+          <Grid
+            container
+            sx={{
+              justifyContent: "space-between",
+              p: "20px 0",
+              maxWidth: "1440px",
+              margin: "0 auto",
+              display: { xs: "block", lg: "flex" },
+            }}
+          >
             <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} />
             {test === IELT_TEST.WRITING && (
               <CardExercise
@@ -108,6 +118,7 @@ const Step2ExamContent = (props: any) => {
           hightLightNumberPage={hightLightNumberPage}
           onClickPageNumber={hightLightNumberPageClickQuestion}
         />
+        <FooterExamResponsive />
       </Box>
     </>
   );
