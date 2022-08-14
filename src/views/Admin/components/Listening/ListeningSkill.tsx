@@ -4,14 +4,10 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
-import { RouteBase } from "constants/routeUrl";
 import useGetParts from "hooks/Reading/useGetParts";
-import { isEmpty } from "lodash";
-import MHeaderTable from "models/HeaderTable.model";
-import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import ReadingService from "services/ReadingService";
-// import CreateQuestionReading from "./component";
+import { RouteBase } from "constants/routeUrl";
 
 const styles = {
   titleTable: {
@@ -19,26 +15,29 @@ const styles = {
     fontWeight: "bold",
   },
 };
-const ReadingSkill = () => {
+
+const ListeningSkill = () => {
+  //! State
+
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
     try {
       await ReadingService.deletePart(item?.id);
-      alert("Delete part success!");
       refetchDataTable();
     } catch (error) {
       console.log("error");
     }
   };
 
+  //! Render
   return (
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
-        <Link to={RouteBase.CreateReading}>
+        <Link to={RouteBase.CreateListening}>
           <ButtonUpload
-            titleButton="Create reading"
+            titleButton="Create listening"
             icon={<AddIcon />}
             onClick={() => {}}
             style={{ background: "#9155FE" }}
@@ -52,7 +51,7 @@ const ReadingSkill = () => {
             {
               flex: 1,
               field: "passageTitle",
-              renderHeader: () => <Typography style={styles.titleTable}>Reading title</Typography>,
+              renderHeader: () => <Typography style={styles.titleTable}>Listening title</Typography>,
             },
             {
               flex: 1,
@@ -80,7 +79,7 @@ const ReadingSkill = () => {
                 return (
                   <CommonActionMenu
                     onEdit={() => {
-                      history.push(RouteBase.UpdateReadingWId(items.id));
+                      history.push(RouteBase.UpdateListeningWId(items.id));
                     }}
                     onSubmitRemove={onDeletePart}
                     row={items}
@@ -104,4 +103,4 @@ const ReadingSkill = () => {
   );
 };
 
-export default ReadingSkill;
+export default ListeningSkill;

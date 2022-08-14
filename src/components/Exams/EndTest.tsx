@@ -31,23 +31,38 @@ interface Props {
 
 const EndTest = (props: Props) => {
   const { test } = props;
+  console.log("test", test);
   // !Hook
   const history = useHistory();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
   const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
   const { mutateAsync: finishIeltsWriting, isLoading: writingLoading } = useFinishIeltsWritingTest();
+  const typeExam = () => {
+    if (test === IELT_TEST.READING) {
+      return { type: IELT_TEST.READING };
+    } else if (test === IELT_TEST.WRITING) {
+      return { type: IELT_TEST.WRITING };
+    } else if (test === IELT_TEST.SPEAKING) {
+      return { type: IELT_TEST.SPEAKING };
+    } else if (test === IELT_TEST.LISTENING) {
+      return { type: IELT_TEST.LISTENING };
+    }
+  };
   // const {}=
-
+  const location = {
+    pathname: "/ielts/scores",
+    state: typeExam(),
+  };
   const handleEndTest = async () => {
     if (test === IELT_TEST.READING) {
       await finishIeltsReading(testCode, {
-        onSuccess: () => history.push("/ielts/scores"),
+        onSuccess: () => history.push(location),
       });
     }
     if (test === IELT_TEST.WRITING) {
       await finishIeltsWriting(testCode, {
-        onSuccess: () => history.push("/ielts/scores"),
+        onSuccess: () => history.push(location),
       });
     }
   };
