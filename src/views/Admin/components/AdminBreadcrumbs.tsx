@@ -2,10 +2,12 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
-import { useLocation } from "react-router-dom";
+import { useLocation, Link as RouterLink } from "react-router-dom";
 import ButtonCommon from "components/Button";
 import useSagaCreators from "hooks/useSagaCreators";
 import { authActions } from "redux/creators/modules/auth";
+import LogoutIcon from "@mui/icons-material/Logout";
+import { RouteBase } from "constants/routeUrl";
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
@@ -15,25 +17,46 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 export default function AdminBreadcrumbs() {
   const location = useLocation();
   const { dispatch } = useSagaCreators();
-  console.log("location", location);
-
+  const pathSplit = location.pathname.split("/").filter((path) => path);
   const onLogout = () => {
     dispatch(authActions.logout);
   };
+
   return (
-    <div>
-      <div role="presentation" onClick={handleClick}>
-        <Breadcrumbs aria-label="breadcrumb">
-          {/* <Link underline="hover" color="inherit" href="/">
-            MUI
-          </Link>
-          <Link underline="hover" color="inherit" href="/material-ui/getting-started/installation/">
-            Core
-          </Link> */}
-          <Typography color="text.primary">Breadcrumbs</Typography>
-        </Breadcrumbs>
-      </div>
-      <ButtonCommon onClick={onLogout}>Logout</ButtonCommon>
+    <div role="presentation" onClick={handleClick} style={styles.breadcrumbContainer}>
+      <Breadcrumbs aria-label="breadcrumb">
+        {pathSplit.map((el: string, index: number) => {
+          const to = `/${pathSplit.slice(0, index + 1).join("/")}`;
+          if (index === pathSplit.length - 1) {
+            return (
+              <Typography color="text.primary" style={{ textTransform: "capitalize", fontWeight: "bold" }}>
+                {el}
+              </Typography>
+            );
+          }
+          if (el === "questionbank") {
+            return <Typography style={{ textTransform: "capitalize" }}>{el}</Typography>;
+          }
+          return (
+            <RouterLink color="inherit" to={to} className="hover-link">
+              <Typography style={{ textTransform: "capitalize" }}>{el}</Typography>
+            </RouterLink>
+          );
+        })}
+      </Breadcrumbs>
+
+      <ButtonCommon onClick={onLogout}>
+        <LogoutIcon />
+      </ButtonCommon>
     </div>
   );
 }
+
+const styles = {
+  breadcrumbContainer: {
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    flex: 1,
+  },
+};

@@ -3,6 +3,8 @@ import { RouteBase } from "constants/routeUrl";
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
+import CreateQuestionReading from "views/Admin/components/CreateReading";
+import CreateQuestionWriting from "views/Admin/components/CreateWriting";
 import DefaultAdminLayout from "views/Admin/components/DefaultAdminLayout";
 import ListeningSkill from "views/Admin/components/Listening/ListeningSkill";
 import ReadingSkill from "views/Admin/components/Reading";

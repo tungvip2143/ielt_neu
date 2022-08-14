@@ -5,23 +5,24 @@ import { useState } from "react";
 export interface Props {
   disabled?: boolean;
   initialValue?: string;
+  onInit?: (evt: any, editor: any) => void;
 }
 
-const MyComponent = forwardRef((props: Props, editorRef: any) => {
-  const { initialValue, disabled } = props;
+const TinyMceCommon = forwardRef((props: Props, editorRef: any) => {
+  const { initialValue, disabled, onInit } = props;
   return (
-    <Editor
-      apiKey="no-api-key"
-      onInit={(evt, editor) => {
-        // editorRef?.current = editor;
-      }}
-      initialValue={initialValue ? initialValue : "<p>This is the initial content of the editor.</p>"}
-      init={{
-        plugins: "link image code",
-        toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-      }}
-      disabled={disabled}
-    />
+    <script src="//cdn.tinymce.com/4/tinymce.min.js">
+      <Editor
+        apiKey="no-api-key"
+        onInit={onInit}
+        initialValue={initialValue ? initialValue : "<p>This is the initial content of the editor.</p>"}
+        init={{
+          plugins: "link image code",
+          toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+        }}
+        disabled={disabled}
+      />
+    </script>
   );
 });
-export default MyComponent;
+export default TinyMceCommon;
