@@ -11,7 +11,7 @@ const PrivateRoute = (props: any) => {
     return <Route {...props} />;
   }
 
-  return <Redirect to="/admin/login" />;
+  return <Redirect to="/login" />;
   // return <Redirect to="/admin/login" />;
 };
 
