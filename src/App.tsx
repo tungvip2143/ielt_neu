@@ -21,8 +21,6 @@ import "react-toastify/dist/ReactToastify.css";
 import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
 //
-import LoginEmail from "views/Login/LoginEmail";
-import SignUp from "views/Login/SignUp";
 
 const App: React.FC = () => {
   useCheckAuth();
