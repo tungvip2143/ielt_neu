@@ -42,15 +42,35 @@ const AdminLayout: React.FC = (props) => {
               exact
               component={() => <CreateQuestionListening openCreateScreen={{ type: "update" }} />}
             />
-            <Route
+            <PrivateRoute
               path={RouteBase.CreateSpeaking}
               exact
               component={() => <CreateQuestionSpeaking openCreateScreen={{ type: "create" }} />}
             />
-            <Route
+            <PrivateRoute
               path={RouteBase.UpdateSpeaking}
               exact
               component={() => <CreateQuestionSpeaking openCreateScreen={{ type: "update" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.CreateReading}
+              exact
+              component={() => <CreateQuestionReading openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateReading}
+              exact
+              component={() => <CreateQuestionReading openCreateScreen={{ type: "update" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.CreateWriting}
+              exact
+              component={() => <CreateQuestionWriting openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateWriting}
+              exact
+              component={() => <CreateQuestionWriting openCreateScreen={{ type: "update" }} />}
             />
           </Switch>
         </Suspense>

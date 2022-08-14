@@ -20,6 +20,7 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
+import LoginEmail from "views/Login/LoginEmail";
 //
 
 const App: React.FC = () => {
@@ -37,11 +38,11 @@ const App: React.FC = () => {
           <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
           <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
           <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
+          <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
+          <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
-          <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
-          <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}
         </Switch>
