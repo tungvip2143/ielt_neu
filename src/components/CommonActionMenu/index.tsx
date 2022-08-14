@@ -58,11 +58,7 @@ export default function CommonActionMenu({ row, onEdit, onSubmitRemove = () => {
                 <Button variant="outlined" sx={{ color: "black", fontWeight: "500" }} onClick={toggleRemove}>
                   Cancel
                 </Button>
-                <Button
-                  variant="contained"
-                  style={{ background: "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)" }}
-                  onClick={() => onSubmitRemove(row)}
-                >
+                <Button variant="contained" style={{ background: "#9155FF" }} onClick={() => onSubmitRemove(row)}>
                   Delete
                 </Button>
               </React.Fragment>

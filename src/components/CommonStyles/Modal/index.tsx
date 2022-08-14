@@ -33,7 +33,7 @@ const BootstrapDialogTitle = (props: DialogTitleProps) => {
       sx={{
         m: 0,
         p: 2,
-        background: "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)",
+        background: "#9155FF",
         color: "white",
         fontWeight: "bold",
       }}

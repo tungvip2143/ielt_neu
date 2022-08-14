@@ -30,6 +30,13 @@ export interface Props {
     type: string;
   };
 }
+const styles = {
+  buttonDetail: {
+    color: "#5048E5",
+    fontSize: "20px",
+    cursor: "grab",
+  },
+};
 
 const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState(null);
@@ -323,11 +330,3 @@ const CreateQuestionListening = (props: Props) => {
 };
 
 export default CreateQuestionListening;
-
-const styles = {
-  buttonDetail: {
-    color: "#5048E5",
-    fontSize: "20px",
-    cursor: "grab",
-  },
-};
