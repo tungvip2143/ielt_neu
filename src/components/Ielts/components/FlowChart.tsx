@@ -2,6 +2,7 @@ import React from "react";
 import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { makeStyles } from "@mui/styles";
+import { ROOT_ORIGINAL_URL } from "constants/api";
 
 const useStyles = makeStyles((theme) => ({
   answer: {
@@ -32,7 +33,7 @@ const FlowChart = (props: Props) => {
   };
   return (
     <div>
-      <img src={image} alt="flow chart" />
+      <img src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
         {question?.map((answer: any) => {
           return (

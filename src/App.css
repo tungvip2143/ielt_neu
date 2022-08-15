@@ -172,7 +172,7 @@ ul {
     "Segoe UI Emoji", "Segoe UI Symbol" !important;
   color: #121828;
 }
-@tailwind base;
+/* @tailwind base; */
 @tailwind components;
 @tailwind utilities;
 /* 
