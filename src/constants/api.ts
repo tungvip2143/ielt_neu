@@ -1,7 +1,9 @@
 import { IeltsReducer } from "./../redux/creators/modules/ielts";
 import { useSelector } from "react-redux";
 export const GET_TODOS_URL = "https://jsonplaceholder.typicode.com/todos";
-export const ROOT_URL = process.env.REACT_APP_API_URL;
+
+export const ROOT_ORIGINAL_URL = process.env.REACT_APP_API_URL;
+export const ROOT_URL = `${process.env.REACT_APP_API_URL}/api/v1`;
 
 export const BASE_URL = "http://103.226.250.81:8688/api/v1";
 export const GET_LIST_READING_QUESTIONS = `${ROOT_URL}/question-groups?page=1&pageSize=10&sort=createdAt%3ADESC&skill=READING`;
