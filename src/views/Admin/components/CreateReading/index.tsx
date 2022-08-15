@@ -19,11 +19,14 @@ import { ResponseParams } from "interfaces/questionInterface";
 import { isEmpty } from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
 import ModalCreateQuestion from "./ModalCreateQuestion";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
+import SelectField from "components/CustomField/SelectField";
+import { RouteBase } from "constants/routeUrl";
 
 export interface Props {
   openCreateScreen: {
@@ -36,10 +39,12 @@ const CreateQuestionReading = (props: Props) => {
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
+  const history = useHistory();
 
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
     // questionTip: yup.string().required("This field is required!"),
+    partNumber: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
   const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(params?.id);
@@ -57,6 +62,7 @@ const CreateQuestionReading = (props: Props) => {
     async (data: any) => {
       reset({
         partTitle: data?.passageTitle,
+        partNumber: data?.partNumber,
       });
     },
     [reset]
@@ -71,7 +77,7 @@ const CreateQuestionReading = (props: Props) => {
   const renderButtonUpdate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
-        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.back()}>
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.goBack()}>
           Back
         </Button>
         {!isEdit ? (
@@ -92,8 +98,8 @@ const CreateQuestionReading = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave type="submit" icon={<SaveIcon sx={{ fontSize: "20px" }} />} />
-        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.back()} />{" "}
+        <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
   };
@@ -101,6 +107,7 @@ const CreateQuestionReading = (props: Props) => {
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
       const body = {
+        partNumber: data.partNumber,
         passageTitle: data.partTitle,
         passageText: editorRef.current.getContent(),
       };
@@ -108,7 +115,7 @@ const CreateQuestionReading = (props: Props) => {
         const response = await ReadingService.postCreatePart(body);
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
-          history.back();
+          history.push(RouteBase.UpdateReadingWId(response?.data?.data?.id));
         }
       } catch (error: any) {
         toast.error(error);
@@ -116,6 +123,7 @@ const CreateQuestionReading = (props: Props) => {
     }
     if (openCreateScreen.type === "update") {
       const body = {
+        partNumber: data.partNumber,
         passageTitle: data.partTitle,
         passageText: editorRef.current.getContent(),
       };
@@ -123,7 +131,7 @@ const CreateQuestionReading = (props: Props) => {
         const response = await ReadingService.patchUpdatePart(params?.id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
-          history.back();
+          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -134,7 +142,7 @@ const CreateQuestionReading = (props: Props) => {
   const onDelete = async (id: number | string) => {
     try {
       await ReadingService.deleteQuestionGroup(id);
-      alert("Delete question group success");
+      toast.success("Delete question group success");
       refetchQuestionGroup();
     } catch (error) {
       console.log("error");
@@ -144,19 +152,36 @@ const CreateQuestionReading = (props: Props) => {
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
-      <Card style={{ marginBottom: "15px", padding: 20 }}>
-        <Typography style={{ fontWeight: "bold" }}>Reading title</Typography>
-        <InputCommon
-          id="standard-basic"
-          variant="standard"
-          name="partTitle"
-          control={control}
-          required
-          fullWidth
-          disabled={openCreateScreen.type === "update" && !isEdit}
-          style={{ marginTop: dataPartDetail?.passageTitle ? "10px" : 0 }}
-        />
-      </Card>
+      <div style={styles.cardTitle}>
+        <div className="flex-1">
+          <Typography style={{ fontWeight: "bold" }}>Reading title</Typography>
+          <InputCommon
+            id="standard-basic"
+            variant="standard"
+            name="partTitle"
+            control={control}
+            required
+            fullWidth
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+        </div>
+        <div className="flex-1 ml-[20px]">
+          <SelectField
+            variant="standard"
+            name="partNumber"
+            label="Part"
+            options={[
+              { label: "Part 1", value: 1 },
+              { label: "Part 2", value: 2 },
+              { label: "Part 3", value: 3 },
+            ]}
+            control={control}
+            setValue={setValue}
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+        </div>
+      </div>
+
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <Editor
           tagName="questionTip"
@@ -241,5 +266,14 @@ const styles = {
     color: "#5048E5",
     fontSize: "20px",
     cursor: "grab",
+  },
+  cardTitle: {
+    marginBottom: "15px",
+    padding: "20px",
+    display: "flex",
+    background: "white",
+    boxShadow: "0px 1px 1px rgb(100 116 139 / 6%), 0px 1px 2px rgb(100 116 139 / 10%",
+    borderRadius: "8px",
+    alignItems: "end",
   },
 };

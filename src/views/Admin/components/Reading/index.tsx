@@ -10,6 +10,7 @@ import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 // import CreateQuestionReading from "./component";
 
@@ -26,10 +27,10 @@ const ReadingSkill = () => {
   const onDeletePart = async (item: any) => {
     try {
       await ReadingService.deletePart(item?.id);
-      alert("Delete part success!");
+      toast.success("Delete part success!");
       refetchDataTable();
     } catch (error) {
-      console.log("error");
+      toast.error("error");
     }
   };
 
@@ -56,8 +57,8 @@ const ReadingSkill = () => {
             },
             {
               flex: 1,
-              field: "level",
-              renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
+              field: "partNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
             },
             {
               flex: 1,
@@ -89,6 +90,7 @@ const ReadingSkill = () => {
               },
             },
           ]}
+          checkboxSelection
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,

@@ -13,6 +13,8 @@ class MReading {
   __v?: number;
   id?: string;
 
+  partNumber?: number;
+
   constructor(data: any) {
     this._id = data?._id;
     this.skill = data?.skill;
@@ -22,6 +24,7 @@ class MReading {
     this.explanationText = data?.explanationText;
     this.groupId = data?.groupId;
     this.deleted = data?.deleted;
+    this.partNumber = data?.partNumber;
     this.createdAt = data?.createdAt;
     this.updatedAt = data?.updatedAt;
     this.__v = data?.__v;

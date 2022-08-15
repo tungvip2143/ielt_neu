@@ -6,6 +6,7 @@ import CommonDataGrid from "components/CommonDataGrid";
 import { RouteBase } from "constants/routeUrl";
 import useGetQuestion from "hooks/Writing/useGetQuestion";
 import { Link, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
 import writingServices from "services/writingServices";
 // import CreateQuestionWriting from "./CreateQuestionWriting";
 
@@ -16,7 +17,7 @@ const WritingSkill = () => {
   const onDeletePart = async (item: any) => {
     try {
       await writingServices.deleteQuestion(item?.id);
-      alert("Delete part success!");
+      toast.success("Delete part success!");
       refetchDataTable();
     } catch (error) {
       console.log("error");
@@ -41,8 +42,8 @@ const WritingSkill = () => {
             },
             {
               flex: 0.5,
-              field: "level",
-              renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
+              field: "partNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
             },
             {
               flex: 1,
@@ -71,6 +72,7 @@ const WritingSkill = () => {
               },
             },
           ]}
+          checkboxSelection
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,

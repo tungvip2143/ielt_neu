@@ -5,6 +5,8 @@ class MPartReading {
   skill?: string;
   level?: string;
   passageTitle?: string;
+
+  partNumber?: number;
   passageText?: any;
   deleted?: boolean;
   createdAt?: string;
@@ -19,6 +21,7 @@ class MPartReading {
     this.passageTitle = data?.passageTitle;
     this.passageText = data?.passageText;
     this.deleted = data?.deleted;
+    this.partNumber = data?.partNumber;
     this.createdAt = moment(data?.createdAt).format("YYYY-MM-DD HH:mm");
     this.updatedAt = moment(data?.updatedAt).format("YYYY-MM-DD HH:mm");
     this.__v = data?.__v;

@@ -13,6 +13,7 @@ export interface ResponseParams {
   parts: string;
   partTitle: string;
   levelPart: string;
+  partNumber: string;
 }
 
 export interface QuestionTypeI {
