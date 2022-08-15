@@ -29,6 +29,7 @@ const useGetParts = () => {
     const fetchData = async () => {
       try {
         const response = await ReadingService.getListParts(params);
+        
         if (response.data.statusCode === 200) {
           const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
           setDataParts(parts);
@@ -40,7 +41,7 @@ const useGetParts = () => {
         setLoading(false);
       }
     };
-    fetchData();
+    fetchData();  
   }, [params]);
 
   const onPageChange = (page: number) => {

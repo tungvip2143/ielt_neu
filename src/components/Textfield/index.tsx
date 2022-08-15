@@ -31,6 +31,8 @@ export const TextField = (props: Props) => {
   const { name, value } = field;
   const { errors, touched, handleChange } = form;
 
+  console.log("value field", value);
+
   const isTouched = getIn(touched, name);
   const errorMessage = getIn(errors, name);
 

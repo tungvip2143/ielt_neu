@@ -57,7 +57,7 @@ const Header: React.FC = (props) => {
   return (
     <Box
       sx={{
-        display: "flex",
+        display: { xs: "none", lg: "flex" },
         justifyContent: "center",
         py: 1,
         borderBottom: "2px solid #e7eaed",
@@ -69,7 +69,7 @@ const Header: React.FC = (props) => {
     >
       <div className="container">
         <Grid container sx={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
-          <Grid item xs={8} md={7.5}>
+          <Grid item xs={8} md={7.5} lg={8} xl={7}>
             <Grid container sx={{ justifyContent: "space-between", alignItems: "center" }}>
               <Grid item xs={4} sx={{ display: "flex", alignItems: "center", justifyContent: "space-between" }}>
                 <NavLink to={"/"}>
@@ -102,7 +102,7 @@ const Header: React.FC = (props) => {
               </Grid>
             </Grid>
           </Grid>
-          <Grid item xs={4} md={3}>
+          <Grid item xs={4} md={3} lg={3}>
             <Stack spacing={2} direction="row" sx={{ justifyContent: "flex-end" }}>
               {isLogin ? (
                 <Button

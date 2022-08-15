@@ -1,34 +1,77 @@
+import PrivateRoute from "components/PrivateRoute";
 import { RouteBase } from "constants/routeUrl";
 import React, { Suspense } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
+import CreateQuestionReading from "views/Admin/components/CreateReading";
+import CreateQuestionWriting from "views/Admin/components/CreateWriting";
 import DefaultAdminLayout from "views/Admin/components/DefaultAdminLayout";
-import ListeningSkill from "views/Admin/components/Listening";
+import ListeningSkill from "views/Admin/components/Listening/ListeningSkill";
 import ReadingSkill from "views/Admin/components/Reading";
-import SpeakingSkill from "views/Admin/components/Speaking";
+import SpeakingSkill from "views/Admin/components/Speaking/SpeakingSkill";
 import WritingSkill from "views/Admin/components/Writing";
-import LoginPage from "views/Login";
+import CreateQuestionListening from "views/Admin/components/Listening/CreateQuestionListening/CreateQuestionListening";
+import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateQuestionSpeaking/CreateQuestionSpeaking";
 
 const AdminLayout: React.FC = (props) => {
+  const history = useHistory();
+
+  //* Handle when user go to /admin
+  if (history.location.pathname === RouteBase.Admin) {
+    return <Redirect to={RouteBase.Listening} />;
+  }
+
   return (
     // <Router>
     <DefaultAdminLayout>
       <main className="main-container" style={{ marginTop: "10px" }}>
         <Suspense fallback="Loading...">
           <Switch>
-            <Route path={"/admin/login"} exact component={LoginPage} />
-            <Route path={RouteBase.AdminDashboard} exact component={AdminScreen} />
-            <Route path={RouteBase.Listening} exact component={ListeningSkill} />
-            <Route path={RouteBase.Speaking} exact component={SpeakingSkill} />
-            <Route path={RouteBase.Writing} exact component={WritingSkill} />
-            <Route path={RouteBase.Reading} exact component={ReadingSkill} />
-
-            {/* {routes.map((route: any, idx: any) => {
-              if (route.isPrivate) {
-                return <PrivateRoute key={idx} path={route.path} exact={route.exact} component={route.component} />;
-              }
-              return <Route key={idx} path={route.path} exact={route.exact} component={route.component} />;
-            })} */}
+            <PrivateRoute path={RouteBase.AdminDashboard} exact component={AdminScreen} />
+            <PrivateRoute path={RouteBase.Listening} exact component={ListeningSkill} />
+            <PrivateRoute path={RouteBase.Speaking} exact component={SpeakingSkill} />
+            <PrivateRoute path={RouteBase.Writing} exact component={WritingSkill} />
+            <PrivateRoute path={RouteBase.Reading} exact component={ReadingSkill} />
+            <PrivateRoute
+              path={RouteBase.CreateListening}
+              exact
+              component={() => <CreateQuestionListening openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateListening}
+              exact
+              component={() => <CreateQuestionListening openCreateScreen={{ type: "update" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.CreateSpeaking}
+              exact
+              component={() => <CreateQuestionSpeaking openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateSpeaking}
+              exact
+              component={() => <CreateQuestionSpeaking openCreateScreen={{ type: "update" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.CreateReading}
+              exact
+              component={() => <CreateQuestionReading openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateReading}
+              exact
+              component={() => <CreateQuestionReading openCreateScreen={{ type: "update" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.CreateWriting}
+              exact
+              component={() => <CreateQuestionWriting openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateWriting}
+              exact
+              component={() => <CreateQuestionWriting openCreateScreen={{ type: "update" }} />}
+            />
           </Switch>
         </Suspense>
       </main>

@@ -18,6 +18,7 @@ declare module "@mui/material/styles" {
     desc14medium: React.CSSProperties;
     desc16: React.CSSProperties;
     descSmall: React.CSSProperties;
+    textTrue: React.CSSProperties;
   }
 
   // allow configuration using `createTheme`
@@ -39,6 +40,7 @@ declare module "@mui/material/styles" {
     desc14medium: React.CSSProperties;
     desc16: React.CSSProperties;
     descSmall: React.CSSProperties;
+    textTrue: React.CSSProperties;
   }
 }
 
@@ -61,6 +63,7 @@ declare module "@mui/material/Typography" {
     desc16: true;
     descSmall: true;
     subtitle: true;
+    textTrue: true;
   }
 }
 
@@ -71,7 +74,7 @@ export const theme: ThemeOptions = createTheme({
       sm: 576,
       md: 768,
       lg: 1080,
-      xl: 1920,
+      xl: 1280,
     },
   },
   components: {
@@ -444,6 +447,11 @@ export const theme: ThemeOptions = createTheme({
     descSmall: {
       fontSize: "14px",
       fontWeight: 300,
+    },
+    textTrue: {
+      fontSize: "20px",
+      fontWeight: 600,
+      color: "green",
     },
   },
 });
