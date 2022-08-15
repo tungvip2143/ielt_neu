@@ -69,9 +69,9 @@ const IeltsReading = (props: IeltsReadingProps) => {
     <Formik initialValues={initialValues()} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
-          <Box sx={{ height: "100vh", overflow: "hidden" }}>
+          <Box sx={{ height: { xs: "", lg: "100vh" }, overflow: { Xs: "", lg: "hidden" } }}>
             <Header onShowModalExit={handleShowModal} />
-            <Box sx={{ mt: "80px" }}>
+            <Box sx={{ pt: "80px" }}>
               {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.READING} data={data?.data?.data} />}
               {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.READING} />}

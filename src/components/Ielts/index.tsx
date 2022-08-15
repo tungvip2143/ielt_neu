@@ -165,7 +165,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
             <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
               <div className="container">
                 <Box className={classes.containerTitle}>
-                  <Box className={classes.examSemester}>
+                  <Box sx={{ width: { xs: "100%", lg: "260px" }, ml: "10px" }}>
                     <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
                   </Box>
                   <FastField
@@ -173,7 +173,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
                     component={AutoCompletedMui}
                     name="exam"
                     options={examSemester}
-                    sx={{ width: "300px" }}
+                    sx={{ width: "300px", display: { xs: "none", lg: "block" } }}
                   />
 
                   <div className={classes.examSemester}></div>
