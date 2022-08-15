@@ -74,7 +74,7 @@ export const theme: ThemeOptions = createTheme({
       sm: 576,
       md: 768,
       lg: 1080,
-      xl: 1920,
+      xl: 1280,
     },
   },
   components: {
