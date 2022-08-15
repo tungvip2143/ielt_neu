@@ -2,6 +2,7 @@ import { makeStyles } from "@mui/styles";
 import { TextField, Textarea } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import React from "react";
+import Text from "components/Typography/index";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -21,11 +22,22 @@ const Writing = (props: Props) => {
   const classes = useStyles();
   const { groupSelected, partRenderSelected } = props;
   console.log("groupSelected", groupSelected);
+  console.log("partRenderSelected", partRenderSelected);
 
   return (
     <>
-      {groupSelected?.part === 0 && <div className={classes.container}>{partRenderSelected?.studentAnswer}</div>}
-      {groupSelected?.part === 1 && <div className={classes.container}>{partRenderSelected?.studentAnswer}</div>}
+      {groupSelected?.part === 0 && (
+        <div className={classes.container}>
+          <Text.CardTitle sx={{ pb: "20px" }}>My answer</Text.CardTitle>
+          <p>{partRenderSelected?.studentAnswer}</p>
+        </div>
+      )}
+      {groupSelected?.part === 1 && (
+        <div className={classes.container}>
+          <Text.CardTitle sx={{ pb: "20px" }}>My answer</Text.CardTitle>
+          <p>{partRenderSelected?.studentAnswer}</p>
+        </div>
+      )}
     </>
   );
 };

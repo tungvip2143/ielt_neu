@@ -24,6 +24,9 @@ const box = {
   background: "#fff",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
   p: "10px 16px",
+  position: "absolute",
+  bottom: 0,
+  width: "100%",
 };
 
 const useStyles = makeStyles((theme) => {
