@@ -14,6 +14,7 @@ import IeltsWriting from "views/Ielts/writing";
 import IeltsSpeaking from "views/Ielts/speaking";
 import Pricing from "views/Pricing/Pricing";
 import ReviewReading from "views/Review/reading";
+import WritngReview from "views/Review/writng";
 import Admin from "views/Admin/Admin";
 import AdminLayout from "layout/AdminLayout";
 import { ToastContainer } from "react-toastify";
@@ -42,6 +43,7 @@ const App: React.FC = () => {
           <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
+          <Route path={RouteBase.WritingReview} exact component={WritngReview} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}

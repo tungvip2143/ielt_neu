@@ -9,13 +9,12 @@ export const RouteBase = {
   IeltsWriting: "/ielts/writing",
   IeltsSpeaking: "/ielts/speaking",
   Pricing: "/pricing",
-  ReviewReading: "/ielts/review/reading",
-
-  //Admin
+  ReviewReading: "/ielts/review/reading/:testCode",
+  WritingReview: "/ielts/review/writing/:testCode",
   Admin: "/admin",
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
- 
+
   //Listening
   Listening: "/admin/listening",
   CreateListening: "/admin/questionbank/listening/create",
@@ -39,5 +38,4 @@ export const RouteBase = {
   CreateReading: "/admin/questionbank/reading/create",
   UpdateReading: "/admin/questionbank/reading/:id",
   UpdateReadingWId: (id: string | number) => `/admin/questionbank/reading/${id}`,
- 
 };
