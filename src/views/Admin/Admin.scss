@@ -6,13 +6,13 @@
 .answerContainer {
   display: flex;
 }
-.buttonContainerStyles{
+.buttonContainerStyles {
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.buttonSaveStyles{
-  :hover{
+.buttonSaveStyles {
+  :hover {
     background: red;
   }
 }
@@ -23,7 +23,12 @@
   flex-shrink: 0;
   border-width: 0;
   border-style: solid;
-  border-color: #E6E8F0;
+  border-color: #e6e8f0;
   border-bottom-width: thin;
   display: none;
+}
+
+.hover-link:hover {
+  text-decoration-line: underline;
+  color: #5048e5 !important;
 }

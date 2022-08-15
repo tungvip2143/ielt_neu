@@ -15,17 +15,20 @@ import writingServices from "services/writingServices";
 import * as yup from "yup";
 import UndoIcon from "@mui/icons-material/Undo";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export interface Props {
-  onClose: () => void;
-  openCreateScreen: any;
-  refetchDataTable?: any;
+  openCreateScreen: {
+    type: string;
+  };
 }
 const CreateQuestionWriting = (props: Props) => {
   const editorRef = useRef<any>();
-  const { onClose, openCreateScreen, refetchDataTable } = props;
+  const params = useParams<any>();
+  const { openCreateScreen } = props;
   const [isEdit, setIsEdit] = useState(false);
-  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openCreateScreen?.element?.id);
+  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(params?.id);
 
   const validationSchema = yup.object().shape({});
 
@@ -50,11 +53,13 @@ const CreateQuestionWriting = (props: Props) => {
         organization: "<p>Text</p>",
         modelAnswer: "<p>Text</p>",
       };
-      const response = await writingServices.postCreateQuestion(body);
-      if (response?.data?.statusCode === 200) {
-        alert("Create writing part success");
-        refetchDataTable();
-        onClose();
+      try {
+        const response = await writingServices.postCreateQuestion(body);
+        if (response?.data?.statusCode === 200) {
+          toast.success("Create writing part success");
+        }
+      } catch (error: any) {
+        toast.error(error);
       }
     }
     if (openCreateScreen.type === "update") {
@@ -71,11 +76,13 @@ const CreateQuestionWriting = (props: Props) => {
         organization: "<p>Text</p>",
         modelAnswer: "<p>Text</p>",
       };
-      const response = await writingServices.patchUpdateQuestion(openCreateScreen?.element?.id, body);
-      if (response?.data?.statusCode === 200) {
-        alert("Update writing part success");
-        refetchDataTable();
-        onClose();
+      try {
+        const response = await writingServices.patchUpdateQuestion(params?.id, body);
+        if (response?.data?.statusCode === 200) {
+          toast.success("Update writing part success");
+        }
+      } catch (error: any) {
+        toast.error(error);
       }
     }
   };
@@ -101,7 +108,7 @@ const CreateQuestionWriting = (props: Props) => {
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {!isEdit && openCreateScreen.type === "update" && (
         <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
-          <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={onClose}>
+          <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.back()}>
             Back
           </Button>
           <Button variant="contained" onClick={() => setIsEdit(true)}>
@@ -169,7 +176,7 @@ const CreateQuestionWriting = (props: Props) => {
       {(isEdit || openCreateScreen.type === "create") && (
         <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
           <ButtonSave type="submit" icon={<SaveIcon />} />
-          <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onClose} />
+          <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.back()} />
         </Stack>
       )}
     </form>

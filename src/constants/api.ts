@@ -1,7 +1,6 @@
 import { IeltsReducer } from "./../redux/creators/modules/ielts";
 import { useSelector } from "react-redux";
 export const GET_TODOS_URL = "https://jsonplaceholder.typicode.com/todos";
-
 export const ROOT_ORIGINAL_URL = process.env.REACT_APP_API_URL;
 export const ROOT_URL = `${process.env.REACT_APP_API_URL}/api/v1`;
 
@@ -60,5 +59,29 @@ export const ADMIN_WRITING_URL = () => {
     GET_DETAIL_QUESTION: `${ROOT_URL}/questions/`,
     PATCH_UPDATE_QUESTION: `${ROOT_URL}/questions/writing/`,
     DELETE_QUESTION: `${ROOT_URL}/questions/`,
+  };
+};
+export const ADMIN_LISTENING_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/question-parts?sort=createdAt%3ADESC&skill=READING`,
+    GET_PART_DETAIL: `${ROOT_URL}/question-parts/`,
+    DELETE_PART: `${ROOT_URL}/question-parts/`,
+    GET_LIST_QUESTION_GROUP: `${ROOT_URL}/question-parts/${id}/groups`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/question-parts/reading/`,
+    DELETE_QUESTION_GROUP: `${ROOT_URL}/question-groups/`,
+    PATCH_UPDATE_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
+    GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
+  };
+};
+export const ADMIN_SPEAKING_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/question-parts?sort=createdAt%3ADESC&skill=READING`,
+    GET_PART_DETAIL: `${ROOT_URL}/question-parts/`,
+    DELETE_PART: `${ROOT_URL}/question-parts/`,
+    GET_LIST_QUESTION_GROUP: `${ROOT_URL}/question-parts/${id}/groups`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/question-parts/reading/`,
+    DELETE_QUESTION_GROUP: `${ROOT_URL}/question-groups/`,
+    PATCH_UPDATE_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
+    GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
   };
 };

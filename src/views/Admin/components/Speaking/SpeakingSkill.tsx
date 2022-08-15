@@ -1,17 +1,13 @@
-// import TableCommon from "./TableCommon";
 import AddIcon from "@mui/icons-material/Add";
 import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import { RouteBase } from "constants/routeUrl";
-import useGetParts from "hooks/Reading/useGetParts";
-import { isEmpty } from "lodash";
-import MHeaderTable from "models/HeaderTable.model";
-import { useState } from "react";
+import useGetQuestion from "hooks/Writing/useGetQuestion";
+
 import { Link, useHistory } from "react-router-dom";
-import ReadingService from "services/ReadingService";
-// import CreateQuestionReading from "./component";
+import readingService from "services/ReadingService";
 
 const styles = {
   titleTable: {
@@ -19,14 +15,13 @@ const styles = {
     fontWeight: "bold",
   },
 };
-const ReadingSkill = () => {
-  const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
+const SpeakingSkill = () => {
+  const [dataQuestion, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetQuestion();
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
     try {
-      await ReadingService.deletePart(item?.id);
-      alert("Delete part success!");
+      await readingService.deletePart(item?.id);
       refetchDataTable();
     } catch (error) {
       console.log("error");
@@ -36,9 +31,9 @@ const ReadingSkill = () => {
   return (
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
-        <Link to={RouteBase.CreateReading}>
+        <Link to={RouteBase.CreateSpeaking}>
           <ButtonUpload
-            titleButton="Create reading"
+            titleButton="Create speaking"
             icon={<AddIcon />}
             onClick={() => {}}
             style={{ background: "#9155FE" }}
@@ -51,11 +46,11 @@ const ReadingSkill = () => {
           columns={[
             {
               flex: 1,
-              field: "passageTitle",
-              renderHeader: () => <Typography style={styles.titleTable}>Reading title</Typography>,
+              field: "title",
+              renderHeader: () => <Typography style={styles.titleTable}>Speaking title</Typography>,
             },
             {
-              flex: 1,
+              flex: 0.5,
               field: "level",
               renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
             },
@@ -80,7 +75,7 @@ const ReadingSkill = () => {
                 return (
                   <CommonActionMenu
                     onEdit={() => {
-                      history.push(RouteBase.UpdateReadingWId(items.id));
+                      history.push(RouteBase.UpdateSpeakingWId(items.id));
                     }}
                     onSubmitRemove={onDeletePart}
                     row={items}
@@ -95,7 +90,7 @@ const ReadingSkill = () => {
             totalRow: metaPart?.totalRow,
           }}
           loading={loading}
-          rows={dataParts}
+          rows={dataQuestion}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
         />
@@ -104,4 +99,4 @@ const ReadingSkill = () => {
   );
 };
 
-export default ReadingSkill;
+export default SpeakingSkill;
