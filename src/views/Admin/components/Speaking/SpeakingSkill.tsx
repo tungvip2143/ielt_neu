@@ -84,6 +84,7 @@ const SpeakingSkill = () => {
               },
             },
           ]}
+          checkboxSelection
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,

@@ -7,6 +7,8 @@ class MQuestionWriting {
   analysisType: string;
   questionType: string;
   tips: string;
+
+  partNumber?: number;
   usefulGrammarNVocab: string;
   ideaSuggestion: string;
   organization: string;
@@ -27,6 +29,7 @@ class MQuestionWriting {
     this.deleted = data?.deleted;
     this.createdAt = moment(data?.createdAt).format("YYYY-MM-DD HH:mm");
     this.updatedAt = moment(data?.updatedAt).format("YYYY-MM-DD HH:mm");
+    this.partNumber = data?.partNumber;
     this.__v = data?.__v;
     this.id = data?.id;
     this.analysisType = data?.analysisType;
