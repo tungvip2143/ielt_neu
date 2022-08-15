@@ -3,15 +3,15 @@ import { RouteBase } from "constants/routeUrl";
 import React, { Suspense } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
-import CreateQuestionReading from "views/Admin/components/CreateReading";
-import CreateQuestionWriting from "views/Admin/components/CreateWriting";
 import DefaultAdminLayout from "views/Admin/components/DefaultAdminLayout";
+import CreateQuestionReading from "views/Admin/components/Reading/CreateReading/CreateReading";
+import CreateQuestionWriting from "views/Admin/components/Writing/CreateWriting/CreateWriting";
+import CreateQuestionListening from "views/Admin/components/Listening/CreateListening/CreateListening";
+import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateSpeaking/CreateSpeaking";
 import ListeningSkill from "views/Admin/components/Listening/ListeningSkill";
-import ReadingSkill from "views/Admin/components/Reading";
+import ReadingSkill from "views/Admin/components/Reading/ReadingSkill";
 import SpeakingSkill from "views/Admin/components/Speaking/SpeakingSkill";
-import WritingSkill from "views/Admin/components/Writing";
-import CreateQuestionListening from "views/Admin/components/Listening/CreateQuestionListening/CreateQuestionListening";
-import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateQuestionSpeaking/CreateQuestionSpeaking";
+import WritingSkill from "views/Admin/components/Writing/WritingSkill";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
