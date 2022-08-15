@@ -1,3 +1,4 @@
+import { ResponseGenerator } from "interfaces";
 import { isArray } from "lodash";
 
 class TodoModel {
@@ -13,9 +14,12 @@ class TodoModel {
     this.completed = data?.completed;
   }
 
-  static parseTodoListFromResponse(data: any) {
-    if (isArray(data)) {
-      return data.map((el) => new TodoModel(el));
+  static parseTodoListFromResponse(response: ResponseGenerator<TodoModel[]>) {
+    if (isArray(response.data)) {
+      return response.data.map((el) => {
+        const newEl = new TodoModel(el);
+        return newEl;
+      });
     }
 
     return [];

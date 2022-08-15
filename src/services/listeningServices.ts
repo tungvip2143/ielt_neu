@@ -1,19 +1,20 @@
-import { POST_LIST_READING_QUESTIONS } from "constants/api";
-import { ADMIN_LISTENING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE, POST_CREATE_PART } from "./../constants/api";
+import { ResponseGenerator } from "interfaces";
+import { QuestionListening, RequestListListening } from "interfaces/listening";
+import { ADMIN_LISTENING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "./../constants/api";
 import httpServices from "./httpServices";
 
 class listeningService {
   postCreateQuestionGroupReading(body: any) {
-    return httpServices.post(POST_LIST_READING_QUESTIONS, body);
+    return httpServices.post(ADMIN_LISTENING_URL().POST_LIST_LISTENING_QUESTIONS, body);
   }
-  getListParts(params: any = {}) {
+  getListParts(params: RequestListListening): Promise<ResponseGenerator<QuestionListening[]>> {
     return httpServices.get(ADMIN_LISTENING_URL().GET_LIST_PARTS, { params });
   }
   getPartDetail(id: any) {
     return httpServices.get(ADMIN_LISTENING_URL().GET_PART_DETAIL + id);
   }
   postCreatePart(body: any) {
-    return httpServices.post(POST_CREATE_PART, body);
+    return httpServices.post(ADMIN_LISTENING_URL().POST_CREATE_PART, body);
   }
   getListLevels() {
     return httpServices.get(GET_LIST_LEVELS);

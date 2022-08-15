@@ -4,7 +4,7 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
-import useGetParts from "hooks/Reading/useGetParts";
+import useGetParts from "hooks/Listening/useGetParts";
 import { Link, useHistory } from "react-router-dom";
 import ReadingService from "services/ReadingService";
 import { RouteBase } from "constants/routeUrl";
@@ -19,7 +19,15 @@ const styles = {
 const ListeningSkill = () => {
   //! State
 
-  const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
+  const {
+    data: dataParts,
+    loading,
+    error,
+    refetchDataTable,
+    meta: metaPart,
+    onPageChange,
+    onPageSizeChange,
+  } = useGetParts();
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
@@ -50,7 +58,7 @@ const ListeningSkill = () => {
           columns={[
             {
               flex: 1,
-              field: "passageTitle",
+              field: "partTitle",
               renderHeader: () => <Typography style={styles.titleTable}>Listening title</Typography>,
             },
             {

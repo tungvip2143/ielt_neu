@@ -6,6 +6,7 @@ import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
+import PersonIcon from "@mui/icons-material/Person";
 import Divider from "@mui/material/Divider";
 import Drawer from "@mui/material/Drawer";
 import List from "@mui/material/List";
@@ -93,6 +94,14 @@ const AdminDrawer = () => {
               </div>
             </Link>
           ))}
+        <div style={{ display: "flex" }} className="menuContainer">
+          <div className="flex items-center" style={{ display: "flex" }}>
+            <PersonIcon sx={{ fontSize: "20px" }} />
+            <Link to={RouteBase.AdminUser} style={{ marginLeft: 12 }}>
+              User Profile
+            </Link>
+          </div>
+        </div>
       </List>
       <Divider />
     </Drawer>

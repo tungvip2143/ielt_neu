@@ -4,14 +4,15 @@ import React, { Suspense } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
 import DefaultAdminLayout from "views/Admin/components/DefaultAdminLayout";
-import CreateQuestionReading from "views/Admin/components/Reading/CreateReading/CreateReading";
-import CreateQuestionWriting from "views/Admin/components/Writing/CreateWriting/CreateWriting";
-import CreateQuestionListening from "views/Admin/components/Listening/CreateListening/CreateListening";
-import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateSpeaking/CreateSpeaking";
+import CreateReading from "views/Admin/components/Reading/CreateReading/CreateReading";
+import CreateWriting from "views/Admin/components/Writing/CreateWriting/CreateWriting";
+import CreateListening from "views/Admin/components/Listening/CreateListening/CreateListening";
+import CreateSpeaking from "views/Admin/components/Speaking/CreateSpeaking/CreateSpeaking";
 import ListeningSkill from "views/Admin/components/Listening/ListeningSkill";
 import ReadingSkill from "views/Admin/components/Reading/ReadingSkill";
 import SpeakingSkill from "views/Admin/components/Speaking/SpeakingSkill";
 import WritingSkill from "views/Admin/components/Writing/WritingSkill";
+import UserAdmin from "views/Admin/components/UserAdmin/UserAdmin";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
@@ -32,45 +33,46 @@ const AdminLayout: React.FC = (props) => {
             <PrivateRoute path={RouteBase.Speaking} exact component={SpeakingSkill} />
             <PrivateRoute path={RouteBase.Writing} exact component={WritingSkill} />
             <PrivateRoute path={RouteBase.Reading} exact component={ReadingSkill} />
+            <PrivateRoute path={RouteBase.AdminUser} exact component={UserAdmin} />
             <PrivateRoute
               path={RouteBase.CreateListening}
               exact
-              component={() => <CreateQuestionListening openCreateScreen={{ type: "create" }} />}
+              component={() => <CreateListening openCreateScreen={{ type: "create" }} />}
             />
             <PrivateRoute
               path={RouteBase.UpdateListening}
               exact
-              component={() => <CreateQuestionListening openCreateScreen={{ type: "update" }} />}
+              component={() => <CreateListening openCreateScreen={{ type: "update" }} />}
             />
             <PrivateRoute
               path={RouteBase.CreateSpeaking}
               exact
-              component={() => <CreateQuestionSpeaking openCreateScreen={{ type: "create" }} />}
+              component={() => <CreateSpeaking openCreateScreen={{ type: "create" }} />}
             />
             <PrivateRoute
               path={RouteBase.UpdateSpeaking}
               exact
-              component={() => <CreateQuestionSpeaking openCreateScreen={{ type: "update" }} />}
+              component={() => <CreateSpeaking openCreateScreen={{ type: "update" }} />}
             />
             <PrivateRoute
               path={RouteBase.CreateReading}
               exact
-              component={() => <CreateQuestionReading openCreateScreen={{ type: "create" }} />}
+              component={() => <CreateReading openCreateScreen={{ type: "create" }} />}
             />
             <PrivateRoute
               path={RouteBase.UpdateReading}
               exact
-              component={() => <CreateQuestionReading openCreateScreen={{ type: "update" }} />}
+              component={() => <CreateReading openCreateScreen={{ type: "update" }} />}
             />
             <PrivateRoute
               path={RouteBase.CreateWriting}
               exact
-              component={() => <CreateQuestionWriting openCreateScreen={{ type: "create" }} />}
+              component={() => <CreateWriting openCreateScreen={{ type: "create" }} />}
             />
             <PrivateRoute
               path={RouteBase.UpdateWriting}
               exact
-              component={() => <CreateQuestionWriting openCreateScreen={{ type: "update" }} />}
+              component={() => <CreateWriting openCreateScreen={{ type: "update" }} />}
             />
           </Switch>
         </Suspense>
