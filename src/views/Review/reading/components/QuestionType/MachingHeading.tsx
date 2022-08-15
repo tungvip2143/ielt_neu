@@ -65,7 +65,7 @@ const MachingHeading = (props: Props) => {
 
 const Answer = (props: any) => {
   const { data } = props;
-
+  console.log("answerMachingHeading", data);
   // !State
   const classes = useStyles();
   const [showExplanation, setShowExplanation] = useState<boolean>(false);

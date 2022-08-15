@@ -18,12 +18,12 @@ import QuestionAnswer from "./components/QuestionAnswer";
 import { makeStyles } from "@mui/styles";
 import LoadingPage from "components/Loading";
 import { useParams } from "react-router-dom";
-
+//
+import Header from "../Header/Header";
 const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
     flexDirection: "column",
-    padding: "0 16px",
   },
   exam: {
     display: "flex",
@@ -84,41 +84,56 @@ const ReadingReview = (props: any) => {
 
   console.log("partRenderSelected11", partRenderSelected);
   //! Render
+  const container = {
+    position: "relative",
+    height: "100vh",
+    overflow: "hidden",
+  };
+  const content = {
+    p: "0 16px",
+    maxWidth: "1440px",
+    margin: "16px auto 0 auto",
+  };
   return (
     <Formik initialValues={{}} onSubmit={() => console.log("hello")}>
       {(formik: any) => (
         <Form className={classes.form}>
-          <Box>
-            <CardPart part={groupSelected.part + 1}>
-              {/* {ReactHtmlParser(partRenderSelected?.groups[groupSelected.group]?.directionText)} */}
-            </CardPart>
-          </Box>
-          <Box className={classes.exam}>
-            <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-              <CardExercise content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />} />
-              <CardExercise
-                content={
-                  <QuestionAnswer
-                    onClickPage={onClickPage}
-                    questionSelected={questionSelected}
-                    partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
-                    showQuestion={showQuestion}
-                    onHightLightNumberPage={hightLightNumberPageClickQuestion}
+          <Box sx={container}>
+            <Header />
+            <Box sx={content}>
+              <Box>
+                <CardPart part={groupSelected.part + 1}>
+                  {/* {ReactHtmlParser(partRenderSelected?.groups[groupSelected.group]?.directionText)} */}
+                </CardPart>
+              </Box>
+              <Box className={classes.exam}>
+                <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
+                  <CardExercise content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />} />
+                  <CardExercise
+                    content={
+                      <QuestionAnswer
+                        onClickPage={onClickPage}
+                        questionSelected={questionSelected}
+                        partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                        showQuestion={showQuestion}
+                        onHightLightNumberPage={hightLightNumberPageClickQuestion}
+                      />
+                    }
                   />
-                }
-              />
-            </Grid>
+                </Grid>
+              </Box>
+            </Box>
+            <QuestionNumberList
+              questionSelected={questionSelected}
+              onClickPart={onClickPart}
+              onClickPage={onClickPage}
+              questions={questions}
+              test={IELT_TEST.READING}
+              setDisplayNumber={onClickShowQuestion}
+              hightLightNumberPage={hightLightNumberPage}
+              onClickPageNumber={hightLightNumberPageClickQuestion}
+            />
           </Box>
-          <QuestionNumberList
-            questionSelected={questionSelected}
-            onClickPart={onClickPart}
-            onClickPage={onClickPage}
-            questions={questions}
-            test={IELT_TEST.READING}
-            setDisplayNumber={onClickShowQuestion}
-            hightLightNumberPage={hightLightNumberPage}
-            onClickPageNumber={hightLightNumberPageClickQuestion}
-          />
         </Form>
       )}
     </Formik>

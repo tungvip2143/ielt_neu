@@ -1,5 +1,6 @@
 import React from "react";
 import {
+  Box,
   Stack,
   FormControl,
   RadioGroup,
@@ -15,6 +16,9 @@ import Radio from "components/Radio";
 import { TRUE } from "sass";
 import { ClassNames } from "@emotion/react";
 import { makeStyles } from "@mui/styles";
+//
+import ExplanationBox from "../ExplanationBox";
+import { AnswerBoolean } from "../../../../../constants/enum";
 
 const useStyles = makeStyles((theme) => ({
   answer: {
@@ -38,18 +42,44 @@ type Props = {
   idShowQuestion?: any;
   onHightLightNumberPage?: any;
 };
-
+const roundedCheck = {
+  width: "20px",
+  height: "20px",
+  borderRadius: "50%",
+  border: "1px solid #ccc",
+};
 const IdentifyInformationType = (props: Props) => {
+  const [showExplainBoolean, setShowExplainBoolean] = React.useState();
+  console.log("showExplainBoolean", showExplainBoolean);
+
   const classes = useStyles();
 
   const { question, questionType, expanded, onCollapse, QUESTION_TYPE, idShowQuestion, onHightLightNumberPage } = props;
-  console.log("idshowQuestion", idShowQuestion);
+  console.log("questionType", questionType);
 
   const displayNumber = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
 
   const handleClickHightLightPage = () => {
     onHightLightNumberPage(question.question.displayNumber);
+  };
+  const ShowTypeBooleanAnswer = () => {
+    setShowExplainBoolean(question.question.answer);
+  };
+  const hightLightTrueAnswer = () => {
+    if (question.question.answer === AnswerBoolean.TRUE) {
+      return { background: "#64b5f6 " };
+    }
+  };
+  const hightLightFalseAnswer = () => {
+    if (question.question.answer === AnswerBoolean.FALSE) {
+      return { background: "#64b5f6" };
+    }
+  };
+  const hightLightNotGIVENAnswer = () => {
+    if (question.question.answer === AnswerBoolean.NOTGIVEN) {
+      return { background: "#64b5f6" };
+    }
   };
   return (
     <>
@@ -81,21 +111,32 @@ const IdentifyInformationType = (props: Props) => {
         <AccordionDetails>
           <Stack direction="column" spacing={2}>
             {question.question.options.map((answer: any) => {
-              console.log("answer", question.question);
+              console.log("answer", question);
+
               return (
-                <div key={answer._id} className={classes.answer}>
-                  <div
-                    className={classes.key}
-                    style={{
-                      background: question.question.answer === answer.key ? "#4bc82c" : "",
-                      borderRadius: "3px",
-                      width: "40px",
-                    }}
-                  >{`${answer.key}.`}</div>
-                  <div>{answer.text}</div>
-                </div>
+                <>
+                  <div key={answer._id} className={classes.answer}>
+                    <div
+                      className={classes.key}
+                      style={{
+                        background: question.question.answer === answer.key ? "#4bc82c" : "",
+                        color: question.question.answer === answer.key ? "#fff" : "",
+                        borderRadius: "3px",
+                        width: "40px",
+                      }}
+                    >{`${answer.key}.`}</div>
+                    <div>{answer.text}</div>
+                  </div>
+                </>
               );
             })}
+            {questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER && (
+              <ExplanationBox
+                correctAnswer={question?.question?.answer}
+                studenAnswer={question?.studentAnswer}
+                explanation={question?.question?.explanationText}
+              />
+            )}
           </Stack>
         </AccordionDetails>
 
@@ -103,55 +144,31 @@ const IdentifyInformationType = (props: Props) => {
           questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS) && (
           <AccordionDetails>
             <Stack spacing={2}>
-              <FormControl>
-                <RadioGroup
-                  aria-labelledby="demo-controlled-radio-buttons-group"
-                  name="controlled-radio-buttons-group"
-                  // value={values?.answers[displayNumber]?.studentAnswer}
-                  // onChange={handleChange}
-                >
-                  <FormControlLabel
-                    value={true}
-                    control={
-                      <Field
-                        questionId={question.question._id}
-                        index={displayNumber}
-                        component={Radio}
-                        // name={`answers[${displayNumber}].studentAnswer`}
-                        // value={true}
-                      />
-                    }
-                    label={"TRUE"}
-                  />
-                  <FormControlLabel
-                    value={false}
-                    control={
-                      <Field
-                        questionId={question.question._id}
-                        index={displayNumber}
-                        component={Radio}
-                        // name={`answers[${displayNumber}].studentAnswer`}
-                        // value={false}
-                      />
-                    }
-                    label={"FALSE"}
-                  />
-                  <FormControlLabel
-                    value={"not_given"}
-                    control={
-                      <Field
-                        questionId={question.question._id}
-                        index={displayNumber}
-                        component={Radio}
-                        // name={`answers[${displayNumber}].studentAnswer`}
-                        // value={"NOT_GIVEN"}
-                      />
-                    }
-                    label={"NOT_GIVEN"}
-                  />
-                </RadioGroup>
-              </FormControl>
+              <>
+                <Stack direction="row" spacing={2} onClick={ShowTypeBooleanAnswer}>
+                  <Box style={hightLightTrueAnswer()} sx={roundedCheck}></Box>
+                  <Box>TRUE</Box>
+                </Stack>
+              </>
+              <>
+                <Stack direction="row" spacing={2} onClick={ShowTypeBooleanAnswer}>
+                  <Box style={hightLightFalseAnswer()} sx={roundedCheck}></Box>
+                  <Box>FALSE</Box>
+                </Stack>
+              </>
+              <>
+                <Stack direction="row" spacing={2} onClick={ShowTypeBooleanAnswer}>
+                  <Box style={hightLightNotGIVENAnswer()} sx={roundedCheck}></Box>
+                  <Box>NOT GIVEN</Box>
+                </Stack>
+              </>
             </Stack>
+
+            <ExplanationBox
+              correctAnswer={question?.question?.answer}
+              studenAnswer={question?.studentAnswer}
+              explanation={question?.question?.explanationText}
+            />
           </AccordionDetails>
         )}
       </Accordion>
