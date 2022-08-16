@@ -27,7 +27,6 @@ export default function CommonActionMenu({ row, onEdit, onSubmitRemove = () => {
   const TableCellActions = ({ row, onSubmitRemove, onEdit }: TableCellActionsI) => {
     //! State
     const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
-    console.log("row", row);
 
     //! Render
     return (

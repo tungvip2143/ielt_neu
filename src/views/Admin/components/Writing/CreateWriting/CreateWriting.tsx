@@ -15,8 +15,9 @@ import writingServices from "services/writingServices";
 import * as yup from "yup";
 import UndoIcon from "@mui/icons-material/Undo";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { RouteBase } from "constants/routeUrl";
 
 export interface Props {
   openCreateScreen: {
@@ -24,6 +25,7 @@ export interface Props {
   };
 }
 const CreateQuestionWriting = (props: Props) => {
+  const history = useHistory();
   const editorRef = useRef<any>();
   const params = useParams<any>();
   const { openCreateScreen } = props;
@@ -52,11 +54,13 @@ const CreateQuestionWriting = (props: Props) => {
         ideaSuggestion: "<p>Text</p>",
         organization: "<p>Text</p>",
         modelAnswer: "<p>Text</p>",
+        questionPartNumber: data.questionPartNumber,
       };
       try {
         const response = await writingServices.postCreateQuestion(body);
         if (response?.data?.statusCode === 200) {
           toast.success("Create writing part success");
+          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -75,6 +79,7 @@ const CreateQuestionWriting = (props: Props) => {
         ideaSuggestion: "<p>Text</p>",
         organization: "<p>Text</p>",
         modelAnswer: "<p>Text</p>",
+        questionPartNumber: data.questionPartNumber,
       };
       try {
         const response = await writingServices.patchUpdateQuestion(params?.id, body);
@@ -108,7 +113,7 @@ const CreateQuestionWriting = (props: Props) => {
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {!isEdit && openCreateScreen.type === "update" && (
         <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
-          <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.back()}>
+          <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.goBack()}>
             Back
           </Button>
           <Button variant="contained" onClick={() => setIsEdit(true)}>
@@ -117,18 +122,38 @@ const CreateQuestionWriting = (props: Props) => {
           </Button>
         </Stack>
       )}
-      <Card style={{ marginBottom: "15px", padding: 20 }}>
-        <Typography style={{ fontWeight: "bold" }}>Writing title</Typography>
-        <InputCommon
-          id="standard-basic"
-          variant="standard"
-          name="title"
-          control={control}
-          required
-          fullWidth
-          disabled={openCreateScreen.type === "update" && !isEdit}
-        />
-      </Card>
+
+      <div style={styles.questionGroup}>
+        <div className="flex items-end">
+          <div className="flex-1">
+            <Typography style={{ fontWeight: "bold" }}>Writing title</Typography>
+            <InputCommon
+              id="standard-basic"
+              variant="standard"
+              name="title"
+              control={control}
+              required
+              fullWidth
+              disabled={openCreateScreen.type === "update" && !isEdit}
+            />
+          </div>
+          <div className="flex-1 ml-[20px]">
+            <SelectField
+              control={control}
+              options={[
+                { label: "Part 1", value: 1 },
+                { label: "Part 2", value: 2 },
+              ]}
+              label="Part"
+              variant="standard"
+              name="questionPartNumber"
+              setValue={setValue}
+              disabled={openCreateScreen.type === "update" && !isEdit}
+            />
+          </div>
+        </div>
+      </div>
+
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <Editor
           onInit={(evt, editor) => {
@@ -144,39 +169,24 @@ const CreateQuestionWriting = (props: Props) => {
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
+      <Card className="p-[20px]">
+        <InputCommon
+          id="standard-basic"
+          label="Question"
+          variant="standard"
+          name="questionText"
+          control={control}
+          required
+          fullWidth
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
 
-      <div style={styles.questionGroup}>
-        <div className="flex items-end">
-          <InputCommon
-            id="standard-basic"
-            label="Question"
-            variant="standard"
-            name="questionText"
-            control={control}
-            required
-            fullWidth
-            disabled={openCreateScreen.type === "update" && !isEdit}
-          />
-          <SelectField
-            control={control}
-            options={[
-              { label: "Part 1", value: "part_1" },
-              { label: "Part 2", value: "part_2" },
-            ]}
-            label="Part"
-            variant="standard"
-            style={{ marginLeft: 20 }}
-            name="part"
-            setValue={setValue}
-            disabled={openCreateScreen.type === "update" && !isEdit}
-          />
-        </div>
-      </div>
       {/* </Card> */}
       {(isEdit || openCreateScreen.type === "create") && (
         <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
-          <ButtonSave type="submit" icon={<SaveIcon />} />
-          <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.back()} />
+          <ButtonSave type="submit" icon={<SaveIcon />} title="Continue" />
+          <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />
         </Stack>
       )}
     </form>
