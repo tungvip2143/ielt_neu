@@ -54,10 +54,12 @@ const EachTable = ({ panelId }: EachTableI) => {
     refetch();
   }, [page]);
 
+  console.log("results", results);
+
   //! Function
-  const handleReview = (testCode: number) => {
+  const handleReview = (testCode: number, skill: string) => {
     dispatch(IeltsActions.saveTestCode, { testCode });
-    history.push("/ielts/review/reading");
+    history.push(`/ielts/review/${skill.toLocaleLowerCase()}/${testCode}`);
   };
 
   //! Render
@@ -180,7 +182,7 @@ const EachTable = ({ panelId }: EachTableI) => {
                   {format(new Date(item.finishedDate), "dd-MM-yyyy")}
                 </TableCell>
                 <TableCell sx={{ pr: "44px" }} align="right">
-                  <Button variant="outlined" sx={buttonReview} onClick={() => handleReview(item.testCode)}>
+                  <Button variant="outlined" sx={buttonReview} onClick={() => handleReview(item.testCode, item.skill)}>
                     REVIEW
                   </Button>
                 </TableCell>

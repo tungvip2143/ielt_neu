@@ -1,50 +1,91 @@
 import AccountBalanceIcon from "@mui/icons-material/AccountBalance";
 import AutoStoriesIcon from "@mui/icons-material/AutoStories";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
 import HeadsetIcon from "@mui/icons-material/Headset";
-import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
+import QuizIcon from "@mui/icons-material/Quiz";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
 import PersonIcon from "@mui/icons-material/Person";
-import Divider from "@mui/material/Divider";
-import Drawer from "@mui/material/Drawer";
+import { Divider, Drawer, Toolbar, Typography } from "@mui/material";
+import Collapse from "@mui/material/Collapse";
 import List from "@mui/material/List";
-import Toolbar from "@mui/material/Toolbar";
-import Typography from "@mui/material/Typography";
+import ListItemButton from "@mui/material/ListItemButton";
+import ListItemIcon from "@mui/material/ListItemIcon";
+import ListItemText from "@mui/material/ListItemText";
 import { RouteBase } from "constants/routeUrl";
-import React, { useState } from "react";
+import * as React from "react";
 import { Link } from "react-router-dom";
 import "./Styles.scss";
 
-const drawerWidth = 240;
-
 const MenuData = [
   {
-    title: "Listening",
-    icon: <HeadsetIcon />,
-    link: RouteBase.Listening,
+    id: 1,
+    titleMenu: "Question bank",
+    icon: <AccountBalanceIcon />,
+    subMenu: [
+      {
+        id: 1,
+        title: "Listening",
+        icon: <HeadsetIcon />,
+        link: RouteBase.Listening,
+      },
+      {
+        id: 2,
+        title: "Speaking",
+        icon: <RecordVoiceOverIcon />,
+        link: RouteBase.Speaking,
+      },
+      {
+        id: 3,
+        title: "Writing",
+        icon: <NoteAltIcon />,
+        link: RouteBase.Writing,
+      },
+      {
+        id: 4,
+        title: "Reading",
+        icon: <AutoStoriesIcon />,
+        link: RouteBase.Reading,
+      },
+    ],
   },
   {
-    title: "Speaking",
-    icon: <RecordVoiceOverIcon />,
-    link: RouteBase.Speaking,
+    id: 2,
+    icon: <QuizIcon />,
+    titleMenu: "Exam management",
+    path: RouteBase.ExamManagement,
   },
   {
-    title: "Writing",
-    icon: <NoteAltIcon />,
-    link: RouteBase.Writing,
+    id: 3,
+    icon: <CalendarMonthIcon />,
+    titleMenu: "Contest management",
+    path: RouteBase.ContestManagement,
   },
   {
-    title: "Reading",
-    icon: <AutoStoriesIcon />,
-    link: RouteBase.Reading,
+    id: 4,
+    icon: <ManageAccountsIcon />,
+    titleMenu: "User management",
+    path: RouteBase.AdminUser,
+  },
+  {
+    id: 5,
+    titleMenu: "Static management",
   },
 ];
 
 const AdminDrawer = () => {
-  const [selectItem, setSelectItem] = useState<number>(0);
-  const [isActive, setIsActive] = useState(false);
+  const [active, setActive] = React.useState<any>({});
+  const [selectItem, setSelectItem] = React.useState<any>();
+
+  const drawerWidth = 240;
+
+  const handleClick = (id: number) => {
+    setActive((prevState: any) => ({ [id]: !prevState[id] }));
+  };
 
   return (
     <Drawer
@@ -61,51 +102,77 @@ const AdminDrawer = () => {
       anchor="left"
     >
       <Toolbar>
-        {/* <SupervisorAccountIcon /> */}
         <Typography style={{ marginLeft: 3, textAlign: "center", color: "white", fontSize: 26, fontWeight: "bold" }}>
           IELTS ADMIN
         </Typography>
       </Toolbar>
       <Divider />
-      <List>
-        <div style={{ display: "flex" }} className="menuContainer" onClick={() => setIsActive(!isActive)}>
-          <div className="flex items-center" style={{ display: "flex" }}>
-            <AccountBalanceIcon sx={{ fontSize: "20px" }} />
-            <Typography style={{ marginLeft: 12 }}>Question bank</Typography>
-          </div>
-          {isActive ? <KeyboardArrowRightIcon /> : <KeyboardArrowDownIcon />}
-        </div>
-        {!isActive &&
-          MenuData.map((el, index) => (
-            <Link to={el.link} key={index}>
-              <div
-                onClick={() => setSelectItem(index)}
-                key={index}
-                className="subMenuContainer"
-                style={{
-                  background:
-                    selectItem === index
-                      ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
-                      : "transparent",
-                }}
-              >
-                {<RadioButtonUncheckedIcon sx={{ fontSize: "15px" }} />}
-                <Typography style={{ marginLeft: 15 }}>{el.title}</Typography>
+
+      {MenuData?.map((el: any) => {
+        return (
+          <List
+            sx={{ width: "100%", maxWidth: 240, color: "white" }}
+            component="nav"
+            aria-labelledby="nested-list-subheader"
+            key={el?.id}
+          >
+            {el?.subMenu?.length > 0 ? (
+              <div>
+                <Link to={el?.path} style={{ color: "white" }}>
+                  <ListItemButton onClick={() => handleClick(el?.id)}>
+                    <ListItemIcon style={{ color: "white", minWidth: 0, marginRight: 10 }}>{el.icon}</ListItemIcon>
+                    <ListItemText primary={el.titleMenu} />
+                    {active[el?.id] ? <ExpandLess /> : <ExpandMore />}
+                  </ListItemButton>
+                </Link>
+                <Collapse in={active[el?.id]} timeout="auto" unmountOnExit style={{ background: "#2a2641" }}>
+                  <List component="div" disablePadding>
+                    {el?.subMenu?.map((items: any) => {
+                      return (
+                        <Link to={items.link} key={items?.title}>
+                          <ListItemButton
+                            onClick={() => setSelectItem(items.title)}
+                            className="subMenuContainer"
+                            sx={{
+                              pl: 4,
+                              background:
+                                selectItem === items.title
+                                  ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
+                                  : "transparent",
+                            }}
+                          >
+                            <ListItemIcon style={{ color: "white" }}>
+                              <RadioButtonUncheckedIcon sx={{ fontSize: "15px" }} />
+                            </ListItemIcon>
+                            <ListItemText style={{ color: "white" }} primary={items?.title} />
+                          </ListItemButton>
+                        </Link>
+                      );
+                    })}
+                  </List>
+                </Collapse>
               </div>
-            </Link>
-          ))}
-        <div style={{ display: "flex" }} className="menuContainer">
-          <div className="flex items-center" style={{ display: "flex" }}>
-            <PersonIcon sx={{ fontSize: "20px" }} />
-            <Link to={RouteBase.AdminUser} style={{ marginLeft: 12 }}>
-              User Profile
-            </Link>
-          </div>
-        </div>
-      </List>
-      <Divider />
+            ) : (
+              <Link to={el?.path} style={{ color: "white" }}>
+                <ListItemButton
+                  onClick={() => setSelectItem(el.titleMenu)}
+                  className="subMenuContainer"
+                  style={{
+                    background:
+                      selectItem === el.titleMenu
+                        ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
+                        : "transparent",
+                  }}
+                >
+                  <ListItemIcon style={{ color: "white", minWidth: 0, marginRight: 10 }}>{el.icon}</ListItemIcon>
+                  <ListItemText primary={el.titleMenu} />
+                </ListItemButton>
+              </Link>
+            )}
+          </List>
+        );
+      })}
     </Drawer>
   );
 };
-
 export default AdminDrawer;

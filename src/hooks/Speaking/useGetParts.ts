@@ -2,7 +2,7 @@ import { PAGE_SIZE } from "constants/constants";
 import { QuestionListening } from "interfaces/listening";
 import MPagination from "models/Pagination.model";
 import { useEffect, useState } from "react";
-import listeningService from "services/listeningService";
+import speakingService from "services/speakingService";
 
 const useGetParts = () => {
   const [data, setData] = useState<QuestionListening[]>([]);
@@ -29,7 +29,7 @@ const useGetParts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await listeningService.getListParts(params);
+        const response = await speakingService.getListParts(params);
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
         setData(dataRes);

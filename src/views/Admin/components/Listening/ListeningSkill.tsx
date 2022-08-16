@@ -98,6 +98,7 @@ const ListeningSkill = () => {
               },
             },
           ]}
+          checkboxSelection
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,

@@ -22,3 +22,9 @@ export interface Student {
   gender: string;
   packages: Package;
 }
+
+export enum AnswerBoolean {
+  TRUE = "YES",
+  FALSE = "NO",
+  NOTGIVEN = "NOT GIVEN",
+}

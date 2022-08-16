@@ -34,11 +34,9 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsReading(9);
+  const { data, isLoading } = useIeltsReading(testCode);
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
-  const [ieltsReadingData, setIeltsReadingData] = React.useState(data?.data?.data);
-  console.log("ieltsReadingData", data);
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -47,11 +45,9 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    const body = { values: { answers }, testCode: 9 };
-    console.log("body234", body);
+    const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
-        console.log("Checked345");
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
       },
     });
@@ -73,9 +69,9 @@ const IeltsReading = (props: IeltsReadingProps) => {
     <Formik initialValues={initialValues()} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
-          <Box sx={{ height: "100vh", overflow: "hidden" }}>
+          <Box sx={{ height: { xs: "", lg: "100vh" }, overflow: { Xs: "", lg: "hidden" } }}>
             <Header onShowModalExit={handleShowModal} />
-            <Box sx={{ mt: "80px" }}>
+            <Box sx={{ pt: "80px" }}>
               {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.READING} data={data?.data?.data} />}
               {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.READING} />}

@@ -25,8 +25,11 @@ interface CardTotalPageExamsI {
 const box = {
   background: "#fff",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-  transform: "translateY(-100px)",
+  position: "fixed",
+  bottom: { xs: "0", lg: "0px" },
+  width: "100%",
   p: "10px 0px",
+  display: { xs: "none", lg: "block" },
 };
 
 const useStyles = makeStyles((theme) => {
@@ -142,7 +145,7 @@ const CardTotalPageExams = ({
   //! Render
   return (
     <Box sx={box}>
-      <Box sx={{ width: "80%", margin: "0 auto" }}>
+      <Box sx={{ width: "95%", margin: "0 auto" }}>
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
           <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
             {questions?.map((group: any, index: number) => {

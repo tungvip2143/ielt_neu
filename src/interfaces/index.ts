@@ -8,7 +8,7 @@ export interface ResponseGenerator<T = any> {
   data: {
     data: {
       data: T;
-      paging: {
+       paging: {
         nextPage: number | null;
         page: number;
         pageSize: number;

@@ -44,7 +44,7 @@ const lock = {
   borderRadius: "15px",
   top: 0,
   left: 0,
-  padding: "50px 30px",
+  padding: { xs: "10px 10px", md: "30px 50px" },
 };
 interface Exam {
   exam: {
@@ -115,13 +115,17 @@ const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
           </Box>
         </Box>
         <Box sx={lock}>
-          <Stack sx={{ width: "100%" }} direction="row" spacing={2}>
+          <Stack
+            sx={{ width: "100%", alignItems: "center", justifyContent: "space-between" }}
+            direction="row"
+            spacing={2}
+          >
             <Box sx={{ width: { xs: "90%", md: "60%", lg: "" } }}>
-              <Text.Sub20Bold>Access from PC, please.</Text.Sub20Bold>
+              <Text.Sub20Bold sx={{ mb: "20px" }}>Access from PC, please.</Text.Sub20Bold>
               <Text.DescSmallCard>We currently do not support tests for mobile and tablet.</Text.DescSmallCard>
             </Box>
             <Box>
-              <LockIcon sx={{ fontSize: "100px", color: "#ccc", zIndex: 10 }} />
+              <LockIcon sx={{ fontSize: { xs: "80px", sm: "80px", md: "100px" }, color: "#ccc", zIndex: 10 }} />
             </Box>
           </Stack>
         </Box>

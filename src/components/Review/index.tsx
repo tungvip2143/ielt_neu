@@ -106,7 +106,7 @@ export default function BasicTable({ bg }: PropsBg) {
               alignItems: "center",
             }}
           >
-            <Box sx={{ width: "252px" }}>
+            <Box sx={{ width: { xs: "100%", sm: "50%", lg: "260px" } }}>
               <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
             </Box>
             <Card
