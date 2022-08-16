@@ -18,6 +18,7 @@ import ExamManagement from "views/Admin/ExamManagement";
 import ContestManagement from "views/Admin/ContestManagemet";
 import CreateContest from "views/Admin/ContestManagemet/CreateContest";
 import WritingSkill from "views/Admin/components/Writing/WritingSkill";
+import StaticManagement from "views/Admin/StaticManagement";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
@@ -81,6 +82,7 @@ const AdminLayout: React.FC = (props) => {
             <PrivateRoute path={RouteBase.ExamManagement} exact component={ExamManagement} />
             <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
             <PrivateRoute path={RouteBase.CreateContestManagement} exact component={() => <CreateContest />} />
+            <PrivateRoute path={RouteBase.StaticManagement} exact component={() => <StaticManagement />} />
           </Switch>
         </Suspense>
       </main>
