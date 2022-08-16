@@ -11,6 +11,8 @@ interface ICommonDataGrid {
   rows: Array<any>;
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (pageSize: number) => void;
+
+  checkboxSelection?: boolean;
 }
 
 export default function CommonDataGrid({
@@ -20,6 +22,7 @@ export default function CommonDataGrid({
   rows,
   onPageChange = () => null,
   onPageSizeChange = () => null,
+  checkboxSelection,
 }: ICommonDataGrid) {
   return (
     <DataGrid
@@ -30,7 +33,7 @@ export default function CommonDataGrid({
       pageSize={pagination?.pageSize || 2}
       page={pagination?.page || 0}
       rowsPerPageOptions={PAGE_SIZE}
-      checkboxSelection
+      checkboxSelection={checkboxSelection}
       disableSelectionOnClick
       keepNonExistentRowsSelected
       onPageChange={(page, detail) => {

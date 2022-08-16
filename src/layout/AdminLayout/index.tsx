@@ -11,6 +11,12 @@ import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateSpeaki
 import ListeningSkill from "views/Admin/components/Listening/ListeningSkill";
 import ReadingSkill from "views/Admin/components/Reading/ReadingSkill";
 import SpeakingSkill from "views/Admin/components/Speaking/SpeakingSkill";
+// import WritingSkill from "views/Admin/components/Writing";
+// import CreateQuestionListening from "views/Admin/components/Listening/CreateQuestionListening/CreateQuestionListening";
+// import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateQuestionSpeaking/CreateQuestionSpeaking";
+import ExamManagement from "views/Admin/ExamManagement";
+import ContestManagement from "views/Admin/ContestManagemet";
+import CreateContest from "views/Admin/ContestManagemet/CreateContest";
 import WritingSkill from "views/Admin/components/Writing/WritingSkill";
 
 const AdminLayout: React.FC = (props) => {
@@ -72,6 +78,9 @@ const AdminLayout: React.FC = (props) => {
               exact
               component={() => <CreateQuestionWriting openCreateScreen={{ type: "update" }} />}
             />
+            <PrivateRoute path={RouteBase.ExamManagement} exact component={ExamManagement} />
+            <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
+            <PrivateRoute path={RouteBase.CreateContestManagement} exact component={() => <CreateContest />} />
           </Switch>
         </Suspense>
       </main>
