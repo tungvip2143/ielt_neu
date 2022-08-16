@@ -43,4 +43,7 @@ export const RouteBase = {
   //Contest
   ContestManagement: "/admin/contestManagement",
   CreateContestManagement: "/admin/contestManagement/create",
+
+  //Static
+  StaticManagement: "/admin/staticManagement",
 };
