@@ -24,7 +24,7 @@ export interface Student {
 }
 
 export enum AnswerBoolean {
-  TRUE = "YES",
-  FALSE = "NO",
+  TRUE = "TRUE",
+  FALSE = "FALSE",
   NOTGIVEN = "NOT GIVEN",
 }
