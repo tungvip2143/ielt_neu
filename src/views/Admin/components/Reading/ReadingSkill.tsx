@@ -22,6 +22,8 @@ const styles = {
 };
 const ReadingSkill = () => {
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
+  console.log("metaPartReading", metaPart);
+
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {

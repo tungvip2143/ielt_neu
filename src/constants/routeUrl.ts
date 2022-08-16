@@ -15,6 +15,7 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
+  AdminUser:"/admin/user",
 
   //Listening
   Listening: "/admin/listening",

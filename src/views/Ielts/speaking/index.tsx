@@ -9,11 +9,5 @@ export default function IeltsSpeaking(props: IeltsSpeakingProps) {
   if (isLoading) {
     return <div>Loading....</div>;
   }
-  return (
-    <>
-      {data?.data?.map((el) => (
-        <div key={el.id}>{el.title}</div>
-      ))}
-    </>
-  );
+  return <>a</>;
 }

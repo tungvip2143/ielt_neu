@@ -25,6 +25,7 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { isEmpty } from "lodash";
+import listeningService from "services/listeningService";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -127,7 +128,7 @@ const CreateQuestionListening = (props: Props) => {
         passageText: editorRef.current.getContent(),
       };
       try {
-        const response = await ReadingService.postCreatePart(body);
+        const response = await listeningService.postCreatePart(body);
 
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
@@ -143,7 +144,7 @@ const CreateQuestionListening = (props: Props) => {
         passageText: editorRef.current.getContent(),
       };
       try {
-        const response = await ReadingService.patchUpdatePart(params?.id, body);
+        const response = await listeningService.patchUpdatePart(params?.id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
           history.back();
@@ -156,7 +157,7 @@ const CreateQuestionListening = (props: Props) => {
 
   const onDelete = async (id: number | string) => {
     try {
-      await ReadingService.deleteQuestionGroup(id);
+      await listeningService.deleteQuestionGroup(id);
       alert("Delete question group success");
       refetchQuestionGroup();
     } catch (error) {
