@@ -18,6 +18,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RouteBase } from "constants/routeUrl";
+import TinyMceCommon from "components/TinyMceCommon";
 
 export interface Props {
   openCreateScreen: {
@@ -89,6 +90,7 @@ const CreateQuestionWriting = (props: Props) => {
         const response = await writingServices.patchUpdateQuestion(params?.id, body);
         if (response?.data?.statusCode === 200) {
           toast.success("Update writing part success");
+          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -159,74 +161,39 @@ const CreateQuestionWriting = (props: Props) => {
       </div>
 
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
+        <TinyMceCommon
+          ref={editorRef}
           initialValue={dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "Tips"}
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            modelRef.current = editor;
-          }}
+        <TinyMceCommon
+          ref={modelRef}
           initialValue={dataQuestionDetail?.modelAnswer ? dataQuestionDetail?.modelAnswer : "Model answer"}
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            usefulGrammarRef.current = editor;
-          }}
+        <TinyMceCommon
+          ref={usefulGrammarRef}
           initialValue={
             dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
           }
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            ideaSuggestionRef.current = editor;
-          }}
+        <TinyMceCommon
+          ref={ideaSuggestionRef}
           initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            organizationRef.current = editor;
-          }}
+        <TinyMceCommon
+          ref={organizationRef}
           initialValue={dataQuestionDetail?.organization ? dataQuestionDetail?.organization : "Organization"}
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>

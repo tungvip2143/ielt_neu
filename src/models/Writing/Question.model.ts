@@ -8,7 +8,7 @@ class MQuestionWriting {
   questionType: string;
   tips: string;
 
-  partNumber?: number;
+  questionPartNumber?: number;
   usefulGrammarNVocab: string;
   ideaSuggestion: string;
   organization: string;
@@ -23,13 +23,15 @@ class MQuestionWriting {
   id?: string;
 
   constructor(data: any) {
+    console.log("data", data);
+
     this._id = data?._id;
     this.skill = data?.skill;
     this.level = data?.level;
     this.deleted = data?.deleted;
     this.createdAt = moment(data?.createdAt).format("YYYY-MM-DD HH:mm");
     this.updatedAt = moment(data?.updatedAt).format("YYYY-MM-DD HH:mm");
-    this.partNumber = data?.partNumber;
+    this.questionPartNumber = data?.questionPartNumber;
     this.__v = data?.__v;
     this.id = data?.id;
     this.analysisType = data?.analysisType;

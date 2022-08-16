@@ -25,6 +25,8 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { isEmpty } from "lodash";
+import "react-h5-audio-player/lib/styles.css";
+
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -159,45 +161,6 @@ const CreateQuestionListening = (props: Props) => {
   const handleOpenFile = () => {
     fileRef.current.click();
   };
-  // const renderMultiChoice = (item: any) => {
-  //   return (
-  //     <InputCommon
-  //       control={control}
-  //       id="standard-basic"
-  //       label={item.title}
-  //       variant="standard"
-  //       name={item.name}
-  //       InputProps={{
-  //         startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-  //       }}
-  //     />
-  //   );
-  // };
-
-  // const renderViewAnswer = (type: number | undefined | string) => {
-  //   switch (type) {
-  //     case 1:
-  //       return DataAnswer.map((item: QuestionTypeI, index: number) => {
-  //         return <div key={index}>{renderMultiChoice(item)}</div>;
-  //       });
-  //     case 3:
-  //       return DataAnswer.map((item: QuestionTypeI, index: number) => {
-  //         return <div key={index}>{renderMultiChoice(item)}</div>;
-  //       });
-  //     default:
-  //       return (
-  //         <InputCommon
-  //           control={control}
-  //           id="standard-basic"
-  //           label="Correct answer"
-  //           variant="standard"
-  //           name="questionSimple"
-  //           disabled
-  //         />
-  //       );
-  //       break;
-  //   }
-  // };
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
