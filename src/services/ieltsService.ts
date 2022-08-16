@@ -9,7 +9,6 @@ class IeltsService {
   getIeltsListening() {
     return httpServices.get(IELTS_URL().LISTENING);
   }
-
   createIeltsListening(body = {}) {
     return httpServices;
   }

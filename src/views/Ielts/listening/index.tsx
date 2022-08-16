@@ -9,6 +9,7 @@ import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
 import RulesListening from "components/RulesExams/RulesListening";
+import { Form, Formik } from "formik";
 
 export interface IeltsListeningProps {}
 
@@ -16,14 +17,20 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const { step } = useStepExam();
 
   return (
-    <Box sx={{ height: "100vh", overflow: "hidden" }}>
-      <Header />
-      <Box sx={{ mt: "80px" }}>
-        {step === TypeStepExamEnum.STEP1 && <RulesListening />}
-        {/* {step === TypeStepExamEnum.STEP2 && <ExamTest />} */}
-        {step === TypeStepExamEnum.STEP3 && <EndTest />}
-      </Box>
-    </Box>
+    <Formik initialValues={{}} onSubmit={() => console.log("hihih")}>
+      {(formik) => (
+        <Form>
+          <Box sx={{ height: "100vh", overflow: "hidden" }}>
+            <Header />
+            <Box sx={{ mt: "80px" }}>
+              {step === TypeStepExamEnum.STEP1 && <RulesListening />}
+              {/* {step === TypeStepExamEnum.STEP2 && <ExamTest />} */}
+              {step === TypeStepExamEnum.STEP3 && <EndTest />}
+            </Box>
+          </Box>
+        </Form>
+      )}
+    </Formik>
   );
 };
 
