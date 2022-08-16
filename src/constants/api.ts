@@ -21,10 +21,10 @@ export const AUTH_URL = {
 export const IELTS_URL = (testCode?: any) => {
   return {
     IELTS: `${ROOT_URL}/ielts`,
-    LISTENING: `${ROOT_URL}/ielts/listening`,
+    LISTENING: `${ROOT_URL}/tests/${testCode}/listening`,
     READING: `${ROOT_URL}/tests/${testCode?.meta}/reading`,
     WRITTING: `${ROOT_URL}/tests/${testCode?.meta}/writing`,
-    SPEAKING: `${ROOT_URL}/tests/speaking`,
+    SPEAKING: `${ROOT_URL}/tests/${testCode}/speaking`,
     TEST_CODE: `${ROOT_URL}/tests/prepare`,
     SUBMIT_READING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_WRITING_TEST: `${ROOT_URL}/tests/${testCode}`,

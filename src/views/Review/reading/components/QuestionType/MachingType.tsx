@@ -71,33 +71,42 @@ const MachingType = (props: Props) => {
 };
 
 const Answer = ({ question }: any) => {
+  const [showAnswer, setShowAnswer] = useState();
+
+  console.log("questionMaching", question);
   // !State
+
   const classes = useStyles();
   const [showExplanation, setShowExplanation] = useState<boolean>(false);
 
   // !Function
   const handleShowExplanation = () => setShowExplanation(!showExplanation);
-
+  //
+  const handleShowAnswer = () => {
+    setShowAnswer(question.question.answer);
+  };
   return (
-    <div className={classes.answerBox}>
-      <div className={classes.question} key={question._id}>
-        <div className={classes.question} onClick={handleShowExplanation}>
-          {`${question?.question?.displayNumber}.`}
-          {ReactHtmlParser(question?.question?.questionText)}
-        </div>
-        <div className={classes.answer}>
-          <AnserwerBox>{question?.question?.answer}</AnserwerBox>
-          {/* <Typography variant="textTrue">{question.question.answer}</Typography> */}
+    <>
+      <div className={classes.answerBox} onClick={handleShowAnswer}>
+        <div className={classes.question} key={question._id}>
+          <div className={classes.question} onClick={handleShowExplanation}>
+            {`${question?.question?.displayNumber}.`}
+            {ReactHtmlParser(question?.question?.questionText)}
+          </div>
+          <div className={classes.answer}>
+            <AnserwerBox>{question?.question?.answer}</AnserwerBox>
+            {/* <Typography variant="textTrue">{question.question.answer}</Typography> */}
+          </div>
         </div>
       </div>
-      {showExplanation && (
+      {showAnswer === question.question.answer && (
         <ExplanationBox
           correctAnswer={question?.question?.answer}
           studenAnswer={question?.studentAnswer}
           explanation={question?.question?.explanationText}
         />
       )}
-    </div>
+    </>
   );
 };
 
