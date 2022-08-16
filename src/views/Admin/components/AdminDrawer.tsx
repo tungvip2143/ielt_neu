@@ -5,12 +5,10 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
-import WebIcon from "@mui/icons-material/Web";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import QuizIcon from "@mui/icons-material/Quiz";
-import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
-import PersonIcon from "@mui/icons-material/Person";
+import WebIcon from "@mui/icons-material/Web";
 import { Divider, Drawer, Toolbar, Typography } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import List from "@mui/material/List";
@@ -156,8 +154,8 @@ const AdminDrawer = () => {
               <Link to={el?.path} style={{ color: "white" }}>
                 <ListItemButton
                   onClick={() => setSelectItem(el.titleMenu)}
-                  className="subMenuContainer"
-                  style={{
+                  style={styles.menuContainer}
+                  sx={{
                     background:
                       selectItem === el.titleMenu
                         ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"

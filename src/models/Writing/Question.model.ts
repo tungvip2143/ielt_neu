@@ -23,8 +23,6 @@ class MQuestionWriting {
   id?: string;
 
   constructor(data: any) {
-    console.log("data", data);
-
     this._id = data?._id;
     this.skill = data?.skill;
     this.level = data?.level;

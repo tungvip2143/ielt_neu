@@ -60,8 +60,6 @@ const CreateQuestionListening = (props: Props) => {
   const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
 
-  console.log("dataReading", dataReading);
-
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -199,7 +197,6 @@ const CreateQuestionListening = (props: Props) => {
 
       {selectFile && (
         <AudioPlayer
-          // autoPlay
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
           src={URL.createObjectURL(selectFile)}
@@ -246,13 +243,10 @@ const CreateQuestionListening = (props: Props) => {
                       onClick={() => setOpenModal({ type: "detailQuestion", id: el.id })}
                     />
                     <EditIcon
-                      style={{ color: "#15B8A6", fontSize: "20px", cursor: "grab", marginLeft: 10, marginRight: 10 }}
+                      style={styles.editIcon}
                       onClick={() => setOpenModal({ type: "updateQuestion", id: el.id })}
                     />
-                    <HighlightOffOutlinedIcon
-                      style={{ color: "#f44336", fontSize: "20px", cursor: "grab" }}
-                      onClick={() => onDelete(el.id)}
-                    />
+                    <HighlightOffOutlinedIcon style={styles.deleteIcon} onClick={() => onDelete(el.id)} />
                   </div>
                   <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
                   <InputCommon
@@ -289,6 +283,18 @@ export default CreateQuestionListening;
 const styles = {
   buttonDetail: {
     color: "#5048E5",
+    fontSize: "20px",
+    cursor: "grab",
+  },
+  editIcon: {
+    color: "#15B8A6",
+    fontSize: "20px",
+    cursor: "grab",
+    marginLeft: 10,
+    marginRight: 10,
+  },
+  deleteIcon: {
+    color: "#f44336",
     fontSize: "20px",
     cursor: "grab",
   },
