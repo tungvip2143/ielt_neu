@@ -1,6 +1,6 @@
 import { ResponseGenerator } from "interfaces";
 import { QuestionListening, RequestListListening } from "interfaces/listening";
-import { ADMIN_LISTENING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "./../constants/api";
+import { ADMIN_LISTENING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "../constants/api";
 import httpServices from "./httpServices";
 
 class listeningService {

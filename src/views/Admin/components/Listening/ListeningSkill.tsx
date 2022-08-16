@@ -6,7 +6,7 @@ import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import useGetParts from "hooks/Listening/useGetParts";
 import { Link, useHistory } from "react-router-dom";
-import ReadingService from "services/ReadingService";
+import listeningService from "services/listeningService";
 import { RouteBase } from "constants/routeUrl";
 
 const styles = {
@@ -28,11 +28,13 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
+  console.log("metaPartListening", metaPart);
+
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
     try {
-      await ReadingService.deletePart(item?.id);
+      await listeningService.deletePart(item?.id);
       refetchDataTable();
     } catch (error) {
       console.log("error");

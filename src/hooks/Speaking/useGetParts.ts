@@ -1,18 +1,19 @@
 import { PAGE_SIZE } from "constants/constants";
+import { QuestionListening } from "interfaces/listening";
 import MPagination from "models/Pagination.model";
-import MPartReading from "models/Reading/Part.model";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import listeningService from "services/listeningService";
 
 const useGetParts = () => {
-  const [dataParts, setDataParts] = useState<MPartReading[]>([]);
+  const [data, setData] = useState<QuestionListening[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
-  const [metaPart, setMetaPart] = useState<MPagination>({
+  const [meta, setMeta] = useState<MPagination>({
     page: 0,
     pageSize: PAGE_SIZE[0],
     totalRow: 0,
   });
+
   const [params, setParams] = useState({
     page: 1,
     pageSize: PAGE_SIZE[0],
@@ -28,22 +29,19 @@ const useGetParts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListParts(params);
-        console.log('responseReading',response);
-        
-        
-        if (response.data.statusCode === 200) {
-          const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
-          setDataParts(parts);
-          setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
-        }
+        const response = await listeningService.getListParts(params);
+        const dataRes = response?.data?.data?.data || [];
+        const metaRes = response?.data?.data?.paging || {};
+        setData(dataRes);
+        setMeta(metaRes);
         setLoading(false);
       } catch (error) {
         setError(error);
         setLoading(false);
       }
     };
-    fetchData();  
+
+    fetchData();
   }, [params]);
 
   const onPageChange = (page: number) => {
@@ -53,7 +51,7 @@ const useGetParts = () => {
     setParams({ pageSize, page: 1 });
   };
 
-  return [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
+  return { data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange} ;
 };
 
 export default useGetParts;
