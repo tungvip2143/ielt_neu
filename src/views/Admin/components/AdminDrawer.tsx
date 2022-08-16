@@ -5,10 +5,12 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import WebIcon from "@mui/icons-material/Web";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import QuizIcon from "@mui/icons-material/Quiz";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
+import PersonIcon from "@mui/icons-material/Person";
 import { Divider, Drawer, Toolbar, Typography } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
 import List from "@mui/material/List";
@@ -68,10 +70,13 @@ const MenuData = [
     id: 4,
     icon: <ManageAccountsIcon />,
     titleMenu: "User management",
+    path: RouteBase.AdminUser,
   },
   {
     id: 5,
+    icon: <WebIcon />,
     titleMenu: "Static management",
+    path: RouteBase.StaticManagement,
   },
 ];
 

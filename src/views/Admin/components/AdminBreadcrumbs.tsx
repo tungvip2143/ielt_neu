@@ -29,16 +29,20 @@ export default function AdminBreadcrumbs() {
           const to = `/${pathSplit.slice(0, index + 1).join("/")}`;
           if (index === pathSplit.length - 1) {
             return (
-              <Typography color="text.primary" style={{ textTransform: "capitalize", fontWeight: "bold" }}>
+              <Typography key={index} color="text.primary" style={{ textTransform: "capitalize", fontWeight: "bold" }}>
                 {el}
               </Typography>
             );
           }
           if (el === "questionbank") {
-            return <Typography style={{ textTransform: "capitalize" }}>{el}</Typography>;
+            return (
+              <Typography key={index} style={{ textTransform: "capitalize" }}>
+                {el}
+              </Typography>
+            );
           }
           return (
-            <RouterLink color="inherit" to={to} className="hover-link">
+            <RouterLink key={index} color="inherit" to={to} className="hover-link">
               <Typography style={{ textTransform: "capitalize" }}>{el}</Typography>
             </RouterLink>
           );

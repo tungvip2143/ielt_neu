@@ -15,6 +15,7 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
+  AdminUser:"/admin/user",
 
   //Listening
   Listening: "/admin/listening",
@@ -43,4 +44,7 @@ export const RouteBase = {
   //Contest
   ContestManagement: "/admin/contestManagement",
   CreateContestManagement: "/admin/contestManagement/create",
+
+  //Static
+  StaticManagement: "/admin/staticManagement",
 };
