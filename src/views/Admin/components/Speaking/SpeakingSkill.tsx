@@ -4,7 +4,7 @@ import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import { RouteBase } from "constants/routeUrl";
-import useGetQuestion from "hooks/Writing/useGetQuestion";
+import useGetParts from "hooks/Speaking/useGetParts";
 
 import { Link, useHistory } from "react-router-dom";
 import readingService from "services/ReadingService";
@@ -16,7 +16,15 @@ const styles = {
   },
 };
 const SpeakingSkill = () => {
-  const [dataQuestion, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetQuestion();
+  const {
+    data: dataParts,
+    loading,
+    error,
+    refetchDataTable,
+    meta: metaPart,
+    onPageChange,
+    onPageSizeChange,
+  } = useGetParts();
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
@@ -91,7 +99,7 @@ const SpeakingSkill = () => {
             totalRow: metaPart?.totalRow,
           }}
           loading={loading}
-          rows={dataQuestion}
+          rows={dataParts}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
         />

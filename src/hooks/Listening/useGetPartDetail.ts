@@ -1,17 +1,19 @@
-import MPartReading from "models/Reading/Part.model";
+;
+import { QuestionListening } from "interfaces/listening";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import listeningService from "services/listeningService";
 
 const useGetPartDetail = (id: any) => {
-  const [dataPartDetail, setDataPartDetail] = useState<MPartReading>({});
+  const [dataPartDetail, setDataPartDetail] = useState<QuestionListening[]>([]);
+  console.log('dataPartDetail',dataPartDetail);
+  
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   const refetchData = async () => {
     if (!id) return;
     try {
-      const response = await ReadingService.getPartDetail(id);
-
+      const response = await listeningService.getPartDetail(id);
       if (response.data.statusCode === 200) {
         setDataPartDetail(response?.data?.data || {});
       }
@@ -23,7 +25,8 @@ const useGetPartDetail = (id: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getPartDetail(id);
+        const response = await listeningService.getPartDetail(id);
+        console.log('response1',response);
         if (response.data.statusCode === 200) {
           setDataPartDetail(response?.data?.data || {});
         }
