@@ -27,6 +27,10 @@ export interface Props {
 const CreateQuestionWriting = (props: Props) => {
   const history = useHistory();
   const editorRef = useRef<any>();
+  const modelRef = useRef<any>();
+  const usefulGrammarRef = useRef<any>();
+  const ideaSuggestionRef = useRef<any>();
+  const organizationRef = useRef<any>();
   const params = useParams<any>();
   const { openCreateScreen } = props;
   const [isEdit, setIsEdit] = useState(false);
@@ -50,10 +54,10 @@ const CreateQuestionWriting = (props: Props) => {
         questionText: data.questionText,
         title: data.title,
         tips: editorRef.current.getContent(),
-        usefulGrammarNVocab: "<p>Text</p>",
-        ideaSuggestion: "<p>Text</p>",
-        organization: "<p>Text</p>",
-        modelAnswer: "<p>Text</p>",
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        organization: organizationRef.current.getContent(),
+        modelAnswer: modelRef.current.getContent(),
         questionPartNumber: data.questionPartNumber,
       };
       try {
@@ -75,10 +79,10 @@ const CreateQuestionWriting = (props: Props) => {
         questionText: data.questionText,
         title: data.title,
         tips: editorRef.current.getContent(),
-        usefulGrammarNVocab: "<p>Text</p>",
-        ideaSuggestion: "<p>Text</p>",
-        organization: "<p>Text</p>",
-        modelAnswer: "<p>Text</p>",
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        organization: organizationRef.current.getContent(),
+        modelAnswer: modelRef.current.getContent(),
         questionPartNumber: data.questionPartNumber,
       };
       try {
@@ -97,7 +101,7 @@ const CreateQuestionWriting = (props: Props) => {
       reset({
         title: data?.title,
         questionText: data?.questionText,
-        part: data?.level,
+        questionPartNumber: data?.questionPartNumber,
       });
     },
     [reset]
@@ -154,15 +158,72 @@ const CreateQuestionWriting = (props: Props) => {
         </div>
       </div>
 
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
         <Editor
           onInit={(evt, editor) => {
             editorRef.current = editor;
           }}
+          initialValue={dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "Tips"}
+          init={{
+            height: 200,
+            plugins: "link image code",
+            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+          }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <Editor
+          onInit={(evt, editor) => {
+            modelRef.current = editor;
+          }}
+          initialValue={dataQuestionDetail?.modelAnswer ? dataQuestionDetail?.modelAnswer : "Model answer"}
+          init={{
+            height: 200,
+            plugins: "link image code",
+            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+          }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <Editor
+          onInit={(evt, editor) => {
+            usefulGrammarRef.current = editor;
+          }}
           initialValue={
-            dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "<p>This is the initial content of the editor.</p>"
+            dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
           }
           init={{
+            height: 200,
+            plugins: "link image code",
+            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+          }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <Editor
+          onInit={(evt, editor) => {
+            ideaSuggestionRef.current = editor;
+          }}
+          initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
+          init={{
+            height: 200,
+            plugins: "link image code",
+            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
+          }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <Editor
+          onInit={(evt, editor) => {
+            organizationRef.current = editor;
+          }}
+          initialValue={dataQuestionDetail?.organization ? dataQuestionDetail?.organization : "Organization"}
+          init={{
+            height: 200,
             plugins: "link image code",
             toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
           }}
@@ -182,7 +243,6 @@ const CreateQuestionWriting = (props: Props) => {
         />
       </Card>
 
-      {/* </Card> */}
       {(isEdit || openCreateScreen.type === "create") && (
         <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
           <ButtonSave type="submit" icon={<SaveIcon />} title="Continue" />

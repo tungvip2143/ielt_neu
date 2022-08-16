@@ -135,18 +135,15 @@ const AdminDrawer = () => {
                         <Link to={items.link} key={items?.title}>
                           <ListItemButton
                             onClick={() => setSelectItem(items.title)}
-                            className="subMenuContainer"
+                            style={styles.menuContainer}
                             sx={{
-                              pl: 4,
+                              pl: 6,
                               background:
                                 selectItem === items.title
                                   ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
                                   : "transparent",
                             }}
                           >
-                            <ListItemIcon style={{ color: "white" }}>
-                              <RadioButtonUncheckedIcon sx={{ fontSize: "15px" }} />
-                            </ListItemIcon>
                             <ListItemText style={{ color: "white" }} primary={items?.title} />
                           </ListItemButton>
                         </Link>
@@ -179,3 +176,16 @@ const AdminDrawer = () => {
   );
 };
 export default AdminDrawer;
+
+const styles = {
+  menuContainer: {
+    color: "#ffff",
+    borderTopRightRadius: "25px",
+    borderBottomRightRadius: "25px",
+    marginRight: "10px",
+    cursor: "grab",
+    marginTop: "8px",
+    display: "flex",
+    alignItems: "center",
+  },
+};
