@@ -26,6 +26,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { isEmpty } from "lodash";
 import "react-h5-audio-player/lib/styles.css";
+import SelectField from "components/CustomField/SelectField";
 
 export interface Props {
   openCreateScreen: {
@@ -116,8 +117,8 @@ const CreateQuestionListening = (props: Props) => {
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
       const body = {
-        passageTitle: data.partTitle,
-        passageText: editorRef.current.getContent(),
+        partNumber: data?.partNumber,
+        directionAudio: "uploads/2022/01/01/pepe.mp3",
       };
       try {
         const response = await ReadingService.postCreatePart(body);
@@ -131,7 +132,7 @@ const CreateQuestionListening = (props: Props) => {
     }
     if (openCreateScreen.type === "update") {
       const body = {
-        passageTitle: data.partTitle,
+        partNumber: data?.partNumber,
         passageText: editorRef.current.getContent(),
       };
       try {
@@ -163,38 +164,21 @@ const CreateQuestionListening = (props: Props) => {
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
-      <Card style={{ marginBottom: "15px", padding: 20 }}>
-        <Typography style={{ fontWeight: "bold" }}>Speaking title</Typography>
-        <InputCommon
-          id="standard-basic"
-          variant="standard"
-          name="partTitle"
+      <div style={styles.cardContainer}>
+        <SelectField
           control={control}
-          required
-          fullWidth
-          disabled={openCreateScreen.type === "update" && !isEdit}
-          style={{ marginTop: dataPartDetail?.passageTitle ? "10px" : 0 }}
-        />
-      </Card>
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <Editor
-          tagName="questionTip"
-          apiKey="no-api-key"
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
-          initialValue={
-            dataPartDetail ? dataPartDetail.passageText : "<p>This is the initial content of the editor.</p>"
-          }
-          init={{
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
+          options={[
+            { label: "Part 1", value: 1 },
+            { label: "Part 2", value: 2 },
+            { label: "Part 3", value: 3 },
+          ]}
+          label="Part"
+          variant="standard"
+          name="partNumber"
+          setValue={setValue}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        <Typography>{err}</Typography>
-      </Card>
-
+      </div>
       {selectFile && (
         <AudioPlayer
           preload="none"
@@ -297,5 +281,12 @@ const styles = {
     color: "#f44336",
     fontSize: "20px",
     cursor: "grab",
+  },
+  cardContainer: {
+    background: "#FFFFFF",
+    borderRadius: 8,
+    padding: 20,
+    boxShadow: "0px 1px 1px rgb(100 116 139 / 6%), 0px 1px 2px rgb(100 116 139 / 10%)",
+    marginBottom: 20,
   },
 };
