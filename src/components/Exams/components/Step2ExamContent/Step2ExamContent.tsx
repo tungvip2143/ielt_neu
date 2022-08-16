@@ -86,10 +86,11 @@ const Step2ExamContent = (props: any) => {
               display: { xs: "block", lg: "flex" },
             }}
           >
-            <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} />
+            <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} width={5.9} />
             {test === IELT_TEST.WRITING && (
               <CardExercise
                 content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
+                width={5.9}
               />
             )}
             {test === IELT_TEST.READING && (
@@ -103,6 +104,7 @@ const Step2ExamContent = (props: any) => {
                     onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   />
                 }
+                width={5.9}
               />
             )}
           </Grid>

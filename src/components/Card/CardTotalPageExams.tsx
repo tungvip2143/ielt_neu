@@ -85,6 +85,7 @@ const CardTotalPageExams = ({
   const { values }: any = useFormikContext();
   //
   const renderPartValues = (partValues: any, index: number) => {
+    const { values }: any = useFormikContext();
     let sectionRender: any = {};
     if (test === IELT_TEST.WRITING) {
       const handleClickQuestion = (part: any, group: any) => {
@@ -92,13 +93,23 @@ const CardTotalPageExams = ({
         onClickPage(sectionRender);
         setHighlightPage(partValues.questionId);
       };
+      const hightLightDidTheHomework = () => {
+        const add = Number(partValues.question.displayNumber) - 1;
+
+        if (highlightPage === partValues.questionId) {
+          return { background: "#4C80F1", borderRadius: "50%" };
+        } else if (values?.answers[`${add}`]?.studentAnswer) {
+          return { background: "#90caf9 ", borderRadius: "50%" };
+        }
+      };
+
       return (
         <>
           <div
             key={partValues.id}
             className={classes.eachQuestion}
             onClick={() => handleClickQuestion(partValues, index)}
-            style={highlightPage === partValues.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
+            style={hightLightDidTheHomework()}
             // style={values.answers[]}
           >
             <span>{partValues.question.displayNumber}</span>

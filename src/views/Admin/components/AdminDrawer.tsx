@@ -5,6 +5,7 @@ import ExpandLess from "@mui/icons-material/ExpandLess";
 import ExpandMore from "@mui/icons-material/ExpandMore";
 import HeadsetIcon from "@mui/icons-material/Headset";
 import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
+import WebIcon from "@mui/icons-material/Web";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import QuizIcon from "@mui/icons-material/Quiz";
 import RadioButtonUncheckedIcon from "@mui/icons-material/RadioButtonUnchecked";
@@ -73,7 +74,9 @@ const MenuData = [
   },
   {
     id: 5,
+    icon: <WebIcon />,
     titleMenu: "Static management",
+    path: RouteBase.StaticManagement,
   },
 ];
 
