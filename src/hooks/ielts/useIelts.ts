@@ -5,7 +5,7 @@ import ieltsService from "services/ieltsService";
 
 export const useIeltsTestCode = () => {
   return useMutation(ieltsService.createIeltsTestCode, {
-    // onError: (error) => showError(getErrorMsg(error)),
+    onError: (error) => showError(getErrorMsg(error)),
   });
 };
 export const useIeltsListening = () => {
