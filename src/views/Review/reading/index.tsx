@@ -108,7 +108,10 @@ const ReadingReview = (props: any) => {
               </Box>
               <Box className={classes.exam}>
                 <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-                  <CardExercise content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />} />
+                  <CardExercise
+                    content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />}
+                    width={5.9}
+                  />
                   <CardExercise
                     content={
                       <QuestionAnswer
@@ -119,6 +122,7 @@ const ReadingReview = (props: any) => {
                         onHightLightNumberPage={hightLightNumberPageClickQuestion}
                       />
                     }
+                    width={5.9}
                   />
                 </Grid>
               </Box>
