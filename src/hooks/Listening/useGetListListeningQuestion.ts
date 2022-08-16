@@ -1,9 +1,9 @@
 import MReading from "models/Reading/Reading.model";
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import listeningService from "services/ReadingService";
 
-const useGetListReadingQuestion = (id: any) => {
+const useGetListListeningQuestion = (id: any) => {
   const [dataReading, setDataReading] = useState([]);
   // const [metaReading, setMetaReading] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -12,7 +12,7 @@ const useGetListReadingQuestion = (id: any) => {
   const refetchQuestionGroup = useCallback(async () => {
     if (id) {
       try {
-        const response = await ReadingService.getListQuestionGroup(id);
+        const response = await listeningService.getListQuestionGroup(id);
         if (response.data.statusCode === 200) {
           setDataReading(response?.data?.data || []);
           // setMetaReading(response?.data?.data?.paging || {});
@@ -21,12 +21,12 @@ const useGetListReadingQuestion = (id: any) => {
         setError(error);
       }
     }
-  }, [id, setError, setDataReading, ReadingService.getListQuestionGroup]);
+  }, [id, setError, setDataReading, listeningService.getListQuestionGroup]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListQuestionGroup(id);
+        const response = await listeningService.getListQuestionGroup(id);
         if (response.data.statusCode === 200) {
           setDataReading(response?.data?.data || []);
           // setMetaReading(response?.data?.data?.paging || {});
@@ -46,4 +46,4 @@ const useGetListReadingQuestion = (id: any) => {
   return [dataReading, loading, error, refetchQuestionGroup];
 };
 
-export default useGetListReadingQuestion;
+export default useGetListListeningQuestion;

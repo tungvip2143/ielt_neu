@@ -10,7 +10,7 @@ export const BASE_URL = "http://103.226.250.81:8688/api/v1";
 
 export const GET_LIST_LEVELS = `${ROOT_URL}/configs/question-levels`;
 export const GET_LIST_QUESTION_TYPE = `${ROOT_URL}/configs/question-types`;
-
+export const POST_UPLOAD_AUDIO=`${ROOT_URL}/upload/single`;
 export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,

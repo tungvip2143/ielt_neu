@@ -10,22 +10,26 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import InputCommon from "components/Input";
-import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
-import useGetPartDetail from "hooks/Reading/useGetPartDetail";
+import useGetListListeningQuestion from "hooks/Listening/useGetListListeningQuestion";
+import useGetPartDetail from "hooks/Listening/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { ReactEventHandler, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
 import ModalCreateQuestion from "./ModalCreateQuestion";
 import AudioPlayer from "react-h5-audio-player";
-import { useParams } from "react-router-dom";
+import "react-h5-audio-player/lib/styles.css";
+import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { isEmpty } from "lodash";
 import listeningService from "services/listeningService";
+import { RouteBase } from "constants/routeUrl";
+import SelectField from "components/CustomField/SelectField";
+import audioService from "services/audioService";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -37,19 +41,31 @@ const styles = {
     fontSize: "20px",
     cursor: "grab",
   },
+  cardTitle: {
+    marginBottom: "15px",
+    padding: "20px",
+    display: "flex",
+    background: "white",
+    boxShadow: "0px 1px 1px rgb(100 116 139 / 6%), 0px 1px 2px rgb(100 116 139 / 10%",
+    borderRadius: "8px",
+    alignItems: "end",
+  },
 };
 
 const CreateQuestionListening = (props: Props) => {
-  const [selectFile, setSelectFile] = useState(null);
+  const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
-  const { openCreateScreen } = props;
-  console.log("openCreateScreen", openCreateScreen);
 
+  const { openCreateScreen } = props;
   const params = useParams<any>();
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
+  const history = useHistory();
   const validationSchema = yup.object().shape({
+    partTitle: yup.string().required("This field is required!"),
+    // questionTip: yup.string().required("This field is required!"),
+    partNumber: yup.string().required("This field is required!"),
     // questionSimple: yup
     //   .string()
     //   .required("This field is required!")
@@ -65,13 +81,14 @@ const CreateQuestionListening = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
-  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(params?.id);
+  const [dataReading, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
+  let formData = new FormData();
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: { partTitle: dataPartDetail?.passageTitle || "" },
+    defaultValues: { partTitle: dataPartDetail?.partTitle || "" },
   });
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
@@ -79,7 +96,8 @@ const CreateQuestionListening = (props: Props) => {
   const resetAsyncForm = useCallback(
     async (data: any) => {
       reset({
-        partTitle: data?.passageTitle,
+        partTitle: data?.partTitle,
+        partNumber: data?.partNumber,
       });
     },
     [reset]
@@ -94,7 +112,7 @@ const CreateQuestionListening = (props: Props) => {
   const renderButtonUpdate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
-        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.back()}>
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.goBack()}>
           Back
         </Button>
         {!isEdit ? (
@@ -115,8 +133,8 @@ const CreateQuestionListening = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
-        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.back()} />{" "}
+        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
   };
@@ -124,15 +142,20 @@ const CreateQuestionListening = (props: Props) => {
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
       const body = {
-        passageTitle: data.partTitle,
-        passageText: editorRef.current.getContent(),
+        partNumber: data.partNumber,
+        partTitle: data.partTitle,
+        partAudio: data.partAudio,
+        // passageText: editorRef.current.getContent(),
       };
+
       try {
         const response = await listeningService.postCreatePart(body);
+        const responseAudio = await audioService.postAudioListening(formData);
+        console.log("responseAudio", responseAudio);
 
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
-          history.back();
+          history.push(RouteBase.UpdateListeningWId(response?.data?.data?.id));
         }
       } catch (error: any) {
         toast.error(error);
@@ -140,14 +163,16 @@ const CreateQuestionListening = (props: Props) => {
     }
     if (openCreateScreen.type === "update") {
       const body = {
-        passageTitle: data.partTitle,
-        passageText: editorRef.current.getContent(),
+        partNumber: data.partNumber,
+        partTitle: data.partTitle,
+        partAudio: data.partAudio,
+        // passageText: editorRef.current.getContent(),
       };
       try {
         const response = await listeningService.patchUpdatePart(params?.id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
-          history.back();
+          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -164,54 +189,15 @@ const CreateQuestionListening = (props: Props) => {
       console.log("error");
     }
   };
-
-  const handleOpenFile = () => {
-    fileRef.current.click();
+  const onFileChange = (event: any) => {
+    if (event.target && event.target.files[0]) {
+      formData.append("selectFile", event.target.files[0]);
+    }
   };
-  // const renderMultiChoice = (item: any) => {
-  //   return (
-  //     <InputCommon
-  //       control={control}
-  //       id="standard-basic"
-  //       label={item.title}
-  //       variant="standard"
-  //       name={item.name}
-  //       InputProps={{
-  //         startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-  //       }}
-  //     />
-  //   );
-  // };
-
-  // const renderViewAnswer = (type: number | undefined | string) => {
-  //   switch (type) {
-  //     case 1:
-  //       return DataAnswer.map((item: QuestionTypeI, index: number) => {
-  //         return <div key={index}>{renderMultiChoice(item)}</div>;
-  //       });
-  //     case 3:
-  //       return DataAnswer.map((item: QuestionTypeI, index: number) => {
-  //         return <div key={index}>{renderMultiChoice(item)}</div>;
-  //       });
-  //     default:
-  //       return (
-  //         <InputCommon
-  //           control={control}
-  //           id="standard-basic"
-  //           label="Correct answer"
-  //           variant="standard"
-  //           name="questionSimple"
-  //           disabled
-  //         />
-  //       );
-  //       break;
-  //   }
-  // };
-
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
-      <Card style={{ marginBottom: "15px", padding: 20 }}>
+      <div style={styles.cardTitle}>
         <Typography style={{ fontWeight: "bold" }}>Listening title</Typography>
         <InputCommon
           id="standard-basic"
@@ -221,9 +207,24 @@ const CreateQuestionListening = (props: Props) => {
           required
           fullWidth
           disabled={openCreateScreen.type === "update" && !isEdit}
-          style={{ marginTop: dataPartDetail?.passageTitle ? "10px" : 0 }}
         />
-      </Card>
+      </div>
+      <div className="flex-1 ml-[20px]">
+        <SelectField
+          variant="standard"
+          name="partNumber"
+          label="Part"
+          options={[
+            { label: "Part 1", value: 1 },
+            { label: "Part 2", value: 2 },
+            { label: "Part 3", value: 3 },
+          ]}
+          control={control}
+          setValue={setValue}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </div>
+
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <Editor
           tagName="questionTip"
@@ -254,22 +255,14 @@ const CreateQuestionListening = (props: Props) => {
           loop={false}
         />
       )}
-      <input
-        ref={fileRef}
-        className="hidden"
-        type="file"
-        name="listenFile"
-        onChange={(event: any) => {
-          setSelectFile(event.target.files[0]);
-        }}
-      />
       <div className="text-end mb-2">
         <ButtonUpload
           style={{ display: "flex" }}
           titleButton="Upload audio"
-          onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
-        />
+        >
+          <input className="hidden" type="file" name="listenFile" onChange={onFileChange} />
+        </ButtonUpload>
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
