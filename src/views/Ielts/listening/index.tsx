@@ -12,6 +12,9 @@ import RulesListening from "components/RulesExams/RulesListening";
 import { Form, Formik } from "formik";
 import { useIeltsListening, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
+import CardTotalPageExams from "components/Card/CardTotalPageExams";
+import { useHistory } from "react-router-dom";
+import ModalExit from "components/Modal/ModalExit";
 
 export interface IeltsListeningProps {}
 
@@ -28,6 +31,8 @@ const initialValues = function () {
 };
 const IeltsListening = (props: IeltsListeningProps) => {
   // !State
+  const [open, setOpen] = React.useState<boolean>(false);
+
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
@@ -40,19 +45,37 @@ const IeltsListening = (props: IeltsListeningProps) => {
       onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
     });
   };
+  const history = useHistory();
 
+  //
+  const handleShowModal = () => {
+    setOpen(true);
+  };
+  const handleCloseModal = () => setOpen(false);
+  //
+  const handleBackIeltsSelection = () => {
+    history.push("/ielts");
+  };
   return (
     <Formik initialValues={initialValues()} onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header />
+            <Header onShowModalExit={handleShowModal} />
             <Box sx={{ mt: "80px" }}>
               {step === TypeStepExamEnum.STEP1 && <RulesListening />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest />}
               {step === TypeStepExamEnum.STEP3 && <EndTest />}
             </Box>
           </Box>
+          {open && (
+            <ModalExit
+              open={open}
+              width="560px"
+              handleCloseModal={handleCloseModal}
+              handleBackIeltsSelection={handleBackIeltsSelection}
+            />
+          )}
         </Form>
       )}
     </Formik>
