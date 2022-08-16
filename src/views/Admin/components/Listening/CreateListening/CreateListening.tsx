@@ -55,6 +55,7 @@ const styles = {
 const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
+  console.log("fileRef", fileRef.current);
 
   const { openCreateScreen } = props;
   const params = useParams<any>();
@@ -83,7 +84,6 @@ const CreateQuestionListening = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
   const [dataReading, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
-  let formData = new FormData();
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -141,21 +141,24 @@ const CreateQuestionListening = (props: Props) => {
 
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
-      const body = {
-        partNumber: data.partNumber,
-        partTitle: data.partTitle,
-        partAudio: data.partAudio,
-        // passageText: editorRef.current.getContent(),
-      };
+      const formData = new FormData();
+      formData.append("file", selectFile);
 
       try {
-        const response = await listeningService.postCreatePart(body);
         const responseAudio = await audioService.postAudioListening(formData);
         console.log("responseAudio", responseAudio);
 
-        if (response.data.statusCode === 200) {
-          toast.success("Create part success!");
-          history.push(RouteBase.UpdateListeningWId(response?.data?.data?.id));
+        if (responseAudio.data.statusCode === 200) {
+          const body = {
+            partNumber: data.partNumber,
+            partTitle: data.partTitle,
+            partAudio: responseAudio.data.data.uri,
+          };
+          const response = await listeningService.postCreatePart(body);
+          if (response.data.statusCode === 200) {
+            toast.success("Create part success!");
+            history.push(RouteBase.UpdateListeningWId(response?.data?.data?.id));
+          }
         }
       } catch (error: any) {
         toast.error(error);
@@ -189,11 +192,11 @@ const CreateQuestionListening = (props: Props) => {
       console.log("error");
     }
   };
-  const onFileChange = (event: any) => {
-    if (event.target && event.target.files[0]) {
-      formData.append("selectFile", event.target.files[0]);
-    }
+
+  const handleOpenFile = () => {
+    fileRef.current.click();
   };
+
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
@@ -255,14 +258,22 @@ const CreateQuestionListening = (props: Props) => {
           loop={false}
         />
       )}
+      <input
+        ref={fileRef}
+        className="hidden"
+        type="file"
+        name="listenFile"
+        onChange={(event: any) => {
+          setSelectFile(event.target.files[0]);
+        }}
+      />
       <div className="text-end mb-2">
         <ButtonUpload
           style={{ display: "flex" }}
           titleButton="Upload audio"
+          onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
-        >
-          <input className="hidden" type="file" name="listenFile" onChange={onFileChange} />
-        </ButtonUpload>
+        />
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
