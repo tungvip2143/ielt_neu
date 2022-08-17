@@ -113,7 +113,6 @@ const CreateQuestionReading = (props: Props) => {
       };
       try {
         const response = await ReadingService.postCreatePart(body);
-        console.log("response", response);
 
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");

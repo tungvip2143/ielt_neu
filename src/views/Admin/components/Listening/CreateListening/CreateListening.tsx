@@ -15,7 +15,6 @@ import useGetPartDetail from "hooks/Listening/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
 import React, { ReactEventHandler, useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import ReadingService from "services/ReadingService";
 import * as yup from "yup";
 import ModalCreateQuestion from "./ModalCreateQuestion";
 import AudioPlayer from "react-h5-audio-player";
@@ -82,8 +81,11 @@ const CreateQuestionListening = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
-  const [dataReading, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(params?.id);
+  console.log("dataPartDetail", dataPartDetail);
+
+  const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
+  console.log("dataReading", dataPartDetail);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -152,7 +154,7 @@ const CreateQuestionListening = (props: Props) => {
           const body = {
             partNumber: data.partNumber,
             partTitle: data.partTitle,
-            partAudio: responseAudio.data.data.uri,
+            partAudio: responseAudio?.data?.data?.uri,
           };
           const response = await listeningService.postCreatePart(body);
           if (response.data.statusCode === 200) {
@@ -164,17 +166,24 @@ const CreateQuestionListening = (props: Props) => {
         toast.error(error);
       }
     }
+
     if (openCreateScreen.type === "update") {
-      const body = {
-        partNumber: data.partNumber,
-        partTitle: data.partTitle,
-        partAudio: data.partAudio,
-        // passageText: editorRef.current.getContent(),
-      };
       try {
-        const response = await listeningService.patchUpdatePart(params?.id, body);
+        let responseAudio = null;
+        if (selectFile) {
+          const formData = new FormData();
+          formData.append("file", selectFile);
+          responseAudio = await audioService.postAudioListening(formData);
+        }
+
+        const body = {
+          partNumber: data.partNumber,
+          partTitle: data.partTitle,
+          partAudio: responseAudio?.data?.data?.uri ? responseAudio?.data?.data?.uri : dataPartDetail?.partAudio,
+        };
+        const response = await listeningService.postCreatePart(body);
         if (response.data.statusCode === 200) {
-          toast.success("Update part success!");
+          toast.success("Update speaking success!");
           history.goBack();
         }
       } catch (error: any) {
@@ -196,38 +205,43 @@ const CreateQuestionListening = (props: Props) => {
   const handleOpenFile = () => {
     fileRef.current.click();
   };
-
+  const onChangeFile = (event: any) => {
+    setSelectFile(event.target.files[0]);
+  };
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
       <div style={styles.cardTitle}>
-        <Typography style={{ fontWeight: "bold" }}>Listening title</Typography>
-        <InputCommon
-          id="standard-basic"
-          variant="standard"
-          name="partTitle"
-          control={control}
-          required
-          fullWidth
-          disabled={openCreateScreen.type === "update" && !isEdit}
-        />
-      </div>
-      <div className="flex-1 ml-[20px]">
-        <SelectField
-          variant="standard"
-          name="partNumber"
-          label="Part"
-          options={[
-            { label: "Part 1", value: 1 },
-            { label: "Part 2", value: 2 },
-            { label: "Part 3", value: 3 },
-          ]}
-          control={control}
-          setValue={setValue}
-          disabled={openCreateScreen.type === "update" && !isEdit}
-        />
-      </div>
+        <div className="  -1">
+          <Typography style={{ fontWeight: "bold" }}>Listening title</Typography>
+          <InputCommon
+            id="standard-basic"
+            variant="standard"
+            name="partTitle"
+            control={control}
+            required
+            fullWidth
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+        </div>
 
+        <div className="flex-1 ml-[20px]">
+          <SelectField
+            variant="standard"
+            name="partNumber"
+            label="Part"
+            options={[
+              { label: "Part 1", value: 1 },
+              { label: "Part 2", value: 2 },
+              { label: "Part 3", value: 3 },
+              { label: "Part 4", value: 4 },
+            ]}
+            control={control}
+            setValue={setValue}
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+        </div>
+      </div>
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <Editor
           tagName="questionTip"
@@ -247,26 +261,19 @@ const CreateQuestionListening = (props: Props) => {
         <Typography>{err}</Typography>
       </Card>
 
-      {selectFile && (
+      {(selectFile || dataPartDetail?.partAudio) && (
         <AudioPlayer
           // autoPlay
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-          src={URL.createObjectURL(selectFile)}
+          src={selectFile ? URL.createObjectURL(selectFile) : `http://103.226.250.81:8688/${dataPartDetail?.partAudio}`}
           onPlay={(e) => console.log("onPlay")}
           showJumpControls={false}
           loop={false}
+          autoPlayAfterSrcChange={false}
         />
       )}
-      <input
-        ref={fileRef}
-        className="hidden"
-        type="file"
-        name="listenFile"
-        onChange={(event: any) => {
-          setSelectFile(event.target.files[0]);
-        }}
-      />
+      <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onChangeFile} />
       <div className="text-end mb-2">
         <ButtonUpload
           style={{ display: "flex" }}
@@ -287,7 +294,7 @@ const CreateQuestionListening = (props: Props) => {
             />
           </div>
           <div>
-            {(dataReading || []).map((el: any, index: number) => {
+            {(dataListening || []).map((el: any, index: number) => {
               return (
                 <Card style={{ marginBottom: "15px", padding: 20 }} key={index}>
                   <div style={{ display: "flex", justifyContent: "end" }}>

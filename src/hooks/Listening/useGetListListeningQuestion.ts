@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import listeningService from "services/ReadingService";
 
 const useGetListListeningQuestion = (id: any) => {
-  const [dataReading, setDataReading] = useState([]);
+  const [dataListening, setDataListening] = useState([]);
   // const [metaReading, setMetaReading] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -14,21 +14,21 @@ const useGetListListeningQuestion = (id: any) => {
       try {
         const response = await listeningService.getListQuestionGroup(id);
         if (response.data.statusCode === 200) {
-          setDataReading(response?.data?.data || []);
+          setDataListening(response?.data?.data || []);
           // setMetaReading(response?.data?.data?.paging || {});
         }
       } catch (error: any) {
         setError(error);
       }
     }
-  }, [id, setError, setDataReading, listeningService.getListQuestionGroup]);
+  }, [id, setError, setDataListening, listeningService.getListQuestionGroup]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await listeningService.getListQuestionGroup(id);
         if (response.data.statusCode === 200) {
-          setDataReading(response?.data?.data || []);
+          setDataListening(response?.data?.data || []);
           // setMetaReading(response?.data?.data?.paging || {});
         }
         setLoading(false);
@@ -43,7 +43,7 @@ const useGetListListeningQuestion = (id: any) => {
   }, [id]);
 
 
-  return [dataReading, loading, error, refetchQuestionGroup];
+  return [dataListening, loading, error, refetchQuestionGroup];
 };
 
 export default useGetListListeningQuestion;

@@ -48,6 +48,7 @@ const ModalCreateQuestion = (props: Props) => {
   const [questionType, setQuestionType] = useState<number | undefined | string>("");
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
+  console.log("dataQuestionDetail", dataQuestionDetail);
 
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
     mode: "onChange",

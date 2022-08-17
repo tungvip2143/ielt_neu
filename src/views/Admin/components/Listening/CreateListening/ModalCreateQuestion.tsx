@@ -11,9 +11,9 @@ import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import { DataAnswer } from "constants/questionType";
-import useGetDetailQuestion from "hooks/Reading/useGetDetailQuestion";
+import useGetDetailQuestion from "hooks/Listening/useGetDetailQuestion";
 import useGetLevels from "hooks/Reading/useGetLevel";
-import useGetQuestionType from "hooks/Reading/useGetQuestionType";
+import useGetQuestionType from "hooks/Listening/useGetQuestionType";
 import { QuestionTypeI } from "interfaces/questionInterface";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
@@ -21,6 +21,7 @@ import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
+import useGetPartDetail from "hooks/Reading/useGetPartDetail";
 
 export interface Props {
   openModal: any;
@@ -47,7 +48,9 @@ const ModalCreateQuestion = (props: Props) => {
   const matchingRef = useRef<any>();
   const [questionType, setQuestionType] = useState<number | undefined | string>("");
   const [dataQuestionType] = useGetQuestionType();
+
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
+  console.log("dataQuestionType", dataQuestionType);
 
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
     mode: "onChange",
@@ -259,102 +262,57 @@ const ModalCreateQuestion = (props: Props) => {
             setValue("questionType", e?.value);
             setQuestionType(e?.value);
           }}
-          style={{ marginTop: 20, marginBottom: questionType === "MATCHING_HEADINGS" ? 20 : 0 }}
           disabled={openModal.type === "detailQuestion"}
         />
-        {openModal.type !== "detailQuestion" && questionType !== "MATCHING_HEADINGS" && (
-          <div className="text-end">
-            <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-          </div>
-        )}
-        {questionType === "MATCHING_HEADINGS" ? (
-          <>
-            <Editor
-              onInit={(evt, matching) => {
-                matchingRef.current = matching;
-              }}
-              initialValue="Matching heading"
-              init={{
-                height: 200,
-                plugins: "link image code",
-                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-              }}
-              disabled={openModal.type === "detailQuestion"}
-            />
-            <div className="text-end">
-              <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-            </div>
-            {fields.map((field, index) => {
-              return (
-                <div className="flex items-end justify-between">
-                  <InputCommon
-                    control={control}
-                    id="standard-basic"
-                    label="Section"
-                    variant="standard"
-                    name={`questions[${index}].questionText`}
-                    disabled={openModal.type === "detailQuestion"}
-                  />
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
+
+        <>
+          {fields.map((field, index) => {
+            return (
+              <div key={field.id} className="flex items-center">
+                <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                  <div className="questionContainer">
+                    <InputCommon
+                      id="standard-basic"
+                      label="Question"
+                      variant="standard"
+                      name={`questions[${index}].questionText`}
+                      control={control}
+                      required
+                      fullWidth
+                      disabled={openModal.type === "detailQuestion"}
                     />
-                  )}
-                </div>
-              );
-            })}
-          </>
-        ) : (
-          <>
-            {fields.map((field, index) => {
-              return (
-                <div key={field.id} className="flex items-center">
-                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <div className="questionContainer">
+                  </div>
+                  <Box
+                    component="form"
+                    sx={{
+                      "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+                    }}
+                    noValidate
+                    autoComplete="off"
+                  >
+                    <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
+                    {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
                       <InputCommon
-                        id="standard-basic"
-                        label="Question"
-                        variant="standard"
-                        name={`questions[${index}].questionText`}
                         control={control}
-                        required
-                        fullWidth
+                        id="standard-basic"
+                        label="Correct answer"
+                        variant="standard"
+                        name={`questions[${index}].answer`}
                         disabled={openModal.type === "detailQuestion"}
                       />
-                    </div>
-                    <Box
-                      component="form"
-                      sx={{
-                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
-                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
-                        <InputCommon
-                          control={control}
-                          id="standard-basic"
-                          label="Correct answer"
-                          variant="standard"
-                          name={`questions[${index}].answer`}
-                          disabled={openModal.type === "detailQuestion"}
-                        />
-                      )}
-                    </Box>
-                  </div>
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
+                    )}
+                  </Box>
                 </div>
-              );
-            })}
-          </>
-        )}
+                {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                  <RemoveCircleOutlineIcon
+                    className="text-[#F44335] cursor-grab ml-[20px]"
+                    onClick={() => onRemoveQuestion(index)}
+                  />
+                )}
+              </div>
+            );
+          })}
+        </>
 
         {renderButton()}
       </form>
