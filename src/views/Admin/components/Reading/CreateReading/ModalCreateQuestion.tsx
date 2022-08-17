@@ -356,7 +356,7 @@ const ModalCreateQuestion = (props: Props) => {
           </>
         )}
 
-        {renderButton()}
+        {openModal.type !== "detailQuestion" && renderButton()}
       </form>
     </ModalCreate>
   );

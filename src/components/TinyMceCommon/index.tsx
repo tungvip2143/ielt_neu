@@ -32,6 +32,7 @@ const TinyMceCommon = forwardRef((props: Props, ref: any) => {
               }
             });
           },
+          inline_styles: true,
         }}
         {...props}
       />

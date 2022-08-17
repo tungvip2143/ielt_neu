@@ -1,10 +1,10 @@
 import MReading from "models/Reading/Reading.model";
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import speakingService from "services/speakingService";
 
-const useGetListReadingQuestion = (id: any) => {
-  const [dataReading, setDataReading] = useState([]);
+const useGetListSpeakingQuestion = (id: any) => {
+  const [dataSpeaking, setDataSpeaking] = useState([]);
   // const [metaReading, setMetaReading] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -12,23 +12,23 @@ const useGetListReadingQuestion = (id: any) => {
   const refetchQuestionGroup = useCallback(async () => {
     if (id) {
       try {
-        const response = await ReadingService.getListQuestionGroup(id);
+        const response = await speakingService.getListQuestionGroup(id);
         if (response.data.statusCode === 200) {
-          setDataReading(response?.data?.data || []);
+          setDataSpeaking(response?.data?.data || []);
           // setMetaReading(response?.data?.data?.paging || {});
         }
       } catch (error: any) {
         setError(error);
       }
     }
-  }, [id, setError, setDataReading, ReadingService.getListQuestionGroup]);
+  }, [id, setError, setDataSpeaking, speakingService.getListQuestionGroup]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListQuestionGroup(id);
+        const response = await speakingService.getListQuestionGroup(id);
         if (response.data.statusCode === 200) {
-          setDataReading(response?.data?.data || []);
+          setDataSpeaking(response?.data?.data || []);
           // setMetaReading(response?.data?.data?.paging || {});
         }
         setLoading(false);
@@ -42,8 +42,7 @@ const useGetListReadingQuestion = (id: any) => {
     }
   }, [id]);
 
-
-  return [dataReading, loading, error, refetchQuestionGroup];
+  return [dataSpeaking, loading, error, refetchQuestionGroup];
 };
 
-export default useGetListReadingQuestion;
+export default useGetListSpeakingQuestion;
