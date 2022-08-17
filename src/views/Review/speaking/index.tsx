@@ -2,7 +2,7 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
 //
-import { useGetListeningResultByTestCode } from "hooks/review/useIeltsReview";
+import { useGetSpeakingResultByTestCode } from "hooks/review/useIeltsReview";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
@@ -17,7 +17,7 @@ interface Props {
 }
 //
 
-const ListeningReview = () => {
+const SpeakingReview = () => {
   return (
     <>
       <div className="">quang</div>
@@ -25,10 +25,10 @@ const ListeningReview = () => {
   );
 };
 //
-const ListeningReviewContainer = () => {
+const SpeakingReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
-  const { data, isLoading } = useGetListeningResultByTestCode(testCode);
+  const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
   console.log("testCode", data);
 
   if (isLoading) {
@@ -37,9 +37,9 @@ const ListeningReviewContainer = () => {
 
   return (
     <>
-      <ListeningReview />
+      <SpeakingReview />
     </>
   );
 };
 
-export default ListeningReviewContainer;
+export default SpeakingReviewContainer;

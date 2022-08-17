@@ -23,6 +23,8 @@ import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
 import LoginEmail from "views/Login/LoginEmail";
 import ListeningReview from "./views/Review/listening/index";
+import SpeakingReview from "./views/Review/speaking/index";
+
 //
 
 const App: React.FC = () => {
@@ -46,7 +48,7 @@ const App: React.FC = () => {
           <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.WritingReview} exact component={WritngReview} />
           <Route path={RouteBase.ListeningReview} exact component={ListeningReview} />
-
+          <Route path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}
