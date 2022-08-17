@@ -26,7 +26,7 @@ type Props = {
 
 const IdentifyInformationType = (props: Props) => {
   const { question, questionType, expanded, onCollapse, QUESTION_TYPE, idShowQuestion, onHightLightNumberPage } = props;
-  console.log("idshowQuestion", idShowQuestion);
+  console.log("questiondasbdka", question);
 
   const displayNumber = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
