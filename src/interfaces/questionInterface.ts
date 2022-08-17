@@ -14,6 +14,7 @@ export interface ResponseParams {
   partTitle: string;
   levelPart: string;
   partNumber: string;
+  partAudio:string;
 
   directionAudio?: string;
   title?: string;

@@ -1,6 +1,6 @@
 import MPartReading from "models/Reading/Part.model";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import listeningService  from 'services/listeningService';
 
 const useGetDetailQuestion = (id: any) => {
   const [dataQuestionDetail, setDataQuestionDetail] = useState<MPartReading>({});
@@ -10,7 +10,7 @@ const useGetDetailQuestion = (id: any) => {
   const refetchData = async () => {
     if (!id) return;
     try {
-      const response = await ReadingService.getDetailQuestionGroup(id);
+      const response = await listeningService.getDetailQuestionGroup(id);
 
       if (response.data.statusCode === 200) {
         setDataQuestionDetail(response?.data?.data || {});
@@ -23,7 +23,7 @@ const useGetDetailQuestion = (id: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getDetailQuestionGroup(id);
+        const response = await listeningService.getDetailQuestionGroup(id);
         if (response.data.statusCode === 200) {
           setDataQuestionDetail(response?.data?.data || {});
         }
