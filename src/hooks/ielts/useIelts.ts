@@ -8,9 +8,10 @@ export const useIeltsTestCode = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
-export const useIeltsListening = () => {
+export const useIeltsListening = (testCode: any) => {
   return useQuery("get ielts listening data", ieltsService.getIeltsListening, {
     onError: (error) => showError(getErrorMsg(error)),
+    meta: testCode,
   });
 };
 
@@ -20,14 +21,15 @@ export const useIeltsWritting = (testCode: any) => {
     meta: testCode,
   });
 };
-export const useUpdateIeltsWriting = () => {
-  return useMutation(ieltsService.updateIeltsWriting, {
+
+export const useIeltsSpeaking = (testCode: any) => {
+  return useQuery("get ielts speaking data", ieltsService.getIeltsSpeaking, {
     onError: (error) => showError(getErrorMsg(error)),
+    meta: testCode,
   });
 };
-
-export const useFinishIeltsWritingTest = () => {
-  return useMutation(ieltsService.finishIeltsWriting, {
+export const useIeltsResult = (query: any) => {
+  return useQuery(["get ielts results", query], () => ieltsService.getIeltsTestResult(query), {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
@@ -38,25 +40,46 @@ export const useIeltsReading = (testCode: any) => {
     meta: testCode,
   });
 };
+export const useUpdateIeltsWriting = () => {
+  return useMutation(ieltsService.updateIeltsWriting, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
 
 export const useUpdateIeltsReadingTest = () => {
   return useMutation(ieltsService.updateIeltsReading, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+export const useUpdateIeltsListeningTest = () => {
+  return useMutation(ieltsService.updateIeltsListening, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+export const useUpdateIeltsSpeakingTest = () => {
+  return useMutation(ieltsService.updateIeltsSpeaking, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+
+export const useFinishIeltsWritingTest = () => {
+  return useMutation(ieltsService.finishIeltsWriting, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+
 export const useFinishIeltsReadingTest = () => {
   return useMutation(ieltsService.finishIeltsReading, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
-
-export const useIeltsSpeaking = () => {
-  return useQuery("get ielts speaking data", ieltsService.getIeltsSpeaking, {
+export const useFinishIeltsListeningTest = () => {
+  return useMutation(ieltsService.finishIeltsListening, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
-export const useIeltsResult = (query: any) => {
-  return useQuery(["get ielts results", query], () => ieltsService.getIeltsTestResult(query), {
+export const useFinishIeltsSpeakingTest = () => {
+  return useMutation(ieltsService.finishIeltsSpeaking, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };

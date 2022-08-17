@@ -53,14 +53,9 @@ const SpeakingSkill = () => {
         <CommonDataGrid
           columns={[
             {
-              flex: 1,
-              field: "title",
-              renderHeader: () => <Typography style={styles.titleTable}>Speaking title</Typography>,
-            },
-            {
               flex: 0.5,
-              field: "level",
-              renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
+              field: "partNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
             },
             {
               flex: 1,

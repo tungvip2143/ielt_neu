@@ -29,6 +29,7 @@ import listeningService from "services/listeningService";
 import { RouteBase } from "constants/routeUrl";
 import SelectField from "components/CustomField/SelectField";
 import audioService from "services/audioService";
+import TinyMceCommon from "components/TinyMceCommon";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -212,7 +213,7 @@ const CreateQuestionListening = (props: Props) => {
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
       <div style={styles.cardTitle}>
-        <div className="  -1">
+        <div className="flex-1">
           <Typography style={{ fontWeight: "bold" }}>Listening title</Typography>
           <InputCommon
             id="standard-basic"
@@ -243,9 +244,8 @@ const CreateQuestionListening = (props: Props) => {
         </div>
       </div>
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <Editor
+        <TinyMceCommon
           tagName="questionTip"
-          apiKey="no-api-key"
           onInit={(evt, editor) => {
             editorRef.current = editor;
           }}
@@ -258,7 +258,6 @@ const CreateQuestionListening = (props: Props) => {
           }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        <Typography>{err}</Typography>
       </Card>
 
       {(selectFile || dataPartDetail?.partAudio) && (

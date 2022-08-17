@@ -18,6 +18,7 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import { RouteBase } from "constants/routeUrl";
+import TinyMceCommon from "components/TinyMceCommon";
 
 export interface Props {
   openCreateScreen: {
@@ -27,6 +28,10 @@ export interface Props {
 const CreateQuestionWriting = (props: Props) => {
   const history = useHistory();
   const editorRef = useRef<any>();
+  const modelRef = useRef<any>();
+  const usefulGrammarRef = useRef<any>();
+  const ideaSuggestionRef = useRef<any>();
+  const organizationRef = useRef<any>();
   const params = useParams<any>();
   const { openCreateScreen } = props;
   const [isEdit, setIsEdit] = useState(false);
@@ -50,10 +55,10 @@ const CreateQuestionWriting = (props: Props) => {
         questionText: data.questionText,
         title: data.title,
         tips: editorRef.current.getContent(),
-        usefulGrammarNVocab: "<p>Text</p>",
-        ideaSuggestion: "<p>Text</p>",
-        organization: "<p>Text</p>",
-        modelAnswer: "<p>Text</p>",
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        organization: organizationRef.current.getContent(),
+        modelAnswer: modelRef.current.getContent(),
         questionPartNumber: data.questionPartNumber,
       };
       try {
@@ -75,16 +80,17 @@ const CreateQuestionWriting = (props: Props) => {
         questionText: data.questionText,
         title: data.title,
         tips: editorRef.current.getContent(),
-        usefulGrammarNVocab: "<p>Text</p>",
-        ideaSuggestion: "<p>Text</p>",
-        organization: "<p>Text</p>",
-        modelAnswer: "<p>Text</p>",
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        organization: organizationRef.current.getContent(),
+        modelAnswer: modelRef.current.getContent(),
         questionPartNumber: data.questionPartNumber,
       };
       try {
         const response = await writingServices.patchUpdateQuestion(params?.id, body);
         if (response?.data?.statusCode === 200) {
           toast.success("Update writing part success");
+          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -97,7 +103,7 @@ const CreateQuestionWriting = (props: Props) => {
       reset({
         title: data?.title,
         questionText: data?.questionText,
-        part: data?.level,
+        questionPartNumber: data?.questionPartNumber,
       });
     },
     [reset]
@@ -154,18 +160,40 @@ const CreateQuestionWriting = (props: Props) => {
         </div>
       </div>
 
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={editorRef}
+          initialValue={dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "Tips"}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={modelRef}
+          initialValue={dataQuestionDetail?.modelAnswer ? dataQuestionDetail?.modelAnswer : "Model answer"}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={usefulGrammarRef}
           initialValue={
-            dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "<p>This is the initial content of the editor.</p>"
+            dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
           }
-          init={{
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={ideaSuggestionRef}
+          initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={organizationRef}
+          initialValue={dataQuestionDetail?.organization ? dataQuestionDetail?.organization : "Organization"}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
@@ -182,7 +210,6 @@ const CreateQuestionWriting = (props: Props) => {
         />
       </Card>
 
-      {/* </Card> */}
       {(isEdit || openCreateScreen.type === "create") && (
         <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
           <ButtonSave type="submit" icon={<SaveIcon />} title="Continue" />

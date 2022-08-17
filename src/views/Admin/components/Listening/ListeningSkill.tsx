@@ -28,8 +28,6 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
-  console.log("metaPartListening", metaPart);
-
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
@@ -65,8 +63,8 @@ const ListeningSkill = () => {
             },
             {
               flex: 1,
-              field: "level",
-              renderHeader: () => <Typography style={styles.titleTable}>Level</Typography>,
+              field: "partNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
             },
             {
               flex: 1,

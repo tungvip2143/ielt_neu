@@ -22,6 +22,7 @@ import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
 import useGetPartDetail from "hooks/Reading/useGetPartDetail";
+import TinyMceCommon from "components/TinyMceCommon";
 
 export interface Props {
   openModal: any;
@@ -240,7 +241,7 @@ const ModalCreateQuestion = (props: Props) => {
       }
     >
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-        <Editor
+        <TinyMceCommon
           onInit={(evt, editor) => {
             editorRef.current = editor;
           }}
