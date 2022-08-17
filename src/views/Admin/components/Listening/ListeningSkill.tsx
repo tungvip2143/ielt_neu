@@ -28,8 +28,6 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
-  console.log("metaPartListening", metaPart);
-
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {

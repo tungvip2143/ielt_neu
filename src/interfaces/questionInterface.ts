@@ -14,6 +14,9 @@ export interface ResponseParams {
   partTitle: string;
   levelPart: string;
   partNumber: string;
+
+  directionAudio?: string;
+  title?: string;
 }
 
 export interface QuestionTypeI {

@@ -42,7 +42,7 @@ const WritingSkill = () => {
             },
             {
               flex: 0.5,
-              field: "partNumber",
+              field: "questionPartNumber",
               renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
             },
             {
