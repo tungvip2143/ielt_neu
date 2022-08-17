@@ -55,8 +55,6 @@ const ModalCreateQuestion = (props: Props) => {
   const { openModal, onCloseModal = () => {}, id, fetchData } = props;
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
 
-  console.log("dataQuestionDetail", dataQuestionDetail);
-
   const { register, control, handleSubmit, reset, watch, setValue, getValues, formState, getFieldState } = useForm<any>(
     {
       mode: "onChange",
@@ -72,9 +70,6 @@ const ModalCreateQuestion = (props: Props) => {
       },
     }
   );
-
-  // console.log("getFieldState", watch("questions[0].questionAudio"));
-  // console.log("selectFile", selectFile);
 
   const { fields, append, prepend, remove, swap, move, insert, update } = useFieldArray({
     control,
@@ -240,19 +235,21 @@ const ModalCreateQuestion = (props: Props) => {
                     fullWidth
                     disabled={openModal.type === "detailQuestion"}
                   />
-                  <AudioPlayer
-                    preload="none"
-                    style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20 }}
-                    src={
-                      !!selectFile?.[`questions[${index}].questionAudio`]
-                        ? URL.createObjectURL(selectFile?.[`questions[${index}].questionAudio`])
-                        : dataQuestionDetail?.[`questions[${index}].questionAudio`]
-                    }
-                    onPlay={(e) => console.log("onPlay")}
-                    showJumpControls={false}
-                    autoPlayAfterSrcChange={false}
-                    loop={false}
-                  />
+                  {(!!selectFile?.[`questions[${index}].questionAudio`] || dataQuestionDetail?.questions) && (
+                    <AudioPlayer
+                      preload="none"
+                      style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20 }}
+                      src={
+                        !!selectFile?.[`questions[${index}].questionAudio`]
+                          ? URL.createObjectURL(selectFile?.[`questions[${index}].questionAudio`])
+                          : dataQuestionDetail?.[`questions[${index}].questionAudio`]
+                      }
+                      onPlay={(e) => console.log("onPlay")}
+                      showJumpControls={false}
+                      autoPlayAfterSrcChange={false}
+                      loop={false}
+                    />
+                  )}
                   <input
                     ref={(ref) => (fileRef.current.questionAudio[index] = ref)}
                     className="hidden"
@@ -279,19 +276,21 @@ const ModalCreateQuestion = (props: Props) => {
                     fullWidth
                     disabled={openModal.type === "detailQuestion"}
                   />
-                  <AudioPlayer
-                    preload="none"
-                    style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-                    src={
-                      !!selectFile?.[`questions[${index}].modelAnswerAudio`]
-                        ? URL.createObjectURL(selectFile?.[`questions[${index}].modelAnswerAudio`])
-                        : IMAGE_URL + dataQuestionDetail?.[`questions[${index}].modelAnswerAudio`]
-                    }
-                    onPlay={(e) => console.log("onPlay")}
-                    showJumpControls={false}
-                    autoPlayAfterSrcChange={false}
-                    loop={false}
-                  />
+                  {(!!selectFile?.[`questions[${index}].modelAnswerAudio`] || dataQuestionDetail?.questions) && (
+                    <AudioPlayer
+                      preload="none"
+                      style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
+                      src={
+                        !!selectFile?.[`questions[${index}].modelAnswerAudio`]
+                          ? URL.createObjectURL(selectFile?.[`questions[${index}].modelAnswerAudio`])
+                          : IMAGE_URL + dataQuestionDetail?.[`questions[${index}].modelAnswerAudio`]
+                      }
+                      onPlay={(e) => console.log("onPlay")}
+                      showJumpControls={false}
+                      autoPlayAfterSrcChange={false}
+                      loop={false}
+                    />
+                  )}
                   <input
                     ref={(ref) => (fileRef.current.modelAnswerAudio[index] = ref)}
                     className="hidden"

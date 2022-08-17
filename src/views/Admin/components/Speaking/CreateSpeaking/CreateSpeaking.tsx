@@ -121,7 +121,7 @@ const CreateQuestionListening = (props: Props) => {
           const response = await speakingService.postCreatePart(body);
           if (response.data.statusCode === 200) {
             toast.success("Create speaking success!");
-            history.push(RouteBase.CreateSpeaking);
+            history.push(RouteBase.UpdateSpeakingWId(response?.data?.data?.id));
           }
         }
       } catch (error: any) {
@@ -146,7 +146,7 @@ const CreateQuestionListening = (props: Props) => {
         const response = await speakingService.postCreatePart(body);
         if (response.data.statusCode === 200) {
           toast.success("Update speaking success!");
-          history.goBack();
+          history.push(RouteBase.Speaking);
         }
       } catch (error: any) {
         toast.error(error);
@@ -190,19 +190,21 @@ const CreateQuestionListening = (props: Props) => {
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </div>
-      {/* {(selectFile || dataPartDetail?.directionAudio) && ( */}
-      <AudioPlayer
-        preload="none"
-        style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-        src={
-          selectFile ? URL.createObjectURL(selectFile) : `http://103.226.250.81:8688/${dataPartDetail?.directionAudio}`
-        }
-        onPlay={(e) => console.log("onPlay")}
-        showJumpControls={false}
-        loop={false}
-        autoPlayAfterSrcChange={false}
-      />
-      {/* )} */}
+      {(selectFile || dataPartDetail?.directionAudio) && (
+        <AudioPlayer
+          preload="none"
+          style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
+          src={
+            selectFile
+              ? URL.createObjectURL(selectFile)
+              : `http://103.226.250.81:8688/${dataPartDetail?.directionAudio}`
+          }
+          onPlay={(e) => console.log("onPlay")}
+          showJumpControls={false}
+          loop={false}
+          autoPlayAfterSrcChange={false}
+        />
+      )}
       <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onFileChange} />
       <div className="text-end mb-2">
         <ButtonUpload
