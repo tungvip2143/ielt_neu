@@ -38,4 +38,12 @@ export const themeCssSx = {
   btn: {
     blue: "#5048e5",
   },
+  colorAnswer: {
+    correctAnswer: "#B0D909",
+    inCorrectAnswer: "red",
+    yourAnswer: "#e8eaed99",
+  },
+  bgQuestion: {
+    title: "#f7f9fb",
+  },
 };

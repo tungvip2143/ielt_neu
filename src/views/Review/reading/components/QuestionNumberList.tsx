@@ -23,28 +23,12 @@ interface QuestionNumberListI {
 }
 
 const box = {
-  background: "#fff",
-  boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-  //   transform: "translateY(-100px)",
-  p: "10px 0px",
-  position: "absolute",
-  bottom: 0,
-  width: "100%",
+  width: "200px",
+  height: "100vh",
 };
 
 const useStyles = makeStyles((theme) => {
   return {
-    eachItem: {
-      display: "flex",
-      paddingBottom: "10px",
-    },
-    part: {
-      fontSize: "14px",
-      fontWeight: "bold",
-      color: "#000000",
-      marginRight: "15px",
-      textTransform: "capitalize",
-    },
     eachQuestion: {
       background: "#333",
       color: "#fff",
@@ -60,14 +44,7 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-const nextPage = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  background: "#333",
-  p: "8px",
-  borderRadius: "5px",
-};
+
 const QuestionNumberList = ({
   questions,
   onClickPart,
@@ -116,7 +93,6 @@ const QuestionNumberList = ({
           onClickPageNumber(item.question.displayNumber);
           setDisplayNumber(item.question.displayNumber);
         };
-        const add = Number(item.question.displayNumber) - 1;
 
         const hightLightNumberPageOnclickQuestion = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
@@ -147,38 +123,13 @@ const QuestionNumberList = ({
   return (
     <Box sx={box}>
       <Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap", padding: "0 16px" }}>
-          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
+        <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+          <Box sx={{ width: { md: "100%", display: "flex", flexWrap: "wrap", gap: 4 } }}>
             {questions?.map((group: any, index: number) => {
               console.log("partKey", group);
-              // console.log("partValues", partValues);
-              // console.log("questions12", Object.entries(questions));
-              return (
-                <>
-                  <div
-                    key={group.partNumber}
-                    className={classes.eachItem}
-                    // onClick={() => onClickPart(group.partNumber)}
-                  >
-                    <div className={classes.part}>{`Part ${group.partNumber || index + 1}`}</div>
-                    <Stack direction="row" spacing={0.5}>
-                      {renderPartValues(group, index)}
-                    </Stack>
-                  </div>
-                </>
-              );
-            })}
-          </Box>
 
-          <Box sx={{ width: { md: "20%" } }}>
-            <Stack direction="row" spacing={1.5} sx={{ justifyContent: "flex-end" }}>
-              <Box sx={nextPage}>
-                <KeyboardArrowLeftIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-              <Box sx={nextPage}>
-                <KeyboardArrowRightIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-            </Stack>
+              return <>{renderPartValues(group, index)}</>;
+            })}
           </Box>
         </Box>
       </Box>

@@ -19,7 +19,8 @@ import { makeStyles } from "@mui/styles";
 //
 import ExplanationBox from "../ExplanationBox";
 import { AnswerBoolean } from "../../../../../constants/enum";
-
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+import { theme } from "../../../../../theme/index";
 const useStyles = makeStyles((theme) => ({
   answer: {
     display: "flex",
@@ -41,6 +42,7 @@ type Props = {
   QUESTION_TYPE?: any;
   idShowQuestion?: any;
   onHightLightNumberPage?: any;
+  hightLightNumberPage?: any;
 };
 const roundedCheck = {
   width: "20px",
@@ -54,8 +56,17 @@ const IdentifyInformationType = (props: Props) => {
 
   const classes = useStyles();
 
-  const { question, questionType, expanded, onCollapse, QUESTION_TYPE, idShowQuestion, onHightLightNumberPage } = props;
-  console.log("questionType", questionType);
+  const {
+    question,
+    questionType,
+    expanded,
+    onCollapse,
+    QUESTION_TYPE,
+    idShowQuestion,
+    onHightLightNumberPage,
+    hightLightNumberPage,
+  } = props;
+  console.log("questionItem", question);
 
   const displayNumber = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
@@ -68,21 +79,31 @@ const IdentifyInformationType = (props: Props) => {
   };
   const hightLightTrueAnswer = () => {
     if (question.question.answer === AnswerBoolean.TRUE) {
-      return { background: "#64b5f6 " };
+      return { background: themeCssSx.colorAnswer.correctAnswer };
     }
   };
   const hightLightFalseAnswer = () => {
     if (question.question.answer === AnswerBoolean.FALSE) {
-      return { background: "#64b5f6" };
+      return { background: themeCssSx.colorAnswer.correctAnswer };
     }
   };
   const hightLightNotGIVENAnswer = () => {
     if (question.question.answer === AnswerBoolean.NOTGIVEN) {
-      return { background: "#64b5f6" };
+      return { background: themeCssSx.colorAnswer.correctAnswer };
+    }
+  };
+  const textAnswer = () => {
+    if (question.studentAnswer.toUpperCase() === question.question.answer) {
+      return { color: themeCssSx.colorAnswer.correctAnswer };
+    } else {
+      return { color: themeCssSx.colorAnswer.inCorrectAnswer };
     }
   };
   return (
     <>
+      <Box>
+        <Text.Sub20Bold sx={textAnswer()}>Question {question.question.displayNumber}</Text.Sub20Bold>
+      </Box>
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
@@ -93,7 +114,7 @@ const IdentifyInformationType = (props: Props) => {
         <Stack
           direction="row"
           spacing={2}
-          sx={{ alignItems: "center", background: "#f7f9fb", p: "0 20px", borderRadius: "10px !important" }}
+          sx={{ alignItems: "center", background: "#f7f9fb", borderRadius: "10px !important" }}
         >
           {/* <Text.DescSmall sx={{ fontWeight: "bold" }}>{question?.id}</Text.DescSmall> */}
 
@@ -101,9 +122,9 @@ const IdentifyInformationType = (props: Props) => {
             className="accordion-title"
             aria-controls="panel1a-content"
             id="panel1a-header"
-            sx={{ p: "0 !important", display: "flex" }}
+            sx={{ display: "flex", p: "0 10px" }}
           >
-            <Text.DescSmall sx={{ mr: "5px" }}>{question.question.displayNumber}.</Text.DescSmall>
+            {/* <Text.DescSmall sx={{ mr: "5px" }}>{question.question.displayNumber}.</Text.DescSmall> */}
             <Text.DescSmall>{ReactHtmlParser(question.question.questionText)}</Text.DescSmall>
           </AccordionSummary>
         </Stack>

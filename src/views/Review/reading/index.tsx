@@ -20,6 +20,7 @@ import LoadingPage from "components/Loading";
 import { useParams } from "react-router-dom";
 //
 import Header from "../Header/Header";
+import Score from "./components/Score";
 const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -27,7 +28,6 @@ const useStyles = makeStyles((theme) => ({
   },
   exam: {
     display: "flex",
-    flex: 1,
   },
 }));
 
@@ -89,54 +89,52 @@ const ReadingReview = (props: any) => {
     height: "100vh",
     overflow: "hidden",
   };
-  const content = {
-    p: "0 16px",
-    maxWidth: "1440px",
-    margin: "16px auto 0 auto",
+  const navLeft = {
+    background: "#fff",
+    p: "40px 16px",
+    boxShadow: "rgba(0, 0, 0, 0.10) 0px 5px 15px",
   };
+
   return (
     <Formik initialValues={{}} onSubmit={() => console.log("hello")}>
       {(formik: any) => (
         <Form className={classes.form}>
           <Box sx={container}>
             <Header />
-            <Box sx={content}>
-              <Box>
-                <CardPart part={groupSelected.part + 1}>
-                  {/* {ReactHtmlParser(partRenderSelected?.groups[groupSelected.group]?.directionText)} */}
-                </CardPart>
+            <Box className={classes.exam}>
+              <Box sx={navLeft}>
+                <Score titleExam="Reading" />
+                <QuestionNumberList
+                  questionSelected={questionSelected}
+                  onClickPart={onClickPart}
+                  onClickPage={onClickPage}
+                  questions={questions}
+                  test={IELT_TEST.READING}
+                  setDisplayNumber={onClickShowQuestion}
+                  hightLightNumberPage={hightLightNumberPage}
+                  onClickPageNumber={hightLightNumberPageClickQuestion}
+                />
               </Box>
-              <Box className={classes.exam}>
-                <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
-                  <CardExercise
-                    content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />}
-                    width={5.9}
-                  />
-                  <CardExercise
-                    content={
-                      <QuestionAnswer
-                        onClickPage={onClickPage}
-                        questionSelected={questionSelected}
-                        partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
-                        showQuestion={showQuestion}
-                        onHightLightNumberPage={hightLightNumberPageClickQuestion}
-                      />
-                    }
-                    width={5.9}
-                  />
-                </Grid>
-              </Box>
+              <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
+                <CardExercise
+                  content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />}
+                  width={5.9}
+                />
+                <CardExercise
+                  content={
+                    <QuestionAnswer
+                      onClickPage={onClickPage}
+                      questionSelected={questionSelected}
+                      partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                      showQuestion={showQuestion}
+                      onHightLightNumberPage={hightLightNumberPageClickQuestion}
+                      hightLightNumberPage={hightLightNumberPage}
+                    />
+                  }
+                  width={5.9}
+                />
+              </Grid>
             </Box>
-            <QuestionNumberList
-              questionSelected={questionSelected}
-              onClickPart={onClickPart}
-              onClickPage={onClickPage}
-              questions={questions}
-              test={IELT_TEST.READING}
-              setDisplayNumber={onClickShowQuestion}
-              hightLightNumberPage={hightLightNumberPage}
-              onClickPageNumber={hightLightNumberPageClickQuestion}
-            />
           </Box>
         </Form>
       )}
