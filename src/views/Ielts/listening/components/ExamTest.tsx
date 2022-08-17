@@ -36,6 +36,8 @@ const ExamTest = (props: Props) => {
 
     return null;
   }, [groupSelected]);
+
+  console.log("partRenderSelected", partRenderSelected);
   //
   if (isLoading) {
     return <LoadingPage />;

@@ -37,10 +37,10 @@ const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
   const params = useParams<any>();
   const editorRef = useRef<any>();
+
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
-
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
     // questionTip: yup.string().required("This field is required!"),
@@ -113,6 +113,8 @@ const CreateQuestionReading = (props: Props) => {
       };
       try {
         const response = await ReadingService.postCreatePart(body);
+        console.log("response", response);
+
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
           history.push(RouteBase.UpdateReadingWId(response?.data?.data?.id));
@@ -127,6 +129,7 @@ const CreateQuestionReading = (props: Props) => {
         passageTitle: data.partTitle,
         passageText: editorRef.current.getContent(),
       };
+
       try {
         const response = await ReadingService.patchUpdatePart(params?.id, body);
         if (response.data.statusCode === 200) {

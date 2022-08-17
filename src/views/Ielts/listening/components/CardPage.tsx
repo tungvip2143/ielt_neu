@@ -5,6 +5,8 @@ import Stack from "@mui/material/Stack";
 //
 import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { useFormContext } from "react-hook-form";
+import { useFormikContext } from "formik";
 // ! type
 interface Props {
   dataQuestions?: any;
@@ -53,7 +55,7 @@ const eachQuestion = {
 };
 const CardPage = ({ dataQuestions, onClickPage }: Props) => {
   const [highlightPage, setHighlightPage] = React.useState();
-  console.log("dataListening", dataQuestions);
+  const { values }: any = useFormikContext();
   const renderPartValues = (partValues: any, index: number) => {
     // const { values }: any = useFormikContext();
     let sectionRender: any = {};
@@ -67,13 +69,21 @@ const CardPage = ({ dataQuestions, onClickPage }: Props) => {
           setHighlightPage(item.question.displayNumber);
         };
 
+        const displayNumber = item.question.displayNumber;
+
+        const hightLightNumberPageOnclickQuestion = () => {
+          if (highlightPage == item.question.displayNumber) {
+            return { background: "#4C80F1", borderRadius: "50%" };
+          } else if (values?.answers[`${displayNumber}`]?.studentAnswer) {
+            return { background: "#90caf9", borderRadius: "50%" };
+          }
+        };
+
         return (
           <>
             <Box
               key={item.id}
-              style={
-                highlightPage === item.question.displayNumber ? { background: "#4C80F1", borderRadius: "50%" } : {}
-              }
+              style={hightLightNumberPageOnclickQuestion()}
               sx={eachQuestion}
               onClick={() => handleClickQuestion(partValues, partGroup)}
             >

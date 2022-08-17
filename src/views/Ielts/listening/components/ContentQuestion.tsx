@@ -10,10 +10,7 @@ interface Props {
   audio?: any;
 }
 const ContentQuestion = ({ ContentQuestion, audio }: Props) => {
-  console.log("ContentQuestion", ContentQuestion);
   const questionType = ContentQuestion?.questionType;
-  console.log("questionType", questionType);
-  console.log("audio", audio);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {

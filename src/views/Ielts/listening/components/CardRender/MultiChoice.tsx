@@ -46,8 +46,7 @@ const question = {
 };
 
 const MultiChoice = ({ dataQuestions, audio }: Props) => {
-  console.log("audioMultichoice", audio);
-
+  const { values }: any = useFormikContext();
   return (
     <>
       <Box sx={{ mb: "20px" }}>
@@ -72,6 +71,7 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue=""
                       name="radio-buttons-group"
+                      value={values?.answers[displayNumber]?.studentAnswer}
                     >
                       <FormControlLabel
                         key={answerChoice._id}
