@@ -260,7 +260,7 @@ const ModalCreateQuestion = (props: Props) => {
                   {openModal.type !== "detailQuestion" && (
                     <div className="text-end my-3">
                       <ButtonUpload
-                        style={{ display: "flex" }}
+                        style={{ display: "flex", width: 130, height: 40 }}
                         titleButton="Upload audio"
                         onClick={() => fileRef.current?.questionAudio[index].click()}
                       />
@@ -301,7 +301,7 @@ const ModalCreateQuestion = (props: Props) => {
                   {openModal.type !== "detailQuestion" && (
                     <div className="text-end my-3">
                       <ButtonUpload
-                        style={{ display: "flex" }}
+                        style={{ display: "flex", width: 130, height: 40 }}
                         titleButton="Upload audio"
                         onClick={() => fileRef.current?.modelAnswerAudio[index]?.click()}
                       />
