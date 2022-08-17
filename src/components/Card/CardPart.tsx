@@ -8,8 +8,8 @@ import Text from "components/Typography/index";
 //
 // ! type
 interface Data {
-  part: number;
-  children: any;
+  part?: number;
+  children?: any;
 }
 const CardPart = ({ part, children }: Data) => {
   const card = {
