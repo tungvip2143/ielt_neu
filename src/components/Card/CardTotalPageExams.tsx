@@ -12,14 +12,14 @@ import { useFormikContext } from "formik";
 import { IELT_TEST } from "interfaces/testType";
 
 interface CardTotalPageExamsI {
-  questions: any;
-  onClickPage: (id: string) => void;
-  onClickPart: (id: string) => void;
+  questions?: any;
+  onClickPage?: any;
+  onClickPart?: any;
   setDisplayNumber?: any;
-  questionSelected?: string;
-  hightLightNumberPage: any;
-  test?: string;
-  onClickPageNumber: (id: string) => void;
+  questionSelected?: any;
+  hightLightNumberPage?: any;
+  test?: any;
+  onClickPageNumber?: any;
 }
 
 const box = {
@@ -77,7 +77,7 @@ const CardTotalPageExams = ({
   hightLightNumberPage,
   onClickPageNumber,
 }: CardTotalPageExamsI) => {
-  // console.log("questionSelected", questionSelected);
+  console.log("questions", questions);
   const [highlightPage, setHighlightPage] = useState();
 
   //! State

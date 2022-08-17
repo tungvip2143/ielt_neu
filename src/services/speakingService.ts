@@ -1,9 +1,8 @@
-
-import { ADMIN_SPEAKING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE,  } from "./../constants/api";
+import { ADMIN_SPEAKING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "./../constants/api";
 import httpServices from "./httpServices";
 
 class speakingService {
-  postCreateQuestionGroupReading(body: any) {
+  postCreateQuestionGroupSpeaking(body: any) {
     return httpServices.post(ADMIN_SPEAKING_URL().POST_LIST_SPEAKING_QUESTIONS, body);
   }
   getListParts(params: any = {}) {
