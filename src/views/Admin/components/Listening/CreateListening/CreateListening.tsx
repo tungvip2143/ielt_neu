@@ -56,7 +56,7 @@ const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
   const [existAudio, setExistAudio] = useState<boolean>(false);
-
+  const [box, setBox] = useState<boolean>(false);
   const { openCreateScreen } = props;
   const params = useParams<any>();
   const editorRef = useRef<any>();
@@ -263,6 +263,23 @@ const CreateQuestionListening = (props: Props) => {
           }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
+        {/* {box && (
+          <span
+            style={{
+              display: "flex",
+              fontSize: "0.8rem",
+              fontWeight: "400",
+              lineHeight: "1.66",
+              fontFamily: "Arial",
+              textAlign: "left",
+              marginTop: "10px",
+
+              color: " red",
+            }}
+          >
+            This field is required!
+          </span>
+        )} */}
       </Card>
 
       {(selectFile || dataPartDetail?.partAudio) && (
