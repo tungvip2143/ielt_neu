@@ -35,8 +35,8 @@ const Step2ExamContent = (props: any) => {
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState();
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>();
+  const [showQuestion, setShowQuestion] = useState("1");
+  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
 
   console.log("hightLightNumberPage", hightLightNumberPage);
 
