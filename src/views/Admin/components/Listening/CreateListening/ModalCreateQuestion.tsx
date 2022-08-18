@@ -12,17 +12,18 @@ import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import { DataAnswer } from "constants/questionType";
 import useGetDetailQuestion from "hooks/Listening/useGetDetailQuestion";
-import useGetLevels from "hooks/Reading/useGetLevel";
 import useGetQuestionType from "hooks/Listening/useGetQuestionType";
 import { QuestionTypeI } from "interfaces/questionInterface";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import ReadingService from "services/ReadingService";
 import * as yup from "yup";
-import useGetPartDetail from "hooks/Reading/useGetPartDetail";
 import TinyMceCommon from "components/TinyMceCommon";
+import listeningService from "services/listeningService";
+import audioService from "services/audioService";
+import { IMAGE_URL } from "constants/constants";
+import ButtonUpload from "components/Button/ButtonUpload";
 
 export interface Props {
   openModal: any;
@@ -34,25 +35,26 @@ export interface Props {
 const validationSchema = yup.object().shape({
   questionBox: yup.string().required("This is field required"),
   questionType: yup.mixed().required("This is field required"),
-  questions: yup.array(
-    yup.object({
-      questionText: yup.string().required("This is field required"),
-      answer: yup.string().required("This is field required"),
-      options: yup.array(yup.string().required("mmm")),
-    })
-  ),
+  // questions: yup.array(
+  //   yup.object({
+  //     questionText: yup.string().required("This is field required"),
+  //     answer: yup.string().required("This is field required"),
+  //     options: yup.array(yup.string().required("mmm")),
+  //   })
+  // ),
 });
 
 const ModalCreateQuestion = (props: Props) => {
   const { openModal, onCloseModal = () => {}, id, fetchData } = props;
+  const directionRef = useRef<any>();
   const editorRef = useRef<any>();
   const matchingRef = useRef<any>();
+  const fileRef = useRef<any>();
   const [questionType, setQuestionType] = useState<number | undefined | string>("");
   const [dataQuestionType] = useGetQuestionType();
-
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
-  console.log("dataQuestionType", dataQuestionType);
-
+  const [selectFile, setSelectFile] = useState<any>("");
+  const [image, setImage] = useState<any>();
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -98,15 +100,33 @@ const ModalCreateQuestion = (props: Props) => {
     }
   }, [dataQuestionDetail?.id, dataQuestionType?.length]);
 
+  const handleClick = () => {
+    fileRef.current.click();
+    console.log("selectFileListening", selectFile);
+  };
+  const onFileChange = async (event: any) => {
+    if (event.target && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      setSelectFile(event.target.files[0]);
+      try {
+        const responseImage = await audioService.postAudioListening(formData);
+        if (responseImage?.data?.statusCode === 200) {
+          setImage(responseImage?.data?.data?.uri);
+        }
+      } catch (error) {
+        console.log("error", error, fetchData);
+      }
+    }
+  };
   const onSubmit = async (data: any) => {
     const keys = ["A", "B", "C", "D"];
     if (openModal.type === "createQuestion") {
       const body = {
-        level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
-        directionText: editorRef.current.getContent(),
-        image: "uploads/2022/01/01/pepe.png",
-        questionTypeTips: editorRef.current.getContent(),
+        directionText: directionRef?.current?.getContent(),
+        image: image ? image : "",
+        questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox: data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
@@ -121,9 +141,8 @@ const ModalCreateQuestion = (props: Props) => {
 
         partId: id,
       };
-
       try {
-        const response = await ReadingService.postCreateQuestionGroupReading(body);
+        const response = await listeningService.postCreateQuestionGroupReading(body);
         if (response.data.statusCode === 200) {
           toast.success("Create question group success!");
           fetchData();
@@ -137,9 +156,9 @@ const ModalCreateQuestion = (props: Props) => {
       const body = {
         level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
-        directionText: editorRef.current.getContent(),
-        image: "uploads/2022/01/01/pepe.png",
-        questionTypeTips: editorRef.current.getContent(),
+        directionText: directionRef.current.getContent(),
+        image: image ? image : "",
+        questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox: data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
@@ -156,7 +175,7 @@ const ModalCreateQuestion = (props: Props) => {
       };
 
       try {
-        const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
+        const response = await listeningService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update question group success!");
           fetchData();
@@ -220,6 +239,250 @@ const ModalCreateQuestion = (props: Props) => {
     remove(index);
   };
 
+  const renderViewType = (type?: any, data?: any) => {
+    switch (type) {
+      case "IDENTIFYING_INFORMATION":
+        return (
+          <>
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-2" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-center justify-between mt-2">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Question"
+                      variant="standard"
+                      name={`questions[${index}].questionText`}
+                      disabled={openModal.type === "detailQuestion"}
+                      style={{ marginRight: 20 }}
+                    />
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Correct answer"
+                      variant="standard"
+                      name={`questions[${index}].answer`}
+                      disabled={openModal.type === "detailQuestion"}
+                      style={{ marginTop: 10 }}
+                    />
+                  </div>
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        );
+      case "MATCHING_HEADINGS":
+        return (
+          <div className="mt-5">
+            <TinyMceCommon
+              ref={matchingRef}
+              initialValue={
+                dataQuestionDetail?.questionTypeTips ? dataQuestionDetail?.questionTypeTips : "Matching heading"
+              }
+              disabled={openModal.type === "detailQuestion"}
+            />
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between mt-2">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Answer"
+                    variant="standard"
+                    name={`questions[${index}].answer`}
+                    disabled={openModal.type === "detailQuestion"}
+                    style={{ marginLeft: 20 }}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        );
+      case "MULTIPLE_CHOICE_1_ANSWER":
+        return (
+          <>
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id} className="flex items-center">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                    <div className="questionContainer">
+                      <InputCommon
+                        id="standard-basic"
+                        label="Question"
+                        variant="standard"
+                        name={`questions[${index}].questionText`}
+                        control={control}
+                        required
+                        fullWidth
+                        disabled={openModal.type === "detailQuestion"}
+                      />
+                    </div>
+                    <Box
+                      component="form"
+                      sx={{
+                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
+                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
+                        <InputCommon
+                          control={control}
+                          id="standard-basic"
+                          label="Correct answer"
+                          variant="standard"
+                          name={`questions[${index}].answer`}
+                          disabled={openModal.type === "detailQuestion"}
+                        />
+                      )}
+                    </Box>
+                  </div>
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        );
+      case "LABELLING_A_PLAN_MAP":
+      case "FLOW_CHART_COMPLETION":
+        return (
+          <>
+            <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
+            {(selectFile || dataQuestionDetail?.image) && (
+              <img
+                id="blah"
+                src={selectFile ? URL.createObjectURL(selectFile) : IMAGE_URL + dataQuestionDetail?.image}
+                alt="image"
+                style={{ width: "100%", maxHeight: 400, marginTop: 20 }}
+              />
+            )}
+            <ButtonUpload
+              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+              titleButton="Upload image"
+              onClick={handleClick}
+            />
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between mt-2">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Answer"
+                    variant="standard"
+                    name={`questions[${index}].answer`}
+                    disabled={openModal.type === "detailQuestion"}
+                    style={{ marginLeft: 20 }}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        );
+      case "SUMMARY_COMPLETION":
+      case "NOTE_COMPLETION":
+        return (
+          <div className="mt-5">
+            <TinyMceCommon
+              ref={editorRef}
+              initialValue={
+                dataQuestionDetail?.questionTypeTips ? dataQuestionDetail?.questionTypeTips : "Note completion"
+              }
+              disabled={openModal.type === "detailQuestion"}
+            />
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between mt-2">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Answer"
+                    variant="standard"
+                    name={`questions[${index}].answer`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        );
+
+      default:
+        break;
+    }
+  };
   return (
     <ModalCreate
       open={openModal}
@@ -242,15 +505,8 @@ const ModalCreateQuestion = (props: Props) => {
     >
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
         <TinyMceCommon
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
-          initialValue={dataQuestionDetail ? dataQuestionDetail?.directionText : "<p>Question tip.</p>"}
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
+          ref={directionRef}
+          initialValue={dataQuestionDetail?.directionText ? dataQuestionDetail?.directionText : "Direction text"}
           disabled={openModal.type === "detailQuestion"}
         />
         <SelectField
@@ -262,60 +518,15 @@ const ModalCreateQuestion = (props: Props) => {
           onChangeExtra={(e: any) => {
             setValue("questionType", e?.value);
             setQuestionType(e?.value);
+            setValue("questions", [{ section: "" }]);
           }}
+          // style={{ marginTop: 20, marginBottom: questionType === "MATCHING_HEADINGS" ? 20 : 0 }}
+          style={{ marginTop: 20 }}
           disabled={openModal.type === "detailQuestion"}
         />
 
-        <>
-          {fields.map((field, index) => {
-            return (
-              <div key={field.id} className="flex items-center">
-                <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                  <div className="questionContainer">
-                    <InputCommon
-                      id="standard-basic"
-                      label="Question"
-                      variant="standard"
-                      name={`questions[${index}].questionText`}
-                      control={control}
-                      required
-                      fullWidth
-                      disabled={openModal.type === "detailQuestion"}
-                    />
-                  </div>
-                  <Box
-                    component="form"
-                    sx={{
-                      "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                    }}
-                    noValidate
-                    autoComplete="off"
-                  >
-                    <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
-                    {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
-                      <InputCommon
-                        control={control}
-                        id="standard-basic"
-                        label="Correct answer"
-                        variant="standard"
-                        name={`questions[${index}].answer`}
-                        disabled={openModal.type === "detailQuestion"}
-                      />
-                    )}
-                  </Box>
-                </div>
-                {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                  <RemoveCircleOutlineIcon
-                    className="text-[#F44335] cursor-grab ml-[20px]"
-                    onClick={() => onRemoveQuestion(index)}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </>
-
-        {renderButton()}
+        {renderViewType(questionType)}
+        {openModal.type !== "detailQuestion" && renderButton()}
       </form>
     </ModalCreate>
   );
