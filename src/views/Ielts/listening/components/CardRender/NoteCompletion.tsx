@@ -26,11 +26,11 @@ const NoteCompletion = (props: Props) => {
     return new Handlebars.SafeString(
       `
       <input
-          name="answers[${blankId - 1}].studentAnswer"
+          name="answers[${blankId}].studentAnswer"
           id="input-${blankId}"
           type="text"
           onChange="handleTest()"
-          value='${values.answers[blankId - 1].studentAnswer}'
+          value='${values.answers[blankId].studentAnswer}'
         />
       `
     );
@@ -42,7 +42,7 @@ const NoteCompletion = (props: Props) => {
   return (
     <>
       <Box sx={{ mb: "20px" }}>
-        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls />
+        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} />
       </Box>
       <div dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />;{/* <div>{text}</div> */}
     </>

@@ -12,6 +12,7 @@ export const RouteBase = {
   ReviewReading: "/ielts/review/reading/:testCode",
   WritingReview: "/ielts/review/writing/:testCode",
   ListeningReview: "/ielts/review/listening/:testCode",
+  SpeakingReview: "/ielts/review/speaking/:testCode",
   Admin: "/admin",
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",

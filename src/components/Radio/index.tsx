@@ -21,7 +21,7 @@ const Radio = (props: any) => {
 
   return (
     <div>
-      <RadioMui onClick={handleClick} onChange={onChange} name={name} value={value} {...rest} />
+      <RadioMui size="small" onClick={handleClick} onChange={onChange} name={name} value={value} {...rest} />
     </div>
     // <R>index</div>
   );

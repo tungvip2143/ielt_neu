@@ -50,7 +50,7 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
   return (
     <>
       <Box sx={{ mb: "20px" }}>
-        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls />
+        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} />
       </Box>
       <Box sx={formAnswer}>
         {dataQuestions.map((item: any) => {
@@ -65,7 +65,7 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
               <FormControl sx={{ padding: "0 20px" }}>
                 {item.question.options.map((answerChoice: any) => {
                   console.log("answerChoice", answerChoice);
-                  const displayNumber = Number(item.question.displayNumber) - 1;
+                  const displayNumber = Number(item.question.displayNumber);
                   return (
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
