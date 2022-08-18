@@ -20,13 +20,15 @@ const RulesExam = ({ typeExam, timeExam, instructionsToTest, informationForTest 
   const { handler } = useStepExam();
 
   const card = {
-    width: { xs: "90%", md: "90%", lg: "85%" },
+    width: { xs: "90%", md: "90%", lg: "90%" },
     borderRadius: "16px",
     margin: "0 auto",
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
     padding: { xs: "24px 20px", md: "48px 50px 44px 50px" },
     // padding: "48px 50px 44px 50px",
     mt: "30px",
+    overflowY: { xs: "", lg: "scroll" },
+    height: { xs: "", lg: "calc(100vh - 70px)" },
   };
   const buttonSubmit = {
     width: { xs: "100%", md: "70%", lg: "50%" },

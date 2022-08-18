@@ -56,7 +56,7 @@ const StepTestMic = () => {
 
   return (
     <div>
-      {isRule ? (
+      {!isRule ? (
         <Box sx={container}>
           <Stack direction="column" sx={contentContainer}>
             <Text.Title32bold sx={title}>Microphone Test</Text.Title32bold>
