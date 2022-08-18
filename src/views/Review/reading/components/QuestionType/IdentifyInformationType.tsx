@@ -93,7 +93,7 @@ const IdentifyInformationType = (props: Props) => {
     }
   };
   const textAnswer = () => {
-    if (question.studentAnswer.toUpperCase() === question.question.answer) {
+    if (question?.studentAnswer?.toUpperCase() === question?.question?.answer) {
       return { color: themeCssSx.colorAnswer.correctAnswer };
     } else {
       return { color: themeCssSx.colorAnswer.inCorrectAnswer };
@@ -107,7 +107,7 @@ const IdentifyInformationType = (props: Props) => {
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={expanded == question.question.displayNumber}
+        expanded={expanded == question.question.displayNumber ?? "1"}
         onChange={onCollapse(question.question.displayNumber)}
         onClick={handleClickHightLightPage}
       >
