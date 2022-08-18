@@ -4,6 +4,11 @@ import Text from "../../../../components/Typography/index";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
 //
+import { Recorder } from "react-voice-recorder";
+import Record from "./Record";
+//
+import { TypeStepExamEnum } from "constants/enum";
+import { useStepExam } from "provider/StepExamProvider";
 const container = {
   width: { xs: "90%", md: "90%", lg: "85%" },
   borderRadius: "16px",
@@ -27,20 +32,12 @@ const titleSecond = {
   borderRadius: "12px",
   mb: "20px",
 };
-const startBtn = {
-  background: "#f6475a",
-  p: "12px 70px",
-  borderRadius: "16px",
-  mb: "20px",
-  "&:hover": {
-    background: "#f6475a",
-  },
-};
+
 const desc = {
   fontSize: themeCssSx.fontSize.descMedium,
   color: themeCssSx.color.title,
   fontWeight: 500,
-  mb: "5px",
+  mb: "10px",
 };
 const nextStep = {
   background: "#B8BCC0",
@@ -52,20 +49,34 @@ const nextStep = {
   },
 };
 const StepTestMic = () => {
+  const { handler } = useStepExam();
+
   return (
     <Box sx={container}>
       <Stack direction="column" sx={contentContainer}>
         <Text.Title32bold sx={title}>Microphone Test</Text.Title32bold>
         <Text.Desc16 sx={titleSecond}>Briefly introduce yourseft</Text.Desc16>
-        <Button sx={startBtn} variant="contained" startIcon={<KeyboardVoiceIcon />}>
-          START RECORDING
-        </Button>
+        <Record />
         <Box sx={{ maxWidth: "520px", pl: "40px", mb: "30px" }}>
-          <Text.Desc16 sx={desc}>1.Record yourself answering the statement above.</Text.Desc16>
-          <Text.Desc16 sx={desc}>2.Check your recording and make sure you can’t hear any background noise.</Text.Desc16>
-          <Text.Desc16 sx={desc}>3.Check your recording and make sure you can’t hear any background noise.</Text.Desc16>
+          <Text.Desc16 sx={desc}>
+            1.Record yourself answering the statement above.
+          </Text.Desc16>
+          <Text.Desc16 sx={desc}>
+            2.Check your recording and make sure you can’t hear any background
+            noise.
+          </Text.Desc16>
+          <Text.Desc16 sx={desc}>
+            3.Check your recording and make sure you can’t hear any background
+            noise.
+          </Text.Desc16>
         </Box>
-        <Button sx={nextStep} variant="contained">
+        <Button
+          sx={nextStep}
+          onClick={() => {
+            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP2);
+          }}
+          variant="contained"
+        >
           NEXT
         </Button>
       </Stack>
