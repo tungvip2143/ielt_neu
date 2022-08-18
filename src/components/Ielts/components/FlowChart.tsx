@@ -24,7 +24,7 @@ type Props = {
 const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question } = props;
-  console.log("question 345", question);
+  console.log("hfskdhfks", question);
 
   const { setFieldValue } = useFormikContext();
 
@@ -36,6 +36,8 @@ const FlowChart = (props: Props) => {
       <img src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
         {question?.map((answer: any) => {
+          console.log("answerFlowChart", answer);
+
           return (
             <div className={classes.answer}>
               <span>

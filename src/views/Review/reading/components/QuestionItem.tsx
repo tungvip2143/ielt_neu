@@ -20,6 +20,7 @@ interface PropsQuestionItem {
   questionType?: string;
   image?: string;
   answerList?: string;
+  hightLightNumberPage?: any;
 }
 const QuestionItem = ({
   question = [],
@@ -30,13 +31,16 @@ const QuestionItem = ({
   image,
   onHightLightNumberPage,
   answerList,
+  hightLightNumberPage,
   ...remainProps
 }: PropsQuestionItem) => {
   const { values } = useFormikContext();
+  console.log("questionType", questionType);
+  console.log("hightLightNumberPage", hightLightNumberPage);
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-      return <MatchingType questionBox={questionBox} data={data} />;
+      return <MatchingType questionBox={questionBox} data={data} numberPage={hightLightNumberPage} />;
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return <QuestionBox question={question} questionBox={questionBox} />;
@@ -59,14 +63,18 @@ const QuestionItem = ({
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
       return (
-        <IdentifyInformationType
-          questionType={questionType}
-          QUESTION_TYPE={QUESTION_TYPE}
-          question={question}
-          expanded={expanded}
-          onCollapse={onCollapse}
-          onHightLightNumberPage={onHightLightNumberPage}
-        />
+        <>
+          {question?.question?.displayNumber === hightLightNumberPage && (
+            <IdentifyInformationType
+              questionType={questionType}
+              QUESTION_TYPE={QUESTION_TYPE}
+              question={question}
+              expanded={expanded}
+              onCollapse={onCollapse}
+              onHightLightNumberPage={onHightLightNumberPage}
+            />
+          )}
+        </>
       );
     }
   };

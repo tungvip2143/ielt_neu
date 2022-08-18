@@ -37,7 +37,10 @@ const CreateQuestionWriting = (props: Props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(params?.id);
 
-  const validationSchema = yup.object().shape({});
+  const validationSchema = yup.object().shape({
+    title: yup.string().required("This is field required"),
+    questionPartNumber: yup.string().required("This is field required"),
+  });
 
   const { register, control, handleSubmit, reset, watch, setValue } = useForm<any>({
     mode: "onChange",
@@ -52,9 +55,8 @@ const CreateQuestionWriting = (props: Props) => {
         analysisType: "NONE",
         questionType: "LINE_GRAPH",
         image: "uploads/2022/01/01/pepe.png",
-        questionText: data.questionText,
+        questionText: editorRef.current.getContent(),
         title: data.title,
-        tips: editorRef.current.getContent(),
         usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
         ideaSuggestion: ideaSuggestionRef.current.getContent(),
         organization: organizationRef.current.getContent(),
@@ -77,9 +79,8 @@ const CreateQuestionWriting = (props: Props) => {
         analysisType: "NONE",
         questionType: "LINE_GRAPH",
         image: "uploads/2022/01/01/pepe.png",
-        questionText: data.questionText,
+        questionText: editorRef.current.getContent(),
         title: data.title,
-        tips: editorRef.current.getContent(),
         usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
         ideaSuggestion: ideaSuggestionRef.current.getContent(),
         organization: organizationRef.current.getContent(),
@@ -159,11 +160,22 @@ const CreateQuestionWriting = (props: Props) => {
           </div>
         </div>
       </div>
-
+      {/* <Card className="p-[20px] mt-5">
+        <InputCommon
+          id="standard-basic"
+          label="Question"
+          variant="standard"
+          name="questionText"
+          control={control}
+          required
+          fullWidth
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card> */}
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
         <TinyMceCommon
           ref={editorRef}
-          initialValue={dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "Tips"}
+          initialValue={dataQuestionDetail?.questionText ? dataQuestionDetail?.questionText : "Question"}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
@@ -194,18 +206,6 @@ const CreateQuestionWriting = (props: Props) => {
         <TinyMceCommon
           ref={organizationRef}
           initialValue={dataQuestionDetail?.organization ? dataQuestionDetail?.organization : "Organization"}
-          disabled={openCreateScreen.type === "update" && !isEdit}
-        />
-      </Card>
-      <Card className="p-[20px]">
-        <InputCommon
-          id="standard-basic"
-          label="Question"
-          variant="standard"
-          name="questionText"
-          control={control}
-          required
-          fullWidth
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>

@@ -7,20 +7,22 @@ import TOFFL from "views/TOFFL/index";
 import { ieltsReadingDataDummy } from "api/ieltsResults";
 import CardPart from "components/Card/CardPart";
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
-import { useGetReadingResultByTestCode } from "hooks/review/useIeltsReview";
+import { useGetListeningResultByTestCode } from "hooks/review/useIeltsReview";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import { useSelector } from "react-redux";
 import { Form, Formik } from "formik";
-import QuestionNumberList from "./components/QuestionNumberList";
-import QuestionAnswer from "./components/QuestionAnswer";
 import { makeStyles } from "@mui/styles";
 import LoadingPage from "components/Loading";
 import { useParams } from "react-router-dom";
 //
 import Header from "../Header/Header";
-import Score from "./components/Score";
+// import Score from "./components/Score";
+import QuestionNumberList from "./components/QuestionNumberList";
+import Score from "../reading/components/Score";
+import ContentRight from "./components/ContentRight";
+import ContentLeft from "./components/ContentLeft";
 const useStyles = makeStyles((theme) => ({
   form: {
     display: "flex",
@@ -35,8 +37,11 @@ interface Props {
   data?: any;
 }
 
-const ReadingReview = (props: any) => {
+const ListeningReview = (props: Props) => {
   //! State
+  const [displayNumber, setDisplayNumber] = useState<any>();
+  console.log("sdfsdfs", displayNumber);
+
   const classes = useStyles();
   const { data } = props;
   console.log("data789", data);
@@ -48,7 +53,6 @@ const ReadingReview = (props: any) => {
     group: 0,
   });
   const [showQuestion, setShowQuestion] = useState([]);
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>();
   console.log("questions", questions);
 
   useEffect(() => {
@@ -59,17 +63,10 @@ const ReadingReview = (props: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
     console.log("groupRenderSelected", groupRenderSelected);
   };
+  const displayNumberOnclickPage = (displayNumber: any) => {
+    setDisplayNumber(displayNumber);
+  };
 
-  const onClickPart = (groupRenderSelected: any) => {
-    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("part", groupRenderSelected);
-  };
-  const onClickShowQuestion = (displayNumber: any) => {
-    setShowQuestion(displayNumber);
-  };
-  const hightLightNumberPageClickQuestion = (displayNumber: any) => {
-    setHightLightNumberPage(displayNumber);
-  };
   const partRenderSelected = useMemo(() => {
     console.log("questions select", questions);
     const questionsWithPageNumberTemp = questions as any;
@@ -103,35 +100,31 @@ const ReadingReview = (props: any) => {
             <Header />
             <Box className={classes.exam}>
               <Box sx={navLeft}>
-                <Score titleExam="Reading" />
+                <Score titleExam="Listening" />
                 <QuestionNumberList
-                  questionSelected={questionSelected}
-                  onClickPart={onClickPart}
+                  questions={data}
                   onClickPage={onClickPage}
-                  questions={questions}
-                  test={IELT_TEST.READING}
-                  setDisplayNumber={onClickShowQuestion}
-                  hightLightNumberPage={hightLightNumberPage}
-                  onClickPageNumber={hightLightNumberPageClickQuestion}
+                  displayNumberOnclickPage={displayNumberOnclickPage}
                 />
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
                 <CardExercise
-                  content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />}
                   width={5.9}
-                />
-                <CardExercise
                   content={
-                    <QuestionAnswer
-                      onClickPage={onClickPage}
-                      questionSelected={questionSelected}
+                    <ContentLeft
                       partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
-                      showQuestion={showQuestion}
-                      onHightLightNumberPage={hightLightNumberPageClickQuestion}
-                      hightLightNumberPage={hightLightNumberPage}
+                      audio={partRenderSelected?.partAudio}
                     />
                   }
+                />
+                <CardExercise
                   width={5.9}
+                  content={
+                    <ContentRight
+                      partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                      displayNumber={displayNumber}
+                    />
+                  }
                 />
               </Grid>
             </Box>
@@ -141,17 +134,17 @@ const ReadingReview = (props: any) => {
     </Formik>
   );
 };
-
-const ReadingReviewContainer = () => {
+//
+const ListeningReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
-  const { data, isLoading } = useGetReadingResultByTestCode(testCode);
-
+  const { data, isLoading } = useGetListeningResultByTestCode(testCode);
+  console.log("datalistening", data);
   if (isLoading) {
     return <LoadingPage />;
   }
 
-  return <ReadingReview data={data?.data?.data?.reading} />;
+  return <ListeningReview data={data?.data?.data.listening} />;
 };
 
-export default ReadingReviewContainer;
+export default ListeningReviewContainer;

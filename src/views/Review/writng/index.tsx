@@ -25,6 +25,7 @@ import Header from "../Header/Header";
 import ContentRight from "./components/ContentRight";
 import ModalImage from "../../../components/Modal/ModalImage";
 import ModalRightAnswer from "./components/ModalRightAnswer";
+import Score from "../reading/components/Score";
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -68,16 +69,6 @@ const WritingReview = (props: any) => {
     console.log("groupRenderSelected", groupRenderSelected);
   };
 
-  const onClickPart = (groupRenderSelected: any) => {
-    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("part", groupRenderSelected);
-  };
-  const onClickShowQuestion = (displayNumber: any) => {
-    setShowQuestion(displayNumber);
-  };
-  const hightLightNumberPageClickQuestion = (displayNumber: any) => {
-    setHightLightNumberPage(displayNumber);
-  };
   const partRenderSelected = useMemo(() => {
     console.log("group select", groupSelected);
     const questionsWithPageNumberTemp = questions as any;
@@ -106,13 +97,12 @@ const WritingReview = (props: any) => {
     height: "100vh",
     overflow: "hidden",
   };
-  const content = {
-    p: "16px 16px",
-    maxWidth: "1600px",
-    margin: "0px auto 0 auto",
-    position: "relative",
+  const content = {};
+  const navLeft = {
+    background: "#fff",
+    p: "40px 16px",
+    boxShadow: "rgba(0, 0, 0, 0.10) 0px 5px 15px",
   };
-
   //! Render
   return (
     <div className={classes.root}>
@@ -120,13 +110,12 @@ const WritingReview = (props: any) => {
         <Header />
         <Box sx={content}>
           <Box>
-            <CardPart part={groupSelected.part + 1}>
-              {/* {ReactHtmlParser(partRenderSelected?.groups[groupSelected.group]?.directionText)} */}
-            </CardPart>
-          </Box>
-          <Box sx={{ display: "flex", flex: 1 }}>
-            <Box sx={{ flex: 1 }}>
-              <Grid container sx={{ justifyContent: "space-between", p: "20px 0" }}>
+            <Box sx={{ display: "flex", flex: 1 }}>
+              <Box sx={navLeft}>
+                <Score titleExam="Writing" />
+                <QuestionNumberList onClickPage={onClickPage} questions={questions} />
+              </Box>
+              <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
                 <CardExercise
                   width={7}
                   content={<Writing partRenderSelected={partRenderSelected} groupSelected={groupSelected} />}
@@ -143,15 +132,6 @@ const WritingReview = (props: any) => {
         </Box>
         {isOpenAnswer && <ModalRightAnswer handleCloseAnswer={handleCloseAnswer} content={contentModal} />}
         {open && <ModalImage image={image} handleClose={handleClose} />}
-        <QuestionNumberList
-          questionSelected={questionSelected}
-          onClickPart={onClickPart}
-          onClickPage={onClickPage}
-          questions={questions}
-          setDisplayNumber={onClickShowQuestion}
-          hightLightNumberPage={hightLightNumberPage}
-          onClickPageNumber={hightLightNumberPageClickQuestion}
-        />
       </Box>
     </div>
   );

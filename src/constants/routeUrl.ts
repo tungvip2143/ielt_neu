@@ -11,6 +11,7 @@ export const RouteBase = {
   Pricing: "/pricing",
   ReviewReading: "/ielts/review/reading/:testCode",
   WritingReview: "/ielts/review/writing/:testCode",
+  ListeningReview: "/ielts/review/listening/:testCode",
   Admin: "/admin",
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",

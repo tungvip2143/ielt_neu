@@ -196,25 +196,6 @@ const ModalCreateQuestion = (props: Props) => {
       }
     >
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-        <TinyMceCommon
-          ref={editorRef}
-          initialValue={dataQuestionDetail?.explanationText ? dataQuestionDetail?.explanationText : "Explanation text"}
-          disabled={openModal.type === "detailQuestion"}
-        />
-        <div className="my-[15px]">
-          <TinyMceCommon
-            ref={usefulGrammarRef}
-            initialValue={
-              dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
-            }
-            disabled={openModal.type === "detailQuestion"}
-          />
-        </div>
-        <TinyMceCommon
-          ref={ideaSuggestionRef}
-          initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
-          disabled={openModal.type === "detailQuestion"}
-        />
         {openModal.type !== "detailQuestion" && (
           <div className="text-end">
             <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
@@ -222,7 +203,7 @@ const ModalCreateQuestion = (props: Props) => {
         )}
         {fields.map((field, index) => {
           return (
-            <div className="flex items-center">
+            <div className="flex items-center mb-5">
               <div key={field.id} className="flex-1">
                 <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
                   <InputCommon
@@ -260,7 +241,7 @@ const ModalCreateQuestion = (props: Props) => {
                   {openModal.type !== "detailQuestion" && (
                     <div className="text-end my-3">
                       <ButtonUpload
-                        style={{ display: "flex", width: 130, height: 40 }}
+                        style={{ display: "flex", height: 40 }}
                         titleButton="Upload audio"
                         onClick={() => fileRef.current?.questionAudio[index].click()}
                       />
@@ -301,7 +282,7 @@ const ModalCreateQuestion = (props: Props) => {
                   {openModal.type !== "detailQuestion" && (
                     <div className="text-end my-3">
                       <ButtonUpload
-                        style={{ display: "flex", width: 130, height: 40 }}
+                        style={{ display: "flex", height: 40 }}
                         titleButton="Upload audio"
                         onClick={() => fileRef.current?.modelAnswerAudio[index]?.click()}
                       />
@@ -320,6 +301,25 @@ const ModalCreateQuestion = (props: Props) => {
             </div>
           );
         })}
+        <TinyMceCommon
+          ref={editorRef}
+          initialValue={dataQuestionDetail?.explanationText ? dataQuestionDetail?.explanationText : "Explanation text"}
+          disabled={openModal.type === "detailQuestion"}
+        />
+        <div className="my-[15px]">
+          <TinyMceCommon
+            ref={usefulGrammarRef}
+            initialValue={
+              dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
+            }
+            disabled={openModal.type === "detailQuestion"}
+          />
+        </div>
+        <TinyMceCommon
+          ref={ideaSuggestionRef}
+          initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
+          disabled={openModal.type === "detailQuestion"}
+        />
 
         {openModal.type !== "detailQuestion" && renderButton()}
       </form>

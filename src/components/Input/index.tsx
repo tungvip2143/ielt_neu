@@ -30,7 +30,6 @@ const useStyles = makeStyles((theme) => ({
 
 const helperTextStyles = makeStyles((theme) => ({
   root: {
-    margin: 4,
     color: "black",
   },
   error: {
