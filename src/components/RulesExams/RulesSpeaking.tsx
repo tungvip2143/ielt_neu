@@ -2,7 +2,7 @@ import React, { Fragment } from "react";
 import RulesExam from "components/Exams/RulesExam";
 import Text from "components/Typography/index";
 
-const RulesListening = () => {
+const RuleSpeaking = () => {
   //! State
   const typeExam = "IELTS ACADEMY LISTENING";
   const timeExam = "you will have 30 minutes to do the Reading test";
@@ -66,4 +66,4 @@ const RulesListening = () => {
   );
 };
 
-export default RulesListening;
+export default RuleSpeaking;

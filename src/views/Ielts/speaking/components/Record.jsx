@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Box, Stack, Button } from "@mui/material";
 
 import KeyboardVoiceIcon from "@mui/icons-material/KeyboardVoice";
+import StopIcon from "@mui/icons-material/Stop";
 //
 
 const startBtn = {
@@ -91,13 +92,32 @@ const Record = (props) => {
         marginBottom: "40px",
       }}
     >
-      <Button
-        sx={startBtn}
-        variant="contained"
-        startIcon={<KeyboardVoiceIcon />}
-      >
-        START RECORDING
-      </Button>
+      {!isActive ? (
+        <Button
+          sx={startBtn}
+          variant="contained"
+          startIcon={<KeyboardVoiceIcon />}
+          onClick={() => {
+            startRecording();
+            setIsActive(!isActive);
+          }}
+        >
+          START RECORDING
+        </Button>
+      ) : (
+        <Button
+          sx={startBtn}
+          variant="contained"
+          startIcon={<StopIcon />}
+          onClick={() => {
+            stopRecording();
+            setIsActive(!isActive);
+          }}
+        >
+          STOP RECORDING
+        </Button>
+      )}
+
       <div style={{ fontSize: "30px", color: "red" }}>
         <span className="minute">{minute}</span>
         <span>:</span>
@@ -113,7 +133,7 @@ const Record = (props) => {
           }}
           htmlFor="icon-button-file"
         >
-          <div>
+          {/* <div>
             <button
               style={{
                 padding: "0.8rem 2rem",
@@ -162,7 +182,7 @@ const Record = (props) => {
             >
               Stop
             </button>
-          </div>
+          </div> */}
         </label>
       </div>
       <b></b>

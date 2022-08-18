@@ -16,6 +16,7 @@ import ModalSpeaking from "../../../components/Modal/ModalSpeaking";
 import ModalExit from "components/Modal/ModalExit";
 import { useHistory } from "react-router-dom";
 import StepTestMic from "./components/StepTestMic";
+import RuleSpeaking from "components/RulesExams/RulesSpeaking";
 
 //
 export interface IeltsSpeakingProps {}
