@@ -11,7 +11,7 @@ export interface Props extends IAllProps {
 const TinyMceCommon = forwardRef((props: Props, ref: any) => {
   const { height, initialValue } = props;
 
-  const [isError, setIsError] = useState(!initialValue);
+  const [isError, setIsError] = useState<boolean>(false);
 
   useEffect(() => {
     setIsError(!initialValue);
@@ -49,7 +49,7 @@ const TinyMceCommon = forwardRef((props: Props, ref: any) => {
         initialValue={initialValue}
         {...props}
       />
-      {isError && <Typography style={{ color: "red", fontSize: 14 }}>This is required field</Typography>}
+      {/* {isError && <Typography style={{ color: "red", fontSize: 14 }}>This is required field</Typography>} */}
     </>
   );
 });

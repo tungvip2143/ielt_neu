@@ -38,7 +38,7 @@ const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
   const params = useParams<any>();
   const editorRef = useRef<any>();
-
+  const [text, setText] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
@@ -116,6 +116,7 @@ const CreateQuestionReading = (props: Props) => {
         passageTitle: data.partTitle,
         passageText: editorRef.current.getContent(),
       };
+
       try {
         const response = await ReadingService.postCreatePart(body);
 
