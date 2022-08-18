@@ -26,11 +26,11 @@ const NoteCompletion = (props: Props) => {
     return new Handlebars.SafeString(
       `
       <input
-          name="answers[${blankId - 1}].studentAnswer"
+          name="answers[${blankId}].studentAnswer"
           id="input-${blankId}"
           type="text"
           onChange="handleTest()"
-          value='${values.answers[blankId - 1].studentAnswer}'
+          value='${values.answers[blankId].studentAnswer}'
         />
       `
     );
