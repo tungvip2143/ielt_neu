@@ -55,7 +55,7 @@ const styles = {
 const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
-  console.log("fileRef", fileRef.current);
+  const [existAudio, setExistAudio] = useState<boolean>(false);
 
   const { openCreateScreen } = props;
   const params = useParams<any>();
@@ -144,6 +144,10 @@ const CreateQuestionListening = (props: Props) => {
 
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
+      console.log("selectFile", selectFile);
+      if (selectFile === null) {
+        setExistAudio(true);
+      }
       const formData = new FormData();
       formData.append("file", selectFile);
 
@@ -162,6 +166,7 @@ const CreateQuestionListening = (props: Props) => {
             toast.success("Create part success!");
             history.push(RouteBase.UpdateListeningWId(response?.data?.data?.id));
           }
+          onSubmit;
         }
       } catch (error: any) {
         toast.error(error);
@@ -280,6 +285,23 @@ const CreateQuestionListening = (props: Props) => {
           onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
+        {existAudio && (
+          <span
+            style={{
+              display: "flex",
+              fontSize: "0.8rem",
+              fontWeight: "400",
+              lineHeight: "1.66",
+              fontFamily: "Arial",
+              textAlign: "left",
+              marginTop: "10px",
+
+              color: " red",
+            }}
+          >
+            This field is required!
+          </span>
+        )}
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (

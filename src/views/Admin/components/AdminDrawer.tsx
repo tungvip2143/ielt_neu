@@ -19,7 +19,18 @@ import { RouteBase } from "constants/routeUrl";
 import * as React from "react";
 import { Link } from "react-router-dom";
 import "./Styles.scss";
-
+interface Menu {
+  id?: number;
+  titleMenu?: string;
+  icon?: JSX.Element;
+  subMenu?: {
+    id: number;
+    title: string;
+    icon: JSX.Element;
+    link: any;
+  };
+  path?: any;
+}
 const MenuData = [
   {
     id: 1,

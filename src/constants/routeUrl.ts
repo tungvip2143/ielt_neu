@@ -15,8 +15,11 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
-  AdminUser:"/admin/user",
-
+  //User
+  AdminUser: "/admin/user",
+  CreateUser: "/admin/userbank/user/create",
+  UpdateUser: "/admin/userbank/user/:id",
+  UpdateUserWID: (id: string | number) => `/admin/userbank/user/${id}`,
   //Listening
   Listening: "/admin/listening",
   CreateListening: "/admin/questionbank/listening/create",
