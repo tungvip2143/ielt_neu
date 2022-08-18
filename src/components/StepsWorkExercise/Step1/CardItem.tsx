@@ -20,6 +20,7 @@ interface PropsItemQuestion {
   onCollapse?: any;
   questionType?: string;
   image?: string;
+  answerList?: any;
 }
 const ItemQuestion = ({
   question = [],
@@ -29,6 +30,7 @@ const ItemQuestion = ({
   questionBox,
   image,
   onHightLightNumberPage,
+  answerList,
   ...remainProps
 }: PropsItemQuestion) => {
   console.log("questionType", questionType);
@@ -49,7 +51,7 @@ const ItemQuestion = ({
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-      return <MatchingType questionBox={questionBox} data={data} />;
+      return <MatchingType answerList={answerList} questionBox={questionBox} data={data} />;
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return <QuestionBox questionBox={questionBox} />;
