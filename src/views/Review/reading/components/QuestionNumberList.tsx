@@ -2,10 +2,7 @@ import { useState } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-//
-//
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
