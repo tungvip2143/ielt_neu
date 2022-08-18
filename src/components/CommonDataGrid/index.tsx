@@ -11,7 +11,7 @@ interface ICommonDataGrid {
   rows: Array<any>;
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (pageSize: number) => void;
-
+  getRowId?: any;
   checkboxSelection?: boolean;
 }
 
@@ -20,12 +20,14 @@ export default function CommonDataGrid({
   loading,
   pagination,
   rows,
+  getRowId,
   onPageChange = () => null,
   onPageSizeChange = () => null,
   checkboxSelection,
 }: ICommonDataGrid) {
   return (
     <DataGrid
+      getRowId={getRowId}
       loading={loading}
       rows={rows}
       columns={columns}

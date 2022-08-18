@@ -1,122 +1,118 @@
-import React, { useState } from "react";
-import Button from "@mui/material/Button";
-import { ResponseUser } from "interfaces/userInterface";
-import { Box, Paper } from "@mui/material";
-import { useForm } from "react-hook-form";
-import "../../Admin.scss";
-import InputCommon from "components/Input";
-import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
-import ButtonSave from "components/Button/ButtonSave";
-import SaveIcon from "@mui/icons-material/Save";
+// import TableCommon from "./TableCommon";
+import AddIcon from "@mui/icons-material/Add";
+import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
+import CommonActionMenu from "components/CommonActionMenu";
+import CommonDataGrid from "components/CommonDataGrid";
+import useGetParts from "hooks/UserManagement/useGetParts";
+import { Link, useHistory } from "react-router-dom";
+import userService from "services/userService";
+import { RouteBase } from "constants/routeUrl";
+
 const styles = {
-  imgProflile: {
-    display: "flex",
-    flexDirection: "column" as "column",
-    alignItems: "center",
-    width: "200px",
-    margin: "40px",
+  titleTable: {
+    fontSize: 14,
+    fontWeight: "bold",
   },
 };
-const cssButton = {
-  // padding: "10px 100px",
-  borderRadius: "8px",
-  color: "#ffff",
-  fontWeight: 700,
-  fontSize: "14px",
-  background: "#9155FE",
-  "&:hover": {
-    background: "#fff",
-    color: "#9155FE",
-    border: "1px solid #9155FE",
-  },
-};
-const UserAdmin = () => {
-  const validationSchema = yup.object().shape({
-    userName: yup.string().required("This field is required!"),
-    // questionTip: yup.string().required("This field is required!"),
-    partNumber: yup.string().required("This field is required!"),
-  });
-  const formController = useForm<ResponseUser>({
-    mode: "onChange",
-    resolver: yupResolver(validationSchema),
-    defaultValues: { userName: "admin" || {} },
-  });
-  const { control, handleSubmit, setValue, getValues, reset } = formController;
-  const [selectedFile, setSelectedFile] = useState<any>(
-    "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png"
-  );
-  console.log("selectedFile", selectedFile);
 
-  const imageHandler = (event: any) => {
-    const reader = new FileReader();
-    console.log("reader", reader);
+const ListeningSkill = () => {
+  //! State
 
-    reader.onload = () => {
-      if (reader.readyState === 2) {
-        setSelectedFile(reader.result);
-      }
-    };
-    reader.readAsDataURL(event.target.files[0]);
+  const {
+    data: dataParts,
+    loading,
+    error,
+    refetchDataTable,
+    meta: metaPart,
+    onPageChange,
+    onPageSizeChange,
+  } = useGetParts();
+  console.log("dataPartsUser", dataParts);
+
+  const history = useHistory();
+
+  const onDeletePart = async (item: any) => {
+    try {
+      await userService.deletePart(item?.id);
+      refetchDataTable();
+    } catch (error) {
+      console.log("error");
+    }
   };
-  const onSubmit = async (data: any) => {
-    console.log("asdas");
-  };
+
+  //! Render
   return (
-    <div style={{ display: "flex", justifyContent: "center" }}>
-      <Box
-        sx={{
-          display: "flex",
-          flexWrap: "wrap",
-          "& > :not(style)": {
-            m: 1,
-            width: 800,
-            height: 500,
-          },
-        }}
-      >
-        <Paper elevation={10}>
-          <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} style={{ display: "flex" }}>
-            <div style={styles.imgProflile}>
-              <img src={selectedFile} alt="img" style={{ width: "200px", height: "200px" }} />
-              <Button size="small" variant="contained" component="label" sx={{ maxWidth: "100px", marginTop: "10px" }}>
-                Upload
-                <input hidden accept="image/*" multiple type="file" onChange={imageHandler} />
-              </Button>
-            </div>
-            <div style={{ width: "350px", marginTop: "40px", marginLeft: "20px", position: "relative" }}>
-              <InputCommon
-                id="standard-basic"
-                variant="outlined"
-                label="Username"
-                name="userName"
-                control={control}
-                fullWidth
-                size="small"
-                sx={{ marginBottom: "15px" }}
-                required
-              />
-              <InputCommon
-                id="standard-basic"
-                variant="outlined"
-                label="Email"
-                name="email"
-                control={control}
-                fullWidth
-                size="small"
-              />
-              <ButtonUpload
-                titleButton="Save"
-                icon={<SaveIcon />}
-                style={{ background: "#9155FE", position: "absolute", right: 0, marginTop: "10px" }}
-              />
-            </div>
-          </form>
-        </Paper>
-      </Box>
+    <div>
+      <div style={{ textAlign: "end", marginBottom: 10 }}>
+        <Link to={RouteBase.CreateUser}>
+          <ButtonUpload
+            titleButton="Create User"
+            icon={<AddIcon />}
+            onClick={() => {}}
+            style={{ background: "#9155FE" }}
+          />
+        </Link>
+      </div>
+
+      <Card>
+        <CommonDataGrid
+          columns={[
+            {
+              flex: 1,
+              field: "username",
+              renderHeader: () => <Typography style={styles.titleTable}>Username</Typography>,
+            },
+            {
+              flex: 1,
+              field: "email",
+              renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
+            },
+            {
+              flex: 1,
+              field: "createdAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
+            },
+            {
+              flex: 1,
+              field: "updatedAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
+            },
+            {
+              flex: 0.3,
+              field: "action",
+              filterable: false,
+              hideSortIcons: true,
+              disableColumnMenu: true,
+              renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
+              renderCell: (items: any) => {
+                return (
+                  <CommonActionMenu
+                    onEdit={() => {
+                      history.push(RouteBase.UpdateUserWID(items.id));
+                    }}
+                    onSubmitRemove={onDeletePart}
+                    row={items}
+                  />
+                );
+              },
+            },
+          ]}
+          checkboxSelection
+          pagination={{
+            page: metaPart?.page,
+            pageSize: metaPart?.pageSize,
+            totalRow: metaPart?.totalRow,
+          }}
+          loading={loading}
+          rows={dataParts}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+          getRowId={(row: any) => row._id}
+        />
+      </Card>
     </div>
   );
 };
 
-export default UserAdmin;
+export default ListeningSkill;

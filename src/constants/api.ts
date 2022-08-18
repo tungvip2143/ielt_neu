@@ -93,5 +93,14 @@ export const ADMIN_SPEAKING_URL = (id?: string | number) => {
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/speaking/`,
     POST_LIST_SPEAKING_QUESTIONS: `${ROOT_URL}/question-groups/speaking`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/speaking`,
+  }
+}
+export const ADMIN_USER_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/users?page=1&pageSize=10&sort=createdAt%3ADESC`,
+    GET_PART_DETAIL: `${ROOT_URL}/users/`,
+    POST_CREATE_PART: `${ROOT_URL}/users/`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/users/`,
+    DELETE_PART: `${ROOT_URL}/users`,
   };
 };

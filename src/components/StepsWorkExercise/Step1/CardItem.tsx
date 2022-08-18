@@ -21,6 +21,7 @@ interface PropsItemQuestion {
   questionType?: string;
   image?: string;
   answerList?: any;
+  directionText?: any;
 }
 const ItemQuestion = ({
   question = [],
@@ -35,16 +36,6 @@ const ItemQuestion = ({
 }: PropsItemQuestion) => {
   console.log("questionType", questionType);
 
-  // const [value, setValue] = useState("a");
-  // const [expanded, setExpanded] = useState(remainProps.expanded);
-
-  // const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
-  //   console.log("newExpanded", newExpanded);
-  //   setExpanded(newExpanded ? id : false);
-  // };
-  // useEffect(() => {
-  //   setExpanded(remainProps.expanded);
-  // }, [remainProps.expanded]);
   const { values } = useFormikContext();
 
   console.log("values formik", values);
@@ -60,7 +51,7 @@ const ItemQuestion = ({
       return <QuestionBox questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-      return <MachingHeading answerList={answerList} data={data} />;
+      return <MachingHeading question={question} answerList={answerList} data={data} />;
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
       return <FlowChart question={question} image={image} />;

@@ -65,7 +65,8 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
-      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS
+      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS ||
+      questionType === QUESTION_TYPE.MATCHING_HEADINGS
     ) {
       return (
         <ItemQuestion

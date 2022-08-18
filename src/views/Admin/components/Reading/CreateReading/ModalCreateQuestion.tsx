@@ -51,8 +51,8 @@ const ModalCreateQuestion = (props: Props) => {
   const [questionType, setQuestionType] = useState<number | undefined | string>("");
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
-  const [selectFile, setSelectFile] = useState<any>();
-
+  const [selectFile, setSelectFile] = useState<any>("");
+  const [image, setImage] = useState<any>();
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -97,42 +97,57 @@ const ModalCreateQuestion = (props: Props) => {
       resetAsyncForm(dataQuestionDetail);
     }
   }, [dataQuestionDetail?.id, dataQuestionType?.length]);
+  const handleClick = () => {
+    fileRef.current.click();
+
+    console.log("selectFile", selectFile);
+  };
+
+  const onFileChange = async (event: any) => {
+    if (event.target && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      setSelectFile(event.target.files[0]);
+      try {
+        const responseImage = await audioService.postAudioListening(formData);
+        if (responseImage?.data?.statusCode === 200) {
+          setImage(responseImage?.data?.data?.uri);
+        }
+      } catch (error) {
+        console.log("error", error, fetchData);
+      }
+    }
+  };
 
   const onSubmit = async (data: any) => {
     const keys = ["A", "B", "C", "D"];
     if (openModal.type === "createQuestion") {
-      const formData = new FormData();
-      formData.append("file", selectFile);
-      try {
-        const responseImage = await audioService.postAudioListening(formData);
-        if (responseImage?.data?.statusCode === 200) {
-          const body = {
-            level: "A1",
-            answerList: matchingRef && matchingRef?.current?.getContent(),
-            directionText: directionRef?.current?.getContent(),
-            image: responseImage?.data?.data?.uri,
-            questionTypeTips: editorRef && editorRef?.current?.getContent(),
-            questionBox: data.questionBox,
-            questionType: data.questionType,
-            questions: data?.questions?.map((el: any) => {
-              return {
-                ...el,
-                options:
-                  data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                    ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
-                    : [],
-              };
-            }),
-
-            partId: id,
+      const body = {
+        level: "A1",
+        answerList: matchingRef && matchingRef?.current?.getContent(),
+        directionText: directionRef?.current?.getContent(),
+        image: image ? image : "",
+        questionTypeTips: editorRef && editorRef?.current?.getContent(),
+        questionBox: data.questionBox,
+        questionType: data.questionType,
+        questions: data?.questions?.map((el: any) => {
+          return {
+            ...el,
+            options:
+              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
+                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                : [],
           };
+        }),
 
-          const response = await ReadingService.postCreateQuestionGroupReading(body);
-          if (response.data.statusCode === 200) {
-            toast.success("Create question group success!");
-            fetchData();
-            onCloseModal();
-          }
+        partId: id,
+      };
+      try {
+        const response = await ReadingService.postCreateQuestionGroupReading(body);
+        if (response.data.statusCode === 200) {
+          toast.success("Create question group success!");
+          fetchData();
+          onCloseModal();
         }
       } catch (error) {
         console.log("error", error, fetchData);
@@ -144,7 +159,7 @@ const ModalCreateQuestion = (props: Props) => {
         level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
         directionText: directionRef?.current.getContent(),
-        // image: responseImage?.data?.data?.uri,
+        image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox: data.questionBox,
         questionType: data.questionType,
@@ -226,15 +241,7 @@ const ModalCreateQuestion = (props: Props) => {
     remove(index);
   };
 
-  const handleOpenFile = () => {
-    fileRef.current.click();
-  };
-
-  const onFileChange = (event: any) => {
-    setSelectFile(event.target.files[0]);
-  };
-
-  const renderViewType = (type: any) => {
+  const renderViewType = (type?: any, data?: any) => {
     switch (type) {
       case "IDENTIFYING_INFORMATION":
         return (
@@ -397,7 +404,7 @@ const ModalCreateQuestion = (props: Props) => {
             <ButtonUpload
               style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
               titleButton="Upload image"
-              onClick={handleOpenFile}
+              onClick={handleClick}
             />
             {openModal.type !== "detailQuestion" && (
               <div className="text-end">
