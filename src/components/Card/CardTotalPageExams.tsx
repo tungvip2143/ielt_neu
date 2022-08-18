@@ -77,7 +77,7 @@ const CardTotalPageExams = ({
   hightLightNumberPage,
   onClickPageNumber,
 }: CardTotalPageExamsI) => {
-  const [highlightPage, setHighlightPage] = useState();
+  const [highlightPage, setHighlightPage] = useState("1");
 
   //! State
   const classes = useStyles();
@@ -90,12 +90,12 @@ const CardTotalPageExams = ({
       const handleClickQuestion = (part: any, group: any) => {
         sectionRender.part = index;
         onClickPage(sectionRender);
-        setHighlightPage(partValues.questionId);
+        setHighlightPage(partValues.question.displayNumber);
       };
       const hightLightDidTheHomework = () => {
         const add = Number(partValues.question.displayNumber) - 1;
 
-        if (highlightPage === partValues.questionId) {
+        if (highlightPage === partValues.question.displayNumber) {
           return { background: "#4C80F1", borderRadius: "50%" };
         } else if (values?.answers[`${add}`]?.studentAnswer) {
           return { background: "#90caf9 ", borderRadius: "50%" };
