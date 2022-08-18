@@ -2,35 +2,34 @@ import { yupResolver } from "@hookform/resolvers/yup";
 import AddIcon from "@mui/icons-material/Add";
 import BlockIcon from "@mui/icons-material/Block";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import UndoIcon from "@mui/icons-material/Undo";
 import { Button, Card, Stack, Typography } from "@mui/material";
-import { Editor } from "@tinymce/tinymce-react";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
+import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
-import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
+import { IMAGE_URL } from "constants/constants";
+import { RouteBase } from "constants/routeUrl";
 import useGetPartDetail from "hooks/Reading/useGetPartDetail";
+import useGetListSpeakingQuestion from "hooks/Speaking/useGetListSpeakingQuestion";
 import { ResponseParams } from "interfaces/questionInterface";
+import { isEmpty } from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import { useForm } from "react-hook-form";
-import ReadingService from "services/ReadingService";
-import * as yup from "yup";
-import ModalCreateQuestion from "./ModalCreateQuestion";
 import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import { useForm } from "react-hook-form";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
-import EditIcon from "@mui/icons-material/Edit";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import { isEmpty } from "lodash";
-import "react-h5-audio-player/lib/styles.css";
-import SelectField from "components/CustomField/SelectField";
 import audioService from "services/audioService";
+import ReadingService from "services/ReadingService";
 import speakingService from "services/speakingService";
-import { RouteBase } from "constants/routeUrl";
-import useGetListSpeakingQuestion from "hooks/Speaking/useGetListSpeakingQuestion";
+import * as yup from "yup";
+import ModalCreateQuestion from "./ModalCreateQuestion";
 
 export interface Props {
   openCreateScreen: {
@@ -46,10 +45,13 @@ const CreateQuestionListening = (props: Props) => {
   const { openCreateScreen } = props;
   const params = useParams<any>();
   const [openModal, setOpenModal] = useState({});
-  const validationSchema = yup.object().shape({});
   const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
   const [dataSpeaking, loading, error, refetchQuestionGroup] = useGetListSpeakingQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
+
+  const validationSchema = yup.object().shape({
+    partNumber: yup.mixed().required("This is field required"),
+  });
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -107,6 +109,8 @@ const CreateQuestionListening = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
+    console.log("data", data);
+
     if (openCreateScreen.type === "create") {
       const formData = new FormData();
       formData.append("file", selectFile);
@@ -194,22 +198,18 @@ const CreateQuestionListening = (props: Props) => {
         <AudioPlayer
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-          src={
-            selectFile
-              ? URL.createObjectURL(selectFile)
-              : `http://103.226.250.81:8688/${dataPartDetail?.directionAudio}`
-          }
+          src={selectFile ? URL.createObjectURL(selectFile) : `${IMAGE_URL}${dataPartDetail?.directionAudio}`}
           onPlay={(e) => console.log("onPlay")}
           showJumpControls={false}
           loop={false}
           autoPlayAfterSrcChange={false}
         />
       )}
-      <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onFileChange} />
+      <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
       <div className="text-end mb-2">
         <ButtonUpload
-          style={{ display: "flex" }}
-          titleButton="Upload audio"
+          style={{ display: "flex", height: 40 }}
+          titleButton="Upload direction audio"
           disabled={openCreateScreen.type === "update" && !isEdit}
           onClick={handleOpenFile}
         />
