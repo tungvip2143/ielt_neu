@@ -77,7 +77,6 @@ const CardTotalPageExams = ({
   hightLightNumberPage,
   onClickPageNumber,
 }: CardTotalPageExamsI) => {
-  console.log("questions", questions);
   const [highlightPage, setHighlightPage] = useState();
 
   //! State

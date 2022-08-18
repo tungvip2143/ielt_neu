@@ -7,6 +7,7 @@ import {
   AccordionDetails,
   Accordion,
   AccordionSummary,
+  Typography,
 } from "@mui/material";
 import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
@@ -114,7 +115,7 @@ const IdentifyInformationType = (props: Props) => {
                         // value={true}
                       />
                     }
-                    label={"TRUE"}
+                    label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
                   />
                   <FormControlLabel
                     value={false}
@@ -127,7 +128,7 @@ const IdentifyInformationType = (props: Props) => {
                         // value={false}
                       />
                     }
-                    label={"FALSE"}
+                    label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
                   />
                   <FormControlLabel
                     value={"not_given"}
@@ -140,7 +141,7 @@ const IdentifyInformationType = (props: Props) => {
                         // value={"NOT_GIVEN"}
                       />
                     }
-                    label={"NOT_GIVEN"}
+                    label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
                   />
                 </RadioGroup>
               </FormControl>
