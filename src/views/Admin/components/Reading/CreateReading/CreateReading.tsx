@@ -8,7 +8,6 @@ import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import UndoIcon from "@mui/icons-material/Undo";
 import { Button, Card, Stack, Typography } from "@mui/material";
-import { Editor } from "@tinymce/tinymce-react";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
@@ -27,6 +26,8 @@ import ModalCreateQuestion from "./ModalCreateQuestion";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import SelectField from "components/CustomField/SelectField";
 import { RouteBase } from "constants/routeUrl";
+import TinyMceCommon from "components/TinyMceCommon";
+import LoadingPage from "components/Loading";
 
 export interface Props {
   openCreateScreen: {
@@ -49,6 +50,10 @@ const CreateQuestionReading = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
   const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(params?.id);
   const [isEdit, setIsEdit] = useState(false);
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -186,22 +191,11 @@ const CreateQuestionReading = (props: Props) => {
       </div>
 
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <Editor
-          tagName="questionTip"
-          apiKey="no-api-key"
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
-          initialValue={
-            dataPartDetail ? dataPartDetail.passageText : "<p>This is the initial content of the editor.</p>"
-          }
-          init={{
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
+        <TinyMceCommon
+          ref={editorRef}
+          initialValue={dataPartDetail ? dataPartDetail.passageText : "Passage text"}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        <Typography>{err}</Typography>
       </Card>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
