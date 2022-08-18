@@ -2,7 +2,7 @@ import React from "react";
 interface ButtonCancel {
   title?: string;
   icon?: any;
-  onClick?: () => void
+  onClick?: () => void;
 }
 import ButtonCommon from "./index";
 const ButtonCancel: React.FC<ButtonCancel> = ({ title, icon, onClick }) => {

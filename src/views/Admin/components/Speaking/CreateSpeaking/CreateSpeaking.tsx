@@ -208,7 +208,7 @@ const CreateQuestionListening = (props: Props) => {
       <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onFileChange} />
       <div className="text-end mb-2">
         <ButtonUpload
-          style={{ display: "flex", width: 130, height: 40 }}
+          style={{ display: "flex" }}
           titleButton="Upload audio"
           disabled={openCreateScreen.type === "update" && !isEdit}
           onClick={handleOpenFile}

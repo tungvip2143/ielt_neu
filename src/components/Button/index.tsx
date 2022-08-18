@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
-import {Button,ButtonProps} from "@mui/material";
+import { Button, ButtonProps } from "@mui/material";
 
 interface ButtonI {
   className?: string;
   type?: "button" | "submit" | "reset" | undefined;
   children: ReactNode;
-
+  disabled?: boolean;
   styleButton?: {
     padding?: string;
     borderRadius?: string;
@@ -34,6 +34,7 @@ const ButtonCommon: React.FC<ButtonI> = ({
   onChange,
   onClick,
   onKeyDown,
+  disabled,
 }) => {
   return (
     <Button
@@ -48,6 +49,5 @@ const ButtonCommon: React.FC<ButtonI> = ({
     </Button>
   );
 };
-
 
 export default ButtonCommon;

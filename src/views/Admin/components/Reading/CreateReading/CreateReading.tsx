@@ -27,7 +27,7 @@ import ModalCreateQuestion from "./ModalCreateQuestion";
 import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import SelectField from "components/CustomField/SelectField";
 import { RouteBase } from "constants/routeUrl";
-
+import TinyMceCommon from "components/TinyMceCommon";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -113,7 +113,6 @@ const CreateQuestionReading = (props: Props) => {
       };
       try {
         const response = await ReadingService.postCreatePart(body);
-        console.log("response", response);
 
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
@@ -186,7 +185,7 @@ const CreateQuestionReading = (props: Props) => {
       </div>
 
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <Editor
+        <TinyMceCommon
           tagName="questionTip"
           apiKey="no-api-key"
           onInit={(evt, editor) => {
@@ -201,7 +200,6 @@ const CreateQuestionReading = (props: Props) => {
           }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        <Typography>{err}</Typography>
       </Card>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
