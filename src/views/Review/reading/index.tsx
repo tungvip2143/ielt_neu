@@ -70,6 +70,7 @@ const ReadingReview = (props: any) => {
   const hightLightNumberPageClickQuestion = (displayNumber: any) => {
     setHightLightNumberPage(displayNumber);
   };
+
   const partRenderSelected = useMemo(() => {
     console.log("questions select", questions);
     const questionsWithPageNumberTemp = questions as any;

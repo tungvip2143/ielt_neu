@@ -29,6 +29,7 @@ const QuestionAnswer = ({
   hightLightNumberPage,
 }: QuestionAnswerI) => {
   console.log("showQuestion", showQuestion);
+
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
   const [dataPartGruop, setDataPartGroup] = useState();
