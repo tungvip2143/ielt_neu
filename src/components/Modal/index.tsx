@@ -24,6 +24,7 @@ interface ButtonMuiProps extends ButtonProps {
   background?: any;
   color?: any;
   letterSpacing?: any;
+  display?: any;
   padding?: any;
   onCancel: () => void;
   onConfirm?: () => void;
@@ -33,18 +34,6 @@ interface StackMuiProps extends StackProps {
   children: React.ReactNode;
   label?: string;
 }
-
-const btnCancle = {
-  p: "6px 16px",
-  color: "#5b5c61",
-  border: "1px solid #5b5c61",
-  textTransform: "uppercase",
-  letterSpacing: "2px",
-  "&:hover": {
-    background: "none",
-    border: "1px solid #5b5c61",
-  },
-};
 
 function Modal(props: Props) {
   // !Destructure props
@@ -88,16 +77,29 @@ const Content = (props: IProps) => {
 };
 
 const Button: React.FC<ButtonMuiProps> = (props) => {
-  const { children, cancel, confirm, onCancel, onConfirm, background, color, padding, ...rest } = props;
+  const { children, cancel, confirm, onCancel, onConfirm, background, color, padding, display, ...rest } = props;
   const btnConfirm = {
     background: background,
     color: color,
     padding: padding,
     letterSpacing: "2px",
     textTransform: "uppercase",
+    // display: display,
 
     "&:hover": {
       background: background,
+    },
+  };
+  const btnCancle = {
+    p: "6px 16px",
+    color: "#5b5c61",
+    border: "1px solid #5b5c61",
+    textTransform: "uppercase",
+    letterSpacing: "2px",
+    display: display,
+    "&:hover": {
+      background: "none",
+      border: "1px solid #5b5c61",
     },
   };
   return (
