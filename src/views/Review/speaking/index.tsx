@@ -1,24 +1,25 @@
 import React, { useEffect } from "react"; //
 import Box from "@mui/material/Box";
 import CardExercise from "components/Card/CardExercise";
+import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
+import TOFFL from "views/TOFFL/index";
 import Grid from "@mui/material/Grid";
 //
 import { useState } from "react";
-import { dataDummy, ieltsReadingDataDummy } from "api/ieltsResults";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
-import Writing from "./components/Writing";
-import CardPart from "components/Card/CardPart";
-import QuestionNumberList from "./components/QuestionNumberList";
-import { useGetWritingResultByTestCode } from "hooks/review/useIeltsReview";
+import Writing from "../writng/components/Writing";
+import QuestionNumberList from "../writng/components/QuestionNumberList";
+import { useGetSpeakingResultByTestCode } from "hooks/review/useIeltsReview";
 import { makeStyles } from "@mui/styles";
 import LoadingPage from "components/Loading";
 import { useParams } from "react-router-dom";
 import Header from "../Header/Header";
-import ContentRight from "./components/ContentRight";
+import ContentRight from "../writng/components/ContentRight";
 import ModalImage from "../../../components/Modal/ModalImage";
-import ModalRightAnswer from "./components/ModalRightAnswer";
+import ModalRightAnswer from "../writng/components/ContentRight";
 import Score from "../reading/components/Score";
+
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -32,7 +33,7 @@ interface Props {
   data?: any;
 }
 
-const WritingReview = (props: any) => {
+const SpeakingReview = (props: any) => {
   const [open, setOpen] = React.useState(false);
   const [isOpenAnswer, setIsModalAnswer] = useState(false);
   const [contentModal, setContentModal] = useState();
@@ -120,24 +121,25 @@ const WritingReview = (props: any) => {
             </Box>
           </Box>
         </Box>
-        {isOpenAnswer && <ModalRightAnswer handleCloseAnswer={handleCloseAnswer} content={contentModal} />}
+        {isOpenAnswer && <ModalRightAnswer />}
+        {/* chua co ham */}
         {open && <ModalImage image={image} handleClose={handleClose} />}
       </Box>
     </div>
   );
 };
 
-const WritingReviewContainer = () => {
+const SpeakingReviewContainer = () => {
   //   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
   const param = useParams();
   const { testCode }: any = param;
-  const { data, isLoading } = useGetWritingResultByTestCode(testCode);
+  const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
 
   if (isLoading) {
     return <LoadingPage />;
   }
 
-  return <WritingReview data={data?.data?.data?.writing} />;
+  return <SpeakingReview data={data?.data?.data?.writing} />;
 };
 
-export default WritingReviewContainer;
+export default SpeakingReviewContainer;
