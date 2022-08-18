@@ -60,7 +60,7 @@ const ItemQuestion = ({
       return <QuestionBox questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-      return <MachingHeading data={data} />;
+      return <MachingHeading answerList={answerList} data={data} />;
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
       return <FlowChart question={question} image={image} />;
