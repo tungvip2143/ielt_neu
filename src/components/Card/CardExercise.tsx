@@ -17,7 +17,6 @@ const CardExercise = ({ content, width }: Props) => {
     boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
     overflowY: { xs: "", lg: "scroll" },
     height: { xs: "", lg: "calc(100vh - 143px)" },
-    pb: { xs: "100px", lg: "200px" },
     mb: { xs: "40px", lg: "0" },
   };
   return (

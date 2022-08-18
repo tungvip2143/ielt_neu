@@ -73,6 +73,7 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
           questionType={questionType}
           questionBox={partRenderSelected?.questionBox}
           question={partRenderSelected?.questions}
+          answerList={partRenderSelected?.answerList}
         />
       );
     }

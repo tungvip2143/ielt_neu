@@ -12,12 +12,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 type Props = {
   data?: any;
+  answerList: string;
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data } = props;
+  const { data, answerList } = props;
   console.log("datamaching", data);
   const index = Number(data.question.displayNumber) - 1;
   const { setFieldValue } = useFormikContext();
@@ -28,6 +29,7 @@ const MachingHeading = (props: Props) => {
     <div className={classes.root}>
       {ReactHtmlParser(data?.question?.questionText)}
       <FastField size="small" name={`answers[${index}].studentAnswer`} onFocus={handleFocus} component={TextField} />
+      <div>{ReactHtmlParser(answerList)}</div>
     </div>
   );
 };
