@@ -22,6 +22,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
 import LoginEmail from "views/Login/LoginEmail";
+import ListeningReview from "./views/Review/listening/index";
 //
 
 const App: React.FC = () => {
@@ -44,6 +45,8 @@ const App: React.FC = () => {
           <Route path={RouteBase.Pricing} exact component={Pricing} />
           <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
           <Route path={RouteBase.WritingReview} exact component={WritngReview} />
+          <Route path={RouteBase.ListeningReview} exact component={ListeningReview} />
+
           <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
           <Route path={RouteBase.Home} component={DefaultLayout} />
           {/* Admin site */}

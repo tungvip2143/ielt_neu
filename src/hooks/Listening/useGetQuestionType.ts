@@ -1,5 +1,6 @@
+import listeningService  from 'services/listeningService';
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+
 
 const useGetQuestionType = () => {
   const [dataQuestionType, setDataQuestionType] = useState([]);
@@ -9,7 +10,7 @@ const useGetQuestionType = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListQuestionType();
+        const response = await listeningService.getListQuestionType();
         if (response.data.statusCode === 200) {
           setDataQuestionType(response?.data?.data || []);
         }

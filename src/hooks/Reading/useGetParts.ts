@@ -34,6 +34,8 @@ const useGetParts = () => {
         
         if (response.data.statusCode === 200) {
           const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
+          console.log('parts',parts);
+           
           setDataParts(parts);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }

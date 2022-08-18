@@ -5,11 +5,15 @@ import ReactHtmlParser from "react-html-parser";
 import { TextField } from "components/Textfield";
 import AnserwerBox from "../AnserwerBox";
 import { Typography } from "@mui/material";
-import Text from "components/Typography";
 import ExplanationBox from "../ExplanationBox";
+//
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+import Text from "components/Typography/index";
+import { Box } from "@mui/system";
 type Props = {
   data: any;
   questionBox: string;
+  numberPage: any;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -19,7 +23,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   questionBox: {
-    border: "1px solid #ccc",
+    // border: "1px solid #ccc",
     borderRadius: "5px",
   },
   question: {
@@ -54,15 +58,20 @@ const useStyles = makeStyles((theme) => ({
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const { data, questionBox } = props;
-  console.log("data3456", data);
+  const { data, questionBox, numberPage } = props;
+  console.log("123numberPage", data);
 
   return (
     <div className={classes.container}>
       <div className={classes.root}>
         {data?.map((question: any) => {
-          const index = Number(question?.question?.displayNumber) - 1;
-          return <Answer question={question} />;
+          return (
+            <>
+              {question?.question?.displayNumber === numberPage && (
+                <Answer question={question} numberPage={numberPage} />
+              )}
+            </>
+          );
         })}
       </div>
       <div className={classes.questionBox}>{ReactHtmlParser(questionBox)}</div>
@@ -70,42 +79,53 @@ const MachingType = (props: Props) => {
   );
 };
 
-const Answer = ({ question }: any) => {
-  const [showAnswer, setShowAnswer] = useState();
-
-  console.log("questionMaching", question);
+const Answer = ({ question, numberPage }: any) => {
+  console.log("questionMaching", numberPage);
   // !State
 
   const classes = useStyles();
-  const [showExplanation, setShowExplanation] = useState<boolean>(false);
 
   // !Function
-  const handleShowExplanation = () => setShowExplanation(!showExplanation);
   //
-  const handleShowAnswer = () => {
-    setShowAnswer(question.question.answer);
+
+  //
+  const textAnswer = () => {
+    if (question.studentAnswer === question.question.answer) {
+      return { color: themeCssSx.colorAnswer.correctAnswer };
+    } else {
+      return { color: themeCssSx.colorAnswer.inCorrectAnswer };
+    }
   };
   return (
     <>
-      <div className={classes.answerBox} onClick={handleShowAnswer}>
+      <Text.Sub20Bold sx={textAnswer()}>Question {question.question.displayNumber}</Text.Sub20Bold>
+
+      <div className={classes.answerBox}>
         <div className={classes.question} key={question._id}>
-          <div className={classes.question} onClick={handleShowExplanation}>
-            {`${question?.question?.displayNumber}.`}
-            {ReactHtmlParser(question?.question?.questionText)}
-          </div>
-          <div className={classes.answer}>
-            <AnserwerBox>{question?.question?.answer}</AnserwerBox>
-            {/* <Typography variant="textTrue">{question.question.answer}</Typography> */}
-          </div>
+          <Box
+            sx={{
+              p: "10px 20px",
+              justifyContent: "space-between",
+              display: "flex",
+              alignItems: "center",
+              width: "100%",
+              borderRadius: "8px",
+              background: themeCssSx.bgQuestion.title,
+            }}
+          >
+            <div className={classes.question}>{ReactHtmlParser(question?.question?.questionText)}</div>
+            <div className={classes.answer}>
+              <AnserwerBox>{question?.question?.answer}</AnserwerBox>
+            </div>
+          </Box>
         </div>
       </div>
-      {showAnswer === question.question.answer && (
-        <ExplanationBox
-          correctAnswer={question?.question?.answer}
-          studenAnswer={question?.studentAnswer}
-          explanation={question?.question?.explanationText}
-        />
-      )}
+
+      <ExplanationBox
+        correctAnswer={question?.question?.answer}
+        studenAnswer={question?.studentAnswer}
+        explanation={question?.question?.explanationText}
+      />
     </>
   );
 };

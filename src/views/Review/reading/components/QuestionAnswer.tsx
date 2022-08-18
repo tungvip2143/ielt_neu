@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-
 //
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import QuestionItem from "./QuestionItem";
-
+import Sign from "./Sign";
+import Text from "components/Typography/index";
 //
 // !type
 interface QuestionAnswerI {
@@ -17,6 +17,7 @@ interface QuestionAnswerI {
   onClickPage: (id: string) => void;
   onHightLightNumberPage: (displayNumber: string) => void;
   showQuestion?: any;
+  hightLightNumberPage?: any;
 }
 
 const QuestionAnswer = ({
@@ -25,13 +26,14 @@ const QuestionAnswer = ({
   onClickPage,
   showQuestion,
   onHightLightNumberPage,
+  hightLightNumberPage,
 }: QuestionAnswerI) => {
   console.log("showQuestion", showQuestion);
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
   const [dataPartGruop, setDataPartGroup] = useState();
   console.log("partRenderSelected2", partRenderSelected);
-  console.log("questionSelected", questionSelected);
+  console.log("hightLightNumberPage", hightLightNumberPage);
 
   //
   const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -64,6 +66,7 @@ const QuestionAnswer = ({
           questionBox={partRenderSelected?.questionBox}
           question={partRenderSelected?.questions}
           answerList={partRenderSelected?.answerList}
+          hightLightNumberPage={hightLightNumberPage}
         />
       );
     }
@@ -79,6 +82,7 @@ const QuestionAnswer = ({
             onCollapse={handleCollapse}
             questionBox={partRenderSelected?.questionBox}
             onHightLightNumberPage={onHightLightNumberPage}
+            hightLightNumberPage={hightLightNumberPage}
           />
         </>
       );
@@ -88,12 +92,9 @@ const QuestionAnswer = ({
   //! Render
   return (
     <Box>
-      <TitleExam title={partRenderSelected} />
+      <Sign />
       <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
         {renderPartValueGroup(partRenderSelected)}
-        {/* {partRenderSelected.map((item: any) => {
-          return <ItemQuestion expanded={expanded} onCollapse={handleCollapse} key={item.id} question={item} />;
-        })} */}
       </Stack>
     </Box>
   );
