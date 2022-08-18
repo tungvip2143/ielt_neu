@@ -4,6 +4,7 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
+import LoadingPage from "components/Loading";
 import { RouteBase } from "constants/routeUrl";
 import useGetParts from "hooks/Reading/useGetParts";
 import { isEmpty } from "lodash";
@@ -22,7 +23,6 @@ const styles = {
 };
 const ReadingSkill = () => {
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
-  console.log("metaPartReading", metaPart);
 
   const history = useHistory();
 
@@ -35,6 +35,10 @@ const ReadingSkill = () => {
       toast.error("error");
     }
   };
+
+  if (loading) {
+    return <LoadingPage />;
+  }
 
   return (
     <div>
@@ -77,7 +81,7 @@ const ReadingSkill = () => {
               field: "action",
               filterable: false,
               hideSortIcons: true,
-              disableColumnMenu: true,
+              // disableColumnMenu: true,
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
                 return (
