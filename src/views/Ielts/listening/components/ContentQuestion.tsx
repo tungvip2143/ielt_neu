@@ -14,11 +14,16 @@ const ContentQuestion = ({ ContentQuestion, audio }: Props) => {
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
-      return <NoteCompletion questionBox={ContentQuestion?.questionBox} audio={audio} />;
-    } else if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER) {
+      return <NoteCompletion questionBox={ContentQuestion?.questionBox} />;
+    }
+
+    if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER) {
       return <MultiChoice dataQuestions={ContentQuestion?.questions} audio={audio} />;
     }
+
+    return null;
   };
+
   return (
     <>
       <TitleExam title={ContentQuestion} />
