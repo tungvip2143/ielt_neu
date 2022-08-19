@@ -18,7 +18,9 @@ import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TinyMceCommon from "components/TinyMceCommon";
-
+import audioService from "services/audioService";
+import ButtonUpload from "components/Button/ButtonUpload";
+import { IMAGE_URL } from "constants/constants";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -35,7 +37,9 @@ const CreateQuestionWriting = (props: Props) => {
   const { openCreateScreen } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(params?.id);
-
+  const fileRef = useRef<any>();
+  const [selectFile, setSelectFile] = useState<any>("");
+  const [image, setImage] = useState<any>();
   const validationSchema = yup.object().shape({
     title: yup.string().required("This is field required"),
     questionPartNumber: yup.string().required("This is field required"),
@@ -46,6 +50,25 @@ const CreateQuestionWriting = (props: Props) => {
     resolver: yupResolver(validationSchema),
     defaultValues: validationSchema.getDefault({}),
   });
+  const handleClick = () => {
+    fileRef.current.click();
+  };
+
+  const onFileChange = async (event: any) => {
+    if (event.target && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      setSelectFile(event.target.files[0]);
+      try {
+        const responseImage = await audioService.postAudioListening(formData);
+        if (responseImage?.data?.statusCode === 200) {
+          setImage(responseImage?.data?.data?.uri);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+  };
 
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
@@ -53,7 +76,7 @@ const CreateQuestionWriting = (props: Props) => {
         level: "A1",
         analysisType: "NONE",
         questionType: "LINE_GRAPH",
-        image: "uploads/2022/01/01/pepe.png",
+        image: image ? image : "",
         questionText: editorRef.current.getContent(),
         title: data.title,
         usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
@@ -77,7 +100,7 @@ const CreateQuestionWriting = (props: Props) => {
         level: "A1",
         analysisType: "NONE",
         questionType: "LINE_GRAPH",
-        image: "uploads/2022/01/01/pepe.png",
+        image: image ? image : "",
         questionText: editorRef.current.getContent(),
         title: data.title,
         usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
@@ -159,18 +182,23 @@ const CreateQuestionWriting = (props: Props) => {
           </div>
         </div>
       </div>
-      {/* <Card className="p-[20px] mt-5">
-        <InputCommon
-          id="standard-basic"
-          label="Question"
-          variant="standard"
-          name="questionText"
-          control={control}
-          required
-          fullWidth
+      <Card className="p-[20px] mt-5">
+        <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
+        {(selectFile || dataQuestionDetail?.image) && (
+          <img
+            id="blah"
+            src={selectFile ? URL.createObjectURL(selectFile) : IMAGE_URL + dataQuestionDetail?.image}
+            alt="image"
+            style={{ width: "100%", maxHeight: 400, marginTop: 20, maxWidth: "700px" }}
+          />
+        )}
+        <ButtonUpload
+          style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+          titleButton="Upload image"
+          onClick={handleClick}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-      </Card> */}
+      </Card>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
         <TinyMceCommon
           ref={editorRef}
