@@ -25,6 +25,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import SelectField from "components/CustomField/SelectField";
 import { RouteBase } from "constants/routeUrl";
 import userService from "services/userService";
+
 export interface Props {
   openCreateScreen: {
     type: string;

@@ -34,7 +34,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsReading(9);
+  const { data, isLoading } = useIeltsReading(testCode);
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
   if (isLoading) {
@@ -45,7 +45,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    const body = { values: { answers }, testCode: 9 };
+    const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
