@@ -62,6 +62,7 @@ const ModalCreateQuestion = (props: Props) => {
         answer: "",
         explanationText: "",
         questionText: el?.questionBox,
+        blankNumber: el?.blankNumber,
         options: el.options?.map((e: any) => [{ key: e.key, text: e.text }]),
       })) || [{ key: "a", text: "<p>Text</p>" }],
     },
@@ -85,6 +86,7 @@ const ModalCreateQuestion = (props: Props) => {
         data?.questions.map((el: any) => ({
           questionText: el.questionText,
           answer: el.answer,
+          blankNumber: el.blankNumber,
           options: el.options.map((option: any) => option.text),
         }))
       );
@@ -99,8 +101,6 @@ const ModalCreateQuestion = (props: Props) => {
   }, [dataQuestionDetail?.id, dataQuestionType?.length]);
   const handleClick = () => {
     fileRef.current.click();
-
-    console.log("selectFile", selectFile);
   };
 
   const onFileChange = async (event: any) => {
@@ -461,6 +461,16 @@ const ModalCreateQuestion = (props: Props) => {
             {fields.map((field, index) => {
               return (
                 <div className="flex items-end justify-between mt-2">
+                  <div style={{ marginRight: 20 }}>
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Blank number"
+                      variant="standard"
+                      name={`questions[${index}].blankNumber`}
+                      disabled={openModal.type === "detailQuestion"}
+                    />
+                  </div>
                   <InputCommon
                     control={control}
                     id="standard-basic"
