@@ -4,7 +4,7 @@ import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
-import useGetParts from "hooks/Listening/useGetParts";
+import useGetParts from "hooks/QuestionBank/Listening/useGetParts";
 import { Link, useHistory } from "react-router-dom";
 import listeningService from "services/listeningService";
 import { RouteBase } from "constants/routeUrl";
@@ -100,7 +100,7 @@ const ListeningSkill = () => {
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,
-            totalRow: metaPart?.totalRow,
+            totalRow: metaPart?.total,
           }}
           loading={loading}
           rows={dataParts}

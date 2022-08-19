@@ -4,7 +4,7 @@ import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import { RouteBase } from "constants/routeUrl";
-import useGetParts from "hooks/Speaking/useGetParts";
+import useGetParts from "hooks/QuestionBank/Speaking/useGetParts";
 
 import { Link, useHistory } from "react-router-dom";
 import readingService from "services/ReadingService";
@@ -91,7 +91,7 @@ const SpeakingSkill = () => {
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,
-            totalRow: metaPart?.totalRow,
+            totalRow: metaPart?.total,
           }}
           loading={loading}
           rows={dataParts}

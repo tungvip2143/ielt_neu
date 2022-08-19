@@ -8,7 +8,6 @@ import ButtonSave from "components/Button/ButtonSave";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import TinyMceCommon from "components/TinyMceCommon";
-import useGetQuestionType from "hooks/Reading/useGetQuestionType";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -20,7 +19,7 @@ import ButtonUpload from "components/Button/ButtonUpload";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import speakingService from "services/speakingService";
 import audioService from "services/audioService";
-import useGetDetailQuestion from "hooks/Speaking/useGetDetailQuestion";
+import useGetDetailQuestion from "hooks/QuestionBank/Speaking/useGetDetailQuestion";
 import { IMAGE_URL } from "constants/constants";
 
 export interface Props {

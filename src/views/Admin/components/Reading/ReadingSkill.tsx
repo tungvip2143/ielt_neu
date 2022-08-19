@@ -6,7 +6,7 @@ import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import LoadingPage from "components/Loading";
 import { RouteBase } from "constants/routeUrl";
-import useGetParts from "hooks/Reading/useGetParts";
+import useGetParts from "hooks/QuestionBank/Reading/useGetParts";
 import { isEmpty } from "lodash";
 import MHeaderTable from "models/HeaderTable.model";
 import { useState } from "react";
