@@ -43,7 +43,7 @@ const useStyles = makeStyles((theme) => {
 });
 
 const QuestionNumberList = ({ questions, onClickPage }: QuestionNumberListI) => {
-  // console.log("questionSelected", questionSelected);
+  console.log("questionSelected", questions);
   const [highlightPage, setHighlightPage] = useState("1");
 
   //! State

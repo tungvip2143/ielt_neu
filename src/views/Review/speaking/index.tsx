@@ -17,9 +17,9 @@ import { useParams } from "react-router-dom";
 import Header from "../Header/Header";
 import ContentRight from "../writng/components/ContentRight";
 import ModalImage from "../../../components/Modal/ModalImage";
-import ModalRightAnswer from "../writng/components/ContentRight";
+import ModalRightAnswer from "../writng/components/ModalRightAnswer";
 import Score from "../reading/components/Score";
-
+import { data } from "./components/FakeData/FakeData";
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -30,25 +30,18 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 interface Props {
-  data?: any;
+  dataSpeaking?: any;
 }
 
-const SpeakingReview = (props: any) => {
+const SpeakingReview = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   const [isOpenAnswer, setIsModalAnswer] = useState(false);
   const [contentModal, setContentModal] = useState();
 
-  console.log("isOpenAnswer", isOpenAnswer);
-
   //! State
   const classes = useStyles();
-  const { data } = props;
-
-  const [questions, setQuestions] = useState([]);
-
-  useEffect(() => {
-    setQuestions(data);
-  }, []);
+  const { dataSpeaking } = props;
+  console.log("isOpenAnswer", dataSpeaking);
 
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
@@ -62,13 +55,13 @@ const SpeakingReview = (props: any) => {
 
   const partRenderSelected = useMemo(() => {
     console.log("group select", groupSelected);
-    const questionsWithPageNumberTemp = questions as any;
+    const questionsWithPageNumberTemp = dataSpeaking?.data?.speaking as any;
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
 
     return null;
-  }, [questions, groupSelected]);
+  }, [dataSpeaking, groupSelected]);
   //
   console.log("partRenderSelected11", partRenderSelected);
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab } =
@@ -103,8 +96,8 @@ const SpeakingReview = (props: any) => {
           <Box>
             <Box sx={{ display: "flex", flex: 1 }}>
               <Box sx={navLeft}>
-                <Score titleExam="Writing" />
-                <QuestionNumberList onClickPage={onClickPage} questions={questions} />
+                <Score titleExam="Speaking" />
+                <QuestionNumberList onClickPage={onClickPage} questions={dataSpeaking?.data?.speaking} />
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
                 <CardExercise
@@ -121,7 +114,7 @@ const SpeakingReview = (props: any) => {
             </Box>
           </Box>
         </Box>
-        {isOpenAnswer && <ModalRightAnswer />}
+        {isOpenAnswer && <ModalRightAnswer handleCloseAnswer={handleCloseAnswer} content={contentModal} />}
         {/* chua co ham */}
         {open && <ModalImage image={image} handleClose={handleClose} />}
       </Box>
@@ -131,15 +124,15 @@ const SpeakingReview = (props: any) => {
 
 const SpeakingReviewContainer = () => {
   //   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const param = useParams();
-  const { testCode }: any = param;
-  const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
+  // const param = useParams();
+  // const { testCode }: any = param;
+  // const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+  // if (isLoading) {
+  //   return <LoadingPage />;
+  // }
 
-  return <SpeakingReview data={data?.data?.data?.writing} />;
+  return <SpeakingReview dataSpeaking={data} />;
 };
 
 export default SpeakingReviewContainer;
