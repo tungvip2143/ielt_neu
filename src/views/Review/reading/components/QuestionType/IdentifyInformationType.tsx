@@ -81,19 +81,28 @@ const IdentifyInformationType = (props: Props) => {
     if (question.question.answer === AnswerBoolean.TRUE) {
       return { background: themeCssSx.colorAnswer.correctAnswer };
     }
+    if (question.studentAnswer === "true") {
+      return { background: themeCssSx.colorAnswer.inCorrectAnswer };
+    }
   };
   const hightLightFalseAnswer = () => {
     if (question.question.answer === AnswerBoolean.FALSE) {
       return { background: themeCssSx.colorAnswer.correctAnswer };
+    }
+    if (question.studentAnswer === "false") {
+      return { background: themeCssSx.colorAnswer.inCorrectAnswer };
     }
   };
   const hightLightNotGIVENAnswer = () => {
     if (question.question.answer === AnswerBoolean.NOTGIVEN) {
       return { background: themeCssSx.colorAnswer.correctAnswer };
     }
+    if (question.studentAnswer === "not_given") {
+      return { background: themeCssSx.colorAnswer.inCorrectAnswer };
+    }
   };
   const textAnswer = () => {
-    if (question.studentAnswer.toUpperCase() === question.question.answer) {
+    if (question?.studentAnswer?.toUpperCase() === question?.question?.answer) {
       return { color: themeCssSx.colorAnswer.correctAnswer };
     } else {
       return { color: themeCssSx.colorAnswer.inCorrectAnswer };
@@ -107,7 +116,7 @@ const IdentifyInformationType = (props: Props) => {
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={expanded == question.question.displayNumber}
+        expanded={expanded == question.question.displayNumber ?? "1"}
         onChange={onCollapse(question.question.displayNumber)}
         onClick={handleClickHightLightPage}
       >
@@ -132,12 +141,14 @@ const IdentifyInformationType = (props: Props) => {
         <AccordionDetails>
           <Stack direction="column" spacing={2}>
             {question.question.options.map((answer: any) => {
-              console.log("answer", question);
-
+              console.log("answer", answer);
+              const showYourAnswer = () => {
+                return question.studentAnswer === answer.key ? { background: "red", color: "#fff" } : {};
+              };
               return (
                 <>
                   <div key={answer._id} className={classes.answer}>
-                    <div
+                    <Box
                       className={classes.key}
                       style={{
                         background: question.question.answer === answer.key ? "#4bc82c" : "",
@@ -145,7 +156,8 @@ const IdentifyInformationType = (props: Props) => {
                         borderRadius: "3px",
                         width: "40px",
                       }}
-                    >{`${answer.key}.`}</div>
+                      sx={showYourAnswer()}
+                    >{`${answer.key}.`}</Box>
                     <div>{answer.text}</div>
                   </div>
                 </>
