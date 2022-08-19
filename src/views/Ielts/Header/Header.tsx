@@ -13,6 +13,7 @@ import LogoIelts from "assets/image/header/logo-ielts.png";
 import LogoEnglish from "assets/image/header/IELTSpartners.e1a4eda8.jpg";
 // ! type
 interface Props {
+  onClickSubmit?: () => void;
   onShowModalExit?: any;
 }
 const header = {
@@ -44,13 +45,14 @@ const headerTop = {
   p: "0 20px",
   alignItems: "center",
 };
-const Header = ({ onShowModalExit }: Props) => {
+
+const Header = ({ onShowModalExit, onClickSubmit }: Props) => {
   const { step } = useStepExam();
 
-  const { handleSubmit } = useFormikContext();
   const hanldeShowModalExit = () => {
     onShowModalExit();
   };
+
   return (
     <>
       <Box sx={headerTop}>
@@ -75,9 +77,7 @@ const Header = ({ onShowModalExit }: Props) => {
             <Button
               sx={btnSubmitStep2}
               endIcon={<AssignmentTurnedInIcon sx={{ fontSize: "24px !important" }} />}
-              onClick={() => {
-                handleSubmit();
-              }}
+              onClick={onClickSubmit}
             >
               SUBMIT
             </Button>
@@ -88,4 +88,4 @@ const Header = ({ onShowModalExit }: Props) => {
   );
 };
 
-export default Header;
+export default React.memo(Header);

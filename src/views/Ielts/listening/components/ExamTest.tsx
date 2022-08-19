@@ -65,7 +65,6 @@ const ExamTest = (props: Props) => {
   };
 
   //! Render
-
   const container = {
     width: "90%",
     maxWidth: "1440px",
