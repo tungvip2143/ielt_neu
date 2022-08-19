@@ -9,12 +9,13 @@ import { useMemo } from "react";
 import { Box } from "@mui/system";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
-type Props = {};
+type Props = {
+  data: any;
+};
 
 const ExamTest = (props: Props) => {
   // !State
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsListening(testCode);
+  const { data } = props;
   // const [questions, setQuestions] = React.useState(data || {});
 
   console.log("dataListening ", data);
@@ -39,9 +40,7 @@ const ExamTest = (props: Props) => {
 
   console.log("partRenderSelected", partRenderSelected);
   //
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+
   const container = {
     width: "90%",
     maxWidth: "1440px",
@@ -68,4 +67,15 @@ const ExamTest = (props: Props) => {
   );
 };
 
-export default ExamTest;
+const IeltsListeningContainer = () => {
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { data, isLoading } = useIeltsListening(testCode);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <ExamTest data={data} />;
+};
+
+export default IeltsListeningContainer;
