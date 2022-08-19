@@ -30,7 +30,7 @@ const Step2ExamContent = (props: any) => {
   const [questions, setQuestions] = useState(data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
-  const [questionSelected, setQuestionSelected] = useState<any>("1");
+  const [questionSelected, setQuestionSelected] = useState<any>();
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
