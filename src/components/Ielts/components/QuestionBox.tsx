@@ -14,7 +14,7 @@ const QuestionBox = (props: Props) => {
 
   Handlebars.registerHelper("blank", function (blankId: any) {
     return new Handlebars.SafeString(
-      `<input name='answers.[${blankId}].studentAnswer'   id="input-${blankId}" type="text" value="${values.answers[blankId].studentAnswer}" maxlength="30">`
+      `<input name='answers.[${blankId}].studentAnswer'   id="input-${blankId}" type="text" maxlength="30">`
     );
   });
 

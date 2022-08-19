@@ -47,8 +47,8 @@ const ReadingReview = (props: any) => {
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState([]);
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>();
+  const [showQuestion, setShowQuestion] = useState("1");
+  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   console.log("questions", questions);
 
   useEffect(() => {
@@ -70,6 +70,7 @@ const ReadingReview = (props: any) => {
   const hightLightNumberPageClickQuestion = (displayNumber: any) => {
     setHightLightNumberPage(displayNumber);
   };
+
   const partRenderSelected = useMemo(() => {
     console.log("questions select", questions);
     const questionsWithPageNumberTemp = questions as any;
