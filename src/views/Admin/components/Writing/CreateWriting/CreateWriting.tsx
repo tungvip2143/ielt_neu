@@ -8,7 +8,7 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
-import useGetDetailQuestion from "hooks/Writing/useGetDetailQuestion";
+import useGetDetailQuestion from "hooks/QuestionBank/Writing/useGetDetailQuestion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import writingServices from "services/writingServices";
@@ -17,7 +17,6 @@ import UndoIcon from "@mui/icons-material/Undo";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { RouteBase } from "constants/routeUrl";
 import TinyMceCommon from "components/TinyMceCommon";
 
 export interface Props {
