@@ -11,22 +11,28 @@ import CardPage from "./CardPage";
 //
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
-type Props = {};
+import ReactAudioPlayer from "react-audio-player";
+import { ROOT_ORIGINAL_URL } from "constants/api";
+type Props = {
+  data: any;
+};
 
 const ExamTest = (props: Props) => {
-  const [numberPage, setNumberPage] = React.useState("1");
-  console.log("numberPage", numberPage);
-
   // !State
+  const { data } = props;
+  const audioDatas = data?.data?.data || [];
+  const [numberPage, setNumberPage] = React.useState("1");
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
+    question: 0,
   });
-  console.log("groupSelected", groupSelected);
-  //
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsSpeaking(testCode);
-  console.log("data", data);
+  console.log("audioDatas", audioDatas);
+  let partLength = audioDatas.length;
+  let groupLength = audioDatas[groupSelected.part]//
+
+  .console
+    .log("data1234", data);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -46,9 +52,7 @@ const ExamTest = (props: Props) => {
     return null;
   }, [groupSelected]);
   //
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+
   //
   const container = {
     width: "90%",
@@ -62,7 +66,10 @@ const ExamTest = (props: Props) => {
         <CardExercise
           width={5.9}
           content={
-            <CardLeft ContentQuestion={partRenderSelected?.groups[groupSelected.group]} numberPage={numberPage} />
+            <div>
+              <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}`} autoPlay controls />
+              <CardLeft ContentQuestion={partRenderSelected?.groups[groupSelected.group]} numberPage={numberPage} />
+            </div>
           }
         />
         <CardExercise width={5.9} content={<CardRight />} />
@@ -72,4 +79,15 @@ const ExamTest = (props: Props) => {
   );
 };
 
-export default ExamTest;
+const IeltsSpeakingContainer = () => {
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { data, isLoading } = useIeltsSpeaking(testCode);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <ExamTest data={data} />;
+};
+
+export default IeltsSpeakingContainer;
