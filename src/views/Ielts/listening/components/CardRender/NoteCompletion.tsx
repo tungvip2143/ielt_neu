@@ -42,7 +42,7 @@ const NoteCompletion = (props: Props) => {
   return (
     <>
       <Box sx={{ mb: "20px" }}>
-        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} />
+        {/* <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} /> */}
       </Box>
       <div dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />;{/* <div>{text}</div> */}
     </>

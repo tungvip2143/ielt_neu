@@ -50,7 +50,7 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
   return (
     <>
       <Box sx={{ mb: "20px" }}>
-        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} />
+        {/* <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} /> */}
       </Box>
       <Box sx={formAnswer}>
         {dataQuestions.map((item: any) => {
