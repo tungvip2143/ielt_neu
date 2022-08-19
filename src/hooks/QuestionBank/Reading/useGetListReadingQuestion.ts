@@ -41,7 +41,6 @@ const useGetListReadingQuestion = (id: any) => {
     }
   }, [id]);
 
-
   return [dataReading, loading, error, refetchQuestionGroup];
 };
 

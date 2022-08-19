@@ -78,10 +78,19 @@ const QuestionNumberList = ({
         const hightLightNumberPageOnclickQuestion = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
             return { background: "#4C80F1", borderRadius: "50%" };
-          } else if (hightLightTrueAnswer()) {
+          }
+          if (hightLightTrueAnswer()) {
             return { background: themeCssSx.colorAnswer.correctAnswer, borderRadius: "50%" };
           }
+          if (hightLightTrueAnswer() === false) {
+            return { background: themeCssSx.colorAnswer.inCorrectAnswer, borderRadius: "50%" };
+          }
         };
+        // const highLightAnswer = () => {
+        //   if {
+        //     return { background: themeCssSx.colorAnswer.inCorrectAnswer, borderRadius: "50%" };
+        //   }
+        // };
         return (
           <>
             <Box
@@ -89,6 +98,7 @@ const QuestionNumberList = ({
               className={classes.eachQuestion}
               onClick={() => handleClickQuestion(partValues, partGroup)}
               style={hightLightNumberPageOnclickQuestion()}
+              // sx={highLightAnswer()}
             >
               <span>{item.question.displayNumber}</span>
             </Box>
