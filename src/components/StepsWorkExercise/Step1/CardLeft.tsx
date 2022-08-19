@@ -38,7 +38,8 @@ const useStyles = makeStyles((theme) => ({
 const CardLeft = ({ dataChangePart, test }: Props) => {
   console.log("content-p2", dataChangePart);
   const classes = useStyles();
-
+  const imageNull =
+    "http://103.226.250.81:8688/uploads/2022/8/5/bai-mau-ielts-writing-task-1-line-graphresultjpg-11343019082022582245.jpg";
   return (
     <>
       {test === IELT_TEST.READING && (
@@ -54,7 +55,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
           <div className={classes.div}>
             <img
               className={classes.img}
-              src={`${ROOT_ORIGINAL_URL}/${dataChangePart?.question?.image}`}
+              src={`${ROOT_ORIGINAL_URL}/${dataChangePart?.question?.image}` || imageNull}
               alt={`writing part ${dataChangePart?.question?.displayNumber}`}
             />
           </div>

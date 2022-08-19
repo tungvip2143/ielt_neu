@@ -13,14 +13,17 @@ import ReactAudioPlayer from "react-audio-player";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import useState from "react";
 
-type Props = {};
+type Props = {
+  data: any;
+};
 
 const ExamTest = (props: Props) => {
   //! State
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsListening(testCode);
+  const { data } = props;
+
   const audioData = data?.data.data || [];
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
+
   // const [questions, setQuestions] = React.useState(data || {});
   console.log("data124", data?.data.data);
 
@@ -62,9 +65,6 @@ const ExamTest = (props: Props) => {
   };
 
   //! Render
-  if (isLoading) {
-    return <LoadingPage />;
-  }
 
   const container = {
     width: "90%",
@@ -101,4 +101,15 @@ const ExamTest = (props: Props) => {
   );
 };
 
-export default ExamTest;
+const IeltsListeningContainer = () => {
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { data, isLoading } = useIeltsListening(testCode);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <ExamTest data={data} />;
+};
+
+export default IeltsListeningContainer;
