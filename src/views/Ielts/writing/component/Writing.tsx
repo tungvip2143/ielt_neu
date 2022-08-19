@@ -20,7 +20,7 @@ type Props = {
 const Writing = (props: Props) => {
   const classes = useStyles();
   const { groupSelected, questionId } = props;
-  console.log("groupSelected", groupSelected);
+  console.log("groupSelected", questionId);
 
   const { values, setFieldValue } = useFormikContext();
 

@@ -13,7 +13,7 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import InputCommon from "components/Input";
-import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
+// import useGetListReadingQuestion from "hooks/Reading";
 import useGetPartDetail from "hooks/UserManagement/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -25,6 +25,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import SelectField from "components/CustomField/SelectField";
 import { RouteBase } from "constants/routeUrl";
 import userService from "services/userService";
+
 export interface Props {
   openCreateScreen: {
     type: string;
