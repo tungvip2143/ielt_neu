@@ -168,29 +168,46 @@ const ExamTest = (props: Props) => {
     const formData = new FormData();
     formData.append("file", file);
 
-    await uploadAudioSpeaking(
-      { testCode, questionId, body: formData },
-      {
-        onSuccess: () => {
-          console.log("success");
-          if (groupSelected.question < questionsLength) {
-            setGroupSelected({ ...groupSelected, question: groupSelected.question + 1 });
-            return;
-          }
-          if (groupSelected.group < groupsLength) {
-            setGroupSelected({ ...groupSelected, group: groupSelected.group + 1, question: 0 });
-            return;
-          }
-          if (groupSelected.part < partsLength) {
-            setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
-            return;
-          } else {
-            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
-            return;
-          }
-        },
-      }
-    );
+    if (groupSelected.question < questionsLength) {
+      setGroupSelected({ ...groupSelected, question: groupSelected.question + 1 });
+      return;
+    }
+    if (groupSelected.group < groupsLength) {
+      setGroupSelected({ ...groupSelected, group: groupSelected.group + 1, question: 0 });
+      return;
+    }
+    if (groupSelected.part < partsLength) {
+      setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
+      return;
+    } else {
+      handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+      return;
+    }
+
+    // ------- wait checkout api------
+    // await uploadAudioSpeaking(
+    //   { testCode, questionId, body: formData },
+    //   {
+    //     onSuccess: () => {
+    //       console.log("success");
+    //       if (groupSelected.question < questionsLength) {
+    //         setGroupSelected({ ...groupSelected, question: groupSelected.question + 1 });
+    //         return;
+    //       }
+    //       if (groupSelected.group < groupsLength) {
+    //         setGroupSelected({ ...groupSelected, group: groupSelected.group + 1, question: 0 });
+    //         return;
+    //       }
+    //       if (groupSelected.part < partsLength) {
+    //         setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
+    //         return;
+    //       } else {
+    //         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+    //         return;
+    //       }
+    //     },
+    //   }
+    // );
   };
 
   // !Render

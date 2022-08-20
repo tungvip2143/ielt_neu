@@ -23,6 +23,14 @@ const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetConte
     height: { xs: "", lg: "calc(100vh - 143px)" },
     position: "relative",
   };
+
+  // !Function
+
+  const handleShowModelAnswer = () => {
+    handleSetContentModal();
+  };
+
+  // !Render
   return (
     <Grid item lg={4.8} sx={container}>
       <Stack direction="column" spacing={2} sx={{ pb: "80px" }}>
@@ -31,7 +39,7 @@ const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetConte
         <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={text}>
           Feedback
         </ContentOption>
-        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={modelAnswer}>
+        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleShowModelAnswer} contentRender={modelAnswer}>
           Model Answer
         </ContentOption>
         <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={organization}>
