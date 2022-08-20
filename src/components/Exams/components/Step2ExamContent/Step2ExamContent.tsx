@@ -30,13 +30,13 @@ const Step2ExamContent = (props: any) => {
   const [questions, setQuestions] = useState(data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
-  const [questionSelected, setQuestionSelected] = useState<any>("1");
+  const [questionSelected, setQuestionSelected] = useState<any>();
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState();
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>();
+  const [showQuestion, setShowQuestion] = useState("1");
+  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
 
   console.log("hightLightNumberPage", hightLightNumberPage);
 

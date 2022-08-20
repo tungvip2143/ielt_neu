@@ -1,5 +1,6 @@
 import React from "react";
 interface ButtonSave {
+  sx?: any;
   title?: string;
   icon?: any;
   type?: "submit" | "button" | "reset";

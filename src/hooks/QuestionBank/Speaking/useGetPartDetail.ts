@@ -1,19 +1,19 @@
 import MPartReading from "models/Reading/Part.model";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import speakingService from "services/speakingService";
 
-const useGetDetailQuestion = (id: any) => {
-  const [dataQuestionDetail, setDataQuestionDetail] = useState<MPartReading>({});
+const useGetPartDetail = (id: any) => {
+  const [dataPartDetail, setDataPartDetail] = useState<MPartReading>({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   const refetchData = async () => {
     if (!id) return;
     try {
-      const response = await ReadingService.getDetailQuestionGroup(id);
+      const response = await speakingService.getPartDetail(id);
 
       if (response.data.statusCode === 200) {
-        setDataQuestionDetail(response?.data?.data || {});
+        setDataPartDetail(response?.data?.data || {});
       }
     } catch (error: any) {
       setError(error);
@@ -23,9 +23,9 @@ const useGetDetailQuestion = (id: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getDetailQuestionGroup(id);
+        const response = await speakingService.getPartDetail(id);
         if (response.data.statusCode === 200) {
-          setDataQuestionDetail(response?.data?.data || {});
+          setDataPartDetail(response?.data?.data || {});
         }
         setLoading(false);
       } catch (error) {
@@ -38,7 +38,7 @@ const useGetDetailQuestion = (id: any) => {
     }
   }, [id]);
 
-  return [dataQuestionDetail, loading, error, refetchData];
+  return [dataPartDetail, loading, error, refetchData];
 };
 
-export default useGetDetailQuestion;
+export default useGetPartDetail;

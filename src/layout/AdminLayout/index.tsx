@@ -11,15 +11,13 @@ import CreateSpeaking from "views/Admin/components/Speaking/CreateSpeaking/Creat
 import ListeningSkill from "views/Admin/components/Listening/ListeningSkill";
 import ReadingSkill from "views/Admin/components/Reading/ReadingSkill";
 import SpeakingSkill from "views/Admin/components/Speaking/SpeakingSkill";
-// import WritingSkill from "views/Admin/components/Writing";
-// import CreateQuestionListening from "views/Admin/components/Listening/CreateQuestionListening/CreateQuestionListening";
-// import CreateQuestionSpeaking from "views/Admin/components/Speaking/CreateQuestionSpeaking/CreateQuestionSpeaking";
 import ExamManagement from "views/Admin/ExamManagement";
 import ContestManagement from "views/Admin/ContestManagemet";
 import CreateContest from "views/Admin/ContestManagemet/CreateContest";
 import WritingSkill from "views/Admin/components/Writing/WritingSkill";
 import StaticManagement from "views/Admin/StaticManagement";
 import UserAdmin from "views/Admin/components/UserAdmin/UserAdmin";
+import CreateUser from "views/Admin/components/UserAdmin/CreateUser/CreateUser";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
@@ -41,6 +39,16 @@ const AdminLayout: React.FC = (props) => {
             <PrivateRoute path={RouteBase.Writing} exact component={WritingSkill} />
             <PrivateRoute path={RouteBase.Reading} exact component={ReadingSkill} />
             <PrivateRoute path={RouteBase.AdminUser} exact component={UserAdmin} />
+            <PrivateRoute
+              path={RouteBase.CreateUser}
+              exact
+              component={() => <CreateUser openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateUser}
+              exact
+              component={() => <CreateUser openCreateScreen={{ type: "update" }} />}
+            />
             <PrivateRoute
               path={RouteBase.CreateListening}
               exact

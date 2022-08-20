@@ -7,6 +7,7 @@ import { TextField } from "components/Textfield";
 type Props = {
   data: any;
   questionBox: string;
+  answerList: string;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -18,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
   questionBox: {
     border: "1px solid #ccc",
     borderRadius: "5px",
+    padding: 8,
   },
   question: {
     display: "flex",
@@ -26,14 +28,14 @@ const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     flexDirection: "column",
-    gap: 8,
+    gap: 16,
   },
 }));
 
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const { data, questionBox } = props;
+  const { data, questionBox, answerList } = props;
 
   console.log("data3456", data);
   const { setFieldValue } = useFormikContext();
@@ -62,7 +64,7 @@ const MachingType = (props: Props) => {
           );
         })}
       </div>
-      <div className={classes.questionBox}>{ReactHtmlParser(questionBox)}</div>
+      <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>
     </div>
   );
 };

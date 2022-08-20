@@ -2,14 +2,12 @@ import { useState } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-//
-//
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
 import { IELT_TEST } from "interfaces/testType";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 
 interface QuestionNumberListI {
   questions: any;
@@ -54,7 +52,7 @@ const QuestionNumberList = ({
   hightLightNumberPage,
   onClickPageNumber,
 }: QuestionNumberListI) => {
-  // console.log("questionSelected", questionSelected);
+  // console.log("showAnswerTrue", showAnswerTrue);
   const [highlightPage, setHighlightPage] = useState();
 
   //! State
@@ -63,27 +61,6 @@ const QuestionNumberList = ({
   //
   const renderPartValues = (partValues: any, index: number) => {
     let sectionRender: any = {};
-    if (test === IELT_TEST.WRITING) {
-      const handleClickQuestion = (part: any, group: any) => {
-        sectionRender.part = index;
-        onClickPage(sectionRender);
-        setHighlightPage(partValues.questionId);
-      };
-      return (
-        <>
-          <div
-            key={partValues.id}
-            className={classes.eachQuestion}
-            onClick={() => handleClickQuestion(partValues, index)}
-            style={highlightPage === partValues.questionId ? { background: "#4C80F1", borderRadius: "50%" } : {}}
-            // style={values.answers[]}
-          >
-            <span>{partValues.question.displayNumber}</span>
-          </div>
-        </>
-      );
-    }
-
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
       return partGroup.questions.map((item: any, index: number) => {
         const handleClickQuestion = (part: any, group: any) => {
@@ -93,14 +70,17 @@ const QuestionNumberList = ({
           onClickPageNumber(item.question.displayNumber);
           setDisplayNumber(item.question.displayNumber);
         };
+        const hightLightTrueAnswer = () => {
+          return item?.studentAnswer?.toUpperCase() === item?.question?.answer;
+        };
+        console.log("absabdjb", hightLightTrueAnswer());
 
         const hightLightNumberPageOnclickQuestion = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
             return { background: "#4C80F1", borderRadius: "50%" };
+          } else if (hightLightTrueAnswer()) {
+            return { background: themeCssSx.colorAnswer.correctAnswer, borderRadius: "50%" };
           }
-          //   else if (values?.answers[`${add}`]?.studentAnswer) {
-          //     return { background: "#90caf9", borderRadius: "50%" };
-          //   }
         };
         return (
           <>

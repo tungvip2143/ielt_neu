@@ -61,6 +61,10 @@ class IeltsService {
   finishIeltsSpeaking(testCode: any) {
     return httpServices.post(IELTS_URL(testCode).FINISH_SPEAKING_TEST);
   }
+
+  uploadAudioSpeaking({ testCode, questionId, body }: { testCode: any; questionId: string; body: any }) {
+    return httpServices.patch(IELTS_URL(testCode, questionId).UPLOAD_AUDIO_SPEAKING, body);
+  }
 }
 
 export default new IeltsService();

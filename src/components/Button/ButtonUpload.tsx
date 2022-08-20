@@ -4,11 +4,11 @@ export interface Props {
   titleButton: string;
   type?: "button" | "submit" | "reset" | undefined;
   className?: string;
-  onClick?: () => void;
+  onClick?: () => any;
   children?: React.ReactNode;
   style?: React.CSSProperties;
   icon?: any;
-  disabled?: boolean
+  disabled?: boolean;
 }
 
 const ButtonUpload = (props: Props) => {

@@ -8,7 +8,7 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
-import useGetDetailQuestion from "hooks/Writing/useGetDetailQuestion";
+import useGetDetailQuestion from "hooks/QuestionBank/Writing/useGetDetailQuestion";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import writingServices from "services/writingServices";
@@ -17,8 +17,10 @@ import UndoIcon from "@mui/icons-material/Undo";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
 import { useHistory, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
-import { RouteBase } from "constants/routeUrl";
-
+import TinyMceCommon from "components/TinyMceCommon";
+import audioService from "services/audioService";
+import ButtonUpload from "components/Button/ButtonUpload";
+import { IMAGE_URL } from "constants/constants";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -27,18 +29,46 @@ export interface Props {
 const CreateQuestionWriting = (props: Props) => {
   const history = useHistory();
   const editorRef = useRef<any>();
+  const modelRef = useRef<any>();
+  const usefulGrammarRef = useRef<any>();
+  const ideaSuggestionRef = useRef<any>();
+  const organizationRef = useRef<any>();
   const params = useParams<any>();
   const { openCreateScreen } = props;
   const [isEdit, setIsEdit] = useState(false);
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(params?.id);
-
-  const validationSchema = yup.object().shape({});
+  const fileRef = useRef<any>();
+  const [selectFile, setSelectFile] = useState<any>("");
+  const [image, setImage] = useState<any>();
+  const validationSchema = yup.object().shape({
+    title: yup.string().required("This is field required"),
+    questionPartNumber: yup.string().required("This is field required"),
+  });
 
   const { register, control, handleSubmit, reset, watch, setValue } = useForm<any>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: validationSchema.getDefault({}),
   });
+  const handleClick = () => {
+    fileRef.current.click();
+  };
+
+  const onFileChange = async (event: any) => {
+    if (event.target && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      setSelectFile(event.target.files[0]);
+      try {
+        const responseImage = await audioService.postAudioListening(formData);
+        if (responseImage?.data?.statusCode === 200) {
+          setImage(responseImage?.data?.data?.uri);
+        }
+      } catch (error) {
+        console.log("error", error);
+      }
+    }
+  };
 
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
@@ -46,14 +76,13 @@ const CreateQuestionWriting = (props: Props) => {
         level: "A1",
         analysisType: "NONE",
         questionType: "LINE_GRAPH",
-        image: "uploads/2022/01/01/pepe.png",
-        questionText: data.questionText,
+        image: image ? image : "",
+        questionText: editorRef.current.getContent(),
         title: data.title,
-        tips: editorRef.current.getContent(),
-        usefulGrammarNVocab: "<p>Text</p>",
-        ideaSuggestion: "<p>Text</p>",
-        organization: "<p>Text</p>",
-        modelAnswer: "<p>Text</p>",
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        organization: organizationRef.current.getContent(),
+        modelAnswer: modelRef.current.getContent(),
         questionPartNumber: data.questionPartNumber,
       };
       try {
@@ -71,20 +100,20 @@ const CreateQuestionWriting = (props: Props) => {
         level: "A1",
         analysisType: "NONE",
         questionType: "LINE_GRAPH",
-        image: "uploads/2022/01/01/pepe.png",
-        questionText: data.questionText,
+        image: image ? image : "",
+        questionText: editorRef.current.getContent(),
         title: data.title,
-        tips: editorRef.current.getContent(),
-        usefulGrammarNVocab: "<p>Text</p>",
-        ideaSuggestion: "<p>Text</p>",
-        organization: "<p>Text</p>",
-        modelAnswer: "<p>Text</p>",
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        organization: organizationRef.current.getContent(),
+        modelAnswer: modelRef.current.getContent(),
         questionPartNumber: data.questionPartNumber,
       };
       try {
         const response = await writingServices.patchUpdateQuestion(params?.id, body);
         if (response?.data?.statusCode === 200) {
           toast.success("Update writing part success");
+          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -97,7 +126,7 @@ const CreateQuestionWriting = (props: Props) => {
       reset({
         title: data?.title,
         questionText: data?.questionText,
-        part: data?.level,
+        questionPartNumber: data?.questionPartNumber,
       });
     },
     [reset]
@@ -153,36 +182,61 @@ const CreateQuestionWriting = (props: Props) => {
           </div>
         </div>
       </div>
-
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <Editor
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
+      <Card className="p-[20px] mt-5">
+        <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
+        {(selectFile || dataQuestionDetail?.image) && (
+          <img
+            id="blah"
+            src={selectFile ? URL.createObjectURL(selectFile) : IMAGE_URL + dataQuestionDetail?.image}
+            alt="image"
+            style={{ width: "100%", maxHeight: 400, marginTop: 20, maxWidth: "700px" }}
+          />
+        )}
+        <ButtonUpload
+          style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+          titleButton="Upload image"
+          onClick={handleClick}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={editorRef}
+          initialValue={dataQuestionDetail?.questionText ? dataQuestionDetail?.questionText : "Question"}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={modelRef}
+          initialValue={dataQuestionDetail?.modelAnswer ? dataQuestionDetail?.modelAnswer : "Model answer"}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={usefulGrammarRef}
           initialValue={
-            dataQuestionDetail?.tips ? dataQuestionDetail?.tips : "<p>This is the initial content of the editor.</p>"
+            dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
           }
-          init={{
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
-      <Card className="p-[20px]">
-        <InputCommon
-          id="standard-basic"
-          label="Question"
-          variant="standard"
-          name="questionText"
-          control={control}
-          required
-          fullWidth
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={ideaSuggestionRef}
+          initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </Card>
+      <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
+        <TinyMceCommon
+          ref={organizationRef}
+          initialValue={dataQuestionDetail?.organization ? dataQuestionDetail?.organization : "Organization"}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </Card>
 
-      {/* </Card> */}
       {(isEdit || openCreateScreen.type === "create") && (
         <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
           <ButtonSave type="submit" icon={<SaveIcon />} title="Continue" />

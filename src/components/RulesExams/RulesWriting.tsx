@@ -4,7 +4,7 @@ import Text from "components/Typography/index";
 
 const RulesWriting = () => {
   //! State
-  const typeExam = "ILETS ACADEMY WRITING";
+  const typeExam = "IELTS ACADEMY WRITING";
   const timeExam = "you will have 30 minutes to do the Reading test";
   //
   const li = {

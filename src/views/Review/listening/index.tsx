@@ -1,7 +1,12 @@
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
+import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
+import TOFFL from "views/TOFFL/index";
 //
+import { ieltsReadingDataDummy } from "api/ieltsResults";
+import CardPart from "components/Card/CardPart";
+import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { useGetListeningResultByTestCode } from "hooks/review/useIeltsReview";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
@@ -12,29 +17,139 @@ import { makeStyles } from "@mui/styles";
 import LoadingPage from "components/Loading";
 import { useParams } from "react-router-dom";
 //
+import Header from "../Header/Header";
+// import Score from "./components/Score";
+import QuestionNumberList from "./components/QuestionNumberList";
+import Score from "../reading/components/Score";
+import ContentRight from "./components/ContentRight";
+import ContentLeft from "./components/ContentLeft";
+const useStyles = makeStyles((theme) => ({
+  form: {
+    display: "flex",
+    flexDirection: "column",
+  },
+  exam: {
+    display: "flex",
+  },
+}));
+
 interface Props {
   data?: any;
 }
-//
 
-const ListeningReview = () => {
+const ListeningReview = (props: Props) => {
+  //! State
+  const [displayNumber, setDisplayNumber] = useState<any>();
+  console.log("sdfsdfs", displayNumber);
+
+  const classes = useStyles();
+  const { data } = props;
+  console.log("data789", data);
+  const [questions, setQuestions] = useState([]);
+
+  const [questionSelected, setQuestionSelected] = useState<any>("1");
+  const [groupSelected, setGroupSelected] = useState({
+    part: 0,
+    group: 0,
+  });
+  const [showQuestion, setShowQuestion] = useState([]);
+  console.log("questions", questions);
+
+  useEffect(() => {
+    setQuestions(data);
+  }, []);
+
+  const onClickPage = (groupRenderSelected: any) => {
+    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
+    console.log("groupRenderSelected", groupRenderSelected);
+  };
+  const displayNumberOnclickPage = (displayNumber: any) => {
+    setDisplayNumber(displayNumber);
+  };
+
+  const partRenderSelected = useMemo(() => {
+    console.log("questions select", questions);
+    const questionsWithPageNumberTemp = questions as any;
+    if (!isEmpty(questionsWithPageNumberTemp)) {
+      return questionsWithPageNumberTemp[groupSelected?.part];
+    }
+
+    return null;
+  }, [questions, groupSelected]);
+
+  //
+
+  console.log("partRenderSelected11", partRenderSelected);
+  //! Render
+  const container = {
+    position: "relative",
+    height: "100vh",
+    overflow: "hidden",
+  };
+  const navLeft = {
+    background: "#fff",
+    p: "40px 16px",
+    boxShadow: "rgba(0, 0, 0, 0.10) 0px 5px 15px",
+  };
+
   return (
-    <>
-      <div className="">quang</div>
-    </>
+    <Formik initialValues={{}} onSubmit={() => console.log("hello")}>
+      {(formik: any) => (
+        <Form className={classes.form}>
+          <Box sx={container}>
+            <Header />
+            <Box className={classes.exam}>
+              <Box sx={navLeft}>
+                <Score titleExam="Listening" />
+                <QuestionNumberList
+                  questions={data}
+                  onClickPage={onClickPage}
+                  displayNumberOnclickPage={displayNumberOnclickPage}
+                />
+              </Box>
+              <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
+                <CardExercise
+                  width={5.9}
+                  content={
+                    <ContentLeft
+                      partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                      audio={partRenderSelected?.partAudio}
+                    />
+                  }
+                />
+                <CardExercise
+                  width={5.9}
+                  content={
+                    <ContentRight
+                      partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                      displayNumber={displayNumber}
+                    />
+                  }
+                />
+              </Grid>
+            </Box>
+          </Box>
+        </Form>
+      )}
+    </Formik>
   );
 };
 //
-const ListeningReviewContainer = ({ data }: Props) => {
+const ListeningReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
-  //   const { data, isLoading } = useGetListeningResultByTestCode(testCode);
+  const { data, isLoading } = useGetListeningResultByTestCode(testCode);
+  console.log("testCode", data);
 
-  //   if (isLoading) {
-  //     return <LoadingPage />;
-  //   }
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
-  return <ListeningReview />;
+  return (
+    <>
+      <ListeningReview />
+    </>
+  );
 };
 
-export default ListeningReview;
+export default ListeningReviewContainer;

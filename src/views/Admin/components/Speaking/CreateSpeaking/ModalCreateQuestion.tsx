@@ -1,26 +1,26 @@
 import { yupResolver } from "@hookform/resolvers/yup";
-import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BlockIcon from "@mui/icons-material/Block";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import SaveIcon from "@mui/icons-material/Save";
-import { Box, InputAdornment, Stack, Typography } from "@mui/material";
-import { Editor } from "@tinymce/tinymce-react";
+import { Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
-import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
-import { DataAnswer } from "constants/questionType";
-import useGetDetailQuestion from "hooks/Reading/useGetDetailQuestion";
-import useGetLevels from "hooks/Reading/useGetLevel";
-import useGetQuestionType from "hooks/Reading/useGetQuestionType";
-import { QuestionTypeI } from "interfaces/questionInterface";
+import TinyMceCommon from "components/TinyMceCommon";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
 import * as yup from "yup";
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+import ButtonUpload from "components/Button/ButtonUpload";
+import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
+import speakingService from "services/speakingService";
+import audioService from "services/audioService";
+import useGetDetailQuestion from "hooks/QuestionBank/Speaking/useGetDetailQuestion";
+import { IMAGE_URL } from "constants/constants";
 
 export interface Props {
   openModal: any;
@@ -30,96 +30,100 @@ export interface Props {
 }
 
 const validationSchema = yup.object().shape({
-  questionBox: yup.string().required("This is field required"),
-  questionType: yup.mixed().required("This is field required"),
-  questions: yup.array(
-    yup.object({
-      questionText: yup.string().required("This is field required"),
-      answer: yup.string().required("This is field required"),
-      options: yup.array(yup.string().required("mmm")),
-    })
-  ),
+  // questionBox: yup.string().required("This is field required"),
+  // questionType: yup.mixed().required("This is field required"),
+  // questions: yup.array(
+  //   yup.object({
+  //     questionText: yup.string().required("This is field required"),
+  //     answer: yup.string().required("This is field required"),
+  //     options: yup.array(yup.string().required("mmm")),
+  //   })
+  // ),
 });
 
 const ModalCreateQuestion = (props: Props) => {
-  const { openModal, onCloseModal = () => {}, id, fetchData } = props;
   const editorRef = useRef<any>();
-  const matchingRef = useRef<any>();
-  const [questionType, setQuestionType] = useState<number | undefined | string>("");
-  const [dataQuestionType] = useGetQuestionType();
+  const usefulGrammarRef = useRef<any>();
+  const ideaSuggestionRef = useRef<any>();
+  const fileRef = useRef<any>({
+    questionAudio: [],
+    modelAnswerAudio: [],
+  });
+
+  const [selectFile, setSelectFile] = useState<any>({});
+  const { openModal, onCloseModal = () => {}, id, fetchData } = props;
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
 
-  const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
-    mode: "onChange",
-    resolver: yupResolver(validationSchema),
-    defaultValues: {
-      section: "",
-      questions: dataQuestionDetail?.questions?.map((el: any) => ({
-        answer: "",
-        explanationText: "",
-        questionText: el?.questionBox,
-        options: el.options?.map((e: any) => [{ key: e.key, text: e.text }]),
-      })) || [{ key: "a", text: "<p>Text</p>" }],
-    },
-  });
+  const { register, control, handleSubmit, reset, watch, setValue, getValues, formState, getFieldState } = useForm<any>(
+    {
+      mode: "onChange",
+      resolver: yupResolver(validationSchema),
+      shouldUnregister: false,
+      defaultValues: {
+        questions: dataQuestionDetail?.questions?.map((el: any) => ({
+          questionAudio: "uploads/2022/01/01/pepe.mp3",
+          questionText: "<p>Text</p>",
+          modelAnswerAudio: "uploads/2022/01/01/pepe.mp3",
+          modelAnswer: "<p>Text</p>",
+        })),
+      },
+    }
+  );
 
   const { fields, append, prepend, remove, swap, move, insert, update } = useFieldArray({
     control,
     name: "questions",
   });
   const onAddQuestion = () => {
-    append({ section: "" });
+    append({ questionText: "" });
+  };
+
+  const onFileChange = async (event: any, key: string) => {
+    const object = { ...selectFile };
+    object[key] = event.target.files[0];
+    setSelectFile(object);
+    const formData = new FormData();
+    formData.append("file", event.target.files[0]);
+    try {
+      const responseAudio = await audioService.postAudioListening(formData);
+
+      if (responseAudio?.data?.statusCode === 200) {
+        setValue(key, responseAudio?.data?.data?.uri);
+      }
+    } catch (error: any) {
+      toast.error(error);
+    }
   };
 
   const resetAsyncForm = useCallback(
     async (data: any) => {
-      setValue("questionBox", data.questionBox);
-      setValue("questionType", data.questionType);
-      setQuestionType(data.questionType);
-      setValue(
-        "questions",
-        data?.questions.map((el: any) => ({
-          questionText: el.questionText,
-          answer: el.answer,
-          options: el.options.map((option: any) => option.text),
-        }))
-      );
+      reset({
+        title: data?.title,
+        questions: data?.questions,
+      });
     },
-    [reset, setQuestionType]
+    [reset]
   );
 
   useEffect(() => {
     if (dataQuestionDetail?.id) {
       resetAsyncForm(dataQuestionDetail);
     }
-  }, [dataQuestionDetail?.id, dataQuestionType?.length]);
+  }, [dataQuestionDetail?.id]);
 
   const onSubmit = async (data: any) => {
-    const keys = ["A", "B", "C", "D"];
     if (openModal.type === "createQuestion") {
       const body = {
-        level: "A1",
-        answerList: matchingRef && matchingRef?.current?.getContent(),
-        directionText: editorRef.current.getContent(),
-        image: "uploads/2022/01/01/pepe.png",
-        questionTypeTips: editorRef.current.getContent(),
-        questionBox: data.questionBox,
-        questionType: data.questionType,
-        questions: data?.questions?.map((el: any) => {
-          return {
-            ...el,
-            options:
-              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
-                : [],
-          };
-        }),
-
+        explanationText: editorRef.current.getContent(),
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        title: data.title,
+        questions: data?.questions,
         partId: id,
       };
 
       try {
-        const response = await ReadingService.postCreateQuestionGroupReading(body);
+        const response = await speakingService.postCreateQuestionGroupSpeaking(body);
         if (response.data.statusCode === 200) {
           toast.success("Create question group success!");
           fetchData();
@@ -131,28 +135,16 @@ const ModalCreateQuestion = (props: Props) => {
     }
     if (openModal.type === "updateQuestion") {
       const body = {
-        level: "A1",
-        answerList: matchingRef && matchingRef?.current?.getContent(),
-        directionText: editorRef.current.getContent(),
-        image: "uploads/2022/01/01/pepe.png",
-        questionTypeTips: editorRef.current.getContent(),
-        questionBox: data.questionBox,
-        questionType: data.questionType,
-        questions: data?.questions?.map((el: any) => {
-          return {
-            ...el,
-            options:
-              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
-                : [],
-          };
-        }),
-
+        explanationText: editorRef.current.getContent(),
+        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+        ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        title: data.title,
+        questions: data?.questions,
         partId: id,
       };
 
       try {
-        const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
+        const response = await speakingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update question group success!");
           fetchData();
@@ -169,40 +161,6 @@ const ModalCreateQuestion = (props: Props) => {
     handleSubmit(onSubmit)();
   };
 
-  const renderMultiChoice = (item: any, index: number, indexQuestion: number) => {
-    return (
-      <InputCommon
-        control={control}
-        id="standard-basic"
-        label={item.title}
-        variant="standard"
-        name={`questions[${indexQuestion}].options[${index}]`}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-        }}
-        disabled={openModal.type === "detailQuestion"}
-      />
-    );
-  };
-  const renderViewAnswer = (type: number | undefined | string, index: number) => {
-    switch (type) {
-      case "MULTIPLE_CHOICE_1_ANSWER":
-        return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
-          return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
-        });
-      default:
-        return (
-          <InputCommon
-            control={control}
-            id="standard-basic"
-            label="Correct answer"
-            variant="standard"
-            name={`questions[${index}].answer`}
-            disabled={openModal.type === "detailQuestion"}
-          />
-        );
-    }
-  };
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
@@ -221,14 +179,14 @@ const ModalCreateQuestion = (props: Props) => {
       open={openModal}
       onClose={onCloseModal}
       titleModal={
-        dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
-          <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.questionBox}</Typography>
+        dataQuestionDetail?.title && openModal.type === "detailQuestion" ? (
+          <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.title}</Typography>
         ) : (
           <InputCommon
             id="standard-basic"
-            label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
+            label={!dataQuestionDetail?.title ? "Question group" : ""}
             variant="standard"
-            name="questionBox"
+            name="title"
             control={control}
             required
             fullWidth
@@ -237,126 +195,132 @@ const ModalCreateQuestion = (props: Props) => {
       }
     >
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-        <Editor
-          onInit={(evt, editor) => {
-            editorRef.current = editor;
-          }}
-          initialValue={dataQuestionDetail ? dataQuestionDetail?.directionText : "<p>Question tip.</p>"}
-          init={{
-            height: 200,
-            plugins: "link image code",
-            toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-          }}
-          disabled={openModal.type === "detailQuestion"}
-        />
-        <SelectField
-          control={control}
-          options={dataQuestionType}
-          label="Type Of Question"
-          name="questionType"
-          setValue={setValue}
-          onChangeExtra={(e: any) => {
-            setValue("questionType", e?.value);
-            setQuestionType(e?.value);
-          }}
-          style={{ marginTop: 20, marginBottom: questionType === "MATCHING_HEADINGS" ? 20 : 0 }}
-          disabled={openModal.type === "detailQuestion"}
-        />
-        {openModal.type !== "detailQuestion" && questionType !== "MATCHING_HEADINGS" && (
+        {openModal.type !== "detailQuestion" && (
           <div className="text-end">
             <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
           </div>
         )}
-        {questionType === "MATCHING_HEADINGS" ? (
-          <>
-            <Editor
-              onInit={(evt, matching) => {
-                matchingRef.current = matching;
-              }}
-              initialValue="Matching heading"
-              init={{
-                height: 200,
-                plugins: "link image code",
-                toolbar: "undo redo | bold italic | alignleft aligncenter alignright | code",
-              }}
-              disabled={openModal.type === "detailQuestion"}
-            />
-            <div className="text-end">
-              <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-            </div>
-            {fields.map((field, index) => {
-              return (
-                <div className="flex items-end justify-between">
+        {fields.map((field, index) => {
+          return (
+            <div className="flex items-center mb-5">
+              <div key={field.id} className="flex-1">
+                <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
                   <InputCommon
-                    control={control}
                     id="standard-basic"
-                    label="Section"
+                    label="Question"
                     variant="standard"
                     name={`questions[${index}].questionText`}
+                    control={control}
+                    required
+                    fullWidth
                     disabled={openModal.type === "detailQuestion"}
                   />
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
+                  {(!!selectFile?.[`questions[${index}].questionAudio`] || dataQuestionDetail?.questions) && (
+                    <AudioPlayer
+                      preload="none"
+                      style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20 }}
+                      src={
+                        !!selectFile?.[`questions[${index}].questionAudio`]
+                          ? URL.createObjectURL(selectFile?.[`questions[${index}].questionAudio`])
+                          : dataQuestionDetail?.[`questions[${index}].questionAudio`]
+                      }
+                      onPlay={(e) => console.log("onPlay")}
+                      showJumpControls={false}
+                      autoPlayAfterSrcChange={false}
+                      loop={false}
                     />
                   )}
-                </div>
-              );
-            })}
-          </>
-        ) : (
-          <>
-            {fields.map((field, index) => {
-              return (
-                <div key={field.id} className="flex items-center">
-                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <div className="questionContainer">
-                      <InputCommon
-                        id="standard-basic"
-                        label="Question"
-                        variant="standard"
-                        name={`questions[${index}].questionText`}
-                        control={control}
-                        required
-                        fullWidth
-                        disabled={openModal.type === "detailQuestion"}
+                  <input
+                    ref={(ref) => (fileRef.current.questionAudio[index] = ref)}
+                    className="hidden"
+                    type="file"
+                    name={`questions[${index}].questionAudio`}
+                    onChange={(e) => onFileChange(e, `questions[${index}].questionAudio`)}
+                  />
+                  {openModal.type !== "detailQuestion" && (
+                    <div className="text-end my-3">
+                      <ButtonUpload
+                        style={{ display: "flex", height: 40 }}
+                        titleButton="Upload audio"
+                        onClick={() => fileRef.current?.questionAudio[index].click()}
                       />
                     </div>
-                    <Box
-                      component="form"
-                      sx={{
-                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
-                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
-                        <InputCommon
-                          control={control}
-                          id="standard-basic"
-                          label="Correct answer"
-                          variant="standard"
-                          name={`questions[${index}].answer`}
-                          disabled={openModal.type === "detailQuestion"}
-                        />
-                      )}
-                    </Box>
-                  </div>
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
+                  )}
+                  <InputCommon
+                    id="standard-basic"
+                    label="Model answer"
+                    variant="standard"
+                    name={`questions[${index}].modelAnswer`}
+                    control={control}
+                    required
+                    fullWidth
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  {(!!selectFile?.[`questions[${index}].modelAnswerAudio`] || dataQuestionDetail?.questions) && (
+                    <AudioPlayer
+                      preload="none"
+                      style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
+                      src={
+                        !!selectFile?.[`questions[${index}].modelAnswerAudio`]
+                          ? URL.createObjectURL(selectFile?.[`questions[${index}].modelAnswerAudio`])
+                          : IMAGE_URL + dataQuestionDetail?.[`questions[${index}].modelAnswerAudio`]
+                      }
+                      onPlay={(e) => console.log("onPlay")}
+                      showJumpControls={false}
+                      autoPlayAfterSrcChange={false}
+                      loop={false}
                     />
                   )}
+                  <input
+                    ref={(ref) => (fileRef.current.modelAnswerAudio[index] = ref)}
+                    className="hidden"
+                    type="file"
+                    name={`questions[${index}].modelAnswerAudio`}
+                    onChange={(e) => onFileChange(e, `questions[${index}].modelAnswerAudio`)}
+                  />
+                  {openModal.type !== "detailQuestion" && (
+                    <div className="text-end my-3">
+                      <ButtonUpload
+                        style={{ display: "flex", height: 40 }}
+                        titleButton="Upload audio"
+                        onClick={() => fileRef.current?.modelAnswerAudio[index]?.click()}
+                      />
+                    </div>
+                  )}
                 </div>
-              );
-            })}
-          </>
-        )}
+              </div>
+              <div>
+                {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                  <RemoveCircleOutlineIcon
+                    className="text-[#F44335] cursor-grab ml-[20px]"
+                    onClick={() => onRemoveQuestion(index)}
+                  />
+                )}
+              </div>
+            </div>
+          );
+        })}
+        <TinyMceCommon
+          ref={editorRef}
+          initialValue={dataQuestionDetail?.explanationText ? dataQuestionDetail?.explanationText : "Explanation text"}
+          disabled={openModal.type === "detailQuestion"}
+        />
+        <div className="my-[15px]">
+          <TinyMceCommon
+            ref={usefulGrammarRef}
+            initialValue={
+              dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
+            }
+            disabled={openModal.type === "detailQuestion"}
+          />
+        </div>
+        <TinyMceCommon
+          ref={ideaSuggestionRef}
+          initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
+          disabled={openModal.type === "detailQuestion"}
+        />
 
-        {renderButton()}
+        {openModal.type !== "detailQuestion" && renderButton()}
       </form>
     </ModalCreate>
   );

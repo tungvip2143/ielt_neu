@@ -14,6 +14,14 @@ export interface ResponseParams {
   partTitle: string;
   levelPart: string;
   partNumber: string;
+  partAudio:string;
+  userType:string;
+  directionAudio?: string;
+  title?: string;
+  username?:string;
+  email?:string;
+  password?:string
+  fullname?:string
 }
 
 export interface QuestionTypeI {

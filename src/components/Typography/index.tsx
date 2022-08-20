@@ -33,8 +33,10 @@ const Title = (props: Props) => {
   );
 };
 const Title32bold = (props: Props) => {
+  const { children, ...rest } = props;
+
   return (
-    <Typography component="p" variant="title32bold">
+    <Typography {...rest} component="p" variant="title32bold">
       {props.children}
     </Typography>
   );

@@ -12,6 +12,10 @@ import RulesListening from "components/RulesExams/RulesListening";
 import { Form, Formik } from "formik";
 import { useIeltsListening, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
+import CardTotalPageExams from "components/Card/CardTotalPageExams";
+import { useHistory } from "react-router-dom";
+import ModalExit from "components/Modal/ModalExit";
+import { IELT_TEST } from "interfaces/testType";
 
 export interface IeltsListeningProps {}
 
@@ -20,41 +24,69 @@ const initialValues = function () {
     questionId: "",
     studentAnswer: "",
   };
+
   let answers = [];
   for (let i = 0; i < 40; i++) {
     answers.push(value);
   }
   return { answers };
 };
+
 const IeltsListening = (props: IeltsListeningProps) => {
-  // !State
+  //! State
+  const history = useHistory();
+  const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
-  // !Function
+  //! Function
   const handleSubmitForm = async (values: any) => {
-    const body = { values, testCode };
-
+    const answers = values.answers.filter((el: any) => {
+      return el.questionId && el.studentAnswer;
+    });
+    const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
       onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
     });
   };
 
+  const handleShowModal = React.useCallback(() => {
+    setOpen(true);
+  }, []);
+
+  const handleCloseModal = () => setOpen(false);
+
+  const handleBackIeltsSelection = () => {
+    history.push("/ielts");
+  };
+
+  //! Render
   return (
-    <Formik initialValues={initialValues()} onSubmit={(values) => handleSubmitForm(values)}>
-      {(formik) => (
-        <Form>
-          <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header />
-            <Box sx={{ mt: "80px" }}>
-              {step === TypeStepExamEnum.STEP1 && <RulesListening />}
-              {step === TypeStepExamEnum.STEP2 && <ExamTest />}
-              {step === TypeStepExamEnum.STEP3 && <EndTest />}
+    <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
+      {(formik) => {
+        return (
+          <Form>
+            <Box sx={{ height: "100vh", overflow: "hidden" }}>
+              <Header onShowModalExit={handleShowModal} onClickSubmit={formik.handleSubmit} />
+
+              <Box sx={{ mt: "80px" }}>
+                {step === TypeStepExamEnum.STEP1 && <RulesListening />}
+                {step === TypeStepExamEnum.STEP2 && <ExamTest />}
+                {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.LISTENING} />}
+              </Box>
             </Box>
-          </Box>
-        </Form>
-      )}
+            {open && (
+              <ModalExit
+                open={open}
+                width="560px"
+                handleCloseModal={handleCloseModal}
+                handleBackIeltsSelection={handleBackIeltsSelection}
+              />
+            )}
+          </Form>
+        );
+      }}
     </Formik>
   );
 };

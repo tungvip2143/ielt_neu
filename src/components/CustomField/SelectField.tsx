@@ -1,5 +1,6 @@
 import styled from "@emotion/styled";
 import { Autocomplete, FormControl, FormHelperText, TextField } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import React from "react";
 import { Control, Controller, FieldPath, FieldValues, SetFieldValue } from "react-hook-form";
 
@@ -24,6 +25,7 @@ interface Props<T> {
 
 const ErrorText = styled(FormHelperText)`
   color: red;
+  margin-left: 0;
 `;
 
 const SelectField = <T extends FieldValues>(props: Props<T>) => {

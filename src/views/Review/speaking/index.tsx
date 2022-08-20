@@ -1,25 +1,22 @@
-import React, { useEffect } from "react"; //
 import Box from "@mui/material/Box";
-import CardExercise from "components/Card/CardExercise";
-import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
-import TOFFL from "views/TOFFL/index";
 import Grid from "@mui/material/Grid";
+import CardExercise from "components/Card/CardExercise";
+import React from "react"; //
 //
-import { useState } from "react";
-import { isEmpty } from "lodash";
-import { useMemo } from "react";
-import Writing from "../writng/components/Writing";
-import QuestionNumberList from "../writng/components/QuestionNumberList";
-import { useGetSpeakingResultByTestCode } from "hooks/review/useIeltsReview";
 import { makeStyles } from "@mui/styles";
 import LoadingPage from "components/Loading";
+import { useGetSpeakingResultByTestCode } from "hooks/review/useIeltsReview";
+import { isEmpty } from "lodash";
+import { useMemo, useState } from "react";
 import { useParams } from "react-router-dom";
-import Header from "../Header/Header";
-import ContentRight from "../writng/components/ContentRight";
 import ModalImage from "../../../components/Modal/ModalImage";
-import ModalRightAnswer from "../writng/components/ModalRightAnswer";
+import Header from "../Header/Header";
 import Score from "../reading/components/Score";
-import { data } from "./components/FakeData/FakeData";
+import ContentRight from "../writng/components/ContentRight";
+import ModalRightAnswer from "../writng/components/ModalRightAnswer";
+import QuestionNumberList from "../writng/components/QuestionNumberList";
+import Writing from "../writng/components/Writing";
+import MyAnswers from "./components/MyAnswers";
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -46,16 +43,21 @@ const SpeakingReview = (props: Props) => {
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
+    question: 0,
   });
+
+  const question =
+    dataSpeaking.speaking[groupSelected.part].groups[groupSelected.group].questions[groupSelected.question];
+
+  console.log("question", question);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("groupRenderSelected", groupRenderSelected);
   };
 
   const partRenderSelected = useMemo(() => {
     console.log("group select", groupSelected);
-    const questionsWithPageNumberTemp = dataSpeaking?.data?.speaking as any;
+    const questionsWithPageNumberTemp = dataSpeaking?.speaking || [];
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
@@ -96,14 +98,11 @@ const SpeakingReview = (props: Props) => {
           <Box>
             <Box sx={{ display: "flex", flex: 1 }}>
               <Box sx={navLeft}>
-                <Score titleExam="Speaking" />
-                <QuestionNumberList onClickPage={onClickPage} questions={dataSpeaking?.data?.speaking} />
+                <Score score={dataSpeaking.score.speaking} titleExam="Speaking" />
+                <QuestionNumberList onClickPage={onClickPage} questions={dataSpeaking?.speaking} />
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
-                <CardExercise
-                  width={7}
-                  content={<Writing partRenderSelected={partRenderSelected} groupSelected={groupSelected} />}
-                />
+                <CardExercise width={7} content={<MyAnswers audio={question.studentAnswerAudio} />} />
                 <ContentRight
                   apiContent={partRenderSelected}
                   handleOpen={handleOpen}
@@ -123,16 +122,15 @@ const SpeakingReview = (props: Props) => {
 };
 
 const SpeakingReviewContainer = () => {
-  //   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  // const param = useParams();
-  // const { testCode }: any = param;
-  // const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
+  const param = useParams();
+  const { testCode }: any = param;
+  const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
 
-  // if (isLoading) {
-  //   return <LoadingPage />;
-  // }
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
-  return <SpeakingReview dataSpeaking={data} />;
+  return <SpeakingReview dataSpeaking={data?.data?.data} />;
 };
 
 export default SpeakingReviewContainer;

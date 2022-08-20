@@ -4,7 +4,7 @@ import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import { RouteBase } from "constants/routeUrl";
-import useGetQuestion from "hooks/Writing/useGetQuestion";
+import useGetQuestion from "hooks/QuestionBank/Writing/useGetQuestion";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import writingServices from "services/writingServices";
@@ -42,7 +42,7 @@ const WritingSkill = () => {
             },
             {
               flex: 0.5,
-              field: "partNumber",
+              field: "questionPartNumber",
               renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
             },
             {

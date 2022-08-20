@@ -1,11 +1,11 @@
 import { PAGE_SIZE } from "constants/constants";
-import { QuestionListening } from "interfaces/listening";
+import { QuestionUser } from "interfaces/user";
 import MPagination from "models/Pagination.model";
 import { useEffect, useState } from "react";
-import listeningService from "services/listeningService";
+import userService from "services/userService";
 
 const useGetParts = () => {
-  const [data, setData] = useState<QuestionListening[]>([]);
+  const [data, setData] = useState<QuestionUser[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [meta, setMeta] = useState<MPagination>({
@@ -21,7 +21,6 @@ const useGetParts = () => {
 
   const refetchDataTable = async () => {
     setParams({
-      
       page: 1,
       pageSize: PAGE_SIZE[0],
     });
@@ -30,12 +29,12 @@ const useGetParts = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await listeningService.getListParts(params);
-        console.log('responseListening',response);
+        const response = await userService.getListParts(params);
+        console.log('responseUser',response);
         
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
-        console.log('metaRes',metaRes);
+        console.log('metaResUser',metaRes);
         
         setData(dataRes);
         setMeta(metaRes);
