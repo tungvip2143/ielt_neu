@@ -8,9 +8,10 @@ import Grid from "@mui/material/Grid";
 interface Props {
   content?: any;
   width?: any;
+  className?: any;
 }
 
-const CardExercise = ({ content, width }: Props) => {
+const CardExercise = ({ content, width, className }: Props) => {
   const card = {
     p: "24px 32px",
     borderRadius: "20px",
@@ -22,7 +23,9 @@ const CardExercise = ({ content, width }: Props) => {
   };
   return (
     <Grid item xs={12} sm={12} md={12} lg={width}>
-      <Card sx={card}>{content}</Card>
+      <Card sx={card} className={className}>
+        {content}
+      </Card>
     </Grid>
   );
 };

@@ -17,7 +17,7 @@ export const AUTH_URL = {
   LOGOUT: `${ROOT_URL}/auth/logout`,
 };
 
-export const IELTS_URL = (testCode?: any) => {
+export const IELTS_URL = (testCode?: any, questionId?: string) => {
   return {
     IELTS: `${ROOT_URL}/ielts`,
     LISTENING: `${ROOT_URL}/tests/${testCode?.meta}/listening`,
@@ -38,6 +38,7 @@ export const IELTS_URL = (testCode?: any) => {
     REVIEW_WRITING: `${ROOT_URL}/tests/${testCode}/writing/result`,
     REVIEW_LISTENING: `${ROOT_URL}/tests/${testCode}/listening/result`,
     REVIEW_SPEAKING: `${ROOT_URL}/tests/${testCode}/speaking/result`,
+    UPLOAD_AUDIO_SPEAKING: `${ROOT_URL}/tests/${testCode}/${questionId}/audio-answer`,
   };
 };
 
