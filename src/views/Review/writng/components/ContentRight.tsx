@@ -5,6 +5,7 @@ import TaskRight from "./TaskRight";
 import ContentOption from "./ContentOption";
 import ModalImage from "../../../../components/Modal/ModalImage";
 import ModalRightAnswer from "./ModalRightAnswer";
+import ModelAnswer from "views/Review/speaking/components/ModelAnswer";
 //
 // ! type
 interface Props {
@@ -12,8 +13,9 @@ interface Props {
   handleOpen?: any;
   handleOpenAnswer?: any;
   handleSetContentModal?: any;
+  question?: any;
 }
-const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetContentModal }: Props) => {
+const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetContentModal, question }: Props) => {
   console.log("apiContent?.question", apiContent?.question);
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab, text } =
     apiContent?.question || {};
@@ -39,10 +41,14 @@ const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetConte
         <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={text}>
           Feedback
         </ContentOption>
-        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleShowModelAnswer} contentRender={modelAnswer}>
+        <ContentOption
+          handleOpenAnswer={handleOpenAnswer}
+          event={handleShowModelAnswer}
+          contentRender={<ModelAnswer audio={question?.question.modelAnswerAudio} />}
+        >
           Model Answer
         </ContentOption>
-        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={organization}>
+        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={""}>
           Organisation
         </ContentOption>
         <ContentOption

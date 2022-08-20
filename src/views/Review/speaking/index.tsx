@@ -17,6 +17,7 @@ import ModalRightAnswer from "../writng/components/ModalRightAnswer";
 import QuestionNumberList from "../writng/components/QuestionNumberList";
 import Writing from "../writng/components/Writing";
 import MyAnswers from "./components/MyAnswers";
+import ModelAnswer from "./components/ModelAnswer";
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -113,7 +114,11 @@ const SpeakingReview = (props: Props) => {
             </Box>
           </Box>
         </Box>
-        {isOpenAnswer && <ModalRightAnswer handleCloseAnswer={handleCloseAnswer} content={contentModal} />}
+        {isOpenAnswer && (
+          <ModalRightAnswer question={question} handleCloseAnswer={handleCloseAnswer} content={contentModal}>
+            <ModelAnswer audio={question.question.modelAnswerAudio} />
+          </ModalRightAnswer>
+        )}
         {/* chua co ham */}
         {open && <ModalImage image={image} handleClose={handleClose} />}
       </Box>
