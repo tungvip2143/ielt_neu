@@ -83,3 +83,9 @@ export const useFinishIeltsSpeakingTest = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+
+export const useUploadAudioSpeaking = () => {
+  return useMutation(ieltsService.uploadAudioSpeaking, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};

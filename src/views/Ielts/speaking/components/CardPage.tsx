@@ -9,7 +9,6 @@ import { IELT_TEST } from "interfaces/testType";
 // !type
 interface Props {
   questions?: any;
-  onClickPage?: any;
   displayNumber?: any;
 }
 
@@ -53,36 +52,19 @@ const container = {
   justifyContent: "space-between",
 };
 const CardPage = (props: Props) => {
-  const [highLightPage, setHighLightPage] = useState("1");
-  const { questions, onClickPage, displayNumber } = props;
-  const renderPartValues = (partValues: any, index: number) => {
-    const { values }: any = useFormikContext();
-    let sectionRender: any = {};
-
-    return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
-      return partGroup.questions.map((item: any, index: number) => {
-        console.log("partValues", partValues);
-
-        const handleClickQuestion = (part: any, group: any) => {
-          sectionRender.part = partValues.partNumber - 1;
-          sectionRender.group = partGroup.groupNumber - 1;
-          onClickPage(sectionRender);
-          displayNumber(item.question.displayNumber);
-          setHighLightPage(item.question.displayNumber);
-        };
-        const handleHightLightPage = () => {
-          if (highLightPage === item.question.displayNumber) {
-            return { background: "#4C80F1" };
-          }
-        };
+  const { questions, displayNumber } = props;
+  let questionIndex = 0;
+  const renderPartValues = (partValues: any) => {
+    return partValues?.groups?.map((partGroup: any) => {
+      return partGroup.questions.map((item: any) => {
+        questionIndex++;
+        let hightLight = {};
+        if (displayNumber >= questionIndex) {
+          hightLight = { background: "#4C80F1" };
+        }
         return (
           <>
-            <Box
-              sx={eachQuestion}
-              style={handleHightLightPage()}
-              key={item.id}
-              onClick={() => handleClickQuestion(partValues, partGroup)}
-            >
+            <Box sx={eachQuestion} style={hightLight} key={item.id}>
               <span>{item.question.displayNumber}</span>
             </Box>
           </>
@@ -94,14 +76,14 @@ const CardPage = (props: Props) => {
     <Box sx={box}>
       <Box sx={container}>
         <Box sx={eachItem}>
-          {questions?.data?.data?.map((group: any, index: number) => {
+          {questions?.map((group: any, index: number) => {
             console.log("partKey", group);
             return (
               <>
                 <Box sx={eachItem} key={group.partNumber}>
                   <Box sx={part}>{`Part ${group.partNumber || index + 1}`}</Box>
                   <Stack direction="row" spacing={0.5}>
-                    {renderPartValues(group, index)}
+                    {renderPartValues(group)}
                   </Stack>
                 </Box>
               </>

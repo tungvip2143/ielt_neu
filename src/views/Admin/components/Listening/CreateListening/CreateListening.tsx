@@ -112,6 +112,8 @@ const CreateQuestionListening = (props: Props) => {
     }
   }, [dataPartDetail?.id]);
 
+  console.log("selectFile", selectFile);
+
   const renderButtonUpdate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
