@@ -1,22 +1,15 @@
 import React, { useEffect } from "react"; //
 import Box from "@mui/material/Box";
 import CardExercise from "components/Card/CardExercise";
-import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
-import TOFFL from "views/TOFFL/index";
 import Grid from "@mui/material/Grid";
 //
-import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { useState } from "react";
 import { dataDummy, ieltsReadingDataDummy } from "api/ieltsResults";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
-import { group } from "console";
-import { IELT_TEST } from "interfaces/testType";
 import Writing from "./components/Writing";
 import CardPart from "components/Card/CardPart";
-import ReactHtmlParser from "react-html-parser";
 import QuestionNumberList from "./components/QuestionNumberList";
-import { useSelector } from "react-redux";
 import { useGetWritingResultByTestCode } from "hooks/review/useIeltsReview";
 import { makeStyles } from "@mui/styles";
 import LoadingPage from "components/Loading";
@@ -56,13 +49,10 @@ const WritingReview = (props: any) => {
     setQuestions(data);
   }, []);
 
-  const [questionSelected, setQuestionSelected] = useState<any>("1");
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState();
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>();
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
