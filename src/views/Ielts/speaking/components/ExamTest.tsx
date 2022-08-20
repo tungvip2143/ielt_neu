@@ -29,10 +29,7 @@ const ExamTest = (props: Props) => {
   });
   console.log("audioDatas", audioDatas);
   let partLength = audioDatas.length;
-  let groupLength = audioDatas[groupSelected.part]//
-
-  .console
-    .log("data1234", data);
+  let groupLength = audioDatas[groupSelected.part];
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -67,7 +64,7 @@ const ExamTest = (props: Props) => {
           width={5.9}
           content={
             <div>
-              <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}`} autoPlay controls />
+              {/* <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}`} autoPlay controls /> */}
               <CardLeft ContentQuestion={partRenderSelected?.groups[groupSelected.group]} numberPage={numberPage} />
             </div>
           }
