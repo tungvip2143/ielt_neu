@@ -10,6 +10,7 @@ import { useHistory } from "react-router-dom";
 import {
   useFinishIeltsListeningTest,
   useFinishIeltsReadingTest,
+  useFinishIeltsSpeakingTest,
   useFinishIeltsWritingTest,
 } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
@@ -43,6 +44,7 @@ const EndTest = (props: Props) => {
   const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
   const { mutateAsync: finishIeltsWriting, isLoading: writingLoading } = useFinishIeltsWritingTest();
   const { mutateAsync: finishIeltsListening, isLoading: ListeningLoading } = useFinishIeltsListeningTest();
+  const { mutateAsync: finishIeltsSpeaking, isLoading: speakingLoading } = useFinishIeltsSpeakingTest();
   const typeExam = () => {
     if (test === IELT_TEST.READING) {
       return { type: IELT_TEST.READING };
@@ -71,14 +73,18 @@ const EndTest = (props: Props) => {
       });
     }
     if (test === IELT_TEST.LISTENING) {
-      console.log("abccccccccc");
       await finishIeltsListening(testCode, {
+        onSuccess: () => history.push(location),
+      });
+    }
+    if (test === IELT_TEST.SPEAKING) {
+      await finishIeltsSpeaking(testCode, {
         onSuccess: () => history.push(location),
       });
     }
   };
 
-  if (readingLoading || writingLoading || ListeningLoading) {
+  if (readingLoading || writingLoading || ListeningLoading || speakingLoading) {
     return <LoadingPage />;
   }
 

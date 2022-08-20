@@ -17,6 +17,7 @@ import ModalExit from "components/Modal/ModalExit";
 import { useHistory } from "react-router-dom";
 import StepTestMic from "./components/StepTestMic";
 import RuleSpeaking from "components/RulesExams/RulesSpeaking";
+import { IELT_TEST } from "interfaces/testType";
 
 //
 export interface IeltsSpeakingProps {}
@@ -75,7 +76,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
               )}
               {step === TypeStepExamEnum.STEP1 && <StepTestMic />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest />}
-              {step === TypeStepExamEnum.STEP3 && <EndTest />}
+              {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.SPEAKING} />}
             </Box>
           </Box>
           {open && (

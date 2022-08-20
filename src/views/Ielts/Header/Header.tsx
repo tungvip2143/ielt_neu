@@ -47,11 +47,15 @@ const headerTop = {
 };
 
 const Header = ({ onShowModalExit, onClickSubmit }: Props) => {
-  const { step } = useStepExam();
+  const { step, handler } = useStepExam();
   const { handleSubmit } = useFormikContext();
 
   const hanldeShowModalExit = () => {
     onShowModalExit();
+  };
+
+  const hanldeSubmitSpeakingExam = () => {
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
   };
 
   return (
@@ -78,7 +82,7 @@ const Header = ({ onShowModalExit, onClickSubmit }: Props) => {
             <Button
               sx={btnSubmitStep2}
               endIcon={<AssignmentTurnedInIcon sx={{ fontSize: "24px !important" }} />}
-              onClick={() => handleSubmit()}
+              onClick={hanldeSubmitSpeakingExam}
             >
               SUBMIT
             </Button>
