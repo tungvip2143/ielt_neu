@@ -11,6 +11,7 @@ interface Props {
   children?: any;
   content?: any;
   handleCloseAnswer?: any;
+  question?: any;
 }
 
 const modal = {
@@ -36,11 +37,13 @@ const iconClose = {
 const contentRender = {
   mt: "100px",
 };
-const ModalRightAnswer = ({ handleClose, open, children, content, handleCloseAnswer }: Props) => {
+const ModalRightAnswer = ({ handleClose, open, children, content, handleCloseAnswer, question }: Props) => {
   return (
     <Box sx={modal} onClick={() => handleClose()}>
       <CloseIcon onClick={() => handleCloseAnswer()} sx={iconClose} />
-      <Box sx={contentRender}>{ReactHtmlParser(content)}</Box>
+      {children}
+
+      <Box sx={contentRender}>{ReactHtmlParser(question.question.modelAnswer)}</Box>
     </Box>
   );
 };
