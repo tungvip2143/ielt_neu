@@ -60,9 +60,9 @@ const ExamTest = (props: Props) => {
     group: 0,
     question: 0,
   });
-  const { step, handler } = useStepExam();
+  const { handler } = useStepExam();
+  const { mutateAsync: uploadAudioSpeaking, isLoading: uploadAudioLoading } = useUploadAudioSpeaking();
 
-  console.log("audioDatas", speakingDatas);
   let partsLength = speakingDatas.length - 1 || 0;
   let groupsLength = speakingDatas[groupSelected.part]?.groups?.length - 1 || 0;
   let questionsLength = speakingDatas[groupSelected.part]?.groups[groupSelected.group]?.questions?.length - 1 || 0;
@@ -116,102 +116,39 @@ const ExamTest = (props: Props) => {
     }
   }, [onStartRecorder]);
 
-  const { mutateAsync: uploadAudioSpeaking, isLoading: uploadAudioLoading, error } = useUploadAudioSpeaking();
-  const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
-
-  console.log("error", error);
-
   const uploadVideo = async (audio: any) => {
-    console.log("audio234", audio);
     const questionId =
       speakingDatas[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question].questionId;
 
-    const getBlobFromUrl = (myImageUrl: any) => {
-      return new Promise((resolve, reject) => {
-        let request = new XMLHttpRequest();
-        request.open("GET", myImageUrl, true);
-        request.responseType = "blob";
-        request.onload = () => {
-          resolve(request.response);
-        };
-        request.onerror = reject;
-        request.send();
-      });
-    };
-
-    const getDataFromBlob = (myBlob: any) => {
-      return new Promise((resolve, reject) => {
-        let reader = new FileReader();
-        reader.onload = () => {
-          resolve(reader.result);
-        };
-        reader.onerror = reject;
-        reader.readAsDataURL(myBlob);
-      });
-    };
-
-    const convertUrlToImageData = async (myImageUrl: any) => {
-      try {
-        let myBlob = await getBlobFromUrl(myImageUrl);
-        console.log(myBlob);
-        let myImageData = await getDataFromBlob(myBlob);
-        console.log(myImageData);
-        return myImageData;
-      } catch (err) {
-        console.log(err);
-        return null;
-      }
-    };
-    const data: any = await convertUrlToImageData(audio.url);
-    const file = new File([data], "speaking audio", { type: "audio/wav" });
-    console.log("file", file);
     const formData = new FormData();
-    formData.append("file", file);
+    formData.append("userAudioAnswer", audio.blob, "recording.wav");
 
-    if (groupSelected.question < questionsLength) {
-      setGroupSelected({ ...groupSelected, question: groupSelected.question + 1 });
-      return;
-    }
-    if (groupSelected.group < groupsLength) {
-      setGroupSelected({ ...groupSelected, group: groupSelected.group + 1, question: 0 });
-      return;
-    }
-    if (groupSelected.part < partsLength) {
-      setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
-      return;
-    } else {
-      handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
-      return;
-    }
-
-    // ------- wait checkout api------
-    // await uploadAudioSpeaking(
-    //   { testCode, questionId, body: formData },
-    //   {
-    //     onSuccess: () => {
-    //       console.log("success");
-    //       if (groupSelected.question < questionsLength) {
-    //         setGroupSelected({ ...groupSelected, question: groupSelected.question + 1 });
-    //         return;
-    //       }
-    //       if (groupSelected.group < groupsLength) {
-    //         setGroupSelected({ ...groupSelected, group: groupSelected.group + 1, question: 0 });
-    //         return;
-    //       }
-    //       if (groupSelected.part < partsLength) {
-    //         setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
-    //         return;
-    //       } else {
-    //         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
-    //         return;
-    //       }
-    //     },
-    //   }
-    // );
+    await uploadAudioSpeaking(
+      { testCode, questionId, body: formData },
+      {
+        onSuccess: () => {
+          if (groupSelected.question < questionsLength) {
+            setGroupSelected({ ...groupSelected, question: groupSelected.question + 1 });
+            return;
+          }
+          if (groupSelected.group < groupsLength) {
+            setGroupSelected({ ...groupSelected, group: groupSelected.group + 1, question: 0 });
+            return;
+          }
+          if (groupSelected.part < partsLength) {
+            setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
+            return;
+          } else {
+            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+            return;
+          }
+        },
+      }
+    );
   };
 
   // !Render
-  if (isLoading || uploadAudioLoading) {
+  if (uploadAudioLoading) {
     return <LoadingPage />;
   }
 
