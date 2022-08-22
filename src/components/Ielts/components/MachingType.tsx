@@ -1,13 +1,13 @@
 import { makeStyles } from "@mui/styles";
-import { FastField, useFormikContext } from "formik";
-import React, { Fragment } from "react";
-import ReactHtmlParser from "react-html-parser";
 import { TextField } from "components/Textfield";
+import { FastField, useFormikContext } from "formik";
+import ReactHtmlParser from "react-html-parser";
 
 type Props = {
   data: any;
   questionBox: string;
   answerList: string;
+  onHightLightNumberPage: (displayNumber: number) => void;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -24,6 +24,7 @@ const useStyles = makeStyles((theme) => ({
   question: {
     display: "flex",
     gap: 8,
+    alignItems: "center",
   },
   container: {
     display: "flex",
@@ -35,13 +36,17 @@ const useStyles = makeStyles((theme) => ({
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const { data, questionBox, answerList } = props;
+  const { data, answerList, onHightLightNumberPage } = props;
 
-  console.log("data3456", data);
   const { setFieldValue } = useFormikContext();
+  console.log("onHightLightNumberPage", onHightLightNumberPage);
 
   const handleFocus = (index: number) => {
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
+  };
+
+  const onClickQuestion = (displayNumber: number) => {
+    onHightLightNumberPage(displayNumber);
   };
 
   return (
@@ -51,7 +56,7 @@ const MachingType = (props: Props) => {
           const index = Number(question?.question?.displayNumber) - 1;
           console.log("question", data);
           return (
-            <div className={classes.question} key={question._id}>
+            <div className={classes.question} key={question._id} onClick={() => onClickQuestion(index + 1)}>
               {`${question?.question?.displayNumber}.`}
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField

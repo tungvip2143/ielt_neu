@@ -17,7 +17,7 @@ interface TOFFLI {
   partRenderSelected?: any;
   questionSelected?: any;
   onClickPage: (id: string) => void;
-  onHightLightNumberPage: (displayNumber: string) => void;
+  onHightLightNumberPage: (displayNumber: number) => void;
   showQuestion?: any;
 }
 
@@ -25,21 +25,11 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
   console.log("showQuestion", showQuestion);
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  const [dataPartGruop, setDataPartGroup] = useState();
   console.log("partRenderSelected2", partRenderSelected);
   console.log("questionSelected", questionSelected);
 
   //! Number
 
-  const from = () => {
-    // partRenderSelected?.questions[0]?.map((item: any) => {
-    //   console.log("item");
-    // });
-  };
-
-  useEffect(() => {
-    from();
-  }, []);
   const dataNumber = {
     from: "1",
     to: "6",
@@ -75,6 +65,7 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
           questionBox={partRenderSelected?.questionBox}
           question={partRenderSelected?.questions}
           answerList={partRenderSelected?.answerList}
+          onHightLightNumberPage={onHightLightNumberPage}
         />
       );
     }
