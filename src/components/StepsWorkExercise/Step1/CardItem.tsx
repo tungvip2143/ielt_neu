@@ -14,7 +14,7 @@ interface PropsItemQuestion {
   questionBox?: any;
   question?: any;
   idShowQuestion?: any;
-  onHightLightNumberPage?: (displayNumber: string) => void;
+  onHightLightNumberPage: (displayNumber: number) => void;
 
   // onCollapse: (id: any) => (e: any, expanded: any) => void;
   onCollapse?: any;
@@ -42,7 +42,14 @@ const ItemQuestion = ({
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-      return <MatchingType answerList={answerList} questionBox={questionBox} data={data} />;
+      return (
+        <MatchingType
+          onHightLightNumberPage={onHightLightNumberPage}
+          answerList={answerList}
+          questionBox={questionBox}
+          data={data}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return <QuestionBox questionBox={questionBox} />;
@@ -51,10 +58,17 @@ const ItemQuestion = ({
       return <QuestionBox questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-      return <MachingHeading question={question} answerList={answerList} data={data} />;
+      return (
+        <MachingHeading
+          onHightLightNumberPage={onHightLightNumberPage}
+          question={question}
+          answerList={answerList}
+          data={data}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart question={question} image={image} />;
+      return <FlowChart onHightLightNumberPage={onHightLightNumberPage} question={question} image={image} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return <SentenceCompletetion data={data} />;
