@@ -7,13 +7,11 @@ import CountDown from "components/Countdown/CountDown";
 //
 import { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
-import { useFormikContext } from "formik";
 //
 import LogoIelts from "assets/image/header/logo-ielts.png";
 import LogoEnglish from "assets/image/header/IELTSpartners.e1a4eda8.jpg";
 // ! type
 interface Props {
-  onClickSubmit?: () => void;
   onShowModalExit?: any;
 }
 const header = {
@@ -46,16 +44,11 @@ const headerTop = {
   alignItems: "center",
 };
 
-const Header = ({ onShowModalExit, onClickSubmit }: Props) => {
-  const { step, handler } = useStepExam();
-  const { handleSubmit } = useFormikContext();
+const Header = ({ onShowModalExit }: Props) => {
+  const { step } = useStepExam();
 
   const hanldeShowModalExit = () => {
     onShowModalExit();
-  };
-
-  const hanldeSubmitSpeakingExam = () => {
-    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
   };
 
   return (
@@ -82,7 +75,7 @@ const Header = ({ onShowModalExit, onClickSubmit }: Props) => {
             <Button
               sx={btnSubmitStep2}
               endIcon={<AssignmentTurnedInIcon sx={{ fontSize: "24px !important" }} />}
-              onClick={hanldeSubmitSpeakingExam}
+              type="submit"
             >
               SUBMIT
             </Button>

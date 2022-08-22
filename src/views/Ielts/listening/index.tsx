@@ -68,7 +68,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
         return (
           <Form>
             <Box sx={{ height: "100vh", overflow: "hidden" }}>
-              <Header onShowModalExit={handleShowModal} onClickSubmit={formik.handleSubmit} />
+              <Header onShowModalExit={handleShowModal} />
 
               <Box sx={{ mt: "80px" }}>
                 {step === TypeStepExamEnum.STEP1 && <RulesListening />}
