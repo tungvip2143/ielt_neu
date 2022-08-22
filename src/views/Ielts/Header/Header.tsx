@@ -46,7 +46,7 @@ const headerTop = {
   alignItems: "center",
 };
 
-const Header = ({ onShowModalExit, onClickSubmit }: Props) => {
+const Header = ({ onShowModalExit }: Props) => {
   const { step, handler } = useStepExam();
   const { handleSubmit } = useFormikContext();
 

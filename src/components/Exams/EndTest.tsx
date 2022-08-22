@@ -82,6 +82,7 @@ const EndTest = (props: Props) => {
         onSuccess: () => history.push(location),
       });
     }
+    return history.go(0);
   };
 
   if (readingLoading || writingLoading || ListeningLoading || speakingLoading) {
