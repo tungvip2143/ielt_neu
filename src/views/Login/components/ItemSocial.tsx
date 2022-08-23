@@ -18,7 +18,7 @@ interface Props {
 const ItemSocial = ({ data, onClick }: Props) => {
   const item = {
     background: data.bg,
-    p: "7px 10px 2px 10px",
+    p: "8px",
     borderRadius: "60px",
     alignItems: "center",
     border: "1px solid #ccc",
@@ -32,9 +32,7 @@ const ItemSocial = ({ data, onClick }: Props) => {
   };
   return (
     <Stack onClick={() => onClick()} direction="row" sx={item}>
-      <Box>
-        <img src={data.img} alt="" />
-      </Box>
+      <img src={data.img} alt="" />
       <Text.Desc16 sx={title}>{data.title}</Text.Desc16>
     </Stack>
   );

@@ -22,11 +22,56 @@ import Title from "./components/Title";
 import Footer from "./components/Footer";
 import CardView from "./components/CardView";
 import { RouteBase } from "constants/routeUrl";
+import { useState } from "react";
+import socialServices from "services/socialServices";
 //
+
+const container = {
+  width: "100vw",
+  height: "100vh",
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+};
+
+//
+const dataGoogle = {
+  title: "Continue with Google",
+  img: ImgGoogle,
+  bg: "#4285f4",
+  color: "#fff",
+};
+const dataFacebook = {
+  title: "Continue with Facebook",
+  img: ImgFacebook,
+  bg: "#fff",
+  color: "#5b5c61",
+};
+const dataApple = {
+  title: "Continue with Apple",
+  img: ImgApple,
+  bg: "#fff",
+  color: "#5b5c61",
+};
+const dataEmail = {
+  title: "Continue with Email",
+  img: ImgEmail,
+  bg: "#fff",
+  color: "#5b5c61",
+};
+//
+const content = {
+  desc: "No account?",
+  title: "Sign Up",
+};
 const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
+  const [token, setToken] = useState("");
+  const handleLoginEmail = () => {
+    history.push("/login/email");
+  };
 
   const { mutateAsync: login } = useLogin();
   if (isLogin) {
@@ -34,48 +79,14 @@ const LoginPage = (props: any) => {
   }
   const history = useHistory();
 
-  const container = {
-    width: "100vw",
-    height: "100vh",
-    display: "flex",
-    justifyContent: "center",
-    alignItems: "center",
-  };
-  const handleLoginEmail = () => {
-    history.push("/login/email");
-  };
-  const handleSignUp = () => {
-    history.push("/login/sign-up");
-  };
-  //
-  const dataGoogle = {
-    title: "Continue with Google",
-    img: ImgGoogle,
-    bg: "#4285f4",
-    color: "#fff",
-  };
-  const dataFacebook = {
-    title: "Continue with Facebook",
-    img: ImgFacebook,
-    bg: "#fff",
-    color: "#5b5c61",
-  };
-  const dataApple = {
-    title: "Continue with Apple",
-    img: ImgApple,
-    bg: "#fff",
-    color: "#5b5c61",
-  };
-  const dataEmail = {
-    title: "Continue with Email",
-    img: ImgEmail,
-    bg: "#fff",
-    color: "#5b5c61",
-  };
-  //
-  const content = {
-    desc: "No account",
-    title: "Sign Up",
+  const handleLoginGoogle = async () => {
+    const body = {
+      token: localStorage.getItem(JSON.parse("auth")),
+      provider: "GOOGLE",
+    };
+    console.log("body", body);
+
+    await socialServices.loginSocial(body);
   };
   return (
     <Formik
@@ -99,12 +110,12 @@ const LoginPage = (props: any) => {
             <CardView>
               <Title>Login</Title>
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
-                <ItemSocial data={dataGoogle} />
+                <ItemSocial data={dataGoogle} onClick={handleLoginGoogle} />
                 <ItemSocial data={dataFacebook} />
                 <ItemSocial data={dataApple} />
                 <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
               </Stack>
-              <Footer content={content} onClick={handleSignUp} />
+              <Footer content={content} pathName={RouteBase.SignUp} />
             </CardView>
           </Box>
         </Form>

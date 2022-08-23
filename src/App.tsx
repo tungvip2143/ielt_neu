@@ -24,6 +24,8 @@ import PrivateRoute from "components/PrivateRoute";
 import LoginEmail from "views/Login/LoginEmail";
 import ListeningReview from "./views/Review/listening/index";
 import SpeakingReview from "./views/Review/speaking/index";
+import SignUp from "views/SignUp";
+import SignUpEmail from "views/SignUp/component/SignUpEmail";
 
 //
 
@@ -38,6 +40,8 @@ const App: React.FC = () => {
       <Router>
         <Switch>
           <Route path={RouteBase.Login} exact component={LoginPage} />
+          <Route path={RouteBase.SignUp} exact component={SignUp} />
+          <Route path={RouteBase.SignUpEmail} exact component={SignUpEmail} />
           <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
           <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
           <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />

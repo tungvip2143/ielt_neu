@@ -7,6 +7,7 @@ import Stack from "@mui/material/Stack";
 import { Link } from "react-router-dom";
 //
 import { useHistory } from "react-router-dom";
+import { RouteBase } from "constants/routeUrl";
 //  type
 interface Props {
   onClick?: any;
@@ -15,18 +16,22 @@ interface Props {
     desc: string;
     title: string;
   };
+
+  pathName?: any;
 }
-const Footer = ({ onClick, content }: Props) => {
+const Footer = ({ onClick, content, pathName }: Props) => {
   const hanldeChangLogin = () => {
     onClick();
   };
   return (
     <>
-      <Stack direction="row" spacing={0.5} sx={{ justifyContent: "center", mb: "16px" }}>
-        <Text.DescSmall sx={{ fontSize: "12px", color: "#5b5c61", fontWeight: 500 }}>{content?.desc}</Text.DescSmall>
-        <div onClick={hanldeChangLogin}>
-          <Text.DescSmall sx={{ color: "#0b2283", fontSize: "12px", fontWeight: 500 }}>{content?.title}</Text.DescSmall>
-        </div>
+      <Stack direction="row" spacing={0.5} sx={{ justifyContent: "center", margin: "10px 10px" }}>
+        <Text.DescSmall sx={{ fontSize: "12px", color: "#5b5c61", fontWeight: "bold" }}>{content?.desc}</Text.DescSmall>
+        <Link to={pathName}>
+          <Text.DescSmall sx={{ color: "#0b2283", fontSize: "12px", fontWeight: "bold" }}>
+            {content?.title}
+          </Text.DescSmall>
+        </Link>
       </Stack>
       <Stack direction="row">
         <Box sx={{ fontSize: "12px", color: "#b8bcc0", textAlign: "center", fontWeight: 400 }}>
