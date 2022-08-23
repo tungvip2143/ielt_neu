@@ -1,34 +1,30 @@
-import React from "react";
-import { Formik, Form, FastField } from "formik";
-import ErrorFocus from "components/ErrorFocus";
-import InputField from "components/CustomField/InputField";
-import { GetAuthSelector } from "redux/selectors/auth";
-import { Redirect, useHistory } from "react-router-dom";
-import Button from "components/Button";
-import useSagaCreators from "hooks/useSagaCreators";
-import { authActions } from "redux/creators/modules/auth";
-import { useLogin } from "hooks/auth/useAuth";
-//
-import ItemSocial from "./components/ItemSocial";
-import ImgGoogle from "assets/image/login/google.svg";
-import ImgFacebook from "assets/image/login/facebook.svg";
-import ImgApple from "assets/image/login/apple.svg";
-import ImgEmail from "assets/image/login/email.svg";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
+import { useGoogleLogin } from "@react-oauth/google";
+import ImgApple from "assets/image/login/apple.svg";
+import ImgEmail from "assets/image/login/email.svg";
+import ImgFacebook from "assets/image/login/facebook.svg";
+import ImgGoogle from "assets/image/login/google.svg";
+import { SocialProvider } from "constants/constants";
+import { RouteBase } from "constants/routeUrl";
+import { Form, Formik } from "formik";
+import { useLogin } from "hooks/auth/useAuth";
+import useSagaCreators from "hooks/useSagaCreators";
+import { useGetLocation } from "provider/LocationProvider";
+import React from "react";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { Redirect, useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { authActions } from "redux/creators/modules/auth";
+import { GetAuthSelector } from "redux/selectors/auth";
+import socialServices from "services/socialServices";
+import CardView from "./components/CardView";
+import Footer from "./components/Footer";
+//
+import ItemSocial from "./components/ItemSocial";
 //
 import Title from "./components/Title";
-import Footer from "./components/Footer";
-import CardView from "./components/CardView";
-import { RouteBase } from "constants/routeUrl";
-import { useState } from "react";
-import socialServices from "services/socialServices";
-import { refreshTokenSetup } from "utils/refreshToken";
-import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
-import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
-import { SocialProvider } from "constants/constants";
-import { useGetLocation } from "provider/LocationProvider";
 //
 
 const container = {
@@ -74,6 +70,7 @@ const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
+
   const handleLoginEmail = () => {
     history.push("/login/email");
   };
@@ -82,28 +79,33 @@ const LoginPage = (props: any) => {
   const history = useHistory();
   const { initialPathName } = useGetLocation();
 
+  const loginSocial = async (res: any, provider: any) => {
+    try {
+      const body = {
+        token: res,
+        provider: provider,
+      };
+      const responseSocial = await socialServices.loginSocial(body);
+
+      if (responseSocial?.data?.data?.data?.access_token) {
+        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message, {
+        autoClose: 3000,
+      });
+    }
+  };
+
   const signIn = useGoogleLogin({
-    onSuccess: (tokenResponse: any) =>
-      dispatch(authActions.saveInfoUser, { token: tokenResponse?.data?.data?.data?.access_token }),
+    flow: "implicit",
+    onSuccess: (tokenResponse: any) => {
+      loginSocial(tokenResponse.access_token, SocialProvider.GOOGLE);
+    },
   });
-  // const handleLoginGoogle = async () => {
-  //   const body = {
-  //     token: localStorage.getItem(JSON.parse("auth")),
-  //     provider: SocialProvider.GOOGLE,
-  //   };
-  //   await socialServices.loginSocial(body);
-  // };
 
   const handleLoginFacebook = async (res: any) => {
-    const body = {
-      token: res.accessToken,
-      provider: SocialProvider.FACEBOOK,
-    };
-    const responseSocial = await socialServices.loginSocial(body);
-
-    if (responseSocial?.data?.data?.data?.access_token) {
-      dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
-    }
+    loginSocial(res.accessToken, SocialProvider.FACEBOOK);
   };
 
   const showFB = () => {
@@ -148,11 +150,7 @@ const LoginPage = (props: any) => {
               <Title>Login</Title>
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
                 <ItemSocial data={dataGoogle} onClick={signIn} />
-                <ItemSocial data={dataFacebook} />
-                {/* <ItemSocial data={dataApple} /> */}
-                {/* <ItemSocial data={dataGoogle} onClick={handleLoginGoogle} /> */}
                 {showFB()}
-                <ItemSocial data={dataApple} />
                 <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
               </Stack>
               <Footer content={content} pathName={RouteBase.SignUp} />
