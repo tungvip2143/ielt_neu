@@ -6,6 +6,11 @@ const useRecorder = () => {
   const [recorder, setRecorder] = useState<any>(null);
   console.log("audio url", audioURL);
 
+  async function requestRecorder() {
+    const stream = await navigator?.mediaDevices?.getUserMedia({ audio: true });
+    return new MediaRecorder(stream);
+  }
+
   useEffect(() => {
     // Lazily obtain recorder first time we're recording.
     if (recorder === null) {
@@ -43,8 +48,4 @@ const useRecorder = () => {
   return [audioURL, isRecording, startRecording, stopRecording];
 };
 
-async function requestRecorder() {
-  const stream = await navigator?.mediaDevices?.getUserMedia({ audio: true });
-  return new MediaRecorder(stream);
-}
 export default useRecorder;
