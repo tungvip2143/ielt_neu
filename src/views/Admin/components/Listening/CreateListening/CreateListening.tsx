@@ -19,7 +19,7 @@ import * as yup from "yup";
 import ModalCreateQuestion from "./ModalCreateQuestion";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EditIcon from "@mui/icons-material/Edit";
@@ -63,6 +63,8 @@ const CreateQuestionListening = (props: Props) => {
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
+  const { search } = useLocation();
+  const id = search.split("=")[1];
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
     // questionTip: yup.string().required("This field is required!"),
@@ -81,10 +83,10 @@ const CreateQuestionListening = (props: Props) => {
     // fourAnswer: yup.string().required("This field is required!"),
     // correctAnswer: yup.string().required("This field is required!"),
   });
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   console.log("dataPartDetail", dataPartDetail);
 
-  const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(params?.id);
+  const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
   const [isEdit, setIsEdit] = useState(false);
   console.log("dataReading", dataPartDetail);
 
@@ -374,7 +376,7 @@ const CreateQuestionListening = (props: Props) => {
           fetchData={refetchQuestionGroup}
           openModal={openModal}
           onCloseModal={() => setOpenModal({})}
-          id={params?.id}
+          id={id}
         />
       )}
     </form>

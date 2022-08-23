@@ -1,11 +1,12 @@
 import { isArray } from "lodash";
 class UserPart {
   _id: string;
-  username:string;
-  email:string;
-  verified:boolean;
-  userType:string
-  active:boolean
+  fullname: string;
+  username: string;
+  email: string;
+  verified: boolean;
+  userType: string;
+  active: boolean;
   deleted: boolean;
   createdAt: string;
   updatedAt: string;
@@ -14,6 +15,7 @@ class UserPart {
   constructor(data: any) {
     this._id = data?.id;
     this.username = data?.username;
+    this.fullname = data?.fullname;
     this.email = data?.email;
     this.verified = data?.verified;
     this.userType = data?.userType;
