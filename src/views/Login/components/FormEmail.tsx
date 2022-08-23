@@ -53,7 +53,7 @@ const FormEmail = () => {
   //
 
   const validate = Yup.object({
-    username: Yup.string().min(5, "*Must be 5 characters").required("Required"),
+    email: Yup.string().min(5, "*Must be 5 characters").required("Required"),
     password: Yup.string().min(5, "*Must be 10 characters").required("Required"),
   });
 
@@ -67,7 +67,7 @@ const FormEmail = () => {
         validateOnBlur={false}
         validateOnChange={false}
         initialValues={{
-          username: "",
+          email: "",
           password: "",
         }}
         validationSchema={validate}
@@ -89,7 +89,7 @@ const FormEmail = () => {
                 component={InputField}
                 placeholder="Email"
                 // name="username"
-                {...propsFormik.getFieldProps("username")}
+                {...propsFormik.getFieldProps("email")}
               />
             </div>
             <Text.DescSmall sx={forgotPassword}>Forgot password?</Text.DescSmall>

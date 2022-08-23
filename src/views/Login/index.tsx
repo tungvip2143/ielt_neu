@@ -26,6 +26,8 @@ import { useState } from "react";
 import socialServices from "services/socialServices";
 import { refreshTokenSetup } from "utils/refreshToken";
 import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
+import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
+import { SocialProvider } from "constants/constants";
 //
 
 const container = {
@@ -85,13 +87,46 @@ const LoginPage = (props: any) => {
     onSuccess: (tokenResponse: any) =>
       dispatch(authActions.saveInfoUser, { token: tokenResponse?.data?.data?.data?.access_token }),
   });
+  // const handleLoginGoogle = async () => {
+  //   const body = {
+  //     token: localStorage.getItem(JSON.parse("auth")),
+  //     provider: SocialProvider.GOOGLE,
+  //   };
+  //   await socialServices.loginSocial(body);
+  // };
+
+  const handleLoginFacebook = async (res: any) => {
+    const body = {
+      token: res.accessToken,
+      provider: SocialProvider.FACEBOOK,
+    };
+    const responseSocial = await socialServices.loginSocial(body);
+
+    if (responseSocial?.data?.data?.data?.access_token) {
+      dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+    }
+  };
+
+  const showFB = () => {
+    return (
+      <FacebookLogin
+        appId="794031728446764"
+        autoLoad={false}
+        fields="name,email,picture"
+        scope="email"
+        callback={handleLoginFacebook}
+        icon="fa-facebook"
+        render={(renderProps) => <ItemSocial data={dataFacebook} onClick={renderProps.onClick} />}
+      />
+    );
+  };
 
   return (
     <Formik
       validateOnBlur={false}
       validateOnChange={false}
       initialValues={{
-        username: "",
+        email: "",
         password: "",
       }}
       onSubmit={async (values) => {
@@ -111,6 +146,9 @@ const LoginPage = (props: any) => {
                 <ItemSocial data={dataGoogle} onClick={signIn} />
                 <ItemSocial data={dataFacebook} />
                 {/* <ItemSocial data={dataApple} /> */}
+                {/* <ItemSocial data={dataGoogle} onClick={handleLoginGoogle} /> */}
+                {showFB()}
+                <ItemSocial data={dataApple} />
                 <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
               </Stack>
               <Footer content={content} pathName={RouteBase.SignUp} />

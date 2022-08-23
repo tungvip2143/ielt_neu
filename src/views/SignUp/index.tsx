@@ -76,7 +76,7 @@ const SignUp = (props: any) => {
       validateOnBlur={false}
       validateOnChange={false}
       initialValues={{
-        username: "",
+        email: "",
         password: "",
       }}
       onSubmit={async (values) => {

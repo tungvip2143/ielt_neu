@@ -7,7 +7,7 @@ class AuthService {
     return httpServices.post(AUTH_URL.SIGNUP, body);
   }
 
-  login(body = { username: "", password: "" }) {
+  login(body = { email: "", password: "" }) {
     return httpServices.post(AUTH_URL.LOGIN, body);
   }
 
