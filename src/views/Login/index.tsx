@@ -24,6 +24,8 @@ import CardView from "./components/CardView";
 import { RouteBase } from "constants/routeUrl";
 import { useState } from "react";
 import socialServices from "services/socialServices";
+import FacebookLogin from 'react-facebook-login/dist/facebook-login-render-props'
+import { SocialProvider } from "constants/constants";
 //
 
 const container = {
@@ -82,12 +84,38 @@ const LoginPage = (props: any) => {
   const handleLoginGoogle = async () => {
     const body = {
       token: localStorage.getItem(JSON.parse("auth")),
-      provider: "GOOGLE",
+      provider: SocialProvider.GOOGLE,
     };
-    console.log("body", body);
-
     await socialServices.loginSocial(body);
   };
+
+  const handleLoginFacebook = async (res: any) => {
+    const body = {
+      token: res.accessToken,
+      provider: SocialProvider.FACEBOOK,
+    };
+    const responseSocial = await socialServices.loginSocial(body);
+
+    if (responseSocial?.data?.data?.data?.access_token) {
+      dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+    }
+
+  }
+
+  const showFB = () => {
+    return <FacebookLogin
+      appId="794031728446764"
+      autoLoad={false}
+      fields="name,email,picture"
+      scope="email"
+      callback={handleLoginFacebook}
+      icon="fa-facebook"
+      render={renderProps => (
+        <ItemSocial data={dataFacebook} onClick={renderProps.onClick} />
+      )}
+    />
+  }
+
   return (
     <Formik
       validateOnBlur={false}
@@ -111,7 +139,7 @@ const LoginPage = (props: any) => {
               <Title>Login</Title>
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
                 <ItemSocial data={dataGoogle} onClick={handleLoginGoogle} />
-                <ItemSocial data={dataFacebook} />
+                {showFB()}
                 <ItemSocial data={dataApple} />
                 <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
               </Stack>

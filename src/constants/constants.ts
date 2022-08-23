@@ -11,3 +11,12 @@ export const validateLine = {
   email: "Email không hợp lệ",
   confirmPassword: "Mật khẩu nhập lại phải giống với mật khẩu đã nhập mới",
 };
+
+const SocialProvider = {
+  FACEBOOK: 'FACEBOOK',
+  GOOGLE: 'GOOGLE'
+}
+
+export {
+  SocialProvider,
+}
