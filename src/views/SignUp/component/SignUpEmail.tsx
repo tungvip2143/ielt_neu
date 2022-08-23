@@ -16,6 +16,7 @@ import { validateLine } from "constants/constants";
 import Regexs from "constants/Regexs";
 import { isEmpty } from "lodash";
 import authServices from "services/authServices";
+import { toast } from "react-toastify";
 
 const input = {
   width: "100%",
@@ -102,11 +103,19 @@ const onSubmit = async (data: any) => {
   await authServices
     .signUp(body)
     .then((res) => {
+      console.log("res", res);
+
       if (res.data.statusCode === 200) {
-        alert("Sign up success");
+        toast.success("Sign up success");
+      } else {
+        toast.error("Sign up failed");
       }
     })
-    .catch((err) => err);
+    .catch((err: any) =>
+      toast.error(err?.response?.data?.message, {
+        autoClose: 3000,
+      })
+    );
 };
 
 const SignUpEmail = () => {
