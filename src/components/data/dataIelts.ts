@@ -3,7 +3,7 @@ export const dataIlets = [
     id: 1,
     typeExam: "Listening Section",
     timeExam: "Grades within 2 min.",
-    nameExam: "ilets",
+    nameExam: "IELTS",
     image: "https://i.testglider.com/static/img/selectSection/section-test-listening.svg",
     hoverColor: "hover-card-bg-red",
     path: "/ielts/listening",
