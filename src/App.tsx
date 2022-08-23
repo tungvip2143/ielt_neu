@@ -24,40 +24,49 @@ import PrivateRoute from "components/PrivateRoute";
 import LoginEmail from "views/Login/LoginEmail";
 import ListeningReview from "./views/Review/listening/index";
 import SpeakingReview from "./views/Review/speaking/index";
+import SignUp from "views/SignUp";
+import SignUpEmail from "views/SignUp/component/SignUpEmail";
+import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
 
 //
+
+const clientId = "76081722691-0m4n7lmh7n71akn2814n5lthkvl3obdg.apps.googleusercontent.com";
 
 const App: React.FC = () => {
   useCheckAuth();
 
   //! Render
   return (
-    <LocationProvider>
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <ToastContainer position="top-right" autoClose={1000} />
-        <Router>
-          <Switch>
-            <Route path={RouteBase.Login} exact component={LoginPage} />
-            <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
-            <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
-            <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
-            <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
-            <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
-            <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
-            <Route path={RouteBase.Pricing} exact component={Pricing} />
-            <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
-            <Route path={RouteBase.WritingReview} exact component={WritngReview} />
-            <Route path={RouteBase.ListeningReview} exact component={ListeningReview} />
-            <Route path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
-            <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
-            <Route path={RouteBase.Home} component={DefaultLayout} />
-            {/* Admin site */}
-          </Switch>
-        </Router>
-      </ThemeProvider>
-    </LocationProvider>
+    <GoogleOAuthProvider clientId={clientId}>
+      <LocationProvider>
+        <ThemeProvider theme={theme}>
+          <CssBaseline />
+          <ToastContainer position="top-right" autoClose={1000} />
+          <Router>
+            <Switch>
+              <Route path={RouteBase.Login} exact component={LoginPage} />
+              <Route path={RouteBase.SignUp} exact component={SignUp} />
+              <Route path={RouteBase.SignUpEmail} exact component={SignUpEmail} />
+              <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
+              <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
+              <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
+              <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
+              <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
+              <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
+              <Route path={RouteBase.Pricing} exact component={Pricing} />
+              <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
+              <Route path={RouteBase.WritingReview} exact component={WritngReview} />
+              <Route path={RouteBase.ListeningReview} exact component={ListeningReview} />
+              <Route path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
+              <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
+              <Route path={RouteBase.Home} component={DefaultLayout} />
+              {/* Admin site */}
+            </Switch>
+          </Router>
+        </ThemeProvider>
+      </LocationProvider>
+    </GoogleOAuthProvider>
   );
 };
 

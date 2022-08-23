@@ -3,11 +3,11 @@ import httpServices from "services/httpServices";
 
 const USER_LOCAL_STORAGE = "auth";
 class AuthService {
-  signUp(body = { username: "", password: "" }) {
+  signUp(body: any) {
     return httpServices.post(AUTH_URL.SIGNUP, body);
   }
 
-  login(body = { username: "", password: "" }) {
+  login(body = { email: "", password: "" }) {
     return httpServices.post(AUTH_URL.LOGIN, body);
   }
 
@@ -21,6 +21,8 @@ class AuthService {
 
   getUserLocalStorage() {
     const user = localStorage.getItem(USER_LOCAL_STORAGE);
+    console.log("ssssssssss", user);
+
     if (!!user) {
       return JSON.parse(user);
     }

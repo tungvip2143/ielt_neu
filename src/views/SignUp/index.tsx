@@ -9,7 +9,7 @@ import useSagaCreators from "hooks/useSagaCreators";
 import { authActions } from "redux/creators/modules/auth";
 import { useLogin } from "hooks/auth/useAuth";
 //
-import ItemSocial from "./components/ItemSocial";
+import ItemSocial from "views/Login/components/ItemSocial";
 import ImgGoogle from "assets/image/login/google.svg";
 import ImgFacebook from "assets/image/login/facebook.svg";
 import ImgApple from "assets/image/login/apple.svg";
@@ -18,9 +18,10 @@ import ImgEmail from "assets/image/login/email.svg";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
-import Title from "./components/Title";
-import Footer from "./components/Footer";
-import CardView from "./components/CardView";
+import Title from "views/Login/components/Title";
+import Footer from "views/Login/components/Footer";
+import CardView from "views/Login/components/CardView";
+import { RouteBase } from "constants/routeUrl";
 //
 const SignUp = (props: any) => {
   const { dispatch } = useSagaCreators();
@@ -39,9 +40,6 @@ const SignUp = (props: any) => {
     display: "flex",
     justifyContent: "center",
     alignItems: "center",
-  };
-  const handleLogin = () => {
-    history.push("/login");
   };
   //
   const dataGoogle = {
@@ -78,7 +76,7 @@ const SignUp = (props: any) => {
       validateOnBlur={false}
       validateOnChange={false}
       initialValues={{
-        username: "",
+        email: "",
         password: "",
       }}
       onSubmit={async (values) => {
@@ -92,28 +90,16 @@ const SignUp = (props: any) => {
       {(propsFormik) => (
         <Form>
           <ErrorFocus />
-          <div>username: admin & password: 123456</div>
-          <div>
-            <label htmlFor="username">UserName</label>
-            <FastField component={InputField} name="username" />
-          </div>
-
-          <div>
-            <label htmlFor="password">Password</label>
-            <FastField component={InputField} name="password" type="password" />
-          </div>
-
-          <Button type="submit">Submit</Button>
           <Box sx={container}>
             <CardView>
               <Title>Sign up</Title>
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
                 <ItemSocial data={dataGoogle} />
                 <ItemSocial data={dataFacebook} />
-                <ItemSocial data={dataApple} />
-                <ItemSocial data={dataEmail} />
+                {/* <ItemSocial data={dataApple} /> */}
+                <ItemSocial data={dataEmail} onClick={() => history.push(RouteBase.SignUpEmail)} />
               </Stack>
-              <Footer onClick={handleLogin} content={content} />
+              <Footer pathName={RouteBase.Login} content={content} />
             </CardView>
           </Box>
         </Form>

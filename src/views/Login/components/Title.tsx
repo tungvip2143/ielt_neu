@@ -2,7 +2,6 @@ import React from "react";
 import Text from "components/Typography/index";
 
 const Title = (props: any) => {
-  console.log(props);
   const textLogin = {
     color: "#0b2283",
     fontWeight: "bold",

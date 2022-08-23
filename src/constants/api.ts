@@ -15,6 +15,9 @@ export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
   LOGOUT: `${ROOT_URL}/auth/logout`,
+  SIGNUP_EMAIL: `${ROOT_URL}/auth/signup`,
+  //Social
+  LOGIN_SOCIAL: `${ROOT_URL}/auth/signin/social`,
 };
 
 export const IELTS_URL = (testCode?: any, questionId?: string) => {
