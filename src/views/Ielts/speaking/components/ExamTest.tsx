@@ -76,19 +76,12 @@ const ExamTest = (props: Props) => {
   };
   const stop = () => {
     stopRecording();
-    // setRecordState({
-    //   recordState: RecordState.STOP,
-    // });
   };
 
   // -----Recorder-------
 
   const onStartRecorder = () => {
     startRecording();
-
-    // setRecordState({
-    //   recordState: RecordState.START,
-    // });
   };
 
   useEffect(() => {
