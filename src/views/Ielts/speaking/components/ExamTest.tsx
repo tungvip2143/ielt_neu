@@ -16,6 +16,7 @@ import { part } from "interfaces/recorder";
 import { useStepExam } from "provider/StepExamProvider";
 import ReactAudioPlayer from "react-audio-player";
 import RecordExam from "./RecordExam";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   data: any;
@@ -190,6 +191,10 @@ const ExamTest = (props: Props) => {
 const IeltsSpeakingContainer = () => {
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
   const { data, isLoading } = useIeltsSpeaking(testCode);
+
+  if (!testCode) {
+    useHistory().push("/ielts");
+  }
 
   if (isLoading) {
     return <LoadingPage />;

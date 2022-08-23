@@ -1,23 +1,20 @@
-import * as React from "react";
-import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
-import ExamTest from "./components/ExamTest";
 import EndTest from "components/Exams/EndTest";
-import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
+import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
+import * as React from "react";
+import ExamTest from "./components/ExamTest";
 //
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 //
-import Header from "views/Ielts/Header/Header";
-import RulesListening from "components/RulesExams/RulesListening";
-import { Form, Formik } from "formik";
-import { useIeltsListening, useUpdateIeltsListeningTest, useUpdateIeltsSpeakingTest } from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
-import ModalSpeaking from "../../../components/Modal/ModalSpeaking";
 import ModalExit from "components/Modal/ModalExit";
-import { useHistory } from "react-router-dom";
-import StepTestMic from "./components/StepTestMic";
-import RuleSpeaking from "components/RulesExams/RulesSpeaking";
+import { Form, Formik } from "formik";
+import { useUpdateIeltsSpeakingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
+import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Header from "views/Ielts/Header/Header";
+import ModalSpeaking from "../../../components/Modal/ModalSpeaking";
+import StepTestMic from "./components/StepTestMic";
 
 //
 export interface IeltsSpeakingProps {}

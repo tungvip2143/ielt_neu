@@ -22,6 +22,7 @@ import Title from "./components/Title";
 import Footer from "./components/Footer";
 import CardView from "./components/CardView";
 import { RouteBase } from "constants/routeUrl";
+import { useGetLocation } from "provider/LocationProvider";
 //
 const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
@@ -29,10 +30,8 @@ const LoginPage = (props: any) => {
   const { isLogin } = auth;
 
   const { mutateAsync: login } = useLogin();
-  if (isLogin) {
-    return <Redirect to={RouteBase.Admin} />;
-  }
   const history = useHistory();
+  const { initialPathName } = useGetLocation();
 
   const container = {
     width: "100vw",
@@ -77,6 +76,12 @@ const LoginPage = (props: any) => {
     desc: "No account",
     title: "Sign Up",
   };
+
+  //! Render
+  if (isLogin) {
+    return <Redirect to={initialPathName} />;
+  }
+
   return (
     <Formik
       validateOnBlur={false}
