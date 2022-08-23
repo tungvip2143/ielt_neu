@@ -28,6 +28,7 @@ import { refreshTokenSetup } from "utils/refreshToken";
 import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 import FacebookLogin from "react-facebook-login/dist/facebook-login-render-props";
 import { SocialProvider } from "constants/constants";
+import { useGetLocation } from "provider/LocationProvider";
 //
 
 const container = {
@@ -78,10 +79,8 @@ const LoginPage = (props: any) => {
   };
 
   const { mutateAsync: login } = useLogin();
-  if (isLogin) {
-    return <Redirect to={RouteBase.Admin} />;
-  }
   const history = useHistory();
+  const { initialPathName } = useGetLocation();
 
   const signIn = useGoogleLogin({
     onSuccess: (tokenResponse: any) =>
@@ -120,6 +119,11 @@ const LoginPage = (props: any) => {
       />
     );
   };
+
+  //! Render
+  if (isLogin) {
+    return <Redirect to={initialPathName} />;
+  }
 
   return (
     <Formik
