@@ -1,34 +1,26 @@
 import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
 import LoadingPage from "components/Loading";
-import { useIeltsSpeaking, useIeltsTestCode, useUploadAudioSpeaking } from "hooks/ielts/useIelts";
+import { useIeltsSpeaking, useUploadAudioSpeaking } from "hooks/ielts/useIelts";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import CardPage from "./CardPage";
 //
-import { ROOT_ORIGINAL_URL, ROOT_URL } from "constants/api";
-import ReactAudioPlayer from "react-audio-player";
-import RecordExam from "./RecordExam";
 import { makeStyles } from "@mui/styles";
 import SpeakingImageActive from "assets/image/speaking-exam/teach_illustration_active.svg";
 import SpeakingImageDeactive from "assets/image/speaking-exam/teach_illustration_deactive.svg";
-// @ts-ignore
-import { RecordState } from "audio-react-recorder";
-import { part, RecordStateEnum } from "interfaces/recorder";
-import { useStepExam } from "provider/StepExamProvider";
+import { ROOT_ORIGINAL_URL } from "constants/api";
 import { TypeStepExamEnum } from "constants/enum";
-import audioService from "services/audioService";
-import ieltsService from "services/ieltsService";
-import httpServices from "services/httpServices";
+import useRecorder from "hooks/audio/useAudioHook";
+import { part } from "interfaces/recorder";
+import { useStepExam } from "provider/StepExamProvider";
+import ReactAudioPlayer from "react-audio-player";
+import RecordExam from "./RecordExam";
 
 type Props = {
   data: any;
   testCode: number;
 };
-
-interface RecordState {
-  recordState: any;
-}
 
 const useStyles = makeStyles((theme) => ({
   audioContent: {
@@ -54,7 +46,6 @@ const ExamTest = (props: Props) => {
   const classes = useStyles();
   const { data, testCode } = props;
   const speakingDatas = data?.data?.data || [];
-  const [recordState, setRecordState] = React.useState<RecordState>();
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -62,6 +53,7 @@ const ExamTest = (props: Props) => {
   });
   const { handler } = useStepExam();
   const { mutateAsync: uploadAudioSpeaking, isLoading: uploadAudioLoading } = useUploadAudioSpeaking();
+  let [audioURL, isRecording, startRecording, stopRecording]: any = useRecorder();
 
   let partsLength = speakingDatas.length - 1 || 0;
   let groupsLength = speakingDatas[groupSelected.part]?.groups?.length - 1 || 0;
@@ -73,7 +65,7 @@ const ExamTest = (props: Props) => {
     speakingDatas[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question]?.question
       .displayNumber;
 
-  console.log("groupSelected", groupSelected);
+  console.log("audioURL", audioURL);
 
   // !Function
 
@@ -82,17 +74,20 @@ const ExamTest = (props: Props) => {
     onStartRecorder();
   };
   const stop = () => {
-    setRecordState({
-      recordState: RecordState.STOP,
-    });
+    stopRecording();
+    // setRecordState({
+    //   recordState: RecordState.STOP,
+    // });
   };
 
   // -----Recorder-------
 
   const onStartRecorder = () => {
-    setRecordState({
-      recordState: RecordState.START,
-    });
+    startRecording();
+
+    // setRecordState({
+    //   recordState: RecordState.START,
+    // });
   };
 
   useEffect(() => {
@@ -116,12 +111,12 @@ const ExamTest = (props: Props) => {
     }
   }, [onStartRecorder]);
 
-  const uploadVideo = async (audio: any) => {
+  const uploadVideo = async () => {
     const questionId =
       speakingDatas[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question].questionId;
 
     const formData = new FormData();
-    formData.append("userAudioAnswer", audio.blob, "recording.wav");
+    formData.append("userAudioAnswer", audioURL, "recording.wav");
 
     await uploadAudioSpeaking(
       { testCode, questionId, body: formData },
@@ -147,6 +142,10 @@ const ExamTest = (props: Props) => {
     );
   };
 
+  useEffect(() => {
+    audioURL && uploadVideo();
+  }, [audioURL]);
+
   // !Render
   if (uploadAudioLoading) {
     return <LoadingPage />;
@@ -168,7 +167,7 @@ const ExamTest = (props: Props) => {
                 controls
               />
               <div>
-                {recordState?.recordState === RecordStateEnum.START ? (
+                {isRecording ? (
                   <img src={SpeakingImageDeactive} alt="speaking image" />
                 ) : (
                   <img src={SpeakingImageActive} alt="speaking image" />
@@ -180,9 +179,7 @@ const ExamTest = (props: Props) => {
         <CardExercise
           className={classes.cardExercies}
           width={5.9}
-          content={
-            <RecordExam partAnswering={groupSelected.part} uploadVideo={uploadVideo} recordState={recordState} />
-          }
+          content={<RecordExam partAnswering={groupSelected.part} isRecording={isRecording} />}
         />
       </Grid>
       <CardPage displayNumber={displayNumber} questions={speakingDatas} />
