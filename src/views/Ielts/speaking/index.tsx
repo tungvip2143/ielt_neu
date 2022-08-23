@@ -43,13 +43,10 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
   // !Function
-  const handleSubmitForm = async (values: any) => {
-    const body = { values, testCode };
-
-    await updateIeltsSpeaking(body, {
-      onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
-    });
+  const handleSubmitForm = () => {
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
   };
+
   const history = useHistory();
 
   //
@@ -65,7 +62,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   };
 
   return (
-    <Formik initialValues={initialValues()} onSubmit={(values) => handleSubmitForm(values)}>
+    <Formik initialValues={initialValues()} onSubmit={handleSubmitForm}>
       {(formik) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
