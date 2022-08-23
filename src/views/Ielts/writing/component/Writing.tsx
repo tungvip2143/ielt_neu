@@ -5,7 +5,6 @@ import React from "react";
 
 const useStyles = makeStyles((theme) => ({
   container: {
-    border: "1px solid #ccc",
     borderRadius: 5,
     width: "100%",
     height: "100%",
@@ -20,11 +19,11 @@ type Props = {
 const Writing = (props: Props) => {
   const classes = useStyles();
   const { groupSelected, questionId } = props;
-  console.log("groupSelected", questionId);
+  // console.log("groupSelected", questionId);
 
   const { values, setFieldValue } = useFormikContext();
 
-  console.log("writing values", values);
+  // console.log("writing values", values);
   const handleFocus = () => {
     setFieldValue(`answers[${groupSelected?.part}].questionId`, questionId);
   };
