@@ -28,7 +28,11 @@ const stepRuleExam = {
   informationsForCandidates: <InformationForCandidates />,
   intructionsToCandidates: <IntructionsToCandidates />,
 };
-export interface IeltsReadingProps {}
+
+export interface IeltsReadingProps {
+  data: any;
+  testCode: number;
+}
 
 const initialValues = function () {
   let value = {
@@ -43,16 +47,13 @@ const initialValues = function () {
 };
 
 const IeltsReading = (props: IeltsReadingProps) => {
+  // !State
+  const { data, testCode } = props;
   const [open, setOpen] = React.useState<boolean>(false);
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const { step, handler } = useStepExam();
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsReading(testCode);
-  const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+  const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
   const handleSubmit = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
@@ -130,10 +131,21 @@ const IeltsReading = (props: IeltsReadingProps) => {
   );
 };
 
+const IeltsReadingContainer = () => {
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { data, isLoading } = useIeltsReading(testCode);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <IeltsReading data={data?.data?.data} testCode={testCode} />;
+};
+
 const IeltsListeningRoot = () => {
   return (
     <StepExamProvider>
-      <IeltsReading />
+      <IeltsReadingContainer />
     </StepExamProvider>
   );
 };

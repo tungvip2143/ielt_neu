@@ -7,7 +7,6 @@ import CountDown from "components/Countdown/CountDown";
 //
 import { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
-import { useFormikContext } from "formik";
 //
 import LogoIelts from "assets/image/header/logo-ielts.png";
 import LogoEnglish from "assets/image/header/IELTSpartners.e1a4eda8.jpg";
@@ -15,7 +14,6 @@ import ButtonHelp from "../../components/ButtonHelp/ButtonHelp";
 //
 // ! type
 interface Props {
-  onClickSubmit?: () => void;
   onShowModalExit?: any;
   handleOpenModalHelp?: () => void;
 }
@@ -45,10 +43,8 @@ const headerTop = {};
 const logo = {
   height: "80px",
 };
-const Header = ({ onShowModalExit, onClickSubmit, handleOpenModalHelp }: Props) => {
+const Header = ({ onShowModalExit, handleOpenModalHelp }: Props) => {
   const { step, handler } = useStepExam();
-  const { handleSubmit } = useFormikContext();
-
   const hanldeShowModalExit = () => {
     onShowModalExit();
   };
@@ -59,6 +55,7 @@ const Header = ({ onShowModalExit, onClickSubmit, handleOpenModalHelp }: Props) 
   const btnHelp = {
     cursor: "pointer",
   };
+
   return (
     <>
       <Box sx={headerTop}>

@@ -1,21 +1,18 @@
-import React, { useEffect } from "react";
-import { dataLeft } from "./DataLeftChangePart";
 //
 import Box from "@mui/material/Box";
+import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
-import Grid from "@mui/material/Grid";
 //
-import CardTotalPageExams from "components/Card/CardTotalPageExams";
-import { useState } from "react";
-import { dataDummy, ieltsReadingDataDummy } from "api/ieltsResults";
-import { isEmpty } from "lodash";
-import { useMemo } from "react";
-import { group } from "console";
-import { IELT_TEST } from "interfaces/testType";
-import Writing from "views/Ielts/writing/component/Writing";
+import { ieltsReadingDataDummy } from "api/ieltsResults";
 import CardPart from "components/Card/CardPart";
+
+import CardTotalPageExams from "components/Card/CardTotalPageExams";
+import { IELT_TEST } from "interfaces/testType";
+import { isEmpty } from "lodash";
+import { useMemo, useState } from "react";
+import Writing from "views/Ielts/writing/component/Writing";
 import FooterExamResponsive from "./FooterExamResponsive";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
@@ -51,7 +48,7 @@ const Step2ExamContent = (props: any) => {
     setHightLightNumberPage(displayNumber);
   };
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = questions as any;
+    const questionsWithPageNumberTemp = (questions as any) || {};
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }

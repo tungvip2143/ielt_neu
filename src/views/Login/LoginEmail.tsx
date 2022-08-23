@@ -23,7 +23,6 @@ const LoginEmail = () => {
         <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
           <FormEmail />
         </Stack>
-        <Footer />
       </CardView>
     </Box>
   );

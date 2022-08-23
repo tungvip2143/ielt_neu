@@ -74,7 +74,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
     history.push("/ielts");
   };
   const containerSteps = {
-    pt: "80px",
+    pt: "60px",
     background: "#dbe5f5",
     height: "100%",
   };
@@ -90,9 +90,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
               <Box sx={containerSteps}>
                 {step === TypeStepExamEnum.STEP1 && <DetailUser />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
-                {step === TypeStepExamEnum.STEP3 && <RuleExam stepRuleExam={stepRuleExam} />}
-                {step === TypeStepExamEnum.STEP4 && <ExamTest />}
-                {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
+                {/* {step === TypeStepExamEnum.STEP3 && <RuleExam stepRuleExam={stepRuleExam} />} */}
+                {step === TypeStepExamEnum.STEP3 && <ExamTest />}
+                {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>
             {open && (
