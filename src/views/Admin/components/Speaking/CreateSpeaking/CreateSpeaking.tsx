@@ -23,7 +23,7 @@ import React, { useCallback, useEffect, useRef, useState } from "react";
 import AudioPlayer from "react-h5-audio-player";
 import "react-h5-audio-player/lib/styles.css";
 import { useForm } from "react-hook-form";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import audioService from "services/audioService";
 import ReadingService from "services/ReadingService";
@@ -37,16 +37,17 @@ export interface Props {
   };
 }
 
-const CreateQuestionListening = (props: Props) => {
+const CreateQuestionSpeaking = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>();
   const history = useHistory();
-
+  //Get id from url
+  const { search } = useLocation();
+  const id = search.split("=")[1];
   const fileRef = useRef<any>();
   const { openCreateScreen } = props;
-  const params = useParams<any>();
   const [openModal, setOpenModal] = useState({});
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
-  const [dataSpeaking, loading, error, refetchQuestionGroup] = useGetListSpeakingQuestion(params?.id);
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
+  const [dataSpeaking, loading, error, refetchQuestionGroup] = useGetListSpeakingQuestion(id);
   const [isEdit, setIsEdit] = useState(false);
 
   const validationSchema = yup.object().shape({
@@ -179,6 +180,7 @@ const CreateQuestionListening = (props: Props) => {
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
+
       <div style={styles.cardContainer}>
         <SelectField
           control={control}
@@ -263,14 +265,14 @@ const CreateQuestionListening = (props: Props) => {
           fetchData={refetchQuestionGroup}
           openModal={openModal}
           onCloseModal={() => setOpenModal({})}
-          id={params?.id}
+          id={id}
         />
       )}
     </form>
   );
 };
 
-export default CreateQuestionListening;
+export default CreateQuestionSpeaking;
 
 const styles = {
   buttonDetail: {

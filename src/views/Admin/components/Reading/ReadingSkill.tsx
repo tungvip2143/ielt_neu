@@ -8,12 +8,9 @@ import LoadingPage from "components/Loading";
 import { RouteBase } from "constants/routeUrl";
 import useGetParts from "hooks/QuestionBank/Reading/useGetParts";
 import { isEmpty } from "lodash";
-import MHeaderTable from "models/HeaderTable.model";
-import { useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
-// import CreateQuestionReading from "./component";
 
 const styles = {
   titleTable: {
@@ -23,9 +20,7 @@ const styles = {
 };
 const ReadingSkill = () => {
   const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
-
   const history = useHistory();
-
   const onDeletePart = async (item: any) => {
     try {
       await ReadingService.deletePart(item?.id);
@@ -87,7 +82,10 @@ const ReadingSkill = () => {
                 return (
                   <CommonActionMenu
                     onEdit={() => {
-                      history.push(RouteBase.UpdateReadingWId(items.id));
+                      history.push({
+                        pathname: RouteBase.UpdateReadingWId(items?.row?.passageTitle),
+                        search: `?id=${items?.id}`,
+                      });
                     }}
                     onSubmitRemove={onDeletePart}
                     row={items}

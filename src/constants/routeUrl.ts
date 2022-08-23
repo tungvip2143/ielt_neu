@@ -18,32 +18,32 @@ export const RouteBase = {
   ExamManagement: "/admin/exammagement",
   //User
   AdminUser: "/admin/user",
-  CreateUser: "/admin/userbank/user/create",
-  UpdateUser: "/admin/userbank/user/:id",
-  UpdateUserWID: (id: string | number) => `/admin/userbank/user/${id}`,
+  CreateUser: "/admin/user/create",
+  UpdateUser: "/admin/user/:id",
+  UpdateUserWID: (id: string | number) => `/admin/user/${id}`,
   //Listening
   Listening: "/admin/listening",
-  CreateListening: "/admin/questionbank/listening/create",
-  UpdateListening: "/admin/questionbank/listening/:id",
-  UpdateListeningWId: (id: string | number) => `/admin/questionbank/listening/${id}`,
+  CreateListening: "/admin/listening/create",
+  UpdateListening: "/admin/listening/:id",
+  UpdateListeningWId: (id: string | number) => `/admin/listening/${id}`,
 
   //Speaking
   Speaking: "/admin/speaking",
-  CreateSpeaking: "/admin/questionbank/speaking/create",
-  UpdateSpeaking: "/admin/questionbank/speaking/:id",
-  UpdateSpeakingWId: (id: string | number) => `/admin/questionbank/speaking/${id}`,
+  CreateSpeaking: "/admin/speaking/create",
+  UpdateSpeaking: "/admin/speaking/:id",
+  UpdateSpeakingWId: (id: string | number) => `/admin/speaking/${id}`,
 
   //Writing
   Writing: "/admin/writing",
-  CreateWriting: "/admin/questionbank/writing/create",
-  UpdateWriting: "/admin/questionbank/writing/:id",
-  UpdateWritingWId: (id: string | number) => `/admin/questionbank/writing/${id}`,
+  CreateWriting: "/admin/writing/create",
+  UpdateWriting: "/admin/writing/:id",
+  UpdateWritingWId: (id: string | number) => `/admin/writing/${id}`,
 
   //Reading
   Reading: "/admin/reading",
-  CreateReading: "/admin/questionbank/reading/create",
-  UpdateReading: "/admin/questionbank/reading/:id",
-  UpdateReadingWId: (id: string | number) => `/admin/questionbank/reading/${id}`,
+  CreateReading: "/admin/reading/create",
+  UpdateReading: "/admin/reading/:id",
+  UpdateReadingWId: (id: string | number) => `/admin/reading/${id}`,
 
   //Contest
   ContestManagement: "/admin/contestManagement",

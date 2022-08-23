@@ -15,7 +15,7 @@ import writingServices from "services/writingServices";
 import * as yup from "yup";
 import UndoIcon from "@mui/icons-material/Undo";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import { useHistory, useParams } from "react-router-dom";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import TinyMceCommon from "components/TinyMceCommon";
 import audioService from "services/audioService";
@@ -30,13 +30,18 @@ const CreateQuestionWriting = (props: Props) => {
   const history = useHistory();
   const editorRef = useRef<any>();
   const modelRef = useRef<any>();
+
+  //Get id from url
+  const { search } = useLocation();
+  const id = search.split("=")[1];
+
   const usefulGrammarRef = useRef<any>();
   const ideaSuggestionRef = useRef<any>();
   const organizationRef = useRef<any>();
   const params = useParams<any>();
   const { openCreateScreen } = props;
   const [isEdit, setIsEdit] = useState(false);
-  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(params?.id);
+  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(id);
   const fileRef = useRef<any>();
   const [selectFile, setSelectFile] = useState<any>("");
   const [image, setImage] = useState<any>();
@@ -110,7 +115,7 @@ const CreateQuestionWriting = (props: Props) => {
         questionPartNumber: data.questionPartNumber,
       };
       try {
-        const response = await writingServices.patchUpdateQuestion(params?.id, body);
+        const response = await writingServices.patchUpdateQuestion(id, body);
         if (response?.data?.statusCode === 200) {
           toast.success("Update writing part success");
           history.goBack();

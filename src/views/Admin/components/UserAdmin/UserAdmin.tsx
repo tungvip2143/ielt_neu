@@ -2,7 +2,7 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
-import CommonActionMenu from "components/CommonActionMenu";
+import CommonActionMenu from "./UserDetailModal";
 import CommonDataGrid from "components/CommonDataGrid";
 import useGetParts from "hooks/UserManagement/useGetParts";
 import { Link, useHistory } from "react-router-dom";
@@ -16,7 +16,7 @@ const styles = {
   },
 };
 
-const ListeningSkill = () => {
+const UserAdmin = () => {
   //! State
 
   const {
@@ -28,7 +28,6 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
-  console.log("dataPartsUser", dataParts);
 
   const history = useHistory();
 
@@ -86,15 +85,7 @@ const ListeningSkill = () => {
               disableColumnMenu: true,
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
-                return (
-                  <CommonActionMenu
-                    onEdit={() => {
-                      history.push(RouteBase.UpdateUserWID(items.id));
-                    }}
-                    onSubmitRemove={onDeletePart}
-                    row={items}
-                  />
-                );
+                return <CommonActionMenu row={items} />;
               },
             },
           ]}
@@ -102,7 +93,7 @@ const ListeningSkill = () => {
           pagination={{
             page: metaPart?.page,
             pageSize: metaPart?.pageSize,
-            totalRow: metaPart?.totalRow,
+            totalRow: metaPart?.total,
           }}
           loading={loading}
           rows={dataParts}
@@ -115,4 +106,4 @@ const ListeningSkill = () => {
   );
 };
 
-export default ListeningSkill;
+export default UserAdmin;

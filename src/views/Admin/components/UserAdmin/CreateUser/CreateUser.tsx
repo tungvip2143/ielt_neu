@@ -13,7 +13,6 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import InputCommon from "components/Input";
-import useGetListReadingQuestion from "hooks/Reading/useGetListReadingQuestion";
 import useGetPartDetail from "hooks/UserManagement/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
 import React, { useCallback, useEffect, useRef, useState } from "react";
@@ -32,7 +31,10 @@ export interface Props {
 }
 const CreateUser = (props: Props) => {
   const { openCreateScreen } = props;
-  const params = useParams<any>();
+
+  //Get id from url
+  const { search } = useLocation();
+  const id = search.split("=")[1];
 
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
@@ -42,14 +44,21 @@ const CreateUser = (props: Props) => {
     // questionTip: yup.string().required("This field is required!"),
     email: yup.string().required("This field is required!"),
     userType: yup.string().required("This field is required!"),
+    fullname: yup.string().required("This field is required!"),
   });
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   const [isEdit, setIsEdit] = useState(false);
+  console.log("dataPartDetailUser", dataPartDetail);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
-    defaultValues: { username: dataPartDetail?.username || "" },
+    defaultValues: {
+      username: dataPartDetail?.username || "",
+      fullname: dataPartDetail?.fullname || "",
+      email: dataPartDetail?.email || "",
+      userType: dataPartDetail?.fullname || "",
+    },
   });
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
@@ -60,7 +69,6 @@ const CreateUser = (props: Props) => {
         username: data?.username,
         email: data?.email,
         userType: data?.userType,
-        password: data?.password,
         fullname: data?.fullname,
       });
     },
@@ -68,6 +76,8 @@ const CreateUser = (props: Props) => {
   );
 
   useEffect(() => {
+    console.log("dataPartDetail", dataPartDetail);
+
     if (dataPartDetail?.id) {
       resetAsyncForm(dataPartDetail);
     }
@@ -109,7 +119,6 @@ const CreateUser = (props: Props) => {
         username: data.username,
         email: data.email,
         userType: data.userType,
-        password: data.password,
         fullname: data.fullname,
       };
       try {
@@ -128,10 +137,11 @@ const CreateUser = (props: Props) => {
         username: data.username,
         email: data.email,
         userType: data.userType,
+        fullname: data.fullname,
       };
 
       try {
-        const response = await userService.patchUpdatePart(params?.id, body);
+        const response = await userService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
           history.goBack();
@@ -157,20 +167,20 @@ const CreateUser = (props: Props) => {
             required
             fullWidth
             disabled={openCreateScreen.type === "update" && !isEdit}
-            sx={{ marginTop: "20px" }}
           />
-
           <InputCommon
             id="standard-basic"
             variant="standard"
-            name="password"
-            label="Password"
+            name="email"
+            label="Email"
             control={control}
             required
             fullWidth
             disabled={openCreateScreen.type === "update" && !isEdit}
             sx={{ marginTop: "20px" }}
           />
+        </div>
+        <div className="flex-1 ml-[20px]">
           <SelectField
             variant="standard"
             name="userType"
@@ -182,19 +192,6 @@ const CreateUser = (props: Props) => {
             control={control}
             setValue={setValue}
             disabled={openCreateScreen.type === "update" && !isEdit}
-          />
-        </div>
-        <div className="flex-1 ml-[20px] " style={{ alignItems: "flex-end" }}>
-          <InputCommon
-            id="standard-basic"
-            variant="standard"
-            name="email"
-            label="Email"
-            control={control}
-            required
-            fullWidth
-            disabled={openCreateScreen.type === "update" && !isEdit}
-            sx={{ marginTop: "20px" }}
           />
           <InputCommon
             id="standard-basic"
@@ -208,7 +205,6 @@ const CreateUser = (props: Props) => {
             sx={{ marginTop: "20px" }}
           />
         </div>
-        <div></div>
       </div>
 
       {openCreateScreen.type === "create" && renderButtonCreate()}
