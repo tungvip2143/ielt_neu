@@ -109,7 +109,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser />}
               {step === TypeStepExamEnum.STEP2 && <RuleExam stepRuleExam={stepRuleExam} />}
-              {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.READING} data={data?.data?.data} />}
+              {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.READING} data={data} />}
               {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.READING} />}
             </Box>
           </Box>
