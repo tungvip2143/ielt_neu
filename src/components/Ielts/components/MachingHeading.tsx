@@ -13,6 +13,7 @@ const useStyles = makeStyles((theme) => ({
   question: {
     display: "flex",
     gap: 16,
+    alignItems: "center",
   },
   questionBox: {
     display: "flex",
@@ -29,23 +30,30 @@ type Props = {
   data?: any;
   answerList: string;
   question: any;
+  onHightLightNumberPage: (displayNumber: number) => void;
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data, answerList, question } = props;
+  const { data, answerList, question, onHightLightNumberPage } = props;
   const { setFieldValue } = useFormikContext();
+  console.log("onHightLightNumberPage", onHightLightNumberPage);
+
   const handleFocus = (displayNumber: number) => {
     setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");
   };
+  const onClickQuestion = (displayNumber: number) => {
+    onHightLightNumberPage(displayNumber);
+  };
+
   return (
     <div className={classes.root}>
       <div className={classes.questionBox}>
         {question.map((question: any): any => {
           const displayNumber = question?.question?.displayNumber;
           return (
-            <div className={classes.question}>
+            <div className={classes.question} onClick={() => onClickQuestion(displayNumber)}>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
                 size="small"
