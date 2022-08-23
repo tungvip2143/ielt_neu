@@ -54,11 +54,12 @@ const eachQuestion = {
   cursor: "pointer",
 };
 const CardPage = ({ dataQuestions, onClickPage }: Props) => {
-  const [highlightPage, setHighlightPage] = React.useState();
+  const [highlightPage, setHighlightPage] = React.useState("1");
   const { values }: any = useFormikContext();
   const renderPartValues = (partValues: any, index: number) => {
     // const { values }: any = useFormikContext();
     let sectionRender: any = {};
+    console.log("sectionRender", sectionRender);
 
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
       return partGroup.questions.map((item: any, index: number) => {

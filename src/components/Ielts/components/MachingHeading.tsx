@@ -8,26 +8,65 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
     gap: 16,
+    flexDirection: "column",
+  },
+  question: {
+    display: "flex",
+    gap: 16,
+    alignItems: "center",
+  },
+  questionBox: {
+    display: "flex",
+    flexDirection: "column",
+    gap: 8,
+  },
+  answerList: {
+    border: "1px solid #ccc",
+    borderRadius: "5px",
+    padding: 16,
   },
 }));
 type Props = {
   data?: any;
+  answerList: string;
+  question: any;
+  onHightLightNumberPage: (displayNumber: number) => void;
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data } = props;
-  console.log("datamaching", data);
-  const index = Number(data.question.displayNumber) - 1;
+  const { data, answerList, question, onHightLightNumberPage } = props;
   const { setFieldValue } = useFormikContext();
-  const handleFocus = () => {
-    setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
+  console.log("onHightLightNumberPage", onHightLightNumberPage);
+
+  const handleFocus = (displayNumber: number) => {
+    setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");
   };
+  const onClickQuestion = (displayNumber: number) => {
+    onHightLightNumberPage(displayNumber);
+  };
+
   return (
     <div className={classes.root}>
-      {ReactHtmlParser(data?.question?.questionText)}
-      <FastField size="small" name={`answers[${index}].studentAnswer`} onFocus={handleFocus} component={TextField} />
+      <div className={classes.questionBox}>
+        {question.map((question: any): any => {
+          const displayNumber = question?.question?.displayNumber;
+          return (
+            <div className={classes.question} onClick={() => onClickQuestion(displayNumber)}>
+              {ReactHtmlParser(question?.question?.questionText)}
+              <FastField
+                size="small"
+                name={`answers[${displayNumber - 1}].studentAnswer`}
+                onFocus={() => handleFocus(displayNumber)}
+                component={TextField}
+              />
+            </div>
+          );
+        })}
+      </div>
+
+      <div className={classes.answerList}>{ReactHtmlParser(answerList)}</div>
     </div>
   );
 };

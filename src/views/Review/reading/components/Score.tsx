@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 // ! type
 interface Props {
   titleExam?: any;
+  score?: number;
 }
 const scoreBox = {
   width: "100%",
@@ -31,10 +32,10 @@ const title = {
 const titleText = {
   fontWeight: 700,
 };
-const Score = ({ titleExam }: Props) => {
+const Score = ({ titleExam, score }: Props) => {
   return (
     <Box sx={container}>
-      <Box sx={scoreBox}>Score 0/9</Box>
+      <Box sx={scoreBox}>{`Score ${score}/9`}</Box>
       <Box sx={title}>
         <Text.DescSmall sx={titleText}>{titleExam}</Text.DescSmall>
         <KeyboardArrowDownIcon />

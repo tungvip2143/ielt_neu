@@ -1,18 +1,22 @@
-import * as React from "react";
-import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
-import ExamTest from "./components/ExamTest";
 import EndTest from "components/Exams/EndTest";
-import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
+import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
+import * as React from "react";
+import ExamTest from "./components/ExamTest";
 //
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 //
-import Header from "views/Ielts/Header/Header";
-import RulesListening from "components/RulesExams/RulesListening";
+import ModalExit from "components/Modal/ModalExit";
 import { Form, Formik } from "formik";
-import { useIeltsListening, useUpdateIeltsListeningTest, useUpdateIeltsSpeakingTest } from "hooks/ielts/useIelts";
+import { useUpdateIeltsSpeakingTest } from "hooks/ielts/useIelts";
+import { IELT_TEST } from "interfaces/testType";
 import { useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
+import Header from "views/Ielts/Header/Header";
+import ModalSpeaking from "../../../components/Modal/ModalSpeaking";
+import StepTestMic from "./components/StepTestMic";
 
+//
 export interface IeltsSpeakingProps {}
 
 const initialValues = function () {
@@ -28,31 +32,55 @@ const initialValues = function () {
 };
 const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   // !State
+  const [open, setOpen] = React.useState<boolean>(false);
+  const [openModal, setOpenModal] = React.useState<boolean>(true);
+
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsSpeaking, isLoading } = useUpdateIeltsSpeakingTest();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
   // !Function
-  const handleSubmitForm = async (values: any) => {
-    const body = { values, testCode };
+  const handleSubmitForm = () => {
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+  };
 
-    await updateIeltsSpeaking(body, {
-      onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
-    });
+  const history = useHistory();
+
+  //
+  const handleShowModal = () => {
+    setOpen(true);
+  };
+  const handleCloseModal = () => setOpen(false);
+  const handleCloseModalSpeaking = () => setOpenModal(false);
+
+  //
+  const handleBackIeltsSelection = () => {
+    history.push("/ielts");
   };
 
   return (
-    <Formik initialValues={initialValues()} onSubmit={(values) => handleSubmitForm(values)}>
+    <Formik initialValues={initialValues()} onSubmit={handleSubmitForm}>
       {(formik) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header />
+            <Header onShowModalExit={handleShowModal} />
             <Box sx={{ mt: "80px" }}>
-              {step === TypeStepExamEnum.STEP1 && <RulesListening />}
+              {step === TypeStepExamEnum.STEP1 && openModal && (
+                <ModalSpeaking open={openModal} width="400px" handleCloseModal={handleCloseModalSpeaking} />
+              )}
+              {step === TypeStepExamEnum.STEP1 && <StepTestMic />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest />}
-              {step === TypeStepExamEnum.STEP3 && <EndTest />}
+              {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.SPEAKING} />}
             </Box>
           </Box>
+          {open && (
+            <ModalExit
+              open={open}
+              width="560px"
+              handleCloseModal={handleCloseModal}
+              handleBackIeltsSelection={handleBackIeltsSelection}
+            />
+          )}
         </Form>
       )}
     </Formik>

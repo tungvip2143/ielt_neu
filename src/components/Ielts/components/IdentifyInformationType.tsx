@@ -7,6 +7,7 @@ import {
   AccordionDetails,
   Accordion,
   AccordionSummary,
+  Typography,
 } from "@mui/material";
 import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
@@ -42,18 +43,17 @@ const IdentifyInformationType = (props: Props) => {
         expanded={expanded == question.question.displayNumber}
         onChange={onCollapse(question.question.displayNumber)}
         onClick={handleClickHightLightPage}
+        disableGutters
       >
         <Stack
           direction="row"
           spacing={2}
           sx={{ alignItems: "center", background: "#f7f9fb", p: "0 20px", borderRadius: "10px !important" }}
         >
-          {/* <Text.DescSmall sx={{ fontWeight: "bold" }}>{question?.id}</Text.DescSmall> */}
-
           <AccordionSummary
             className="accordion-title"
             aria-controls="panel1a-content"
-            id="panel1a-header"
+            // id="panel1a-header"
             sx={{ p: "0 !important", display: "flex" }}
           >
             <Text.DescSmall sx={{ mr: "5px" }}>{question.question.displayNumber}.</Text.DescSmall>
@@ -62,7 +62,6 @@ const IdentifyInformationType = (props: Props) => {
         </Stack>
 
         <AccordionDetails>
-          <>{console.log("anwser", question.question)}</>
           <Stack direction="column" spacing={2}>
             <FormControl>
               <RadioGroup
@@ -116,7 +115,7 @@ const IdentifyInformationType = (props: Props) => {
                         // value={true}
                       />
                     }
-                    label={"TRUE"}
+                    label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
                   />
                   <FormControlLabel
                     value={false}
@@ -129,7 +128,7 @@ const IdentifyInformationType = (props: Props) => {
                         // value={false}
                       />
                     }
-                    label={"FALSE"}
+                    label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
                   />
                   <FormControlLabel
                     value={"not_given"}
@@ -142,7 +141,7 @@ const IdentifyInformationType = (props: Props) => {
                         // value={"NOT_GIVEN"}
                       />
                     }
-                    label={"NOT_GIVEN"}
+                    label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
                   />
                 </RadioGroup>
               </FormControl>

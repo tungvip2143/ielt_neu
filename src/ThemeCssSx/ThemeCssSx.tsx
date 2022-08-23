@@ -46,4 +46,24 @@ export const themeCssSx = {
   bgQuestion: {
     title: "#f7f9fb",
   },
+  flexBox: {
+    flexJusAlign: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+    },
+    flexBetWeen: {
+      display: "flex",
+      justifyContent: "center",
+    },
+    flexAlignCenter: {
+      display: "flex",
+      alignItems: "center",
+    },
+    flexColCenter: {
+      display: "flex",
+      alignItems: "center",
+      flexDirection: "column",
+    },
+  },
 };

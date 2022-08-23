@@ -139,12 +139,17 @@ const ListeningReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
   const { data, isLoading } = useGetListeningResultByTestCode(testCode);
-  console.log("datalistening", data);
+  console.log("testCode", data);
+
   if (isLoading) {
     return <LoadingPage />;
   }
 
-  return <ListeningReview data={data?.data?.data.listening} />;
+  return (
+    <>
+      <ListeningReview />
+    </>
+  );
 };
 
 export default ListeningReviewContainer;

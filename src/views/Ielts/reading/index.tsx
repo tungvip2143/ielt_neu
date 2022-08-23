@@ -16,7 +16,10 @@ import { IELT_TEST } from "interfaces/testType";
 //
 import { useHistory } from "react-router-dom";
 import ModalExit from "components/Modal/ModalExit";
-export interface IeltsReadingProps {}
+export interface IeltsReadingProps {
+  data: any;
+  testCode: number;
+}
 
 const initialValues = function () {
   let value = {
@@ -31,21 +34,18 @@ const initialValues = function () {
 };
 
 const IeltsReading = (props: IeltsReadingProps) => {
+  // !State
+  const { data, testCode } = props;
   const [open, setOpen] = React.useState<boolean>(false);
   const { step, handler } = useStepExam();
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-  const { data, isLoading } = useIeltsReading(9);
-  const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
-  if (isLoading) {
-    return <LoadingPage />;
-  }
+  const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
   const handleSubmit = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    const body = { values: { answers }, testCode: 9 };
+    const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
@@ -73,7 +73,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
             <Header onShowModalExit={handleShowModal} />
             <Box sx={{ pt: "80px" }}>
               {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
-              {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.READING} data={data?.data?.data} />}
+              {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.READING} data={data} />}
               {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.READING} />}
             </Box>
           </Box>
@@ -91,10 +91,21 @@ const IeltsReading = (props: IeltsReadingProps) => {
   );
 };
 
+const IeltsReadingContainer = () => {
+  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { data, isLoading } = useIeltsReading(testCode);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <IeltsReading data={data?.data?.data} testCode={testCode} />;
+};
+
 const IeltsListeningRoot = () => {
   return (
     <StepExamProvider>
-      <IeltsReading />
+      <IeltsReadingContainer />
     </StepExamProvider>
   );
 };

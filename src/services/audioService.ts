@@ -6,4 +6,4 @@ class audioService {
     return httpServices.post(POST_UPLOAD_AUDIO, body);
   }
 }
-    export default new audioService();
+export default new audioService();
