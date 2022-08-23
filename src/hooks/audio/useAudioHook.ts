@@ -3,8 +3,13 @@ import { useEffect, useState } from "react";
 const useRecorder = () => {
   const [audioURL, setAudioURL] = useState("");
   const [isRecording, setIsRecording] = useState(false);
-  const [recorder, setRecorder] = useState(null);
+  const [recorder, setRecorder] = useState<any>(null);
   console.log("audio url", audioURL);
+
+  async function requestRecorder() {
+    const stream = await navigator?.mediaDevices?.getUserMedia({ audio: true });
+    return new MediaRecorder(stream);
+  }
 
   useEffect(() => {
     // Lazily obtain recorder first time we're recording.
@@ -23,7 +28,7 @@ const useRecorder = () => {
     }
 
     // Obtain the audio when ready.
-    const handleData = (e) => {
+    const handleData = (e: any) => {
       console.log("aaaaaaaaa", e);
       setAudioURL(e.data);
     };
@@ -43,8 +48,4 @@ const useRecorder = () => {
   return [audioURL, isRecording, startRecording, stopRecording];
 };
 
-async function requestRecorder() {
-  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-  return new MediaRecorder(stream);
-}
 export default useRecorder;
