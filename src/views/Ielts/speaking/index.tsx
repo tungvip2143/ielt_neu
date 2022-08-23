@@ -57,6 +57,9 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const handleBackIeltsSelection = () => {
     history.push("/ielts");
   };
+  const styleModalExit = {
+    padding: "20px",
+  };
 
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmitForm}>
@@ -66,7 +69,12 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
             <Header onShowModalExit={handleShowModal} />
             <Box sx={{ mt: "80px" }}>
               {step === TypeStepExamEnum.STEP1 && openModal && (
-                <ModalSpeaking open={openModal} width="400px" handleCloseModal={handleCloseModalSpeaking} />
+                <ModalSpeaking
+                  open={openModal}
+                  width="400px"
+                  handleCloseModal={handleCloseModalSpeaking}
+                  styleModal={styleModalExit}
+                />
               )}
               {step === TypeStepExamEnum.STEP1 && <StepTestMic />}
               {step === TypeStepExamEnum.STEP2 && <ExamTest />}
@@ -79,6 +87,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
               width="560px"
               handleCloseModal={handleCloseModal}
               handleBackIeltsSelection={handleBackIeltsSelection}
+              styleModal={styleModalExit}
             />
           )}
         </Form>

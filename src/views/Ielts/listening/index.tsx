@@ -78,6 +78,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
     background: "#dbe5f5",
     height: "100%",
   };
+  const styleModalExit = {
+    padding: "20px",
+  };
   //! Render
   return (
     <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
@@ -101,6 +104,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 width="560px"
                 handleCloseModal={handleCloseModal}
                 handleBackIeltsSelection={handleBackIeltsSelection}
+                styleModal={styleModalExit}
               />
             )}
           </Form>
