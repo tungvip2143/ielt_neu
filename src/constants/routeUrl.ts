@@ -3,6 +3,7 @@ export const RouteBase = {
   Ielts: "/ielts",
   Login: "/login",
   LoginEmail: "/login/email",
+  LoginGoogle: "/login/google",
   SignUp: "/sign-up",
   SignUpEmail: "/sign-up/email",
   IeltsListening: "/ielts/listening",

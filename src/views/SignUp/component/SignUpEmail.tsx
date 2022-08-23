@@ -97,7 +97,6 @@ const footer = () => {
 const onSubmit = async (data: any) => {
   const body = {
     email: data.email,
-    username: "username",
     password: data.password,
   };
   await authServices
@@ -116,7 +115,7 @@ const SignUpEmail = () => {
       {(propsFormik) => {
         return (
           <Form>
-            <Box className="container">
+            <Box className="containerBox">
               <Card className="cardContainer">
                 <Text.Sub20Bold className="textSignUp">Sign up with Email</Text.Sub20Bold>
                 <Typography className="content">

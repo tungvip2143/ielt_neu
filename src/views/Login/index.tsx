@@ -24,6 +24,8 @@ import CardView from "./components/CardView";
 import { RouteBase } from "constants/routeUrl";
 import { useState } from "react";
 import socialServices from "services/socialServices";
+import { refreshTokenSetup } from "utils/refreshToken";
+import { useGoogleLogin, useGoogleOneTapLogin } from "@react-oauth/google";
 //
 
 const container = {
@@ -64,11 +66,11 @@ const content = {
   desc: "No account?",
   title: "Sign Up",
 };
+
 const LoginPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
-  const [token, setToken] = useState("");
   const handleLoginEmail = () => {
     history.push("/login/email");
   };
@@ -79,15 +81,11 @@ const LoginPage = (props: any) => {
   }
   const history = useHistory();
 
-  const handleLoginGoogle = async () => {
-    const body = {
-      token: localStorage.getItem(JSON.parse("auth")),
-      provider: "GOOGLE",
-    };
-    console.log("body", body);
+  const signIn = useGoogleLogin({
+    onSuccess: (tokenResponse: any) =>
+      dispatch(authActions.saveInfoUser, { token: tokenResponse?.data?.data?.data?.access_token }),
+  });
 
-    await socialServices.loginSocial(body);
-  };
   return (
     <Formik
       validateOnBlur={false}
@@ -110,9 +108,9 @@ const LoginPage = (props: any) => {
             <CardView>
               <Title>Login</Title>
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
-                <ItemSocial data={dataGoogle} onClick={handleLoginGoogle} />
+                <ItemSocial data={dataGoogle} onClick={signIn} />
                 <ItemSocial data={dataFacebook} />
-                <ItemSocial data={dataApple} />
+                {/* <ItemSocial data={dataApple} /> */}
                 <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
               </Stack>
               <Footer content={content} pathName={RouteBase.SignUp} />

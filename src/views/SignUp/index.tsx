@@ -96,7 +96,7 @@ const SignUp = (props: any) => {
               <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
                 <ItemSocial data={dataGoogle} />
                 <ItemSocial data={dataFacebook} />
-                <ItemSocial data={dataApple} />
+                {/* <ItemSocial data={dataApple} /> */}
                 <ItemSocial data={dataEmail} onClick={() => history.push(RouteBase.SignUpEmail)} />
               </Stack>
               <Footer pathName={RouteBase.Login} content={content} />
