@@ -6,6 +6,7 @@ import { useState } from "react";
 
 export interface Props extends IAllProps {
   height?: number;
+  name?: string;
 }
 
 const TinyMceCommon = forwardRef((props: Props, ref: any) => {
@@ -20,6 +21,7 @@ const TinyMceCommon = forwardRef((props: Props, ref: any) => {
   return (
     <>
       <Editor
+        name={name}
         apiKey={TINY_API}
         onInit={(evt, editor: any) => {
           ref.current = editor;

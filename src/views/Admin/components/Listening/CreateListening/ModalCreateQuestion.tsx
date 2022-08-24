@@ -4,7 +4,6 @@ import BlockIcon from "@mui/icons-material/Block";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import SaveIcon from "@mui/icons-material/Save";
 import { Box, InputAdornment, Stack, Typography } from "@mui/material";
-import { Editor } from "@tinymce/tinymce-react";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
@@ -16,7 +15,6 @@ import useGetQuestionType from "hooks/QuestionBank/Listening/useGetQuestionType"
 import { QuestionTypeI } from "interfaces/questionInterface";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
-import { useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as yup from "yup";
 import TinyMceCommon from "components/TinyMceCommon";
