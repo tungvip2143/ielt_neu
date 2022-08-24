@@ -15,6 +15,7 @@ interface Props {
 
 const ExamTest = (props: Props) => {
   const { data, ...rest } = props;
+
   const [part, setPart] = useState(data);
 
   return (

@@ -28,13 +28,9 @@ const QuestionAnswer = ({
   onHightLightNumberPage,
   hightLightNumberPage,
 }: QuestionAnswerI) => {
-  console.log("showQuestion", showQuestion);
-
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
   const [dataPartGruop, setDataPartGroup] = useState();
-  console.log("partRenderSelected2", partRenderSelected);
-  console.log("hightLightNumberPage", hightLightNumberPage);
 
   //
   const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
@@ -49,7 +45,6 @@ const QuestionAnswer = ({
   // }, [questionSelected]);
   //
   const renderPartValueGroup = (partRenderSelected: any) => {
-    console.log("partRenderSelected", partRenderSelected);
     const questionType = partRenderSelected?.questionType;
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
@@ -72,7 +67,6 @@ const QuestionAnswer = ({
       );
     }
     return partRenderSelected?.questions?.map((question: any) => {
-      console.log("abc", question);
       return (
         <>
           <QuestionItem
