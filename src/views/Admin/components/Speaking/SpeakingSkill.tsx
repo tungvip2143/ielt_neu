@@ -75,10 +75,15 @@ const SpeakingSkill = () => {
               disableColumnMenu: true,
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
+                console.log("items", items);
+
                 return (
                   <CommonActionMenu
                     onEdit={() => {
-                      history.push(RouteBase.UpdateSpeakingWId(items.id));
+                      history.push({
+                        pathname: RouteBase.UpdateSpeakingWId(items?.row?.partNumber),
+                        search: `?id=${items?.id}`,
+                      });
                     }}
                     onSubmitRemove={onDeletePart}
                     row={items}

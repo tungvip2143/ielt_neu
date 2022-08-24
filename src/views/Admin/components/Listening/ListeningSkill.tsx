@@ -87,7 +87,10 @@ const ListeningSkill = () => {
                 return (
                   <CommonActionMenu
                     onEdit={() => {
-                      history.push(RouteBase.UpdateListeningWId(items.id));
+                      history.push({
+                        pathname: RouteBase.UpdateListeningWId(items?.row?.partTitle),
+                        search: `?id=${items?.id}`,
+                      });
                     }}
                     onSubmitRemove={onDeletePart}
                     row={items}

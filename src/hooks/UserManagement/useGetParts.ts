@@ -1,6 +1,6 @@
 import { PAGE_SIZE } from "constants/constants";
 import { QuestionUser } from "interfaces/user";
-import MPagination from "models/Pagination.model";
+import MPagination from "models/Litstening/Pagination.model";
 import { useEffect, useState } from "react";
 import userService from "services/userService";
 
@@ -11,7 +11,7 @@ const useGetParts = () => {
   const [meta, setMeta] = useState<MPagination>({
     page: 0,
     pageSize: PAGE_SIZE[0],
-    totalRow: 0,
+    total: 0,
   });
 
   const [params, setParams] = useState({
@@ -30,12 +30,12 @@ const useGetParts = () => {
     const fetchData = async () => {
       try {
         const response = await userService.getListParts(params);
-        console.log('responseUser',response);
-        
+        console.log("responseUser", response);
+
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
-        console.log('metaResUser',metaRes);
-        
+        console.log("metaResUser", metaRes);
+
         setData(dataRes);
         setMeta(metaRes);
         setLoading(false);
@@ -55,7 +55,7 @@ const useGetParts = () => {
     setParams({ pageSize, page: 1 });
   };
 
-  return {  data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange} ;
+  return { data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange };
 };
 
 export default useGetParts;

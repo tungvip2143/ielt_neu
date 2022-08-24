@@ -14,14 +14,15 @@ export interface ResponseParams {
   partTitle: string;
   levelPart: string;
   partNumber: string;
-  partAudio:string;
-  userType:string;
+  partAudio: string;
   directionAudio?: string;
   title?: string;
-  username?:string;
-  email?:string;
-  password?:string
-  fullname?:string
+  userType: string;
+  username?: string;
+  email?: string;
+  fullname?: string;
+  audio?: string;
+  textField?: string;
 }
 
 export interface QuestionTypeI {
