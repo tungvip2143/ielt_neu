@@ -40,11 +40,9 @@ interface Props {
 const ListeningReview = (props: Props) => {
   //! State
   const [displayNumber, setDisplayNumber] = useState<any>();
-  console.log("sdfsdfs", displayNumber);
 
   const classes = useStyles();
   const { data } = props;
-  console.log("data789", data);
   const [questions, setQuestions] = useState([]);
 
   const [questionSelected, setQuestionSelected] = useState<any>("1");
@@ -53,7 +51,6 @@ const ListeningReview = (props: Props) => {
     group: 0,
   });
   const [showQuestion, setShowQuestion] = useState([]);
-  console.log("questions", questions);
 
   useEffect(() => {
     setQuestions(data);
@@ -61,14 +58,12 @@ const ListeningReview = (props: Props) => {
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("groupRenderSelected", groupRenderSelected);
   };
   const displayNumberOnclickPage = (displayNumber: any) => {
     setDisplayNumber(displayNumber);
   };
 
   const partRenderSelected = useMemo(() => {
-    console.log("questions select", questions);
     const questionsWithPageNumberTemp = questions as any;
     if (!isEmpty(questionsWithPageNumberTemp)) {
       return questionsWithPageNumberTemp[groupSelected?.part];
@@ -79,7 +74,6 @@ const ListeningReview = (props: Props) => {
 
   //
 
-  console.log("partRenderSelected11", partRenderSelected);
   //! Render
   const container = {
     position: "relative",

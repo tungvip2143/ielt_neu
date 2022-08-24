@@ -74,7 +74,7 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <CardPart part={groupSelected.part + 1} />
+        <CardPart part={groupSelected.part + 1} content="Listening" />
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying].partAudio}`}

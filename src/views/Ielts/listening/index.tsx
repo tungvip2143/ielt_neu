@@ -16,7 +16,20 @@ import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { useHistory } from "react-router-dom";
 import ModalExit from "components/Modal/ModalExit";
 import { IELT_TEST } from "interfaces/testType";
-
+import DetailUser from "../../components/DetailUser/DetailUser";
+import RuleExam from "../../components/RuleExam/RuleExam";
+//
+import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
+import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
+import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
+//
+const stepRuleExam = {
+  typeExam: "Listening",
+  time: "1 hour",
+  informationsForCandidates: <InformationForCandidates />,
+  intructionsToCandidates: <IntructionsToCandidates />,
+};
+// !type
 export interface IeltsListeningProps {}
 
 const initialValues = function () {
@@ -60,7 +73,14 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const handleBackIeltsSelection = () => {
     history.push("/ielts");
   };
-
+  const containerSteps = {
+    pt: "60px",
+    background: "#dbe5f5",
+    height: "100%",
+  };
+  const styleModalExit = {
+    padding: "20px",
+  };
   //! Render
   return (
     <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
@@ -70,10 +90,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
             <Box sx={{ height: "100vh", overflow: "hidden" }}>
               <Header onShowModalExit={handleShowModal} />
 
-              <Box sx={{ mt: "80px" }}>
-                {step === TypeStepExamEnum.STEP1 && <RulesListening />}
-                {step === TypeStepExamEnum.STEP2 && <ExamTest />}
-                {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.LISTENING} />}
+              <Box sx={containerSteps}>
+                {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+                {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
+                {/* {step === TypeStepExamEnum.STEP3 && <RuleExam stepRuleExam={stepRuleExam} />} */}
+                {step === TypeStepExamEnum.STEP3 && <ExamTest />}
+                {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>
             {open && (
@@ -82,6 +104,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 width="560px"
                 handleCloseModal={handleCloseModal}
                 handleBackIeltsSelection={handleBackIeltsSelection}
+                styleModal={styleModalExit}
               />
             )}
           </Form>

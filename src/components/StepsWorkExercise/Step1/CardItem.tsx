@@ -34,11 +34,7 @@ const ItemQuestion = ({
   answerList,
   ...remainProps
 }: PropsItemQuestion) => {
-  console.log("questionType", questionType);
-
   const { values } = useFormikContext();
-
-  console.log("values formik", values);
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {

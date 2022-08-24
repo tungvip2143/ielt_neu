@@ -39,7 +39,6 @@ const SpeakingReview = (props: Props) => {
   //! State
   const classes = useStyles();
   const { dataSpeaking } = props;
-  console.log("isOpenAnswer", dataSpeaking);
 
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
@@ -57,7 +56,6 @@ const SpeakingReview = (props: Props) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    console.log("group select", groupSelected);
     const questionsWithPageNumberTemp = dataSpeaking?.speaking || [];
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
@@ -66,10 +64,8 @@ const SpeakingReview = (props: Props) => {
     return null;
   }, [dataSpeaking, groupSelected]);
   //
-  console.log("partRenderSelected11", partRenderSelected);
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab } =
     partRenderSelected?.question || {};
-  console.log("partRenderSelected", partRenderSelected);
   //
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

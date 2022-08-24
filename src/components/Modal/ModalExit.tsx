@@ -10,10 +10,11 @@ interface Props {
   handleCloseModal?: any;
   handleBackIeltsSelection?: any;
   width?: string;
+  styleModal?: object;
 }
-const ModalExit = ({ handleCloseModal, handleBackIeltsSelection, open, width }: Props) => {
+const ModalExit = ({ handleCloseModal, handleBackIeltsSelection, open, width, styleModal }: Props) => {
   return (
-    <Modal onClose={handleCloseModal} open={open} width={width}>
+    <Modal onClose={handleCloseModal} open={open} width={width} styleModal={styleModal}>
       <Modal.Title
         className="title-modal"
         sx={{ fontSize: "26px", color: "#000000", position: "relative", pr: "16px", width: "fit-content" }}

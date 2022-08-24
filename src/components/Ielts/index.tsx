@@ -148,6 +148,9 @@ export default function IeltsSections({ bg }: PropsBg3) {
     to improve your score.`,
     background: "rgb(255,245,247)",
   };
+  const styleModal = {
+    padding: "20px",
+  };
 
   const onSubmitExam = (values: any) => {
     console.log("values", values);
@@ -205,7 +208,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
                 </Grid>
               </div>
               {open && (
-                <Modal onClose={handleCloseModal} open={open} width="388px">
+                <Modal onClose={handleCloseModal} open={open} width="388px" styleModal={styleModal}>
                   <Modal.Title sx={{ color: "#000000" }}>Would you like to resume your unfinished test?</Modal.Title>
                   <Modal.Content>
                     <Box className={classes.modalContent}>

@@ -10,6 +10,7 @@ export interface Props {
   onClose: () => void;
   open: boolean;
   width?: string;
+  styleModal?: any;
 }
 
 interface IProps {
@@ -37,10 +38,10 @@ interface StackMuiProps extends StackProps {
 
 function Modal(props: Props) {
   // !Destructure props
-  const { children, onClose, open, width } = props;
+  const { children, onClose, open, width, styleModal } = props;
 
   // !State
-  const style = {
+  const styleCss = {
     position: "absolute" as "absolute",
     top: "50%",
     left: "50%",
@@ -49,8 +50,8 @@ function Modal(props: Props) {
     bgcolor: "background.paper",
     borderRadius: "16px",
     boxShadow: 24,
-    p: "20px",
     border: "none",
+    zIndex: 999,
   };
   return (
     <ModalMui
@@ -59,7 +60,7 @@ function Modal(props: Props) {
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
     >
-      <Stack spacing={1} sx={style}>
+      <Stack spacing={1} sx={styleCss} style={styleModal}>
         {children}
       </Stack>
     </ModalMui>

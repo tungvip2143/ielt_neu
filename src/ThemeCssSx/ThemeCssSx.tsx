@@ -46,15 +46,24 @@ export const themeCssSx = {
   bgQuestion: {
     title: "#f7f9fb",
   },
+  backgroundExam: {
+    container: "#dbe5f5",
+    content: "#dde3ee",
+  },
   flexBox: {
     flexJusAlign: {
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
     },
+    flexBetweenCenter: {
+      display: "flex",
+      justifyContent: "space-between",
+      alignItems: "center",
+    },
     flexBetWeen: {
       display: "flex",
-      justifyContent: "center",
+      justifyContent: "space-between",
     },
     flexAlignCenter: {
       display: "flex",
@@ -64,6 +73,10 @@ export const themeCssSx = {
       display: "flex",
       alignItems: "center",
       flexDirection: "column",
+    },
+    flexJusCenter: {
+      display: "flex",
+      justifyContent: "center",
     },
   },
 };
