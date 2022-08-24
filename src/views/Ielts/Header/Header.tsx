@@ -10,12 +10,15 @@ import { TypeStepExamEnum } from "constants/enum";
 //
 import LogoIelts from "assets/image/header/logo-ielts.png";
 import LogoEnglish from "assets/image/header/IELTSpartners.e1a4eda8.jpg";
+import ButtonHelp from "../../components/ButtonHelp/ButtonHelp";
+//
 // ! type
 interface Props {
   onShowModalExit?: any;
+  handleOpenModalHelp?: () => void;
 }
 const header = {
-  p: "13px 0px",
+  p: "2px 0px",
   background: "#36373b",
   position: "fixed",
   zIndex: 999,
@@ -36,30 +39,27 @@ const btnSubmitStep2 = {
   color: "#b8bcc0",
 };
 //
-const headerTop = {
-  display: "flex",
-  justifyContent: "space-between",
-  background: "#fff",
-  p: "0 20px",
-  alignItems: "center",
+const headerTop = {};
+const logo = {
+  height: "80px",
 };
-
-const Header = ({ onShowModalExit }: Props) => {
-  const { step } = useStepExam();
-
+const Header = ({ onShowModalExit, handleOpenModalHelp }: Props) => {
+  const { step, handler } = useStepExam();
   const hanldeShowModalExit = () => {
     onShowModalExit();
+  };
+
+  const hanldeSubmitSpeakingExam = () => {
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+  };
+  const btnHelp = {
+    cursor: "pointer",
   };
 
   return (
     <>
       <Box sx={headerTop}>
-        <Box>
-          <img src={LogoIelts} alt="" />
-        </Box>
-        <Box>
-          <img src={LogoEnglish} alt="" />
-        </Box>
+        <img style={logo} src={LogoIelts} alt="" />
       </Box>
       <Box sx={header}>
         <Box sx={headerContent}>
@@ -70,15 +70,16 @@ const Header = ({ onShowModalExit }: Props) => {
           >
             EXIT
           </Button>
-          {step === TypeStepExamEnum.STEP2 && <CountDown />}
-          {step === TypeStepExamEnum.STEP2 && (
-            <Button
-              sx={btnSubmitStep2}
-              endIcon={<AssignmentTurnedInIcon sx={{ fontSize: "24px !important" }} />}
-              type="submit"
-            >
-              SUBMIT
-            </Button>
+          {step === TypeStepExamEnum.STEP3 && <CountDown />}
+          {step === TypeStepExamEnum.STEP3 && (
+            // <Button
+            //   sx={btnSubmitStep2}
+            //   endIcon={<AssignmentTurnedInIcon sx={{ fontSize: "24px !important" }} />}
+            //   onClick={hanldeSubmitSpeakingExam}
+            // >
+            //   SUBMIT
+            // </Button>
+            <ButtonHelp handleOpenModalHelp={handleOpenModalHelp} style={btnHelp} />
           )}
         </Box>
       </Box>

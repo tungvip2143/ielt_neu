@@ -17,6 +17,12 @@ import { IELT_TEST } from "interfaces/testType";
 //
 import { useHistory } from "react-router-dom";
 import ModalExit from "components/Modal/ModalExit";
+import DetailUser from "../../components/DetailUser/DetailUser";
+import RuleExam from "../../components/RuleExam/RuleExam";
+import InformationForCandidates from "../../components/dataSteps/DataContentWriting/InformationForCandidates";
+import IntructionsToCandidates from "../../components/dataSteps/DataContentWriting/IntructionsToCandidates";
+import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
+
 export interface IeltsReadingProps {}
 
 const initialsValues = {
@@ -27,15 +33,24 @@ const initialsValues = {
     },
   ],
 };
-
+const stepRuleExam = {
+  typeExam: "Writing",
+  time: "1 hour",
+  informationsForCandidates: <InformationForCandidates />,
+  intructionsToCandidates: <IntructionsToCandidates />,
+};
 const IeltsWriting = (props: IeltsReadingProps) => {
   const [open, setOpen] = React.useState<boolean>(false);
+  const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
+
   const { step, handler } = useStepExam();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
   const { data, isLoading } = useIeltsWritting(testCode);
   const { mutateAsync: updateIeltsWriting } = useUpdateIeltsWriting();
-  console.log("writing data", data);
+  const handleShowModal = React.useCallback(() => {
+    setOpen(true);
+  }, []);
   if (isLoading) {
     return <LoadingPage />;
   }
@@ -52,13 +67,32 @@ const IeltsWriting = (props: IeltsReadingProps) => {
   const history = useHistory();
 
   //
-  const handleShowModal = () => {
-    setOpen(true);
-  };
+
   const handleCloseModal = () => setOpen(false);
+  //
+  const handleOpenModalHelp = () => {
+    setIsOpenModalHelp(true);
+  };
+  const handleCloseModalHelp = () => {
+    setIsOpenModalHelp(false);
+  };
   //
   const handleBackIeltsSelection = () => {
     history.push("/ielts");
+  };
+  //
+  const containerSteps = {
+    pt: "60px",
+    background: "#dbe5f5",
+    height: "100%",
+  };
+  const styleModalExit = {
+    padding: "20px",
+  };
+  const styleModal = {
+    width: "770px",
+    padding: "10px !important",
+    // overflow: "hidden",
   };
   return (
     <Formik
@@ -70,11 +104,12 @@ const IeltsWriting = (props: IeltsReadingProps) => {
       {(formik: any) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header onShowModalExit={handleShowModal} />
-            <Box sx={{ mt: "80px" }}>
-              {step === TypeStepExamEnum.STEP1 && <RulesWriting />}
-              {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.WRITING} data={data?.data?.data} />}
-              {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.WRITING} />}
+            <Header onShowModalExit={handleShowModal} handleOpenModalHelp={handleOpenModalHelp} />
+            <Box sx={containerSteps}>
+              {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+              {step === TypeStepExamEnum.STEP2 && <RuleExam stepRuleExam={stepRuleExam} />}
+              {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.WRITING} data={data?.data?.data} />}
+              {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.WRITING} />}
             </Box>
             {open && (
               <ModalExit
@@ -82,7 +117,11 @@ const IeltsWriting = (props: IeltsReadingProps) => {
                 width="560px"
                 handleCloseModal={handleCloseModal}
                 handleBackIeltsSelection={handleBackIeltsSelection}
+                styleModal={styleModalExit}
               />
+            )}
+            {isOpenModalHelp && (
+              <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
             )}
           </Box>
         </Form>
