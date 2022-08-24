@@ -17,6 +17,8 @@ import Regexs from "constants/Regexs";
 import { isEmpty } from "lodash";
 import authServices from "services/authServices";
 import { toast } from "react-toastify";
+import OTP from "./OTP";
+import { useState } from "react";
 
 const input = {
   width: "100%",
@@ -60,65 +62,67 @@ const validationSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Your passwords do not match")
     .default(""),
 });
-const renderOrView = () => {
-  return (
-    <div className="lineContainer">
-      <div className="line"></div>
-      <Typography sx={{ margin: "0px 8px 0px 8px", color: "#B8BCC0", fontSize: "12px", fontWeight: "bold" }}>
-        OR
-      </Typography>
-      <div className="line"></div>
-    </div>
-  );
-};
-
-const footer = () => {
-  return (
-    <Stack direction="row">
-      <Box sx={{ fontSize: "12px", color: "#b8bcc0", textAlign: "center", fontWeight: 400, marginTop: "20px" }}>
-        By signing up, you acknowledge that you have read and agree to TestGlider’s
-        <a
-          style={{ color: "#114ac6", margin: " 0 5px", fontWeight: 500 }}
-          href="https://docs.google.com/document/d/e/2PACX-1vStVJ3W5A5nxHutiTiPtzRnWeSfFWm5nxeBvHX0bpJhlSl7TYxy0Zmx9ZGQAei-HYyTukwI23KZFOid/pub"
-        >
-          Terms of Use
-        </a>
-        and
-        <a
-          style={{ color: "#114ac6", margin: "5px", fontWeight: 500 }}
-          href="https://docs.google.com/document/d/e/2PACX-1vRS-iSwxMz7FaD1YVxV9bZru3VX1_w1U-cPXSNqo4g2-NzSEBpBLJCxx4Fqaoi03b0HPN9b-9K3OTcf/pub"
-        >
-          Privacy Policy
-        </a>
-      </Box>
-    </Stack>
-  );
-};
-
-const onSubmit = async (data: any) => {
-  const body = {
-    email: data.email,
-    password: data.password,
-  };
-  await authServices
-    .signUp(body)
-    .then((res) => {
-      console.log("res", res);
-
-      if (res.data.statusCode === 200) {
-        toast.success("Sign up success");
-      } else {
-        toast.error("Sign up failed");
-      }
-    })
-    .catch((err: any) =>
-      toast.error(err?.response?.data?.message, {
-        autoClose: 3000,
-      })
-    );
-};
 
 const SignUpEmail = () => {
+  const [openModal, setOpenModal] = useState(false);
+  const renderOrView = () => {
+    return (
+      <div className="lineContainer">
+        <div className="line"></div>
+        <Typography sx={{ margin: "0px 8px 0px 8px", color: "#B8BCC0", fontSize: "12px", fontWeight: "bold" }}>
+          OR
+        </Typography>
+        <div className="line"></div>
+      </div>
+    );
+  };
+
+  const footer = () => {
+    return (
+      <Stack direction="row">
+        <Box sx={{ fontSize: "12px", color: "#b8bcc0", textAlign: "center", fontWeight: 400, marginTop: "20px" }}>
+          By signing up, you acknowledge that you have read and agree to TestGlider’s
+          <a
+            style={{ color: "#114ac6", margin: " 0 5px", fontWeight: 500 }}
+            href="https://docs.google.com/document/d/e/2PACX-1vStVJ3W5A5nxHutiTiPtzRnWeSfFWm5nxeBvHX0bpJhlSl7TYxy0Zmx9ZGQAei-HYyTukwI23KZFOid/pub"
+          >
+            Terms of Use
+          </a>
+          and
+          <a
+            style={{ color: "#114ac6", margin: "5px", fontWeight: 500 }}
+            href="https://docs.google.com/document/d/e/2PACX-1vRS-iSwxMz7FaD1YVxV9bZru3VX1_w1U-cPXSNqo4g2-NzSEBpBLJCxx4Fqaoi03b0HPN9b-9K3OTcf/pub"
+          >
+            Privacy Policy
+          </a>
+        </Box>
+      </Stack>
+    );
+  };
+
+  const onSubmit = async (data: any) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+    };
+    await authServices
+      .signUp(body)
+      .then((res) => {
+        console.log("res", res);
+
+        if (res.data.statusCode === 200) {
+          toast.success("Sign up success. Check mail to verify!");
+          setOpenModal(true);
+        } else {
+          toast.error("Sign up failed");
+        }
+      })
+      .catch((err: any) =>
+        toast.error(err?.response?.data?.message, {
+          autoClose: 3000,
+        })
+      );
+  };
   return (
     <Formik initialValues={{ email: "", password: "" }} onSubmit={onSubmit} validationSchema={validationSchema}>
       {(propsFormik) => {
@@ -182,6 +186,7 @@ const SignUpEmail = () => {
                 <ItemSocial data={dataGoogle} />
                 {footer()}
               </Card>
+              <OTP openModal={openModal} onCloseModal={() => setOpenModal(false)} />
             </Box>
           </Form>
         );
