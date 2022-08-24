@@ -1,14 +1,15 @@
 import React from "react";
 import { Box } from "@mui/material";
 import Title from "views/components/Title/Title";
-import imgPeople from "assets/image/exam/test-help/people-logo.png";
 import imgClose from "assets/image/exam/test-help/img-close.png";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 // ! type
 interface Props {
   handleCloseModal?: () => void;
+  textTitle?: any;
+  imageTitle?: any;
 }
-const HeaderModalHelp = ({ handleCloseModal }: Props) => {
+const HeaderModalHelp = ({ handleCloseModal, textTitle, imageTitle }: Props) => {
   console.log("fsdf", handleCloseModal);
   const container = {
     background: "#000000",
@@ -18,10 +19,10 @@ const HeaderModalHelp = ({ handleCloseModal }: Props) => {
   };
   const title = {
     position: "absolute",
-    top: "-10px",
+    top: "-7px",
   };
   const close = {
-    padding: "10px 20px",
+    padding: "8px 20px",
     cursor: "pointer",
     ...themeCssSx.flexBox.flexAlignCenter,
   };
@@ -33,7 +34,7 @@ const HeaderModalHelp = ({ handleCloseModal }: Props) => {
     <>
       <Box sx={container}>
         <Box sx={title}>
-          <Title image={imgPeople} text="Help" />
+          <Title image={imageTitle} text={textTitle} />
         </Box>
         <Box></Box>
         <Box onClick={handleCloseModal} style={close}>

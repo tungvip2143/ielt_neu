@@ -20,7 +20,7 @@ interface Props {
   };
 }
 const container = {
-  m: "12px 10px",
+  m: "0px 10px",
   p: "16px 10px",
   background: "#dde3ee",
   boxShadow: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",

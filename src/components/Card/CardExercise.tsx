@@ -17,7 +17,7 @@ const CardExercise = ({ content, width, className, style }: Props) => {
   const card = {
     p: "24px 32px",
     overflowY: { xs: "", lg: "scroll" },
-    height: { xs: "", lg: "calc(100vh - 270px)" },
+    height: { xs: "", lg: "calc(100vh - 250px)" },
     mb: { xs: "40px", lg: "0" },
     background: themeCssSx.backgroundExam.content,
     border: "1px solid #ccc",

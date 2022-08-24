@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
@@ -14,6 +14,9 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
 import ForwardIcon from "@mui/icons-material/Forward";
+import NextQuestion from "assets/image/exam/next-exercise.png";
+import PrevQuestion from "assets/image/exam/prev-exercise.png";
+
 interface CardTotalPageExamsI {
   questions?: any;
   onClickPage?: any;
@@ -52,8 +55,8 @@ const useStyles = makeStyles((theme) => {
     eachQuestion: {
       background: "#000",
       color: "#fff",
-      width: "24px",
-      height: "24px",
+      width: "23px",
+      height: "23px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
@@ -71,16 +74,30 @@ const nextPage = {
   width: "45px",
   height: "45px",
   borderRadius: "50%",
+  transform: "rotate(180deg)",
+  cursor: "pointer",
   boxShadow:
     "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
 };
-const icon = {
-  fontSize: "30px",
-};
+
 const containerNextPage = {
   display: "flex",
   justifyContent: "flex-end",
   width: "13%",
+};
+const didExercise = {
+  background: "#90caf9 ",
+  borderRadius: "2px",
+  position: "relative",
+  "&::affter": {
+    position: "absolute",
+    display: "block",
+    content: "fsdfdsf",
+    bottom: "10px",
+    width: "100%",
+    height: "1px",
+    background: "#333",
+  },
 };
 const CardTotalPageExams = ({
   questions,
@@ -92,9 +109,33 @@ const CardTotalPageExams = ({
   onClickPageNumber,
 }: CardTotalPageExamsI) => {
   const [highlightPage, setHighlightPage] = useState("1");
-
+  const [itemShowReview, setItemShowReview] = useState<string>();
+  const [showPageReview, setShowPageReview] = useState<string>();
+  const [checkedReview, setCheckedReview] = useState(false);
+  useEffect(() => {
+    const hanldeHighLightReview = () => {
+      if (checkedReview) {
+        return setShowPageReview("show-page-review");
+      }
+      return setShowPageReview("hide-review");
+    };
+    hanldeHighLightReview();
+  }, [checkedReview]);
   //! State
   const classes = useStyles();
+  //
+  const getItem = (item: string) => {
+    setItemShowReview(item);
+  };
+
+  console.log("fdsfsd", checkedReview);
+  const handleCheckBox = (event: any) => {
+    setCheckedReview(event.target.checked);
+  };
+  //
+  const hideReview = () => {
+    setCheckedReview(false);
+  };
   //
   const renderPartValues = (partValues: any, index: number) => {
     const { values }: any = useFormikContext();
@@ -108,24 +149,25 @@ const CardTotalPageExams = ({
       const hightLightDidTheHomework = () => {
         const add = Number(partValues.question.displayNumber) - 1;
 
-        if (highlightPage === partValues.question.displayNumber) {
-          return { background: "#4C80F1", borderRadius: "2px" };
-        } else if (values?.answers[`${add}`]?.studentAnswer) {
-          return { background: "#90caf9 ", borderRadius: "2px" };
+        if (highlightPage == partValues.question.displayNumber) {
+          return { background: "#4C80F1 !important", borderRadius: "2px !important" };
+        }
+        if (values?.answers[`${add}`]?.studentAnswer) {
+          return didExercise;
         }
       };
 
       return (
         <>
-          <div
+          <Box
             key={partValues.id}
             className={classes.eachQuestion}
             onClick={() => handleClickQuestion(partValues, index)}
-            style={hightLightDidTheHomework()}
+            sx={hightLightDidTheHomework()}
             // style={values.answers[]}
           >
             <span>{partValues.question.displayNumber}</span>
-          </div>
+          </Box>
         </>
       );
     }
@@ -138,23 +180,26 @@ const CardTotalPageExams = ({
           onClickPage(sectionRender);
           onClickPageNumber(item.question.displayNumber);
           setDisplayNumber(item.question.displayNumber);
+          getItem(item.question.displayNumber);
+          hideReview();
         };
         const add = Number(item.question.displayNumber) - 1;
 
-        const hightLightNumberPageOnclickQuestion = () => {
+        const didExerciseActive = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
-            return { background: "#4C80F1", borderRadius: "2px" };
-          } else if (values?.answers[`${add}`]?.studentAnswer) {
-            return { background: "#90caf9", borderRadius: "2px" };
+            return "high-light-page";
           }
+          if (values?.answers[`${add}`]?.studentAnswer) {
+            return "did-exercise";
+          }
+          return classes.eachQuestion;
         };
         return (
           <>
             <Box
               key={item.id}
-              className={classes.eachQuestion}
+              className={`${didExerciseActive()} ${showPageReview}`}
               onClick={() => handleClickQuestion(partValues, partGroup)}
-              style={hightLightNumberPageOnclickQuestion()}
             >
               <span>{item.question.displayNumber}</span>
             </Box>
@@ -170,7 +215,11 @@ const CardTotalPageExams = ({
     <>
       <Box className="quang-test" sx={TotalPage}>
         <Box>
-          <FormControlLabel value="review" control={<Checkbox />} label="Review" />
+          <FormControlLabel
+            value=""
+            control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            label="Review"
+          />
         </Box>
         <Box sx={box}>
           <Box sx={containerTotalPage}>
@@ -192,11 +241,14 @@ const CardTotalPageExams = ({
             <img src={ImgHideTotalPage} alt="" />
           </Box>
         </Box>
-        <Box sx={containerNextPage}>
+        <Stack direction="row" spacing={2} sx={containerNextPage}>
           <Box sx={nextPage}>
-            <ForwardIcon sx={icon} />
+            <img src={NextQuestion} alt="" />
           </Box>
-        </Box>
+          <Box sx={nextPage}>
+            <img src={PrevQuestion} alt="" />
+          </Box>
+        </Stack>
       </Box>
     </>
   );
