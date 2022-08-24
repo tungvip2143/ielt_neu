@@ -149,8 +149,8 @@ const CardTotalPageExams = ({
       const hightLightDidTheHomework = () => {
         const add = Number(partValues.question.displayNumber) - 1;
 
-        if (highlightPage === partValues.question.displayNumber) {
-          return { background: "#4C80F1", borderRadius: "2px" };
+        if (highlightPage == partValues.question.displayNumber) {
+          return { background: "#4C80F1 !important", borderRadius: "2px !important" };
         }
         if (values?.answers[`${add}`]?.studentAnswer) {
           return didExercise;

@@ -24,6 +24,7 @@ const Step2ExamContent = (props: any) => {
   const { data, test } = props;
   //! State
   const [questions, setQuestions] = useState(data);
+  console.log("data1234", data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
   const [questionSelected, setQuestionSelected] = useState<any>();
@@ -48,7 +49,7 @@ const Step2ExamContent = (props: any) => {
     setHightLightNumberPage(displayNumber);
   };
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = (questions as any) || {};
+    const questionsWithPageNumberTemp = (questions as any) || [];
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
