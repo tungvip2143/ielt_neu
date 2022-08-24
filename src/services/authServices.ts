@@ -11,6 +11,18 @@ class AuthService {
     return httpServices.post(AUTH_URL.VERIFY_EMAIL, body, { headers: { Authorization: `Bearer ${accessToken}` } });
   }
 
+  forgotPassword(body: any) {
+    return httpServices.post(AUTH_URL.FORGOT_PASSWORD, body);
+  }
+
+  verifyCode(body: any) {
+    return httpServices.post(AUTH_URL.VERIFY_CODE, body);
+  }
+
+  resetPassword(body: any) {
+    return httpServices.post(AUTH_URL.RESET_PASSWORD, body);
+  }
+
   resendCode(accessToken: any) {
     return httpServices.post(AUTH_URL.RESEND_CODE, {}, { headers: { Authorization: `Bearer ${accessToken}` } });
   }

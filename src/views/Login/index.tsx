@@ -2,7 +2,6 @@
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 import { useGoogleLogin } from "@react-oauth/google";
-import ImgApple from "assets/image/login/apple.svg";
 import ImgEmail from "assets/image/login/email.svg";
 import ImgFacebook from "assets/image/login/facebook.svg";
 import ImgGoogle from "assets/image/login/google.svg";
@@ -48,12 +47,7 @@ const dataFacebook = {
   bg: "#fff",
   color: "#5b5c61",
 };
-const dataApple = {
-  title: "Continue with Apple",
-  img: ImgApple,
-  bg: "#fff",
-  color: "#5b5c61",
-};
+
 const dataEmail = {
   title: "Continue with Email",
   img: ImgEmail,

@@ -28,6 +28,7 @@ import SignUp from "views/SignUp";
 import SignUpEmail from "views/SignUp/component/SignUpEmail";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
+import ForgotPassword from "views/ForgotPassword";
 
 //
 
@@ -48,6 +49,7 @@ const App: React.FC = () => {
               <Route path={RouteBase.Login} exact component={LoginPage} />
               <Route path={RouteBase.SignUp} exact component={SignUp} />
               <Route path={RouteBase.SignUpEmail} exact component={SignUpEmail} />
+              <Route path={RouteBase.ForgotPassword} exact component={ForgotPassword} />
               <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
               <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
               <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
