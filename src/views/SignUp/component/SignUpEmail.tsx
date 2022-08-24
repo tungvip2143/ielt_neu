@@ -64,7 +64,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpEmail = () => {
-  const [openModal, setOpenModal] = useState(false);
+  const [openModal, setOpenModal] = useState({});
   const renderOrView = () => {
     return (
       <div className="lineContainer">
@@ -108,11 +108,11 @@ const SignUpEmail = () => {
     await authServices
       .signUp(body)
       .then((res) => {
-        console.log("res", res);
-
         if (res.data.statusCode === 200) {
           toast.success("Sign up success. Check mail to verify!");
-          setOpenModal(true);
+          console.log("+++++++++++++++", res?.data?.data?.access_token);
+
+          setOpenModal({ token: res?.data?.data?.access_token });
         } else {
           toast.error("Sign up failed");
         }
@@ -130,7 +130,7 @@ const SignUpEmail = () => {
           <Form>
             <Box className="containerBox">
               <Card className="cardContainer">
-                <Text.Sub20Bold className="textSignUp">Sign up with Email</Text.Sub20Bold>
+                <Text.Sub20Bold className="textSignUp">Sign up</Text.Sub20Bold>
                 <Typography className="content">
                   We'll send you a verification email. Remember to check your email to activate your account.
                 </Typography>
@@ -186,7 +186,7 @@ const SignUpEmail = () => {
                 <ItemSocial data={dataGoogle} />
                 {footer()}
               </Card>
-              <OTP openModal={openModal} onCloseModal={() => setOpenModal(false)} />
+              {!isEmpty(openModal) && <OTP openModal={openModal} onCloseModal={() => setOpenModal(false)} />}
             </Box>
           </Form>
         );

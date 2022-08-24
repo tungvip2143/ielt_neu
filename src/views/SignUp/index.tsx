@@ -25,6 +25,7 @@ import socialServices from "services/socialServices";
 import { authActions } from "redux/creators/modules/auth";
 import { toast } from "react-toastify";
 import { useGetLocation } from "provider/LocationProvider";
+import SignUpEmail from "./component/SignUpEmail";
 //
 const SignUp = (props: any) => {
   const { dispatch } = useSagaCreators();
@@ -119,15 +120,7 @@ const SignUp = (props: any) => {
   }
   return (
     <Box sx={container}>
-      <CardView>
-        <Title>Sign up</Title>
-        <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
-          <ItemSocial data={dataGoogle} onClick={signUp} />
-          {showFB()}
-          <ItemSocial data={dataEmail} onClick={() => history.push(RouteBase.SignUpEmail)} />
-        </Stack>
-        <Footer pathName={RouteBase.Login} content={content} />
-      </CardView>
+      <SignUpEmail />
     </Box>
   );
 };

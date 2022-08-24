@@ -1,7 +1,11 @@
 import { Box, Button, Modal, Typography } from "@mui/material";
+import { RouteBase } from "constants/routeUrl";
 import { Form } from "formik";
 import { useEffect, useRef, useState } from "react";
 import OtpInput from "react-otp-input";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import authServices from "services/authServices";
 import "./styles.scss";
 export interface Props {
   keycloakId?: String;
@@ -9,14 +13,17 @@ export interface Props {
   back?: () => void;
   next?: () => void;
 
-  openModal: boolean;
+  openModal: any;
 
   onCloseModal: () => void;
 }
 
 const OTP = (props: Props) => {
   const { openModal, onCloseModal } = props;
+  const history = useHistory();
   const [OTP, setOTP] = useState("");
+
+  console.log("OTP", OTP);
 
   const [checked, setChecked] = useState(true);
   const [time, setTime] = useState<number>(120);
@@ -44,23 +51,28 @@ const OTP = (props: Props) => {
     };
   }, []);
 
-  const checkOTP = () => {
-    // activeAccount(props.keycloakId, OTP).then((response) => {
-    //   if (response.responseCode === "00" && response.responseData) {
-    //     setSuccess(true);
-    //   } else {
-    //     setChecked(false);
-    //   }
-    // });
+  const reSend = () => {
+    authServices.resendCode(openModal.token).then((response) => {
+      if (response?.data?.statusCode === 200) {
+        setTime(120);
+        countDown();
+      }
+    });
   };
 
-  const reSend = () => {
-    // getOTP(props.userId).then((response) => {
-    //   if (response.responseCode === "00") {
-    //     setTime(120);
-    //     countDown();
-    //   }
-    // });
+  const onSubmit = async () => {
+    const body = {
+      verifyCode: OTP,
+    };
+    try {
+      await authServices.verifyEmail(body, openModal.token).then((res) => {
+        if (res.data?.statusCode === 200) {
+          history.push(RouteBase.LoginEmail);
+        }
+      });
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message);
+    }
   };
 
   return (
@@ -82,12 +94,22 @@ const OTP = (props: Props) => {
               }}
             />
           )}
-          <Typography>
-            {`Bạn chưa nhận được mã?${time ? ` Vui lòng nhập mã xác thực sau ${time}s` : ""}`}
+          <Typography className="textOTP">
+            {`Didn't receive OTP?${time ? ` Please enter OTP after ${time}s` : ""}`}
             <br />
-            {time ? "" : <Typography onClick={reSend}>Gửi lại mã xác thực</Typography>}
+            {time ? (
+              ""
+            ) : (
+              <Typography className="textOTP" style={{ cursor: "grab" }} onClick={reSend}>
+                Resend OTP
+              </Typography>
+            )}
           </Typography>
-          <Button>Submit</Button>
+          <div className="text-center my-2">
+            <Button variant="contained" onClick={onSubmit}>
+              Submit
+            </Button>
+          </div>
         </Form>
       </Box>
     </Modal>
