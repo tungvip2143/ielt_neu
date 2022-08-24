@@ -10,23 +10,22 @@ import Text from "components/Typography/index";
 interface Data {
   part?: number;
   children?: any;
+  content?: string;
 }
-const CardPart = ({ part, children }: Data) => {
+const CardPart = ({ part, children, content }: Data) => {
   const card = {
-    p: "16px 32px",
-    boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-    width: "100%",
-    borderRadius: "16px",
-    margin: "0 auto",
+    p: "12px 10px",
+    boxShadow: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
+    background: "#fff",
   };
 
   return (
-    <Card sx={card}>
+    <Box sx={card}>
       <Stack direction="row" spacing={4} sx={{ alignItems: "center" }}>
-        <Text.Sub20Bold sx={{ color: "#36373b" }}>{`Part ${part}`}</Text.Sub20Bold>
+        <Text.DescMedium sx={{ color: "#36373b", fontWeight: 700 }}>{content}</Text.DescMedium>
         <Text.DescSmallCard>{children}</Text.DescSmallCard>
       </Stack>
-    </Card>
+    </Box>
   );
 };
 

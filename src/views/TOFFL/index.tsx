@@ -22,11 +22,8 @@ interface TOFFLI {
 }
 
 const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion, onHightLightNumberPage }: TOFFLI) => {
-  console.log("showQuestion", showQuestion);
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  console.log("partRenderSelected2", partRenderSelected);
-  console.log("questionSelected", questionSelected);
 
   //! Number
 
@@ -49,7 +46,6 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
   const renderPartValueGroup = (partRenderSelected: any) => {
     console.log("partRenderSelected", partRenderSelected);
     const questionType = partRenderSelected?.questionType;
-    console.log("questionType", questionType);
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
@@ -70,7 +66,6 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
       );
     }
     return partRenderSelected?.questions?.map((question: any) => {
-      console.log("abc", question);
       return (
         <>
           <ItemQuestion

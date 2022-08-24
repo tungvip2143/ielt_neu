@@ -49,7 +49,6 @@ const ReadingReview = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
-  console.log("questions", questions);
 
   useEffect(() => {
     setQuestions(data);
@@ -57,12 +56,10 @@ const ReadingReview = (props: any) => {
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("groupRenderSelected", groupRenderSelected);
   };
 
   const onClickPart = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("part", groupRenderSelected);
   };
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
@@ -72,7 +69,6 @@ const ReadingReview = (props: any) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    console.log("questions select", questions);
     const questionsWithPageNumberTemp = questions as any;
     if (!isEmpty(questionsWithPageNumberTemp)) {
       return questionsWithPageNumberTemp[groupSelected?.part];

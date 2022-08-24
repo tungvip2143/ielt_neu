@@ -7,12 +7,14 @@ import TOFFL from "views/TOFFL/index";
 //
 import { ieltsReadingDataDummy } from "api/ieltsResults";
 import CardPart from "components/Card/CardPart";
+
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
 import Writing from "views/Ielts/writing/component/Writing";
 import FooterExamResponsive from "./FooterExamResponsive";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 interface Props {
   data?: any;
@@ -20,9 +22,9 @@ interface Props {
 
 const Step2ExamContent = (props: any) => {
   const { data, test } = props;
-  console.log("step2 data", data);
   //! State
   const [questions, setQuestions] = useState(data);
+  console.log("data1234", data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
   const [questionSelected, setQuestionSelected] = useState<any>();
@@ -33,16 +35,12 @@ const Step2ExamContent = (props: any) => {
   const [showQuestion, setShowQuestion] = useState("1");
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
 
-  console.log("hightLightNumberPage", hightLightNumberPage);
-
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("groupRenderSelected", groupRenderSelected);
   };
 
   const onClickPart = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("part", groupRenderSelected);
   };
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
@@ -51,8 +49,7 @@ const Step2ExamContent = (props: any) => {
     setHightLightNumberPage(displayNumber);
   };
   const partRenderSelected = useMemo(() => {
-    console.log("group select", groupSelected);
-    const questionsWithPageNumberTemp = questions as any;
+    const questionsWithPageNumberTemp = (questions as any) || [];
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
@@ -60,22 +57,20 @@ const Step2ExamContent = (props: any) => {
     return null;
   }, [ieltsReadingDataDummy, groupSelected]);
   //
-  console.log("partRenderSelected11", partRenderSelected);
+  //
+  const contentPart = "Sample Academic Reading Multiple Choice (one answer)";
   //! Render
   return (
     <>
-      <Box sx={{ width: "95%", margin: "0 auto" }}>
-        <CardPart part={groupSelected.part + 1}></CardPart>
+      <Box sx={{ margin: "0 15px" }}>
+        <CardPart part={groupSelected.part + 1} content={contentPart}></CardPart>
       </Box>
       <Box sx={{ position: "relative" }}>
-        <Box sx={{ width: "95%", margin: "0 auto" }}>
+        <Box sx={{ padding: "0 15px", mt: "15px" }}>
           <Grid
             container
             sx={{
               justifyContent: "space-between",
-              p: "20px 0",
-              maxWidth: "1440px",
-              margin: "0 auto",
               display: { xs: "block", lg: "flex" },
             }}
           >
@@ -83,7 +78,7 @@ const Step2ExamContent = (props: any) => {
             {test === IELT_TEST.WRITING && (
               <CardExercise
                 content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
-                width={5.9}
+                width={6}
               />
             )}
             {test === IELT_TEST.READING && (
@@ -97,7 +92,7 @@ const Step2ExamContent = (props: any) => {
                     onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   />
                 }
-                width={5.9}
+                width={6}
               />
             )}
           </Grid>

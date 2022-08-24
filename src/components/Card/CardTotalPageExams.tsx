@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
-//
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import FormGroup from "@mui/material/FormGroup";
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
 import { IELT_TEST } from "interfaces/testType";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+//
+import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
+import ForwardIcon from "@mui/icons-material/Forward";
+import NextQuestion from "assets/image/exam/next-exercise.png";
+import PrevQuestion from "assets/image/exam/prev-exercise.png";
 
 interface CardTotalPageExamsI {
   questions?: any;
@@ -23,40 +29,41 @@ interface CardTotalPageExamsI {
 }
 
 const box = {
-  background: "#fff",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+  width: "80%",
+  display: { xs: "none", lg: "block" },
+  borderRadius: "8px 8px 0 0",
+  border: "1px solid #fff",
+  background: themeCssSx.backgroundExam.content,
+};
+const TotalPage = {
+  display: "flex",
+  width: "100%",
   position: "fixed",
   bottom: { xs: "0", lg: "0px" },
-  width: "100%",
-  p: "10px 0px",
-  display: { xs: "none", lg: "block" },
+  margin: "0 15px",
 };
-
+const containerTotalPage = {
+  ...themeCssSx.flexBox.flexBetweenCenter,
+  p: "5px 10px",
+};
 const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
-      paddingBottom: "10px",
-    },
-    part: {
-      fontSize: "14px",
-      fontWeight: "bold",
-      color: "#000000",
-      marginRight: "15px",
-      textTransform: "capitalize",
     },
     eachQuestion: {
-      background: "#333",
+      background: "#000",
       color: "#fff",
-      width: "24px",
-      height: "24px",
+      width: "23px",
+      height: "23px",
       display: "flex",
       justifyContent: "center",
       alignItems: "center",
-      borderRadius: "8px",
       fontSize: "14px",
       fontWeight: "bold",
       cursor: "pointer",
+      borderRadius: "2px",
     },
   };
 });
@@ -64,9 +71,33 @@ const nextPage = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  background: "#333",
-  p: "8px",
-  borderRadius: "5px",
+  width: "45px",
+  height: "45px",
+  borderRadius: "50%",
+  transform: "rotate(180deg)",
+  cursor: "pointer",
+  boxShadow:
+    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
+};
+
+const containerNextPage = {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "13%",
+};
+const didExercise = {
+  background: "#90caf9 ",
+  borderRadius: "2px",
+  position: "relative",
+  "&::affter": {
+    position: "absolute",
+    display: "block",
+    content: "fsdfdsf",
+    bottom: "10px",
+    width: "100%",
+    height: "1px",
+    background: "#333",
+  },
 };
 const CardTotalPageExams = ({
   questions,
@@ -78,10 +109,33 @@ const CardTotalPageExams = ({
   onClickPageNumber,
 }: CardTotalPageExamsI) => {
   const [highlightPage, setHighlightPage] = useState("1");
-
+  const [itemShowReview, setItemShowReview] = useState<string>();
+  const [showPageReview, setShowPageReview] = useState<string>();
+  const [checkedReview, setCheckedReview] = useState(false);
+  useEffect(() => {
+    const hanldeHighLightReview = () => {
+      if (checkedReview) {
+        return setShowPageReview("show-page-review");
+      }
+      return setShowPageReview("hide-review");
+    };
+    hanldeHighLightReview();
+  }, [checkedReview]);
   //! State
   const classes = useStyles();
-  const { values }: any = useFormikContext();
+  //
+  const getItem = (item: string) => {
+    setItemShowReview(item);
+  };
+
+  console.log("fdsfsd", checkedReview);
+  const handleCheckBox = (event: any) => {
+    setCheckedReview(event.target.checked);
+  };
+  //
+  const hideReview = () => {
+    setCheckedReview(false);
+  };
   //
   const renderPartValues = (partValues: any, index: number) => {
     const { values }: any = useFormikContext();
@@ -95,24 +149,25 @@ const CardTotalPageExams = ({
       const hightLightDidTheHomework = () => {
         const add = Number(partValues.question.displayNumber) - 1;
 
-        if (highlightPage === partValues.question.displayNumber) {
-          return { background: "#4C80F1", borderRadius: "50%" };
-        } else if (values?.answers[`${add}`]?.studentAnswer) {
-          return { background: "#90caf9 ", borderRadius: "50%" };
+        if (highlightPage == partValues.question.displayNumber) {
+          return { background: "#4C80F1 !important", borderRadius: "2px !important" };
+        }
+        if (values?.answers[`${add}`]?.studentAnswer) {
+          return didExercise;
         }
       };
 
       return (
         <>
-          <div
+          <Box
             key={partValues.id}
             className={classes.eachQuestion}
             onClick={() => handleClickQuestion(partValues, index)}
-            style={hightLightDidTheHomework()}
+            sx={hightLightDidTheHomework()}
             // style={values.answers[]}
           >
             <span>{partValues.question.displayNumber}</span>
-          </div>
+          </Box>
         </>
       );
     }
@@ -125,23 +180,26 @@ const CardTotalPageExams = ({
           onClickPage(sectionRender);
           onClickPageNumber(item.question.displayNumber);
           setDisplayNumber(item.question.displayNumber);
+          getItem(item.question.displayNumber);
+          hideReview();
         };
         const add = Number(item.question.displayNumber) - 1;
 
-        const hightLightNumberPageOnclickQuestion = () => {
+        const didExerciseActive = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
-            return { background: "#4C80F1", borderRadius: "50%" };
-          } else if (values?.answers[`${add}`]?.studentAnswer) {
-            return { background: "#90caf9", borderRadius: "50%" };
+            return "high-light-page";
           }
+          if (values?.answers[`${add}`]?.studentAnswer) {
+            return "did-exercise";
+          }
+          return classes.eachQuestion;
         };
         return (
           <>
             <Box
               key={item.id}
-              className={classes.eachQuestion}
+              className={`${didExerciseActive()} ${showPageReview}`}
               onClick={() => handleClickQuestion(partValues, partGroup)}
-              style={hightLightNumberPageOnclickQuestion()}
             >
               <span>{item.question.displayNumber}</span>
             </Box>
@@ -154,44 +212,45 @@ const CardTotalPageExams = ({
 
   //! Render
   return (
-    <Box sx={box}>
-      <Box sx={{ width: "95%", margin: "0 auto" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
-            {questions?.map((group: any, index: number) => {
-              console.log("partKey", group);
-              // console.log("partValues", partValues);
-              // console.log("questions12", Object.entries(questions));
-              return (
-                <>
-                  <div
-                    key={group.partNumber}
-                    className={classes.eachItem}
-                    // onClick={() => onClickPart(group.partNumber)}
-                  >
-                    <div className={classes.part}>{`Part ${group.partNumber || index + 1}`}</div>
-                    <Stack direction="row" spacing={0.5}>
-                      {renderPartValues(group, index)}
-                    </Stack>
-                  </div>
-                </>
-              );
-            })}
-          </Box>
+    <>
+      <Box className="quang-test" sx={TotalPage}>
+        <Box>
+          <FormControlLabel
+            value=""
+            control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            label="Review"
+          />
+        </Box>
+        <Box sx={box}>
+          <Box sx={containerTotalPage}>
+            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+              {questions?.map((group: any, index: number) => {
+                return (
+                  <>
+                    <div key={group.partNumber} className={classes.eachItem}>
+                      <Stack direction="row" spacing={0.2}>
+                        {renderPartValues(group, index)}
+                      </Stack>
+                    </div>
+                  </>
+                );
+              })}
 
-          <Box sx={{ width: { md: "20%" } }}>
-            <Stack direction="row" spacing={1.5} sx={{ justifyContent: "flex-end" }}>
-              <Box sx={nextPage}>
-                <KeyboardArrowLeftIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-              <Box sx={nextPage}>
-                <KeyboardArrowRightIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-            </Stack>
+              <Box sx={{ width: { md: "20%" } }}></Box>
+            </Box>
+            <img src={ImgHideTotalPage} alt="" />
           </Box>
         </Box>
+        <Stack direction="row" spacing={2} sx={containerNextPage}>
+          <Box sx={nextPage}>
+            <img src={NextQuestion} alt="" />
+          </Box>
+          <Box sx={nextPage}>
+            <img src={PrevQuestion} alt="" />
+          </Box>
+        </Stack>
       </Box>
-    </Box>
+    </>
   );
 };
 
