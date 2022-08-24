@@ -13,7 +13,6 @@ import { IELT_TEST } from "interfaces/testType";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-import ForwardIcon from "@mui/icons-material/Forward";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 
@@ -85,20 +84,7 @@ const containerNextPage = {
   justifyContent: "flex-end",
   width: "13%",
 };
-const didExercise = {
-  background: "#90caf9 ",
-  borderRadius: "2px",
-  position: "relative",
-  "&::affter": {
-    position: "absolute",
-    display: "block",
-    content: "fsdfdsf",
-    bottom: "10px",
-    width: "100%",
-    height: "1px",
-    background: "#333",
-  },
-};
+
 const CardTotalPageExams = ({
   questions,
   onClickPart,
@@ -109,7 +95,6 @@ const CardTotalPageExams = ({
   onClickPageNumber,
 }: CardTotalPageExamsI) => {
   const [highlightPage, setHighlightPage] = useState("1");
-  const [itemShowReview, setItemShowReview] = useState<string>();
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
   useEffect(() => {
@@ -124,11 +109,6 @@ const CardTotalPageExams = ({
   //! State
   const classes = useStyles();
   //
-  const getItem = (item: string) => {
-    setItemShowReview(item);
-  };
-
-  console.log("fdsfsd", checkedReview);
   const handleCheckBox = (event: any) => {
     setCheckedReview(event.target.checked);
   };
@@ -145,28 +125,33 @@ const CardTotalPageExams = ({
         sectionRender.part = index;
         onClickPage(sectionRender);
         setHighlightPage(partValues.question.displayNumber);
+        hideReview();
       };
-      const hightLightDidTheHomework = () => {
-        const add = Number(partValues.question.displayNumber) - 1;
+      const add = Number(partValues.question.displayNumber) - 1;
 
-        if (highlightPage === partValues.question.displayNumber) {
-          return { background: "#4C80F1", borderRadius: "2px" };
+      const highLightPage = () => {
+        if (highlightPage == partValues.question.displayNumber) {
+          return "high-light-page";
         }
+        return classes.eachQuestion;
+      };
+      const didExerciseActive = () => {
         if (values?.answers[`${add}`]?.studentAnswer) {
-          return didExercise;
+          return "did-exercise";
         }
+        return;
       };
 
       return (
         <>
           <Box
             key={partValues.id}
-            className={classes.eachQuestion}
+            className={`${classes.eachQuestion} ${highLightPage()} ${
+              highlightPage === partValues.question.displayNumber && showPageReview
+            } ${`${didExerciseActive()}-abc`}`}
             onClick={() => handleClickQuestion(partValues, index)}
-            sx={hightLightDidTheHomework()}
-            // style={values.answers[]}
           >
-            <span>{partValues.question.displayNumber}</span>
+            <span className={didExerciseActive()}>{partValues.question.displayNumber}</span>
           </Box>
         </>
       );
@@ -180,28 +165,31 @@ const CardTotalPageExams = ({
           onClickPage(sectionRender);
           onClickPageNumber(item.question.displayNumber);
           setDisplayNumber(item.question.displayNumber);
-          getItem(item.question.displayNumber);
           hideReview();
         };
         const add = Number(item.question.displayNumber) - 1;
-
-        const didExerciseActive = () => {
+        const highLightPage = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
             return "high-light-page";
           }
+          return classes.eachQuestion;
+        };
+        const didExerciseActive = () => {
           if (values?.answers[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
-          return classes.eachQuestion;
+          return;
         };
         return (
           <>
             <Box
               key={item.id}
-              className={`${didExerciseActive()} ${showPageReview}`}
+              className={`${highLightPage()} ${
+                hightLightNumberPage === item.question.displayNumber && showPageReview
+              } ${`${didExerciseActive()}-abc`}`}
               onClick={() => handleClickQuestion(partValues, partGroup)}
             >
-              <span>{item.question.displayNumber}</span>
+              <span className={didExerciseActive()}>{item.question.displayNumber}</span>
             </Box>
           </>
         );
@@ -223,12 +211,12 @@ const CardTotalPageExams = ({
         </Box>
         <Box sx={box}>
           <Box sx={containerTotalPage}>
-            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: "0px 2px" }}>
               {questions?.map((group: any, index: number) => {
                 return (
                   <>
                     <div key={group.partNumber} className={classes.eachItem}>
-                      <Stack direction="row" spacing={0.2}>
+                      <Stack direction="row" spacing={0.2} className="part-item">
                         {renderPartValues(group, index)}
                       </Stack>
                     </div>

@@ -18,6 +18,7 @@ interface Props {
     informationsForCandidates?: React.ReactNode;
     intructionsToCandidates?: React.ReactNode;
   };
+  nextStep?: string;
 }
 const container = {
   m: "0px 10px",
@@ -35,10 +36,10 @@ const textTitle = {
 };
 const textHelp = "Do not click 'Start test' until you are told to do so.";
 const textBtn = "Start test";
-const nextStep = TypeStepExamEnum.STEP3;
 
 const RuleExam = (props: Props) => {
   const {
+    nextStep,
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
   // console.log("typeExam", typeExam);
