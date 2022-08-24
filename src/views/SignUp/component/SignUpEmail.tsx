@@ -12,13 +12,17 @@ import ItemSocial from "views/Login/components/ItemSocial";
 import ImgGoogle from "assets/image/login/google.svg";
 import { Stack } from "@mui/system";
 import * as yup from "yup";
-import { validateLine } from "constants/constants";
+import { SocialProvider, validateLine } from "constants/constants";
 import Regexs from "constants/Regexs";
 import { isEmpty } from "lodash";
 import authServices from "services/authServices";
 import { toast } from "react-toastify";
 import OTP from "./OTP";
 import { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import socialServices from "services/socialServices";
+import useSagaCreators from "hooks/useSagaCreators";
+import { authActions } from "redux/creators/modules/auth";
 
 const input = {
   width: "100%",
@@ -64,6 +68,7 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpEmail = () => {
+  const { dispatch } = useSagaCreators();
   const [openModal, setOpenModal] = useState({});
   const renderOrView = () => {
     return (
@@ -123,6 +128,32 @@ const SignUpEmail = () => {
         })
       );
   };
+
+  const loginSocial = async (res: any, provider: any) => {
+    try {
+      const body = {
+        token: res,
+        provider: provider,
+      };
+      const responseSocial = await socialServices.loginSocial(body);
+
+      if (responseSocial?.data?.data?.data?.access_token) {
+        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message, {
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const signUp = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: (tokenResponse: any) => {
+      loginSocial(tokenResponse.access_token, SocialProvider.GOOGLE);
+    },
+  });
+
   return (
     <Formik initialValues={{ email: "", password: "" }} onSubmit={onSubmit} validationSchema={validationSchema}>
       {(propsFormik) => {
@@ -143,6 +174,7 @@ const SignUpEmail = () => {
                 <FastField
                   style={input}
                   component={InputField}
+                  type="password"
                   placeholder="Please enter your password"
                   {...propsFormik.getFieldProps("password")}
                 />
@@ -154,10 +186,14 @@ const SignUpEmail = () => {
                 <FastField
                   style={input}
                   component={InputField}
+                  type="password"
                   placeholder="Please enter your password"
                   {...propsFormik.getFieldProps("rePassword")}
                 />
-                <Button className="buttonEmail" type="submit">
+                {/* <Button className="buttonEmail" type="submit">
+                  SEND EMAIL
+                </Button> */}
+                <Button className="buttonEmail" variant="contained" type="submit">
                   SEND EMAIL
                 </Button>
                 <FormGroup>
@@ -183,7 +219,7 @@ const SignUpEmail = () => {
                 <Typography className="content" sx={{ textAlign: "center", marginBottom: "20px" }}>
                   Skip verification with Google
                 </Typography>
-                <ItemSocial data={dataGoogle} />
+                <ItemSocial data={dataGoogle} onClick={signUp} />
                 {footer()}
               </Card>
               {!isEmpty(openModal) && <OTP openModal={openModal} onCloseModal={() => setOpenModal(false)} />}
