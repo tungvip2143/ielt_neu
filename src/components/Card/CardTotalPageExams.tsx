@@ -26,6 +26,11 @@ interface CardTotalPageExamsI {
   hightLightNumberPage?: any;
   test?: any;
   onClickPageNumber?: any;
+  groupSelected?: any;
+  part?: any;
+  group?: any;
+  question?: any;
+  displayNumber: number;
 }
 
 const box = {
@@ -107,6 +112,11 @@ const CardTotalPageExams = ({
   setDisplayNumber,
   hightLightNumberPage,
   onClickPageNumber,
+  groupSelected,
+  part,
+  group,
+  question,
+  displayNumber,
 }: CardTotalPageExamsI) => {
   const [highlightPage, setHighlightPage] = useState("1");
   const [itemShowReview, setItemShowReview] = useState<string>();
@@ -135,6 +145,35 @@ const CardTotalPageExams = ({
   //
   const hideReview = () => {
     setCheckedReview(false);
+  };
+
+  const checkPartRender = () => {
+    let sectionRender: any = {};
+    let partLength = part.length - 1;
+    let groupLength = group.length - 1;
+    let questionLength = question.length - 1;
+    if (groupSelected.question < questionLength) {
+      sectionRender.question = groupSelected.question + 1;
+      return sectionRender;
+    }
+    if (groupSelected.group < groupLength) {
+      sectionRender.group = groupSelected.group + 1;
+      sectionRender.question = 0;
+      return sectionRender;
+    }
+    if (groupSelected.part < partLength) {
+      sectionRender.part = groupSelected.part + 1;
+      sectionRender.group = 0;
+      sectionRender.question = 0;
+      return sectionRender;
+    }
+    console.log("done");
+    return;
+  };
+
+  const onClickNextQuestion = () => {
+    const sectionRender = checkPartRender();
+    onClickPage(sectionRender);
   };
   //
   const renderPartValues = (partValues: any, index: number) => {
@@ -245,7 +284,7 @@ const CardTotalPageExams = ({
           <Box sx={nextPage}>
             <img src={NextQuestion} alt="" />
           </Box>
-          <Box sx={nextPage}>
+          <Box sx={nextPage} onClick={onClickNextQuestion}>
             <img src={PrevQuestion} alt="" />
           </Box>
         </Stack>
