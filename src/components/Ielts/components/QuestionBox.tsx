@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
 import Handlebars from "handlebars";
 import { FastField, useFormikContext } from "formik";
@@ -11,24 +11,30 @@ type Props = {
 const QuestionBox = (props: Props) => {
   const { questionBox, displayNumber } = props;
   console.log("questionBox", questionBox);
-  const inputRef = useRef<any>([]);
-
+  const containerHTMLRef = useRef<any>(null);
   const { values, handleChange }: any = useFormikContext();
 
-  Handlebars.registerHelper("blank", function (blankId: any) {
+  useEffect(() => {
+    const input = document.getElementById(`input-${displayNumber}`)?.focus() as any;
+    console.log("input", input);
+    if (input) {
+      input?.focus();
+    }
+  }, [displayNumber]);
+
+  Handlebars.registerHelper("blank", function (blankId: string, option) {
+    console.log("option", option.data.root);
+    const questionNumber = option.data.root;
     return new Handlebars.SafeString(
-      `<input ref='${(el: any) =>
-        (inputRef.current[blankId] =
-          el)}' name='answers.[${blankId}].studentAnswer'   id="input-${blankId}" type="text" maxlength="30">`
+      `<input  name='answers.[${questionNumber}].studentAnswer'   id="input-${questionNumber}" type="text" maxlength="30">`
     );
   });
 
-  useEffect(() => {
-    inputRef?.current[displayNumber]?.focus();
-  }, []);
-
   const test: any = Handlebars.compile(questionBox);
-  return <div dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />;
+
+  return (
+    <div dangerouslySetInnerHTML={{ __html: test(displayNumber) }} onInput={handleChange} ref={containerHTMLRef} />
+  );
 };
 
 export default QuestionBox;
