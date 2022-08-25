@@ -42,7 +42,7 @@ const App: React.FC = () => {
       <LocationProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
-          <ToastContainer position="top-right" autoClose={1000} />
+          <ToastContainer position="top-right" autoClose={3000} />
           <Router>
             <Switch>
               <Route path={RouteBase.Login} exact component={LoginPage} />
