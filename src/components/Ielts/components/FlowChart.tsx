@@ -36,7 +36,7 @@ const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question, onHightLightNumberPage, onClickPage, displayNumber } = props;
   const { setFieldValue } = useFormikContext();
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<any>([]);
 
   const handleFocus = (id: string, index: any) => {
     setFieldValue(`answers[${index}].questionId`, id);
@@ -49,21 +49,22 @@ const FlowChart = (props: Props) => {
   };
 
   useEffect(() => {
-    inputRef?.current?.focus();
-  }, []);
+    inputRef?.current[displayNumber]?.focus();
+  }, [displayNumber]);
 
   return (
     <div className={classes.container}>
       <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
         {question?.map((answer: any, questionIndx: number) => {
+          const displayNumberT = answer?.question?.displayNumber;
           return (
             <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <span>
                 <strong>{answer?.question?.displayNumber}</strong>
               </span>
               <FastField
-                ref={displayNumber === answer?.question?.displayNumber ? inputRef : null}
+                inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
