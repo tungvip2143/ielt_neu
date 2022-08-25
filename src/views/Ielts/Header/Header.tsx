@@ -54,7 +54,7 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep }: Props)
       </Box>
       <Box sx={header}>
         <Box sx={headerContent}>
-          {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || TypeStepExamEnum.STEP4) && (
+          {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <img style={{ width: "18px", height: "18px" }} src={NumberUser} alt="" />
               <p style={{ color: "#fff", fontSize: "14px" }}>XXXXX XXXX - 123456</p>

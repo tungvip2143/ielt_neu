@@ -38,7 +38,6 @@ const MachingHeading = (props: Props) => {
   const classes = useStyles();
   const { data, answerList, question, onHightLightNumberPage } = props;
   const { setFieldValue } = useFormikContext();
-  console.log("onHightLightNumberPage", onHightLightNumberPage);
 
   const handleFocus = (displayNumber: number) => {
     setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");

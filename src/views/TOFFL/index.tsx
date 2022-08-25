@@ -44,8 +44,8 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
   // }, [questionSelected]);
   //
   const renderPartValueGroup = (partRenderSelected: any) => {
-    console.log("partRenderSelected", partRenderSelected);
     const questionType = partRenderSelected?.questionType;
+    console.log("questionType", questionType);
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||

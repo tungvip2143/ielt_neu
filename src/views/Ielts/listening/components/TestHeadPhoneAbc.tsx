@@ -10,8 +10,9 @@ import { TypeStepExamEnum } from "constants/enum";
 import Container from "../../../components/Container/Container";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import Box from "@mui/material/Box";
-// import ReactAudioPlayer from "react-audio-player";
-// import audio from "assets/audio/testSound/testAudio";
+import ReactAudioPlayer from "react-audio-player";
+// @ts-ignore
+import audio from "assets/audio/testSound/test-audio.mp3";
 //
 const TestHeadPhoneAbc = () => {
   const [testSound, setTestSound] = React.useState(false);
@@ -50,7 +51,8 @@ const TestHeadPhoneAbc = () => {
   };
   return (
     <Box sx={containerTest}>
-      {/* <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} /> */}
+      {testSound && <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} />}
+
       <div className="">
         <Title image={ImgHeadPhone} text="Test sound" />
         <Container>
