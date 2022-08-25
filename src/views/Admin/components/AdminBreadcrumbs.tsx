@@ -16,8 +16,12 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 
 export default function AdminBreadcrumbs() {
   const location = useLocation();
+  console.log("location", location);
+
   const { dispatch } = useSagaCreators();
   const pathSplit = location.pathname.split("/").filter((path) => path);
+  console.log("pathSplit", pathSplit);
+
   const onLogout = () => {
     dispatch(authActions.logout);
   };

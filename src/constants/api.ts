@@ -18,6 +18,8 @@ export const AUTH_URL = {
   SIGNUP_EMAIL: `${ROOT_URL}/auth/signup`,
   //Social
   LOGIN_SOCIAL: `${ROOT_URL}/auth/signin/social`,
+  RESEND_CODE: `${ROOT_URL}/auth/signup/resend-code`,
+  VERIFY_EMAIL: `${ROOT_URL}/auth/signup/verify-email`,
 };
 
 export const IELTS_URL = (testCode?: any, questionId?: string) => {

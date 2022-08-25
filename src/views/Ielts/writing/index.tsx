@@ -54,7 +54,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
     await updateIeltsWriting(
       { values, testCode },
       {
-        onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
+        onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4),
       }
     );
   };

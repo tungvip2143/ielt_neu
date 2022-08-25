@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { makeStyles } from "@mui/styles";
@@ -28,33 +28,43 @@ type Props = {
   image?: string;
   question?: any;
   onHightLightNumberPage: (display: number) => void;
+  onClickPage?: (options: any) => void;
+  displayNumber: number;
 };
 
 const FlowChart = (props: Props) => {
   const classes = useStyles();
-  const { image, question, onHightLightNumberPage } = props;
-  console.log("hfskdhfks", question);
-
+  const { image, question, onHightLightNumberPage, onClickPage, displayNumber } = props;
   const { setFieldValue } = useFormikContext();
+  const inputRef = useRef<any>([]);
 
   const handleFocus = (id: string, index: any) => {
     setFieldValue(`answers[${index}].questionId`, id);
   };
-  const onClickQuestion = (displayNumber: number) => {
-    onHightLightNumberPage(displayNumber);
+  const onClickQuestion = (questionIndx: number) => {
+    let sectionRender: any = {};
+    sectionRender.question = questionIndx;
+    console.log("sectionRender", sectionRender);
+    onClickPage && onClickPage(sectionRender);
   };
+
+  useEffect(() => {
+    inputRef?.current[displayNumber]?.focus();
+  }, [displayNumber]);
 
   return (
     <div className={classes.container}>
       <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
-        {question?.map((answer: any) => {
+        {question?.map((answer: any, questionIndx: number) => {
+          const displayNumberT = answer?.question?.displayNumber;
           return (
-            <div className={classes.answer} onClick={() => onClickQuestion(Number(answer?.question?.displayNumber))}>
+            <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <span>
-                <strong>{answer?.question?.displayNumber}</strong>
+                <strong>{`${answer?.question?.displayNumber}.`}</strong>
               </span>
               <FastField
+                inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}

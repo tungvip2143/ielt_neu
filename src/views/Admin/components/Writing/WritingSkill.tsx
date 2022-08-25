@@ -60,10 +60,15 @@ const WritingSkill = () => {
               field: "action",
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
+                console.log("items", items);
+
                 return (
                   <CommonActionMenu
                     onEdit={() => {
-                      history.push(RouteBase.UpdateWritingWId(items.id));
+                      history.push({
+                        pathname: RouteBase.UpdateWritingWId(items?.row?.title),
+                        search: `?id=${items?.id}`,
+                      });
                     }}
                     onSubmitRemove={onDeletePart}
                     row={items}

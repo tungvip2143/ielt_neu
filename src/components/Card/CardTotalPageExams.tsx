@@ -13,6 +13,7 @@ import { IELT_TEST } from "interfaces/testType";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
+import ForwardIcon from "@mui/icons-material/Forward";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 
@@ -25,6 +26,11 @@ interface CardTotalPageExamsI {
   hightLightNumberPage?: any;
   test?: any;
   onClickPageNumber?: any;
+  groupSelected?: any;
+  part?: any;
+  group?: any;
+  question?: any;
+  displayNumber: number;
 }
 
 const box = {
@@ -84,6 +90,25 @@ const containerNextPage = {
   justifyContent: "flex-end",
   width: "13%",
 };
+const didExercise = {
+  background: "#90caf9 ",
+  borderRadius: "2px",
+  position: "relative",
+  "&::affter": {
+    position: "absolute",
+    display: "block",
+    content: "fsdfdsf",
+    bottom: "10px",
+    width: "100%",
+    height: "1px",
+    background: "#333",
+  },
+};
+
+export enum Direction {
+  next = "next",
+  back = "back",
+}
 
 const CardTotalPageExams = ({
   questions,
@@ -93,10 +118,19 @@ const CardTotalPageExams = ({
   setDisplayNumber,
   hightLightNumberPage,
   onClickPageNumber,
+  groupSelected,
+  part,
+  group,
+  question,
+  displayNumber,
 }: CardTotalPageExamsI) => {
   const [highlightPage, setHighlightPage] = useState("1");
+  const [itemShowReview, setItemShowReview] = useState<string>();
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
+  const { handleSubmit } = useFormikContext();
+  console.log("questions", questions);
+
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -109,6 +143,10 @@ const CardTotalPageExams = ({
   //! State
   const classes = useStyles();
   //
+  const getItem = (item: string) => {
+    setItemShowReview(item);
+  };
+
   const handleCheckBox = (event: any) => {
     setCheckedReview(event.target.checked);
   };
@@ -116,80 +154,151 @@ const CardTotalPageExams = ({
   const hideReview = () => {
     setCheckedReview(false);
   };
-  //
-  const renderPartValues = (partValues: any, index: number) => {
+
+  const checkNextPartRender = () => {
+    let sectionRender: any = {};
+    let partLength = part.length - 1;
+    let groupLength = group.length - 1;
+    let questionLength = question.length - 1;
+    if (groupSelected.question < questionLength) {
+      sectionRender.question = groupSelected.question + 1;
+      return sectionRender;
+    }
+    if (groupSelected.group < groupLength) {
+      sectionRender.group = groupSelected.group + 1;
+      sectionRender.question = 0;
+      return sectionRender;
+    }
+    if (groupSelected.part < partLength) {
+      sectionRender.part = groupSelected.part + 1;
+      sectionRender.group = 0;
+      sectionRender.question = 0;
+      return sectionRender;
+    }
+    handleSubmit();
+    console.log("done");
+    console.log("123123");
+    return;
+  };
+
+  // data[groupSelected.part]?.groups[groupSelected.group]?.questions
+
+  const checkBackRenderQuestion = () => {
+    let sectionRender: any = {};
+
+    // console.log("questiongLength, questiongLength;
+    // console.log("questiongLengthgroupLength", groupLength);
+
+    if (groupSelected.question > 0) {
+      sectionRender.question = groupSelected.question - 1;
+      return sectionRender;
+    }
+    if (groupSelected.group > 0) {
+      let questiongLength = questions[groupSelected.part]?.groups[groupSelected.group - 1]?.questions.length - 1;
+      console.log("questiongLength", questiongLength);
+
+      sectionRender.group = groupSelected.group - 1;
+      sectionRender.question = questiongLength;
+      return sectionRender;
+    }
+
+    if (groupSelected.part > 0) {
+      console.log("groupSelectedquestions54321", questions);
+
+      let groupLength = questions[groupSelected.part - 1]?.groups?.length - 1;
+      let questiongLength = questions[groupSelected.part - 1]?.groups[groupLength]?.questions.length - 1;
+
+      console.log("questiongLength", questiongLength);
+      console.log("questiongLength-groupLength", groupLength);
+
+      sectionRender.part = groupSelected.part - 1;
+      sectionRender.group = groupLength;
+      sectionRender.question = questiongLength;
+      return sectionRender;
+    }
+
+    return;
+  };
+
+  const onClickNextQuestion = () => {
+    const sectionRender = checkNextPartRender();
+    setDisplayNumber(displayNumber);
+    onClickPage(sectionRender);
+  };
+
+  const onClickBackQuestion = () => {
+    const sectionRender = checkBackRenderQuestion();
+    onClickPage(sectionRender);
+    setDisplayNumber(displayNumber);
+  };
+
+  const handleClickQuestion = (partIndex: number, groupIndex: number, questionIndex: number) => {
+    const sectionRender: any = {};
+    sectionRender.part = partIndex;
+    sectionRender.group = groupIndex;
+    sectionRender.question = questionIndex;
+
+    onClickPage(sectionRender);
+  };
+
+  const renderPartValues = (partValues: any, partIndex: number) => {
     const { values }: any = useFormikContext();
     let sectionRender: any = {};
     if (test === IELT_TEST.WRITING) {
       const handleClickQuestion = (part: any, group: any) => {
-        sectionRender.part = index;
+        sectionRender.part = partIndex;
         onClickPage(sectionRender);
         setHighlightPage(partValues.question.displayNumber);
-        hideReview();
       };
-      const add = Number(partValues.question.displayNumber) - 1;
+      const hightLightDidTheHomework = () => {
+        const add = Number(partValues.question.displayNumber) - 1;
 
-      const highLightPage = () => {
         if (highlightPage == partValues.question.displayNumber) {
-          return "high-light-page";
+          return { background: "#4C80F1 !important", borderRadius: "2px !important" };
         }
-        return classes.eachQuestion;
-      };
-      const didExerciseActive = () => {
         if (values?.answers[`${add}`]?.studentAnswer) {
-          return "did-exercise";
+          return didExercise;
         }
-        return;
       };
 
       return (
         <>
           <Box
             key={partValues.id}
-            className={`${classes.eachQuestion} ${highLightPage()} ${
-              highlightPage === partValues.question.displayNumber && showPageReview
-            } ${`${didExerciseActive()}-abc`}`}
-            onClick={() => handleClickQuestion(partValues, index)}
+            className={classes.eachQuestion}
+            onClick={() => handleClickQuestion(partValues, partIndex)}
+            sx={hightLightDidTheHomework()}
+            // style={values.answers[]}
           >
-            <span className={didExerciseActive()}>{partValues.question.displayNumber}</span>
+            <span>{partValues.question.displayNumber}</span>
           </Box>
         </>
       );
     }
 
-    return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
-      return partGroup.questions.map((item: any, index: number) => {
-        const handleClickQuestion = (part: any, group: any) => {
-          sectionRender.part = partValues.partNumber - 1;
-          sectionRender.group = partGroup.groupNumber - 1;
-          onClickPage(sectionRender);
-          onClickPageNumber(item.question.displayNumber);
-          setDisplayNumber(item.question.displayNumber);
-          hideReview();
-        };
-        const add = Number(item.question.displayNumber) - 1;
-        const highLightPage = () => {
-          if (hightLightNumberPage == item.question.displayNumber) {
-            return "high-light-page";
-          }
-          return classes.eachQuestion;
-        };
+    return partValues?.groups?.map((group: any, groupIndex: number) => {
+      return group.questions.map((question: any, questionIndex: number) => {
+        let hightlightpageNumber = {};
+        const add = Number(question.question.displayNumber) - 1;
+        if (displayNumber === question.question.displayNumber) {
+          hightlightpageNumber = { background: "#4C80F1 !important", borderRadius: "2px !important" };
+        }
+
         const didExerciseActive = () => {
           if (values?.answers[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
-          return;
+          return classes.eachQuestion;
         };
         return (
           <>
             <Box
-              key={item.id}
-              className={`${highLightPage()} ${
-                hightLightNumberPage === item.question.displayNumber && showPageReview
-              } ${`${didExerciseActive()}-abc`}`}
-              onClick={() => handleClickQuestion(partValues, partGroup)}
+              key={question.id}
+              className={`${didExerciseActive()} ${showPageReview}`}
+              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
+              sx={hightlightpageNumber}
             >
-              <span className={didExerciseActive()}>{item.question.displayNumber}</span>
+              <span>{question.question.displayNumber}</span>
             </Box>
           </>
         );
@@ -211,12 +320,12 @@ const CardTotalPageExams = ({
         </Box>
         <Box sx={box}>
           <Box sx={containerTotalPage}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: "0px 2px" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {questions?.map((group: any, index: number) => {
                 return (
                   <>
                     <div key={group.partNumber} className={classes.eachItem}>
-                      <Stack direction="row" spacing={0.2} className="part-item">
+                      <Stack direction="row" spacing={0.2}>
                         {renderPartValues(group, index)}
                       </Stack>
                     </div>
@@ -230,10 +339,10 @@ const CardTotalPageExams = ({
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage}>
+          <Box sx={nextPage} onClick={onClickBackQuestion}>
             <img src={NextQuestion} alt="" />
           </Box>
-          <Box sx={nextPage}>
+          <Box sx={nextPage} onClick={onClickNextQuestion}>
             <img src={PrevQuestion} alt="" />
           </Box>
         </Stack>
