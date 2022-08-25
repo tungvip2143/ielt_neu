@@ -12,11 +12,17 @@ import ItemSocial from "views/Login/components/ItemSocial";
 import ImgGoogle from "assets/image/login/google.svg";
 import { Stack } from "@mui/system";
 import * as yup from "yup";
-import { validateLine } from "constants/constants";
+import { SocialProvider, validateLine } from "constants/constants";
 import Regexs from "constants/Regexs";
 import { isEmpty } from "lodash";
 import authServices from "services/authServices";
 import { toast } from "react-toastify";
+import OTP from "./OTP";
+import { useState } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import socialServices from "services/socialServices";
+import useSagaCreators from "hooks/useSagaCreators";
+import { authActions } from "redux/creators/modules/auth";
 
 const input = {
   width: "100%",
@@ -60,65 +66,94 @@ const validationSchema = yup.object().shape({
     .oneOf([yup.ref("password"), null], "Your passwords do not match")
     .default(""),
 });
-const renderOrView = () => {
-  return (
-    <div className="lineContainer">
-      <div className="line"></div>
-      <Typography sx={{ margin: "0px 8px 0px 8px", color: "#B8BCC0", fontSize: "12px", fontWeight: "bold" }}>
-        OR
-      </Typography>
-      <div className="line"></div>
-    </div>
-  );
-};
-
-const footer = () => {
-  return (
-    <Stack direction="row">
-      <Box sx={{ fontSize: "12px", color: "#b8bcc0", textAlign: "center", fontWeight: 400, marginTop: "20px" }}>
-        By signing up, you acknowledge that you have read and agree to TestGlider’s
-        <a
-          style={{ color: "#114ac6", margin: " 0 5px", fontWeight: 500 }}
-          href="https://docs.google.com/document/d/e/2PACX-1vStVJ3W5A5nxHutiTiPtzRnWeSfFWm5nxeBvHX0bpJhlSl7TYxy0Zmx9ZGQAei-HYyTukwI23KZFOid/pub"
-        >
-          Terms of Use
-        </a>
-        and
-        <a
-          style={{ color: "#114ac6", margin: "5px", fontWeight: 500 }}
-          href="https://docs.google.com/document/d/e/2PACX-1vRS-iSwxMz7FaD1YVxV9bZru3VX1_w1U-cPXSNqo4g2-NzSEBpBLJCxx4Fqaoi03b0HPN9b-9K3OTcf/pub"
-        >
-          Privacy Policy
-        </a>
-      </Box>
-    </Stack>
-  );
-};
-
-const onSubmit = async (data: any) => {
-  const body = {
-    email: data.email,
-    password: data.password,
-  };
-  await authServices
-    .signUp(body)
-    .then((res) => {
-      console.log("res", res);
-
-      if (res.data.statusCode === 200) {
-        toast.success("Sign up success");
-      } else {
-        toast.error("Sign up failed");
-      }
-    })
-    .catch((err: any) =>
-      toast.error(err?.response?.data?.message, {
-        autoClose: 3000,
-      })
-    );
-};
 
 const SignUpEmail = () => {
+  const { dispatch } = useSagaCreators();
+  const [openModal, setOpenModal] = useState({});
+  const renderOrView = () => {
+    return (
+      <div className="lineContainer">
+        <div className="line"></div>
+        <Typography sx={{ margin: "0px 8px 0px 8px", color: "#B8BCC0", fontSize: "12px", fontWeight: "bold" }}>
+          OR
+        </Typography>
+        <div className="line"></div>
+      </div>
+    );
+  };
+
+  const footer = () => {
+    return (
+      <Stack direction="row">
+        <Box sx={{ fontSize: "12px", color: "#b8bcc0", textAlign: "center", fontWeight: 400, marginTop: "20px" }}>
+          By signing up, you acknowledge that you have read and agree to TestGlider’s
+          <a
+            style={{ color: "#114ac6", margin: " 0 5px", fontWeight: 500 }}
+            href="https://docs.google.com/document/d/e/2PACX-1vStVJ3W5A5nxHutiTiPtzRnWeSfFWm5nxeBvHX0bpJhlSl7TYxy0Zmx9ZGQAei-HYyTukwI23KZFOid/pub"
+          >
+            Terms of Use
+          </a>
+          and
+          <a
+            style={{ color: "#114ac6", margin: "5px", fontWeight: 500 }}
+            href="https://docs.google.com/document/d/e/2PACX-1vRS-iSwxMz7FaD1YVxV9bZru3VX1_w1U-cPXSNqo4g2-NzSEBpBLJCxx4Fqaoi03b0HPN9b-9K3OTcf/pub"
+          >
+            Privacy Policy
+          </a>
+        </Box>
+      </Stack>
+    );
+  };
+
+  const onSubmit = async (data: any) => {
+    const body = {
+      email: data.email,
+      password: data.password,
+    };
+    await authServices
+      .signUp(body)
+      .then((res) => {
+        if (res.data.statusCode === 200) {
+          toast.success("Sign up success. Check mail to verify!");
+          console.log("+++++++++++++++", res?.data?.data?.access_token);
+
+          setOpenModal({ token: res?.data?.data?.access_token });
+        } else {
+          toast.error("Sign up failed");
+        }
+      })
+      .catch((err: any) =>
+        toast.error(err?.response?.data?.message, {
+          autoClose: 3000,
+        })
+      );
+  };
+
+  const loginSocial = async (res: any, provider: any) => {
+    try {
+      const body = {
+        token: res,
+        provider: provider,
+      };
+      const responseSocial = await socialServices.loginSocial(body);
+
+      if (responseSocial?.data?.data?.data?.access_token) {
+        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+      }
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message, {
+        autoClose: 3000,
+      });
+    }
+  };
+
+  const signUp = useGoogleLogin({
+    flow: "implicit",
+    onSuccess: (tokenResponse: any) => {
+      loginSocial(tokenResponse.access_token, SocialProvider.GOOGLE);
+    },
+  });
+
   return (
     <Formik initialValues={{ email: "", password: "" }} onSubmit={onSubmit} validationSchema={validationSchema}>
       {(propsFormik) => {
@@ -126,7 +161,7 @@ const SignUpEmail = () => {
           <Form>
             <Box className="containerBox">
               <Card className="cardContainer">
-                <Text.Sub20Bold className="textSignUp">Sign up with Email</Text.Sub20Bold>
+                <Text.Sub20Bold className="textSignUp">Sign up</Text.Sub20Bold>
                 <Typography className="content">
                   We'll send you a verification email. Remember to check your email to activate your account.
                 </Typography>
@@ -139,6 +174,7 @@ const SignUpEmail = () => {
                 <FastField
                   style={input}
                   component={InputField}
+                  type="password"
                   placeholder="Please enter your password"
                   {...propsFormik.getFieldProps("password")}
                 />
@@ -150,10 +186,14 @@ const SignUpEmail = () => {
                 <FastField
                   style={input}
                   component={InputField}
+                  type="password"
                   placeholder="Please enter your password"
                   {...propsFormik.getFieldProps("rePassword")}
                 />
-                <Button className="buttonEmail" type="submit">
+                {/* <Button className="buttonEmail" type="submit">
+                  SEND EMAIL
+                </Button> */}
+                <Button className="buttonEmail" variant="contained" type="submit">
                   SEND EMAIL
                 </Button>
                 <FormGroup>
@@ -179,9 +219,10 @@ const SignUpEmail = () => {
                 <Typography className="content" sx={{ textAlign: "center", marginBottom: "20px" }}>
                   Skip verification with Google
                 </Typography>
-                <ItemSocial data={dataGoogle} />
+                <ItemSocial data={dataGoogle} onClick={signUp} />
                 {footer()}
               </Card>
+              {!isEmpty(openModal) && <OTP openModal={openModal} onCloseModal={() => setOpenModal(false)} />}
             </Box>
           </Form>
         );

@@ -28,6 +28,7 @@ import SelectField from "components/CustomField/SelectField";
 import { RouteBase } from "constants/routeUrl";
 import TinyMceCommon from "components/TinyMceCommon";
 import LoadingPage from "components/Loading";
+import { ErrorMessage } from "@hookform/error-message";
 
 export interface Props {
   openCreateScreen: {
@@ -36,19 +37,23 @@ export interface Props {
 }
 const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
-  const params = useParams<any>();
   const editorRef = useRef<any>();
   const [text, setText] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
+
+  //Get id from url
+  const { search } = useLocation();
+  const id = search.split("=")[1];
+
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
-    // questionTip: yup.string().required("This field is required!"),
+    // textField: yup.string().required("This field is required!"),
     partNumber: yup.string().required("This field is required!"),
   });
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(params?.id);
-  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(params?.id);
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
+  const [dataReading, loading, error, refetchQuestionGroup] = useGetListReadingQuestion(id);
   const [isEdit, setIsEdit] = useState(false);
 
   if (loading) {
@@ -136,7 +141,7 @@ const CreateQuestionReading = (props: Props) => {
       };
 
       try {
-        const response = await ReadingService.patchUpdatePart(params?.id, body);
+        const response = await ReadingService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
           history.goBack();
@@ -249,7 +254,7 @@ const CreateQuestionReading = (props: Props) => {
           fetchData={refetchQuestionGroup}
           openModal={openModal}
           onCloseModal={() => setOpenModal({})}
-          id={params?.id}
+          id={id}
         />
       )}
     </form>
