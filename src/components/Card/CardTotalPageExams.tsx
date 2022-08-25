@@ -122,6 +122,8 @@ const CardTotalPageExams = ({
   const [itemShowReview, setItemShowReview] = useState<string>();
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
+  const { handleSubmit } = useFormikContext();
+
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -138,7 +140,6 @@ const CardTotalPageExams = ({
     setItemShowReview(item);
   };
 
-  console.log("fdsfsd", checkedReview);
   const handleCheckBox = (event: any) => {
     setCheckedReview(event.target.checked);
   };
@@ -147,7 +148,7 @@ const CardTotalPageExams = ({
     setCheckedReview(false);
   };
 
-  const checkPartRender = () => {
+  const checkNextPartRender = () => {
     let sectionRender: any = {};
     let partLength = part.length - 1;
     let groupLength = group.length - 1;
@@ -167,21 +168,62 @@ const CardTotalPageExams = ({
       sectionRender.question = 0;
       return sectionRender;
     }
+    handleSubmit();
     console.log("done");
     return;
   };
 
+  const checkBackRenderQuestion = () => {
+    let sectionRender: any = {};
+    let groupLength = group.length - 1;
+    let questionLength = question.length - 1;
+    if (groupSelected.question > 0) {
+      sectionRender.question = groupSelected.question - 1;
+      return sectionRender;
+    }
+    if (groupSelected.group > 0) {
+      sectionRender.group = groupSelected.group - 1;
+      sectionRender.question = questionLength;
+      return sectionRender;
+    }
+
+    if (groupSelected.part > 0) {
+      sectionRender.part = groupSelected.part - 1;
+      sectionRender.group = groupLength;
+      sectionRender.question = questionLength;
+      return sectionRender;
+    }
+
+    return;
+  };
+
   const onClickNextQuestion = () => {
-    const sectionRender = checkPartRender();
+    const sectionRender = checkNextPartRender();
+    setDisplayNumber(displayNumber);
     onClickPage(sectionRender);
   };
-  //
-  const renderPartValues = (partValues: any, index: number) => {
+
+  const onClickBackQuestion = () => {
+    const sectionRender = checkBackRenderQuestion();
+    onClickPage(sectionRender);
+    setDisplayNumber(displayNumber);
+  };
+
+  const handleClickQuestion = (partIndex: number, groupIndex: number, questionIndex: number) => {
+    const sectionRender: any = {};
+    sectionRender.part = partIndex;
+    sectionRender.group = groupIndex;
+    sectionRender.question = questionIndex;
+
+    onClickPage(sectionRender);
+  };
+
+  const renderPartValues = (partValues: any, partIndex: number) => {
     const { values }: any = useFormikContext();
     let sectionRender: any = {};
     if (test === IELT_TEST.WRITING) {
       const handleClickQuestion = (part: any, group: any) => {
-        sectionRender.part = index;
+        sectionRender.part = partIndex;
         onClickPage(sectionRender);
         setHighlightPage(partValues.question.displayNumber);
       };
@@ -201,7 +243,7 @@ const CardTotalPageExams = ({
           <Box
             key={partValues.id}
             className={classes.eachQuestion}
-            onClick={() => handleClickQuestion(partValues, index)}
+            onClick={() => handleClickQuestion(partValues, partIndex)}
             sx={hightLightDidTheHomework()}
             // style={values.answers[]}
           >
@@ -211,23 +253,15 @@ const CardTotalPageExams = ({
       );
     }
 
-    return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
-      return partGroup.questions.map((item: any, index: number) => {
-        const handleClickQuestion = (part: any, group: any) => {
-          sectionRender.part = partValues.partNumber - 1;
-          sectionRender.group = partGroup.groupNumber - 1;
-          onClickPage(sectionRender);
-          onClickPageNumber(item.question.displayNumber);
-          setDisplayNumber(item.question.displayNumber);
-          getItem(item.question.displayNumber);
-          hideReview();
-        };
-        const add = Number(item.question.displayNumber) - 1;
+    return partValues?.groups?.map((group: any, groupIndex: number) => {
+      return group.questions.map((question: any, questionIndex: number) => {
+        let hightlightpageNumber = {};
+        const add = Number(question.question.displayNumber) - 1;
+        if (displayNumber === question.question.displayNumber) {
+          hightlightpageNumber = { background: "#4C80F1 !important", borderRadius: "2px !important" };
+        }
 
         const didExerciseActive = () => {
-          if (hightLightNumberPage == item.question.displayNumber) {
-            return "high-light-page";
-          }
           if (values?.answers[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
@@ -236,11 +270,12 @@ const CardTotalPageExams = ({
         return (
           <>
             <Box
-              key={item.id}
+              key={question.id}
               className={`${didExerciseActive()} ${showPageReview}`}
-              onClick={() => handleClickQuestion(partValues, partGroup)}
+              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
+              sx={hightlightpageNumber}
             >
-              <span>{item.question.displayNumber}</span>
+              <span>{question.question.displayNumber}</span>
             </Box>
           </>
         );
@@ -281,7 +316,7 @@ const CardTotalPageExams = ({
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage}>
+          <Box sx={nextPage} onClick={onClickBackQuestion}>
             <img src={NextQuestion} alt="" />
           </Box>
           <Box sx={nextPage} onClick={onClickNextQuestion}>

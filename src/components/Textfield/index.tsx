@@ -27,7 +27,18 @@ interface Props extends FastFieldProps {
   autoFocus: any;
 }
 export const TextField = (props: Props) => {
-  const { label, type = "text", onKeyDown, fullWidth = false, field, form, className, size = "small", onFocus } = props;
+  const {
+    label,
+    type = "text",
+    onKeyDown,
+    fullWidth = false,
+    field,
+    form,
+    className,
+    size = "small",
+    onFocus,
+    ...rest
+  } = props;
   const { name, value } = field;
   const { errors, touched, handleChange } = form;
 
@@ -48,6 +59,7 @@ export const TextField = (props: Props) => {
       fullWidth={fullWidth}
       className={className}
       onChange={handleChange}
+      {...rest}
       // error={isTouched && Boolean(errorMessage)}
       // helperText={isTouched && errorMessage}
     />

@@ -22,6 +22,9 @@ interface PropsItemQuestion {
   image?: string;
   answerList?: any;
   directionText?: any;
+  displayNumber: number;
+  questionIdx?: number;
+  onClickPage?: (option: any) => void;
 }
 const ItemQuestion = ({
   question = [],
@@ -32,9 +35,14 @@ const ItemQuestion = ({
   image,
   onHightLightNumberPage,
   answerList,
+  displayNumber,
+  questionIdx,
+  onClickPage,
   ...remainProps
 }: PropsItemQuestion) => {
   const { values } = useFormikContext();
+
+  console.log("displayNumner", displayNumber);
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
@@ -44,6 +52,8 @@ const ItemQuestion = ({
           answerList={answerList}
           questionBox={questionBox}
           data={data}
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
         />
       );
     }
@@ -60,11 +70,21 @@ const ItemQuestion = ({
           question={question}
           answerList={answerList}
           data={data}
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
         />
       );
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart onHightLightNumberPage={onHightLightNumberPage} question={question} image={image} />;
+      return (
+        <FlowChart
+          onClickPage={onClickPage}
+          onHightLightNumberPage={onHightLightNumberPage}
+          question={question}
+          image={image}
+          displayNumber={displayNumber}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return <SentenceCompletetion data={data} />;
@@ -82,6 +102,9 @@ const ItemQuestion = ({
           expanded={expanded}
           onCollapse={onCollapse}
           onHightLightNumberPage={onHightLightNumberPage}
+          displayNumber={displayNumber}
+          questionIdx={questionIdx}
+          onClickPage={onClickPage}
         />
       );
     }

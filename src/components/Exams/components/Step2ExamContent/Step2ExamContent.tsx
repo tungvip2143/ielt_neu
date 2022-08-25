@@ -40,6 +40,8 @@ const Step2ExamContent = (props: any) => {
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
+  console.log("groupSelected", groupSelected);
+
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
@@ -92,9 +94,10 @@ const Step2ExamContent = (props: any) => {
                   <TOFFL
                     onClickPage={onClickPage}
                     questionSelected={questionSelected}
-                    partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                    partRenderSelected={group[groupSelected.group]}
                     showQuestion={showQuestion}
                     onHightLightNumberPage={hightLightNumberPageClickQuestion}
+                    displayNumber={displayNumber}
                   />
                 }
                 width={6}
