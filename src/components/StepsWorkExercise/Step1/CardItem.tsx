@@ -45,6 +45,7 @@ const ItemQuestion = ({
   console.log("displayNumner", displayNumber);
 
   const renderQuestion = (data: any) => {
+    console.log("123123123123qweqwe", data, questionType);
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
@@ -58,10 +59,10 @@ const ItemQuestion = ({
       );
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-      return <QuestionBox displayNumber={displayNumber} questionBox={questionBox} />;
+      return <QuestionBox displayNumber={displayNumber} questions={data} questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
-      return <QuestionBox displayNumber={displayNumber} questionBox={questionBox} />;
+      return <QuestionBox displayNumber={displayNumber} questions={data} questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
