@@ -55,7 +55,6 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
 
   const { step, handler } = useStepExam();
-
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
   const handleSubmit = async (values: any) => {
@@ -65,7 +64,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       },
     });
   };

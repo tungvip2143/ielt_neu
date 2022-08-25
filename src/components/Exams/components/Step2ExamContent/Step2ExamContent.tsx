@@ -31,9 +31,16 @@ const Step2ExamContent = (props: any) => {
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
+    question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
+  const part = data;
+  const group = data[groupSelected.part]?.groups;
+  const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
+  const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+
+  console.log("groupSelected", groupSelected);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -87,9 +94,10 @@ const Step2ExamContent = (props: any) => {
                   <TOFFL
                     onClickPage={onClickPage}
                     questionSelected={questionSelected}
-                    partRenderSelected={partRenderSelected?.groups[groupSelected.group]}
+                    partRenderSelected={group[groupSelected.group]}
                     showQuestion={showQuestion}
                     onHightLightNumberPage={hightLightNumberPageClickQuestion}
+                    displayNumber={displayNumber}
                   />
                 }
                 width={6}
@@ -107,6 +115,11 @@ const Step2ExamContent = (props: any) => {
           setDisplayNumber={onClickShowQuestion}
           hightLightNumberPage={hightLightNumberPage}
           onClickPageNumber={hightLightNumberPageClickQuestion}
+          groupSelected={groupSelected}
+          part={part}
+          group={group}
+          question={questionData}
+          displayNumber={displayNumber}
         />
         <FooterExamResponsive />
       </Box>
