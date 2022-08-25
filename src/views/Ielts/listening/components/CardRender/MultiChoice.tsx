@@ -54,7 +54,6 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
       </Box>
       <Box sx={formAnswer}>
         {dataQuestions.map((item: any) => {
-          console.log("item", item);
           return (
             <Box sx={itemAnswer}>
               <Stack direction="row" sx={title}>
@@ -64,7 +63,6 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
 
               <FormControl sx={{ padding: "0 20px" }}>
                 {item.question.options.map((answerChoice: any) => {
-                  console.log("answerChoice", answerChoice);
                   const displayNumber = Number(item.question.displayNumber);
                   return (
                     <RadioGroup

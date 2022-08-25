@@ -11,6 +11,8 @@ import { TypeStepExamEnum } from "constants/enum";
 import { useStepExam } from "provider/StepExamProvider";
 import { useState } from "react";
 import RuleSpeaking from "components/RulesExams/RulesSpeaking";
+// ! type
+
 const container = {
   width: { xs: "90%", md: "90%", lg: "85%" },
   borderRadius: "16px",
@@ -41,7 +43,7 @@ const desc = {
   fontWeight: 500,
   mb: "10px",
 };
-const nextStep = {
+const nextStepCss = {
   background: "black",
   width: "30%",
   margin: "0 auto",
@@ -50,47 +52,42 @@ const nextStep = {
     background: "#B8BCC0",
   },
 };
-const StepTestMic = () => {
+const StepTestMic = ({ nextStep }) => {
   const { handler } = useStepExam();
-  const [isRule, setIsRule] = useState(false);
 
   return (
     <div>
-      {!isRule ? (
-        <Box sx={container}>
-          <Stack direction="column" sx={contentContainer}>
-            <Text.Title32bold sx={title}>Microphone Test</Text.Title32bold>
-            <Text.Desc16 sx={titleSecond}>
-              "Briefly introduce yourself!"
+      <Box sx={container}>
+        <Stack direction="column" sx={contentContainer}>
+          <Text.Title32bold sx={title}>Microphone Test</Text.Title32bold>
+          <Text.Desc16 sx={titleSecond}>
+            "Briefly introduce yourself!"
+          </Text.Desc16>
+          <Record />
+          <Box sx={{ maxWidth: "520px", pl: "40px", mb: "30px" }}>
+            <Text.Desc16 sx={desc}>
+              1.Record yourself answering the statement above.
             </Text.Desc16>
-            <Record />
-            <Box sx={{ maxWidth: "520px", pl: "40px", mb: "30px" }}>
-              <Text.Desc16 sx={desc}>
-                1.Record yourself answering the statement above.
-              </Text.Desc16>
-              <Text.Desc16 sx={desc}>
-                2.Check your recording and make sure you can’t hear any
-                background noise.
-              </Text.Desc16>
-              <Text.Desc16 sx={desc}>
-                3.Check your recording and make sure you can’t hear any
-                background noise.
-              </Text.Desc16>
-            </Box>
-            <Button
-              sx={nextStep}
-              onClick={() => {
-                setIsRule(true);
-              }}
-              variant="contained"
-            >
-              NEXT
-            </Button>
-          </Stack>
-        </Box>
-      ) : (
-        <RuleSpeaking />
-      )}
+            <Text.Desc16 sx={desc}>
+              2.Check your recording and make sure you can’t hear any background
+              noise.
+            </Text.Desc16>
+            <Text.Desc16 sx={desc}>
+              3.Check your recording and make sure you can’t hear any background
+              noise.
+            </Text.Desc16>
+          </Box>
+          <Button
+            sx={nextStepCss}
+            onClick={() => {
+              handler?.setStep && handler.setStep(nextStep);
+            }}
+            variant="contained"
+          >
+            NEXT
+          </Button>
+        </Stack>
+      </Box>
     </div>
   );
 };

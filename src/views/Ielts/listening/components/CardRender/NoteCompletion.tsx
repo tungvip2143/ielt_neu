@@ -14,8 +14,6 @@ const NoteCompletion = (props: Props) => {
   const { questionBox } = props;
   const { setFieldValue }: any = useFormikContext();
 
-  console.log("questionBox", questionBox);
-
   const questionBoxHTML: any = Handlebars.compile(questionBox);
 
   Handlebars.registerHelper("blank", function (blankId: any) {

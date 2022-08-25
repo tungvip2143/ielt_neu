@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
 import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
@@ -15,11 +15,10 @@ import { Formik, Form, FormikProps } from "formik";
 import { IELT_TEST } from "interfaces/testType";
 //
 import { useHistory } from "react-router-dom";
-import ModalExit from "components/Modal/ModalExit";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
-import InformationForCandidates from "views/components/dataSteps/DataContentWriting/InformationForCandidates";
-import IntructionsToCandidates from "views/components/dataSteps/DataContentWriting/IntructionsToCandidates";
+import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
+import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 //
@@ -50,7 +49,6 @@ const initialValues = function () {
 const IeltsReading = (props: IeltsReadingProps) => {
   // !State
   const { data, testCode } = props;
-  const [open, setOpen] = React.useState<boolean>(false);
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
 
@@ -72,22 +70,16 @@ const IeltsReading = (props: IeltsReadingProps) => {
 
   const history = useHistory();
 
-  //
-  const handleShowModal = () => {
-    setOpen(true);
-  };
-  const handleCloseModal = () => setOpen(false);
-  //
-  const handleOpenModalHelp = () => {
+  const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);
-  };
+  }, []);
   const handleCloseModalHelp = () => {
     setIsOpenModalHelp(false);
   };
   //
-  const handleOpenModalHide = () => {
+  const handleOpenModalHide = useCallback(() => {
     setIsOpenModalHide(true);
-  };
+  }, []);
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
@@ -104,37 +96,28 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const styleModal = {
     width: "770px",
     padding: "10px !important",
-    // overflow: "hidden",
   };
-  const styleModalExit = {
-    padding: "20px",
-  };
+
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
           <Box sx={{ height: { xs: "", lg: "100vh" }, overflow: { Xs: "", lg: "hidden" } }}>
             <Header
-              onShowModalExit={handleShowModal}
               handleOpenModalHelp={handleOpenModalHelp}
               handleOpenModalHide={handleOpenModalHide}
+              numberStep={TypeStepExamEnum.STEP3}
             />
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser />}
-              {step === TypeStepExamEnum.STEP2 && <RuleExam stepRuleExam={stepRuleExam} />}
+              {step === TypeStepExamEnum.STEP2 && (
+                <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
+              )}
               {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.READING} data={data} />}
               {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.READING} />}
             </Box>
           </Box>
-          {open && (
-            <ModalExit
-              open={open}
-              width="560px"
-              handleCloseModal={handleCloseModal}
-              handleBackIeltsSelection={handleBackIeltsSelection}
-              styleModal={styleModalExit}
-            />
-          )}
+
           {isOpenModalHelp && (
             <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
           )}

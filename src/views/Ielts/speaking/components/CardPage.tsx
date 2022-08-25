@@ -1,11 +1,20 @@
-import { useState } from "react";
+import React, { useState, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
+import { useFormContext } from "react-hook-form";
 import { useFormikContext } from "formik";
-
-import { IELT_TEST } from "interfaces/testType";
+//
+import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
+import NextQuestion from "assets/image/exam/next-exercise.png";
+import PrevQuestion from "assets/image/exam/prev-exercise.png";
+//
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+//
+import { makeStyles } from "@mui/styles";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 // !type
 interface Props {
   questions?: any;
@@ -13,46 +22,67 @@ interface Props {
 }
 
 const box = {
-  background: "#fff",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+  width: "80%",
+  display: { xs: "none", lg: "block" },
+  borderRadius: "8px 8px 0 0",
+  border: "1px solid #fff",
+  background: themeCssSx.backgroundExam.content,
+};
+const TotalPage = {
+  display: "flex",
+  width: "100%",
   position: "fixed",
   bottom: { xs: "0", lg: "0px" },
-  width: "100%",
-  p: "30px 0px",
-  display: { xs: "none", lg: "block" },
+  margin: "0 15px",
 };
-const eachItem = {
-  display: "flex",
-  mr: "20px",
+const containerTotalPage = {
+  ...themeCssSx.flexBox.flexBetweenCenter,
+  p: "5px 10px",
 };
-const eachQuestion = {
-  background: "#333",
-  color: "#fff",
-  width: "24px",
-  height: "24px",
+
+const nextPage = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  borderRadius: "8px",
-  fontSize: "14px",
-  fontWeight: "bold",
+  width: "45px",
+  height: "45px",
+  borderRadius: "50%",
+  transform: "rotate(180deg)",
   cursor: "pointer",
+  boxShadow:
+    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
 };
-const part = {
-  fontSize: "14px",
-  fontWeight: "bold",
-  color: "#000000",
-  marginRight: "15px",
-  textTransform: "capitalize",
-};
-const container = {
-  width: "90%",
-  maxWidth: "1440px",
-  margin: "0 auto",
-  justifyContent: "space-between",
+const useStyles = makeStyles((theme) => {
+  return {
+    eachItem: {
+      display: "flex",
+    },
+    eachQuestion: {
+      background: "#000",
+      color: "#fff",
+      width: "23px",
+      height: "23px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "14px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      borderRadius: "2px",
+    },
+  };
+});
+
+const containerNextPage = {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "13%",
 };
 const CardPage = (props: Props) => {
   const { questions, displayNumber } = props;
+  const classes = useStyles();
+
   let questionIndex = 0;
   const renderPartValues = (partValues: any) => {
     return partValues?.groups?.map((partGroup: any) => {
@@ -64,7 +94,7 @@ const CardPage = (props: Props) => {
         }
         return (
           <>
-            <Box sx={eachQuestion} style={hightLight} key={item.id}>
+            <Box className={classes.eachQuestion} style={hightLight} key={item.id}>
               <span>{item.question.displayNumber}</span>
             </Box>
           </>
@@ -73,25 +103,41 @@ const CardPage = (props: Props) => {
     });
   };
   return (
-    <Box sx={box}>
-      <Box sx={container}>
-        <Box sx={eachItem}>
-          {questions?.map((group: any, index: number) => {
-            console.log("partKey", group);
-            return (
-              <>
-                <Box sx={eachItem} key={group.partNumber}>
-                  <Box sx={part}>{`Part ${group.partNumber || index + 1}`}</Box>
-                  <Stack direction="row" spacing={0.5}>
-                    {renderPartValues(group)}
-                  </Stack>
-                </Box>
-              </>
-            );
-          })}
+    <>
+      <Box className="quang-test" sx={TotalPage}>
+        <Box>
+          <FormControlLabel value="" control={<Checkbox />} label="Review" />
         </Box>
+        <Box sx={box}>
+          <Box sx={containerTotalPage}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: "0px 2px" }}>
+              {questions?.map((group: any) => {
+                return (
+                  <>
+                    <div key={group.partNumber} className={classes.eachItem}>
+                      <Stack direction="row" spacing={0.2} className="part-item">
+                        {renderPartValues(group)}
+                      </Stack>
+                    </div>
+                  </>
+                );
+              })}
+
+              <Box sx={{ width: { md: "20%" } }}></Box>
+            </Box>
+            <img src={ImgHideTotalPage} alt="" />
+          </Box>
+        </Box>
+        <Stack direction="row" spacing={2} sx={containerNextPage}>
+          <Box sx={nextPage}>
+            <img src={NextQuestion} alt="" />
+          </Box>
+          <Box sx={nextPage}>
+            <img src={PrevQuestion} alt="" />
+          </Box>
+        </Stack>
       </Box>
-    </Box>
+    </>
   );
 };
 

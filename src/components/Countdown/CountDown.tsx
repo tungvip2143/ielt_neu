@@ -22,7 +22,7 @@ const CountDown = () => {
           fontWeight: 700,
         }}
       >
-        LEFT
+        left
       </Typography>
     </Stack>
   );
