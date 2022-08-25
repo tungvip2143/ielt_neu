@@ -36,9 +36,10 @@ const Step2ExamContent = (props: any) => {
   const [showQuestion, setShowQuestion] = useState("1");
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   const part = data;
-  const group = data[groupSelected.part]?.groups;
-  const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
-  const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+  const group = test === IELT_TEST.READING ? data[groupSelected.part]?.groups : [];
+  const questionData =
+    test === IELT_TEST.READING ? data[groupSelected.part]?.groups[groupSelected.group]?.questions || [] : [];
+  const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
 
   console.log("groupSelected", groupSelected);
 
