@@ -67,8 +67,8 @@ const CreateQuestionListening = (props: Props) => {
   const id = search.split("=")[1];
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
-    // questionTip: yup.string().required("This field is required!"),
     partNumber: yup.string().required("This field is required!"),
+    // questionTip: yup.string().required("This field is required!"),
     // questionSimple: yup
     //   .string()
     //   .required("This field is required!")
@@ -84,11 +84,9 @@ const CreateQuestionListening = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
-  console.log("dataPartDetail", dataPartDetail);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
   const [isEdit, setIsEdit] = useState(false);
-  console.log("dataReading", dataPartDetail);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
