@@ -104,6 +104,12 @@ const didExercise = {
     background: "#333",
   },
 };
+
+export enum Direction {
+  next = "next",
+  back = "back",
+}
+
 const CardTotalPageExams = ({
   questions,
   onClickPart,
@@ -123,6 +129,7 @@ const CardTotalPageExams = ({
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
+  console.log("questions", questions);
 
   useEffect(() => {
     const hanldeHighLightReview = () => {
@@ -170,27 +177,43 @@ const CardTotalPageExams = ({
     }
     handleSubmit();
     console.log("done");
+    console.log("123123");
     return;
   };
 
+  // data[groupSelected.part]?.groups[groupSelected.group]?.questions
+
   const checkBackRenderQuestion = () => {
     let sectionRender: any = {};
-    let groupLength = group.length - 1;
-    let questionLength = question.length - 1;
+
+    // console.log("questiongLength, questiongLength;
+    // console.log("questiongLengthgroupLength", groupLength);
+
     if (groupSelected.question > 0) {
       sectionRender.question = groupSelected.question - 1;
       return sectionRender;
     }
     if (groupSelected.group > 0) {
+      let questiongLength = questions[groupSelected.part]?.groups[groupSelected.group - 1]?.questions.length - 1;
+      console.log("questiongLength", questiongLength);
+
       sectionRender.group = groupSelected.group - 1;
-      sectionRender.question = questionLength;
+      sectionRender.question = questiongLength;
       return sectionRender;
     }
 
     if (groupSelected.part > 0) {
+      console.log("groupSelectedquestions54321", questions);
+
+      let groupLength = questions[groupSelected.part - 1]?.groups?.length - 1;
+      let questiongLength = questions[groupSelected.part - 1]?.groups[groupLength]?.questions.length - 1;
+
+      console.log("questiongLength", questiongLength);
+      console.log("questiongLength-groupLength", groupLength);
+
       sectionRender.part = groupSelected.part - 1;
       sectionRender.group = groupLength;
-      sectionRender.question = questionLength;
+      sectionRender.question = questiongLength;
       return sectionRender;
     }
 

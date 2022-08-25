@@ -1,40 +1,51 @@
-import React, { useCallback, useEffect, useRef } from "react";
-import ReactHtmlParser from "react-html-parser";
+import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { FastField, useFormikContext } from "formik";
+import { useEffect, useMemo } from "react";
 
 type Props = {
   questionBox: any;
   displayNumber: number;
+  questions: any[];
+};
+
+const CODE = "-@X$";
+
+const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
+  console.log({ blankId, questionId, questionBox });
+  questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
+  return questionBox;
 };
 
 const QuestionBox = (props: Props) => {
-  const { questionBox, displayNumber } = props;
-  console.log("questionBox", questionBox);
-  const containerHTMLRef = useRef<any>(null);
-  const { values, handleChange }: any = useFormikContext();
+  const { questionBox, questions, displayNumber } = props;
+  const { handleChange }: any = useFormikContext();
+
+  const newQuestionBoxParsed = useMemo(() => {
+    let tempQuestionBox = questionBox;
+    questions.forEach((el) => {
+      const { blankNumber, displayNumber } = el.question;
+      tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
+    });
+
+    tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
+    return tempQuestionBox;
+  }, [questions, questionBox]);
 
   useEffect(() => {
-    const input = document.getElementById(`input-${displayNumber}`)?.focus() as any;
-    console.log("input", input);
+    const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
     if (input) {
       input?.focus();
     }
   }, [displayNumber]);
 
-  Handlebars.registerHelper("blank", function (blankId: string, option) {
-    console.log("option", option.data.root);
-    const questionNumber = option.data.root;
+  Handlebars.registerHelper("blank", function (blankId: number, option) {
     return new Handlebars.SafeString(
-      `<input  name='answers.[${questionNumber}].studentAnswer'   id="input-${questionNumber}" type="text" maxlength="30">`
+      `<input name='answers.[${blankId - 1}].studentAnswer' id="input-${blankId}" type="text" maxlength="30">`
     );
   });
 
-  const test: any = Handlebars.compile(questionBox);
-
-  return (
-    <div dangerouslySetInnerHTML={{ __html: test(displayNumber) }} onInput={handleChange} ref={containerHTMLRef} />
-  );
+  const test: any = Handlebars.compile(newQuestionBoxParsed);
+  return <div dangerouslySetInnerHTML={{ __html: test(displayNumber) }} onInput={handleChange} />;
 };
 
 export default QuestionBox;
