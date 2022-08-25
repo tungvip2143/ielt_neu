@@ -42,21 +42,18 @@ const MachingHeading = (props: Props) => {
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
 
-  console.log("inputRef", inputRef);
   const handleFocus = (displayNumber: number) => {
     setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");
   };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndex;
-    console.log("sectionRender", sectionRender);
     onClickPage && onClickPage(sectionRender);
   };
 
   useEffect(() => {
-    // console.log("allRef", allRef);
-    // inputRef.current?.focus();
-  }, []);
+    inputRef.current[displayNumber]?.focus();
+  }, [displayNumber]);
 
   return (
     <div className={classes.root}>
@@ -67,12 +64,11 @@ const MachingHeading = (props: Props) => {
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
-                // autoFocus={displayNumber === displayNumberT ? true : false}
                 size="small"
                 name={`answers[${displayNumberT - 1}].studentAnswer`}
                 onFocus={() => handleFocus(displayNumberT)}
                 component={TextField}
-                ref={(el: any) => (inputRef.current[questionIndex] = el)}
+                inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
               />
             </div>
           );
