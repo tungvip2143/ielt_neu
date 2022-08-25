@@ -19,14 +19,19 @@ interface TOFFLI {
   onClickPage: (id: string) => void;
   onHightLightNumberPage: (displayNumber: number) => void;
   showQuestion?: any;
+  displayNumber: number;
 }
 
-const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion, onHightLightNumberPage }: TOFFLI) => {
-  console.log("showQuestion", showQuestion);
+const TOFFL = ({
+  partRenderSelected,
+  questionSelected,
+  onClickPage,
+  showQuestion,
+  onHightLightNumberPage,
+  displayNumber,
+}: TOFFLI) => {
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  console.log("partRenderSelected2", partRenderSelected);
-  console.log("questionSelected", questionSelected);
 
   //! Number
 
@@ -49,7 +54,6 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
   const renderPartValueGroup = (partRenderSelected: any) => {
     console.log("partRenderSelected", partRenderSelected);
     const questionType = partRenderSelected?.questionType;
-    console.log("questionType", questionType);
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
@@ -66,21 +70,25 @@ const TOFFL = ({ partRenderSelected, questionSelected, onClickPage, showQuestion
           question={partRenderSelected?.questions}
           answerList={partRenderSelected?.answerList}
           onHightLightNumberPage={onHightLightNumberPage}
+          displayNumber={displayNumber}
+          onClickPage={onClickPage}
         />
       );
     }
-    return partRenderSelected?.questions?.map((question: any) => {
-      console.log("abc", question);
+    return partRenderSelected?.questions?.map((question: any, questionIdx: number) => {
       return (
         <>
           <ItemQuestion
             key={question._id}
             question={question}
+            questionIdx={questionIdx}
             questionType={questionType}
             expanded={expanded}
             onCollapse={handleCollapse}
             questionBox={partRenderSelected?.questionBox}
             onHightLightNumberPage={onHightLightNumberPage}
+            displayNumber={displayNumber}
+            onClickPage={onClickPage}
           />
         </>
       );

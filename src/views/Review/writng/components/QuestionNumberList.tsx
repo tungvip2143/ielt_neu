@@ -51,8 +51,8 @@ const QuestionNumberList = ({ questions, onClickPage }: QuestionNumberListI) => 
   const classes = useStyles();
   //
   const renderPartValues = (partValues: any, partIndex: number) => {
-    return partValues.groups.map((group: any, groupIndex: number) => {
-      return group.questions.map((question: any, questionIndex: number) => {
+    return partValues.groups?.map((group: any, groupIndex: number) => {
+      return group.questions?.map((question: any, questionIndex: number) => {
         let sectionRender: any = {};
         const handleClickQuestion = (part: any) => {
           sectionRender.part = partIndex;

@@ -37,8 +37,6 @@ const WritingReview = (props: any) => {
   const [isOpenAnswer, setIsModalAnswer] = useState(false);
   const [contentModal, setContentModal] = useState();
 
-  console.log("isOpenAnswer", isOpenAnswer);
-
   //! State
   const classes = useStyles();
   const { data } = props;
@@ -60,7 +58,6 @@ const WritingReview = (props: any) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    console.log("group select", groupSelected);
     const questionsWithPageNumberTemp = questions as any;
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
       return questionsWithPageNumberTemp[groupSelected?.part];
@@ -69,10 +66,8 @@ const WritingReview = (props: any) => {
     return null;
   }, [questions, groupSelected]);
   //
-  console.log("partRenderSelected11", partRenderSelected);
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab } =
     partRenderSelected?.question || {};
-  console.log("partRenderSelected", partRenderSelected);
   //
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);

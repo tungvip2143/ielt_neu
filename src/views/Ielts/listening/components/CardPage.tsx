@@ -1,65 +1,110 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 import { useFormContext } from "react-hook-form";
 import { useFormikContext } from "formik";
+//
+import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
+import NextQuestion from "assets/image/exam/next-exercise.png";
+import PrevQuestion from "assets/image/exam/prev-exercise.png";
+//
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+//
+import { makeStyles } from "@mui/styles";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+//
 // ! type
 interface Props {
-  dataQuestions?: any;
+  questions?: any;
   onClickPage?: any;
 }
 const box = {
-  background: "#fff",
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+  width: "80%",
+  display: { xs: "none", lg: "block" },
+  borderRadius: "8px 8px 0 0",
+  border: "1px solid #fff",
+  background: themeCssSx.backgroundExam.content,
+};
+const TotalPage = {
+  display: "flex",
+  width: "100%",
   position: "fixed",
   bottom: { xs: "0", lg: "0px" },
-  width: "100%",
-  p: "10px 0px",
-  display: { xs: "none", lg: "block" },
+  margin: "0 15px",
 };
+const containerTotalPage = {
+  ...themeCssSx.flexBox.flexBetweenCenter,
+  p: "5px 10px",
+};
+
 const nextPage = {
   display: "flex",
   justifyContent: "center",
   alignItems: "center",
-  background: "#333",
-  p: "8px",
-  borderRadius: "5px",
-};
-const eachTeam = {
-  display: "flex",
-  paddingBottom: "10px",
-};
-const part = {
-  fontSize: "14px",
-  fontWeight: "bold",
-  color: "#000000",
-  marginRight: "15px",
-  textTransform: "capitalize",
-};
-const eachQuestion = {
-  background: "#333",
-  color: "#fff",
-  width: "24px",
-  height: "24px",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "8px",
-  fontSize: "14px",
-  fontWeight: "bold",
+  width: "45px",
+  height: "45px",
+  borderRadius: "50%",
+  transform: "rotate(180deg)",
   cursor: "pointer",
+  boxShadow:
+    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
 };
-const CardPage = ({ dataQuestions, onClickPage }: Props) => {
+
+const containerNextPage = {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "13%",
+};
+//
+const useStyles = makeStyles((theme) => {
+  return {
+    eachItem: {
+      display: "flex",
+    },
+    eachQuestion: {
+      background: "#000",
+      color: "#fff",
+      width: "23px",
+      height: "23px",
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      fontSize: "14px",
+      fontWeight: "bold",
+      cursor: "pointer",
+      borderRadius: "2px",
+    },
+  };
+});
+
+const CardPage = ({ questions, onClickPage }: Props) => {
   const [highlightPage, setHighlightPage] = React.useState("1");
+  const [showPageReview, setShowPageReview] = useState<string>();
+
+  const [checkedReview, setCheckedReview] = useState(false);
   const { values }: any = useFormikContext();
+  const classes = useStyles();
+  const handleCheckBox = (event: any) => {
+    setCheckedReview(event.target.checked);
+  };
+  useEffect(() => {
+    const hanldeHighLightReview = () => {
+      if (checkedReview) {
+        return setShowPageReview("show-page-review");
+      }
+      return setShowPageReview("hide-review");
+    };
+    hanldeHighLightReview();
+  }, [checkedReview]);
+  const hideReview = () => {
+    setCheckedReview(false);
+  };
   const renderPartValues = (partValues: any, index: number) => {
-    // const { values }: any = useFormikContext();
     let sectionRender: any = {};
-    console.log("sectionRender", sectionRender);
 
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
       return partGroup.questions.map((item: any, index: number) => {
@@ -68,27 +113,32 @@ const CardPage = ({ dataQuestions, onClickPage }: Props) => {
           sectionRender.group = partGroup.groupNumber - 1;
           onClickPage(sectionRender);
           setHighlightPage(item.question.displayNumber);
+          hideReview();
         };
 
-        const displayNumber = item.question.displayNumber;
-
-        const hightLightNumberPageOnclickQuestion = () => {
+        const add = Number(item.question.displayNumber);
+        const highLightPage = () => {
           if (highlightPage == item.question.displayNumber) {
-            return { background: "#4C80F1", borderRadius: "50%" };
-          } else if (values?.answers[`${displayNumber}`]?.studentAnswer) {
-            return { background: "#90caf9", borderRadius: "50%" };
+            return "high-light-page";
           }
+          return classes.eachQuestion;
         };
-
+        const didExerciseActive = () => {
+          if (values?.answers[`${add}`]?.studentAnswer) {
+            return "did-exercise";
+          }
+          return;
+        };
         return (
           <>
             <Box
               key={item.id}
-              style={hightLightNumberPageOnclickQuestion()}
-              sx={eachQuestion}
+              className={`${highLightPage()} ${
+                highlightPage === item.question.displayNumber && showPageReview
+              } ${`${didExerciseActive()}-abc`}`}
               onClick={() => handleClickQuestion(partValues, partGroup)}
             >
-              <span>{item.question.displayNumber}</span>
+              <span className={didExerciseActive()}>{item.question.displayNumber}</span>
             </Box>
           </>
         );
@@ -96,40 +146,45 @@ const CardPage = ({ dataQuestions, onClickPage }: Props) => {
     });
   };
   return (
-    <Box sx={box}>
-      <Box sx={{ width: "95%", margin: "0 auto" }}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <Box sx={{ width: { md: "80%", display: "flex", flexWrap: "wrap", gap: 8 } }}>
-            {dataQuestions?.data?.data.map((group: any, index: number) => {
-              console.log("partKey", group);
-              // console.log("partValues", partValues);
-              // console.log("questions12", Object.entries(questions));
-              return (
-                <>
-                  <Box key={group.partNumber} sx={eachTeam}>
-                    <Box sx={part}>{`Part ${group.partNumber || index + 1}`}</Box>
-                    <Stack direction="row" spacing={0.5}>
-                      {renderPartValues(group, index)}
-                    </Stack>
-                  </Box>
-                </>
-              );
-            })}
-          </Box>
+    <>
+      <Box className="quang-test" sx={TotalPage}>
+        <Box>
+          <FormControlLabel
+            value=""
+            control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            label="Review"
+          />
+        </Box>
+        <Box sx={box}>
+          <Box sx={containerTotalPage}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", gap: "0px 2px" }}>
+              {questions?.map((group: any, index: number) => {
+                return (
+                  <>
+                    <div key={group.partNumber} className={classes.eachItem}>
+                      <Stack direction="row" spacing={0.2} className="part-item">
+                        {renderPartValues(group, index)}
+                      </Stack>
+                    </div>
+                  </>
+                );
+              })}
 
-          <Box sx={{ width: { md: "20%" } }}>
-            <Stack direction="row" spacing={1.5} sx={{ justifyContent: "flex-end" }}>
-              <Box sx={nextPage}>
-                <KeyboardArrowLeftIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-              <Box sx={nextPage}>
-                <KeyboardArrowRightIcon sx={{ color: "#fff", fontSize: "24px" }} />
-              </Box>
-            </Stack>
+              <Box sx={{ width: { md: "20%" } }}></Box>
+            </Box>
+            <img src={ImgHideTotalPage} alt="" />
           </Box>
         </Box>
+        <Stack direction="row" spacing={2} sx={containerNextPage}>
+          <Box sx={nextPage}>
+            <img src={NextQuestion} alt="" />
+          </Box>
+          <Box sx={nextPage}>
+            <img src={PrevQuestion} alt="" />
+          </Box>
+        </Stack>
       </Box>
-    </Box>
+    </>
   );
 };
 

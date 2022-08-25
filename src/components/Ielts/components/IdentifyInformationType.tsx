@@ -23,26 +23,40 @@ type Props = {
   QUESTION_TYPE?: any;
   idShowQuestion?: any;
   onHightLightNumberPage?: any;
+  displayNumber: number;
+  questionIdx?: number;
+  onClickPage?: (options: any) => void;
 };
 
 const IdentifyInformationType = (props: Props) => {
-  const { question, questionType, expanded, onCollapse, QUESTION_TYPE, idShowQuestion, onHightLightNumberPage } = props;
-  console.log("questiondasbdka", question);
+  const {
+    question,
+    questionType,
+    expanded,
+    onCollapse,
+    QUESTION_TYPE,
+    idShowQuestion,
+    onHightLightNumberPage,
+    displayNumber,
+    questionIdx,
+    onClickPage,
+  } = props;
 
-  const displayNumber = Number(question.question.displayNumber) - 1;
+  const displayNumberT = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
 
-  const handleClickHightLightPage = () => {
-    onHightLightNumberPage(question.question.displayNumber);
+  const onClickQuestion = () => {
+    let sectionRender: any = {};
+    sectionRender.question = questionIdx;
+    onClickPage && onClickPage(sectionRender);
+    // onHightLightNumberPage(question.question.displayNumber);
   };
   return (
     <>
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={expanded == question.question.displayNumber}
-        onChange={onCollapse(question.question.displayNumber)}
-        onClick={handleClickHightLightPage}
+        expanded={displayNumber === question.question.displayNumber}
         disableGutters
       >
         <Stack
@@ -53,7 +67,7 @@ const IdentifyInformationType = (props: Props) => {
           <AccordionSummary
             className="accordion-title"
             aria-controls="panel1a-content"
-            // id="panel1a-header"
+            onClick={onClickQuestion}
             sx={{ p: "0 !important", display: "flex" }}
           >
             <Text.DescSmall sx={{ mr: "5px" }}>{question.question.displayNumber}.</Text.DescSmall>
@@ -67,7 +81,7 @@ const IdentifyInformationType = (props: Props) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={values?.answers[displayNumber]?.studentAnswer}
+                value={values?.answers[displayNumberT]?.studentAnswer}
                 // onChange={handleChange}
               >
                 {question.question.options.map((answer: any) => {
@@ -80,7 +94,7 @@ const IdentifyInformationType = (props: Props) => {
                           questionId={question.question._id}
                           index={displayNumber}
                           component={Radio}
-                          name={`answers[${displayNumber}].studentAnswer`}
+                          name={`answers[${displayNumberT}].studentAnswer`}
                           //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
                         />
                       }
@@ -101,7 +115,7 @@ const IdentifyInformationType = (props: Props) => {
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
                   name="controlled-radio-buttons-group"
-                  value={values?.answers[displayNumber]?.studentAnswer}
+                  value={values?.answers[displayNumberT]?.studentAnswer}
                   // onChange={handleChange}
                 >
                   <FormControlLabel
@@ -109,9 +123,9 @@ const IdentifyInformationType = (props: Props) => {
                     control={
                       <Field
                         questionId={question.question._id}
-                        index={displayNumber}
+                        index={displayNumberT}
                         component={Radio}
-                        name={`answers[${displayNumber}].studentAnswer`}
+                        name={`answers[${displayNumberT}].studentAnswer`}
                         // value={true}
                       />
                     }
@@ -122,9 +136,9 @@ const IdentifyInformationType = (props: Props) => {
                     control={
                       <Field
                         questionId={question.question._id}
-                        index={displayNumber}
+                        index={displayNumberT}
                         component={Radio}
-                        name={`answers[${displayNumber}].studentAnswer`}
+                        name={`answers[${displayNumberT}].studentAnswer`}
                         // value={false}
                       />
                     }
@@ -135,9 +149,9 @@ const IdentifyInformationType = (props: Props) => {
                     control={
                       <Field
                         questionId={question.question._id}
-                        index={displayNumber}
+                        index={displayNumberT}
                         component={Radio}
-                        name={`answers[${displayNumber}].studentAnswer`}
+                        name={`answers[${displayNumberT}].studentAnswer`}
                         // value={"NOT_GIVEN"}
                       />
                     }

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
 import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
@@ -15,7 +15,20 @@ import { Formik, Form, FormikProps } from "formik";
 import { IELT_TEST } from "interfaces/testType";
 //
 import { useHistory } from "react-router-dom";
-import ModalExit from "components/Modal/ModalExit";
+import DetailUser from "../../components/DetailUser/DetailUser";
+import RuleExam from "../../components/RuleExam/RuleExam";
+import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
+import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
+import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
+import ModalHide from "../../../components/Modal/ModalHide";
+//
+const stepRuleExam = {
+  typeExam: "Reading",
+  time: "1 hour",
+  informationsForCandidates: <InformationForCandidates />,
+  intructionsToCandidates: <IntructionsToCandidates />,
+};
+
 export interface IeltsReadingProps {
   data: any;
   testCode: number;
@@ -36,9 +49,10 @@ const initialValues = function () {
 const IeltsReading = (props: IeltsReadingProps) => {
   // !State
   const { data, testCode } = props;
-  const [open, setOpen] = React.useState<boolean>(false);
-  const { step, handler } = useStepExam();
+  const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
+  const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
 
+  const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
   const handleSubmit = async (values: any) => {
@@ -48,7 +62,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       },
     });
   };
@@ -56,34 +70,59 @@ const IeltsReading = (props: IeltsReadingProps) => {
 
   const history = useHistory();
 
-  //
-  const handleShowModal = () => {
-    setOpen(true);
+  const handleOpenModalHelp = useCallback(() => {
+    setIsOpenModalHelp(true);
+  }, []);
+  const handleCloseModalHelp = () => {
+    setIsOpenModalHelp(false);
   };
-  const handleCloseModal = () => setOpen(false);
   //
+  const handleOpenModalHide = useCallback(() => {
+    setIsOpenModalHide(true);
+  }, []);
+  const handleCloseModalHide = () => {
+    setIsOpenModalHide(false);
+  };
+  //
+
   const handleBackIeltsSelection = () => {
     history.push("/ielts");
   };
+  const containerSteps = {
+    pt: "16px",
+    background: "#dbe5f5",
+    height: "100%",
+  };
+  const styleModal = {
+    width: "770px",
+    padding: "10px !important",
+  };
+
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
           <Box sx={{ height: { xs: "", lg: "100vh" }, overflow: { Xs: "", lg: "hidden" } }}>
-            <Header onShowModalExit={handleShowModal} />
-            <Box sx={{ pt: "80px" }}>
-              {step === TypeStepExamEnum.STEP1 && <RulesExamStep1 />}
-              {step === TypeStepExamEnum.STEP2 && <ExamTest test={IELT_TEST.READING} data={data} />}
-              {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.READING} />}
+            <Header
+              handleOpenModalHelp={handleOpenModalHelp}
+              handleOpenModalHide={handleOpenModalHide}
+              numberStep={TypeStepExamEnum.STEP3}
+            />
+            <Box sx={containerSteps}>
+              {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+              {step === TypeStepExamEnum.STEP2 && (
+                <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
+              )}
+              {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.READING} data={data} />}
+              {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.READING} />}
             </Box>
           </Box>
-          {open && (
-            <ModalExit
-              open={open}
-              width="560px"
-              handleCloseModal={handleCloseModal}
-              handleBackIeltsSelection={handleBackIeltsSelection}
-            />
+
+          {isOpenModalHelp && (
+            <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
+          )}
+          {isOpenModalHide && (
+            <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />
           )}
         </Form>
       )}

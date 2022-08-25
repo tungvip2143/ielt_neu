@@ -1,6 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
+import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
   questionBox: string;
   answerList: string;
   onHightLightNumberPage: (displayNumber: number) => void;
+  onClickPage?: (options: number) => void;
+  displayNumber: number;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -36,7 +39,12 @@ const useStyles = makeStyles((theme) => ({
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const { data, answerList, onHightLightNumberPage } = props;
+  const { data, answerList, onHightLightNumberPage, onClickPage, displayNumber } = props;
+  const inputRef = useRef<any>([]);
+
+  useEffect(() => {
+    inputRef?.current[displayNumber].focus();
+  }, [displayNumber]);
 
   const { setFieldValue } = useFormikContext();
   console.log("onHightLightNumberPage", onHightLightNumberPage);
@@ -45,21 +53,24 @@ const MachingType = (props: Props) => {
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
   };
 
-  const onClickQuestion = (displayNumber: number) => {
-    onHightLightNumberPage(displayNumber);
+  const onClickQuestion = (questionIndex: number) => {
+    let sectionRender: any = {};
+    sectionRender.question = questionIndex;
+    onClickPage && onClickPage(sectionRender);
   };
 
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        {data?.map((question: any) => {
+        {data?.map((question: any, questionIndex: number) => {
           const index = Number(question?.question?.displayNumber) - 1;
           console.log("question", data);
           return (
-            <div className={classes.question} key={question._id} onClick={() => onClickQuestion(index + 1)}>
+            <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
               {`${question?.question?.displayNumber}.`}
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
+                inputRef={(el: any) => (inputRef.current[index + 1] = el)}
                 onFocus={() => handleFocus(index)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}

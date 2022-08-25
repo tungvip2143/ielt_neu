@@ -25,9 +25,7 @@ const ExamTest = (props: Props) => {
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
 
   // const [questions, setQuestions] = React.useState(data || {});
-  console.log("data124", data?.data.data);
 
-  console.log("dataListening ", data);
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -35,11 +33,9 @@ const ExamTest = (props: Props) => {
   //
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("groupRenderSelected", groupRenderSelected);
   };
 
   const partRenderSelected = useMemo(() => {
-    console.log("group select", groupSelected);
     // const questionsWithPageNumberTemp = data as any;
     if (!isEmpty(data?.data?.data[groupSelected?.part])) {
       return data?.data?.data[groupSelected?.part];
@@ -47,8 +43,6 @@ const ExamTest = (props: Props) => {
 
     return null;
   }, [groupSelected]);
-
-  console.log("partRenderSelected", partRenderSelected);
 
   useEffect(() => {
     let part = groupSelected.part + 1;
@@ -66,15 +60,13 @@ const ExamTest = (props: Props) => {
 
   //! Render
   const container = {
-    width: "90%",
-    maxWidth: "1440px",
-    margin: "0 auto",
+    margin: "0 15px",
   };
 
   return (
     <>
       <Box sx={container}>
-        <CardPart part={groupSelected.part + 1} />
+        <CardPart content="Sample Listening (Note Completion)" />
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying].partAudio}`}
@@ -95,7 +87,7 @@ const ExamTest = (props: Props) => {
           />
         </Box>
       </Box>
-      <CardPage dataQuestions={data} onClickPage={onClickPage} />
+      <CardPage questions={data?.data?.data} onClickPage={onClickPage} />
     </>
   );
 };
