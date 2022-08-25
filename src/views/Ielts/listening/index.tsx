@@ -18,6 +18,7 @@ import IntructionsToCandidates from "views/components/dataSteps/DataContentListe
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
+import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 //
 const stepRuleExam = {
@@ -25,6 +26,16 @@ const stepRuleExam = {
   time: "1 hour",
   informationsForCandidates: <InformationForCandidates />,
   intructionsToCandidates: <IntructionsToCandidates />,
+};
+
+const containerSteps = {
+  pt: "16px",
+  background: "#dbe5f5",
+  height: "100%",
+};
+const styleModal = {
+  width: "770px",
+  padding: "10px !important",
 };
 // !type
 export interface IeltsListeningProps {}
@@ -77,15 +88,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-  const containerSteps = {
-    pt: "16px",
-    background: "#dbe5f5",
-    height: "100%",
-  };
-  const styleModal = {
-    width: "770px",
-    padding: "10px !important",
-  };
+
+  useCheckTestCode(testCode);
 
   //! Render
   return (

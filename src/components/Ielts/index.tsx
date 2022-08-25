@@ -162,77 +162,80 @@ export default function IeltsSections({ bg }: PropsBg3) {
       validationSchema={validationSchema}
       onSubmit={(values) => onSubmitExam(values)}
     >
-      {(formik: any) => (
-        <Form>
-          <Box>
-            <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
-              <div className="container">
-                <Box className={classes.containerTitle}>
-                  <Box sx={{ width: { xs: "100%", lg: "260px" }, ml: "10px" }}>
-                    <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
-                  </Box>
-                  <FastField
-                    label="Select Exam"
-                    component={AutoCompletedMui}
-                    name="exam"
-                    options={examSemester}
-                    sx={{ width: "300px", display: { xs: "none", lg: "block" } }}
-                  />
-
-                  <div className={classes.examSemester}></div>
-                </Box>
-              </div>
-            </Box>
-            <Box sx={{ background: bg, pb: "100px" }}>
-              <div className="container">
-                <Grid container sx={{ transform: "translateY(-40px)" }}>
-                  {dataIlets.map(
-                    (item: {
-                      id: number;
-                      typeExam: string;
-                      timeExam: string;
-                      nameExam: string;
-                      image: string;
-                      hoverColor: string;
-                      path: string;
-                    }) => {
-                      const handleShowModal = () => {
-                        setOpen(true);
-                        setId(item.id);
-                      };
-                      return (
-                        <CardIlets onSelectExam={isSelectExam} onClick={handleShowModal} key={item.id} exam={item} />
-                      );
-                    }
-                  )}
-                </Grid>
-              </div>
-              {open && (
-                <Modal onClose={handleCloseModal} open={open} width="388px" styleModal={styleModal}>
-                  <Modal.Title sx={{ color: "#000000" }}>Would you like to resume your unfinished test?</Modal.Title>
-                  <Modal.Content>
-                    <Box className={classes.modalContent}>
-                      <Stack direction="row" spacing={1} sx={{ p: "12px 0 16px 0" }}>
-                        {dataModal.map((item: any) => {
-                          return <ItemModal dataModal={item} />;
-                        })}
-                      </Stack>
+      {(formik: any) => {
+        console.log("formik value", formik.values);
+        return (
+          <Form>
+            <Box>
+              <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
+                <div className="container">
+                  <Box className={classes.containerTitle}>
+                    <Box sx={{ width: { xs: "100%", lg: "260px" }, ml: "10px" }}>
+                      <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
                     </Box>
-                  </Modal.Content>
-                  <Modal.Button
-                    onCancel={handleBackIeltsSelection}
-                    onConfirm={handleCloseModal}
-                    cancel="NO, START NEW"
-                    confirm="YES, RESUME"
-                    background="#df0a31"
-                    color=""
-                  />
-                </Modal>
-              )}
+                    <FastField
+                      label="Select Exam"
+                      component={AutoCompletedMui}
+                      name="exam"
+                      options={examSemester}
+                      sx={{ width: "300px", display: { xs: "none", lg: "block" } }}
+                    />
+
+                    <div className={classes.examSemester}></div>
+                  </Box>
+                </div>
+              </Box>
+              <Box sx={{ background: bg, pb: "100px" }}>
+                <div className="container">
+                  <Grid container sx={{ transform: "translateY(-40px)" }}>
+                    {dataIlets.map(
+                      (item: {
+                        id: number;
+                        typeExam: string;
+                        timeExam: string;
+                        nameExam: string;
+                        image: string;
+                        hoverColor: string;
+                        path: string;
+                      }) => {
+                        const handleShowModal = () => {
+                          setOpen(true);
+                          setId(item.id);
+                        };
+                        return (
+                          <CardIlets onSelectExam={isSelectExam} onClick={handleShowModal} key={item.id} exam={item} />
+                        );
+                      }
+                    )}
+                  </Grid>
+                </div>
+                {open && (
+                  <Modal onClose={handleCloseModal} open={open} width="388px" styleModal={styleModal}>
+                    <Modal.Title sx={{ color: "#000000" }}>Would you like to resume your unfinished test?</Modal.Title>
+                    <Modal.Content>
+                      <Box className={classes.modalContent}>
+                        <Stack direction="row" spacing={1} sx={{ p: "12px 0 16px 0" }}>
+                          {dataModal.map((item: any) => {
+                            return <ItemModal dataModal={item} />;
+                          })}
+                        </Stack>
+                      </Box>
+                    </Modal.Content>
+                    <Modal.Button
+                      onCancel={handleBackIeltsSelection}
+                      onConfirm={handleCloseModal}
+                      cancel="NO, START NEW"
+                      confirm="YES, RESUME"
+                      background="#df0a31"
+                      color=""
+                    />
+                  </Modal>
+                )}
+              </Box>
             </Box>
-          </Box>
-        </Form>
-      )}
+          </Form>
+        );
+      }}
     </Formik>
   );
 }

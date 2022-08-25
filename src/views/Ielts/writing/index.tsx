@@ -23,8 +23,21 @@ import InformationForCandidates from "../../components/dataSteps/DataContentSpea
 import IntructionsToCandidates from "../../components/dataSteps/DataContentSpeaking/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
+import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 
 export interface IeltsReadingProps {}
+
+const containerSteps = {
+  pt: "16px",
+  background: "#dbe5f5",
+  height: "100%",
+};
+
+const styleModal = {
+  width: "770px",
+  padding: "10px !important",
+  // overflow: "hidden",
+};
 
 const initialsValues = {
   answers: [
@@ -74,17 +87,8 @@ const IeltsWriting = (props: IeltsReadingProps) => {
     setIsOpenModalHide(false);
   };
   //
-  const containerSteps = {
-    pt: "16px",
-    background: "#dbe5f5",
-    height: "100%",
-  };
+  useCheckTestCode(testCode);
 
-  const styleModal = {
-    width: "770px",
-    padding: "10px !important",
-    // overflow: "hidden",
-  };
   if (isLoading) {
     return <LoadingPage />;
   }

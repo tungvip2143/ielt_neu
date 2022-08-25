@@ -18,7 +18,7 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 
 const QuestionBox = (props: Props) => {
   const { questionBox, questions, displayNumber } = props;
-  const { handleChange }: any = useFormikContext();
+  const { handleChange, values }: any = useFormikContext();
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
@@ -38,14 +38,19 @@ const QuestionBox = (props: Props) => {
     }
   }, [displayNumber]);
 
-  Handlebars.registerHelper("blank", function (blankId: number, option) {
+  Handlebars.registerHelper("blank", function (blankId: number) {
+    const input: any = document.querySelector(`[id=input-${blankId}]`);
+    if (input) {
+      input.value = values.answers[blankId - 1].studentAnswer;
+    }
     return new Handlebars.SafeString(
-      `<input name='answers.[${blankId - 1}].studentAnswer' id="input-${blankId}" type="text" maxlength="30">`
+      `<input name='answers.[${blankId - 1}].studentAnswer' 
+       id="input-${blankId}" type="text" maxlength="30">`
     );
   });
 
   const test: any = Handlebars.compile(newQuestionBoxParsed);
-  return <div dangerouslySetInnerHTML={{ __html: test(displayNumber) }} onInput={handleChange} />;
+  return <div dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />;
 };
 
 export default QuestionBox;
