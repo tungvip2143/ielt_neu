@@ -23,10 +23,6 @@ const SentenceCompletetion = (props: Props) => {
   });
   const test: any = Handlebars.compile(data?.question?.questionText || "");
 
-  // useEffect(()=>{
-  //   inputRef?.current[displayNumber]?.focus();
-
-  // },[])
   return (
     <div
       dangerouslySetInnerHTML={{
