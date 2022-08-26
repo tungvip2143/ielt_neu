@@ -19,6 +19,8 @@ import { RouteBase } from "constants/routeUrl";
 import SelectField from "components/CustomField/SelectField";
 import TinyMceCommon from "components/TinyMceCommon";
 import { ResponseParams } from "interfaces/questionInterface";
+import CheckboxField from "components/CustomField/CheckboxField";
+import { isArray } from "lodash";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -26,24 +28,20 @@ export interface Props {
 }
 
 const CreateContest = (props: Props) => {
+  //! State
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
-  console.log("editorRef", editorRef.current);
-
   const { search } = useLocation();
   const id = search.split("=")[1];
   const [isEdit, setIsEdit] = useState(false);
   const [err, setErr] = useState("");
   const history = useHistory();
-
   const validationSchema = yup.object().shape({
     name: yup.string().required("This field is required!"),
     // textField: yup.string().required("This field is required!"),
     active: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
-  console.log("dataPartDetailContest", dataPartDetail);
-
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -51,7 +49,22 @@ const CreateContest = (props: Props) => {
   });
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
+  const [valueUserId, setValueUserId] = useState<string[]>([]);
+  console.log("valueUserId", valueUserId);
 
+  //! Effect
+  useEffect(() => {
+    if (dataPartDetail?.id) {
+      resetAsyncForm(dataPartDetail);
+    }
+  }, [dataPartDetail?.id]);
+  useEffect(() => {
+    if (isArray(dataPartDetail?.userIds)) {
+      setValueUserId(dataPartDetail?.userIds);
+    }
+  }, [dataPartDetail?.userIds]);
+
+  //! Function
   const resetAsyncForm = useCallback(
     async (data: any) => {
       reset({
@@ -61,12 +74,7 @@ const CreateContest = (props: Props) => {
     },
     [reset]
   );
-
-  useEffect(() => {
-    if (dataPartDetail?.id) {
-      resetAsyncForm(dataPartDetail);
-    }
-  }, [dataPartDetail?.id]);
+  console.log("dataPartDetail.userIds", dataPartDetail.userIds);
 
   const renderButtonUpdate = () => {
     return (
@@ -97,12 +105,21 @@ const CreateContest = (props: Props) => {
     );
   };
 
+  const handleChange = (event: any) => {
+    console.log("event.target", event.target);
+    if (isArray(valueUserId) && valueUserId?.includes(event.target.value)) {
+      setValueUserId(valueUserId.filter((elm) => elm != event.target.value));
+      return;
+    }
+    setValueUserId([...valueUserId, event.target.value]);
+  };
+
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
       const body = {
         name: data.name,
         active: data.active,
-        // userIds: editorRef.current.getContent(),
+        userIds: valueUserId,
       };
 
       try {
@@ -120,11 +137,11 @@ const CreateContest = (props: Props) => {
       const body = {
         name: data.name,
         active: data.active,
-        // userIds: editorRef.current.getContent(),
+        userIds: valueUserId,
       };
 
       try {
-        const response = await contestService.patchUpdatePart(id, body);
+        const response = await contestService.putUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
           history.goBack();
@@ -134,6 +151,8 @@ const CreateContest = (props: Props) => {
       }
     }
   };
+  //! Render
+
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
       {openCreateScreen.type === "update" && renderButtonUpdate()}
@@ -167,11 +186,24 @@ const CreateContest = (props: Props) => {
       </div>
 
       <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        <TinyMceCommon
+        {dataPartDetail?.userIds?.map((item: any) => {
+          const isChecked = valueUserId?.includes(item);
+          return (
+            <CheckboxField
+              label={item}
+              value={item}
+              checked={isChecked}
+              handleChange={handleChange}
+              disabled={openCreateScreen.type === "update" && !isEdit}
+            />
+          );
+        })}
+
+        {/* <TinyMceCommon
           ref={editorRef}
           initialValue={dataPartDetail ? dataPartDetail.passageText : "Passage text"}
           disabled={openCreateScreen.type === "update" && !isEdit}
-        />
+        /> */}
       </Card>
       {openCreateScreen.type === "create" && renderButtonCreate()}
     </form>

@@ -16,8 +16,8 @@ class userService {
   deletePart(id: any) {
     return httpServices.delete(ADMIN_CONTEST_URL().DELETE_PART + id);
   }
-  patchUpdatePart(id: any, body: any) {
-    return httpServices.patch(ADMIN_CONTEST_URL().PATCH_UPDATE_PART + id, body);
+  putUpdatePart(id: any, body: any) {
+    return httpServices.put(ADMIN_CONTEST_URL().PATCH_UPDATE_PART + id, body);
   }
 }
 export default new userService();
