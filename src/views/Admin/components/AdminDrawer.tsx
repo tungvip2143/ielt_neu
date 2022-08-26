@@ -17,7 +17,7 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 import { RouteBase } from "constants/routeUrl";
 import * as React from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Styles.scss";
 interface Menu {
   id?: number;
@@ -81,23 +81,36 @@ const MenuData = [
     titleMenu: "User management",
     path: RouteBase.AdminUser,
   },
-  {
-    id: 5,
-    icon: <WebIcon />,
-    titleMenu: "Static management",
-    path: RouteBase.StaticManagement,
-  },
+  // {
+  //   id: 5,
+  //   icon: <WebIcon />,
+  //   titleMenu: "Static management",
+  //   path: RouteBase.StaticManagement,
+  // },
 ];
 
 const AdminDrawer = () => {
+  const location = useLocation();
+  console.log("location", location);
+
   const [active, setActive] = React.useState<any>({});
   const [selectItem, setSelectItem] = React.useState<any>();
+  const [showMenu, setShowMenu] = React.useState<number>(-1);
 
   const drawerWidth = 240;
 
   const handleClick = (id: number) => {
     setActive((prevState: any) => ({ [id]: !prevState[id] }));
   };
+
+  React.useEffect(() => {
+    const data = JSON.parse(`${sessionStorage.getItem("localSidebar")}`);
+
+    if (data) {
+      setShowMenu(data.showMenu);
+      setSelectItem(location?.pathname);
+    }
+  }, [location]);
 
   return (
     <Drawer
@@ -143,12 +156,18 @@ const AdminDrawer = () => {
                       return (
                         <Link to={items.link} key={items?.title}>
                           <ListItemButton
-                            onClick={() => setSelectItem(items.title)}
+                            onClick={() => {
+                              setSelectItem(items.link);
+                              sessionStorage.setItem(
+                                "localSidebar",
+                                JSON.stringify({ showMenu: showMenu, pathname: items?.link })
+                              );
+                            }}
                             style={styles.menuContainer}
                             sx={{
                               pl: 6,
                               background:
-                                selectItem === items.title
+                                selectItem === items.link
                                   ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
                                   : "transparent",
                             }}
@@ -164,11 +183,14 @@ const AdminDrawer = () => {
             ) : (
               <Link to={el?.path} style={{ color: "white" }}>
                 <ListItemButton
-                  onClick={() => setSelectItem(el.titleMenu)}
+                  onClick={() => {
+                    setSelectItem(el.path);
+                    sessionStorage.setItem("localSidebar", JSON.stringify({ showMenu: showMenu, pathname: el?.path }));
+                  }}
                   style={styles.menuContainer}
                   sx={{
                     background:
-                      selectItem === el.titleMenu
+                      selectItem === el.path
                         ? "linear-gradient(98deg, rgb(198, 167, 254), rgb(145, 85, 253) 94%)"
                         : "transparent",
                   }}

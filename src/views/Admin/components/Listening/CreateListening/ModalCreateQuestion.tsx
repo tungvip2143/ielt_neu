@@ -444,9 +444,7 @@ const ModalCreateQuestion = (props: Props) => {
           <div className="mt-5">
             <TinyMceCommon
               ref={editorRef}
-              initialValue={
-                dataQuestionDetail?.questionTypeTips ? dataQuestionDetail?.questionTypeTips : "Note completion"
-              }
+              initialValue={dataQuestionDetail?.questionText ? dataQuestionDetail?.questionText : "Note completion"}
               disabled={openModal.type === "detailQuestion"}
             />
             {openModal.type !== "detailQuestion" && (
