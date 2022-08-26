@@ -10,9 +10,7 @@ const Reading = (props: Props) => {
 
   return (
     <Card className="mt-[10px] p-[20px]">
-      {dataReading?.score?.total && (
-        <Typography sx={{ fontWeight: "bold" }}>Score: {dataReading?.score?.total}</Typography>
-      )}
+      <Typography sx={{ fontWeight: "bold" }}>Score: {dataReading?.score?.reading}</Typography>
     </Card>
   );
 };
