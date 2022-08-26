@@ -36,7 +36,7 @@ const ViewExam = (props: Props) => {
       case "WRITING":
         return <Writing dataWriting={dataDetailExam} idGrade={id} refetchData={refetchData} />;
       case "SPEAKING":
-        return <Speaking />;
+        return <Speaking dataSpeaking={dataDetailExam} idGrade={id} refetchData={refetchData} />;
       default:
         <Listening />;
         break;

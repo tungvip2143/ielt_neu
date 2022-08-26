@@ -11,8 +11,11 @@ import CloseOutlinedIcon from "@mui/icons-material/CloseOutlined";
 import examServices from "services/examServices";
 import { toast } from "react-toastify";
 
+import AudioPlayer from "react-h5-audio-player";
+import "react-h5-audio-player/lib/styles.css";
+
 export interface Props {
-  dataWriting?: any;
+  dataSpeaking?: any;
 
   idGrade?: any;
 
@@ -22,7 +25,7 @@ export interface Props {
 const validationSchema = yup.object().shape({});
 
 const Speaking = (props: Props) => {
-  const { dataWriting, idGrade, refetchData } = props;
+  const { dataSpeaking, idGrade, refetchData } = props;
   const [isEdit, setIsEdit] = useState(-1);
   const [score, setScore] = useState<number>();
 
@@ -52,57 +55,102 @@ const Speaking = (props: Props) => {
 
   return (
     <div className="writingContainer">
-      {dataWriting?.skill === "WRITING" && (
-        <div>
-          {dataWriting?.writingDetail?.map((el: any, index: number) => {
-            return (
-              <div>
-                <Card sx={{ minWidth: 275 }} className="p-[20px] mt-[20px]">
-                  <div className="partContainer">
-                    <div className="flex items-center">
-                      <Typography className="partText">Part {el?.questionNumber}</Typography>
-                      <Typography className="title">{el?.question?.title}</Typography>
-                    </div>
+      <div>
+        {dataSpeaking?.speakingDetail?.map((el: any, index: number) => {
+          return (
+            <div>
+              <Card sx={{ minWidth: 275 }} className="p-[20px] mt-[20px]">
+                <div className="partContainer">
+                  <div className="flex items-center">
+                    <Typography className="partText">Part {el?.partNumber}</Typography>
                   </div>
-                </Card>
-                <div className="answerContainer">
-                  <Card className="tipsContainer" sx={{ mr: 2 }}>
-                    <div dangerouslySetInnerHTML={{ __html: el?.question?.tips }}></div>
-                    <Typography className="text">{el?.question?.text}</Typography>
-                    {el?.question?.image && <img alt="image" src={IMAGE_URL + el?.question?.image} />}
-                    <Typography className="partText">Model answer</Typography>
-                    <div dangerouslySetInnerHTML={{ __html: el?.question?.modelAnswer }}></div>
-                  </Card>
-                  <Card className="tipsContainer">
-                    <Typography className="text">{el?.question?.studentAnswer}</Typography>
-                    <div className="scoreContainer">
-                      <Typography className="partText">Score:</Typography> &nbsp;
-                      <input
-                        name={`dataWriting[${index}].questionId`}
-                        value={isEdit === el?.questionId ? score : el?.score}
-                        style={{ width: 50, height: 30 }}
-                        onChange={(e: any) => setScore(e.target.value)}
-                        disabled={isEdit !== el?.questionId}
-                      />
-                      {isEdit !== el?.questionId ? (
-                        <BorderColorOutlinedIcon
-                          sx={{ cursor: "grab", marginLeft: "10px" }}
-                          onClick={() => setIsEdit(el?.questionId)}
-                        />
-                      ) : (
-                        <div>
-                          <CheckOutlinedIcon sx={{ color: "green", cursor: "grab" }} onClick={onSubmitScore} />
-                          <CloseOutlinedIcon sx={{ color: "red", cursor: "grab" }} onClick={() => setIsEdit(-1)} />
-                        </div>
-                      )}
-                    </div>
-                  </Card>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-      )}
+                {el?.groups?.map((group: any) => {
+                  return (
+                    <div>
+                      {group?.questions?.map((items: any, indexScore: number) => {
+                        return (
+                          <div className="audioContainer">
+                            <div className="flex-1 mb-[20px]">
+                              <Typography className="text">{items?.question?.questionText}</Typography>
+                              {items?.question?.questionAudio && (
+                                <AudioPlayer
+                                  preload="none"
+                                  style={{
+                                    borderRadius: "1rem",
+                                    textAlign: "center",
+                                    marginTop: 20,
+                                    marginBottom: 20,
+                                  }}
+                                  src={`${IMAGE_URL}${items?.question?.questionAudio}`}
+                                  onPlay={(e) => console.log("onPlay")}
+                                  showJumpControls={false}
+                                  loop={false}
+                                  autoPlayAfterSrcChange={false}
+                                />
+                              )}
+                            </div>
+                            <div className="flex-1 ml-5 mb-[20px]">
+                              <Typography className="text">Student answer</Typography>
+                              {items?.question?.questionAudio && (
+                                <AudioPlayer
+                                  preload="none"
+                                  style={{
+                                    borderRadius: "1rem",
+                                    textAlign: "center",
+                                    marginTop: 20,
+                                    marginBottom: 20,
+                                  }}
+                                  src={`${IMAGE_URL}${items?.question?.questionAudio}`}
+                                  onPlay={(e) => console.log("onPlay")}
+                                  showJumpControls={false}
+                                  loop={false}
+                                  autoPlayAfterSrcChange={false}
+                                />
+                              )}
+                            </div>
+                            <div className="scoreSpeakingContainer">
+                              <Typography className="partText">Score:</Typography> &nbsp;
+                              <input
+                                value={isEdit === items?.questionId ? score : items?.score}
+                                style={{ width: 50, height: 30 }}
+                                onChange={(e: any) => setScore(e.target.value)}
+                                disabled={isEdit !== items?.questionId}
+                              />
+                              {isEdit !== items?.questionId ? (
+                                <BorderColorOutlinedIcon
+                                  sx={{ cursor: "grab", marginLeft: "10px" }}
+                                  onClick={() => setIsEdit(items?.questionId)}
+                                />
+                              ) : (
+                                <div>
+                                  <CheckOutlinedIcon sx={{ color: "green", cursor: "grab" }} onClick={onSubmitScore} />
+                                  <CloseOutlinedIcon
+                                    sx={{ color: "red", cursor: "grab" }}
+                                    onClick={() => {
+                                      refetchData();
+                                      setIsEdit(-1);
+                                      // if (items?.score) {
+                                      //   setScore(items?.score);
+                                      // } else {
+                                      //   setScore(0);
+                                      // }
+                                    }}
+                                  />
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                    </div>
+                  );
+                })}
+              </Card>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
