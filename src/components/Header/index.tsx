@@ -15,6 +15,8 @@ import headerLogo from "assets/image/header/ielts-header.png";
 import useToggleDialog from "hooks/useToggleDialog";
 import DialogSelectExam, { InitialValueExam } from "components/Dialogs/DialogSelectExam";
 import { RouteBase } from "constants/routeUrl";
+import { useIeltsTestCode } from "hooks/ielts/useIelts";
+import { IeltsActions } from "redux/creators/modules/ielts";
 
 const TextExams = {
   color: "#000000 !important",
@@ -62,6 +64,7 @@ const Header: React.FC = (props) => {
   const { isLogin } = auth;
   const { dispatch } = useSagaCreators();
   const { open: openSelectExam, toggle: toggleSelectExam, shouldRender: shouldRenderExam } = useToggleDialog();
+  const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
 
   //! Function
   const handleLogin = () => history.push("/login");
@@ -75,12 +78,28 @@ const Header: React.FC = (props) => {
     toggleSelectExam();
   };
 
-  const onSubmitExam = (values: InitialValueExam) => {
+  const onSubmitExam = async (values: InitialValueExam) => {
     console.log("values", values);
-    history.push(RouteBase.IeltsWithExam(values?.exam?.name));
-    toggleSelectExam();
-  };
 
+    await createTestCode(
+      { examination: values?.exam?.id },
+      {
+        onSuccess: (response) => {
+          dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
+          localStorage.setItem("examinationId", values?.exam?.id);
+          localStorage.setItem("examinationName", values?.exam?.name);
+          localStorage.setItem("testCode", response?.data?.data?.testCode);
+          history.push(RouteBase.IeltsWithExam(values?.exam?.id));
+          toggleSelectExam();
+        },
+        onError: (err: any) => {
+          if (err.response.data.statusCode === 401) {
+            // history.push("/login");
+          }
+        },
+      }
+    );
+  };
   //! Render
   return (
     <>

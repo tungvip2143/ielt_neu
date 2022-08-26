@@ -43,7 +43,6 @@ const initialValues = {
     name: "",
   },
 };
-
 const initialFilter = {
   page: 1,
   pageSize: 20,
@@ -53,7 +52,9 @@ const DialogSelectExam = ({ open, toggle, onSubmit }: DialogSelectExamI) => {
   //! State
   const classes = useStyles();
   const { data, isLoading } = useGetExamination(initialFilter);
-  const examinations = data?.data?.data?.data || [];
+  const examinations = data?.data?.data || [];
+
+  console.log("examination data", examinations);
 
   //* md -> display: flex, flex-direction: column, flex-wrap: wrap, gap: 8px
   //* xs -> display: grid, gridTemplateColumns: '8px 8px 8px',

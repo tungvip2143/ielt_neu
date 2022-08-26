@@ -15,10 +15,12 @@ import LockIcon from "@mui/icons-material/Lock";
 import { useFormikContext } from "formik";
 import { useIeltsTestCode } from "hooks/ielts/useIelts";
 import useSagaCreators from "hooks/useSagaCreators";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { IeltsActions } from "redux/creators/modules/ielts";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { isEmpty } from "lodash";
+import LoadingPage from "components/Loading";
+import { toast } from "react-toastify";
 
 const CardList = {
   borderRadius: "15px",
@@ -62,46 +64,55 @@ interface Exam {
   id?: any;
 }
 const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
-  console.log("idCard", id);
   //! State
-  const { dispatch } = useSagaCreators();
-  const { values, handleSubmit }: any = useFormikContext();
 
   // !Hook
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
-  const handleBackIeltsSelection = () => {
-    onClick();
-    if (id === 1) {
-      history.push("/ielts/listening");
-    } else if (id === 2) {
-      history.push("/ielts/reading");
-    } else if (id === 3) {
-      history.push("/ielts/writing");
-    } else if (id === 4) {
-      history.push("/ielts/speaking");
-    }
-  };
-  const history = useHistory();
+  const { dispatch } = useSagaCreators();
 
-  const handleShowModal = () => {
-    onClick();
-  };
+  const history = useHistory();
+  const location = useLocation();
+
+  const ExaminationId = useMemo(() => {
+    return localStorage.getItem("examinationId");
+  }, []);
+
+  const reading = localStorage.getItem("READING");
+  const listening = localStorage.getItem("LISTENING");
+  const speaking = localStorage.getItem("SPEAKING");
+  const writing = localStorage.getItem("WRITING");
+
   // !Function
   const handleTest = async () => {
-    await createTestCode(
-      { examination: "63083406de9e9ae9edd96b5d" },
-      {
-        onSuccess: (response) => {
-          dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          handleBackIeltsSelection();
-        },
-        onError: (err: any) => {
-          if (err.response.data.statusCode === 401) {
-            history.push("/login");
-          }
-        },
-      }
-    );
+    if (id === 1 && !listening) {
+      history.push("/ielts/listening");
+      return;
+    } else if (id === 2 && !reading) {
+      history.push("/ielts/reading");
+      return;
+    } else if (id === 3 && !writing) {
+      history.push("/ielts/writing");
+      return;
+    } else if (id === 4 && !speaking) {
+      history.push("/ielts/speaking");
+      return;
+    }
+
+    toast.error("Test already finished");
+    // await createTestCode(
+    //   { examination: ExaminationId },
+    //   {
+    //     onSuccess: (response) => {
+    //       dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
+
+    //     },
+    //     onError: (err: any) => {
+    //       if (err.response.data.statusCode === 401) {
+    //         history.push("/login");
+    //       }
+    //     },
+    //   }
+    // );
   };
 
   //! Render
