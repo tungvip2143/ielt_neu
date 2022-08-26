@@ -187,7 +187,7 @@ const CreateQuestionWriting = (props: Props) => {
           </div>
         </div>
       </div>
-      <Card className="p-[20px] mt-5">
+      <div className="text-center">
         <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
         {(selectFile || dataQuestionDetail?.image) && (
           <img
@@ -198,12 +198,12 @@ const CreateQuestionWriting = (props: Props) => {
           />
         )}
         <ButtonUpload
-          style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+          style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 20 }}
           titleButton="Upload image"
           onClick={handleClick}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-      </Card>
+      </div>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
         <TinyMceCommon
           ref={editorRef}

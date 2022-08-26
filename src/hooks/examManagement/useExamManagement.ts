@@ -1,11 +1,10 @@
 import { PAGE_SIZE } from "constants/constants";
-import MExamManagement from "models/ExamManagement/ExamManagement.model";
 import MPagination from "models/Pagination.model";
 import { useEffect, useState } from "react";
-import ReadingService from "services/ReadingService";
+import examServices from "services/examServices";
 
-const useExamManagement = () => {
-  const [dataExam, setDataExam] = useState<MExamManagement[]>([]);
+const useExamManagement = (skill?: any, isGrade?: any) => {
+  const [dataExam, setDataExam] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
@@ -28,11 +27,11 @@ const useExamManagement = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await ReadingService.getListParts(params);
+        const response = await examServices.getListTestGrade(params);
 
         if (response.data.statusCode === 200) {
-          const parts = MExamManagement.parsePartListFromResponse(response?.data?.data?.data || []);
-          setDataExam(parts);
+          // const parts = MExamManagement.parsePartListFromResponse(response?.data?.data?.data || []);
+          setDataExam(response?.data?.data?.data || []);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }
         setLoading(false);
