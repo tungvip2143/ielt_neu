@@ -32,8 +32,6 @@ const SignUp = (props: any) => {
   const auth = GetAuthSelector();
   const { isLogin } = auth;
   const { initialPathName } = useGetLocation();
-  const { mutateAsync: login } = useLogin();
-  const history = useHistory();
 
   const container = {
     width: "100vw",

@@ -92,7 +92,11 @@ const FormEmail = () => {
                 {...propsFormik.getFieldProps("email")}
               />
             </div>
-            <Text.DescSmall sx={forgotPassword}>Forgot password?</Text.DescSmall>
+            <Link to={RouteBase.ForgotPassword}>
+              <Text.DescSmall sx={forgotPassword} className="cursor-grab">
+                Forgot password?
+              </Text.DescSmall>
+            </Link>
             <div style={{ paddingBottom: "30px" }}>
               <FastField
                 style={input}

@@ -6,6 +6,7 @@ export const RouteBase = {
   LoginGoogle: "/login/google",
   SignUp: "/sign-up",
   SignUpEmail: "/sign-up/email",
+  ForgotPassword: "/login/forgot-password",
   IeltsListening: "/ielts/listening",
   IeltsReading: "/ielts/reading",
   IeltsWriting: "/ielts/writing",
