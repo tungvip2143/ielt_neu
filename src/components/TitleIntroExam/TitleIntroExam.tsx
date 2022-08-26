@@ -16,7 +16,7 @@ interface Props {
 const TitleIntroExam = ({ dataTitleIntroExam, idExam }: Props) => {
   return (
     <Box>
-      <Text.SubTitle sx={{ mb: "30px" }}>Level {idExam}</Text.SubTitle>
+      <Text.SubTitle sx={{ mb: "30px" }}>Exam {idExam}</Text.SubTitle>
       <Text.DescSmallCard sx={{ color: "#8A8C91" }}>{dataTitleIntroExam.desc}</Text.DescSmallCard>
     </Box>
   );
