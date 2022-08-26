@@ -1,10 +1,9 @@
-import React from "react";
 import Box from "@mui/material/Box";
-// !type
+import React from "react";
 interface Props {
+  onClickPage?: any;
   questions?: any;
-  onClickPage: (id: string) => void;
-  displayNumberOnclickPage?: any;
+  handleDisplayNumber?: any;
 }
 const box = {
   width: "200px",
@@ -23,20 +22,24 @@ const eachQuestion = {
   fontWeight: "bold",
   cursor: "pointer",
 };
-const QuestionNumberList = ({ questions, onClickPage, displayNumberOnclickPage }: Props) => {
+const ListNumberQuestion = (props: Props) => {
   const [hightLightPage, setHightLightPage] = React.useState("1");
+  const { questions, onClickPage, handleDisplayNumber } = props;
+  console.log("questions", questions);
+
   const renderPartValues = (partValues: any, index: number) => {
+    console.log("partValues", partValues);
+
     let sectionRender: any = {};
 
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
       return partGroup.questions.map((item: any, index: number) => {
-        console.log("itemDad", item);
         const handleClickQuestion = (part: any, group: any) => {
           sectionRender.part = partValues.partNumber - 1;
           sectionRender.group = partGroup.groupNumber - 1;
           onClickPage(sectionRender);
           setHightLightPage(item.question.displayNumber);
-          displayNumberOnclickPage(item.question.displayNumber);
+          handleDisplayNumber(item.question.displayNumber);
         };
 
         const hightLightNumberPageOnclickQuestion = () => {
@@ -60,20 +63,20 @@ const QuestionNumberList = ({ questions, onClickPage, displayNumberOnclickPage }
     });
   };
   return (
-    <Box sx={box}>
-      <Box>
-        <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
-          <Box sx={{ width: { md: "100%", display: "flex", flexWrap: "wrap", gap: 4 } }}>
-            {questions?.map((group: any, index: number) => {
-              console.log("partKey", group);
-
-              return <>{renderPartValues(group, index)}</>;
-            })}
+    <>
+      <Box sx={box}>
+        <Box>
+          <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
+            <Box sx={{ width: { md: "100%", display: "flex", flexWrap: "wrap", gap: 4 } }}>
+              {questions?.map((group: any, index: number) => {
+                return <>{renderPartValues(group, index)}</>;
+              })}
+            </Box>
           </Box>
         </Box>
       </Box>
-    </Box>
+    </>
   );
 };
 
-export default QuestionNumberList;
+export default ListNumberQuestion;

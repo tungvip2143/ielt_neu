@@ -70,6 +70,10 @@ class IeltsService {
   getIeltsExaminatios(queries: any) {
     return httpServices.get(`${IELTS_URL().GET_EXAMINATIONS}?${queryString.stringify(queries)}`);
   }
+
+  // updateIeltExamination(body:any){
+  //   return httpServices.
+  // }
 }
 
 export default new IeltsService();

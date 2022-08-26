@@ -47,6 +47,8 @@ const QuestionNumberList = ({ questions, onClickPage, setChangeData }: QuestionN
   const classes = useStyles();
   //
   const renderPartValues = (question: any, partIndex: number) => {
+    console.log("questions", question);
+
     let sectionRender: any = {};
     const onclickPage = () => {
       setHighlightPage(question?.question?.displayNumber);

@@ -1,9 +1,9 @@
 import { makeStyles } from "@mui/styles";
 import Text from "components/Typography";
-import { ROOT_ORIGINAL_URL } from "constants/api";
 import React from "react";
+import { ROOT_ORIGINAL_URL } from "constants/api";
 import ReactAudioPlayer from "react-audio-player";
-
+import AnswerAudio from "./AnswerAudio";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
@@ -16,20 +16,22 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 type Props = {
-  audio: string;
+  audios: any;
+  numberQuestion?: any;
 };
 
 const MyAnswers = (props: Props) => {
   // !State
   const classes = useStyles();
 
-  const { audio } = props;
+  const { audios, numberQuestion } = props;
+  console.log("sfsdfsdf", audios);
   return (
     <div className={classes.container}>
       <Text.SubTitle>My Answer</Text.SubTitle>
-      <div className={classes.audio}>
-        <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} controls />
-      </div>
+      {audios?.questions?.map((audio: any) => {
+        return <>{numberQuestion === audio.question.displayNumber && <AnswerAudio dataAudio={audio} />}</>;
+      })}
     </div>
   );
 };
