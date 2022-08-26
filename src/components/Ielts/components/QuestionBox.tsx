@@ -6,6 +6,7 @@ type Props = {
   questionBox: any;
   displayNumber: number;
   questions: any[];
+  onClickPage?: (option: any) => void;
 };
 
 const CODE = "-@X$";
@@ -13,17 +14,20 @@ const CODE = "-@X$";
 const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
   console.log({ blankId, questionId, questionBox });
   questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
+  console.log("questionBox", questionBox);
   return questionBox;
 };
 
 const QuestionBox = (props: Props) => {
-  const { questionBox, questions, displayNumber } = props;
-  const { handleChange, values }: any = useFormikContext();
+  const { questionBox, questions, displayNumber, onClickPage } = props;
+  const { handleChange, values, setFieldValue }: any = useFormikContext();
+  console.log("values", values);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
       const { blankNumber, displayNumber } = el.question;
+      setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
 
