@@ -7,6 +7,7 @@ type Props = {
   questionBox?: any;
   groupData?: any;
   displayNumber: number;
+  onClickPage: (options: any) => void;
 };
 
 const CODE = "-@X$";
@@ -22,7 +23,7 @@ const NoteCompletion = (props: Props) => {
   //! State
   const inputDebounce = React.useRef(new Timer());
   const queueAnswers = React.useRef<any>({});
-  const { questionBox, groupData, displayNumber } = props;
+  const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
 
   const newQuestionBoxParsed = useMemo(() => {
@@ -48,6 +49,7 @@ const NoteCompletion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
+    inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
       input.value = values.answers[blankId - 1].studentAnswer;
@@ -59,7 +61,7 @@ const NoteCompletion = (props: Props) => {
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
-          class
+          class='${inputIndex}'
         />
       `
     );
@@ -79,7 +81,10 @@ const NoteCompletion = (props: Props) => {
     }, 0);
   };
 
-  const onClickInput = (data: any) => {};
+  const onClickInput = (data: any) => {
+    const inputIdx: any = data.target.getAttribute("class") - 1;
+    onClickPage && onClickPage({ question: inputIdx });
+  };
 
   //! Render
   return (

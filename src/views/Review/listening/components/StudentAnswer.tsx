@@ -11,6 +11,7 @@ const StudentAnswer = (props: Props) => {
     marginBottom: "10px",
     alignItems: "center",
     width: "50%",
+    gap: 8,
   };
   const numberOrderCss = {
     fontWeight: 700,
@@ -25,7 +26,7 @@ const StudentAnswer = (props: Props) => {
     <>
       <div style={container}>
         <div style={numberOrderCss} className="">
-          {numberOrder}
+          {`${numberOrder}.`}
         </div>
         <input style={inputStyle} type="text" value={answer} />
       </div>
