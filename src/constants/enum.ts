@@ -32,9 +32,9 @@ export enum AnswerBoolean {
 }
 
 export const examSemester = [
-  { id: 1, label: "Level 1" },
-  { id: 2, label: "Level 2" },
-  { id: 3, label: "Level 3" },
-  { id: 4, label: "Level 4" },
-  { id: 5, label: "Level 5" },
+  { id: 1, label: "Exam 1" },
+  { id: 2, label: "Exam 2" },
+  { id: 3, label: "Exam 3" },
+  { id: 4, label: "Exam 4" },
+  { id: 5, label: "Exam 5" },
 ];
