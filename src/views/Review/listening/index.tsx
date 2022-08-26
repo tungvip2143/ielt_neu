@@ -140,7 +140,7 @@ const ListeningReviewContainer = () => {
 
   return (
     <>
-      <ListeningReview />
+      <ListeningReview data={data?.data?.data?.listening} />
     </>
   );
 };
