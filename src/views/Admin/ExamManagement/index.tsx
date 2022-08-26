@@ -1,9 +1,13 @@
 import { Button, Card, Typography } from "@mui/material";
 import ButtonCommon from "components/Button/ButtonCommon";
 import CommonDataGrid from "components/CommonDataGrid";
+import { RouteBase } from "constants/routeUrl";
 import useExamManagement from "hooks/examManagement/useExamManagement";
+import { isEmpty } from "lodash";
+import moment from "moment";
 import { useState } from "react";
-import ModalViewExam from "./component/ModalViewExam";
+import { useHistory } from "react-router-dom";
+import ViewExam from "./component/ViewExam";
 
 const styles = {
   titleTable: {
@@ -16,9 +20,18 @@ const styles = {
   },
 };
 const ExamManagement = () => {
+  const history = useHistory();
   const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
 
-  const [openModal, setOpenModal] = useState(false);
+  const rows = dataExam?.map((el: any) => ({
+    id: el?.id,
+    fullname: el?.userDetail?.fullname,
+    email: el?.userDetail?.email,
+    finishedDate: moment(el?.finishedDate).format("DD-MM-YYYY"),
+    status: el?.status,
+  }));
+
+  const [openModal, setOpenModal] = useState({});
 
   return (
     <Card>
@@ -26,23 +39,39 @@ const ExamManagement = () => {
         columns={[
           {
             flex: 1,
-            field: "user",
-            renderHeader: () => <Typography style={styles.titleTable}>User</Typography>,
+            field: "fullname",
+            renderHeader: () => <Typography style={styles.titleTable}>Full name</Typography>,
+          },
+          {
+            flex: 1,
+            field: "email",
+            renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
           },
           {
             flex: 0.7,
             field: "exam",
             renderHeader: () => <Typography style={styles.titleTable}>View exam</Typography>,
-            renderCell: () => (
-              <Button variant="contained" style={styles.buttonOpenModal} onClick={() => setOpenModal(true)}>
-                View exam
-              </Button>
-            ),
+            renderCell: (items: any) => {
+              return (
+                <Button
+                  variant="contained"
+                  style={styles.buttonOpenModal}
+                  onClick={() =>
+                    history.push({
+                      pathname: RouteBase.ViewExamId(items?.row?.email),
+                      search: `?id=${items?.id}`,
+                    })
+                  }
+                >
+                  View exam
+                </Button>
+              );
+            },
           },
           {
             flex: 1,
-            field: "dueDate",
-            renderHeader: () => <Typography style={styles.titleTable}>Due date</Typography>,
+            field: "finishedDate",
+            renderHeader: () => <Typography style={styles.titleTable}>Finished date</Typography>,
           },
           {
             flex: 1,
@@ -57,11 +86,10 @@ const ExamManagement = () => {
           totalRow: metaPart?.totalRow,
         }}
         loading={loading}
-        rows={dataExam}
+        rows={rows}
         onPageChange={onPageChange}
         onPageSizeChange={onPageSizeChange}
       />
-      <ModalViewExam open={openModal} onCloseModal={() => setOpenModal(false)} />
     </Card>
   );
 };

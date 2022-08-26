@@ -35,7 +35,7 @@ const DataFake = [
   },
 ];
 const ContestManagement = () => {
-  const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
+  // const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -90,8 +90,8 @@ const ContestManagement = () => {
           // loading={loading}
           checkboxSelection
           rows={DataFake}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
+          // onPageChange={onPageChange}
+          // onPageSizeChange={onPageSizeChange}
         />
       </Card>
     </div>

@@ -115,3 +115,11 @@ export const ADMIN_USER_URL = (id?: string | number) => {
     DELETE_PART: `${ROOT_URL}/users/`,
   };
 };
+
+export const EXAM_MANAGEMENT_URL = (skill?: any, isGrading?: boolean) => {
+  return {
+    GET_LIST_VIEW_EXAM: `${ROOT_URL}/test-grades/`,
+    GET_LIST_TEST_GRADE: `${ROOT_URL}/test-grades?sort=createdAt%3ADESC`,
+    PATCH_TEST_GRADE: `${ROOT_URL}/test-grades/`,
+  };
+};

@@ -126,7 +126,10 @@ const CreateQuestionSpeaking = (props: Props) => {
           const response = await speakingService.postCreatePart(body);
           if (response.data.statusCode === 200) {
             toast.success("Create speaking success!");
-            history.push(RouteBase.UpdateSpeakingWId(response?.data?.data?.id));
+            history.push({
+              pathname: RouteBase.UpdateSpeakingWId(response?.data?.data?.partTitle),
+              search: `?id=${response?.data?.data?.id}`,
+            });
           }
         }
       } catch (error: any) {
@@ -151,7 +154,7 @@ const CreateQuestionSpeaking = (props: Props) => {
         const response = await speakingService.postCreatePart(body);
         if (response.data.statusCode === 200) {
           toast.success("Update speaking success!");
-          history.push(RouteBase.Speaking);
+          // history.push(RouteBase.Speaking);
         }
       } catch (error: any) {
         toast.error(error);

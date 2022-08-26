@@ -41,7 +41,6 @@ class AuthService {
 
   getUserLocalStorage() {
     const user = localStorage.getItem(USER_LOCAL_STORAGE);
-    console.log("ssssssssss", user);
 
     if (!!user) {
       return JSON.parse(user);

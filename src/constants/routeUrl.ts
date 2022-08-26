@@ -20,6 +20,9 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
+  ViewExam: "/admin/exammagement/Exam/:id",
+  ViewExamId: (id: string | number) => `/admin/exammagement/Exam/${id}`,
+
   //User
   AdminUser: "/admin/user",
   CreateUser: "/admin/user/create",
