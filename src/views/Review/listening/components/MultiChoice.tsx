@@ -1,19 +1,7 @@
-import React from "react";
-import {
-  Stack,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  AccordionDetails,
-  Accordion,
-  AccordionSummary,
-} from "@mui/material";
-import ReactHtmlParser from "react-html-parser";
 import { Box } from "@mui/material";
-import { Field, useFormikContext } from "formik";
+import ReactHtmlParser from "react-html-parser";
 import Text from "../../../../components/Typography/index";
 import { themeCssSx } from "../../../../ThemeCssSx/ThemeCssSx";
-import Radio from "../../../../components/Radio/index";
 // ! type
 interface Props {
   dataQuestions?: any;
@@ -55,6 +43,11 @@ const hightLightAnswerCss = {
   color: "#fff",
   borderRadius: "5px",
 };
+const studentAnswerCss = {
+  background: themeCssSx.colorAnswer.yourAnswer,
+  color: "#fff",
+  borderRadius: "5px",
+};
 const MultiChoice = ({ dataQuestions }: Props) => {
   console.log("dataQuestions", dataQuestions);
   return (
@@ -65,13 +58,19 @@ const MultiChoice = ({ dataQuestions }: Props) => {
           <Text.DescSmall>{ReactHtmlParser(dataQuestions.question.questionText)}</Text.DescSmall>
         </Box>
         {dataQuestions.question.options.map((answer: any) => {
-          const hightLightAnswer = () => {
-            return dataQuestions?.question?.answer === answer?.key ? { ...hightLightAnswerCss } : {};
-          };
+          let style: any = { color: "inherit" };
+
+          const studentAnswer = dataQuestions.studentAnswer;
+          if (studentAnswer === answer?.key) {
+            style = { ...studentAnswerCss };
+          }
+          if (dataQuestions?.question?.answer === answer?.key) {
+            style = { ...hightLightAnswerCss };
+          }
           return (
             <>
               <Box sx={itemNawer}>
-                <Box sx={hightLightAnswer()} style={{ padding: "5px 10px" }}>
+                <Box sx={style} style={{ padding: "5px 10px" }}>
                   {answer.key}.
                 </Box>
                 <Text.DescSmall sx={textAnswer}>{answer.text}</Text.DescSmall>

@@ -33,7 +33,7 @@ const TitleExam = ({ dataNumber, title }: Props) => {
         <Text.Desc16
           sx={{ fontSize: "18px !important", fontWeight: "bold", mb: "20px", display: "block" }}
         >{`Question ${groupStartNumber} - ${groupEndNumber}`}</Text.Desc16>
-        <Text.Desc16>Click on question to show your answer and explanation</Text.Desc16>
+        {/* <Text.Desc16>Click on question to show your answer and explanation</Text.Desc16> */}
       </div>
 
       <Text.Desc16 sx={{ mb: "20px" }}>{ReactHtmlParser(title?.directionText)}</Text.Desc16>

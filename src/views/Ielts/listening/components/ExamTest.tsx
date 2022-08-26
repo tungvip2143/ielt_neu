@@ -97,6 +97,7 @@ const ExamTest = (props: Props) => {
                 ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
                 audio={partRenderSelected?.partAudio}
                 displayNumber={displayNumber}
+                onClickPage={onClickPage}
               />
             }
             styleAdd={styleHeight}

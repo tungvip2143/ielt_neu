@@ -14,9 +14,11 @@ type Props = {
 const NoteCompletion = (props: Props) => {
   const { questionBox, data } = props;
   const { values, handleChange }: any = useFormikContext();
-  console.log("data", data);
+  console.log("data noteCompletion", data);
 
   Handlebars.registerHelper("blank", function (blankId: any) {
+    const studentAnswer = data[blankId]?.studentAnswer ? data[blankId]?.studentAnswer : "";
+
     return new Handlebars.SafeString(
       `
         <input
@@ -24,6 +26,7 @@ const NoteCompletion = (props: Props) => {
             id="input-${blankId}"
             type="text"
             onChange="handleTest()"
+            value='${studentAnswer}'
           />
         `
     );
@@ -37,11 +40,15 @@ const NoteCompletion = (props: Props) => {
   return (
     <>
       <div dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
-      <Text.Sub20Bold sx={yourAnswer}>Your answer</Text.Sub20Bold>
+      <Text.Sub20Bold sx={yourAnswer}>Correct answer</Text.Sub20Bold>
       <Box sx={{ mt: "20px", display: "flex", flexWrap: "wrap" }}>
         {data.map((answer: any, index: any) => {
           return (
-            <StudentAnswer key={index} answer={answer.studentAnswer} numberOrder={answer.question.displayNumber} />
+            <StudentAnswer
+              key={index}
+              answer={answer?.question?.answer}
+              numberOrder={answer?.question?.displayNumber}
+            />
           );
         })}
       </Box>
