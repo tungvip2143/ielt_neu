@@ -75,11 +75,11 @@ const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
   // !Function
   const handleTest = async () => {
     handleSubmit();
-    if (!values.exam.label) {
+    if (!values.exam.name) {
       return;
     }
     await createTestCode(
-      { skill: exam.skill },
+      { examination: "63083406de9e9ae9edd96b5d" },
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
