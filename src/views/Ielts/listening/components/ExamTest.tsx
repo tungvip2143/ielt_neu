@@ -11,6 +11,7 @@ import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
 import ReactAudioPlayer from "react-audio-player";
 import { ROOT_ORIGINAL_URL } from "constants/api";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 
 type Props = {
   data: any;
@@ -73,7 +74,9 @@ const ExamTest = (props: Props) => {
   const container = {
     margin: "0 15px",
   };
-
+  const styleHeight = {
+    height: themeCssSx.heightExercise.examTest,
+  };
   return (
     <>
       <Box sx={container}>
@@ -96,6 +99,7 @@ const ExamTest = (props: Props) => {
                 displayNumber={displayNumber}
               />
             }
+            styleAdd={styleHeight}
           />
         </Box>
       </Box>

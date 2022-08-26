@@ -79,4 +79,8 @@ export const themeCssSx = {
       justifyContent: "center",
     },
   },
+  heightExercise: {
+    review: "calc(100vh - 140px)",
+    examTest: "calc(100vh - 250px)",
+  },
 };

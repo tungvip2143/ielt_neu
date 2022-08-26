@@ -43,6 +43,7 @@ const ListeningReview = (props: Props) => {
 
   const classes = useStyles();
   const { data } = props;
+
   const [questions, setQuestions] = useState([]);
 
   const [questionSelected, setQuestionSelected] = useState<any>("1");
@@ -85,6 +86,9 @@ const ListeningReview = (props: Props) => {
     p: "40px 16px",
     boxShadow: "rgba(0, 0, 0, 0.10) 0px 5px 15px",
   };
+  const styleAddExercise = {
+    height: "calc(100vh - 140px)",
+  };
 
   return (
     <Formik initialValues={{}} onSubmit={() => console.log("hello")}>
@@ -110,8 +114,10 @@ const ListeningReview = (props: Props) => {
                       audio={partRenderSelected?.partAudio}
                     />
                   }
+                  styleAdd={styleAddExercise}
                 />
                 <CardExercise
+                  styleAdd={styleAddExercise}
                   width={5.9}
                   content={
                     <ContentRight
@@ -133,7 +139,6 @@ const ListeningReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
   const { data, isLoading } = useGetListeningResultByTestCode(testCode);
-  console.log("testCode", data);
 
   if (isLoading) {
     return <LoadingPage />;
@@ -141,7 +146,7 @@ const ListeningReviewContainer = () => {
 
   return (
     <>
-      <ListeningReview />
+      <ListeningReview data={data?.data?.data?.listening} />
     </>
   );
 };

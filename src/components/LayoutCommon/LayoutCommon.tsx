@@ -42,7 +42,6 @@ const btnLink = {
 const LayoutCommon = ({ data, exams }: dataLayout) => {
   const [isHightLightPractive, isSetIsHightLight] = useState<boolean>(true);
   const [isHightLightReview, isSetIsHightRiview] = useState<boolean>(false);
-  console.log("isHightLightReview", isHightLightReview);
 
   const handleHightLightReview = () => {
     isSetIsHightLight(false);

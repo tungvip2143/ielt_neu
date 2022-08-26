@@ -54,8 +54,6 @@ const EachTable = ({ panelId }: EachTableI) => {
     refetch();
   }, [page]);
 
-  console.log("results", results);
-
   //! Function
   const handleReview = (testCode: number, skill: string) => {
     dispatch(IeltsActions.saveTestCode, { testCode });

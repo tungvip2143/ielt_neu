@@ -21,18 +21,16 @@ type Props = {
 const Writing = (props: Props) => {
   const classes = useStyles();
   const { groupSelected, partRenderSelected } = props;
-  console.log("groupSelected", groupSelected);
-  console.log("partRenderSelected", partRenderSelected);
 
   return (
     <>
-      {groupSelected?.part === 0 && (
+      {groupSelected === 0 && (
         <div className={classes.container}>
           <Text.CardTitle sx={{ pb: "20px" }}>My answer</Text.CardTitle>
           <p>{partRenderSelected?.studentAnswer}</p>
         </div>
       )}
-      {groupSelected?.part === 1 && (
+      {groupSelected === 1 && (
         <div className={classes.container}>
           <Text.CardTitle sx={{ pb: "20px" }}>My answer</Text.CardTitle>
           <p>{partRenderSelected?.studentAnswer}</p>

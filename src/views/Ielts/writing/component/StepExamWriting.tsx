@@ -34,7 +34,9 @@ const StepExamWriting = (props: Props) => {
 
     return null;
   }, [page]);
-
+  const styleAddExercise = {
+    height: "calc(100vh - 250px)",
+  };
   //! Render
   return (
     <Box sx={container}>
@@ -42,10 +44,15 @@ const StepExamWriting = (props: Props) => {
         <CardPart content={contentPart} />
       </Box>
       <Grid container>
-        <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} width={6} />
+        <CardExercise
+          content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+          width={6}
+          styleAdd={styleAddExercise}
+        />
         <CardExercise
           content={<Writing questionId={partRenderSelected?.questionId} groupSelected={page - 1} />}
           width={6}
+          styleAdd={styleAddExercise}
         />
       </Grid>
 

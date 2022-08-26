@@ -38,10 +38,6 @@ const Step2ExamContent = (props: any) => {
     test === IELT_TEST.READING ? data[groupSelected.part]?.groups[groupSelected.group]?.questions || [] : [];
   const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
 
-  console.log("groupSelected", groupSelected);
-  console.log("questionData", questionData);
-  console.log("displayNumber", displayNumber);
-
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
@@ -64,6 +60,9 @@ const Step2ExamContent = (props: any) => {
     return null;
   }, [ieltsReadingDataDummy, groupSelected]);
   //
+  const styleAddExercise = {
+    height: "calc(100vh - 250px)",
+  };
   //
   const contentPart = "Sample Academic Reading Multiple Choice (one answer)";
   //! Render
@@ -81,7 +80,11 @@ const Step2ExamContent = (props: any) => {
               display: { xs: "block", lg: "flex" },
             }}
           >
-            <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} width={5.9} />
+            <CardExercise
+              content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+              width={5.9}
+              styleAdd={styleAddExercise}
+            />
             {test === IELT_TEST.READING && (
               <CardExercise
                 content={
@@ -95,6 +98,7 @@ const Step2ExamContent = (props: any) => {
                   />
                 }
                 width={6}
+                styleAdd={styleAddExercise}
               />
             )}
           </Grid>

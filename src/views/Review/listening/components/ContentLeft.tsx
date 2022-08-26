@@ -15,9 +15,6 @@ const renderHtml = {
   mt: "30px",
 };
 const ContentLeft = ({ partRenderSelected, audio }: Props) => {
-  console.log("partRenderSelectedLeft", partRenderSelected);
-  console.log("audioListening", audio);
-
   return (
     <div>
       <Box sx={{ mb: "20px" }}>

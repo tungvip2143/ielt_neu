@@ -161,9 +161,6 @@ const CardTotalPageExams = ({
       return sectionRender;
     }
     handleSubmit();
-
-    console.log("done");
-    console.log("123123");
     return;
   };
 
@@ -221,7 +218,6 @@ const CardTotalPageExams = ({
     //
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
-        console.log("questionIndex", questionIndex);
         const add = Number(question.question.displayNumber) - 1;
 
         const highLightPage = () => {
