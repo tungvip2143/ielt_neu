@@ -14,10 +14,11 @@ import Header from "../Header/Header";
 import Score from "../reading/components/Score";
 import ContentRight from "../writng/components/ContentRight";
 import ModalRightAnswer from "../writng/components/ModalRightAnswer";
-import QuestionNumberList from "../writng/components/QuestionNumberList";
+import QuestionNumberList from "../listening/components/QuestionNumberList";
 import Writing from "../writng/components/Writing";
 import MyAnswers from "./components/MyAnswers";
 import ModelAnswer from "./components/ModelAnswer";
+import ListNumberQuestion from "./components/ListNumberQuestion";
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -35,7 +36,8 @@ const SpeakingReview = (props: Props) => {
   const [open, setOpen] = React.useState(false);
   const [isOpenAnswer, setIsModalAnswer] = useState(false);
   const [contentModal, setContentModal] = useState();
-
+  const [numberQuestion, setNumberQuestion] = useState("1");
+  console.log("fsdfsdfs", numberQuestion);
   //! State
   const classes = useStyles();
   const { dataSpeaking } = props;
@@ -43,16 +45,14 @@ const SpeakingReview = (props: Props) => {
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
-    question: 0,
   });
-
-  const question =
-    dataSpeaking?.speaking[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question] || [];
-
-  console.log("question", question);
+  console.log("groupSelected", groupSelected);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
+  };
+  const handleDisplayNumber = (displayNumber: any) => {
+    setNumberQuestion(displayNumber);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -96,10 +96,22 @@ const SpeakingReview = (props: Props) => {
             <Box sx={{ display: "flex", flex: 1 }}>
               <Box sx={navLeft}>
                 <Score score={dataSpeaking.score.speaking} titleExam="Speaking" />
-                <QuestionNumberList onClickPage={onClickPage} questions={dataSpeaking?.speaking} />
+                <ListNumberQuestion
+                  onClickPage={onClickPage}
+                  questions={dataSpeaking?.speaking}
+                  handleDisplayNumber={handleDisplayNumber}
+                />
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
-                <CardExercise width={7} content={<MyAnswers audio={question.studentAnswerAudio} />} />
+                <CardExercise
+                  width={7}
+                  content={
+                    <MyAnswers
+                      audios={partRenderSelected?.groups[groupSelected.group]}
+                      numberQuestion={numberQuestion}
+                    />
+                  }
+                />
                 <ContentRight
                   apiContent={partRenderSelected}
                   handleOpen={handleOpen}
@@ -111,8 +123,8 @@ const SpeakingReview = (props: Props) => {
           </Box>
         </Box>
         {isOpenAnswer && (
-          <ModalRightAnswer question={question} handleCloseAnswer={handleCloseAnswer} content={contentModal}>
-            <ModelAnswer audio={question.question.modelAnswerAudio} />
+          <ModalRightAnswer handleCloseAnswer={handleCloseAnswer} content={contentModal}>
+            <ModelAnswer />
           </ModalRightAnswer>
         )}
         {/* chua co ham */}
