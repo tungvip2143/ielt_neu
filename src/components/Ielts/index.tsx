@@ -203,7 +203,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
                             onClick={handleShowModal}
                             key={item.id}
                             exam={item}
-                            id={id}
+                            id={item.id}
                           />
                         );
                       }
