@@ -1,13 +1,14 @@
 export const RouteBase = {
   Home: "/",
   Ielts: "/ielts",
-  IeltsWithExam: (id?: number) => `/ielts?exam=${id}`,
+  IeltsWithExam: (id?: string) => `/ielts?exam=${id}`,
   Login: "/login",
   ChooseExam: "/choose-exam",
   LoginEmail: "/login/email",
   LoginGoogle: "/login/google",
   SignUp: "/sign-up",
   SignUpEmail: "/sign-up/email",
+  ForgotPassword: "/login/forgot-password",
   IeltsListening: "/ielts/listening",
   IeltsReading: "/ielts/reading",
   IeltsWriting: "/ielts/writing",
@@ -21,6 +22,9 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
+  ViewExam: "/admin/exammagement/Exam/:id",
+  ViewExamId: (id: string | number) => `/admin/exammagement/Exam/${id}`,
+
   //User
   AdminUser: "/admin/user",
   CreateUser: "/admin/user/create",
@@ -53,7 +57,8 @@ export const RouteBase = {
   //Contest
   ContestManagement: "/admin/contestManagement",
   CreateContestManagement: "/admin/contestManagement/create",
-
+  UpdateContestManagement: "/admin/contestManagement/:id",
+  UpdateContestManagementWId: (id: string | number) => `/admin/contestManagement/${id}`,
   //Static
   StaticManagement: "/admin/staticManagement",
 };

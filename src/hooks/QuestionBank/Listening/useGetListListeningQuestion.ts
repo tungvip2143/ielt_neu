@@ -1,6 +1,6 @@
 import { useCallback } from "react";
 import { useEffect, useState } from "react";
-import listeningService from "services/ReadingService";
+import listeningService from "services/listeningService";
 
 const useGetListListeningQuestion = (id: any) => {
   const [dataListening, setDataListening] = useState([]);
@@ -40,7 +40,6 @@ const useGetListListeningQuestion = (id: any) => {
       fetchData();
     }
   }, [id]);
-
 
   return [dataListening, loading, error, refetchQuestionGroup];
 };

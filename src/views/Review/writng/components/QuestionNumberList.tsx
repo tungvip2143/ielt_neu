@@ -49,18 +49,18 @@ const QuestionNumberList = ({ questions, onClickPage, setChangeData }: QuestionN
   const renderPartValues = (question: any, partIndex: number) => {
     let sectionRender: any = {};
     const onclickPage = () => {
-      setHighlightPage(question.question.displayNumber);
-      setChangeData(Number(question.question.displayNumber) - 1);
+      setHighlightPage(question?.question?.displayNumber);
+      setChangeData(Number(question?.question?.displayNumber) - 1);
     };
     const highLightPageEvent = () => {
-      if (highlightPage == question.question.displayNumber) {
+      if (highlightPage == question?.question?.displayNumber) {
         return { background: "#4C80F1 !important", borderRadius: "50%" };
       }
     };
     return (
       <>
         <Box className={classes.eachQuestion} sx={highLightPageEvent()} onClick={onclickPage}>
-          <span>{question.question.displayNumber}</span>
+          <span>{question?.question?.displayNumber}</span>
         </Box>
       </>
     );

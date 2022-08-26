@@ -56,9 +56,7 @@ const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
   const [existAudio, setExistAudio] = useState<boolean>(false);
-  const [box, setBox] = useState<boolean>(false);
   const { openCreateScreen } = props;
-  const params = useParams<any>();
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
@@ -67,8 +65,8 @@ const CreateQuestionListening = (props: Props) => {
   const id = search.split("=")[1];
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
-    // questionTip: yup.string().required("This field is required!"),
     partNumber: yup.string().required("This field is required!"),
+    // questionTip: yup.string().required("This field is required!"),
     // questionSimple: yup
     //   .string()
     //   .required("This field is required!")
@@ -84,11 +82,9 @@ const CreateQuestionListening = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
-  console.log("dataPartDetail", dataPartDetail);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
   const [isEdit, setIsEdit] = useState(false);
-  console.log("dataReading", dataPartDetail);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -168,7 +164,10 @@ const CreateQuestionListening = (props: Props) => {
           const response = await listeningService.postCreatePart(body);
           if (response.data.statusCode === 200) {
             toast.success("Create part success!");
-            history.push(RouteBase.UpdateListeningWId(response?.data?.data?.id));
+            history.push({
+              pathname: RouteBase.UpdateListeningWId(response?.data?.data?.partTitle),
+              search: `?id=${response?.data?.data?.id}`,
+            });
           }
           onSubmit;
         }
@@ -194,7 +193,7 @@ const CreateQuestionListening = (props: Props) => {
         const response = await listeningService.postCreatePart(body);
         if (response.data.statusCode === 200) {
           toast.success("Update speaking success!");
-          history.goBack();
+          // history.push(RouteBase.Listening);
         }
       } catch (error: any) {
         toast.error(error);
@@ -252,7 +251,7 @@ const CreateQuestionListening = (props: Props) => {
           />
         </div>
       </div>
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
+      {/* <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
         <TinyMceCommon
           tagName="questionTip"
           onInit={(evt, editor) => {
@@ -267,24 +266,8 @@ const CreateQuestionListening = (props: Props) => {
           }}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        {/* {box && (
-          <span
-            style={{
-              display: "flex",
-              fontSize: "0.8rem",
-              fontWeight: "400",
-              lineHeight: "1.66",
-              fontFamily: "Arial",
-              textAlign: "left",
-              marginTop: "10px",
-
-              color: " red",
-            }}
-          >
-            This field is required!
-          </span>
-        )} */}
-      </Card>
+       
+      </Card> */}
 
       {(selectFile || dataPartDetail?.partAudio) && (
         <AudioPlayer

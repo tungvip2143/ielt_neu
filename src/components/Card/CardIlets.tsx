@@ -88,10 +88,6 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
   };
   // !Function
   const handleTest = async () => {
-    handleSubmit();
-    if (!values.exam.label) {
-      return;
-    }
     await createTestCode(
       { examination: "63083406de9e9ae9edd96b5d" },
       {

@@ -89,3 +89,9 @@ export const useUploadAudioSpeaking = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+
+export const useGetExamination = (queries: any) => {
+  return useQuery(["get examinations", queries], () => ieltsService.getIeltsExaminatios(queries), {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};

@@ -21,6 +21,7 @@ import TinyMceCommon from "components/TinyMceCommon";
 import audioService from "services/audioService";
 import ButtonUpload from "components/Button/ButtonUpload";
 import { IMAGE_URL } from "constants/constants";
+import { RouteBase } from "constants/routeUrl";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -94,7 +95,10 @@ const CreateQuestionWriting = (props: Props) => {
         const response = await writingServices.postCreateQuestion(body);
         if (response?.data?.statusCode === 200) {
           toast.success("Create writing part success");
-          history.goBack();
+          history.push({
+            pathname: RouteBase.UpdateWritingWId(response?.data?.data?.partTitle),
+            search: `?id=${response?.data?.data?.id}`,
+          });
         }
       } catch (error: any) {
         toast.error(error);
@@ -187,7 +191,7 @@ const CreateQuestionWriting = (props: Props) => {
           </div>
         </div>
       </div>
-      <Card className="p-[20px] mt-5">
+      <div className="text-center">
         <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
         {(selectFile || dataQuestionDetail?.image) && (
           <img
@@ -198,12 +202,12 @@ const CreateQuestionWriting = (props: Props) => {
           />
         )}
         <ButtonUpload
-          style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+          style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 20 }}
           titleButton="Upload image"
           onClick={handleClick}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-      </Card>
+      </div>
       <Card sx={{ minWidth: 275 }} className="p-[20px] my-[20px] flex-1">
         <TinyMceCommon
           ref={editorRef}

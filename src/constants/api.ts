@@ -20,6 +20,11 @@ export const AUTH_URL = {
   LOGIN_SOCIAL: `${ROOT_URL}/auth/signin/social`,
   RESEND_CODE: `${ROOT_URL}/auth/signup/resend-code`,
   VERIFY_EMAIL: `${ROOT_URL}/auth/signup/verify-email`,
+
+  FORGOT_PASSWORD: `${ROOT_URL}/auth/forgot-password`,
+  VERIFY_CODE: `${ROOT_URL}/auth/forgot-password/verify-code`,
+
+  RESET_PASSWORD: `${ROOT_URL}/auth/reset-password`,
 };
 
 export const IELTS_URL = (testCode?: any, questionId?: string) => {
@@ -44,6 +49,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     REVIEW_LISTENING: `${ROOT_URL}/tests/${testCode}/listening/result`,
     REVIEW_SPEAKING: `${ROOT_URL}/tests/${testCode}/speaking/result`,
     UPLOAD_AUDIO_SPEAKING: `${ROOT_URL}/tests/${testCode}/${questionId}/audio-answer`,
+    GET_EXAMINATIONS: `${ROOT_URL}/examinations/list`,
   };
 };
 
@@ -108,5 +114,22 @@ export const ADMIN_USER_URL = (id?: string | number) => {
     POST_CREATE_PART: `${ROOT_URL}/users/`,
     PATCH_UPDATE_PART: `${ROOT_URL}/users/`,
     DELETE_PART: `${ROOT_URL}/users/`,
+  };
+};
+
+export const ADMIN_CONTEST_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/examinations/list?page=1&pageSize=10&sort=createdAt%3ADESC`,
+    GET_PART_DETAIL: `${ROOT_URL}/examinations/`,
+    POST_CREATE_PART: `${ROOT_URL}/examinations/`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/examinations/`,
+    DELETE_PART: `${ROOT_URL}/examinations/`,
+  };
+};
+export const EXAM_MANAGEMENT_URL = (skill?: any, isGrading?: boolean) => {
+  return {
+    GET_LIST_VIEW_EXAM: `${ROOT_URL}/test-grades/`,
+    GET_LIST_TEST_GRADE: `${ROOT_URL}/test-grades?sort=createdAt%3ADESC?`,
+    PATCH_TEST_GRADE: `${ROOT_URL}/test-grades/`,
   };
 };

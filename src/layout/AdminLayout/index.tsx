@@ -18,6 +18,7 @@ import WritingSkill from "views/Admin/components/Writing/WritingSkill";
 import StaticManagement from "views/Admin/StaticManagement";
 import UserAdmin from "views/Admin/components/UserAdmin/UserAdmin";
 import CreateUser from "views/Admin/components/UserAdmin/CreateUser/CreateUser";
+import ViewExam from "views/Admin/ExamManagement/component/ViewExam";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
@@ -90,8 +91,18 @@ const AdminLayout: React.FC = (props) => {
               component={() => <CreateWriting openCreateScreen={{ type: "update" }} />}
             />
             <PrivateRoute path={RouteBase.ExamManagement} exact component={ExamManagement} />
+            <PrivateRoute path={RouteBase.ViewExam} exact component={ViewExam} />
             <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
-            <PrivateRoute path={RouteBase.CreateContestManagement} exact component={() => <CreateContest />} />
+            <PrivateRoute
+              path={RouteBase.CreateContestManagement}
+              exact
+              component={() => <CreateContest openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateContestManagement}
+              exact
+              component={() => <CreateContest openCreateScreen={{ type: "update" }} />}
+            />
             <PrivateRoute path={RouteBase.StaticManagement} exact component={() => <StaticManagement />} />
           </Switch>
         </Suspense>

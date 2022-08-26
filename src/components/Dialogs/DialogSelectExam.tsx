@@ -3,13 +3,14 @@ import { AutoCompletedMui } from "components/Autocomplete";
 import ButtonCommon from "components/Button/ButtonCommon";
 import CommonStyles from "components/CommonStyles";
 import { examSemester } from "constants/enum";
-import { Formik, FormikHelpers, Form, FastField } from "formik";
+import { Formik, FormikHelpers, Form, FastField, Field } from "formik";
 import * as Yup from "yup";
 import Box from "@mui/material/Box";
+import { useGetExamination } from "hooks/ielts/useIelts";
 export interface InitialValueExam {
   exam: {
-    id: number;
-    label: string;
+    id: string;
+    name: string;
   };
 }
 
@@ -30,22 +31,36 @@ const useStyles = makeStyles((theme) => {
 const validationSchemaSelectExam = Yup.object().shape({
   exam: Yup.object()
     .shape({
-      id: Yup.number().required("Exam is required field!"),
-      label: Yup.string().required("Exam is required field!"),
+      id: Yup.string().required("Exam is required field!"),
+      name: Yup.string().required("Exam is required field!"),
     })
     .required("Exam is required field!"),
 });
 
+const initialValues = {
+  exam: {
+    id: "",
+    name: "",
+  },
+};
+
+const initialFilter = {
+  page: 1,
+  pageSize: 20,
+};
+
 const DialogSelectExam = ({ open, toggle, onSubmit }: DialogSelectExamI) => {
   //! State
   const classes = useStyles();
+  const { data, isLoading } = useGetExamination(initialFilter);
+  const examinations = data?.data?.data?.data || [];
 
   //* md -> display: flex, flex-direction: column, flex-wrap: wrap, gap: 8px
   //* xs -> display: grid, gridTemplateColumns: '8px 8px 8px',
 
   //! Render
   return (
-    <Formik initialValues={{ exam: examSemester[0] }} validationSchema={validationSchemaSelectExam} onSubmit={onSubmit}>
+    <Formik initialValues={initialValues} validationSchema={validationSchemaSelectExam} onSubmit={onSubmit}>
       {(formik) => {
         return (
           <Box>
@@ -55,12 +70,13 @@ const DialogSelectExam = ({ open, toggle, onSubmit }: DialogSelectExamI) => {
               header="Select the exam"
               content={
                 <Form>
-                  <FastField
+                  <Field
                     component={AutoCompletedMui}
                     label="Select Exam"
                     name="exam"
                     className={classes.field}
-                    options={examSemester}
+                    options={examinations}
+                    loading={isLoading}
                     fullWidth
                   />
                 </Form>

@@ -1,10 +1,11 @@
 import { PAGE_SIZE } from "constants/constants";
+import MContestManagemet from "models/ContestManagemet/ContestManagemet.model";
 import MPagination from "models/Pagination.model";
 import { useEffect, useState } from "react";
-import examServices from "services/examServices";
+import contestService from "services/contestService";
 
-const useExamManagement = (skill?: any, isGrade?: any) => {
-  const [dataExam, setDataExam] = useState<any[]>([]);
+const useContestManagemet = () => {
+  const [dataContest, setDataContest] = useState<MContestManagemet[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
@@ -27,11 +28,11 @@ const useExamManagement = (skill?: any, isGrade?: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await examServices.getListTestGrade(params);
+        const response = await contestService.getListParts(params);
 
         if (response.data.statusCode === 200) {
-          // const parts = MExamManagement.parsePartListFromResponse(response?.data?.data?.data || []);
-          setDataExam(response?.data?.data?.data || []);
+          const parts = MContestManagemet.parsePartListFromResponse(response?.data?.data?.data || []);
+          setDataContest(parts);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }
         setLoading(false);
@@ -50,7 +51,7 @@ const useExamManagement = (skill?: any, isGrade?: any) => {
     setParams({ pageSize, page: 1 });
   };
 
-  return [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
+  return [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
 };
 
-export default useExamManagement;
+export default useContestManagemet;

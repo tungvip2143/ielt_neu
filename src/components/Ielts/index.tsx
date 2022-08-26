@@ -21,6 +21,7 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 import { useFormikContext } from "formik";
 import useGetQuerystring from "hooks/useGetQuerystring";
+import { useGetExamination } from "hooks/ielts/useIelts";
 
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
@@ -90,7 +91,7 @@ const dataModal = [
 
 const initialValues = {
   exam: {
-    label: "",
+    name: "",
     id: "",
   },
 };
@@ -101,12 +102,21 @@ const validationSchema = yup.object().shape({
   }),
 });
 
+const initialFilter = {
+  page: 1,
+  pageSize: 10,
+};
+
 export default function IeltsSections({ bg }: PropsBg3) {
   // !State
   const classes = useStyles();
   const [open, setOpen] = React.useState<boolean>(false);
   const [id, setId] = React.useState<number>(0);
   const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
+  const { data, isLoading } = useGetExamination(initialFilter);
+  const examinations = data?.data?.data?.data || [];
+  console.log("examination", examinations);
+  console.log("loading", isLoading);
 
   // console.log("fnsjdfds", id);
   const history = useHistory();
