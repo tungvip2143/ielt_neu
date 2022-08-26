@@ -1,6 +1,7 @@
 import { useSelector } from "react-redux";
 import { IELTS_URL } from "constants/api";
 import httpServices from "services/httpServices";
+import queryString from "query-string";
 
 class IeltsService {
   createIeltsTestCode(body = {}) {
@@ -64,6 +65,10 @@ class IeltsService {
 
   uploadAudioSpeaking({ testCode, questionId, body }: { testCode: any; questionId: string; body: any }) {
     return httpServices.patch(IELTS_URL(testCode, questionId).UPLOAD_AUDIO_SPEAKING, body);
+  }
+
+  getIeltsExaminatios(queries: any) {
+    return httpServices.get(`${IELTS_URL().GET_EXAMINATIONS}?${queryString.stringify(queries)}`);
   }
 }
 

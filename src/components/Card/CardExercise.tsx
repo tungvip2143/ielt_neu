@@ -22,7 +22,7 @@ const CardExercise = ({ content, width, className, styleAdd }: Props) => {
     border: "1px solid #ccc",
     borderRadius: "6px",
     boxShadow: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
-    height: styleAdd.height || "",
+    height: styleAdd?.height || "100%",
   };
   return (
     <Grid item xs={12} sm={12} md={12} lg={width}>

@@ -40,7 +40,7 @@ const ReadingReview = (props: any) => {
   const classes = useStyles();
   const { data } = props;
   console.log("data789", data);
-  const [questions, setQuestions] = useState([]);
+  // const [questions, setQuestions] = useState([]);
 
   const [questionSelected, setQuestionSelected] = useState<any>("1");
   const [groupSelected, setGroupSelected] = useState({
@@ -50,9 +50,9 @@ const ReadingReview = (props: any) => {
   const [showQuestion, setShowQuestion] = useState("1");
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
 
-  useEffect(() => {
-    setQuestions(data);
-  }, []);
+  // useEffect(() => {
+  //   setQuestions(data);
+  // }, []);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -69,13 +69,13 @@ const ReadingReview = (props: any) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = questions as any;
+    const questionsWithPageNumberTemp = data as any;
     if (!isEmpty(questionsWithPageNumberTemp)) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
 
     return null;
-  }, [questions, groupSelected]);
+  }, [data, groupSelected]);
 
   //
 
@@ -107,7 +107,7 @@ const ReadingReview = (props: any) => {
                   questionSelected={questionSelected}
                   onClickPart={onClickPart}
                   onClickPage={onClickPage}
-                  questions={questions}
+                  questions={data}
                   test={IELT_TEST.READING}
                   setDisplayNumber={onClickShowQuestion}
                   hightLightNumberPage={hightLightNumberPage}

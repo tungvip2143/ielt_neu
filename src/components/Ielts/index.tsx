@@ -17,9 +17,10 @@ import Modal from "components/Modal";
 import { useHistory } from "react-router-dom";
 //
 import { makeStyles } from "@mui/styles";
-import { FastField, Form, Formik } from "formik";
+import { FastField, Field, Form, Formik } from "formik";
 import { AutoCompletedMui } from "components/Autocomplete";
 import * as yup from "yup";
+import { useGetExamination } from "hooks/ielts/useIelts";
 
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
@@ -97,16 +98,21 @@ const examSemester = [
 
 const initialValues = {
   exam: {
-    label: "",
+    name: "",
     id: "",
   },
 };
 
 const validationSchema = yup.object().shape({
-  exam: yup.object().shape({
-    label: yup.string().required("please choose exam before start"),
-  }),
+  // exam: yup.object().shape({
+  //   name: yup.string().required("please choose exam before start"),
+  // }),
 });
+
+const initialFilter = {
+  page: 1,
+  pageSize: 10,
+};
 
 export default function IeltsSections({ bg }: PropsBg3) {
   // !State
@@ -114,6 +120,10 @@ export default function IeltsSections({ bg }: PropsBg3) {
   const [open, setOpen] = React.useState<boolean>(false);
   const [id, setId] = React.useState<number>();
   const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
+  const { data, isLoading } = useGetExamination(initialFilter);
+  const examinations = data?.data?.data?.data || [];
+  console.log("examination", examinations);
+  console.log("loading", isLoading);
 
   const history = useHistory();
 
@@ -172,11 +182,12 @@ export default function IeltsSections({ bg }: PropsBg3) {
                     <Box sx={{ width: { xs: "100%", lg: "260px" }, ml: "10px" }}>
                       <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
                     </Box>
-                    <FastField
+                    <Field
                       label="Select Exam"
                       component={AutoCompletedMui}
                       name="exam"
-                      options={examSemester}
+                      options={examinations}
+                      loading={isLoading}
                       sx={{ width: "300px", display: { xs: "none", lg: "block" } }}
                     />
 

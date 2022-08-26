@@ -21,7 +21,7 @@ const SentenceCompletetion = (props: Props) => {
           el)}' name='answers.[${blankId}].studentAnswer' style={{border:"1px solid #ccc"}} id="input-${blankId}" type="text" value="" maxlength="30">`
     );
   });
-  const test: any = Handlebars.compile(data?.question?.questionText);
+  const test: any = Handlebars.compile(data?.question?.questionText || "");
 
   // useEffect(()=>{
   //   inputRef?.current[displayNumber]?.focus();

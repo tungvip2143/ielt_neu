@@ -33,7 +33,7 @@ const DataFake = [
   },
 ];
 const StaticManagement = () => {
-  const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
+  // const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
 
   const [openModal, setOpenModal] = useState(false);
 
@@ -83,8 +83,8 @@ const StaticManagement = () => {
           // loading={loading}
           checkboxSelection
           rows={DataFake}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
+          // onPageChange={onPageChange}
+          // onPageSizeChange={onPageSizeChange}
         />
       </Card>
     </div>

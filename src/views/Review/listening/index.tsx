@@ -44,18 +44,11 @@ const ListeningReview = (props: Props) => {
   const classes = useStyles();
   const { data } = props;
 
-  const [questions, setQuestions] = useState([]);
-
   const [questionSelected, setQuestionSelected] = useState<any>("1");
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState([]);
-
-  useEffect(() => {
-    setQuestions(data);
-  }, []);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -65,13 +58,13 @@ const ListeningReview = (props: Props) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = questions as any;
+    const questionsWithPageNumberTemp = data as any;
     if (!isEmpty(questionsWithPageNumberTemp)) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
 
     return null;
-  }, [questions, groupSelected]);
+  }, [data, groupSelected]);
 
   //
 
@@ -143,6 +136,7 @@ const ListeningReviewContainer = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
+  console.log("listening data ", data?.data?.data);
 
   return (
     <>
