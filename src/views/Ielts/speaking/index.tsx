@@ -20,6 +20,7 @@ import IntructionsToCandidates from "../../components/dataSteps/DataContentSpeak
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
+import { IELT_TEST } from "interfaces/testType";
 //
 const stepRuleExam = {
   typeExam: "Speaking",
@@ -95,7 +96,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
               )}
               {step === TypeStepExamEnum.STEP4 && <ExamTest />}
-              {/* {step === TypeStepExamEnum.STEP3 && <EndTest test={IELT_TEST.SPEAKING} />} */}
+              {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.SPEAKING} />}
             </Box>
           </Box>
 

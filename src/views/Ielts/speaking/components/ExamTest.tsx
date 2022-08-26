@@ -126,7 +126,7 @@ const ExamTest = (props: Props) => {
             setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
             return;
           } else {
-            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
             return;
           }
         },
