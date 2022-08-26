@@ -23,6 +23,8 @@ import InformationForCandidates from "../../components/dataSteps/DataContentSpea
 import IntructionsToCandidates from "../../components/dataSteps/DataContentSpeaking/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
+import StepExamWriting from "./component/StepExamWriting";
+import HandleQuestionProvider from "providers/HandleQuestionProvider";
 
 export interface IeltsReadingProps {}
 
@@ -40,6 +42,7 @@ const stepRuleExam = {
   informationsForCandidates: <InformationForCandidates />,
   intructionsToCandidates: <IntructionsToCandidates />,
 };
+
 const IeltsWriting = (props: IeltsReadingProps) => {
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
@@ -63,6 +66,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
   const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);
   }, []);
+
   const handleCloseModalHelp = () => {
     setIsOpenModalHelp(false);
   };
@@ -70,6 +74,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
   const handleOpenModalHide = useCallback(() => {
     setIsOpenModalHide(true);
   }, []);
+
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
@@ -85,9 +90,11 @@ const IeltsWriting = (props: IeltsReadingProps) => {
     padding: "10px !important",
     // overflow: "hidden",
   };
+
   if (isLoading) {
     return <LoadingPage />;
   }
+
   return (
     <Formik
       initialValues={initialsValues}
@@ -108,7 +115,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
               {step === TypeStepExamEnum.STEP2 && (
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
-              {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.WRITING} data={data?.data?.data} />}
+              {step === TypeStepExamEnum.STEP3 && <StepExamWriting test={IELT_TEST.WRITING} data={data?.data?.data} />}
               {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.WRITING} />}
             </Box>
 
@@ -127,9 +134,11 @@ const IeltsWriting = (props: IeltsReadingProps) => {
 
 const IeltsWritingRoot = () => {
   return (
-    <StepExamProvider>
-      <IeltsWriting />
-    </StepExamProvider>
+    <HandleQuestionProvider>
+      <StepExamProvider>
+        <IeltsWriting />
+      </StepExamProvider>
+    </HandleQuestionProvider>
   );
 };
 

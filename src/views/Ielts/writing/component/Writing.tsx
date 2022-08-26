@@ -19,33 +19,31 @@ type Props = {
 const Writing = (props: Props) => {
   const classes = useStyles();
   const { groupSelected, questionId } = props;
-  // console.log("groupSelected", questionId);
 
   const { values, setFieldValue } = useFormikContext();
 
-  // console.log("writing values", values);
   const handleFocus = () => {
-    setFieldValue(`answers[${groupSelected?.part}].questionId`, questionId);
+    setFieldValue(`answers[${groupSelected}].questionId`, questionId);
   };
 
   return (
     <>
-      {groupSelected?.part === 0 && (
+      {groupSelected === 0 && (
         <div className={classes.container}>
           <FastField
             onFocus={handleFocus}
             label="mot"
-            name={`answers[${groupSelected?.part}].studentAnswer`}
+            name={`answers[${groupSelected}].studentAnswer`}
             component={Textarea}
           />
         </div>
       )}
-      {groupSelected?.part === 1 && (
+      {groupSelected && (
         <div className={classes.container}>
           <FastField
             onFocus={handleFocus}
             label="hai"
-            name={`answers[${groupSelected?.part}].studentAnswer`}
+            name={`answers[${groupSelected}].studentAnswer`}
             component={Textarea}
           />
         </div>

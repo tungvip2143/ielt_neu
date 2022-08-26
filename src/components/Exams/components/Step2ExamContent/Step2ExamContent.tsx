@@ -12,9 +12,7 @@ import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
-import Writing from "views/Ielts/writing/component/Writing";
 import FooterExamResponsive from "./FooterExamResponsive";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 interface Props {
   data?: any;
@@ -24,7 +22,6 @@ const Step2ExamContent = (props: any) => {
   const { data, test } = props;
   //! State
   const [questions, setQuestions] = useState(data);
-  console.log("data1234", data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
   const [questionSelected, setQuestionSelected] = useState<any>();
@@ -42,6 +39,8 @@ const Step2ExamContent = (props: any) => {
   const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
 
   console.log("groupSelected", groupSelected);
+  console.log("questionData", questionData);
+  console.log("displayNumber", displayNumber);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -83,12 +82,6 @@ const Step2ExamContent = (props: any) => {
             }}
           >
             <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} width={5.9} />
-            {test === IELT_TEST.WRITING && (
-              <CardExercise
-                content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
-                width={6}
-              />
-            )}
             {test === IELT_TEST.READING && (
               <CardExercise
                 content={
@@ -108,14 +101,10 @@ const Step2ExamContent = (props: any) => {
         </Box>
 
         <CardTotalPageExams
-          questionSelected={questionSelected}
-          onClickPart={onClickPart}
           onClickPage={onClickPage}
           questions={questions}
           test={test}
           setDisplayNumber={onClickShowQuestion}
-          hightLightNumberPage={hightLightNumberPage}
-          onClickPageNumber={hightLightNumberPageClickQuestion}
           groupSelected={groupSelected}
           part={part}
           group={group}

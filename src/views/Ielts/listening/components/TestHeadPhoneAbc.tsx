@@ -51,7 +51,7 @@ const TestHeadPhoneAbc = () => {
   };
   return (
     <Box sx={containerTest}>
-      <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} />
+      {testSound && <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} />}
       <div className="">
         <Title image={ImgHeadPhone} text="Test sound" />
         <Container>
