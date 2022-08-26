@@ -72,7 +72,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
       {
         onSuccess: () => {
           handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-          localStorage.setItem("LISTENING", "true");
+          localStorage.setItem("WRITING", "true");
         },
       }
     );
