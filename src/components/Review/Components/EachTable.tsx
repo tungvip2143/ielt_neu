@@ -57,7 +57,7 @@ const EachTable = ({ panelId }: EachTableI) => {
   //! Function
   const handleReview = (testCode: number, skill: string) => {
     dispatch(IeltsActions.saveTestCode, { testCode });
-    history.push(`/ielts/review/${skill.toLocaleLowerCase()}/${testCode}`);
+    history.push(`/ielts/review/${panelId.toLocaleLowerCase()}/${testCode}`);
   };
 
   //! Render

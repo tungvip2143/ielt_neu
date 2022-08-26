@@ -37,7 +37,7 @@ interface StackMuiProps extends StackProps {
 }
 
 function Modal(props: Props) {
-  // !Destructure props
+  //! Destructure props
   const { children, onClose, open, width, styleModal } = props;
 
   // !State

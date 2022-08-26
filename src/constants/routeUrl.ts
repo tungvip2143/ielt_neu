@@ -1,7 +1,9 @@
 export const RouteBase = {
   Home: "/",
   Ielts: "/ielts",
+  IeltsWithExam: (id?: number) => `/ielts?exam=${id}`,
   Login: "/login",
+  ChooseExam: "/choose-exam",
   LoginEmail: "/login/email",
   LoginGoogle: "/login/google",
   SignUp: "/sign-up",

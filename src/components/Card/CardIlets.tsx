@@ -59,14 +59,28 @@ interface Exam {
   };
   onClick?: any;
   onSelectExam: boolean;
+  id?: any;
 }
-const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
+const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
+  console.log("idCard", id);
   //! State
   const { dispatch } = useSagaCreators();
   const { values, handleSubmit }: any = useFormikContext();
 
   // !Hook
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
+  const handleBackIeltsSelection = () => {
+    onClick();
+    if (id === 1) {
+      history.push("/ielts/listening");
+    } else if (id === 2) {
+      history.push("/ielts/reading");
+    } else if (id === 3) {
+      history.push("/ielts/writing");
+    } else if (id === 4) {
+      history.push("/ielts/speaking");
+    }
+  };
   const history = useHistory();
 
   const handleShowModal = () => {
@@ -79,11 +93,11 @@ const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
       return;
     }
     await createTestCode(
-      { skill: exam.skill },
+      { examination: "63083406de9e9ae9edd96b5d" },
       {
         onSuccess: (response) => {
           dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          handleShowModal();
+          handleBackIeltsSelection();
         },
         onError: (err: any) => {
           if (err.response.data.statusCode === 401) {

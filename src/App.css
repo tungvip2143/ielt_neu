@@ -250,3 +250,10 @@ ul {
 fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutline {
   border: 1px solid #333;
 }
+/*  */
+.css-1qopneg-MuiFormHelperText-root.Mui-error {
+  color: red !important;
+}
+.css-1apkv71-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
+  color: red !important;
+}

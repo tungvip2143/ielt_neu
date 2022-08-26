@@ -11,11 +11,12 @@ interface Props {
     desc: string;
     background: string;
   };
+  idExam?: any;
 }
-const TitleIntroExam = ({ dataTitleIntroExam }: Props) => {
+const TitleIntroExam = ({ dataTitleIntroExam, idExam }: Props) => {
   return (
     <Box>
-      <Text.SubTitle sx={{ mb: "30px" }}>{dataTitleIntroExam.title}</Text.SubTitle>
+      <Text.SubTitle sx={{ mb: "30px" }}>Level {idExam}</Text.SubTitle>
       <Text.DescSmallCard sx={{ color: "#8A8C91" }}>{dataTitleIntroExam.desc}</Text.DescSmallCard>
     </Box>
   );
