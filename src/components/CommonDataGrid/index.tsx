@@ -35,7 +35,7 @@ export default function CommonDataGrid({
       pageSize={pagination?.pageSize || 2}
       page={pagination?.page || 0}
       rowsPerPageOptions={PAGE_SIZE}
-      checkboxSelection={checkboxSelection}
+      checkboxSelection={false}
       disableSelectionOnClick
       keepNonExistentRowsSelected
       onPageChange={(page, detail) => {
