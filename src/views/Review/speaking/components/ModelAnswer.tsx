@@ -1,5 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import Text from "components/Typography";
+import Text from "../../../../components/Typography/index";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import React from "react";
 import ReactAudioPlayer from "react-audio-player";
@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 type Props = {
-  audio: string;
+  audio?: string;
 };
 
 const ModelAnswer = (props: Props) => {
@@ -28,7 +28,7 @@ const ModelAnswer = (props: Props) => {
   // !Render
   return (
     <div className={classes.container}>
-      <Text.SubTitle>Model Answer</Text.SubTitle>
+      <Text.Sub20Bold>Model Answer</Text.Sub20Bold>
       <div className={classes.audio}>
         <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} controls />
       </div>
