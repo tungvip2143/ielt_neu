@@ -52,57 +52,61 @@ const Writing = (props: Props) => {
 
   return (
     <div className="writingContainer">
-      {dataWriting?.skill === "WRITING" && (
-        <div>
-          {dataWriting?.writingDetail?.map((el: any, index: number) => {
-            return (
-              <div>
-                <Card sx={{ minWidth: 275 }} className="p-[20px] mt-[20px]">
-                  <div className="partContainer">
-                    <div className="flex items-center">
-                      <Typography className="partText">Part {el?.questionNumber}</Typography>
-                      <Typography className="title">{el?.question?.title}</Typography>
-                    </div>
+      <div>
+        {dataWriting?.writingDetail?.map((el: any, index: number) => {
+          return (
+            <div>
+              <Card sx={{ minWidth: 275 }} className="p-[20px] mt-[20px]">
+                <div className="partContainer">
+                  <div className="flex items-center">
+                    <Typography className="partText">Part {el?.questionNumber}</Typography>
+                    <Typography className="title">{el?.question?.title}</Typography>
+                  </div>
+                </div>
+              </Card>
+              <div className="answerContainer">
+                <Card className="tipsContainer" sx={{ mr: 2 }}>
+                  <div dangerouslySetInnerHTML={{ __html: el?.question?.tips }}></div>
+                  <Typography className="text">{el?.question?.text}</Typography>
+                  {el?.question?.image && <img alt="image" src={IMAGE_URL + el?.question?.image} />}
+                  <Typography className="partText">Model answer</Typography>
+                  <div dangerouslySetInnerHTML={{ __html: el?.question?.modelAnswer }}></div>
+                </Card>
+                <Card className="tipsContainer">
+                  <Typography className="text">{el?.question?.studentAnswer}</Typography>
+                  <div className="scoreContainer">
+                    <Typography className="partText">Score:</Typography> &nbsp;
+                    <input
+                      value={isEdit === el?.questionId ? score : el?.score}
+                      style={{ width: 50, height: 30 }}
+                      onChange={(e: any) => setScore(e.target.value)}
+                      disabled={isEdit !== el?.questionId}
+                    />
+                    {isEdit !== el?.questionId ? (
+                      <BorderColorOutlinedIcon
+                        sx={{ cursor: "grab", marginLeft: "10px" }}
+                        onClick={() => setIsEdit(el?.questionId)}
+                      />
+                    ) : (
+                      <div>
+                        <CheckOutlinedIcon sx={{ color: "green", cursor: "grab" }} onClick={onSubmitScore} />
+                        <CloseOutlinedIcon
+                          sx={{ color: "red", cursor: "grab" }}
+                          onClick={() => {
+                            refetchData();
+                            setIsEdit(-1);
+                            setScore(el?.score);
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
                 </Card>
-                <div className="answerContainer">
-                  <Card className="tipsContainer" sx={{ mr: 2 }}>
-                    <div dangerouslySetInnerHTML={{ __html: el?.question?.tips }}></div>
-                    <Typography className="text">{el?.question?.text}</Typography>
-                    {el?.question?.image && <img alt="image" src={IMAGE_URL + el?.question?.image} />}
-                    <Typography className="partText">Model answer</Typography>
-                    <div dangerouslySetInnerHTML={{ __html: el?.question?.modelAnswer }}></div>
-                  </Card>
-                  <Card className="tipsContainer">
-                    <Typography className="text">{el?.question?.studentAnswer}</Typography>
-                    <div className="scoreContainer">
-                      <Typography className="partText">Score:</Typography> &nbsp;
-                      <input
-                        name={`dataWriting[${index}].questionId`}
-                        value={isEdit === el?.questionId ? score : el?.score}
-                        style={{ width: 50, height: 30 }}
-                        onChange={(e: any) => setScore(e.target.value)}
-                        disabled={isEdit !== el?.questionId}
-                      />
-                      {isEdit !== el?.questionId ? (
-                        <BorderColorOutlinedIcon
-                          sx={{ cursor: "grab", marginLeft: "10px" }}
-                          onClick={() => setIsEdit(el?.questionId)}
-                        />
-                      ) : (
-                        <div>
-                          <CheckOutlinedIcon sx={{ color: "green", cursor: "grab" }} onClick={onSubmitScore} />
-                          <CloseOutlinedIcon sx={{ color: "red", cursor: "grab" }} onClick={() => setIsEdit(-1)} />
-                        </div>
-                      )}
-                    </div>
-                  </Card>
-                </div>
               </div>
-            );
-          })}
-        </div>
-      )}
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 };
