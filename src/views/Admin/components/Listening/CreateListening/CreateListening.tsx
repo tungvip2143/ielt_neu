@@ -56,9 +56,7 @@ const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
   const [existAudio, setExistAudio] = useState<boolean>(false);
-  const [box, setBox] = useState<boolean>(false);
   const { openCreateScreen } = props;
-  const params = useParams<any>();
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
@@ -67,8 +65,8 @@ const CreateQuestionListening = (props: Props) => {
   const id = search.split("=")[1];
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
-    // questionTip: yup.string().required("This field is required!"),
     partNumber: yup.string().required("This field is required!"),
+    // questionTip: yup.string().required("This field is required!"),
     // questionSimple: yup
     //   .string()
     //   .required("This field is required!")
@@ -84,11 +82,9 @@ const CreateQuestionListening = (props: Props) => {
     // correctAnswer: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
-  console.log("dataPartDetail", dataPartDetail);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
   const [isEdit, setIsEdit] = useState(false);
-  console.log("dataReading", dataPartDetail);
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",

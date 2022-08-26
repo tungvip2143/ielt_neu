@@ -117,6 +117,15 @@ export const ADMIN_USER_URL = (id?: string | number) => {
   };
 };
 
+export const ADMIN_CONTEST_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/examinations/list?page=1&pageSize=10&sort=createdAt%3ADESC`,
+    GET_PART_DETAIL: `${ROOT_URL}/examinations/`,
+    POST_CREATE_PART: `${ROOT_URL}/examinations/`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/examinations/`,
+    DELETE_PART: `${ROOT_URL}/examinations/`,
+  };
+};
 export const EXAM_MANAGEMENT_URL = (skill?: any, isGrading?: boolean) => {
   return {
     GET_LIST_VIEW_EXAM: `${ROOT_URL}/test-grades/`,

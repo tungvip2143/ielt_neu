@@ -93,7 +93,16 @@ const AdminLayout: React.FC = (props) => {
             <PrivateRoute path={RouteBase.ExamManagement} exact component={ExamManagement} />
             <PrivateRoute path={RouteBase.ViewExam} exact component={ViewExam} />
             <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
-            <PrivateRoute path={RouteBase.CreateContestManagement} exact component={() => <CreateContest />} />
+            <PrivateRoute
+              path={RouteBase.CreateContestManagement}
+              exact
+              component={() => <CreateContest openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateContestManagement}
+              exact
+              component={() => <CreateContest openCreateScreen={{ type: "update" }} />}
+            />
             <PrivateRoute path={RouteBase.StaticManagement} exact component={() => <StaticManagement />} />
           </Switch>
         </Suspense>
