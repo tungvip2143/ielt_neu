@@ -124,7 +124,7 @@ const ModalCreateQuestion = (props: Props) => {
     if (openModal.type === "createQuestion") {
       const body = {
         level: "A1",
-        answerList: matchingRef && matchingRef?.current?.getContent(),
+        answerList: matchingRef?.current?.getContent(),
         directionText: directionRef?.current?.getContent(),
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
@@ -290,9 +290,7 @@ const ModalCreateQuestion = (props: Props) => {
           <div className="mt-5">
             <TinyMceCommon
               ref={matchingRef}
-              initialValue={
-                dataQuestionDetail?.questionTypeTips ? dataQuestionDetail?.questionTypeTips : "Matching heading"
-              }
+              initialValue={dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching heading"}
               disabled={openModal.type === "detailQuestion"}
             />
             {openModal.type !== "detailQuestion" && (
