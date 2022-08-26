@@ -21,6 +21,7 @@ import TinyMceCommon from "components/TinyMceCommon";
 import audioService from "services/audioService";
 import ButtonUpload from "components/Button/ButtonUpload";
 import { IMAGE_URL } from "constants/constants";
+import { RouteBase } from "constants/routeUrl";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -94,7 +95,10 @@ const CreateQuestionWriting = (props: Props) => {
         const response = await writingServices.postCreateQuestion(body);
         if (response?.data?.statusCode === 200) {
           toast.success("Create writing part success");
-          history.goBack();
+          history.push({
+            pathname: RouteBase.UpdateWritingWId(response?.data?.data?.partTitle),
+            search: `?id=${response?.data?.data?.id}`,
+          });
         }
       } catch (error: any) {
         toast.error(error);

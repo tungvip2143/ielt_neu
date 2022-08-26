@@ -17,8 +17,9 @@ import { useIeltsTestCode } from "hooks/ielts/useIelts";
 import useSagaCreators from "hooks/useSagaCreators";
 import { useHistory } from "react-router-dom";
 import { IeltsActions } from "redux/creators/modules/ielts";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { isEmpty } from "lodash";
+import LoadingPage from "components/Loading";
 
 const CardList = {
   borderRadius: "15px",
@@ -59,40 +60,46 @@ interface Exam {
   };
   onClick?: any;
   onSelectExam: boolean;
+  id?: any;
 }
-const CardIlets = ({ exam, onClick, onSelectExam }: Exam) => {
+const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
   //! State
-  const { dispatch } = useSagaCreators();
-  const { values, handleSubmit }: any = useFormikContext();
 
   // !Hook
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
+
   const history = useHistory();
 
-  const handleShowModal = () => {
-    onClick();
-  };
   // !Function
   const handleTest = async () => {
-    handleSubmit();
-    if (!values.exam.label) {
-      return;
+    if (id === 1) {
+      history.push("/ielts/listening");
+    } else if (id === 2) {
+      history.push("/ielts/reading");
+    } else if (id === 3) {
+      history.push("/ielts/writing");
+    } else if (id === 4) {
+      history.push("/ielts/speaking");
     }
-    await createTestCode(
-      { skill: exam.skill },
-      {
-        onSuccess: (response) => {
-          dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          handleShowModal();
-        },
-        onError: (err: any) => {
-          if (err.response.data.statusCode === 401) {
-            history.push("/login");
-          }
-        },
-      }
-    );
+    // await createTestCode(
+    //   { examination: "63083406de9e9ae9edd96b5d" },
+    //   {
+    //     onSuccess: (response) => {
+    //       dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
+
+    //     },
+    //     onError: (err: any) => {
+    //       if (err.response.data.statusCode === 401) {
+    //         history.push("/login");
+    //       }
+    //     },
+    //   }
+    // );
   };
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
 
   //! Render
   return (

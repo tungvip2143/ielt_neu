@@ -12,14 +12,16 @@ type Props = {
 const CODE = "-@X$";
 
 const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
-  console.log({ blankId, questionId, questionBox });
   questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
-  console.log("questionBox", questionBox);
   return questionBox;
 };
 
 const QuestionBox = (props: Props) => {
   const { questionBox, questions, displayNumber, onClickPage } = props;
+  // console.log("questions", questions);
+  // console.log("questionBox", questionBox);
+  // console.log("displayNumber", displayNumber);
+
   const { handleChange, values, setFieldValue }: any = useFormikContext();
 
   const newQuestionBoxParsed = useMemo(() => {

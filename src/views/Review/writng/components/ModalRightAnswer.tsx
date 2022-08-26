@@ -37,9 +37,10 @@ const iconClose = {
 const contentRender = {
   mt: "100px",
 };
-const ModalRightAnswer = ({ handleClose, open, children, content, handleCloseAnswer, question }: Props) => {
+const ModalRightAnswer = ({ children, content, handleCloseAnswer, question }: Props) => {
+  console.log("fdsfdsfd", question);
   return (
-    <Box sx={modal} onClick={() => handleClose()}>
+    <Box sx={modal}>
       <CloseIcon onClick={() => handleCloseAnswer()} sx={iconClose} />
       {children}
 

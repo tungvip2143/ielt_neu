@@ -8,13 +8,20 @@ import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 interface Props {
   ContentQuestion?: any;
   audio?: any;
+  displayNumber: number;
 }
-const ContentQuestion = ({ ContentQuestion, audio }: Props) => {
+const ContentQuestion = ({ ContentQuestion, audio, displayNumber }: Props) => {
   const questionType = ContentQuestion?.questionType;
-
+  console.log("ContentQuestion", ContentQuestion);
   const renderPartValueGroup = (ContentQuestion: any) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
-      return <NoteCompletion questionBox={ContentQuestion?.questionBox} />;
+      return (
+        <NoteCompletion
+          displayNumber={displayNumber}
+          groupData={ContentQuestion}
+          questionBox={ContentQuestion?.questionBox}
+        />
+      );
     }
 
     if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER) {

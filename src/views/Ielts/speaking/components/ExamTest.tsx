@@ -30,10 +30,8 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
   },
   container: {
-    width: "90%",
-    maxWidth: "1440px",
-    margin: "0 auto",
     justifyContent: "space-between",
+    padding: "0 15px",
   },
   cardExercies: {
     display: "flex",
@@ -128,7 +126,7 @@ const ExamTest = (props: Props) => {
             setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
             return;
           } else {
-            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
             return;
           }
         },
@@ -144,11 +142,14 @@ const ExamTest = (props: Props) => {
   if (uploadAudioLoading) {
     return <LoadingPage />;
   }
-
+  const styleAddExercise = {
+    height: "calc(100vh - 200px)",
+  };
   return (
     <div>
       <Grid container className={classes.container}>
         <CardExercise
+          styleAdd={styleAddExercise}
           width={5.9}
           className={classes.cardExercies}
           content={
@@ -171,6 +172,7 @@ const ExamTest = (props: Props) => {
           }
         />
         <CardExercise
+          styleAdd={styleAddExercise}
           className={classes.cardExercies}
           width={5.9}
           content={<RecordExam partAnswering={groupSelected.part} isRecording={isRecording} />}

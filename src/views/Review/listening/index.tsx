@@ -43,18 +43,12 @@ const ListeningReview = (props: Props) => {
 
   const classes = useStyles();
   const { data } = props;
-  const [questions, setQuestions] = useState([]);
 
   const [questionSelected, setQuestionSelected] = useState<any>("1");
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState([]);
-
-  useEffect(() => {
-    setQuestions(data);
-  }, []);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -64,13 +58,13 @@ const ListeningReview = (props: Props) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    const questionsWithPageNumberTemp = questions as any;
+    const questionsWithPageNumberTemp = data as any;
     if (!isEmpty(questionsWithPageNumberTemp)) {
       return questionsWithPageNumberTemp[groupSelected?.part];
     }
 
     return null;
-  }, [questions, groupSelected]);
+  }, [data, groupSelected]);
 
   //
 
@@ -84,6 +78,9 @@ const ListeningReview = (props: Props) => {
     background: "#fff",
     p: "40px 16px",
     boxShadow: "rgba(0, 0, 0, 0.10) 0px 5px 15px",
+  };
+  const styleAddExercise = {
+    height: "calc(100vh - 140px)",
   };
 
   return (
@@ -110,8 +107,10 @@ const ListeningReview = (props: Props) => {
                       audio={partRenderSelected?.partAudio}
                     />
                   }
+                  styleAdd={styleAddExercise}
                 />
                 <CardExercise
+                  styleAdd={styleAddExercise}
                   width={5.9}
                   content={
                     <ContentRight
@@ -133,15 +132,15 @@ const ListeningReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
   const { data, isLoading } = useGetListeningResultByTestCode(testCode);
-  console.log("testCode", data);
 
   if (isLoading) {
     return <LoadingPage />;
   }
+  console.log("listening data ", data?.data?.data);
 
   return (
     <>
-      <ListeningReview />
+      <ListeningReview data={data?.data?.data?.listening} />
     </>
   );
 };

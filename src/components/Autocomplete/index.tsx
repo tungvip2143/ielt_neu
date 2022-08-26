@@ -23,7 +23,8 @@ export const AutoCompletedMui: React.FC<FieldProps & TextFieldProps & Autocomple
       {...field}
       onChange={onChange}
       getOptionLabel={(option) => {
-        return option?.label ?? "";
+        console.log("option", option);
+        return option?.name ?? "";
       }}
       filterOptions={(options, state) => options}
       renderInput={(params) => (
@@ -35,7 +36,7 @@ export const AutoCompletedMui: React.FC<FieldProps & TextFieldProps & Autocomple
             autoComplete: "new-password", // disable autocomplete and autofill
           }}
           error={isTouched && Boolean(errorMessage)}
-          helperText={isTouched && errorMessage?.label}
+          helperText={isTouched && errorMessage?.name}
         />
       )}
     />

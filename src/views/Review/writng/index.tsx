@@ -19,6 +19,7 @@ import ContentRight from "./components/ContentRight";
 import ModalImage from "../../../components/Modal/ModalImage";
 import ModalRightAnswer from "./components/ModalRightAnswer";
 import Score from "../reading/components/Score";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 
 const useStyles = makeStyles((theme) => ({
@@ -36,6 +37,7 @@ const WritingReview = (props: any) => {
   const [open, setOpen] = React.useState(false);
   const [isOpenAnswer, setIsModalAnswer] = useState(false);
   const [contentModal, setContentModal] = useState();
+  const [indexData, setIndexData] = useState(0);
 
   //! State
   const classes = useStyles();
@@ -51,20 +53,22 @@ const WritingReview = (props: any) => {
     part: 0,
     group: 0,
   });
+  const setChangeData = (index: any) => {
+    setIndexData(index);
+  };
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-    console.log("groupRenderSelected", groupRenderSelected);
   };
 
   const partRenderSelected = useMemo(() => {
     const questionsWithPageNumberTemp = questions as any;
-    if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
-      return questionsWithPageNumberTemp[groupSelected?.part];
+    if (!isEmpty(questionsWithPageNumberTemp[indexData])) {
+      return questionsWithPageNumberTemp[indexData];
     }
 
     return null;
-  }, [questions, groupSelected]);
+  }, [questions, indexData]);
   //
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab } =
     partRenderSelected?.question || {};
@@ -88,6 +92,9 @@ const WritingReview = (props: any) => {
     p: "40px 16px",
     boxShadow: "rgba(0, 0, 0, 0.10) 0px 5px 15px",
   };
+  const styleAddExercise = {
+    height: themeCssSx.heightExercise.review,
+  };
   //! Render
   return (
     <div className={classes.root}>
@@ -98,12 +105,13 @@ const WritingReview = (props: any) => {
             <Box sx={{ display: "flex", flex: 1 }}>
               <Box sx={navLeft}>
                 <Score titleExam="Writing" />
-                <QuestionNumberList onClickPage={onClickPage} questions={questions} />
+                <QuestionNumberList onClickPage={onClickPage} questions={questions} setChangeData={setChangeData} />
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
                 <CardExercise
+                  styleAdd={styleAddExercise}
                   width={7}
-                  content={<Writing partRenderSelected={partRenderSelected} groupSelected={groupSelected} />}
+                  content={<Writing partRenderSelected={partRenderSelected} groupSelected={indexData} />}
                 />
                 <ContentRight
                   apiContent={partRenderSelected}
@@ -115,7 +123,13 @@ const WritingReview = (props: any) => {
             </Box>
           </Box>
         </Box>
-        {isOpenAnswer && <ModalRightAnswer handleCloseAnswer={handleCloseAnswer} content={contentModal} />}
+        {isOpenAnswer && (
+          <ModalRightAnswer
+            handleCloseAnswer={handleCloseAnswer}
+            content={contentModal}
+            question={partRenderSelected}
+          />
+        )}
         {open && <ModalImage image={image} handleClose={handleClose} />}
       </Box>
     </div>

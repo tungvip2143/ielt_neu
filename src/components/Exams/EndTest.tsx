@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 //
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -61,25 +61,28 @@ const EndTest = (props: Props) => {
     pathname: "/ielts/scores",
     state: typeExam(),
   };
+
   const handleEndTest = async () => {
+    const examinationId = localStorage.getItem("examinationId");
+    console.log("examinationId", examinationId);
     if (test === IELT_TEST.READING) {
       await finishIeltsReading(testCode, {
-        onSuccess: () => history.push(location),
+        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
       });
     }
     if (test === IELT_TEST.WRITING) {
       await finishIeltsWriting(testCode, {
-        onSuccess: () => history.push(location),
+        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
       });
     }
     if (test === IELT_TEST.LISTENING) {
       await finishIeltsListening(testCode, {
-        onSuccess: () => history.push(location),
+        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
       });
     }
     if (test === IELT_TEST.SPEAKING) {
       await finishIeltsSpeaking(testCode, {
-        onSuccess: () => history.push(location),
+        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
       });
     }
   };

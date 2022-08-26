@@ -12,6 +12,7 @@ import IeltsSections from "components/Ielts";
 import ReviewAndScore from "components/Review";
 import LinkCustom from "components/Link";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
+import ChooseExam from "../Ielts/ChooseExam";
 
 //
 // ! type
@@ -42,7 +43,6 @@ const btnLink = {
 const LayoutCommon = ({ data, exams }: dataLayout) => {
   const [isHightLightPractive, isSetIsHightLight] = useState<boolean>(true);
   const [isHightLightReview, isSetIsHightRiview] = useState<boolean>(false);
-  console.log("isHightLightReview", isHightLightReview);
 
   const handleHightLightReview = () => {
     isSetIsHightLight(false);
@@ -62,7 +62,7 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
     p: "5px 0",
   };
   return (
-    <Box sx={{ position: "relative" }}>
+    <Box sx={{ position: "relative", pt: "68px" }}>
       <Box sx={heaer}>
         <Link to="/ielts">
           <Button
@@ -94,6 +94,9 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
         </Route>
         <Route path="/ielts/scores" exact>
           <ReviewAndScore bg={bgReview} />
+        </Route>
+        <Route path="/ielts/choose-exam" exact>
+          <ChooseExam />
         </Route>
       </Switch>
     </Box>

@@ -1,6 +1,6 @@
 import LoadingPage from "components/Loading";
 import { useIeltsListening } from "hooks/ielts/useIelts";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import CardExercise from "components/Card/CardExercise";
 import CardPart from "components/Card/CardPart";
@@ -11,8 +11,7 @@ import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
 import ReactAudioPlayer from "react-audio-player";
 import { ROOT_ORIGINAL_URL } from "constants/api";
-import useState from "react";
-import { dataDummy } from "api/ieltsResults";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 
 type Props = {
   data: any;
@@ -21,7 +20,6 @@ type Props = {
 const ExamTest = (props: Props) => {
   //! State
   const { data } = props;
-
   const audioData = data || [];
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
 
@@ -30,10 +28,20 @@ const ExamTest = (props: Props) => {
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
+    question: 0,
   });
-  //
+  const [showQuestion, setShowQuestion] = useState("1");
+  const part = data;
+  const group = audioData[groupSelected.part]?.groups;
+
+  const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
+  const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
+  };
+  const onClickShowQuestion = (displayNumber: any) => {
+    setShowQuestion(displayNumber);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -44,6 +52,14 @@ const ExamTest = (props: Props) => {
 
     return null;
   }, [groupSelected]);
+
+  // useEffect(() => {
+  //   let part = groupSelected.part;
+  //   let group = groupSelected.group;
+  //   let question = groupSelected.question;
+
+  //   setGroupSelected({ ...groupSelected, part, group, question });
+  // }, []);
 
   //! Function
   const onEachAudioEnded = () => {
@@ -58,7 +74,9 @@ const ExamTest = (props: Props) => {
   const container = {
     margin: "0 15px",
   };
-
+  const styleHeight = {
+    height: themeCssSx.heightExercise.examTest,
+  };
   return (
     <>
       <Box sx={container}>
@@ -78,12 +96,25 @@ const ExamTest = (props: Props) => {
               <ContentQuestion
                 ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
                 audio={partRenderSelected?.partAudio}
+                displayNumber={displayNumber}
               />
             }
+            styleAdd={styleHeight}
           />
         </Box>
       </Box>
-      <CardPage questions={audioData} onClickPage={onClickPage} />
+      <CardPage
+        onClickPage={onClickPage}
+        questions={audioData}
+        setDisplayNumber={onClickShowQuestion}
+        groupSelected={groupSelected}
+        part={part}
+        group={group}
+        question={questionData}
+        displayNumber={displayNumber}
+      />
+
+      {/* <CardPage questions={audioData} onClickPage={onClickPage} /> */}
     </>
   );
 };

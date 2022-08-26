@@ -42,10 +42,7 @@ const ItemQuestion = ({
 }: PropsItemQuestion) => {
   const { values } = useFormikContext();
 
-  console.log("displayNumner", displayNumber);
-
   const renderQuestion = (data: any) => {
-    console.log("123123123123qweqwe", data, questionType);
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType

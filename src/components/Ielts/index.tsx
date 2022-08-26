@@ -17,9 +17,11 @@ import Modal from "components/Modal";
 import { useHistory } from "react-router-dom";
 //
 import { makeStyles } from "@mui/styles";
-import { FastField, Form, Formik } from "formik";
-import { AutoCompletedMui } from "components/Autocomplete";
+import { Form, Formik } from "formik";
 import * as yup from "yup";
+import { useFormikContext } from "formik";
+import useGetQuerystring from "hooks/useGetQuerystring";
+import { useGetExamination } from "hooks/ielts/useIelts";
 
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
@@ -87,41 +89,44 @@ const dataModal = [
   },
 ];
 
-const examSemester = [
-  { id: 1, label: "Level1" },
-  { id: 2, label: "Level2" },
-  { id: 3, label: "Level3" },
-  { id: 4, label: "Level4" },
-  { id: 5, label: "Level5" },
-];
-
 const initialValues = {
   exam: {
-    label: "",
+    name: "",
     id: "",
   },
 };
 
 const validationSchema = yup.object().shape({
   exam: yup.object().shape({
-    label: yup.string().required("please choose exam before start"),
+    label: yup.string().required("Please choose exam before start"),
   }),
 });
+
+const initialFilter = {
+  page: 1,
+  pageSize: 10,
+};
 
 export default function IeltsSections({ bg }: PropsBg3) {
   // !State
   const classes = useStyles();
   const [open, setOpen] = React.useState<boolean>(false);
-  const [id, setId] = React.useState<number>();
+  const [id, setId] = React.useState<number>(0);
   const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
+  const { data, isLoading } = useGetExamination(initialFilter);
+  const examinations = data?.data?.data?.data || [];
+  console.log("examination", examinations);
+  console.log("loading", isLoading);
 
+  // console.log("fnsjdfds", id);
   const history = useHistory();
+  const queries = useGetQuerystring();
+  console.log("queries", queries);
+  // console.log("history", idExam);
 
   const handleCloseModal = () => setOpen(false);
   //
-  const handleUnlockExam = (success: boolean) => {
-    setIsSelectExam(success);
-  };
+
   const handleBackIeltsSelection = () => {
     if (id === 1) {
       history.push("/ielts/listening");
@@ -163,25 +168,15 @@ export default function IeltsSections({ bg }: PropsBg3) {
       onSubmit={(values) => onSubmitExam(values)}
     >
       {(formik: any) => {
-        console.log("formik value", formik.values);
         return (
           <Form>
             <Box>
               <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
                 <div className="container">
                   <Box className={classes.containerTitle}>
-                    <Box sx={{ width: { xs: "100%", lg: "260px" }, ml: "10px" }}>
-                      <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} />
+                    <Box sx={{ width: { xs: "100%", lg: "300px" }, ml: "10px" }}>
+                      <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} idExam={queries.exam} />
                     </Box>
-                    <FastField
-                      label="Select Exam"
-                      component={AutoCompletedMui}
-                      name="exam"
-                      options={examSemester}
-                      sx={{ width: "300px", display: { xs: "none", lg: "block" } }}
-                    />
-
-                    <div className={classes.examSemester}></div>
                   </Box>
                 </div>
               </Box>
@@ -199,11 +194,17 @@ export default function IeltsSections({ bg }: PropsBg3) {
                         path: string;
                       }) => {
                         const handleShowModal = () => {
-                          setOpen(true);
+                          // setOpen(true);
                           setId(item.id);
                         };
                         return (
-                          <CardIlets onSelectExam={isSelectExam} onClick={handleShowModal} key={item.id} exam={item} />
+                          <CardIlets
+                            onSelectExam={isSelectExam}
+                            onClick={handleShowModal}
+                            key={item.id}
+                            exam={item}
+                            id={item.id}
+                          />
                         );
                       }
                     )}

@@ -23,6 +23,9 @@ export interface ResponseParams {
   fullname?: string;
   audio?: string;
   textField?: string;
+  name?: string;
+  active?: boolean;
+  userIds?: string[];
 }
 
 export interface QuestionTypeI {

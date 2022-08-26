@@ -1,7 +1,9 @@
 export const RouteBase = {
   Home: "/",
   Ielts: "/ielts",
+  IeltsWithExam: (id?: string) => `/ielts?exam=${id}`,
   Login: "/login",
+  ChooseExam: "/choose-exam",
   LoginEmail: "/login/email",
   LoginGoogle: "/login/google",
   SignUp: "/sign-up",
@@ -55,7 +57,8 @@ export const RouteBase = {
   //Contest
   ContestManagement: "/admin/contestManagement",
   CreateContestManagement: "/admin/contestManagement/create",
-
+  UpdateContestManagement: "/admin/contestManagement/:id",
+  UpdateContestManagementWId: (id: string | number) => `/admin/contestManagement/${id}`,
   //Static
   StaticManagement: "/admin/staticManagement",
 };

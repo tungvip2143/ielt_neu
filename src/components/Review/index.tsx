@@ -38,11 +38,9 @@ const cssBotton = {
 // const data = useLocation();
 export default function BasicTable({ bg }: PropsBg) {
   let { state }: any = useLocation();
-  console.log("location", state?.type);
 
   const [panal, setPanal] = useState<any>(state?.type ?? TypeExamEnum.LISTENING);
   const { data } = useIeltsResult({ skill: "READING" });
-  console.log("review data", data);
   //
   const typeExams = [
     {

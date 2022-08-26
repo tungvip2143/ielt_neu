@@ -30,3 +30,11 @@ export enum AnswerBoolean {
   FALSE = "FALSE",
   NOTGIVEN = "NOT GIVEN",
 }
+
+export const examSemester = [
+  { id: 1, label: "Exam 1" },
+  { id: 2, label: "Exam 2" },
+  { id: 3, label: "Exam 3" },
+  { id: 4, label: "Exam 4" },
+  { id: 5, label: "Exam 5" },
+];
