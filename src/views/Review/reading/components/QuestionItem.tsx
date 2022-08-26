@@ -46,7 +46,7 @@ const QuestionItem = ({
       return <QuestionBox question={question} questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
-      return <QuestionBox questionBox={questionBox} />;
+      return <QuestionBox question={question} questionBox={questionBox} />;
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return <MachingHeading answerList={answerList} data={data} />;
