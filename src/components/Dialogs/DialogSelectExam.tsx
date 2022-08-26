@@ -43,7 +43,6 @@ const initialValues = {
     name: "",
   },
 };
-
 const initialFilter = {
   page: 1,
   pageSize: 20,
