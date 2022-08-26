@@ -10,8 +10,8 @@ const Listening = (props: Props) => {
 
   return (
     <Card className="mt-[10px] p-[20px]">
-      {dataListening.score.total && (
-        <Typography sx={{ fontWeight: "bold" }}>Score: {dataListening.score.total}</Typography>
+      {dataListening?.score?.total && (
+        <Typography sx={{ fontWeight: "bold" }}>Score: {dataListening?.score?.total}</Typography>
       )}
     </Card>
   );
