@@ -16,6 +16,8 @@ import CheckboxField from "components/CustomField/CheckboxField";
 import { isArray, isEmpty } from "lodash";
 import { useMemo, useState } from "react";
 import { QuestionUser } from "interfaces/user";
+import contestService from "services/contestService";
+import { toast } from "react-toastify";
 
 const styles = {
   titleTable: {
@@ -29,7 +31,7 @@ export interface Props {
   openModal?: any;
   onSave?: (value: Array<QuestionUser>) => void;
 }
-const ModalDataUser = ({ onCloseModal, fetchData, openModal, onSave = () => {} }: Props) => {
+const ModalDataUserUpdate = ({ onCloseModal, fetchData, openModal, onSave = () => {} }: Props) => {
   //! State
 
   const {
@@ -67,8 +69,22 @@ const ModalDataUser = ({ onCloseModal, fetchData, openModal, onSave = () => {} }
     onSave(dataParts.filter((e) => valueUserId.includes(e._id)).map((e) => ({ ...e, id: e._id })));
     onCloseModal();
   };
-  console.log("dataParts", dataParts);
 
+  const onSubmit = async (data: any) => {
+    const body = {
+      userIds: dataParts.filter((e) => valueUserId.includes(e._id)).map((e) => ({ ...e, id: e._id })),
+    };
+
+    try {
+      const response = await contestService.postCreatePart(body);
+
+      if (response.data.statusCode === 200) {
+        toast.success("Create part success!");
+      }
+    } catch (error: any) {
+      toast.error(error);
+    }
+  };
   //! Render
   return (
     <div>
@@ -113,7 +129,7 @@ const ModalDataUser = ({ onCloseModal, fetchData, openModal, onSave = () => {} }
             );
           })}
           <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-            <ButtonSave onClick={handleClick} icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Save" />
+            <ButtonSave onClick={onSubmit} icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Save" />
             <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onCloseModal} />{" "}
           </Stack>
         </div>
@@ -122,4 +138,4 @@ const ModalDataUser = ({ onCloseModal, fetchData, openModal, onSave = () => {} }
   );
 };
 
-export default ModalDataUser;
+export default ModalDataUserUpdate;

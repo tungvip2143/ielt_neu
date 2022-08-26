@@ -1,5 +1,5 @@
 import { Button, Card, Stack, Typography } from "@mui/material";
-import React, { useCallback, useRef, useEffect, useState } from "react";
+import React, { useCallback, useRef, useEffect, useState, useMemo } from "react";
 import InputCommon from "components/Input";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
@@ -30,6 +30,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import CommonDataGrid from "components/CommonDataGrid";
 import { QuestionUser } from "interfaces/user";
+import ModalDataUserUpdate from "./ModalDataUserUpdate";
 
 export interface Props {
   openCreateScreen: {
@@ -55,17 +56,32 @@ const CreateContest = (props: Props) => {
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
     useContestManagemet();
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
+
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: { name: dataPartDetail?.name || "" },
   });
 
-  const { control, handleSubmit, setValue, getValues, reset } = formController;
   const [valueUserId, setValueUserId] = useState<string[]>([]);
-  const [valueData, setValueData] = useState<QuestionUser[]>([]);
-  console.log("valueUserId", valueUserId);
+  const isCheckAll = useMemo(
+    () => dataPartDetail.userIds?.length > 0 && dataPartDetail.userIds?.length === valueUserId?.length,
+    [valueUserId?.length, dataPartDetail.userIds?.length]
+  );
+  console.log("isCheckAll", isCheckAll);
+  const handleSelectAll = (event: any) => {
+    if (isCheckAll) {
+      setValueUserId([]);
+      return;
+    }
+    setValueUserId(dataPartDetail?.userIds.map((el: any, index: number) => el));
+  };
+  const { control, handleSubmit, setValue, getValues, reset } = formController;
 
+  const [valueData, setValueData] = useState<QuestionUser[]>([]);
+  {
+    console.log("asdad", valueData);
+  }
   //! Effect
   useEffect(() => {
     if (dataPartDetail?.id) {
@@ -190,7 +206,7 @@ const CreateContest = (props: Props) => {
           <SelectField
             variant="standard"
             name="active"
-            label="Part"
+            label="Status"
             options={[
               { label: "True", value: true },
               { label: "False", value: false },
@@ -201,71 +217,147 @@ const CreateContest = (props: Props) => {
           />
         </div>
       </div>
+      <div className="text-end mb-2">
+        <ButtonUpload
+          titleButton="Create Add User"
+          icon={<AddIcon />}
+          onClick={() => setOpenModal(true)}
+          style={{ background: "#9155FE" }}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        />
+      </div>
 
-      <Card sx={{ minWidth: 275 }} className="p-[20px] mb-[20px] flex-1">
-        {dataPartDetail?.userIds?.map((item: any) => {
-          const isChecked = valueUserId?.includes(item);
-          return (
+      <Card>
+        <div style={{ display: "flex", flexDirection: "column" }}>
+          {openCreateScreen.type === "update" && (
             <CheckboxField
-              label={item}
-              value={item}
-              checked={isChecked}
-              handleChange={handleChange}
+              label="Select All"
+              value="Select All"
+              handleChange={handleSelectAll}
+              checked={dataPartDetail.userIds?.length === valueUserId?.length}
               disabled={openCreateScreen.type === "update" && !isEdit}
             />
-          );
-        })}
-      </Card>
-      {openCreateScreen.type === "create" && (
-        <>
-          <div className="text-end mb-2">
-            <ButtonUpload
-              titleButton="Create question group"
-              icon={<AddIcon />}
-              onClick={() => setOpenModal(true)}
-              style={{ background: "#9155FE" }}
-            />
-          </div>
-          <div>
-            <Card style={{ marginBottom: "15px", padding: 20 }}>
-              <div>
-                <Card>
-                  <CommonDataGrid
-                    columns={[
-                      {
-                        flex: 1,
-                        field: "email",
-                        // renderHeader: () => <Typography>Name Contest</Typography>,
-                      },
-                    ]}
-                    pagination={{
-                      page: metaPart?.page,
-                      pageSize: metaPart?.pageSize,
-                      totalRow: metaPart?.totalRow,
-                    }}
-                    loading={loading}
-                    checkboxSelection
-                    rows={valueData}
-                    onPageChange={onPageChange}
-                    onPageSizeChange={onPageSizeChange}
+          )}
+          {
+            openCreateScreen.type === "update" ? (
+              dataPartDetail?.userIds?.map((item: any) => {
+                const isChecked = valueUserId?.includes(item);
+                return (
+                  <CheckboxField
+                    key={item}
+                    label={item}
+                    value={item}
+                    checked={isChecked}
+                    handleChange={handleChange}
+                    disabled={openCreateScreen.type === "update" && !isEdit}
                   />
+                );
+              })
+            ) : (
+              <div>
+                <Card style={{ marginBottom: "15px", padding: 20 }}>
+                  <div>
+                    <Card>
+                      <CommonDataGrid
+                        columns={[
+                          {
+                            flex: 1,
+                            field: "email",
+                            renderHeader: () => <Typography>Email</Typography>,
+                          },
+                          {
+                            flex: 1,
+                            field: "id",
+                            renderHeader: () => <Typography>Id</Typography>,
+                          },
+                        ]}
+                        pagination={{
+                          page: metaPart.page,
+                          pageSize: valueData?.length,
+                          totalRow: valueData?.length,
+                        }}
+                        loading={loading}
+                        rows={valueData}
+                        onPageChange={onPageChange}
+                        onPageSizeChange={onPageSizeChange}
+                      />
+                    </Card>
+                  </div>
                 </Card>
               </div>
-            </Card>
-          </div>
-          {console.log("asdad", valueData)}
-        </>
-      )}
+            )
+
+            // valueData.map((item: any) => {
+            //     const isChecked = valueUserId?.includes(item);
+            //     return (
+            //       <CheckboxField
+            //         label={item._id}
+            //         value={item}
+            //         checked={isChecked}
+            //         handleChange={handleChange}
+            //         disabled={openCreateScreen.type === "update" && !isEdit}
+            //       />
+            //     );
+            //   })
+          }
+        </div>
+      </Card>
+
+      {/* {openCreateScreen.type === "create" && ( */}
+
+      {/* )} */}
+      {/* 
+        <div>
+          <Card style={{ marginBottom: "15px", padding: 20 }}>
+            <div>
+              <Card>
+                <CommonDataGrid
+                  columns={[
+                    {
+                      flex: 1,
+                      field: "name",
+                      renderHeader: () => <Typography>Email</Typography>,
+                    },
+                    {
+                      flex: 1,
+                      field: "userIds",
+                      renderHeader: () => <Typography>Id</Typography>,
+                    },
+                  ]}
+                  pagination={{
+                    page: metaPart?.page,
+                    pageSize: metaPart?.pageSize,
+                    totalRow: metaPart?.totalRow,
+                  }}
+                  loading={loading}
+                  checkboxSelection
+                  rows={dataPartDetail}
+                  onPageChange={onPageChange}
+                  onPageSizeChange={onPageSizeChange}
+                />
+              </Card>
+            </div>
+          </Card>
+        </div>
+        {console.log("asdad", valueData)}
+       */}
 
       {openCreateScreen.type === "create" && renderButtonCreate()}
 
-      {openModal && (
+      {openModal && openCreateScreen.type === "create" && (
         <ModalDataUser
           fetchData={refetchDataTable}
           openModal={openModal}
           onCloseModal={() => setOpenModal(false)}
-          onSave={(data) => setValueData(data)}
-          // setValueData={setValueData}
+          onSave={(data: any) => setValueData(data)}
+        />
+      )}
+      {openModal && openCreateScreen.type === "update" && (
+        <ModalDataUserUpdate
+          fetchData={refetchDataTable}
+          openModal={openModal}
+          onCloseModal={() => setOpenModal(false)}
+          onSave={(data: any) => setValueData(data)}
         />
       )}
     </form>
