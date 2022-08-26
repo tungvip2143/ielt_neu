@@ -50,7 +50,6 @@ const ListeningReview = (props: Props) => {
     part: 0,
     group: 0,
   });
-  const [showQuestion, setShowQuestion] = useState([]);
 
   useEffect(() => {
     setQuestions(data);
@@ -141,7 +140,7 @@ const ListeningReviewContainer = () => {
 
   return (
     <>
-      <ListeningReview />
+      <ListeningReview data={data?.data?.data?.listening} />
     </>
   );
 };
