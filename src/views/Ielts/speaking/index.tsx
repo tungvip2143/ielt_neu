@@ -21,6 +21,7 @@ import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 import { IELT_TEST } from "interfaces/testType";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 //
 const stepRuleExam = {
   typeExam: "Speaking",
@@ -56,8 +57,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const { step, handler } = useStepExam();
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-
+  const { testCode } = useGetTestCode();
   // !Function
   const handleSubmitForm = () => {
     handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
@@ -79,7 +79,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
     setIsOpenModalHide(false);
   };
 
-  useCheckTestCode(testCode);
+  useCheckTestCode(Number(testCode));
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmitForm}>
       {(formik) => (

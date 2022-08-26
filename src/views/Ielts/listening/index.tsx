@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
@@ -63,7 +63,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const testCode = useMemo(() => {
+    return localStorage.getItem("testCode");
+  }, []);
 
   //! Function
   const handleSubmitForm = async (values: any) => {
@@ -94,7 +96,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   };
   //
 
-  useCheckTestCode(testCode);
+  useCheckTestCode(Number(testCode));
 
   //! Render
   return (
