@@ -121,7 +121,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
   // console.log("fnsjdfds", id);
   const history = useHistory();
   const queries = useGetQuerystring();
-  const idExam = Number(queries?.exam || 0);
+  console.log("queries", queries);
   // console.log("history", idExam);
 
   const handleCloseModal = () => setOpen(false);
@@ -174,8 +174,8 @@ export default function IeltsSections({ bg }: PropsBg3) {
               <Box sx={{ background: "rgb(255,245,247)", p: "50px 0 100px 0" }}>
                 <div className="container">
                   <Box className={classes.containerTitle}>
-                    <Box sx={{ width: { xs: "100%", lg: "260px" }, ml: "10px" }}>
-                      <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} idExam={idExam} />
+                    <Box sx={{ width: { xs: "100%", lg: "300px" }, ml: "10px" }}>
+                      <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} idExam={queries.exam} />
                     </Box>
                   </Box>
                 </div>

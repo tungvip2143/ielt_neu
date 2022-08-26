@@ -76,7 +76,8 @@ const Header: React.FC = (props) => {
   };
 
   const onSubmitExam = (values: InitialValueExam) => {
-    history.push(RouteBase.IeltsWithExam(values?.exam?.id));
+    console.log("values", values);
+    history.push(RouteBase.IeltsWithExam(values?.exam?.name));
     toggleSelectExam();
   };
 
