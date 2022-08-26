@@ -128,14 +128,10 @@ const CreateQuestionReading = (props: Props) => {
 
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
-<<<<<<< HEAD
-          history.push(RouteBase.UpdateReadingWId(response?.data?.data?.partTitle));
-=======
           history.push({
             pathname: RouteBase.UpdateReadingWId(response?.data?.data?.partTitle),
             search: `?id=${response?.data?.data?.id}`,
           });
->>>>>>> 49319c653e2709a36d035d8e81d1b82bd9e7a3ee
         }
       } catch (error: any) {
         toast.error(error);
@@ -152,7 +148,6 @@ const CreateQuestionReading = (props: Props) => {
         const response = await ReadingService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
-          // history.goBack();
         }
       } catch (error: any) {
         toast.error(error);

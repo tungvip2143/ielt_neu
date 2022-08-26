@@ -20,7 +20,17 @@ import SelectField from "components/CustomField/SelectField";
 import TinyMceCommon from "components/TinyMceCommon";
 import { ResponseParams } from "interfaces/questionInterface";
 import CheckboxField from "components/CustomField/CheckboxField";
-import { isArray } from "lodash";
+import { isArray, isEmpty } from "lodash";
+import ModalDataUser from "./ModalDataUser";
+import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
+import ButtonUpload from "components/Button/ButtonUpload";
+import AddIcon from "@mui/icons-material/Add";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
+import EditIcon from "@mui/icons-material/Edit";
+import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
+import CommonDataGrid from "components/CommonDataGrid";
+import { QuestionUser } from "interfaces/user";
+
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -36,11 +46,14 @@ const CreateContest = (props: Props) => {
   const [isEdit, setIsEdit] = useState(false);
   const [err, setErr] = useState("");
   const history = useHistory();
+  const [openModal, setOpenModal] = useState<boolean>(false);
   const validationSchema = yup.object().shape({
     name: yup.string().required("This field is required!"),
     // textField: yup.string().required("This field is required!"),
     active: yup.string().required("This field is required!"),
   });
+  const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
+    useContestManagemet();
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   const formController = useForm<ResponseParams>({
     mode: "onChange",
@@ -50,6 +63,7 @@ const CreateContest = (props: Props) => {
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
   const [valueUserId, setValueUserId] = useState<string[]>([]);
+  const [valueData, setValueData] = useState<QuestionUser[]>([]);
   console.log("valueUserId", valueUserId);
 
   //! Effect
@@ -119,7 +133,7 @@ const CreateContest = (props: Props) => {
       const body = {
         name: data.name,
         active: data.active,
-        userIds: valueUserId,
+        userIds: valueData.map((e) => e._id),
       };
 
       try {
@@ -128,6 +142,10 @@ const CreateContest = (props: Props) => {
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
           history.push(RouteBase.UpdateContestManagementWId(response?.data?.data?.name));
+          history.push({
+            pathname: RouteBase.UpdateContestManagementWId(response?.data?.data?.name),
+            search: `?id=${response?.data?.data?.id}`,
+          });
         }
       } catch (error: any) {
         toast.error(error);
@@ -144,7 +162,6 @@ const CreateContest = (props: Props) => {
         const response = await contestService.putUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
-          history.goBack();
         }
       } catch (error: any) {
         toast.error(error);
@@ -198,14 +215,59 @@ const CreateContest = (props: Props) => {
             />
           );
         })}
-
-        {/* <TinyMceCommon
-          ref={editorRef}
-          initialValue={dataPartDetail ? dataPartDetail.passageText : "Passage text"}
-          disabled={openCreateScreen.type === "update" && !isEdit}
-        /> */}
       </Card>
+      {openCreateScreen.type === "create" && (
+        <>
+          <div className="text-end mb-2">
+            <ButtonUpload
+              titleButton="Create question group"
+              icon={<AddIcon />}
+              onClick={() => setOpenModal(true)}
+              style={{ background: "#9155FE" }}
+            />
+          </div>
+          <div>
+            <Card style={{ marginBottom: "15px", padding: 20 }}>
+              <div>
+                <Card>
+                  <CommonDataGrid
+                    columns={[
+                      {
+                        flex: 1,
+                        field: "email",
+                        // renderHeader: () => <Typography>Name Contest</Typography>,
+                      },
+                    ]}
+                    pagination={{
+                      page: metaPart?.page,
+                      pageSize: metaPart?.pageSize,
+                      totalRow: metaPart?.totalRow,
+                    }}
+                    loading={loading}
+                    checkboxSelection
+                    rows={valueData}
+                    onPageChange={onPageChange}
+                    onPageSizeChange={onPageSizeChange}
+                  />
+                </Card>
+              </div>
+            </Card>
+          </div>
+          {console.log("asdad", valueData)}
+        </>
+      )}
+
       {openCreateScreen.type === "create" && renderButtonCreate()}
+
+      {openModal && (
+        <ModalDataUser
+          fetchData={refetchDataTable}
+          openModal={openModal}
+          onCloseModal={() => setOpenModal(false)}
+          onSave={(data) => setValueData(data)}
+          // setValueData={setValueData}
+        />
+      )}
     </form>
   );
 };

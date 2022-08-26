@@ -22,7 +22,6 @@ const styles = {
 };
 
 const ContestManagement = () => {
-<<<<<<< HEAD
   //! State
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
     useContestManagemet();
@@ -35,10 +34,7 @@ const ContestManagement = () => {
       console.log("error");
     }
   };
-=======
-  // const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
 
->>>>>>> 49319c653e2709a36d035d8e81d1b82bd9e7a3ee
   const [openModal, setOpenModal] = useState(false);
   //! Render
   return (
@@ -107,15 +103,9 @@ const ContestManagement = () => {
           }}
           loading={loading}
           checkboxSelection
-<<<<<<< HEAD
           rows={dataContest}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
-=======
-          rows={DataFake}
-          // onPageChange={onPageChange}
-          // onPageSizeChange={onPageSizeChange}
->>>>>>> 49319c653e2709a36d035d8e81d1b82bd9e7a3ee
         />
       </Card>
     </div>
