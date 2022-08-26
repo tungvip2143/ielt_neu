@@ -38,7 +38,7 @@ const Writing = (props: Props) => {
           />
         </div>
       )}
-      {groupSelected && (
+      {groupSelected === 1 && (
         <div className={classes.container}>
           <FastField
             onFocus={handleFocus}
