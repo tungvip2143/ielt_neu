@@ -19,26 +19,23 @@ type Props = {
 const ExamTest = (props: Props) => {
   //! State
   const { data } = props;
-  const [questions, setQuestions] = useState(data?.data?.data);
+  const audioData = data || [];
+  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
 
-  // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
-  const [groupSelected, setGroupSelected] = useState({
+  // const [questions, setQuestions] = React.useState(data || {});
+
+  const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const part = data;
-  const group = questions[groupSelected.part]?.groups;
+  const group = audioData[groupSelected.part]?.groups;
 
-  const questionData = questions[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
+  const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
-  // !
-  const audioData = data?.data.data || [];
-  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
-  //
-  console.log("groupSelected", groupSelected);
-  //
+
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
@@ -48,20 +45,20 @@ const ExamTest = (props: Props) => {
 
   const partRenderSelected = useMemo(() => {
     // const questionsWithPageNumberTemp = data as any;
-    if (!isEmpty(data?.data?.data[groupSelected?.part])) {
-      return data?.data?.data[groupSelected?.part];
+    if (!isEmpty(audioData[groupSelected?.part])) {
+      return audioData[groupSelected?.part];
     }
 
     return null;
   }, [groupSelected]);
 
-  useEffect(() => {
-    let part = groupSelected.part;
-    let group = groupSelected.group;
-    let question = groupSelected.question;
+  // useEffect(() => {
+  //   let part = groupSelected.part;
+  //   let group = groupSelected.group;
+  //   let question = groupSelected.question;
 
-    setGroupSelected({ ...groupSelected, part, group, question });
-  }, []);
+  //   setGroupSelected({ ...groupSelected, part, group, question });
+  // }, []);
 
   //! Function
   const onEachAudioEnded = () => {
@@ -96,6 +93,7 @@ const ExamTest = (props: Props) => {
               <ContentQuestion
                 ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
                 audio={partRenderSelected?.partAudio}
+                displayNumber={displayNumber}
               />
             }
           />
@@ -103,14 +101,16 @@ const ExamTest = (props: Props) => {
       </Box>
       <CardPage
         onClickPage={onClickPage}
-        questions={questions}
+        questions={audioData}
         setDisplayNumber={onClickShowQuestion}
         groupSelected={groupSelected}
-        part={questions}
+        part={part}
         group={group}
         question={questionData}
         displayNumber={displayNumber}
       />
+
+      {/* <CardPage questions={audioData} onClickPage={onClickPage} /> */}
     </>
   );
 };
@@ -123,7 +123,7 @@ const IeltsListeningContainer = () => {
     return <LoadingPage />;
   }
 
-  return <ExamTest data={data} />;
+  return <ExamTest data={data?.data.data} />;
 };
 
 export default IeltsListeningContainer;

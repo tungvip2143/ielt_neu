@@ -40,11 +40,11 @@ const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
   const { data, answerList, onHightLightNumberPage, onClickPage, displayNumber } = props;
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<any>([]);
 
   useEffect(() => {
-    inputRef?.current?.focus();
-  }, []);
+    inputRef?.current[displayNumber].focus();
+  }, [displayNumber]);
 
   const { setFieldValue } = useFormikContext();
   console.log("onHightLightNumberPage", onHightLightNumberPage);
@@ -67,10 +67,12 @@ const MachingType = (props: Props) => {
           console.log("question", data);
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
-              {`${question?.question?.displayNumber}.`}
+              <div>
+                <strong>{`${question?.question?.displayNumber}.`}</strong>
+              </div>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
-                ref={displayNumber === question?.question?.displayNumber ? inputRef : null}
+                inputRef={(el: any) => (inputRef.current[index + 1] = el)}
                 onFocus={() => handleFocus(index)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}

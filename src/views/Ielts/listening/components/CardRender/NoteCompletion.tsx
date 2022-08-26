@@ -1,27 +1,61 @@
-import React from "react";
+import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
 
 type Props = {
   questionBox?: any;
+  groupData?: any;
+  displayNumber: number;
+};
+
+const CODE = "-@X$";
+
+const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
+  console.log({ blankId, questionId, questionBox });
+  questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
+  console.log("questionBox", questionBox);
+  return questionBox;
 };
 
 const NoteCompletion = (props: Props) => {
   //! State
   const inputDebounce = React.useRef(new Timer());
   const queueAnswers = React.useRef<any>({});
-  const { questionBox } = props;
-  const { setFieldValue }: any = useFormikContext();
+  const { questionBox, groupData, displayNumber } = props;
+  const { setFieldValue, values }: any = useFormikContext();
 
-  const questionBoxHTML: any = Handlebars.compile(questionBox);
+  const newQuestionBoxParsed = useMemo(() => {
+    let tempQuestionBox = questionBox;
+    groupData.questions.forEach((el: any) => {
+      const { blankNumber, displayNumber } = el.question;
+      setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
+      tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
+    });
+
+    tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
+    return tempQuestionBox;
+  }, [groupData, questionBox]);
+
+  useEffect(() => {
+    const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
+    if (input) {
+      input?.focus();
+    }
+  }, [displayNumber]);
+
+  const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed);
 
   Handlebars.registerHelper("blank", function (blankId: any) {
+    const input: any = document.querySelector(`[id=input-${blankId}]`);
+    if (input) {
+      input.value = values.answers[blankId - 1].studentAnswer;
+    }
     return new Handlebars.SafeString(
       `
       <input
           key="input-${blankId}"
-          name="answers[${blankId}].studentAnswer"
+          name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
         />

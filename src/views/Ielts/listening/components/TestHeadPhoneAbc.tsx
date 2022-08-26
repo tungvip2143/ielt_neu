@@ -12,7 +12,7 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import Box from "@mui/material/Box";
 import ReactAudioPlayer from "react-audio-player";
 // @ts-ignore
-import audio from "assets/audio/testSound/testAudio.mp3";
+import audio from "assets/audio/testSound/test-audio.mp3";
 //
 const TestHeadPhoneAbc = () => {
   const [testSound, setTestSound] = React.useState(false);

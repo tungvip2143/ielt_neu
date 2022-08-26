@@ -1,21 +1,9 @@
-import React from "react";
-import Text from "../../../../../components/Typography/index";
-import {
-  Stack,
-  FormControl,
-  RadioGroup,
-  FormControlLabel,
-  AccordionDetails,
-  Accordion,
-  AccordionSummary,
-} from "@mui/material";
-import ReactHtmlParser from "react-html-parser";
-import { Box } from "@mui/material";
-import { themeCssSx } from "../../../../../ThemeCssSx/ThemeCssSx";
-import { Field, useFormikContext } from "formik";
+import { Box, FormControl, FormControlLabel, RadioGroup, Stack } from "@mui/material";
 import Radio from "components/Radio";
-import ReactAudioPlayer from "react-audio-player";
-import { ROOT_ORIGINAL_URL } from "constants/api";
+import { Field, useFormikContext } from "formik";
+import ReactHtmlParser from "react-html-parser";
+import Text from "../../../../../components/Typography/index";
+import { themeCssSx } from "../../../../../ThemeCssSx/ThemeCssSx";
 // ! type
 interface Props {
   dataQuestions?: any;
@@ -49,9 +37,7 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
   const { values }: any = useFormikContext();
   return (
     <>
-      <Box sx={{ mb: "20px" }}>
-        {/* <ReactAudioPlayer src={`${ROOT_ORIGINAL_URL}/${audio}`} autoPlay controls style={{ display: "none" }} /> */}
-      </Box>
+      <Box sx={{ mb: "20px" }}></Box>
       <Box sx={formAnswer}>
         {dataQuestions.map((item: any) => {
           return (
@@ -63,7 +49,7 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
 
               <FormControl sx={{ padding: "0 20px" }}>
                 {item.question.options.map((answerChoice: any) => {
-                  const displayNumber = Number(item.question.displayNumber);
+                  const displayNumber = Number(item.question.displayNumber) - 1;
                   return (
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
@@ -81,7 +67,6 @@ const MultiChoice = ({ dataQuestions, audio }: Props) => {
                             index={displayNumber}
                             component={Radio}
                             name={`answers[${displayNumber}].studentAnswer`}
-                            //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
                           />
                         }
                       />
