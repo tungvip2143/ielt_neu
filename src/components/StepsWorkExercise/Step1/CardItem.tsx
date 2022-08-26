@@ -59,10 +59,24 @@ const ItemQuestion = ({
       );
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-      return <QuestionBox displayNumber={displayNumber} questions={data} questionBox={questionBox} />;
+      return (
+        <QuestionBox
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
+          questions={data}
+          questionBox={questionBox}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
-      return <QuestionBox displayNumber={displayNumber} questions={data} questionBox={questionBox} />;
+      return (
+        <QuestionBox
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
+          questions={data}
+          questionBox={questionBox}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
