@@ -63,12 +63,15 @@ interface Exam {
   id?: any;
 }
 const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
-  console.log("id", id);
   //! State
 
   // !Hook
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
-  const handleBackIeltsSelection = () => {
+
+  const history = useHistory();
+
+  // !Function
+  const handleTest = async () => {
     if (id === 1) {
       history.push("/ielts/listening");
     } else if (id === 2) {
@@ -78,12 +81,6 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
     } else if (id === 4) {
       history.push("/ielts/speaking");
     }
-  };
-  const history = useHistory();
-
-  // !Function
-  const handleTest = async () => {
-    handleBackIeltsSelection();
     // await createTestCode(
     //   { examination: "63083406de9e9ae9edd96b5d" },
     //   {
