@@ -14,13 +14,14 @@ import LoadingPage from "components/Loading";
 import { Formik, Form, FormikProps } from "formik";
 import { IELT_TEST } from "interfaces/testType";
 //
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
 import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
 import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
+import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 const stepRuleExam = {
   typeExam: "Reading",
@@ -133,10 +134,12 @@ const IeltsReading = (props: IeltsReadingProps) => {
 const IeltsReadingContainer = () => {
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
   const { data, isLoading } = useIeltsReading(testCode);
+  const history = useHistory();
 
   if (isLoading) {
     return <LoadingPage />;
   }
+  useCheckTestCode(testCode);
 
   return <IeltsReading data={data?.data?.data} testCode={testCode} />;
 };

@@ -14,7 +14,6 @@ import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
 import Writing from "views/Ielts/writing/component/Writing";
 import FooterExamResponsive from "./FooterExamResponsive";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 interface Props {
   data?: any;

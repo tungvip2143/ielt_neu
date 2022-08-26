@@ -3,6 +3,7 @@ import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import { FastField, useFormikContext } from "formik";
 import { TextField } from "components/Textfield";
+import Text from "components/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -62,6 +63,9 @@ const MachingHeading = (props: Props) => {
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
+              {/* <div>
+                <strong>{`${displayNumberT}.`}</strong>
+              </div> */}
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
                 size="small"

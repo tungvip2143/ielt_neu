@@ -6,6 +6,7 @@ export const RouteBase = {
   LoginGoogle: "/login/google",
   SignUp: "/sign-up",
   SignUpEmail: "/sign-up/email",
+  ForgotPassword: "/login/forgot-password",
   IeltsListening: "/ielts/listening",
   IeltsReading: "/ielts/reading",
   IeltsWriting: "/ielts/writing",
@@ -19,6 +20,9 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
+  ViewExam: "/admin/exammagement/Exam/:id",
+  ViewExamId: (id: string | number) => `/admin/exammagement/Exam/${id}`,
+
   //User
   AdminUser: "/admin/user",
   CreateUser: "/admin/user/create",

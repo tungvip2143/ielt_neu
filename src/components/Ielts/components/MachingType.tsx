@@ -67,7 +67,9 @@ const MachingType = (props: Props) => {
           console.log("question", data);
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
-              {`${question?.question?.displayNumber}.`}
+              <div>
+                <strong>{`${question?.question?.displayNumber}.`}</strong>
+              </div>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
                 inputRef={(el: any) => (inputRef.current[index + 1] = el)}
