@@ -11,14 +11,16 @@ interface Props {
     desc: string;
     background: string;
   };
+  examinationName?: string;
+
   idExam?: any;
 }
-const TitleIntroExam = ({ dataTitleIntroExam, idExam }: Props) => {
-  const examinationName = localStorage.getItem("examinationName") || "";
+const TitleIntroExam = ({ dataTitleIntroExam, idExam, examinationName }: Props) => {
   console.log("examinationName", examinationName);
   return (
     <Box>
-      <Text.SubTitle sx={{ mb: "30px" }}>{`Exam ${examinationName}`}</Text.SubTitle>
+      {examinationName && <Text.SubTitle sx={{ mb: "30px" }}>{`Exam ${examinationName}`}</Text.SubTitle>}
+
       <Text.DescSmallCard sx={{ color: "#8A8C91" }}>{dataTitleIntroExam.desc}</Text.DescSmallCard>
     </Box>
   );

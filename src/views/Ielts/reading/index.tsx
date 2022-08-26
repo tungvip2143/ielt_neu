@@ -64,6 +64,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+        localStorage.setItem("READING", "true");
       },
     });
   };

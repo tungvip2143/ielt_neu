@@ -46,6 +46,7 @@ const NoteCompletion = (props: Props) => {
 
   const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed);
 
+  let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
@@ -58,6 +59,7 @@ const NoteCompletion = (props: Props) => {
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
+          class
         />
       `
     );
@@ -77,8 +79,16 @@ const NoteCompletion = (props: Props) => {
     }, 0);
   };
 
+  const onClickInput = (data: any) => {};
+
   //! Render
-  return <div dangerouslySetInnerHTML={{ __html: questionBoxHTML() }} onInput={onChangeInputHandleBars} />;
+  return (
+    <div
+      onClick={(data) => onClickInput(data)}
+      dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
+      onInput={onChangeInputHandleBars}
+    />
+  );
 };
 
 export default NoteCompletion;

@@ -61,6 +61,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   // !Function
   const handleSubmitForm = () => {
     handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+    localStorage.setItem("SPEAKING", "true");
   };
   //
 

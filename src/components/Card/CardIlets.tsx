@@ -15,11 +15,12 @@ import LockIcon from "@mui/icons-material/Lock";
 import { useFormikContext } from "formik";
 import { useIeltsTestCode } from "hooks/ielts/useIelts";
 import useSagaCreators from "hooks/useSagaCreators";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { IeltsActions } from "redux/creators/modules/ielts";
-import { useCallback, useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 import { isEmpty } from "lodash";
 import LoadingPage from "components/Loading";
+import { toast } from "react-toastify";
 
 const CardList = {
   borderRadius: "15px",
@@ -67,22 +68,39 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
 
   // !Hook
   const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
+  const { dispatch } = useSagaCreators();
 
   const history = useHistory();
+  const location = useLocation();
+
+  const ExaminationId = useMemo(() => {
+    return localStorage.getItem("examinationId");
+  }, []);
+
+  const reading = localStorage.getItem("READING");
+  const listening = localStorage.getItem("LISTENING");
+  const speaking = localStorage.getItem("SPEAKING");
+  const writing = localStorage.getItem("WRITING");
 
   // !Function
   const handleTest = async () => {
-    if (id === 1) {
+    if (id === 1 && !listening) {
       history.push("/ielts/listening");
-    } else if (id === 2) {
+      return;
+    } else if (id === 2 && !reading) {
       history.push("/ielts/reading");
-    } else if (id === 3) {
+      return;
+    } else if (id === 3 && !writing) {
       history.push("/ielts/writing");
-    } else if (id === 4) {
+      return;
+    } else if (id === 4 && !speaking) {
       history.push("/ielts/speaking");
+      return;
     }
+
+    toast.error("Test already finished");
     // await createTestCode(
-    //   { examination: "63083406de9e9ae9edd96b5d" },
+    //   { examination: ExaminationId },
     //   {
     //     onSuccess: (response) => {
     //       dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
@@ -96,10 +114,6 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
     //   }
     // );
   };
-
-  if (isLoading) {
-    return <LoadingPage />;
-  }
 
   //! Render
   return (

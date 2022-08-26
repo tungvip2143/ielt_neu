@@ -72,7 +72,10 @@ const IeltsListening = (props: IeltsListeningProps) => {
     });
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
-      onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5),
+      onSuccess: () => {
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
+        localStorage.setItem("LISTENING", "true");
+      },
     });
   };
 

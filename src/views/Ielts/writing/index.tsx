@@ -70,7 +70,10 @@ const IeltsWriting = (props: IeltsReadingProps) => {
     await updateIeltsWriting(
       { values, testCode },
       {
-        onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4),
+        onSuccess: () => {
+          handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+          localStorage.setItem("WRITING", "true");
+        },
       }
     );
   };
