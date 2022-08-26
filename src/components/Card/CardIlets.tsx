@@ -17,7 +17,7 @@ import { useIeltsTestCode } from "hooks/ielts/useIelts";
 import useSagaCreators from "hooks/useSagaCreators";
 import { useHistory } from "react-router-dom";
 import { IeltsActions } from "redux/creators/modules/ielts";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { isEmpty } from "lodash";
 
 const CardList = {
@@ -82,6 +82,10 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
     }
   };
   const history = useHistory();
+
+  const examinationId = useCallback(() => {
+    localStorage.setItem("examinationId", "63083406de9e9ae9edd96b5d");
+  }, []);
 
   const handleShowModal = () => {
     onClick();
