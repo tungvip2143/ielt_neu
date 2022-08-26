@@ -1,13 +1,14 @@
 import { Button, Card, Typography } from "@mui/material";
 import ButtonCommon from "components/Button/ButtonCommon";
 import CommonDataGrid from "components/CommonDataGrid";
-import useExamManagement from "hooks/examManagement/useExamManagement";
 import { useState } from "react";
 import CommonActionMenu from "components/CommonActionMenu";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 import ButtonUpload from "components/Button/ButtonUpload";
 import AddIcon from "@mui/icons-material/Add";
 import { RouteBase } from "constants/routeUrl";
+import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
+import contestService from "services/contestService";
 
 const styles = {
   titleTable: {
@@ -20,25 +21,21 @@ const styles = {
   },
 };
 
-const DataFake = [
-  {
-    id: 1,
-    contest: "ielts test 1",
-    startDate: "22-07-2022",
-    endDate: "01-08-2022",
-  },
-  {
-    id: 2,
-    contest: "ielts test 2",
-    startDate: "22-07-2022",
-    endDate: "01-08-2022",
-  },
-];
 const ContestManagement = () => {
-  const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useExamManagement();
-
+  //! State
+  const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
+    useContestManagemet();
+  const history = useHistory();
+  const onDeletePart = async (item: any) => {
+    try {
+      await contestService.deletePart(item?.id);
+      refetchDataTable();
+    } catch (error) {
+      console.log("error");
+    }
+  };
   const [openModal, setOpenModal] = useState(false);
-
+  //! Render
   return (
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
@@ -57,18 +54,23 @@ const ContestManagement = () => {
           columns={[
             {
               flex: 1,
-              field: "contest",
-              renderHeader: () => <Typography style={styles.titleTable}>Contest</Typography>,
+              field: "name",
+              renderHeader: () => <Typography style={styles.titleTable}>Name Contest</Typography>,
             },
             {
               flex: 1,
-              field: "startDate",
-              renderHeader: () => <Typography style={styles.titleTable}>Start date</Typography>,
+              field: "createdAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
             },
             {
               flex: 1,
-              field: "endDate",
-              renderHeader: () => <Typography style={styles.titleTable}>End date</Typography>,
+              field: "updatedAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
+            },
+            {
+              flex: 1,
+              field: "active",
+              renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
             },
             {
               flex: 0.3,
@@ -78,18 +80,29 @@ const ContestManagement = () => {
               disableColumnMenu: true,
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
-                return <CommonActionMenu onEdit={() => {}} onSubmitRemove={() => {}} row={items} />;
+                return (
+                  <CommonActionMenu
+                    onEdit={() => {
+                      history.push({
+                        pathname: RouteBase.UpdateContestManagementWId(items?.row?.name),
+                        search: `?id=${items?.id}`,
+                      });
+                    }}
+                    onSubmitRemove={onDeletePart}
+                    row={items}
+                  />
+                );
               },
             },
           ]}
-          // pagination={{
-          //   page: metaPart?.page,
-          //   pageSize: metaPart?.pageSize,
-          //   totalRow: metaPart?.totalRow,
-          // }}
-          // loading={loading}
+          pagination={{
+            page: metaPart?.page,
+            pageSize: metaPart?.pageSize,
+            totalRow: metaPart?.totalRow,
+          }}
+          loading={loading}
           checkboxSelection
-          rows={DataFake}
+          rows={dataContest}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
         />

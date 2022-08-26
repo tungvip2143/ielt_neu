@@ -38,6 +38,7 @@ export interface Props {
 const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
+  console.log("editorRefReading", editorRef.current);
   const [text, setText] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
@@ -127,7 +128,7 @@ const CreateQuestionReading = (props: Props) => {
 
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
-          history.push(RouteBase.UpdateReadingWId(response?.data?.data?.id));
+          history.push(RouteBase.UpdateReadingWId(response?.data?.data?.partTitle));
         }
       } catch (error: any) {
         toast.error(error);

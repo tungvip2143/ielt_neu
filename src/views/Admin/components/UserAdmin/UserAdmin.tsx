@@ -59,11 +59,6 @@ const UserAdmin = () => {
           columns={[
             {
               flex: 1,
-              field: "username",
-              renderHeader: () => <Typography style={styles.titleTable}>Username</Typography>,
-            },
-            {
-              flex: 1,
               field: "email",
               renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
             },

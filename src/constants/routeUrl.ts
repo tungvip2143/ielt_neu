@@ -51,7 +51,8 @@ export const RouteBase = {
   //Contest
   ContestManagement: "/admin/contestManagement",
   CreateContestManagement: "/admin/contestManagement/create",
-
+  UpdateContestManagement: "/admin/contestManagement/:id",
+  UpdateContestManagementWId: (id: string | number) => `/admin/contestManagement/${id}`,
   //Static
   StaticManagement: "/admin/staticManagement",
 };

@@ -6,7 +6,7 @@ import { Control, Controller, FieldPath, FieldValues, SetFieldValue } from "reac
 
 interface IitemSelect {
   label: string;
-  value: string | number;
+  value: string | number | boolean;
 }
 
 interface Props<T> {

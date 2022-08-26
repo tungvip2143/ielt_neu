@@ -56,9 +56,7 @@ const CreateQuestionListening = (props: Props) => {
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
   const [existAudio, setExistAudio] = useState<boolean>(false);
-  const [box, setBox] = useState<boolean>(false);
   const { openCreateScreen } = props;
-  const params = useParams<any>();
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");

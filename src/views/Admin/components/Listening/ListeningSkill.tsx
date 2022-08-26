@@ -28,6 +28,7 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
+
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
