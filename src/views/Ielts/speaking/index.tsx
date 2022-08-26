@@ -19,12 +19,23 @@ import InformationForCandidates from "../../components/dataSteps/DataContentSpea
 import IntructionsToCandidates from "../../components/dataSteps/DataContentSpeaking/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
+import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 const stepRuleExam = {
   typeExam: "Speaking",
   time: "1 hour",
   informationsForCandidates: <InformationForCandidates />,
   intructionsToCandidates: <IntructionsToCandidates />,
+};
+
+const containerSteps = {
+  pt: "16px",
+  background: "#dbe5f5",
+  height: "100%",
+};
+const styleModal = {
+  width: "770px",
+  padding: "10px !important",
 };
 export interface IeltsSpeakingProps {}
 
@@ -44,7 +55,6 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const { step, handler } = useStepExam();
-  const { mutateAsync: updateIeltsSpeaking, isLoading } = useUpdateIeltsSpeakingTest();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
   // !Function
@@ -66,15 +76,8 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
-  const containerSteps = {
-    pt: "16px",
-    background: "#dbe5f5",
-    height: "100%",
-  };
-  const styleModal = {
-    width: "770px",
-    padding: "10px !important",
-  };
+
+  useCheckTestCode(testCode);
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmitForm}>
       {(formik) => (

@@ -68,6 +68,8 @@ const validationSchema = yup.object().shape({
 });
 
 const SignUpEmail = () => {
+  const [loading, setLoading] = useState(false);
+
   const { dispatch } = useSagaCreators();
   const [openModal, setOpenModal] = useState({});
   const renderOrView = () => {
@@ -106,6 +108,7 @@ const SignUpEmail = () => {
   };
 
   const onSubmit = async (data: any) => {
+    setLoading(true);
     const body = {
       email: data.email,
       password: data.password,
@@ -115,9 +118,8 @@ const SignUpEmail = () => {
       .then((res) => {
         if (res.data.statusCode === 200) {
           toast.success("Sign up success. Check mail to verify!");
-          console.log("+++++++++++++++", res?.data?.data?.access_token);
-
           setOpenModal({ token: res?.data?.data?.access_token });
+          setLoading(false);
         } else {
           toast.error("Sign up failed");
         }
@@ -126,7 +128,8 @@ const SignUpEmail = () => {
         toast.error(err?.response?.data?.message, {
           autoClose: 3000,
         })
-      );
+      )
+      .finally(() => setLoading(false));
   };
 
   const loginSocial = async (res: any, provider: any) => {
@@ -190,9 +193,7 @@ const SignUpEmail = () => {
                   placeholder="Please enter your password"
                   {...propsFormik.getFieldProps("rePassword")}
                 />
-                {/* <Button className="buttonEmail" type="submit">
-                  SEND EMAIL
-                </Button> */}
+
                 <Button className="buttonEmail" variant="contained" type="submit">
                   SEND EMAIL
                 </Button>

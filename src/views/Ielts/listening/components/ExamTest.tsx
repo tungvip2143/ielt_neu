@@ -12,6 +12,7 @@ import ContentQuestion from "./ContentQuestion";
 import ReactAudioPlayer from "react-audio-player";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import useState from "react";
+import { dataDummy } from "api/ieltsResults";
 
 type Props = {
   data: any;
@@ -21,7 +22,7 @@ const ExamTest = (props: Props) => {
   //! State
   const { data } = props;
 
-  const audioData = data?.data.data || [];
+  const audioData = data || [];
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
 
   // const [questions, setQuestions] = React.useState(data || {});
@@ -37,17 +38,12 @@ const ExamTest = (props: Props) => {
 
   const partRenderSelected = useMemo(() => {
     // const questionsWithPageNumberTemp = data as any;
-    if (!isEmpty(data?.data?.data[groupSelected?.part])) {
-      return data?.data?.data[groupSelected?.part];
+    if (!isEmpty(audioData[groupSelected?.part])) {
+      return audioData[groupSelected?.part];
     }
 
     return null;
   }, [groupSelected]);
-
-  useEffect(() => {
-    let part = groupSelected.part + 1;
-    setGroupSelected({ ...groupSelected, part });
-  }, []);
 
   //! Function
   const onEachAudioEnded = () => {
@@ -87,7 +83,7 @@ const ExamTest = (props: Props) => {
           />
         </Box>
       </Box>
-      <CardPage questions={data?.data?.data} onClickPage={onClickPage} />
+      <CardPage questions={audioData} onClickPage={onClickPage} />
     </>
   );
 };
@@ -100,7 +96,7 @@ const IeltsListeningContainer = () => {
     return <LoadingPage />;
   }
 
-  return <ExamTest data={data} />;
+  return <ExamTest data={data?.data.data} />;
 };
 
 export default IeltsListeningContainer;

@@ -43,7 +43,7 @@ const ModalRightAnswer = ({ handleClose, open, children, content, handleCloseAns
       <CloseIcon onClick={() => handleCloseAnswer()} sx={iconClose} />
       {children}
 
-      <Box sx={contentRender}>{ReactHtmlParser(question.question.modelAnswer)}</Box>
+      <Box sx={contentRender}>{ReactHtmlParser(question?.question?.modelAnswer)}</Box>
     </Box>
   );
 };
