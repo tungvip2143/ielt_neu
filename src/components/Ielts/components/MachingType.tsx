@@ -47,7 +47,6 @@ const MachingType = (props: Props) => {
   }, [displayNumber]);
 
   const { setFieldValue } = useFormikContext();
-  console.log("onHightLightNumberPage", onHightLightNumberPage);
 
   const handleFocus = (index: number) => {
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
@@ -64,7 +63,6 @@ const MachingType = (props: Props) => {
       <div className={classes.root}>
         {data?.map((question: any, questionIndex: number) => {
           const index = Number(question?.question?.displayNumber) - 1;
-          console.log("question", data);
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
               <div>

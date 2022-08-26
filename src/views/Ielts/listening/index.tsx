@@ -7,7 +7,7 @@ import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
 import { Form, Formik } from "formik";
-import { useIeltsListening, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
+import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
@@ -18,6 +18,9 @@ import IntructionsToCandidates from "views/components/dataSteps/DataContentListe
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
+import HandleQuestionProvider from "providers/HandleQuestionProvider";
+import EndTest from "../../../components/Exams/EndTest";
+import { IELT_TEST } from "../../../interfaces/testType";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 //
@@ -58,7 +61,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
-  const history = useHistory();
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
@@ -70,7 +72,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
     });
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
-      onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3),
+      onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5),
     });
   };
 
@@ -111,6 +113,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
                 )}
                 {step === TypeStepExamEnum.STEP4 && <ExamTest />}
+                {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>
             {isOpenModalHelp && (
@@ -128,9 +131,11 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
 const IeltsListeningRoot = () => {
   return (
-    <StepExamProvider>
-      <IeltsListening />
-    </StepExamProvider>
+    <HandleQuestionProvider>
+      <StepExamProvider>
+        <IeltsListening />
+      </StepExamProvider>
+    </HandleQuestionProvider>
   );
 };
 

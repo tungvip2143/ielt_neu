@@ -47,7 +47,7 @@ const SpeakingReview = (props: Props) => {
   });
 
   const question =
-    dataSpeaking?.speaking[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question];
+    dataSpeaking?.speaking[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question] || [];
 
   console.log("question", question);
 
@@ -127,7 +127,7 @@ const SpeakingReviewContainer = () => {
   const { testCode }: any = param;
   const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
 
-  console.log("data speaking", data);
+  console.log("data speaking123", data?.data?.data);
 
   if (isLoading) {
     return <LoadingPage />;

@@ -3,9 +3,6 @@ import { Grid, Box, Stack } from "@mui/material";
 import TitleRight from "./TitleRight";
 import TaskRight from "./TaskRight";
 import ContentOption from "./ContentOption";
-import ModalImage from "../../../../components/Modal/ModalImage";
-import ModalRightAnswer from "./ModalRightAnswer";
-import ModelAnswer from "views/Review/speaking/components/ModelAnswer";
 //
 // ! type
 interface Props {
@@ -16,10 +13,9 @@ interface Props {
   question?: any;
 }
 const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetContentModal, question }: Props) => {
-  console.log("apiContent?.question", apiContent?.question);
+  console.log("gdfgfdg", apiContent);
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab, text } =
     apiContent?.question || {};
-  console.log("questionNumber", questionNumber);
   const container = {
     overflowY: { xs: "", lg: "scroll" },
     height: { xs: "", lg: "calc(100vh - 143px)" },
@@ -28,37 +24,45 @@ const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetConte
 
   // !Function
 
-  const handleShowModelAnswer = () => {
-    handleSetContentModal();
-  };
-
   // !Render
   return (
     <Grid item lg={4.8} sx={container}>
       <Stack direction="column" spacing={2} sx={{ pb: "80px" }}>
         <TitleRight>Band Score</TitleRight>
         <TaskRight questionNumber={displayNumber} handleOpen={handleOpen} />
-        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={text}>
+        <ContentOption
+          handleOpenAnswer={handleOpenAnswer}
+          event={handleSetContentModal}
+          contentRender={apiContent?.question?.text}
+        >
           Feedback
         </ContentOption>
         <ContentOption
           handleOpenAnswer={handleOpenAnswer}
-          event={handleShowModelAnswer}
-          contentRender={<ModelAnswer audio={question?.question.modelAnswerAudio} />}
+          event={handleSetContentModal}
+          contentRender={apiContent?.question?.modelAnswer}
         >
           Model Answer
         </ContentOption>
-        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={""}>
+        <ContentOption
+          handleOpenAnswer={handleOpenAnswer}
+          event={handleSetContentModal}
+          contentRender={apiContent?.question?.organization}
+        >
           Organisation
         </ContentOption>
         <ContentOption
           handleOpenAnswer={handleOpenAnswer}
           event={handleSetContentModal}
-          contentRender={usefulGrammarNVocab}
+          contentRender={apiContent?.question?.usefulGrammarNVocab}
         >
           Useful Grammar & Vocabulary
         </ContentOption>
-        <ContentOption handleOpenAnswer={handleOpenAnswer} event={handleSetContentModal} contentRender={tips}>
+        <ContentOption
+          handleOpenAnswer={handleOpenAnswer}
+          event={handleSetContentModal}
+          contentRender={apiContent?.question?.tips}
+        >
           Tips
         </ContentOption>
       </Stack>

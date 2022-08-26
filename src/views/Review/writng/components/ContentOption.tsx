@@ -15,10 +15,12 @@ const container = {
   color: themeCssSx.color.title,
   fontSize: themeCssSx.fontSize.desc,
   fontWeight: "bold",
+  cursor: "pointer",
 };
 
 const ContentOption = (props: Props) => {
   const { children, handleOpenAnswer, event, contentRender } = props;
+
   const hanldeEventClick = () => {
     handleOpenAnswer();
     event(contentRender);

@@ -173,7 +173,6 @@ export default function IeltsSections({ bg }: PropsBg3) {
       onSubmit={(values) => onSubmitExam(values)}
     >
       {(formik: any) => {
-        console.log("formik value", formik.values);
         return (
           <Form>
             <Box>

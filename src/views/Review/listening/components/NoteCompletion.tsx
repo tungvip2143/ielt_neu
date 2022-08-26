@@ -3,23 +3,18 @@ import ReactHtmlParser from "react-html-parser";
 import Handlebars from "handlebars";
 import { FastField, useFormikContext } from "formik";
 import { Box } from "@mui/material";
-import { decode } from "html-entities";
+import StudentAnswer from "./StudentAnswer";
+import Text from "components/Typography/index";
 
 type Props = {
   questionBox?: any;
+  data?: any;
 };
 
 const NoteCompletion = (props: Props) => {
-  const { questionBox } = props;
-  console.log("questionBox", questionBox);
+  const { questionBox, data } = props;
   const { values, handleChange }: any = useFormikContext();
-
-  console.log("formik value", values);
-  const a = { b: 1 };
-
-  const handleTest = () => {
-    console.log("hihi");
-  };
+  console.log("data", data);
 
   Handlebars.registerHelper("blank", function (blankId: any) {
     return new Handlebars.SafeString(
@@ -34,13 +29,22 @@ const NoteCompletion = (props: Props) => {
     );
   });
 
-  const text = ReactHtmlParser(questionBox);
-
   const test: any = Handlebars.compile(questionBox);
+  const yourAnswer = {
+    mt: "30px",
+    color: "#000000",
+  };
   return (
     <>
-      {/* <div dangerouslySetInnerHTML={{ __html: decode(questionBox) }} onInput={handleChange} /> */}
       <div dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+      <Text.Sub20Bold sx={yourAnswer}>Your answer</Text.Sub20Bold>
+      <Box sx={{ mt: "20px", display: "flex", flexWrap: "wrap" }}>
+        {data.map((answer: any, index: any) => {
+          return (
+            <StudentAnswer key={index} answer={answer.studentAnswer} numberOrder={answer.question.displayNumber} />
+          );
+        })}
+      </Box>
     </>
   );
 };

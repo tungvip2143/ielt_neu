@@ -1,26 +1,30 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-//
-import { useFormContext } from "react-hook-form";
-import { useFormikContext } from "formik";
-//
-import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-import NextQuestion from "assets/image/exam/next-exercise.png";
-import PrevQuestion from "assets/image/exam/prev-exercise.png";
 //
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 //
 import { makeStyles } from "@mui/styles";
+import { useFormikContext } from "formik";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
-// ! type
-interface Props {
-  questions?: any;
-  onClickPage?: any;
+import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
+import NextQuestion from "assets/image/exam/next-exercise.png";
+import PrevQuestion from "assets/image/exam/prev-exercise.png";
+
+interface CardTotalPageExamsI {
+  questions: any;
+  onClickPage: any;
+  setDisplayNumber: any;
+  groupSelected: any;
+  part: any;
+  group: any;
+  question: any;
+  displayNumber: number;
 }
+
 const box = {
   boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
   width: "80%",
@@ -40,26 +44,6 @@ const containerTotalPage = {
   ...themeCssSx.flexBox.flexBetweenCenter,
   p: "5px 10px",
 };
-
-const nextPage = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "45px",
-  height: "45px",
-  borderRadius: "50%",
-  transform: "rotate(180deg)",
-  cursor: "pointer",
-  boxShadow:
-    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
-};
-
-const containerNextPage = {
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "13%",
-};
-//
 const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
@@ -80,17 +64,39 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
+const nextPage = {
+  display: "flex",
+  justifyContent: "center",
+  alignItems: "center",
+  width: "45px",
+  height: "45px",
+  borderRadius: "50%",
+  transform: "rotate(180deg)",
+  cursor: "pointer",
+  boxShadow:
+    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
+};
 
-const CardPage = ({ questions, onClickPage }: Props) => {
-  const [highlightPage, setHighlightPage] = React.useState("1");
+const containerNextPage = {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "13%",
+};
+const CardPage = ({
+  questions,
+  onClickPage,
+  setDisplayNumber,
+  groupSelected,
+  part,
+  group,
+  question,
+  displayNumber,
+}: CardTotalPageExamsI) => {
   const [showPageReview, setShowPageReview] = useState<string>();
-
   const [checkedReview, setCheckedReview] = useState(false);
-  const { values }: any = useFormikContext();
-  const classes = useStyles();
-  const handleCheckBox = (event: any) => {
-    setCheckedReview(event.target.checked);
-  };
+  const { handleSubmit } = useFormikContext();
+  //
+  console.log("displayNumber", displayNumber);
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -100,51 +106,132 @@ const CardPage = ({ questions, onClickPage }: Props) => {
     };
     hanldeHighLightReview();
   }, [checkedReview]);
+  //! State
+  const classes = useStyles();
+  //
+
+  const handleCheckBox = (event: any) => {
+    setCheckedReview(event.target.checked);
+  };
+  //
   const hideReview = () => {
     setCheckedReview(false);
   };
-  const renderPartValues = (partValues: any, index: number) => {
+
+  // ! Next  question
+  const checkNextPartRender = () => {
+    let sectionRender: any = {};
+    let partLength = part.length - 1;
+    let groupLength = group.length - 1;
+    let questionLength = question.length - 1;
+    //
+    if (groupSelected.question < questionLength) {
+      sectionRender.question = groupSelected.question + 1;
+      return sectionRender;
+    }
+    if (groupSelected.group < groupLength) {
+      sectionRender.group = groupSelected.group + 1;
+      sectionRender.question = 0;
+      return sectionRender;
+    }
+    if (groupSelected.part < partLength) {
+      sectionRender.part = groupSelected.part + 1;
+      sectionRender.group = 0;
+      sectionRender.question = 0;
+      return sectionRender;
+    }
+    handleSubmit();
+    return;
+  };
+  // ! Back  question
+  const checkBackRenderQuestion = () => {
     let sectionRender: any = {};
 
-    return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
-      return partGroup.questions.map((item: any, index: number) => {
-        const handleClickQuestion = (part: any, group: any) => {
-          sectionRender.part = partValues.partNumber - 1;
-          sectionRender.group = partGroup.groupNumber - 1;
-          onClickPage(sectionRender);
-          setHighlightPage(item.question.displayNumber);
-          hideReview();
-        };
+    if (groupSelected.question > 0) {
+      sectionRender.question = groupSelected.question - 1;
+      return sectionRender;
+    }
+    if (groupSelected.group > 0) {
+      let questiongLength = questions[groupSelected.part]?.groups[groupSelected.group - 1]?.questions.length - 1;
+      sectionRender.group = groupSelected.group - 1;
+      sectionRender.question = questiongLength;
+      return sectionRender;
+    }
 
-        const add = Number(item.question.displayNumber);
+    if (groupSelected.part > 0) {
+      let groupLength = questions[groupSelected.part - 1]?.groups?.length - 1;
+      let questiongLength = questions[groupSelected.part - 1]?.groups[groupLength]?.questions.length - 1;
+
+      sectionRender.part = groupSelected.part - 1;
+      sectionRender.group = groupLength;
+      sectionRender.question = questiongLength;
+      return sectionRender;
+    }
+
+    return;
+  };
+
+  const onClickNextQuestion = () => {
+    const sectionRender = checkNextPartRender();
+    setDisplayNumber(displayNumber);
+    onClickPage(sectionRender);
+  };
+
+  const onClickBackQuestion = () => {
+    const sectionRender = checkBackRenderQuestion();
+    onClickPage(sectionRender);
+    setDisplayNumber(displayNumber);
+  };
+
+  const handleClickQuestion = (partIndex: number, groupIndex: number, questionIndex: number) => {
+    const sectionRender: any = {};
+    sectionRender.part = partIndex;
+    sectionRender.group = groupIndex;
+    sectionRender.question = questionIndex;
+    hideReview();
+
+    onClickPage(sectionRender);
+  };
+
+  const renderPartValues = (partValues: any, partIndex: number) => {
+    const { values }: any = useFormikContext();
+    let sectionRender: any = {};
+    //
+    return partValues?.groups?.map((group: any, groupIndex: number) => {
+      return group.questions.map((question: any, questionIndex: number) => {
+        const add = Number(question.question.displayNumber) - 1;
+
         const highLightPage = () => {
-          if (highlightPage == item.question.displayNumber) {
+          if (displayNumber == question.question.displayNumber) {
             return "high-light-page";
           }
           return classes.eachQuestion;
         };
+
         const didExerciseActive = () => {
           if (values?.answers[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
-          return;
         };
         return (
           <>
             <Box
-              key={item.id}
+              key={question.id}
               className={`${highLightPage()} ${
-                highlightPage === item.question.displayNumber && showPageReview
+                displayNumber === question.question.displayNumber && showPageReview
               } ${`${didExerciseActive()}-abc`}`}
-              onClick={() => handleClickQuestion(partValues, partGroup)}
+              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
             >
-              <span className={didExerciseActive()}>{item.question.displayNumber}</span>
+              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
             </Box>
           </>
         );
       });
     });
   };
+  //! Effect
+
+  //! Render
   return (
     <>
       <Box className="quang-test" sx={TotalPage}>
@@ -157,7 +244,7 @@ const CardPage = ({ questions, onClickPage }: Props) => {
         </Box>
         <Box sx={box}>
           <Box sx={containerTotalPage}>
-            <Box sx={{ display: "flex", flexWrap: "wrap", gap: "0px 2px" }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {questions?.map((group: any, index: number) => {
                 return (
                   <>
@@ -176,10 +263,10 @@ const CardPage = ({ questions, onClickPage }: Props) => {
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage}>
+          <Box sx={nextPage} onClick={onClickBackQuestion}>
             <img src={NextQuestion} alt="" />
           </Box>
-          <Box sx={nextPage}>
+          <Box sx={nextPage} onClick={onClickNextQuestion}>
             <img src={PrevQuestion} alt="" />
           </Box>
         </Stack>

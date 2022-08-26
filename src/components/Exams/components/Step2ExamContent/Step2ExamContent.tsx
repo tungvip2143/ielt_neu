@@ -12,7 +12,6 @@ import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
 import { useMemo, useState } from "react";
-import Writing from "views/Ielts/writing/component/Writing";
 import FooterExamResponsive from "./FooterExamResponsive";
 //
 interface Props {
@@ -23,7 +22,6 @@ const Step2ExamContent = (props: any) => {
   const { data, test } = props;
   //! State
   const [questions, setQuestions] = useState(data);
-  console.log("data1234", data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
   const [questionSelected, setQuestionSelected] = useState<any>();
@@ -39,8 +37,6 @@ const Step2ExamContent = (props: any) => {
   const questionData =
     test === IELT_TEST.READING ? data[groupSelected.part]?.groups[groupSelected.group]?.questions || [] : [];
   const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
-
-  console.log("groupSelected", groupSelected);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -64,6 +60,9 @@ const Step2ExamContent = (props: any) => {
     return null;
   }, [ieltsReadingDataDummy, groupSelected]);
   //
+  const styleAddExercise = {
+    height: "calc(100vh - 250px)",
+  };
   //
   const contentPart = "Sample Academic Reading Multiple Choice (one answer)";
   //! Render
@@ -81,13 +80,11 @@ const Step2ExamContent = (props: any) => {
               display: { xs: "block", lg: "flex" },
             }}
           >
-            <CardExercise content={<CardLeft test={test} dataChangePart={partRenderSelected} />} width={5.9} />
-            {test === IELT_TEST.WRITING && (
-              <CardExercise
-                content={<Writing questionId={partRenderSelected?.questionId} groupSelected={groupSelected} />}
-                width={6}
-              />
-            )}
+            <CardExercise
+              content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+              width={5.9}
+              styleAdd={styleAddExercise}
+            />
             {test === IELT_TEST.READING && (
               <CardExercise
                 content={
@@ -101,20 +98,17 @@ const Step2ExamContent = (props: any) => {
                   />
                 }
                 width={6}
+                styleAdd={styleAddExercise}
               />
             )}
           </Grid>
         </Box>
 
         <CardTotalPageExams
-          questionSelected={questionSelected}
-          onClickPart={onClickPart}
           onClickPage={onClickPage}
           questions={questions}
           test={test}
           setDisplayNumber={onClickShowQuestion}
-          hightLightNumberPage={hightLightNumberPage}
-          onClickPageNumber={hightLightNumberPageClickQuestion}
           groupSelected={groupSelected}
           part={part}
           group={group}

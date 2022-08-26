@@ -12,17 +12,13 @@ interface Props {
 }
 const ContentRight = ({ partRenderSelected, displayNumber }: Props) => {
   const questionType = partRenderSelected?.questionType;
-  console.log("questionTypeListening", questionType);
-  console.log("dataListening", partRenderSelected);
   // console.log("dataListeningImage", partRenderSelected.image);
 
-  // console.log("displayNumber", displayNumber);
+  // console.log("partRenderSelected", partRenderSelected);
 
   const renderPartValueGroup = (partRenderSelected: any, displayNumber: any) => {
-    console.log("displayNumber", displayNumber);
-
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
-      return <NoteCompletion questionBox={partRenderSelected?.questionBox} />;
+      return <NoteCompletion questionBox={partRenderSelected?.questionBox} data={partRenderSelected?.questions} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return <SentenceCompletetion data={partRenderSelected} />;
@@ -34,10 +30,7 @@ const ContentRight = ({ partRenderSelected, displayNumber }: Props) => {
       return (
         <>
           {partRenderSelected?.questions?.map((item: any) => {
-            console.log("item", item);
-            console.log("itemDispaly", item.question.displayNumber);
             const check = item.question.displayNumber === displayNumber;
-            console.log("check", check);
             return (
               <>
                 <MultiChoice dataQuestions={item} />
@@ -57,4 +50,3 @@ const ContentRight = ({ partRenderSelected, displayNumber }: Props) => {
 };
 
 export default ContentRight;
-// question={partRenderSelected?.questions} image={partRenderSelected?.image}

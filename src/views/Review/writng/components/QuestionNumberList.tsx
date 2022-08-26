@@ -4,14 +4,12 @@ import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
 //
-import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft";
-import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-//
 import { makeStyles } from "@mui/styles";
 
 interface QuestionNumberListI {
   questions: any;
   onClickPage: (id: string) => void;
+  setChangeData?: any;
 }
 
 const box = {
@@ -43,43 +41,29 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const QuestionNumberList = ({ questions, onClickPage }: QuestionNumberListI) => {
-  console.log("questionSelected", questions);
+const QuestionNumberList = ({ questions, onClickPage, setChangeData }: QuestionNumberListI) => {
   const [highlightPage, setHighlightPage] = useState("1");
-
   //! State
   const classes = useStyles();
   //
-  const renderPartValues = (partValues: any, partIndex: number) => {
-    return partValues.groups?.map((group: any, groupIndex: number) => {
-      return group.questions?.map((question: any, questionIndex: number) => {
-        let sectionRender: any = {};
-        const handleClickQuestion = (part: any) => {
-          sectionRender.part = partIndex;
-          sectionRender.group = groupIndex;
-          sectionRender.question = questionIndex;
-          onClickPage(sectionRender);
-          setHighlightPage(question?.question?.displayNumber);
-        };
-        const hightLightPage = () => {
-          if (highlightPage === question?.question?.displayNumber) {
-            return { background: "#4C80F1", borderRadius: "50%" };
-          }
-        };
-        return (
-          <>
-            <div
-              key={partValues.id}
-              className={classes.eachQuestion}
-              onClick={() => handleClickQuestion(partValues)}
-              style={hightLightPage()}
-            >
-              <span>{question?.question?.displayNumber}</span>
-            </div>
-          </>
-        );
-      });
-    });
+  const renderPartValues = (question: any, partIndex: number) => {
+    let sectionRender: any = {};
+    const onclickPage = () => {
+      setHighlightPage(question?.question?.displayNumber);
+      setChangeData(Number(question?.question?.displayNumber) - 1);
+    };
+    const highLightPageEvent = () => {
+      if (highlightPage == question?.question?.displayNumber) {
+        return { background: "#4C80F1 !important", borderRadius: "50%" };
+      }
+    };
+    return (
+      <>
+        <Box className={classes.eachQuestion} sx={highLightPageEvent()} onClick={onclickPage}>
+          <span>{question?.question?.displayNumber}</span>
+        </Box>
+      </>
+    );
   };
 
   //! Effect
@@ -90,9 +74,8 @@ const QuestionNumberList = ({ questions, onClickPage }: QuestionNumberListI) => 
       <Box>
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
           <Box sx={{ width: { display: "flex", flexWrap: "wrap", gap: 8 } }}>
-            {questions?.map((group: any, index: number) => {
-              console.log("partKey", group);
-              return <>{renderPartValues(group, index)}</>;
+            {questions?.map((question: any, index: number) => {
+              return <>{renderPartValues(question, index)}</>;
             })}
           </Box>
         </Box>

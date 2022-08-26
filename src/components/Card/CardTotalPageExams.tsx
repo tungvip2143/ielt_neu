@@ -5,27 +5,20 @@ import Stack from "@mui/material/Stack";
 //
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
-import FormGroup from "@mui/material/FormGroup";
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
-import { IELT_TEST } from "interfaces/testType";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-import ForwardIcon from "@mui/icons-material/Forward";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 
 interface CardTotalPageExamsI {
   questions?: any;
   onClickPage?: any;
-  onClickPart?: any;
   setDisplayNumber?: any;
-  questionSelected?: any;
-  hightLightNumberPage?: any;
   test?: any;
-  onClickPageNumber?: any;
   groupSelected?: any;
   part?: any;
   group?: any;
@@ -90,6 +83,7 @@ const containerNextPage = {
   justifyContent: "flex-end",
   width: "13%",
 };
+
 const didExercise = {
   background: "#90caf9 ",
   borderRadius: "2px",
@@ -112,24 +106,17 @@ export enum Direction {
 
 const CardTotalPageExams = ({
   questions,
-  onClickPart,
   onClickPage,
-  test,
   setDisplayNumber,
-  hightLightNumberPage,
-  onClickPageNumber,
   groupSelected,
   part,
   group,
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
-  const [highlightPage, setHighlightPage] = useState("1");
-  const [itemShowReview, setItemShowReview] = useState<string>();
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
-  console.log("questions", questions);
 
   useEffect(() => {
     const hanldeHighLightReview = () => {
@@ -143,9 +130,6 @@ const CardTotalPageExams = ({
   //! State
   const classes = useStyles();
   //
-  const getItem = (item: string) => {
-    setItemShowReview(item);
-  };
 
   const handleCheckBox = (event: any) => {
     setCheckedReview(event.target.checked);
@@ -154,12 +138,13 @@ const CardTotalPageExams = ({
   const hideReview = () => {
     setCheckedReview(false);
   };
-
+  // ! Next  question
   const checkNextPartRender = () => {
     let sectionRender: any = {};
     let partLength = part.length - 1;
     let groupLength = group.length - 1;
     let questionLength = question.length - 1;
+    //
     if (groupSelected.question < questionLength) {
       sectionRender.question = groupSelected.question + 1;
       return sectionRender;
@@ -176,18 +161,11 @@ const CardTotalPageExams = ({
       return sectionRender;
     }
     handleSubmit();
-    console.log("done");
-    console.log("123123");
     return;
   };
 
-  // data[groupSelected.part]?.groups[groupSelected.group]?.questions
-
   const checkBackRenderQuestion = () => {
     let sectionRender: any = {};
-
-    // console.log("questiongLength, questiongLength;
-    // console.log("questiongLengthgroupLength", groupLength);
 
     if (groupSelected.question > 0) {
       sectionRender.question = groupSelected.question - 1;
@@ -195,21 +173,14 @@ const CardTotalPageExams = ({
     }
     if (groupSelected.group > 0) {
       let questiongLength = questions[groupSelected.part]?.groups[groupSelected.group - 1]?.questions.length - 1;
-      console.log("questiongLength", questiongLength);
-
       sectionRender.group = groupSelected.group - 1;
       sectionRender.question = questiongLength;
       return sectionRender;
     }
 
     if (groupSelected.part > 0) {
-      console.log("groupSelectedquestions54321", questions);
-
       let groupLength = questions[groupSelected.part - 1]?.groups?.length - 1;
       let questiongLength = questions[groupSelected.part - 1]?.groups[groupLength]?.questions.length - 1;
-
-      console.log("questiongLength", questiongLength);
-      console.log("questiongLength-groupLength", groupLength);
 
       sectionRender.part = groupSelected.part - 1;
       sectionRender.group = groupLength;
@@ -237,68 +208,40 @@ const CardTotalPageExams = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-
+    hideReview();
     onClickPage(sectionRender);
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
     const { values }: any = useFormikContext();
     let sectionRender: any = {};
-    if (test === IELT_TEST.WRITING) {
-      const handleClickQuestion = (part: any, group: any) => {
-        sectionRender.part = partIndex;
-        onClickPage(sectionRender);
-        setHighlightPage(partValues.question.displayNumber);
-      };
-      const hightLightDidTheHomework = () => {
-        const add = Number(partValues.question.displayNumber) - 1;
-
-        if (highlightPage == partValues.question.displayNumber) {
-          return { background: "#4C80F1 !important", borderRadius: "2px !important" };
-        }
-        if (values?.answers[`${add}`]?.studentAnswer) {
-          return didExercise;
-        }
-      };
-
-      return (
-        <>
-          <Box
-            key={partValues.id}
-            className={classes.eachQuestion}
-            onClick={() => handleClickQuestion(partValues, partIndex)}
-            sx={hightLightDidTheHomework()}
-            // style={values.answers[]}
-          >
-            <span>{partValues.question.displayNumber}</span>
-          </Box>
-        </>
-      );
-    }
-
+    //
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
-        let hightlightpageNumber = {};
         const add = Number(question.question.displayNumber) - 1;
-        if (displayNumber === question.question.displayNumber) {
-          hightlightpageNumber = { background: "#4C80F1 !important", borderRadius: "2px !important" };
-        }
+
+        const highLightPage = () => {
+          if (displayNumber == question.question.displayNumber) {
+            return "high-light-page";
+          }
+          return classes.eachQuestion;
+        };
 
         const didExerciseActive = () => {
           if (values?.answers[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
-          return classes.eachQuestion;
         };
         return (
           <>
             <Box
               key={question.id}
-              className={`${didExerciseActive()} ${showPageReview}`}
+              className={`${highLightPage()} ${
+                displayNumber === question.question.displayNumber && showPageReview
+              } ${`${didExerciseActive()}-abc`}`}
               onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
-              sx={hightlightpageNumber}
             >
-              <span>{question.question.displayNumber}</span>
+              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
             </Box>
           </>
         );
@@ -325,7 +268,7 @@ const CardTotalPageExams = ({
                 return (
                   <>
                     <div key={group.partNumber} className={classes.eachItem}>
-                      <Stack direction="row" spacing={0.2}>
+                      <Stack direction="row" spacing={0.2} className="part-item">
                         {renderPartValues(group, index)}
                       </Stack>
                     </div>
