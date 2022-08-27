@@ -52,7 +52,7 @@ const DialogSelectExam = ({ open, toggle, onSubmit }: DialogSelectExamI) => {
   //! State
   const classes = useStyles();
   const { data, isLoading } = useGetExamination(initialFilter);
-  const examinations = data?.data?.data || [];
+  const examinations = data?.data?.data?.data || [];
 
   console.log("examination data", examinations);
 
