@@ -60,7 +60,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const { testCode } = useGetTestCode();
   // !Function
   const handleSubmitForm = () => {
-    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP3);
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
     localStorage.setItem("SPEAKING", "true");
   };
   //

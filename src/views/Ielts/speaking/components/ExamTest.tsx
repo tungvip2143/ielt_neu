@@ -18,6 +18,7 @@ import ReactAudioPlayer from "react-audio-player";
 import RecordExam from "./RecordExam";
 import { useHistory } from "react-router-dom";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useFormikContext } from "formik";
 
 type Props = {
   data: any;
@@ -52,6 +53,7 @@ const ExamTest = (props: Props) => {
     question: 0,
   });
   const { handler } = useStepExam();
+  const { handleSubmit } = useFormikContext();
   const { mutateAsync: uploadAudioSpeaking, isLoading: uploadAudioLoading } = useUploadAudioSpeaking();
   let [audioURL, isRecording, startRecording, stopRecording]: any = useRecorder();
 
@@ -127,7 +129,8 @@ const ExamTest = (props: Props) => {
             setGroupSelected({ ...groupSelected, part: groupSelected.part + 1, group: 0, question: 0 });
             return;
           } else {
-            handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
+            // handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
+            handleSubmit();
             return;
           }
         },
