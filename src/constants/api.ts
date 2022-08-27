@@ -63,7 +63,7 @@ export const ADMIN_READING_URL = (id?: string | number) => {
     DELETE_QUESTION_GROUP: `${ROOT_URL}/question-groups/`,
     PATCH_UPDATE_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
-    GET_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups?sort=createdAt%3ADESC&skill=READING`,
+    GET_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups?page=1&pageSize=10&sort=createdAt%3ADESC&skill=READING`,
     POST_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups/reading`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/reading`,
   };
@@ -109,7 +109,7 @@ export const ADMIN_SPEAKING_URL = (id?: string | number) => {
 };
 export const ADMIN_USER_URL = (id?: string | number) => {
   return {
-    GET_LIST_PARTS: `${ROOT_URL}/users?sort=createdAt%3ADESC`,
+    GET_LIST_PARTS: `${ROOT_URL}/users?page=1&pageSize=10&sort=createdAt%3ADESC`,
     GET_PART_DETAIL: `${ROOT_URL}/users/`,
     POST_CREATE_PART: `${ROOT_URL}/users/`,
     PATCH_UPDATE_PART: `${ROOT_URL}/users/`,
@@ -119,7 +119,7 @@ export const ADMIN_USER_URL = (id?: string | number) => {
 
 export const ADMIN_CONTEST_URL = (id?: string | number) => {
   return {
-    GET_LIST_PARTS: `${ROOT_URL}/examinations/list?sort=createdAt%3ADESC`,
+    GET_LIST_PARTS: `${ROOT_URL}/examinations/list?page=1&pageSize=10&sort=createdAt%3ADESC`,
     GET_PART_DETAIL: `${ROOT_URL}/examinations/`,
     POST_CREATE_PART: `${ROOT_URL}/examinations/`,
     PATCH_UPDATE_PART: `${ROOT_URL}/examinations/`,
