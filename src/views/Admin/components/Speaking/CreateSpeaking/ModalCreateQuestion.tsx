@@ -20,7 +20,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import speakingService from "services/speakingService";
 import audioService from "services/audioService";
 import useGetDetailQuestion from "hooks/QuestionBank/Speaking/useGetDetailQuestion";
-import { IMAGE_URL } from "constants/constants";
+import { AUDIO_URL, IMAGE_URL } from "constants/constants";
 
 export interface Props {
   openModal: any;
@@ -222,7 +222,7 @@ const ModalCreateQuestion = (props: Props) => {
                       src={
                         !!selectFile?.[`questions[${index}].questionAudio`]
                           ? URL.createObjectURL(selectFile?.[`questions[${index}].questionAudio`])
-                          : dataQuestionDetail?.[`questions[${index}].questionAudio`]
+                          : AUDIO_URL + dataQuestionDetail?.[`questions[${index}].questionAudio`]
                       }
                       onPlay={(e) => console.log("onPlay")}
                       showJumpControls={false}
@@ -263,7 +263,7 @@ const ModalCreateQuestion = (props: Props) => {
                       src={
                         !!selectFile?.[`questions[${index}].modelAnswerAudio`]
                           ? URL.createObjectURL(selectFile?.[`questions[${index}].modelAnswerAudio`])
-                          : IMAGE_URL + dataQuestionDetail?.[`questions[${index}].modelAnswerAudio`]
+                          : AUDIO_URL + dataQuestionDetail?.[`questions[${index}].modelAnswerAudio`]
                       }
                       onPlay={(e) => console.log("onPlay")}
                       showJumpControls={false}

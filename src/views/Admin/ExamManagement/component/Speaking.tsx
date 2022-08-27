@@ -1,6 +1,6 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import { Card, Typography } from "@mui/material";
-import { IMAGE_URL } from "constants/constants";
+import { AUDIO_URL, IMAGE_URL } from "constants/constants";
 import { useForm } from "react-hook-form";
 import "./styles.scss";
 import * as yup from "yup";
@@ -82,7 +82,7 @@ const Speaking = (props: Props) => {
                                     marginTop: 20,
                                     marginBottom: 20,
                                   }}
-                                  src={`${IMAGE_URL}${items?.question?.questionAudio}`}
+                                  src={`${AUDIO_URL}${items?.question?.questionAudio}`}
                                   onPlay={(e) => console.log("onPlay")}
                                   showJumpControls={false}
                                   loop={false}
@@ -92,7 +92,7 @@ const Speaking = (props: Props) => {
                             </div>
                             <div className="flex-1 ml-5 mb-[20px]">
                               <Typography className="text">Student answer</Typography>
-                              {items?.question?.questionAudio && (
+                              {items?.question?.studentAnswerAudio && (
                                 <AudioPlayer
                                   preload="none"
                                   style={{
@@ -101,7 +101,7 @@ const Speaking = (props: Props) => {
                                     marginTop: 20,
                                     marginBottom: 20,
                                   }}
-                                  src={`${IMAGE_URL}${items?.question?.questionAudio}`}
+                                  src={`${AUDIO_URL}${items?.question?.studentAnswerAudio}`}
                                   onPlay={(e) => console.log("onPlay")}
                                   showJumpControls={false}
                                   loop={false}
