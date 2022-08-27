@@ -23,6 +23,7 @@ import { useFormikContext } from "formik";
 import useGetQuerystring from "hooks/useGetQuerystring";
 import { useFinishIeltsReadingTest, useGetExamination } from "hooks/ielts/useIelts";
 import { Button } from "@mui/material";
+import useGetNameExam from "hooks/ielts/useGetNameExamHook";
 
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
@@ -128,6 +129,14 @@ export default function IeltsSections({ bg }: PropsBg3) {
   console.log("queries", queries);
   // console.log("history", idExam);
   const examinationName = localStorage.getItem("examinationName") || "";
+  const { examName: reading } = useGetNameExam("READING");
+  const { examName: writing } = useGetNameExam("WRITING");
+  const { examName: speaking } = useGetNameExam("SPEAKING");
+  const { examName: listening } = useGetNameExam("LISTENING");
+
+  const finisdedTest = React.useMemo(() => {
+    return reading && writing && listening;
+  }, []);
 
   const handleCloseModal = () => setOpen(false);
 
@@ -142,7 +151,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
         localStorage.removeItem("SPEAKING");
         localStorage.removeItem("LISTENING");
         localStorage.removeItem("WRITING");
-        history.push(`/`);
+        history.push(`/ielts/scores`);
       },
     });
   };
@@ -201,8 +210,8 @@ export default function IeltsSections({ bg }: PropsBg3) {
                         idExam={queries.exam}
                       />
                     </Box>
-                    <Button onClick={endTest} variant="outlined">
-                      Kết thúc bài thi
+                    <Button disabled={!finisdedTest} onClick={endTest} variant="outlined">
+                      Finish Test
                     </Button>
                   </Box>
                 </div>
