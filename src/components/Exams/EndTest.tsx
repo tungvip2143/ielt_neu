@@ -42,9 +42,9 @@ const EndTest = (props: Props) => {
   const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
 
   const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
-  const { mutateAsync: finishIeltsWriting, isLoading: writingLoading } = useFinishIeltsWritingTest();
-  const { mutateAsync: finishIeltsListening, isLoading: ListeningLoading } = useFinishIeltsListeningTest();
-  const { mutateAsync: finishIeltsSpeaking, isLoading: speakingLoading } = useFinishIeltsSpeakingTest();
+  // const { mutateAsync: finishIeltsWriting, isLoading: writingLoading } = useFinishIeltsWritingTest();
+  // const { mutateAsync: finishIeltsListening, isLoading: ListeningLoading } = useFinishIeltsListeningTest();
+  // const { mutateAsync: finishIeltsSpeaking, isLoading: speakingLoading } = useFinishIeltsSpeakingTest();
   const typeExam = () => {
     if (test === IELT_TEST.READING) {
       return { type: IELT_TEST.READING };
@@ -64,32 +64,31 @@ const EndTest = (props: Props) => {
 
   const handleEndTest = async () => {
     const examinationId = localStorage.getItem("examinationId");
-    console.log("examinationId", examinationId);
-    if (test === IELT_TEST.READING) {
-      await finishIeltsReading(testCode, {
-        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-      });
-    }
-    if (test === IELT_TEST.WRITING) {
-      await finishIeltsWriting(testCode, {
-        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-      });
-    }
-    if (test === IELT_TEST.LISTENING) {
-      await finishIeltsListening(testCode, {
-        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-      });
-    }
-    if (test === IELT_TEST.SPEAKING) {
-      await finishIeltsSpeaking(testCode, {
-        onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-      });
-    }
+    history.push(`/ielts?exam=${examinationId}`);
   };
+  // console.log("test", test);
+  // if (test === IELT_TEST.READING) {
 
-  if (readingLoading || writingLoading || ListeningLoading || speakingLoading) {
-    return <LoadingPage />;
-  }
+  // }
+  // if (test === IELT_TEST.WRITING) {
+  //   await finishIeltsWriting(testCode, {
+  //     onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
+  //   });
+  // }
+  // if (test === IELT_TEST.LISTENING) {
+  //   await finishIeltsListening(testCode, {
+  //     onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
+  //   });
+  // }
+  // if (test === IELT_TEST.SPEAKING) {
+  //   await finishIeltsSpeaking(testCode, {
+  //     onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
+  //   });
+  // }
+
+  // if (readingLoading || writingLoading || ListeningLoading || speakingLoading) {
+  //   return <LoadingPage />;
+  // }
 
   return (
     <Card sx={card}>

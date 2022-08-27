@@ -21,7 +21,9 @@ import { Form, Formik } from "formik";
 import * as yup from "yup";
 import { useFormikContext } from "formik";
 import useGetQuerystring from "hooks/useGetQuerystring";
-import { useGetExamination } from "hooks/ielts/useIelts";
+import { useFinishIeltsReadingTest, useGetExamination } from "hooks/ielts/useIelts";
+import { Button } from "@mui/material";
+import useGetNameExam from "hooks/ielts/useGetNameExamHook";
 
 export interface IeltsSectionsProps {}
 interface PropsBg3 {
@@ -39,6 +41,7 @@ const useStyles = makeStyles((theme) => ({
   containerTitle: {
     display: "flex",
     justifyContent: "space-between",
+    alignItems: "center",
   },
   modalContent: {
     p: "0 10px",
@@ -115,6 +118,8 @@ export default function IeltsSections({ bg }: PropsBg3) {
   const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
   const { data, isLoading } = useGetExamination(initialFilter);
   const examinations = data?.data?.data?.data || [];
+
+  const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
   console.log("examination", examinations);
   console.log("loading", isLoading);
 
@@ -123,9 +128,33 @@ export default function IeltsSections({ bg }: PropsBg3) {
   const queries = useGetQuerystring();
   console.log("queries", queries);
   // console.log("history", idExam);
+  const examinationName = localStorage.getItem("examinationName") || "";
+  const { examName: reading } = useGetNameExam("READING");
+  const { examName: writing } = useGetNameExam("WRITING");
+  const { examName: speaking } = useGetNameExam("SPEAKING");
+  const { examName: listening } = useGetNameExam("LISTENING");
+
+  const finisdedTest = React.useMemo(() => {
+    return reading && writing && listening;
+  }, []);
 
   const handleCloseModal = () => setOpen(false);
-  //
+
+  const testCode = React.useMemo(() => {
+    return localStorage.getItem("testCode");
+  }, []);
+
+  const endTest = async () => {
+    await finishIeltsReading(testCode, {
+      onSuccess: () => {
+        localStorage.removeItem("READING");
+        localStorage.removeItem("SPEAKING");
+        localStorage.removeItem("LISTENING");
+        localStorage.removeItem("WRITING");
+        history.push(`/ielts/scores`);
+      },
+    });
+  };
 
   const handleBackIeltsSelection = () => {
     if (id === 1) {
@@ -175,8 +204,15 @@ export default function IeltsSections({ bg }: PropsBg3) {
                 <div className="container">
                   <Box className={classes.containerTitle}>
                     <Box sx={{ width: { xs: "100%", lg: "300px" }, ml: "10px" }}>
-                      <TitleIntroExam dataTitleIntroExam={dataTitleIntroExam} idExam={queries.exam} />
+                      <TitleIntroExam
+                        examinationName={examinationName}
+                        dataTitleIntroExam={dataTitleIntroExam}
+                        idExam={queries.exam}
+                      />
                     </Box>
+                    <Button disabled={!finisdedTest} onClick={endTest} variant="outlined">
+                      Finish Test
+                    </Button>
                   </Box>
                 </div>
               </Box>

@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
 import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
@@ -22,6 +22,7 @@ import IntructionsToCandidates from "views/components/dataSteps/DataContentListe
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 //
 const stepRuleExam = {
   typeExam: "Reading",
@@ -64,6 +65,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+        localStorage.setItem("READING", "true");
       },
     });
   };
@@ -132,16 +134,16 @@ const IeltsReading = (props: IeltsReadingProps) => {
 };
 
 const IeltsReadingContainer = () => {
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const { testCode } = useGetTestCode();
   const { data, isLoading } = useIeltsReading(testCode);
   const history = useHistory();
 
   if (isLoading) {
     return <LoadingPage />;
   }
-  useCheckTestCode(testCode);
+  useCheckTestCode(Number(testCode));
 
-  return <IeltsReading data={data?.data?.data} testCode={testCode} />;
+  return <IeltsReading data={data?.data?.data} testCode={Number(testCode)} />;
 };
 
 const IeltsListeningRoot = () => {

@@ -41,7 +41,7 @@ export const themeCssSx = {
   colorAnswer: {
     correctAnswer: "#B0D909",
     inCorrectAnswer: "red",
-    yourAnswer: "#e8eaed99",
+    yourAnswer: "#ccc",
   },
   bgQuestion: {
     title: "#f7f9fb",

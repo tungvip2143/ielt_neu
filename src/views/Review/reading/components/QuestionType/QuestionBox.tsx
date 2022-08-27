@@ -5,6 +5,7 @@ import { FastField } from "formik";
 import AnserwerBox from "../AnserwerBox";
 import { makeStyles } from "@mui/styles";
 import ExplanationBox from "../ExplanationBox";
+import Text from "components/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -38,10 +39,11 @@ const QuestionBox = (props: Props) => {
   // !State
   const classes = useStyles();
   const { questionBox, question } = props;
-  console.log("questionBox", questionBox);
+  console.log("question", question);
   Handlebars.registerHelper("blank", function (blankId: any) {
+    const studenAnswer = question[blankId]?.studentAnswer ? question[blankId]?.studentAnswer : "";
     return new Handlebars.SafeString(
-      `<input name='answers'  id="input-${blankId}" type="text" value="" maxlength="30">`
+      `<input name='answers' value='${studenAnswer}'  id="input-${blankId}" type="text" value="" maxlength="30">`
     );
   });
 
@@ -49,6 +51,7 @@ const QuestionBox = (props: Props) => {
   return (
     <div className={classes.root}>
       <div dangerouslySetInnerHTML={{ __html: test() }} />
+      <Text.CardTitle>Correct Answer</Text.CardTitle>
       <div className={classes.answerBox}>
         {question?.map((answer: any) => (
           <Answer key={answer.questionId} answer={answer} />

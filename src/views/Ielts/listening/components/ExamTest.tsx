@@ -97,6 +97,7 @@ const ExamTest = (props: Props) => {
                 ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
                 audio={partRenderSelected?.partAudio}
                 displayNumber={displayNumber}
+                onClickPage={onClickPage}
               />
             }
             styleAdd={styleHeight}
@@ -120,7 +121,11 @@ const ExamTest = (props: Props) => {
 };
 
 const IeltsListeningContainer = () => {
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  // const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+  const testCode = useMemo(() => {
+    return localStorage.getItem("testCode");
+  }, []);
+
   const { data, isLoading } = useIeltsListening(testCode);
 
   if (isLoading) {

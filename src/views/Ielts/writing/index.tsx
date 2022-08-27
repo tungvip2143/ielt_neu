@@ -26,6 +26,7 @@ import ModalHide from "../../../components/Modal/ModalHide";
 import StepExamWriting from "./component/StepExamWriting";
 import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 
 export interface IeltsReadingProps {}
 
@@ -61,8 +62,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
 
   const { step, handler } = useStepExam();
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-
+  const { testCode } = useGetTestCode();
   const { data, isLoading } = useIeltsWritting(testCode);
   const { mutateAsync: updateIeltsWriting } = useUpdateIeltsWriting();
 
@@ -70,7 +70,10 @@ const IeltsWriting = (props: IeltsReadingProps) => {
     await updateIeltsWriting(
       { values, testCode },
       {
-        onSuccess: () => handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4),
+        onSuccess: () => {
+          handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+          localStorage.setItem("WRITING", "true");
+        },
       }
     );
   };
@@ -92,7 +95,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
     setIsOpenModalHide(false);
   };
   //
-  useCheckTestCode(testCode);
+  useCheckTestCode(Number(testCode));
   if (isLoading) {
     return <LoadingPage />;
   }

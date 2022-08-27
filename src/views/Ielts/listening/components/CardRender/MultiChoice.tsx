@@ -8,6 +8,7 @@ import { themeCssSx } from "../../../../../ThemeCssSx/ThemeCssSx";
 interface Props {
   dataQuestions?: any;
   audio?: any;
+  onClickPage: (options: any) => void;
 }
 const formAnswer = {
   display: "flex",
@@ -33,15 +34,22 @@ const question = {
   color: themeCssSx.color.title,
 };
 
-const MultiChoice = ({ dataQuestions, audio }: Props) => {
+const MultiChoice = ({ dataQuestions, audio, onClickPage }: Props) => {
   const { values }: any = useFormikContext();
+
+  // !Fucntion
+  const onClickQuestion = (questionIdx: number) => {
+    onClickPage && onClickPage({ question: questionIdx });
+  };
+
+  // !Render
   return (
     <>
       <Box sx={{ mb: "20px" }}></Box>
       <Box sx={formAnswer}>
-        {dataQuestions.map((item: any) => {
+        {dataQuestions.map((item: any, questionIdx: number) => {
           return (
-            <Box sx={itemAnswer}>
+            <Box sx={itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
               <Stack direction="row" sx={title}>
                 <Text.DescSmall sx={questionNumber}>{item.question.displayNumber}</Text.DescSmall>
                 <Text.DescSmall sx={question}>{ReactHtmlParser(item.question.questionText)}</Text.DescSmall>
