@@ -3,10 +3,10 @@ import httpServices from "./httpServices";
 
 class writingServices {
   getListParts(params: any = {}) {
-    return httpServices.get(ADMIN_WRITING_URL().GET_LIST_PARTS, { params });
+    return httpServices.get(ADMIN_WRITING_URL().GET_LIST_PARTS, params);
   }
   getListQuestion(params: any = {}) {
-    return httpServices.get(ADMIN_WRITING_URL().GET_LIST_QUESTION, { params });
+    return httpServices.get(ADMIN_WRITING_URL().GET_LIST_QUESTION, params);
   }
   postCreateQuestion(body: any) {
     return httpServices.post(ADMIN_WRITING_URL().POST_CREATE_PART, body);

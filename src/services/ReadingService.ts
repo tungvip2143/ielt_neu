@@ -1,4 +1,3 @@
-
 import { ADMIN_READING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "./../constants/api";
 import httpServices from "./httpServices";
 
@@ -7,7 +6,7 @@ class ReadingService {
     return httpServices.post(ADMIN_READING_URL().POST_LIST_READING_QUESTIONS, body);
   }
   getListParts(params: any = {}) {
-    return httpServices.get(ADMIN_READING_URL().GET_LIST_PARTS, { params });
+    return httpServices.get(ADMIN_READING_URL().GET_LIST_PARTS, params);
   }
   getPartDetail(id: any) {
     return httpServices.get(ADMIN_READING_URL().GET_PART_DETAIL + id);

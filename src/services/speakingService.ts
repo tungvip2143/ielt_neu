@@ -6,7 +6,7 @@ class speakingService {
     return httpServices.post(ADMIN_SPEAKING_URL().POST_LIST_SPEAKING_QUESTIONS, body);
   }
   getListParts(params: any = {}) {
-    return httpServices.get(ADMIN_SPEAKING_URL().GET_LIST_PARTS, { params });
+    return httpServices.get(ADMIN_SPEAKING_URL().GET_LIST_PARTS, params);
   }
   getPartDetail(id: any) {
     return httpServices.get(ADMIN_SPEAKING_URL().GET_PART_DETAIL + id);
