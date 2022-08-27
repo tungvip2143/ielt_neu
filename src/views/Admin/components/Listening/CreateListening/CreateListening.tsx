@@ -30,6 +30,7 @@ import { RouteBase } from "constants/routeUrl";
 import SelectField from "components/CustomField/SelectField";
 import audioService from "services/audioService";
 import TinyMceCommon from "components/TinyMceCommon";
+import { AUDIO_URL } from "constants/constants";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -274,7 +275,7 @@ const CreateQuestionListening = (props: Props) => {
           // autoPlay
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-          src={selectFile ? URL.createObjectURL(selectFile) : `http://103.226.250.81:8688/${dataPartDetail?.partAudio}`}
+          src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}${dataPartDetail?.partAudio}`}
           onPlay={(e) => console.log("onPlay")}
           showJumpControls={false}
           loop={false}

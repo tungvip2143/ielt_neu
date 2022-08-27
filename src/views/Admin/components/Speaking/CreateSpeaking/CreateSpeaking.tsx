@@ -13,7 +13,7 @@ import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
-import { IMAGE_URL } from "constants/constants";
+import { AUDIO_URL, IMAGE_URL } from "constants/constants";
 import { RouteBase } from "constants/routeUrl";
 import useGetPartDetail from "hooks/QuestionBank/Reading/useGetPartDetail";
 import useGetListSpeakingQuestion from "hooks/QuestionBank/Speaking/useGetListSpeakingQuestion";
@@ -203,7 +203,7 @@ const CreateQuestionSpeaking = (props: Props) => {
         <AudioPlayer
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-          src={selectFile ? URL.createObjectURL(selectFile) : `${IMAGE_URL}${dataPartDetail?.directionAudio}`}
+          src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}${dataPartDetail?.directionAudio}`}
           onPlay={(e) => console.log("onPlay")}
           showJumpControls={false}
           loop={false}
