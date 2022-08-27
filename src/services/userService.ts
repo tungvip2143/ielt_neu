@@ -5,7 +5,7 @@ import httpServices from "./httpServices";
 
 class userService {
   getListParts(params: RequestListListening): Promise<ResponseGenerator<QuestionUser[]>> {
-    return httpServices.get(ADMIN_USER_URL().GET_LIST_PARTS, { params });
+    return httpServices.get(ADMIN_USER_URL().GET_LIST_PARTS, params);
   }
 
   getPartDetail(id: any) {
