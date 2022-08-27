@@ -135,7 +135,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
   const { examName: listening } = useGetNameExam("LISTENING");
 
   const finisdedTest = React.useMemo(() => {
-    return reading && writing && listening;
+    return reading && writing && listening && speaking;
   }, []);
 
   const handleCloseModal = () => setOpen(false);
@@ -151,6 +151,7 @@ export default function IeltsSections({ bg }: PropsBg3) {
         localStorage.removeItem("SPEAKING");
         localStorage.removeItem("LISTENING");
         localStorage.removeItem("WRITING");
+        localStorage.removeItem("testCode");
         history.push(`/ielts/scores`);
       },
     });
