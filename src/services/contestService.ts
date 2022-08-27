@@ -3,7 +3,7 @@ import httpServices from "./httpServices";
 
 class userService {
   getListParts(params: any = {}) {
-    return httpServices.get(ADMIN_CONTEST_URL().GET_LIST_PARTS, { params });
+    return httpServices.get(ADMIN_CONTEST_URL().GET_LIST_PARTS, params);
   }
 
   getPartDetail(id: any) {

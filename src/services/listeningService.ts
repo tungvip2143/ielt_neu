@@ -8,7 +8,7 @@ class listeningService {
     return httpServices.post(ADMIN_LISTENING_URL().POST_LIST_LISTENING_QUESTIONS, body);
   }
   getListParts(params: RequestListListening): Promise<ResponseGenerator<QuestionListening[]>> {
-    return httpServices.get(ADMIN_LISTENING_URL().GET_LIST_PARTS, { params });
+    return httpServices.get(ADMIN_LISTENING_URL().GET_LIST_PARTS, params);
   }
   getPartDetail(id: any) {
     return httpServices.get(ADMIN_LISTENING_URL().GET_PART_DETAIL + id);
