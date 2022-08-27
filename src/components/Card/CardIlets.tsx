@@ -21,6 +21,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { isEmpty } from "lodash";
 import LoadingPage from "components/Loading";
 import { toast } from "react-toastify";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 
 const CardList = {
   borderRadius: "15px",
@@ -81,9 +82,14 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
   const listening = localStorage.getItem("LISTENING");
   const speaking = localStorage.getItem("SPEAKING");
   const writing = localStorage.getItem("WRITING");
+  const { testCode } = useGetTestCode();
 
   // !Function
   const handleTest = async () => {
+    if (!testCode) {
+      toast.error("Test already finished");
+      return;
+    }
     if (id === 1 && !listening) {
       history.push("/ielts/listening");
       return;
