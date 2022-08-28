@@ -24,6 +24,7 @@ import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import SelectField from "components/CustomField/SelectField";
 import { RouteBase } from "constants/routeUrl";
 import userService from "services/userService";
+import DatePickerCommon from "components/DatePickerCommon";
 
 export interface Props {
   openCreateScreen: {
@@ -31,8 +32,8 @@ export interface Props {
   };
 }
 const CreateUser = (props: Props) => {
+  //! State
   const { openCreateScreen } = props;
-
   //Get id from url
   const { search } = useLocation();
   const id = search.split("=")[1];
@@ -40,30 +41,50 @@ const CreateUser = (props: Props) => {
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
+
   const validationSchema = yup.object().shape({
-    username: yup.string().required("This field is required!"),
+    // studentId: yup.string.required("This field is required!"),
     // questionTip: yup.string().required("This field is required!"),
     email: yup.string().required("This field is required!"),
     userType: yup.string().required("This field is required!"),
     fullname: yup.string().required("This field is required!"),
+    dob: yup
+      .string()
+      .typeError("This field is required!")
+      .required("Required")
+      .test("dob", "Date of birth is invalid!", (val) => Boolean(val)),
+    // string().required("This field is required!"),
+    password: yup.string().required("This field is required!"),
+    username: yup.string().required("This field is required!"),
   });
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   const [isEdit, setIsEdit] = useState(false);
-  console.log("dataPartDetailUser", dataPartDetail);
+  const fileRef = useRef<any>("avatar");
 
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
+      // studentId:
       username: dataPartDetail?.username || "",
       fullname: dataPartDetail?.fullname || "",
       email: dataPartDetail?.email || "",
       userType: dataPartDetail?.fullname || "",
+      dob: dataPartDetail?.dob || new Date(),
+      password: dataPartDetail?.password || "",
     },
   });
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
 
+  //! Effect
+  useEffect(() => {
+    if (dataPartDetail?.id) {
+      resetAsyncForm(dataPartDetail);
+    }
+  }, [dataPartDetail?.id]);
+
+  //! Function
   const resetAsyncForm = useCallback(
     async (data: any) => {
       reset({
@@ -71,18 +92,29 @@ const CreateUser = (props: Props) => {
         email: data?.email,
         userType: data?.userType,
         fullname: data?.fullname,
+        dob: data?.dob,
+        password: data?.password,
       });
     },
     [reset]
   );
+  const onFileChange = async (event: any, key: string) => {
+    console.log("123");
 
-  useEffect(() => {
-    console.log("dataPartDetail", dataPartDetail);
-
-    if (dataPartDetail?.id) {
-      resetAsyncForm(dataPartDetail);
-    }
-  }, [dataPartDetail?.id]);
+    // const object = { ...selectFile };
+    // object[key] = event.target.files[0];
+    // setSelectFile(object);
+    // const formData = new FormData();
+    // formData.append("file", event.target.files[0]);
+    // try {
+    //   const responseAudio = await audioService.postAudioListening(formData);
+    //   if (responseAudio?.data?.statusCode === 200) {
+    //     setValue(key, responseAudio?.data?.data?.uri);
+    //   }
+    // } catch (error: any) {
+    //   toast.error(error);
+    // }
+  };
 
   const renderButtonUpdate = () => {
     return (
@@ -121,6 +153,8 @@ const CreateUser = (props: Props) => {
         email: data.email,
         userType: data.userType,
         fullname: data.fullname,
+        dob: data.dob,
+        password: data.password,
       };
       try {
         const response = await userService.postCreatePart(body);
@@ -130,15 +164,18 @@ const CreateUser = (props: Props) => {
           history.goBack();
         }
       } catch (error: any) {
-        toast.error(error);
+        toast.error(error?.response?.data?.message);
       }
     }
     if (openCreateScreen.type === "update") {
       const body = {
+        studentId: data.studentId,
         username: data.username,
         email: data.email,
         userType: data.userType,
         fullname: data.fullname,
+        dob: data.dob,
+        password: data.password,
       };
 
       try {
@@ -148,7 +185,7 @@ const CreateUser = (props: Props) => {
           history.goBack();
         }
       } catch (error: any) {
-        toast.error(error);
+        toast.error(error?.response?.data?.message);
       }
     }
   };
@@ -164,6 +201,16 @@ const CreateUser = (props: Props) => {
             variant="standard"
             name="username"
             label="Username"
+            control={control}
+            required
+            fullWidth
+            disabled={openCreateScreen.type === "update" && !isEdit}
+          />
+          <InputCommon
+            id="standard-basic"
+            variant="standard"
+            name="password"
+            label="Password"
             control={control}
             required
             fullWidth
@@ -205,6 +252,33 @@ const CreateUser = (props: Props) => {
             disabled={openCreateScreen.type === "update" && !isEdit}
             sx={{ marginTop: "20px" }}
           />
+          <DatePickerCommon
+            variant="standard"
+            control={control}
+            name="dob"
+            label="Date of birth"
+            required
+            disabled={openCreateScreen.type === "update" && !isEdit}
+            onChange={(e: any) => setValue("dob", e)}
+          />
+        </div>
+        <div className="ml-[20px]">
+          <input
+            ref={(ref) => (fileRef.current = ref)}
+            className="hidden"
+            type="file"
+            name={"avatar"}
+            onChange={(e) => onFileChange(e, "avatar")}
+          />
+          {/* {openModal.type !== "detailQuestion" && ( */}
+          <div className="text-end my-3">
+            <ButtonUpload
+              style={{ display: "flex", height: 40 }}
+              titleButton="Upload Image"
+              onClick={() => fileRef.current?.click()}
+            />
+          </div>
+          {/* )} */}
         </div>
       </div>
 

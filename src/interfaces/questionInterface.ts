@@ -26,6 +26,8 @@ export interface ResponseParams {
   name?: string;
   active?: boolean;
   userIds?: string[];
+  dob?: Date;
+  password?: string;
 }
 
 export interface QuestionTypeI {
