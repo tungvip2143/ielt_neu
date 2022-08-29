@@ -103,7 +103,7 @@ const Header: React.FC = (props) => {
   //! Render
   return (
     <>
-      {shouldRenderExam && <DialogSelectExam open={openSelectExam} toggle={toggleSelectExam} onSubmit={onSubmitExam} />}
+      {/* {shouldRenderExam && <DialogSelectExam open={openSelectExam} toggle={toggleSelectExam} onSubmit={onSubmitExam} />} */}
 
       <Box sx={headerLogoStyle}>
         <img style={imgHeaderLogo} src={headerLogo} alt="" />
@@ -129,7 +129,7 @@ const Header: React.FC = (props) => {
                   <Box className="nav-link">
                     <Text.Sub20Bold sx={TextExams1}>TOEFL</Text.Sub20Bold>
                   </Box>
-                  <NavLink to="/ielts/choose-exam" activeClassName="ilets" className="nav-link" onClick={onClickIelts}>
+                  <NavLink to="/ielts/choose-exam" activeClassName="ilets" className="nav-link">
                     <Text.Sub20Bold className="child-active" sx={TextExams}>
                       IELTS
                     </Text.Sub20Bold>

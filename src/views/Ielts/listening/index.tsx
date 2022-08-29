@@ -23,6 +23,7 @@ import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
+import { GetAuthSelector } from "redux/selectors/auth";
 //
 const stepRuleExam = {
   typeExam: "Listening",
@@ -68,6 +69,11 @@ const IeltsListening = (props: IeltsListeningProps) => {
   }, []);
 
   //! Function
+  const auth = GetAuthSelector();
+  console.log("authData", auth);
+  const user = auth?.user?.user;
+  console.log("user", user);
+
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
@@ -96,7 +102,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   };
   //
 
-  useCheckTestCode(Number(testCode));
+  // useCheckTestCode(Number(testCode));
 
   //! Render
   return (
@@ -112,7 +118,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
               />
 
               <Box sx={containerSteps}>
-                {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+                {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
                 {step === TypeStepExamEnum.STEP3 && (
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />

@@ -11,8 +11,12 @@ import HelpFooter from "../HelpFooter/HelpFooter";
 import Title from "../Title/Title";
 import Container from "../Container/Container";
 import ImgHelp from "assets/image/exam/help.png";
-
-const DetailUser = () => {
+// !type
+interface Props {
+  user?: any;
+}
+const DetailUser = (props: Props) => {
+  const { user } = props;
   const container = {
     ...themeCssSx.flexBox.flexJusCenter,
     mt: "60px",
@@ -28,9 +32,9 @@ const DetailUser = () => {
       <Box>
         <Title image={ImgUser} text="Confirm your details" />
         <Container>
-          <Text.Desc16 sx={introduceUser}>Name:</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Date of birth:</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Candidate number:</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Name:{user?.fullname}</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Date of birth:{user?.dob}</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Candidate number:{user?._id}</Text.Desc16>
           <HelpFooter textHelp={textHelp} image={ImgHelp} />
           <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
         </Container>

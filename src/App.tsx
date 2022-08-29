@@ -50,11 +50,11 @@ const App: React.FC = () => {
               <Route path={RouteBase.SignUp} exact component={SignUp} />
               <Route path={RouteBase.SignUpEmail} exact component={SignUpEmail} />
               <Route path={RouteBase.ForgotPassword} exact component={ForgotPassword} />
-              <PrivateRoute path={RouteBase.IeltsListening} exact component={IeltsListening} />
-              <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
-              <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
-              <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
-              <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
+              <Route path={RouteBase.IeltsListening} exact component={IeltsListening} />
+              <Route path={RouteBase.IeltsReading} exact component={IeltsReading} />
+              <Route path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
+              <Route path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
+              <Route path={RouteBase.Admin} component={AdminLayout} />
               <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
               <Route path={RouteBase.Pricing} exact component={Pricing} />
               <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />

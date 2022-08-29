@@ -14,6 +14,7 @@ export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
 export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
+  STUDENT_LOGIN: `${ROOT_URL}/auth/student/signin`,
   LOGOUT: `${ROOT_URL}/auth/logout`,
   SIGNUP_EMAIL: `${ROOT_URL}/auth/signup`,
   //Social
@@ -49,7 +50,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     REVIEW_LISTENING: `${ROOT_URL}/tests/${testCode}/listening/result`,
     REVIEW_SPEAKING: `${ROOT_URL}/tests/${testCode}/speaking/result`,
     UPLOAD_AUDIO_SPEAKING: `${ROOT_URL}/tests/${testCode}/${questionId}/audio-answer`,
-    GET_EXAMINATIONS: `${ROOT_URL}/examinations/list`,
+    GET_EXAMINATIONS: `${ROOT_URL}/examinations`,
   };
 };
 
