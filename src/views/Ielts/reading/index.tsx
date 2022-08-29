@@ -1,28 +1,27 @@
-import React, { useCallback, useMemo } from "react";
-import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
-import ExamTest from "components/Exams/StartDoingHomework";
 import EndTest from "components/Exams/EndTest";
-import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
+import ExamTest from "components/Exams/StartDoingHomework";
 import { TypeStepExamEnum } from "constants/enum";
+import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
+import React, { useCallback } from "react";
 //
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 //
-import Header from "views/Ielts/Header/Header";
-import { useIeltsListening, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
 import LoadingPage from "components/Loading";
-import { Formik, Form, FormikProps } from "formik";
+import { Form, Formik } from "formik";
+import { useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
+import Header from "views/Ielts/Header/Header";
 //
-import { Redirect, useHistory } from "react-router-dom";
-import DetailUser from "../../components/DetailUser/DetailUser";
-import RuleExam from "../../components/RuleExam/RuleExam";
+import { RouteBase } from "constants/routeUrl";
+import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useHistory } from "react-router-dom";
 import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
 import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
-import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
-import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import DetailUser from "../../components/DetailUser/DetailUser";
+import RuleExam from "../../components/RuleExam/RuleExam";
 //
 const stepRuleExam = {
   typeExam: "Reading",
@@ -53,6 +52,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const { data, testCode } = props;
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
+  const history = useHistory();
 
   const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
@@ -64,14 +64,10 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-        localStorage.setItem("READING", "true");
+        history.push(RouteBase.IeltsWriting);
       },
     });
   };
-  //
-
-  const history = useHistory();
 
   const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);

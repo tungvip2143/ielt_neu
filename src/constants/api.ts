@@ -41,6 +41,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}`,
     FINISH_READING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
+    FINISH_IELTS_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_WRITING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,

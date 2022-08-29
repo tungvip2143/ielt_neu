@@ -1,4 +1,3 @@
-import React, { useCallback } from "react";
 //
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
@@ -6,16 +5,9 @@ import Card from "@mui/material/Card";
 import Text from "components/Typography/index";
 
 import ButtonStartTest from "components/Button/ButtonStartTest";
-import { useHistory } from "react-router-dom";
-import {
-  useFinishIeltsListeningTest,
-  useFinishIeltsReadingTest,
-  useFinishIeltsSpeakingTest,
-  useFinishIeltsWritingTest,
-} from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
-import { IELT_TEST } from "interfaces/testType";
 import LoadingPage from "components/Loading";
+import { useFinishIeltsTest } from "hooks/ielts/useIelts";
+import { useHistory } from "react-router-dom";
 
 const card = {
   p: "48px 32px",
@@ -36,59 +28,24 @@ interface Props {
 
 const EndTest = (props: Props) => {
   const { test } = props;
-  console.log("test", test);
   // !Hook
   const history = useHistory();
-  const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
-
-  const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
-  // const { mutateAsync: finishIeltsWriting, isLoading: writingLoading } = useFinishIeltsWritingTest();
-  // const { mutateAsync: finishIeltsListening, isLoading: ListeningLoading } = useFinishIeltsListeningTest();
-  // const { mutateAsync: finishIeltsSpeaking, isLoading: speakingLoading } = useFinishIeltsSpeakingTest();
-  const typeExam = () => {
-    if (test === IELT_TEST.READING) {
-      return { type: IELT_TEST.READING };
-    } else if (test === IELT_TEST.WRITING) {
-      return { type: IELT_TEST.WRITING };
-    } else if (test === IELT_TEST.SPEAKING) {
-      return { type: IELT_TEST.SPEAKING };
-    } else if (test === IELT_TEST.LISTENING) {
-      return { type: IELT_TEST.LISTENING };
-    }
-  };
-  // const {}=
-  const location = {
-    pathname: "/ielts/scores",
-    state: typeExam(),
-  };
+  const { mutateAsync: finishIeltsTest, isLoading: ieltsFinishLoading } = useFinishIeltsTest();
 
   const handleEndTest = async () => {
-    const examinationId = localStorage.getItem("examinationId");
-    history.push(`/ielts?exam=${examinationId}`);
+    await finishIeltsTest(
+      { testCode: "123" },
+      {
+        onSuccess: () => {
+          history.push(`/ielts/review`);
+        },
+      }
+    );
   };
-  // console.log("test", test);
-  // if (test === IELT_TEST.READING) {
 
-  // }
-  // if (test === IELT_TEST.WRITING) {
-  //   await finishIeltsWriting(testCode, {
-  //     onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-  //   });
-  // }
-  // if (test === IELT_TEST.LISTENING) {
-  //   await finishIeltsListening(testCode, {
-  //     onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-  //   });
-  // }
-  // if (test === IELT_TEST.SPEAKING) {
-  //   await finishIeltsSpeaking(testCode, {
-  //     onSuccess: () => history.push(`/ielts?exam=${examinationId}`),
-  //   });
-  // }
-
-  // if (readingLoading || writingLoading || ListeningLoading || speakingLoading) {
-  //   return <LoadingPage />;
-  // }
+  if (ieltsFinishLoading) {
+    return <LoadingPage />;
+  }
 
   return (
     <Card sx={card}>

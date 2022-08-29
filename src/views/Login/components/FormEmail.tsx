@@ -13,6 +13,7 @@ import * as Yup from "yup";
 import { RouteBase } from "constants/routeUrl";
 import { useIeltsTestCode } from "hooks/ielts/useIelts";
 import { IeltsActions } from "redux/creators/modules/ielts";
+import LoadingPage from "components/Loading";
 // !type
 interface InitialValueExam {
   candidateCode: string;
@@ -47,39 +48,31 @@ const FormEmail = () => {
   // ! State
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
-  console.log("auth", auth);
-
   const { isLogin } = auth;
-  console.log("isLogin", isLogin);
+  const history = useHistory();
+  const { mutateAsync: login, isLoading: isLoadingLogin } = studentLogin();
+  const { isLoading: isLoadingTestCode, mutateAsync: createTestCode } = useIeltsTestCode();
 
-  // const { mutateAsync: login } = useLogin();
-  const { mutateAsync: login } = studentLogin();
-  const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
-
-  //
-
-  // //
-
-  const onSubmitTestCode = async (values: InitialValueExam) => {
-    console.log("values", values);
-
-    await createTestCode({
-      onSuccess: (response: any) => {
-        localStorage.setItem("testCode", response?.data?.data?.testCode);
-      },
-      onError: (err: any) => {
-        if (err.response.data.statusCode === 401) {
-          // history.push("/login");
-        }
-      },
-    });
+  const onSubmitTestCode = async (examinationId: InitialValueExam) => {
+    await createTestCode(
+      { examination: examinationId },
+      {
+        onSuccess: (response: any) => {
+          localStorage.setItem("testCode", response?.data?.data?.testCode);
+          history.push(RouteBase.IeltsListening);
+        },
+        onError: (err: any) => {
+          if (err.response.data.statusCode === 401) {
+          }
+        },
+      }
+    );
   };
 
-  // };
-  if (isLogin) {
-    return <Redirect to={RouteBase.IeltsListening} />;
-  }
   // ! Render
+  if (isLoadingLogin || isLoadingTestCode) {
+    return <LoadingPage />;
+  }
 
   return (
     <>
@@ -94,12 +87,12 @@ const FormEmail = () => {
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: (response) => {
-              console.log("response", response);
+              localStorage.setItem("examinationId", response?.data?.data?.data?.examination?.id);
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,
                 user: response?.data?.data?.data,
               });
-              onSubmitTestCode(values);
+              onSubmitTestCode(response?.data?.data?.data?.examination?.id);
             },
           });
         }}

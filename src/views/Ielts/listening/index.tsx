@@ -24,6 +24,8 @@ import { IELT_TEST } from "../../../interfaces/testType";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 import { GetAuthSelector } from "redux/selectors/auth";
+import { RouteBase } from "constants/routeUrl";
+import LoadingPage from "components/Loading";
 //
 const stepRuleExam = {
   typeExam: "Listening",
@@ -67,12 +69,11 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
+  const history = useHistory();
 
   //! Function
   const auth = GetAuthSelector();
-  console.log("authData", auth);
   const user = auth?.user?.user;
-  console.log("user", user);
 
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
@@ -81,8 +82,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
       onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
         localStorage.setItem("LISTENING", "true");
+        history.push(RouteBase.IeltsReading);
       },
     });
   };
@@ -105,6 +106,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
   // useCheckTestCode(Number(testCode));
 
   //! Render
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
