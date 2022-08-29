@@ -32,6 +32,7 @@ const Title = (props: Props) => {
     </Typography>
   );
 };
+
 const Title32bold = (props: Props) => {
   const { children, ...rest } = props;
 
@@ -41,6 +42,7 @@ const Title32bold = (props: Props) => {
     </Typography>
   );
 };
+
 // Tương ứng với CardTitle
 const CardTitle = (props: Props) => {
   const { children, ...rest } = props;
@@ -61,6 +63,7 @@ const SubTitle = (props: Props) => {
     </Typography>
   );
 };
+
 const SubIntroPage = (props: Props) => {
   const { children, ...rest } = props;
   return (
@@ -69,6 +72,7 @@ const SubIntroPage = (props: Props) => {
     </Typography>
   );
 };
+
 const DescSmallCard = (props: Props) => {
   const { children, ...rest } = props;
   return (

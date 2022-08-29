@@ -7,13 +7,16 @@ import React, { useState } from "react";
 import "./Admin.scss";
 
 const AdminScreen = () => {
+  //! State
   const [open, setIsOpen] = useState(false);
   const [tab, setTab] = useState<string>("1");
 
+  //! Function
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setTab(newValue);
   };
 
+  //! Render
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" style={{ justifyContent: "end" }}>

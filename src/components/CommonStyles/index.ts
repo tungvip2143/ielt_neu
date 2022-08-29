@@ -1,5 +1,9 @@
-import Modal from './Modal';
+import Modal from "./Modal";
+import Typography from "./Typography";
+import Button from "./Button";
 
 export default {
-    Modal,
-}
+  Modal,
+  Typography,
+  Button,
+};

@@ -34,6 +34,7 @@ const box = {
   border: "1px solid #fff",
   background: themeCssSx.backgroundExam.content,
 };
+
 const TotalPage = {
   display: "flex",
   width: "100%",
@@ -41,17 +42,19 @@ const TotalPage = {
   bottom: { xs: "0", lg: "0px" },
   margin: "0 15px",
 };
+
 const containerTotalPage = {
   ...themeCssSx.flexBox.flexBetweenCenter,
   p: "5px 10px",
 };
+
 const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
     },
     eachQuestion: {
-      background: "#000",
+      background: theme.palette.primary.main,
       color: "#fff",
       width: "23px",
       height: "23px",
@@ -63,20 +66,20 @@ const useStyles = makeStyles((theme) => {
       cursor: "pointer",
       borderRadius: "2px",
     },
+    nextPage: {
+      display: "flex",
+      justifyContent: "center",
+      alignItems: "center",
+      width: "45px",
+      height: "45px",
+      borderRadius: "50%",
+      transform: "rotate(180deg)",
+      cursor: "pointer",
+      boxShadow:
+        "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
+    },
   };
 });
-const nextPage = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "45px",
-  height: "45px",
-  borderRadius: "50%",
-  transform: "rotate(180deg)",
-  cursor: "pointer",
-  boxShadow:
-    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
-};
 
 const containerNextPage = {
   display: "flex",
@@ -114,10 +117,13 @@ const CardTotalPageExams = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
+  //! State
+  const classes = useStyles();
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
 
+  //! Function
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -127,18 +133,16 @@ const CardTotalPageExams = ({
     };
     hanldeHighLightReview();
   }, [checkedReview]);
-  //! State
-  const classes = useStyles();
-  //
 
   const handleCheckBox = (event: any) => {
     setCheckedReview(event.target.checked);
   };
-  //
+
   const hideReview = () => {
     setCheckedReview(false);
   };
-  // ! Next  question
+
+  //* Next question
   const checkNextPartRender = () => {
     let sectionRender: any = {};
     let partLength = part.length - 1;
@@ -212,6 +216,7 @@ const CardTotalPageExams = ({
     onClickPage(sectionRender);
   };
 
+  //! Render
   const renderPartValues = (partValues: any, partIndex: number) => {
     const { values }: any = useFormikContext();
     let sectionRender: any = {};
@@ -248,9 +253,7 @@ const CardTotalPageExams = ({
       });
     });
   };
-  //! Effect
 
-  //! Render
   return (
     <>
       <Box className="quang-test" sx={TotalPage}>
@@ -282,10 +285,10 @@ const CardTotalPageExams = ({
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage} onClick={onClickBackQuestion}>
+          <Box className={classes.nextPage} onClick={onClickBackQuestion}>
             <img src={NextQuestion} alt="" />
           </Box>
-          <Box sx={nextPage} onClick={onClickNextQuestion}>
+          <Box className={classes.nextPage} onClick={onClickNextQuestion}>
             <img src={PrevQuestion} alt="" />
           </Box>
         </Stack>

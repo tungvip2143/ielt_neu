@@ -23,10 +23,14 @@ import useGetDetailQuestion from "hooks/QuestionBank/Speaking/useGetDetailQuesti
 import { AUDIO_URL, IMAGE_URL } from "constants/constants";
 
 export interface Props {
-  openModal: any;
-  onCloseModal?: () => void;
-  id: number | string;
-  fetchData: any;
+  toggle?: () => void;
+
+  open: boolean;
+  isEdit?: boolean;
+  isDetail?: boolean;
+  isCreate?: boolean;
+  onSubmit: (data: any, tinyMCEValye: any, typeModal: any, dataQuestionDetail?: any, helpers?: void) => void;
+  idQuestionGroup?: any;
 }
 
 const validationSchema = yup.object().shape({
@@ -42,6 +46,18 @@ const validationSchema = yup.object().shape({
 });
 
 const ModalCreateQuestion = (props: Props) => {
+  //! State
+  const {
+    open,
+    isEdit,
+    isCreate,
+    isDetail,
+
+    idQuestionGroup,
+    toggle = () => {},
+    onSubmit: onSubmitModal,
+  } = props;
+
   const editorRef = useRef<any>();
   const usefulGrammarRef = useRef<any>();
   const ideaSuggestionRef = useRef<any>();
@@ -51,8 +67,7 @@ const ModalCreateQuestion = (props: Props) => {
   });
 
   const [selectFile, setSelectFile] = useState<any>({});
-  const { openModal, onCloseModal = () => {}, id, fetchData } = props;
-  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
+  const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(idQuestionGroup);
 
   const { register, control, handleSubmit, reset, watch, setValue, getValues, formState, getFieldState } = useForm<any>(
     {
@@ -74,6 +89,8 @@ const ModalCreateQuestion = (props: Props) => {
     control,
     name: "questions",
   });
+
+  //! Function
   const onAddQuestion = () => {
     append({ questionText: "" });
   };
@@ -111,75 +128,87 @@ const ModalCreateQuestion = (props: Props) => {
     }
   }, [dataQuestionDetail?.id]);
 
-  const onSubmit = async (data: any) => {
-    if (openModal.type === "createQuestion") {
-      const body = {
-        explanationText: editorRef.current.getContent(),
-        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
-        ideaSuggestion: ideaSuggestionRef.current.getContent(),
-        title: data.title,
-        questions: data?.questions,
-        partId: id,
-      };
+  // const onSubmit = async (data: any) => {
+  //   if (openModal.type === "createQuestion") {
+  //     const body = {
+  //       explanationText: editorRef.current.getContent(),
+  //       usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+  //       ideaSuggestion: ideaSuggestionRef.current.getContent(),
+  //       title: data.title,
+  //       questions: data?.questions,
+  //       partId: id,
+  //     };
 
-      try {
-        const response = await speakingService.postCreateQuestionGroupSpeaking(body);
-        if (response.data.statusCode === 200) {
-          toast.success("Create question group success!");
-          fetchData();
-          onCloseModal();
-        }
-      } catch (error) {
-        console.log("error", error, fetchData);
-      }
-    }
-    if (openModal.type === "updateQuestion") {
-      const body = {
-        explanationText: editorRef.current.getContent(),
-        usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
-        ideaSuggestion: ideaSuggestionRef.current.getContent(),
-        title: data.title,
-        questions: data?.questions,
-        partId: id,
-      };
+  //     try {
+  //       const response = await speakingService.postCreateQuestionGroupSpeaking(body);
+  //       if (response.data.statusCode === 200) {
+  //         toast.success("Create question group success!");
+  //         fetchData();
+  //         toggle();
+  //       }
+  //     } catch (error) {
+  //       console.log("error", error, fetchData);
+  //     }
+  //   }
+  //   if (openModal.type === "updateQuestion") {
+  //     const body = {
+  //       explanationText: editorRef.current.getContent(),
+  //       usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+  //       ideaSuggestion: ideaSuggestionRef.current.getContent(),
+  //       title: data.title,
+  //       questions: data?.questions,
+  //       partId: id,
+  //     };
 
-      try {
-        const response = await speakingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
-        if (response.data.statusCode === 200) {
-          toast.success("Update question group success!");
-          fetchData();
-          onCloseModal();
-        }
-      } catch (error) {
-        console.log("error", error, fetchData);
-      }
-    }
-  };
-
-  const onSaveModal = (e: any) => {
-    e.preventDefault();
-    handleSubmit(onSubmit)();
-  };
-
-  const renderButton = () => {
-    return (
-      <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} onClick={onSaveModal} />
-        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={onCloseModal} />
-      </Stack>
-    );
-  };
+  //     try {
+  //       const response = await speakingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
+  //       if (response.data.statusCode === 200) {
+  //         toast.success("Update question group success!");
+  //         fetchData();
+  //         toggle();
+  //       }
+  //     } catch (error) {
+  //       console.log("error", error, fetchData);
+  //     }
+  //   }
+  // };
 
   const onRemoveQuestion = (index: number) => {
     remove(index);
   };
 
+  const onSaveModal = (e: any) => {
+    e.preventDefault();
+    handleSubmit((data) =>
+      onSubmitModal(
+        data,
+        {
+          explanationText: editorRef.current.getContent(),
+          usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+          ideaSuggestion: ideaSuggestionRef.current.getContent(),
+        },
+        { isCreate, isEdit },
+        dataQuestionDetail
+      )
+    )();
+  };
+
+  //! Render
+  const renderButton = () => {
+    return (
+      <Stack spacing={2} direction="row" className="justify-center mt-[40px]">
+        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} onClick={onSaveModal} />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={toggle} />
+      </Stack>
+    );
+  };
+
   return (
     <ModalCreate
-      open={openModal}
-      onClose={onCloseModal}
+      open={open}
+      onClose={toggle}
       titleModal={
-        dataQuestionDetail?.title && openModal.type === "detailQuestion" ? (
+        dataQuestionDetail?.title && isDetail ? (
           <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.title}</Typography>
         ) : (
           <InputCommon
@@ -194,8 +223,22 @@ const ModalCreateQuestion = (props: Props) => {
         )
       }
     >
-      <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-        {openModal.type !== "detailQuestion" && (
+      <form
+        noValidate
+        onSubmit={handleSubmit((data) =>
+          onSubmitModal(
+            data,
+            {
+              explanationText: editorRef.current.getContent(),
+              usefulGrammarNVocab: usefulGrammarRef.current.getContent(),
+              ideaSuggestion: ideaSuggestionRef.current.getContent(),
+            },
+            isEdit
+          )
+        )}
+        autoComplete="off"
+      >
+        {!isDetail && (
           <div className="text-end">
             <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
           </div>
@@ -213,7 +256,7 @@ const ModalCreateQuestion = (props: Props) => {
                     control={control}
                     required
                     fullWidth
-                    disabled={openModal.type === "detailQuestion"}
+                    disabled={isDetail}
                   />
                   {(!!selectFile?.[`questions[${index}].questionAudio`] || dataQuestionDetail?.questions) && (
                     <AudioPlayer
@@ -237,7 +280,7 @@ const ModalCreateQuestion = (props: Props) => {
                     name={`questions[${index}].questionAudio`}
                     onChange={(e) => onFileChange(e, `questions[${index}].questionAudio`)}
                   />
-                  {openModal.type !== "detailQuestion" && (
+                  {!isDetail && (
                     <div className="text-end my-3">
                       <ButtonUpload
                         style={{ display: "flex", height: 40 }}
@@ -254,7 +297,7 @@ const ModalCreateQuestion = (props: Props) => {
                     control={control}
                     required
                     fullWidth
-                    disabled={openModal.type === "detailQuestion"}
+                    disabled={isDetail}
                   />
                   {(!!selectFile?.[`questions[${index}].modelAnswerAudio`] || dataQuestionDetail?.questions) && (
                     <AudioPlayer
@@ -278,7 +321,7 @@ const ModalCreateQuestion = (props: Props) => {
                     name={`questions[${index}].modelAnswerAudio`}
                     onChange={(e) => onFileChange(e, `questions[${index}].modelAnswerAudio`)}
                   />
-                  {openModal.type !== "detailQuestion" && (
+                  {!isDetail && (
                     <div className="text-end my-3">
                       <ButtonUpload
                         style={{ display: "flex", height: 40 }}
@@ -290,7 +333,7 @@ const ModalCreateQuestion = (props: Props) => {
                 </div>
               </div>
               <div>
-                {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                {fields.length > 1 && !isDetail && (
                   <RemoveCircleOutlineIcon
                     className="text-[#F44335] cursor-grab ml-[20px]"
                     onClick={() => onRemoveQuestion(index)}
@@ -303,7 +346,7 @@ const ModalCreateQuestion = (props: Props) => {
         <TinyMceCommon
           ref={editorRef}
           initialValue={dataQuestionDetail?.explanationText ? dataQuestionDetail?.explanationText : "Explanation text"}
-          disabled={openModal.type === "detailQuestion"}
+          disabled={isDetail}
         />
         <div className="my-[15px]">
           <TinyMceCommon
@@ -311,16 +354,16 @@ const ModalCreateQuestion = (props: Props) => {
             initialValue={
               dataQuestionDetail?.usefulGrammarNVocab ? dataQuestionDetail?.usefulGrammarNVocab : "Useful grammar"
             }
-            disabled={openModal.type === "detailQuestion"}
+            disabled={isDetail}
           />
         </div>
         <TinyMceCommon
           ref={ideaSuggestionRef}
           initialValue={dataQuestionDetail?.ideaSuggestion ? dataQuestionDetail?.ideaSuggestion : "Idea suggestion"}
-          disabled={openModal.type === "detailQuestion"}
+          disabled={isDetail}
         />
 
-        {openModal.type !== "detailQuestion" && renderButton()}
+        {!isDetail && renderButton()}
       </form>
     </ModalCreate>
   );

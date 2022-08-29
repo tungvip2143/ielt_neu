@@ -1,4 +1,14 @@
-import { createTheme, ThemeOptions } from "@mui/material";
+import { createTheme } from "@mui/material";
+import { Theme } from "@mui/material/styles";
+declare module "@mui/material/styles" {
+
+  interface Theme {}
+  interface ThemeOptions {}
+}
+
+declare module "@mui/styles/defaultTheme" {
+  interface DefaultTheme extends Theme {}
+}
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -67,7 +77,7 @@ declare module "@mui/material/Typography" {
   }
 }
 
-export const theme: ThemeOptions = createTheme({
+export const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
