@@ -1,80 +1,96 @@
-import React from "react";
 //
-import Text from "components/Typography/index";
-import ButtonCommon from "../../../components/Button/ButtonCommon";
-//
-import { Formik, Form, FastField } from "formik";
-import ErrorFocus from "components/ErrorFocus";
-import InputField from "components/CustomField/InputField";
-import { GetAuthSelector } from "redux/selectors/auth";
-import useSagaCreators from "hooks/useSagaCreators";
-import { authActions } from "redux/creators/modules/auth";
-import { useLogin } from "hooks/auth/useAuth";
-import { Link, Redirect, useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
-import * as Yup from "yup";
-import { Typography } from "@mui/material";
+import InputField from "components/CustomField/InputField";
+import ErrorFocus from "components/ErrorFocus";
+import LoadingPage from "components/Loading";
 import { RouteBase } from "constants/routeUrl";
-import Footer from "./Footer";
+import { FastField, Form, Formik } from "formik";
+import { studentLogin } from "hooks/auth/useAuth";
+import { useIeltsTestCode } from "hooks/ielts/useIelts";
+import useSagaCreators from "hooks/useSagaCreators";
+import { useHistory } from "react-router-dom";
+import { authActions } from "redux/creators/modules/auth";
+import { GetAuthSelector } from "redux/selectors/auth";
+import * as Yup from "yup";
+// !type
+interface InitialValueExam {
+  candidateCode: string;
+  studentCode: string;
+}
+//
+const validate = Yup.object({
+  candidateCode: Yup.string().min(5, "*Must be 5 characters").required("Required"),
+  studentCode: Yup.string().min(5, "*Must be 10 characters").required("Required"),
+});
+
+const input = {
+  width: "100%",
+  borderRadius: "12px 12px 0px 0px",
+  // backgroundColor: "rgb(247, 249, 251)",
+  padding: "8px 0px 12px 16px",
+  border: "1px solid #e3f2fd",
+  borderBottom: "1px solid rgb(138, 140, 145)",
+  height: "3rem",
+};
+
+const btn = {
+  width: "100%",
+  borderRadius: "16px",
+  padding: "16px 0 ",
+  mt: "16px",
+  background: "#104AC6",
+  color: "#fff",
+};
 
 const FormEmail = () => {
-  const input = {
-    width: "100%",
-    borderRadius: "12px 12px 0px 0px",
-    backgroundColor: "rgb(247, 249, 251)",
-    padding: "8px 0px 12px 16px",
-    border: "1px solid #e3f2fd",
-    borderBottom: "1px solid rgb(138, 140, 145)",
-    height: "3rem",
-  };
-  const forgotPassword = {
-    fontSize: "12px",
-    float: "right",
-    color: "#8a8c91",
-    marginBottom: "5px",
-  };
-  const btn = {
-    width: "100%",
-    borderRadius: "16px",
-    padding: "16px 0 ",
-    mt: "16px",
-    background: "#104AC6",
-    color: "#fff",
-  };
-  //
+  // ! State
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
+  const history = useHistory();
+  const { mutateAsync: login, isLoading: isLoadingLogin } = studentLogin();
+  const { isLoading: isLoadingTestCode, mutateAsync: createTestCode } = useIeltsTestCode();
 
-  const { mutateAsync: login } = useLogin();
-  if (isLogin) {
-    return <Redirect to="/" />;
-  }
-  //
-
-  const validate = Yup.object({
-    email: Yup.string().min(5, "*Must be 5 characters").required("Required"),
-    password: Yup.string().min(5, "*Must be 10 characters").required("Required"),
-  });
-
-  const content = {
-    desc: "No account?",
-    title: "Sign Up",
+  const onSubmitTestCode = async (examinationId: InitialValueExam) => {
+    await createTestCode(
+      { examination: examinationId },
+      {
+        onSuccess: (response: any) => {
+          localStorage.setItem("testCode", response?.data?.data?.testCode);
+          history.push(RouteBase.IeltsListening);
+        },
+        onError: (err: any) => {
+          if (err.response.data.statusCode === 401) {
+          }
+        },
+      }
+    );
   };
+
+  // ! Render
+  if (isLoadingLogin || isLoadingTestCode) {
+    return <LoadingPage />;
+  }
+
   return (
     <>
       <Formik
         validateOnBlur={false}
         validateOnChange={false}
         initialValues={{
-          email: "",
-          password: "",
+          candidateCode: "",
+          studentCode: "",
         }}
         validationSchema={validate}
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: (response) => {
-              dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token });
+              localStorage.setItem("examinationId", response?.data?.data?.data?.examination?.id);
+              dispatch(authActions.saveInfoUser, {
+                token: response?.data?.data?.data?.access_token,
+                user: response?.data?.data?.data,
+              });
+              onSubmitTestCode(response?.data?.data?.data?.examination?.id);
             },
           });
         }}
@@ -84,33 +100,30 @@ const FormEmail = () => {
             <ErrorFocus />
             <div style={{ paddingBottom: "30px" }}>
               <FastField
+                lable="Mã sinh viên"
+                style={input}
+                component={InputField}
+                type="text"
+                placeholder="Student Code"
+                {...propsFormik.getFieldProps("studentCode")}
+              />
+            </div>
+            <div style={{ paddingBottom: "30px" }}>
+              <FastField
+                lable="Mã thí sinh"
                 style={input}
                 error=""
                 component={InputField}
-                placeholder="Email"
+                type="text"
+                placeholder="Candidates Code"
                 // name="username"
-                {...propsFormik.getFieldProps("email")}
-              />
-            </div>
-            <Link to={RouteBase.ForgotPassword}>
-              <Text.DescSmall sx={forgotPassword} className="cursor-grab">
-                Forgot password?
-              </Text.DescSmall>
-            </Link>
-            <div style={{ paddingBottom: "30px" }}>
-              <FastField
-                style={input}
-                component={InputField}
-                type="password"
-                placeholder="Password"
-                {...propsFormik.getFieldProps("password")}
+                {...propsFormik.getFieldProps("candidateCode")}
               />
             </div>
 
             <Button style={btn} type="submit">
               LOGIN
             </Button>
-            <Footer content={content} pathName={RouteBase.SignUp} />
           </Form>
         )}
       </Formik>

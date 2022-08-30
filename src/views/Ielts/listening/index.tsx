@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
-import { TypeStepExamEnum } from "constants/enum";
+import { TypeStepExamEnum, TypeExam } from "constants/enum";
 //
 import { Box, Button } from "@mui/material";
 //
@@ -13,8 +13,8 @@ import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
 //
-import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
-import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
+import InformationForCandidatesListening from "views/components/dataSteps/DataContentListening/InformationForCandidates";
+import IntructionsToCandidatesListening from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
@@ -23,12 +23,18 @@ import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
+import { GetAuthSelector } from "redux/selectors/auth";
+import { RouteBase } from "constants/routeUrl";
+import LoadingPage from "components/Loading";
 //
+const styleListRule = {
+  padding: "0px 0px 24px 60px",
+};
 const stepRuleExam = {
   typeExam: "Listening",
-  time: "1 hour",
-  informationsForCandidates: <InformationForCandidates />,
-  intructionsToCandidates: <IntructionsToCandidates />,
+  time: "Approximately 30 minutes",
+  informationsForCandidates: <InformationForCandidatesListening styleListRule={styleListRule} />,
+  intructionsToCandidates: <IntructionsToCandidatesListening styleListRule={styleListRule} />,
 };
 
 const containerSteps = {
@@ -66,8 +72,13 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
+  const history = useHistory();
 
   //! Function
+  const auth = GetAuthSelector();
+  const user = auth?.user?.user;
+  console.log("user", user);
+
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
@@ -75,8 +86,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
       onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
         localStorage.setItem("LISTENING", "true");
+        history.push(RouteBase.IeltsReading);
       },
     });
   };
@@ -95,10 +106,13 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-
-  useCheckTestCode(Number(testCode));
+  const timeExam = 1800000;
+  // useCheckTestCode(Number(testCode));
 
   //! Render
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
@@ -109,10 +123,11 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHelp={handleOpenModalHelp}
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
+                timeExam={timeExam}
               />
 
               <Box sx={containerSteps}>
-                {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+                {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
                 {step === TypeStepExamEnum.STEP3 && (
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
@@ -122,7 +137,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
               </Box>
             </Box>
             {isOpenModalHelp && (
-              <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
+              <ModalHelpExam
+                open={isOpenModalHelp}
+                styleModal={styleModal}
+                handleCloseModal={handleCloseModalHelp}
+                typeExam={TypeExam.LISTENING}
+              />
             )}
             {isOpenModalHide && (
               <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />

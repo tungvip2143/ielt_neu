@@ -16,6 +16,7 @@ export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/excel`;
 export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
+  STUDENT_LOGIN: `${ROOT_URL}/auth/student/signin`,
   LOGOUT: `${ROOT_URL}/auth/logout`,
   SIGNUP_EMAIL: `${ROOT_URL}/auth/signup`,
   //Social
@@ -42,6 +43,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}`,
     FINISH_READING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
+    FINISH_IELTS_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_WRITING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
@@ -51,7 +53,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     REVIEW_LISTENING: `${ROOT_URL}/tests/${testCode}/listening/result`,
     REVIEW_SPEAKING: `${ROOT_URL}/tests/${testCode}/speaking/result`,
     UPLOAD_AUDIO_SPEAKING: `${ROOT_URL}/tests/${testCode}/${questionId}/audio-answer`,
-    GET_EXAMINATIONS: `${ROOT_URL}/examinations/list`,
+    GET_EXAMINATIONS: `${ROOT_URL}/examinations`,
   };
 };
 

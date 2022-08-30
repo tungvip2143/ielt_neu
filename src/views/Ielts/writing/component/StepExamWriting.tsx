@@ -8,6 +8,9 @@ import Writing from "./Writing";
 import { Box } from "@mui/system";
 import CardPageWriting from "./CardPageWriting";
 import { useHandleQuestion } from "../../../../providers/HandleQuestionProvider";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useIeltsWritting } from "hooks/ielts/useIelts";
+import LoadingPage from "components/Loading";
 
 // !type
 interface Props {
@@ -61,4 +64,16 @@ const StepExamWriting = (props: Props) => {
   );
 };
 
-export default StepExamWriting;
+const WritingExamContainer = () => {
+  const { testCode } = useGetTestCode();
+  const { data, isLoading } = useIeltsWritting(testCode);
+  const WritingData = data?.data?.data || [];
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <StepExamWriting data={WritingData} />;
+};
+
+export default WritingExamContainer;

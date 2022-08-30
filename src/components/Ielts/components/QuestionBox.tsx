@@ -18,9 +18,6 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 
 const QuestionBox = (props: Props) => {
   const { questionBox, questions, displayNumber, onClickPage } = props;
-  // console.log("questions", questions);
-  // console.log("questionBox", questionBox);
-  // console.log("displayNumber", displayNumber);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
 

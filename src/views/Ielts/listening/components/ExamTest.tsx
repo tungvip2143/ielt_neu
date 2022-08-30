@@ -20,6 +20,7 @@ type Props = {
 const ExamTest = (props: Props) => {
   //! State
   const { data } = props;
+  console.log("Data", data);
   const audioData = data || [];
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
 
@@ -31,6 +32,9 @@ const ExamTest = (props: Props) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
+  const [questionType, setQuestionType] = useState();
+  console.log("questionType", questionType);
+
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
 
@@ -42,6 +46,9 @@ const ExamTest = (props: Props) => {
   };
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
+  };
+  const onClickQuestionType = (questionType: any) => {
+    setQuestionType(questionType);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -80,7 +87,7 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <CardPart content="Sample Listening (Note Completion)" />
+        <CardPart content={questionType} />
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying].partAudio}`}
@@ -98,6 +105,7 @@ const ExamTest = (props: Props) => {
                 audio={partRenderSelected?.partAudio}
                 displayNumber={displayNumber}
                 onClickPage={onClickPage}
+                onClickQuestionType={onClickQuestionType}
               />
             }
             styleAdd={styleHeight}

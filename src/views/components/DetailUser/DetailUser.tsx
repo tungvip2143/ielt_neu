@@ -11,8 +11,15 @@ import HelpFooter from "../HelpFooter/HelpFooter";
 import Title from "../Title/Title";
 import Container from "../Container/Container";
 import ImgHelp from "assets/image/exam/help.png";
-
-const DetailUser = () => {
+import { format } from "date-fns";
+console.log("ImgHelp", ImgHelp);
+//! type
+interface Props {
+  user?: any;
+}
+const DetailUser = (props: Props) => {
+  //! State
+  const { user } = props;
   const container = {
     ...themeCssSx.flexBox.flexJusCenter,
     mt: "60px",
@@ -23,14 +30,23 @@ const DetailUser = () => {
   const textHelp = "If your details are not correct, please inform the invigilator.";
   const textBtn = " My details are correct";
   const nextStep = TypeStepExamEnum.STEP2;
+  //
+  const handleBrithDay = () => {
+    if (user?.fullname) {
+      return format(new Date(user?.dob), "dd-MM-yyyy");
+    } else {
+      return "";
+    }
+  };
+  //! Render
   return (
     <Box sx={container}>
       <Box>
         <Title image={ImgUser} text="Confirm your details" />
         <Container>
-          <Text.Desc16 sx={introduceUser}>Name:</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Date of birth:</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Candidate number:</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Name: {user?.fullname}</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Date of birth: {handleBrithDay()}</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Candidate number: {user?._id}</Text.Desc16>
           <HelpFooter textHelp={textHelp} image={ImgHelp} />
           <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
         </Container>
