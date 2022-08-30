@@ -1,49 +1,84 @@
-import React, { Fragment } from "react";
+import styled from "@emotion/styled";
+import { FormControl, FormHelperText } from "@mui/material";
+import { TextField, TextFieldProps } from "@mui/material";
+import { makeStyles } from "@mui/styles";
+import { FieldInputProps, FormikProps } from "formik";
+import { get } from "lodash";
 
-const InputField = (props: any) => {
-  const {
-    form,
-    field,
-    maxLength,
-    placeholder,
-    type,
-    label,
-    disabled,
-    onChangeCustomize,
-    onKeyDown,
-    style,
-    invalid,
-    className,
-  } = props;
-  const { name, value } = field;
-  const { errors, touched } = form;
+interface Props {
+  label?: string;
+  labelColor?: string;
+  variant?: "standard" | "filled" | "outlined";
+  width?: number;
+  InputProps?: any;
+  id?: string;
+  field?: FieldInputProps<any>;
+  form?: FormikProps<any>;
+  errorMsg?: string;
+}
 
+const ErrorText = styled(FormHelperText)`
+  color: red !important;
+`;
+const useStyles = makeStyles((theme) => ({
+  root: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      color: "blue !important",
+    },
+  },
+}));
+
+const helperTextStyles = makeStyles((theme) => ({
+  root: {
+    color: "black",
+  },
+  error: {
+    "&.MuiFormHelperText-root.Mui-error": {
+      color: "white",
+    },
+  },
+}));
+
+const inputStyles = makeStyles((theme) => ({
+  input: {
+    backgroundColor: "white",
+    borderRadius: 4,
+  },
+}));
+
+const InputField = (props: Props & TextFieldProps) => {
+  //! State
+  const { id, label, variant, labelColor, width, InputProps, field, form, ...rest } = props;
+  const { name = rest?.name || "" } = field || {};
+  const { errors = {}, touched = {} } = form || {};
+
+  const isError = !!get(errors, name) && !!get(touched, name);
+  const errorMsg = (get(errors, name) as string) || "";
+
+  const classes = useStyles();
+  const helperTestClasses = helperTextStyles();
+
+  //! Render
   return (
-    <Fragment>
-      {label && <label htmlFor={name} dangerouslySetInnerHTML={{ __html: label }} />}
-      <input
-        {...field}
-        style={style}
-        className={`${className} border p-2`}
-        onChange={onChangeCustomize || field.onChange}
-        type={type}
-        id={name}
-        maxLength={maxLength}
-        value={value}
-        placeholder={placeholder}
-        disabled={disabled}
-        invalid={invalid || (!!errors[name] && touched[name])}
-        onKeyDown={onKeyDown}
-      />
-      {errors[name] && <div className="error">{errors[name]}</div>}
-    </Fragment>
+    <div style={{ width: width || "100%" }} className={classes.root}>
+      <FormControl fullWidth>
+        <TextField
+          variant={variant}
+          id={id}
+          fullWidth
+          error={isError}
+          helperText={isError && <ErrorText>{errorMsg}</ErrorText>}
+          FormHelperTextProps={{ classes: helperTestClasses }}
+          hiddenLabel
+          label={label}
+          InputProps={InputProps}
+          InputLabelProps={{ shrink: true }}
+          {...field}
+          {...rest}
+        />
+      </FormControl>
+    </div>
   );
-};
-
-InputField.defaultProps = {
-  type: "text",
-  tabIndex: "0",
-  invalid: "false",
 };
 
 export default InputField;

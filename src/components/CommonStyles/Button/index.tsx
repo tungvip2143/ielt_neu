@@ -1,13 +1,8 @@
-import { Button as ButtonMUI, ButtonProps } from "@mui/material";
-
-interface ButtonI extends ButtonProps {
+import { LoadingButton as ButtonMUI, LoadingButtonProps } from "@mui/lab";
+interface ButtonI extends LoadingButtonProps {
   children: React.ReactNode;
-  type?: "button" | "submit" | "reset" | undefined;
-  className?: string;
-  onClick?: () => any;
-  style?: React.CSSProperties;
+
   icon?: any;
-  disabled?: boolean;
 }
 
 const Button = ({ children, icon, ...restProps }: ButtonI) => {

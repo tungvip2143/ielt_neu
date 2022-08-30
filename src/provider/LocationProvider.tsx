@@ -10,7 +10,7 @@ export const useGetLocation = () => useContext(LocationContext);
 
 const LocationProvider = (props: LocationProviderI) => {
   return (
-    <LocationContext.Provider value={{ initialPathName: window.location.pathname }}>
+    <LocationContext.Provider value={{ initialPathName: `${window.location.pathname}${window.location.search}` }}>
       {props.children}
     </LocationContext.Provider>
   );

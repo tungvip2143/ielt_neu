@@ -21,34 +21,28 @@ const useStyles = makeStyles((theme) => {
       color: "#5048E5",
       fontSize: "20px",
       cursor: "grab",
-      [theme.breakpoints.up("md")]: {
-        fontSize: 40,
-      },
+    },
+    editIcon: {
+      color: "#15B8A6",
+      fontSize: "20px",
+      cursor: "grab",
+      marginLeft: 10,
+      marginRight: 10,
+    },
+    deleteIcon: {
+      color: "#f44336",
+      fontSize: "20px",
+      cursor: "grab",
+    },
+    cardContainer: {
+      background: "#FFFFFF",
+      borderRadius: 8,
+      padding: 20,
+      boxShadow: "0px 1px 1px rgb(100 116 139 / 6%), 0px 1px 2px rgb(100 116 139 / 10%)",
+      marginBottom: 20,
     },
   };
 });
-
-const styles = {
-  editIcon: {
-    color: "#15B8A6",
-    fontSize: "20px",
-    cursor: "grab",
-    marginLeft: 10,
-    marginRight: 10,
-  },
-  deleteIcon: {
-    color: "#f44336",
-    fontSize: "20px",
-    cursor: "grab",
-  },
-  cardContainer: {
-    background: "#FFFFFF",
-    borderRadius: 8,
-    padding: 20,
-    boxShadow: "0px 1px 1px rgb(100 116 139 / 6%), 0px 1px 2px rgb(100 116 139 / 10%)",
-    marginBottom: 20,
-  },
-};
 
 //! Sub component
 const EachItemSpeaking = ({
@@ -96,8 +90,8 @@ const EachItemSpeaking = ({
       <Card style={{ marginBottom: "15px", padding: 20 }}>
         <div style={{ display: "flex", justifyContent: "end" }}>
           <InfoOutlinedIcon className={classes.buttonDetail} onClick={toggleDetail} />
-          <EditIcon style={styles.editIcon} onClick={toggleEdit} />
-          <HighlightOffOutlinedIcon style={styles.deleteIcon} onClick={() => onDelete(item.id)} />
+          <EditIcon className={classes.editIcon} onClick={toggleEdit} />
+          <HighlightOffOutlinedIcon className={classes.deleteIcon} onClick={() => onDelete(item.id)} />
         </div>
         <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
         <InputCommon

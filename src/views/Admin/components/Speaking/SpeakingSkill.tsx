@@ -81,8 +81,7 @@ const SpeakingSkill = () => {
                   <CommonActionMenu
                     onEdit={() => {
                       history.push({
-                        pathname: RouteBase.UpdateSpeakingWId(items?.row?.partNumber),
-                        search: `?id=${items?.id}`,
+                        pathname: RouteBase.SpeakingWithIdAnd(items?.row?.partNumber, items?.id),
                       });
                     }}
                     onSubmitRemove={onDeletePart}

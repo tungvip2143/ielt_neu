@@ -181,7 +181,7 @@ const CreateQuestionSpeaking = (props: Props) => {
           if (response.data.statusCode === 200) {
             toast.success("Create speaking success!");
             history.push({
-              pathname: RouteBase.UpdateSpeakingWId(response?.data?.data?.partTitle),
+              pathname: RouteBase.UpdateSpeakingWId(response?.data?.data?.partNumber),
               search: `?id=${response?.data?.data?.id}`,
             });
           }

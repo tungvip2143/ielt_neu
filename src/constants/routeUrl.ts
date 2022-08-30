@@ -41,6 +41,8 @@ export const RouteBase = {
   CreateSpeaking: "/admin/speaking/create",
   UpdateSpeaking: "/admin/speaking/:id",
   UpdateSpeakingWId: (id: string | number) => `/admin/speaking/${id}`,
+  SpeakingWithIdAnd: (partNumber: string | number, partId: string | number) =>
+    `/admin/speaking/${partNumber}?id=${partId}`,
 
   //Writing
   Writing: "/admin/writing",
