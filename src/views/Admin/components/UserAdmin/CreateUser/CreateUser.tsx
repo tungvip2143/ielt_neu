@@ -27,7 +27,7 @@ export interface Props {
     type: string;
   };
 }
-const validationSchema = yup.object().shape({    
+const validationSchema = yup.object().shape({
   fullname: yup.string().required("This field is required!"),
   dob: yup
     .string()
@@ -43,12 +43,12 @@ const CreateUser = (props: Props) => {
   const { search } = useLocation();
   const id = search.split("=")[1];
   const history = useHistory();
-  const [selectFile,setSelectFile]=useState<any>("")
-  const [image,setImage]=useState<any>()
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);  
+  const [selectFile, setSelectFile] = useState<any>("");
+  const [image, setImage] = useState<any>();
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   const [isEdit, setIsEdit] = useState(false);
   const fileRef = useRef<any>();
-  
+
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -56,49 +56,49 @@ const CreateUser = (props: Props) => {
       studentCode: dataPartDetail?.studentCode || "",
       fullname: dataPartDetail?.fullname || "",
       dob: dataPartDetail?.dob || new Date(),
-      image: dataPartDetail?.image || ""
-    }
+      image: dataPartDetail?.image || "",
+    },
   });
-  
+
   const { control, handleSubmit, setValue, getValues, reset } = formController;
 
   //! Effect
   useEffect(() => {
     if (dataPartDetail?._id) {
       resetAsyncForm(dataPartDetail);
-      refetchData()
+      refetchData();
     }
   }, [dataPartDetail?._id]);
 
   //! Function
   const resetAsyncForm = useCallback(
-    async (data: any) => {      
+    async (data: any) => {
       reset({
         studentCode: data?.studentCode,
         fullname: data?.fullname,
         dob: data?.dob,
-        image: IMAGE_URL + data?.image
+        image: IMAGE_URL + data?.image,
       });
     },
     [reset]
   );
-  const handleClick = () =>{
-    fileRef?.current?.click()
-  } 
-  const onFileChange = async (event: any) => {    
-    if(event.target && event.target.files[0]){
-    const formData = new FormData();
-    formData.append("file", event.target.files[0]);
-    setSelectFile(event.target.files[0]);
-    const responseImage = await audioService.postAudioListening(formData);
-    try {      
-      if (responseImage?.data?.statusCode === 200) {
-        setImage(responseImage?.data?.data?.uri);
+  const handleClick = () => {
+    fileRef?.current?.click();
+  };
+  const onFileChange = async (event: any) => {
+    if (event.target && event.target.files[0]) {
+      const formData = new FormData();
+      formData.append("file", event.target.files[0]);
+      setSelectFile(event.target.files[0]);
+      const responseImage = await audioService.postAudioListening(formData);
+      try {
+        if (responseImage?.data?.statusCode === 200) {
+          setImage(responseImage?.data?.data?.uri);
+        }
+      } catch (error: any) {
+        toast.error(error);
       }
-    } catch (error: any) {      
-      toast.error(error);
     }
-  }
   };
 
   const renderButtonUpdate = () => {
@@ -131,16 +131,16 @@ const CreateUser = (props: Props) => {
     );
   };
 
-  const onSubmit = async (data: any) => {    
+  const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
       const body = {
         studentCode: data.studentCode,
         fullname: data.fullname,
         dob: data.dob,
-        image: image
+        image: image,
       };
       try {
-        const response = await studentService.postCreatePart(body)
+        const response = await studentService.postCreatePart(body);
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
           history.goBack();
@@ -154,7 +154,7 @@ const CreateUser = (props: Props) => {
         studentCode: data.studentCode,
         fullname: data.fullname,
         dob: data.dob,
-        image: image
+        image: image,
       };
 
       try {
@@ -185,7 +185,7 @@ const CreateUser = (props: Props) => {
             fullWidth
             disabled={openCreateScreen.type === "update" && dataPartDetail?.studentCode}
           />
-           <InputCommon
+          <InputCommon
             id="standard-basic"
             variant="standard"
             name="fullname"
@@ -196,7 +196,7 @@ const CreateUser = (props: Props) => {
             disabled={openCreateScreen.type === "update" && !isEdit}
             sx={{ marginTop: "20px" }}
           />
-           
+
           <DatePickerCommon
             variant="standard"
             control={control}
@@ -206,9 +206,8 @@ const CreateUser = (props: Props) => {
             disabled={openCreateScreen.type === "update" && !isEdit}
             onChange={(e: any) => setValue("dob", e)}
           />
-         
         </div>
-        <div className="flex-1 ml-[20px] text-center"> 
+        <div className="flex-1 ml-[20px] text-center">
           <input
             ref={fileRef}
             className="hidden"
@@ -216,21 +215,29 @@ const CreateUser = (props: Props) => {
             name={"image"}
             onChange={onFileChange}
             accept=".png, .jpg, .jpeg"
+            disabled={openCreateScreen.type === "update" && !isEdit}
           />
           <div>
-           { (selectFile || dataPartDetail?.image) ? 
-            (<img  className="imageAvt" style={{width:'180px', height:'180px', borderRadius:'50%'}} src={selectFile? URL.createObjectURL(selectFile): IMAGE_URL + dataPartDetail?.image} alt="image"  />) 
-            : ( <img style={{width:'180px', height:'180px', borderRadius:'50%'}} src={DEFAULT_IMAGE} />)
-           }
+            {selectFile || dataPartDetail?.image ? (
+              <img
+                className="imageAvt"
+                style={{ width: "180px", height: "180px", borderRadius: "50%" }}
+                src={selectFile ? URL.createObjectURL(selectFile) : IMAGE_URL + dataPartDetail?.image}
+                alt="image"
+              />
+            ) : (
+              <img style={{ width: "180px", height: "180px", borderRadius: "50%" }} src={DEFAULT_IMAGE} />
+            )}
           </div>
-          <div className="text-end" style={{display:"flex", justifyContent:'center'}}>
+          <div className="text-end" style={{ display: "flex", justifyContent: "center" }}>
             <ButtonUpload
-              style={{display: "flex", height: 40}}
+              style={{ display: "flex", height: 40 }}
               titleButton="Upload Image"
               onClick={handleClick}
+              disabled={openCreateScreen.type === "update" && !isEdit}
             />
           </div>
-        </div>   
+        </div>
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
     </form>
