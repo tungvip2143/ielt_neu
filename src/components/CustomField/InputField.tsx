@@ -14,20 +14,23 @@ const InputField = (props: any) => {
     style,
     invalid,
     className,
+    studentCode,
   } = props;
   const { name, value } = field;
   const { errors, touched } = form;
-
+  console.log("props", props);
   return (
     <Fragment>
-      {label && <label htmlFor={name} dangerouslySetInnerHTML={{ __html: label }} />}
+      <label style={{ marginBottom: "5px" }} htmlFor={studentCode}>
+        {props.lable}
+      </label>
       <input
         {...field}
         style={style}
         className={`${className} border p-2`}
         onChange={onChangeCustomize || field.onChange}
         type={type}
-        id={name}
+        id={studentCode}
         maxLength={maxLength}
         value={value}
         placeholder={placeholder}

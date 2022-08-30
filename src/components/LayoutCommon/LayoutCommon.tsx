@@ -12,7 +12,6 @@ import IeltsSections from "components/Ielts";
 import ReviewAndScore from "components/Review";
 import LinkCustom from "components/Link";
 import FactCheckIcon from "@mui/icons-material/FactCheck";
-import ChooseExam from "../Ielts/ChooseExam";
 
 //
 // ! type
@@ -94,9 +93,6 @@ const LayoutCommon = ({ data, exams }: dataLayout) => {
         </Route>
         <Route path="/ielts/scores" exact>
           <ReviewAndScore bg={bgReview} />
-        </Route>
-        <Route path="/ielts/choose-exam" exact>
-          <ChooseExam />
         </Route>
       </Switch>
     </Box>

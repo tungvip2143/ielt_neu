@@ -8,7 +8,7 @@ import ExamTest from "./components/ExamTest";
 import { Box } from "@mui/material";
 //
 import { Form, Formik } from "formik";
-import { useUpdateIeltsSpeakingTest } from "hooks/ielts/useIelts";
+import { useFinishIeltsReadingTest, useFinishIeltsTest, useUpdateIeltsSpeakingTest } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
 import Header from "views/Ielts/Header/Header";
 import StepTestMic from "./components/StepTestMic";
@@ -58,6 +58,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const { step, handler } = useStepExam();
   const { testCode } = useGetTestCode();
+
   // !Function
   const handleSubmitForm = () => {
     handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
@@ -79,7 +80,7 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
     setIsOpenModalHide(false);
   };
 
-  useCheckTestCode(Number(testCode));
+  // useCheckTestCode(Number(testCode));
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmitForm}>
       {(formik) => (

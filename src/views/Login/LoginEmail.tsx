@@ -1,13 +1,11 @@
-import React from "react";
 //
-import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
 //
-import Title from "./components/Title";
-import Footer from "./components/Footer";
 import CardView from "./components/CardView";
 import FormEmail from "./components/FormEmail";
+import Title from "./components/Title";
 const LoginEmail = () => {
   const container = {
     width: "100vw",
