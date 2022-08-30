@@ -88,15 +88,7 @@ const ItemQuestion = ({
       );
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return (
-        <FlowChart
-          onClickPage={onClickPage}
-          onHightLightNumberPage={onHightLightNumberPage}
-          question={question}
-          image={image}
-          displayNumber={displayNumber}
-        />
-      );
+      return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return <SentenceCompletetion data={data} />;

@@ -27,14 +27,13 @@ const useStyles = makeStyles((theme) => ({
 type Props = {
   image?: string;
   question?: any;
-  onHightLightNumberPage: (display: number) => void;
   onClickPage?: (options: any) => void;
   displayNumber: number;
 };
 
 const FlowChart = (props: Props) => {
   const classes = useStyles();
-  const { image, question, onHightLightNumberPage, onClickPage, displayNumber } = props;
+  const { image, question, onClickPage, displayNumber } = props;
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
