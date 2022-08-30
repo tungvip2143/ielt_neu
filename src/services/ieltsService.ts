@@ -62,7 +62,7 @@ class IeltsService {
   finishIeltsSpeaking(testCode: any) {
     return httpServices.post(IELTS_URL(testCode).FINISH_SPEAKING_TEST);
   }
-  finishIeltsTest(testCode: any) {
+  finishIeltsTest({ testCode }: any) {
     return httpServices.post(IELTS_URL(testCode).FINISH_IELTS_TEST);
   }
 

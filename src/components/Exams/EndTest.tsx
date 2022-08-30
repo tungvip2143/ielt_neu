@@ -8,6 +8,9 @@ import ButtonStartTest from "components/Button/ButtonStartTest";
 import LoadingPage from "components/Loading";
 import { useFinishIeltsTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import useSagaCreators from "hooks/useSagaCreators";
+import { authActions } from "redux/creators/modules/auth";
 
 const card = {
   p: "48px 32px",
@@ -31,13 +34,17 @@ const EndTest = (props: Props) => {
   // !Hook
   const history = useHistory();
   const { mutateAsync: finishIeltsTest, isLoading: ieltsFinishLoading } = useFinishIeltsTest();
+  const { dispatch } = useSagaCreators();
+
+  const { testCode } = useGetTestCode();
 
   const handleEndTest = async () => {
     await finishIeltsTest(
-      { testCode: "123" },
+      { testCode },
       {
         onSuccess: () => {
-          history.push(`/ielts/review`);
+          dispatch(authActions.logout);
+          history.push("/login");
         },
       }
     );

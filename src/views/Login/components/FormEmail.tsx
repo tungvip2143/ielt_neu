@@ -58,6 +58,7 @@ const FormEmail = () => {
       { examination: examinationId },
       {
         onSuccess: (response: any) => {
+          console.log("response", response);
           localStorage.setItem("testCode", response?.data?.data?.testCode);
           history.push(RouteBase.IeltsListening);
         },

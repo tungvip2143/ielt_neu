@@ -64,7 +64,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
     const body = { values: { answers }, testCode };
     await submitIeltsReadingTest(body, {
       onSuccess: () => {
-        history.push(RouteBase.IeltsWriting);
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       },
     });
   };
