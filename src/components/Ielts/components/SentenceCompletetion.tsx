@@ -17,7 +17,7 @@ const SentenceCompletetion = (props: Props) => {
   useEffect(() => {
     const input = document.getElementsByClassName(`${displayNumber}`) as any;
     if (input) {
-      input[0].focus();
+      input[0]?.focus();
     }
   }, [displayNumber]);
 
@@ -26,11 +26,10 @@ const SentenceCompletetion = (props: Props) => {
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
     if (input) {
-      input.value = values.answers[displayNumberI - 1].studentAnswer;
+      input.value = values.answers[displayNumberI - 1]?.studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<strong>${data?.question?.displayNumber}</strong> <input class="${displayNumberI}" name='answers.[${
-        displayNumberI - 1
+      `<strong>${data?.question?.displayNumber}</strong> <input class="${displayNumberI}" name='answers.[${displayNumberI - 1
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
   });
