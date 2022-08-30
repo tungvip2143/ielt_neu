@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 type Props = {
-  image?: string;
+  image?: any;
   question?: any;
   onClickPage?: (options: any) => void;
   displayNumber: number;
@@ -34,6 +34,9 @@ type Props = {
 const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question, onClickPage, displayNumber } = props;
+  console.log("fasfsa", question);
+  console.log("dsad", image);
+
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
@@ -52,7 +55,7 @@ const FlowChart = (props: Props) => {
 
   return (
     <div className={classes.container}>
-      <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
+      <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image?.image}`} alt="flow chart" />
       <div className={classes.answerBox}>
         {question?.map((answer: any, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;

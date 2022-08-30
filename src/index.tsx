@@ -11,21 +11,24 @@ import { QueryClientProvider, QueryClient } from "react-query";
 import i18n from "i18n";
 import store from "redux/store";
 import "./index.css";
+import { BrowserRouter } from "react-router-dom";
 
 const cache = createEmotionCache();
 const client = new QueryClient();
 
 const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement);
 root.render(
-  <QueryClientProvider client={client}>
-    <I18nextProvider i18n={i18n}>
-      <CacheProvider value={cache}>
-        <Provider store={store}>
-          <App />
-        </Provider>
-      </CacheProvider>
-    </I18nextProvider>
-  </QueryClientProvider>
+  <BrowserRouter>
+    <QueryClientProvider client={client}>
+      <I18nextProvider i18n={i18n}>
+        <CacheProvider value={cache}>
+          <Provider store={store}>
+            <App />
+          </Provider>
+        </CacheProvider>
+      </I18nextProvider>
+    </QueryClientProvider>
+  </BrowserRouter>
 );
 
 // If you want to start measuring performance in your app, pass a function

@@ -1,12 +1,16 @@
 import React from "react";
+interface Props {
+  styleListRule?: any;
+}
+const IntructionsToCandidatesListening = (props: Props) => {
+  const { styleListRule } = props;
 
-const IntructionsToCandidates = () => {
   return (
-    <ul style={{ padding: "0px 0px 24px 60px" }}>
-      <li>Answer both parts.</li>
+    <ul style={{ ...styleListRule }}>
+      <li>Answer all the questions.</li>
       <li>You can change your answers at any time during the test.</li>
     </ul>
   );
 };
 
-export default IntructionsToCandidates;
+export default IntructionsToCandidatesListening;

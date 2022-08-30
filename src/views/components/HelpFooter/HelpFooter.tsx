@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Stack } from "@mui/system";
 import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
 import Text from "../../../components/Typography/index";
+
 // ! type
 interface Props {
   textHelp?: string;
@@ -13,6 +14,7 @@ const warningUser = {
 };
 const HelpFooter = (props: Props) => {
   const { image, textHelp } = props;
+  console.log("image", image);
   return (
     <>
       <Stack direction="row" spacing={1} sx={warningUser}>
