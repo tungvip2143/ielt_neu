@@ -84,21 +84,6 @@ const containerNextPage = {
   width: "13%",
 };
 
-const didExercise = {
-  background: "#90caf9 ",
-  borderRadius: "2px",
-  position: "relative",
-  "&::affter": {
-    position: "absolute",
-    display: "block",
-    content: "fsdfdsf",
-    bottom: "10px",
-    width: "100%",
-    height: "1px",
-    background: "#333",
-  },
-};
-
 export enum Direction {
   next = "next",
   back = "back",
