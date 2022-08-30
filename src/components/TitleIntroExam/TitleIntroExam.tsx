@@ -19,8 +19,6 @@ const TitleIntroExam = ({ dataTitleIntroExam, idExam, examinationName }: Props) 
   console.log("examinationName", examinationName);
   return (
     <Box>
-      {examinationName && <Text.SubTitle sx={{ mb: "30px" }}>{`Exam ${examinationName}`}</Text.SubTitle>}
-
       <Text.DescSmallCard sx={{ color: "#8A8C91" }}>{dataTitleIntroExam.desc}</Text.DescSmallCard>
     </Box>
   );

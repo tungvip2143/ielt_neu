@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
-import { TypeStepExamEnum } from "constants/enum";
+import { TypeStepExamEnum, TypeExam } from "constants/enum";
 //
 import { Box, Button } from "@mui/material";
 //
@@ -13,8 +13,8 @@ import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
 //
-import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
-import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
+import InformationForCandidatesListening from "views/components/dataSteps/DataContentListening/InformationForCandidates";
+import IntructionsToCandidatesListening from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
@@ -27,11 +27,14 @@ import { GetAuthSelector } from "redux/selectors/auth";
 import { RouteBase } from "constants/routeUrl";
 import LoadingPage from "components/Loading";
 //
+const styleListRule = {
+  padding: "0px 0px 24px 60px",
+};
 const stepRuleExam = {
   typeExam: "Listening",
-  time: "1 hour",
-  informationsForCandidates: <InformationForCandidates />,
-  intructionsToCandidates: <IntructionsToCandidates />,
+  time: "Approximately 30 minutes",
+  informationsForCandidates: <InformationForCandidatesListening styleListRule={styleListRule} />,
+  intructionsToCandidates: <IntructionsToCandidatesListening styleListRule={styleListRule} />,
 };
 
 const containerSteps = {
@@ -74,6 +77,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //! Function
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
+  console.log("user", user);
 
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
@@ -102,7 +106,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-
+  const timeExam = 1800000;
   // useCheckTestCode(Number(testCode));
 
   //! Render
@@ -119,6 +123,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHelp={handleOpenModalHelp}
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
+                timeExam={timeExam}
               />
 
               <Box sx={containerSteps}>
@@ -132,7 +137,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
               </Box>
             </Box>
             {isOpenModalHelp && (
-              <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
+              <ModalHelpExam
+                open={isOpenModalHelp}
+                styleModal={styleModal}
+                handleCloseModal={handleCloseModalHelp}
+                typeExam={TypeExam.LISTENING}
+              />
             )}
             {isOpenModalHide && (
               <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />

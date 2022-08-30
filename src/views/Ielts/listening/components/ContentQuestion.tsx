@@ -11,8 +11,9 @@ interface Props {
   audio?: any;
   displayNumber: number;
   onClickPage: (options: any) => void;
+  onClickQuestionType?: any;
 }
-const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage }: Props) => {
+const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
   console.log("ContentQuestion", ContentQuestion);
   console.log("questionType", questionType);
@@ -29,7 +30,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage }:
       );
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart question={ContentQuestion?.questions} displayNumber={displayNumber} />;
+      return <FlowChart question={ContentQuestion?.questions} displayNumber={displayNumber} image={ContentQuestion} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return ContentQuestion?.questions.map((question: any) => {
@@ -55,7 +56,10 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage }:
     <>
       <TitleExam title={ContentQuestion} />
 
-      <div>{renderPartValueGroup(ContentQuestion)}</div>
+      <div>
+        {renderPartValueGroup(ContentQuestion)}
+        {onClickQuestionType(ContentQuestion?.questionType)}
+      </div>
     </>
   );
 };
