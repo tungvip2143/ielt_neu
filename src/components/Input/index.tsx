@@ -48,11 +48,8 @@ const inputStyles = makeStyles((theme) => ({
 
 const InputCommon = <T extends FieldValues>(props: Props<T>) => {
   const { id, control, name, label, variant, required, labelColor, width, InputProps, ...rest } = props;
-  console.log("rest", rest, InputProps);
-
   const classes = useStyles();
   const helperTestClasses = helperTextStyles();
-  const inputClasses = inputStyles();
 
   return (
     <div style={{ width: width || "100%" }} className={classes.root}>

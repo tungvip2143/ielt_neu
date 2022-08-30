@@ -26,14 +26,12 @@ const ErrorText = styled(FormHelperText)`
 `;
 const DatePickerCommon = <T extends FieldValues>(props: Props<T>) => {
   const { control, name, label, variant, required, labelColor, width, disabled, onChange, ...rest } = props;
-  console.log("rest", control);
-
   const [value, setValue] = React.useState<Date | null>(new Date());
   const errors = control?._formState?.errors?.[name];
   return (
     <div className="mt-5">
       <Controller
-        render={({ field, fieldState: { error } }) => (
+        render={({fieldState: { error } }) => (
           <>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
               <DatePicker
@@ -56,15 +54,6 @@ const DatePickerCommon = <T extends FieldValues>(props: Props<T>) => {
         name={name}
         control={control}
       />
-      {/* <ErrorMessage
-        render={({ message }) => (
-          <div className="invalid-feedback d-block">
-            <b> {message} </b>
-          </div>
-        )}
-        errors={errors}
-        name={"dob"}
-      /> */}
     </div>
   );
 };
