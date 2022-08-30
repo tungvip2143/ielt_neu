@@ -29,8 +29,6 @@ export default function CommonActionMenu({ row }: any) {
   const TableCellActions = ({ row }: TableCellActionsI) => {
     //! State
     const { open: openInfo, toggle: toggleInfo, shouldRender: shouldRenderInfo } = useToggleDialog();
-    console.log("row", row);
-
     //! Render
     return (
       <Menu

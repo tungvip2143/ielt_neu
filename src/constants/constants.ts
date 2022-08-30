@@ -18,5 +18,7 @@ const SocialProvider = {
   FACEBOOK: "FACEBOOK",
   GOOGLE: "GOOGLE",
 };
+export const DEFAULT_IMAGE =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3eLpTAMWO-mtILepXLwg68-IChyGcXJgog&usqp=CAU";
 
 export { SocialProvider };

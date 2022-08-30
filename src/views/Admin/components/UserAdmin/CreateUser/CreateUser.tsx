@@ -1,88 +1,105 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import AddIcon from "@mui/icons-material/Add";
+import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
 import BlockIcon from "@mui/icons-material/Block";
 import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
-import EditIcon from "@mui/icons-material/Edit";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
-import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import SaveIcon from "@mui/icons-material/Save";
 import UndoIcon from "@mui/icons-material/Undo";
-import { Button, Card, Stack, Typography } from "@mui/material";
-import { Editor } from "@tinymce/tinymce-react";
+import { Button, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
+import DatePickerCommon from "components/DatePickerCommon";
 import InputCommon from "components/Input";
+import { DEFAULT_IMAGE, IMAGE_URL } from "constants/constants";
 import useGetPartDetail from "hooks/UserManagement/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { useHistory, useLocation, useParams } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
+import audioService from "services/audioService";
+import studentService from "services/studentService";
 import * as yup from "yup";
-import ArrowCircleRightIcon from "@mui/icons-material/ArrowCircleRight";
-import SelectField from "components/CustomField/SelectField";
-import { RouteBase } from "constants/routeUrl";
-import userService from "services/userService";
 
 export interface Props {
   openCreateScreen: {
     type: string;
   };
 }
+const validationSchema = yup.object().shape({    
+  fullname: yup.string().required("This field is required!"),
+  dob: yup
+    .string()
+    .typeError("This field is required!")
+    .required("Required")
+    .test("dob", "Date of birth is invalid!", (val) => Boolean(val)),
+  studentCode: yup.string().required("This field is required!"),
+});
 const CreateUser = (props: Props) => {
+  //! State
   const { openCreateScreen } = props;
-
   //Get id from url
   const { search } = useLocation();
   const id = search.split("=")[1];
-
-  const [openModal, setOpenModal] = useState({});
-  const [err, setErr] = useState("");
   const history = useHistory();
-  const validationSchema = yup.object().shape({
-    username: yup.string().required("This field is required!"),
-    // questionTip: yup.string().required("This field is required!"),
-    email: yup.string().required("This field is required!"),
-    userType: yup.string().required("This field is required!"),
-    fullname: yup.string().required("This field is required!"),
-  });
-  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
+  const [selectFile,setSelectFile]=useState<any>("")
+  const [image,setImage]=useState<any>()
+  const [dataPartDetail, , , refetchData] = useGetPartDetail(id);  
   const [isEdit, setIsEdit] = useState(false);
-  console.log("dataPartDetailUser", dataPartDetail);
-
+  const fileRef = useRef<any>();
+  
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: {
-      username: dataPartDetail?.username || "",
+      studentCode: dataPartDetail?.studentCode || "",
       fullname: dataPartDetail?.fullname || "",
-      email: dataPartDetail?.email || "",
-      userType: dataPartDetail?.fullname || "",
-    },
+      dob: dataPartDetail?.dob || new Date(),
+      image: dataPartDetail?.image || ""
+    }
   });
-
+  
   const { control, handleSubmit, setValue, getValues, reset } = formController;
 
+  //! Effect
+  useEffect(() => {
+    if (dataPartDetail?._id) {
+      resetAsyncForm(dataPartDetail);
+      refetchData()
+    }
+  }, [dataPartDetail?._id]);
+
+  //! Function
   const resetAsyncForm = useCallback(
-    async (data: any) => {
+    async (data: any) => {      
       reset({
-        username: data?.username,
-        email: data?.email,
-        userType: data?.userType,
+        studentCode: data?.studentCode,
         fullname: data?.fullname,
+        dob: data?.dob,
+        image: IMAGE_URL + data?.image
       });
     },
     [reset]
   );
-
-  useEffect(() => {
-    console.log("dataPartDetail", dataPartDetail);
-
-    if (dataPartDetail?.id) {
-      resetAsyncForm(dataPartDetail);
+  const handleClick = () =>{
+    fileRef?.current?.click()
+  } 
+  const onFileChange = async (event: any) => {    
+    if(event.target && event.target.files[0]){
+    const formData = new FormData();
+    formData.append("file", event.target.files[0]);
+    setSelectFile(event.target.files[0]);
+    const responseImage = await audioService.postAudioListening(formData);
+    try {      
+      if (responseImage?.data?.statusCode === 200) {
+        setImage(responseImage?.data?.data?.uri);
+      }
+    } catch (error: any) {      
+      toast.error(error);
     }
-  }, [dataPartDetail?.id]);
+  }
+  };
 
   const renderButtonUpdate = () => {
     return (
@@ -114,41 +131,40 @@ const CreateUser = (props: Props) => {
     );
   };
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: any) => {    
     if (openCreateScreen.type === "create") {
       const body = {
-        username: data.username,
-        email: data.email,
-        userType: data.userType,
+        studentCode: data.studentCode,
         fullname: data.fullname,
+        dob: data.dob,
+        image: image
       };
       try {
-        const response = await userService.postCreatePart(body);
-
+        const response = await studentService.postCreatePart(body)
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
           history.goBack();
         }
       } catch (error: any) {
-        toast.error(error);
+        toast.error(error?.response?.data?.message);
       }
     }
     if (openCreateScreen.type === "update") {
       const body = {
-        username: data.username,
-        email: data.email,
-        userType: data.userType,
+        studentCode: data.studentCode,
         fullname: data.fullname,
+        dob: data.dob,
+        image: image
       };
 
       try {
-        const response = await userService.patchUpdatePart(id, body);
+        const response = await studentService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
           history.goBack();
         }
       } catch (error: any) {
-        toast.error(error);
+        toast.error(error?.response?.data?.message);
       }
     }
   };
@@ -162,39 +178,14 @@ const CreateUser = (props: Props) => {
           <InputCommon
             id="standard-basic"
             variant="standard"
-            name="username"
-            label="Username"
+            name="studentCode"
+            label="Student Id"
             control={control}
             required
             fullWidth
-            disabled={openCreateScreen.type === "update" && !isEdit}
+            disabled={openCreateScreen.type === "update" && dataPartDetail?.studentCode}
           />
-          <InputCommon
-            id="standard-basic"
-            variant="standard"
-            name="email"
-            label="Email"
-            control={control}
-            required
-            fullWidth
-            disabled={openCreateScreen.type === "update" && !isEdit}
-            sx={{ marginTop: "20px" }}
-          />
-        </div>
-        <div className="flex-1 ml-[20px]">
-          <SelectField
-            variant="standard"
-            name="userType"
-            label="User Type"
-            options={[
-              { label: "USER", value: "USER" },
-              { label: "SUPER_ADMIN", value: "SUPER_ADMIN" },
-            ]}
-            control={control}
-            setValue={setValue}
-            disabled={openCreateScreen.type === "update" && !isEdit}
-          />
-          <InputCommon
+           <InputCommon
             id="standard-basic"
             variant="standard"
             name="fullname"
@@ -205,56 +196,43 @@ const CreateUser = (props: Props) => {
             disabled={openCreateScreen.type === "update" && !isEdit}
             sx={{ marginTop: "20px" }}
           />
+           
+          <DatePickerCommon
+            variant="standard"
+            control={control}
+            name="dob"
+            label="Date of birth"
+            required
+            disabled={openCreateScreen.type === "update" && !isEdit}
+            onChange={(e: any) => setValue("dob", e)}
+          />
+         
         </div>
-      </div>
-
-      {openCreateScreen.type === "create" && renderButtonCreate()}
-      {openCreateScreen.type === "update" && (
-        <>
-          <div className="text-end mb-2">
+        <div className="flex-1 ml-[20px] text-center"> 
+          <input
+            ref={fileRef}
+            className="hidden"
+            type="file"
+            name={"image"}
+            onChange={onFileChange}
+            accept=".png, .jpg, .jpeg"
+          />
+          <div>
+           { (selectFile || dataPartDetail?.image) ? 
+            (<img  className="imageAvt" style={{width:'180px', height:'180px', borderRadius:'50%'}} src={selectFile? URL.createObjectURL(selectFile): IMAGE_URL + dataPartDetail?.image} alt="image"  />) 
+            : ( <img style={{width:'180px', height:'180px', borderRadius:'50%'}} src={DEFAULT_IMAGE} />)
+           }
+          </div>
+          <div className="text-end" style={{display:"flex", justifyContent:'center'}}>
             <ButtonUpload
-              titleButton="Create question group"
-              icon={<AddIcon />}
-              onClick={() => setOpenModal({ type: "createQuestion" })}
-              style={{ background: "#9155FE" }}
+              style={{display: "flex", height: 40}}
+              titleButton="Upload Image"
+              onClick={handleClick}
             />
           </div>
-          <div>
-            {/* {(dataReading || []).map((el: any, index: number) => {
-              return (
-                <Card style={{ marginBottom: "15px", padding: 20 }} key={index}>
-                  <div style={{ display: "flex", justifyContent: "end" }}>
-                    <InfoOutlinedIcon
-                      style={styles.buttonDetail}
-                      onClick={() => setOpenModal({ type: "detailQuestion", id: el.id })}
-                    />
-                    <EditIcon
-                      style={{ color: "#15B8A6", fontSize: "20px", cursor: "grab", marginLeft: 10, marginRight: 10 }}
-                      onClick={() => setOpenModal({ type: "updateQuestion", id: el.id })}
-                    />
-                    <HighlightOffOutlinedIcon
-                      style={{ color: "#f44336", fontSize: "20px", cursor: "grab" }}
-                      onClick={() => onDelete(el.id)}
-                    />
-                  </div>
-                  <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
-                  <InputCommon
-                    id="standard-basic"
-                    variant="standard"
-                    name="question"
-                    control={control}
-                    required
-                    fullWidth
-                    value={el.questionBox}
-                    disabled
-                    style={{ marginTop: el.questionBox ? "10px" : 0 }}
-                  />
-                </Card>
-              );
-            })} */}
-          </div>
-        </>
-      )}
+        </div>   
+      </div>
+      {openCreateScreen.type === "create" && renderButtonCreate()}
     </form>
   );
 };

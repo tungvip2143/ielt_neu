@@ -118,6 +118,15 @@ export const ADMIN_USER_URL = (id?: string | number) => {
     DELETE_PART: `${ROOT_URL}/users/`,
   };
 };
+export const ADMIN_STUDENT_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/students?sort=createdAt%3ADESC`,
+    GET_PART_DETAIL: `${ROOT_URL}/students/`,
+    POST_CREATE_PART: `${ROOT_URL}/students`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/students/`,
+    DELETE_PART: `${ROOT_URL}/students/`,
+  };
+};
 
 export const ADMIN_CONTEST_URL = (id?: string | number) => {
   return {
