@@ -10,7 +10,6 @@ import InputCommon from "components/Input";
 import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
 import useGetPartDetail from "hooks/ContestManagemet/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
-import { QuestionUser } from "interfaces/user";
 import { isArray } from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -37,8 +36,6 @@ const CreateContest = (props: Props) => {
   const history = useHistory();
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [valueUserId, setValueUserId] = useState<string[]>([]);
-
-  console.log("valueUserId", valueUserId);
 
   const validationSchema = yup.object().shape({
     name: yup.string().required("This field is required!"),
@@ -161,7 +158,6 @@ const CreateContest = (props: Props) => {
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
-      {/* {openCreateScreen.type === "update" && renderButtonUpdate()} */}
       <div className="cardContainer">
         <div className="flex-1">
           <Typography style={{ fontWeight: "bold" }}>Examination name</Typography>

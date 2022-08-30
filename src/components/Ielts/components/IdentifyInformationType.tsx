@@ -42,21 +42,21 @@ const IdentifyInformationType = (props: Props) => {
     onClickPage,
   } = props;
 
-  const displayNumberT = Number(question.question.displayNumber) - 1;
+  const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
   const { values }: any = useFormikContext();
 
   const onClickQuestion = () => {
     let sectionRender: any = {};
     sectionRender.question = questionIdx;
     onClickPage && onClickPage(sectionRender);
-    // onHightLightNumberPage(question.question.displayNumber);
+    // onHightLightNumberPage(question?.question?.displayNumber);
   };
   return (
     <>
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={displayNumber === question.question.displayNumber}
+        expanded={displayNumber === question?.question?.displayNumber}
         disableGutters
       >
         <Stack
@@ -70,8 +70,8 @@ const IdentifyInformationType = (props: Props) => {
             onClick={onClickQuestion}
             sx={{ p: "0 !important", display: "flex" }}
           >
-            <Text.DescSmall sx={{ mr: "5px" }}>{question.question.displayNumber}.</Text.DescSmall>
-            <Text.DescSmall>{ReactHtmlParser(question.question.questionText)}</Text.DescSmall>
+            <Text.DescSmall sx={{ mr: "5px" }}>{question?.question?.displayNumber}.</Text.DescSmall>
+            <Text.DescSmall>{ReactHtmlParser(question?.question?.questionText)}</Text.DescSmall>
           </AccordionSummary>
         </Stack>
 
@@ -84,14 +84,14 @@ const IdentifyInformationType = (props: Props) => {
                 value={values?.answers[displayNumberT]?.studentAnswer}
                 // onChange={handleChange}
               >
-                {question.question.options.map((answer: any) => {
+                {question?.question?.options.map((answer: any) => {
                   return (
                     <FormControlLabel
                       key={answer._id}
                       value={answer.key}
                       control={
                         <Field
-                          questionId={question.question._id}
+                          questionId={question?.question?._id}
                           index={displayNumber}
                           component={Radio}
                           name={`answers[${displayNumberT}].studentAnswer`}
@@ -122,7 +122,7 @@ const IdentifyInformationType = (props: Props) => {
                     value={true}
                     control={
                       <Field
-                        questionId={question.question._id}
+                        questionId={question?.question?._id}
                         index={displayNumberT}
                         component={Radio}
                         name={`answers[${displayNumberT}].studentAnswer`}
@@ -135,7 +135,7 @@ const IdentifyInformationType = (props: Props) => {
                     value={false}
                     control={
                       <Field
-                        questionId={question.question._id}
+                        questionId={question?.question?._id}
                         index={displayNumberT}
                         component={Radio}
                         name={`answers[${displayNumberT}].studentAnswer`}
@@ -148,7 +148,7 @@ const IdentifyInformationType = (props: Props) => {
                     value={"not_given"}
                     control={
                       <Field
-                        questionId={question.question._id}
+                        questionId={question?.question?._id}
                         index={displayNumberT}
                         component={Radio}
                         name={`answers[${displayNumberT}].studentAnswer`}

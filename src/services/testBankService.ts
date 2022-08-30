@@ -19,6 +19,10 @@ class TestService {
   deleteTest(id: any) {
     return httpServices.delete(TEST_URL().DELETE_TEST + id);
   }
+
+  generateExam(id: any, body: any) {
+    return httpServices.post(TEST_URL(id).GENERATE_EXAM, body);
+  }
 }
 
 export default new TestService();

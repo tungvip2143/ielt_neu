@@ -8,9 +8,10 @@ type Props = {
   data: any;
   questionBox: string;
   answerList: string;
-  onHightLightNumberPage: (displayNumber: number) => void;
+  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (options: number) => void;
   displayNumber: number;
+  isView?: boolean;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -39,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const { data, answerList, onHightLightNumberPage, onClickPage, displayNumber } = props;
+  const { data, answerList, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
 
   useEffect(() => {
-    inputRef?.current[displayNumber].focus();
+    inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
   const { setFieldValue } = useFormikContext();
