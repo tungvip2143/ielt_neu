@@ -74,7 +74,7 @@ const FormEmail = () => {
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: (response) => {
-              dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token });
+              dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token, userType: "user" });
             },
           });
         }}

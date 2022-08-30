@@ -19,7 +19,7 @@ export const RouteBase = {
   ListeningReview: "/ielts/review/listening/:testCode",
   SpeakingReview: "/ielts/review/speaking/:testCode",
   Admin: "/admin",
-  AdminLogin: "/admin/login",
+  AdminLogin: "/login/admin",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
   ViewExam: "/admin/exammagement/Exam/:id",

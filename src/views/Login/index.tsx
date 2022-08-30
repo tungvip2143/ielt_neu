@@ -82,7 +82,7 @@ const LoginPage = (props: any) => {
       const responseSocial = await socialServices.loginSocial(body);
 
       if (responseSocial?.data?.data?.data?.access_token) {
-        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token, userType: "user" });
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message, {
@@ -132,7 +132,7 @@ const LoginPage = (props: any) => {
       onSubmit={async (values) => {
         await login(values, {
           onSuccess: (response) => {
-            dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token });
+            dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token, userType: "user" });
           },
         });
       }}

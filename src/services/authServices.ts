@@ -2,6 +2,7 @@ import { AUTH_URL } from "constants/api";
 import httpServices from "services/httpServices";
 
 const USER_LOCAL_STORAGE = "auth";
+const USER_TYPE_LOCAL_STORAGE = "userType";
 class AuthService {
   signUp(body: any) {
     return httpServices.post(AUTH_URL.SIGNUP, body);
@@ -37,6 +38,18 @@ class AuthService {
 
   saveUserToLocalStorage(body = {}) {
     localStorage.setItem(USER_LOCAL_STORAGE, JSON.stringify(body));
+  }
+
+  saveUserTypeToLocalStorage(body = {}) {
+    localStorage.setItem(USER_TYPE_LOCAL_STORAGE, JSON.stringify(body));
+  }
+
+  getUserTypeFromLocalStorage() {
+    const user = localStorage.getItem(USER_TYPE_LOCAL_STORAGE);
+    if (!!user) {
+      return JSON.parse(user);
+    }
+    return {};
   }
 
   getUserLocalStorage() {

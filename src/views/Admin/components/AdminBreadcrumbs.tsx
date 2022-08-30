@@ -2,7 +2,7 @@ import * as React from "react";
 import Typography from "@mui/material/Typography";
 import Breadcrumbs from "@mui/material/Breadcrumbs";
 import Link from "@mui/material/Link";
-import { useLocation, Link as RouterLink } from "react-router-dom";
+import { useLocation, Link as RouterLink, Redirect, useHistory } from "react-router-dom";
 import ButtonCommon from "components/Button";
 import useSagaCreators from "hooks/useSagaCreators";
 import { authActions } from "redux/creators/modules/auth";
@@ -19,10 +19,10 @@ export default function AdminBreadcrumbs() {
 
   const { dispatch } = useSagaCreators();
   const pathSplit = location.pathname.split("/").filter((path) => path);
-  console.log("pathSplit", pathSplit);
-
+  const history = useHistory();
   const onLogout = () => {
-    dispatch(authActions.logout);
+    dispatch(authActions.logout, { role: "admin" });
+    history.push(RouteBase.AdminLogin);
   };
 
   return (

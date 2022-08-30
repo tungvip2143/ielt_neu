@@ -1,5 +1,5 @@
 import { Button, Container, Divider, Grid, Stack } from "@mui/material";
-import { NavLink, useHistory } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import ContainerCustom from "components/Container";
 import LinkCustom from "components/Link";
 import React from "react";
@@ -79,8 +79,6 @@ const Header: React.FC = (props) => {
   };
 
   const onSubmitExam = async (values: InitialValueExam) => {
-    console.log("values", values);
-
     await createTestCode(
       { examination: values?.exam?.id },
       {
@@ -147,9 +145,9 @@ const Header: React.FC = (props) => {
                   <NavLink to="#">
                     <Text.DescSmall sx={TextSecond}>User Reviews</Text.DescSmall>
                   </NavLink>
-                  <NavLink to="/admin">
+                  <Link to="/login/admin">
                     <Text.DescSmall sx={TextSecond}>Admin</Text.DescSmall>
-                  </NavLink>
+                  </Link>
                 </Grid>
               </Grid>
             </Grid>

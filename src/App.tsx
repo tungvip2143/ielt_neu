@@ -29,6 +29,7 @@ import SignUpEmail from "views/SignUp/component/SignUpEmail";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
 import ForgotPassword from "views/ForgotPassword";
+import LoginAdminPage from "views/Admin/LoginAdmin";
 
 //
 
@@ -61,7 +62,7 @@ const App: React.FC = () => {
               <Route path={RouteBase.WritingReview} exact component={WritngReview} />
               <Route path={RouteBase.ListeningReview} exact component={ListeningReview} />
               <Route path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
-              <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
+              <Route path={RouteBase.AdminLogin} exact component={LoginAdminPage} />
               <Route path={RouteBase.Home} component={DefaultLayout} />
               {/* Admin site */}
             </Switch>
