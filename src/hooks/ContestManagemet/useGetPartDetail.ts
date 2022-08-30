@@ -10,7 +10,7 @@ const useGetPartDetail = (id: any) => {
   const refetchData = async () => {
     if (!id) return;
     try {
-      const response = await contestService.getPartDetail(id);
+      const response = await contestService.getListExamDetail(id);
 
       if (response.data.statusCode === 200) {
         setDataPartDetail(response?.data?.data || {});
@@ -23,7 +23,7 @@ const useGetPartDetail = (id: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await contestService.getPartDetail(id);
+        const response = await contestService.getListExamDetail(id);
         if (response.data.statusCode === 200) {
           setDataPartDetail(response?.data?.data || {});
         }

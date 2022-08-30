@@ -85,6 +85,7 @@ const CreateQuestionListening = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
+  console.log("dataPartDetail", dataPartDetail, dataListening);
   const [isEdit, setIsEdit] = useState(false);
 
   const formController = useForm<ResponseParams>({

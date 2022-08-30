@@ -1,11 +1,11 @@
 import { PAGE_SIZE } from "constants/constants";
-import MContestManagemet from "models/ContestManagemet/ContestManagemet.model";
 import MPagination from "models/Pagination.model";
+import MTest from "models/TestBank/Test.model";
 import { useEffect, useState } from "react";
-import contestService from "services/contestService";
+import testBankService from "services/testBankService";
 
-const useContestManagemet = () => {
-  const [dataContest, setDataContest] = useState<MContestManagemet[]>([]);
+const useGetListTest = () => {
+  const [dataTest, setDataTest] = useState<MTest[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
@@ -28,11 +28,13 @@ const useContestManagemet = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await contestService.getListExamination(params);
+        const response = await testBankService.getListTest(params);
+        console.log("responseReading", response);
 
         if (response.data.statusCode === 200) {
-          const parts = MContestManagemet.parsePartListFromResponse(response?.data?.data?.data || []);
-          setDataContest(parts);
+          const test = MTest.parsePartListFromResponse(response?.data?.data?.data || []);
+
+          setDataTest(test);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }
         setLoading(false);
@@ -51,7 +53,7 @@ const useContestManagemet = () => {
     setParams({ pageSize, page: 1 });
   };
 
-  return [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
+  return [dataTest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
 };
 
-export default useContestManagemet;
+export default useGetListTest;
