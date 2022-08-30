@@ -1,22 +1,16 @@
-import { Button, Container, Divider, Grid, Stack } from "@mui/material";
-import { Link, NavLink, useHistory } from "react-router-dom";
-import ContainerCustom from "components/Container";
-import LinkCustom from "components/Link";
-import React from "react";
+import { Button, Grid, Stack } from "@mui/material";
 import Box from "@mui/material/Box";
+import React from "react";
+import { Link, NavLink, useHistory } from "react-router-dom";
 
 //
-import imgLogo from "assets/image/logo/logo.svg";
-import Text from "components/Typography/index";
-import { GetAuthSelector } from "redux/selectors";
-import useSagaCreators from "hooks/useSagaCreators";
-import { authActions } from "redux/creators/modules/auth";
 import headerLogo from "assets/image/header/ielts-header.png";
-import useToggleDialog from "hooks/useToggleDialog";
-import DialogSelectExam, { InitialValueExam } from "components/Dialogs/DialogSelectExam";
-import { RouteBase } from "constants/routeUrl";
+import Text from "components/Typography/index";
 import { useIeltsTestCode } from "hooks/ielts/useIelts";
-import { IeltsActions } from "redux/creators/modules/ielts";
+import useSagaCreators from "hooks/useSagaCreators";
+import useToggleDialog from "hooks/useToggleDialog";
+import { authActions } from "redux/creators/modules/auth";
+import { GetAuthSelector } from "redux/selectors";
 
 const TextExams = {
   color: "#000000 !important",
@@ -78,30 +72,32 @@ const Header: React.FC = (props) => {
     toggleSelectExam();
   };
 
-  const onSubmitExam = async (values: InitialValueExam) => {
-    await createTestCode(
-      { examination: values?.exam?.id },
-      {
-        onSuccess: (response) => {
-          dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          localStorage.setItem("examinationId", values?.exam?.id);
-          localStorage.setItem("examinationName", values?.exam?.name);
-          localStorage.setItem("testCode", response?.data?.data?.testCode);
-          history.push(RouteBase.IeltsWithExam(values?.exam?.id));
-          toggleSelectExam();
-        },
-        onError: (err: any) => {
-          if (err.response.data.statusCode === 401) {
-            // history.push("/login");
-          }
-        },
-      }
-    );
-  };
+  // const onSubmitExam = async (values: InitialValueExam) => {
+  //   console.log("values", values);
+
+  //   await createTestCode(
+  //     { examination: values?.exam?.id },
+  //     {
+  //       onSuccess: (response) => {
+  //         dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
+  //         localStorage.setItem("examinationId", values?.exam?.id);
+  //         localStorage.setItem("examinationName", values?.exam?.name);
+  //         localStorage.setItem("testCode", response?.data?.data?.testCode);
+  //         history.push(RouteBase.IeltsWithExam(values?.exam?.id));
+  //         toggleSelectExam();
+  //       },
+  //       onError: (err: any) => {
+  //         if (err.response.data.statusCode === 401) {
+  //           // history.push("/login");
+  //         }
+  //       },
+  //     }
+  //   );
+  // };
   //! Render
   return (
     <>
-      {shouldRenderExam && <DialogSelectExam open={openSelectExam} toggle={toggleSelectExam} onSubmit={onSubmitExam} />}
+      {/* {shouldRenderExam && <DialogSelectExam open={openSelectExam} toggle={toggleSelectExam} onSubmit={onSubmitExam} />} */}
 
       <Box sx={headerLogoStyle}>
         <img style={imgHeaderLogo} src={headerLogo} alt="" />
@@ -127,7 +123,7 @@ const Header: React.FC = (props) => {
                   <Box className="nav-link">
                     <Text.Sub20Bold sx={TextExams1}>TOEFL</Text.Sub20Bold>
                   </Box>
-                  <NavLink to="/ielts/choose-exam" activeClassName="ilets" className="nav-link" onClick={onClickIelts}>
+                  <NavLink to="/ielts/choose-exam" activeClassName="ilets" className="nav-link">
                     <Text.Sub20Bold className="child-active" sx={TextExams}>
                       IELTS
                     </Text.Sub20Bold>

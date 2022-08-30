@@ -23,6 +23,9 @@ import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
+import { GetAuthSelector } from "redux/selectors/auth";
+import { RouteBase } from "constants/routeUrl";
+import LoadingPage from "components/Loading";
 //
 const stepRuleExam = {
   typeExam: "Listening",
@@ -66,8 +69,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
+  const history = useHistory();
 
   //! Function
+  const auth = GetAuthSelector();
+  const user = auth?.user?.user;
+
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
@@ -75,8 +82,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
       onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
         localStorage.setItem("LISTENING", "true");
+        history.push(RouteBase.IeltsReading);
       },
     });
   };
@@ -96,9 +103,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
   };
   //
 
-  useCheckTestCode(Number(testCode));
+  // useCheckTestCode(Number(testCode));
 
   //! Render
+  if (isLoading) {
+    return <LoadingPage />;
+  }
   return (
     <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
@@ -112,7 +122,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
               />
 
               <Box sx={containerSteps}>
-                {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+                {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
                 {step === TypeStepExamEnum.STEP3 && (
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />

@@ -16,6 +16,11 @@ export const useLogin = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+export const studentLogin = () => {
+  return useMutation(authService.studentLogin, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
 
 export const useLogout = () => {
   return useMutation(authService.logout);

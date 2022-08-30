@@ -1,16 +1,16 @@
+import UserPart from "models/Reading/UserPart";
 import { useEffect, useState } from "react";
-import contestService from "services/contestService";
-import MContestManagemet from "models/ContestManagemet/ContestManagemet.model";
+import userService from "services/userService";
 
-const useGetPartDetail = (id: any) => {
-  const [dataPartDetail, setDataPartDetail] = useState<MContestManagemet>({});
+const useGetDetailStudent = (id: any) => {
+  const [dataPartDetail, setDataPartDetail] = useState<UserPart[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
   const refetchData = async () => {
     if (!id) return;
     try {
-      const response = await contestService.getListExamDetail(id);
+      const response = await userService.getPartDetail(id);
 
       if (response.data.statusCode === 200) {
         setDataPartDetail(response?.data?.data || {});
@@ -23,7 +23,7 @@ const useGetPartDetail = (id: any) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await contestService.getListExamDetail(id);
+        const response = await userService.getPartDetail(id);
         if (response.data.statusCode === 200) {
           setDataPartDetail(response?.data?.data || {});
         }
@@ -41,4 +41,4 @@ const useGetPartDetail = (id: any) => {
   return [dataPartDetail, loading, error, refetchData];
 };
 
-export default useGetPartDetail;
+export default useGetDetailStudent;

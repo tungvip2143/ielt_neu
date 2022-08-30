@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router-dom";
 import "./styles/scss/styles.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
@@ -56,14 +56,14 @@ const App: React.FC = () => {
               <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
               <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
               <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
-              <Route path={RouteBase.LoginEmail} exact component={LoginEmail} />
-              <Route path={RouteBase.Pricing} exact component={Pricing} />
-              <Route path={RouteBase.ReviewReading} exact component={ReviewReading} />
-              <Route path={RouteBase.WritingReview} exact component={WritngReview} />
-              <Route path={RouteBase.ListeningReview} exact component={ListeningReview} />
-              <Route path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
+              <PrivateRoute path={RouteBase.LoginEmail} exact component={LoginEmail} />
+              <PrivateRoute path={RouteBase.Pricing} exact component={Pricing} />
+              <PrivateRoute path={RouteBase.ReviewReading} exact component={ReviewReading} />
+              <PrivateRoute path={RouteBase.WritingReview} exact component={WritngReview} />
+              <PrivateRoute path={RouteBase.ListeningReview} exact component={ListeningReview} />
+              <PrivateRoute path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
               <Route path={RouteBase.AdminLogin} exact component={LoginAdminPage} />
-              <Route path={RouteBase.Home} component={DefaultLayout} />
+              <PrivateRoute path={RouteBase.Home} component={DefaultLayout} />
               {/* Admin site */}
             </Switch>
           </Router>
