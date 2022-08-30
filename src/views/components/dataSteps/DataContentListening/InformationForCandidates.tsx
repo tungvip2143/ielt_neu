@@ -7,7 +7,7 @@ const InformationForCandidatesListening = (props: Props) => {
 
   return (
     <ul style={{ ...styleListRule }}>
-      <li>There are 24 questions in this test.</li>
+      <li>There are 40 questions in this test.</li>
       <li>Each question carries one mark.</li>
       <li>There are four parts to the test.</li>
       <li>
