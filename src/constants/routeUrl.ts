@@ -13,6 +13,7 @@ export const RouteBase = {
   IeltsReading: "/ielts/reading",
   IeltsWriting: "/ielts/writing",
   IeltsSpeaking: "/ielts/speaking",
+  EndTest: "end-test",
   Pricing: "/pricing",
   ReviewReading: "/ielts/review/reading/:testCode",
   WritingReview: "/ielts/review/writing/:testCode",

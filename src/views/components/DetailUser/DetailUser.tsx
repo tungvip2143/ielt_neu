@@ -11,6 +11,8 @@ import HelpFooter from "../HelpFooter/HelpFooter";
 import Title from "../Title/Title";
 import Container from "../Container/Container";
 import ImgHelp from "assets/image/exam/help.png";
+import { format } from "date-fns";
+
 // !type
 interface Props {
   user?: any;
@@ -33,7 +35,7 @@ const DetailUser = (props: Props) => {
         <Title image={ImgUser} text="Confirm your details" />
         <Container>
           <Text.Desc16 sx={introduceUser}>Name:{user?.fullname}</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Date of birth:{user?.dob}</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Date of birth: {format(new Date(user?.dob), "dd-MM-yyyy")}</Text.Desc16>
           <Text.Desc16 sx={introduceUser}>Candidate number:{user?._id}</Text.Desc16>
           <HelpFooter textHelp={textHelp} image={ImgHelp} />
           <FooterSubmit textBtn={textBtn} nextStep={nextStep} />

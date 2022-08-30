@@ -57,16 +57,19 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
-  const handleSubmit = async (values: any) => {
-    const answers = values.answers.filter((el: any) => {
-      return el.questionId && el.studentAnswer;
-    });
-    const body = { values: { answers }, testCode };
-    await submitIeltsReadingTest(body, {
-      onSuccess: () => {
-        history.push(RouteBase.IeltsWriting);
-      },
-    });
+  // const handleSubmit = async (values: any) => {
+  //   const answers = values.answers.filter((el: any) => {
+  //     return el.questionId && el.studentAnswer;
+  //   });
+  //   const body = { values: { answers }, testCode };
+  //   await submitIeltsReadingTest(body, {
+  //     onSuccess: () => {
+  //       history.push(RouteBase.IeltsWriting);
+  //     },
+  //   });
+  // };
+  const handleSubmit = () => {
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
   };
 
   const handleOpenModalHelp = useCallback(() => {
