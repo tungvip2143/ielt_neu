@@ -10,6 +10,7 @@ export const authActions = {
   saveInfoUser: "saveInfoUser",
   saveInfoUserSuccess: "saveInfoUserSuccess",
   saveInfoUserFailed: "saveInfoUserFailed",
+  saveUserType: "saveUserType",
 };
 
 export const authSagas = {
@@ -33,12 +34,19 @@ export const authSagas = {
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
-      const { token, user } = action.payload;
+      const { token, userType } = action.payload;
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token });
-      yield put({ type: authActions.saveInfoUserSuccess, token, user });
+      yield authServices.saveUserTypeToLocalStorage(userType);
+      yield put({ type: authActions.saveInfoUserSuccess, token });
     },
   },
+  // [authActions.saveUserType]: {
+  //   saga: function* (action: any) {
+  //     const { userType } = action;
+  //     yield put({ type: authActions.saveUserType, userType });
+  //   },
+  // },
 };
 
 export const authReducer = (
@@ -49,6 +57,7 @@ export const authReducer = (
       isLogin: false,
       isCheckingAuth: false,
       error: null,
+      userType: "user",
     },
   },
   action: any
@@ -72,6 +81,11 @@ export const authReducer = (
 
       case authActions.saveInfoUserFailed: {
         draftState.auth.isCheckingAuth = false;
+        break;
+      }
+
+      case authActions.saveUserType: {
+        draftState.auth.userType = action.userType;
         break;
       }
 
