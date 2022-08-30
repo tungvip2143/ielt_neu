@@ -35,7 +35,7 @@ const DetailUser = (props: Props) => {
     if (user?.fullname) {
       return format(new Date(user?.dob), "dd-MM-yyyy");
     } else {
-      return "them sinh nhat vao nhe";
+      return "";
     }
   };
   //! Render
