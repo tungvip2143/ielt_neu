@@ -10,6 +10,7 @@ type Props = {
 const SentenceCompletetion = (props: Props) => {
   const { data, displayNumber, onClickPage } = props;
   const displayNumberI = data?.question?.displayNumber;
+  console.log("ffsdfsd", data);
 
   const { handleChange, values }: any = useFormikContext();
 
@@ -28,7 +29,7 @@ const SentenceCompletetion = (props: Props) => {
       input.value = values.answers[displayNumberI - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<input class="${displayNumberI}" name='answers.[${
+      `<strong>${data?.question?.displayNumber}</strong> <input class="${displayNumberI}" name='answers.[${
         displayNumberI - 1
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );

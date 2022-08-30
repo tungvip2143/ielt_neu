@@ -5,7 +5,10 @@ interface Data {
   seconds: any;
   completed: any;
 }
-function CountDownItem() {
+interface Props {
+  timeExam?: any;
+}
+function CountDownItem(props: Props) {
   const Completionist = () => <span>You are good to go!</span>;
 
   // Renderer callback with condition
@@ -24,7 +27,7 @@ function CountDownItem() {
   };
   return (
     <div className="App">
-      <Countdown date={Date.now() + 3600000} renderer={renderer} />
+      <Countdown date={Date.now() + props.timeExam} renderer={renderer} />
     </div>
   );
 }

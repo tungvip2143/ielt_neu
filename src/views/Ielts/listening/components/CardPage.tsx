@@ -13,6 +13,7 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
+import { AnyARecord } from "dns";
 
 interface CardTotalPageExamsI {
   questions: any;

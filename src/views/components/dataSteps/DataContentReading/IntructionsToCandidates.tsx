@@ -10,7 +10,7 @@ const IntructionsToCandidates = (props: Props) => {
   return (
     <>
       <ul style={{ ...styleListRule, marginTop: "16px", marginBottom: "16px" }}>
-        <li>Answer both parts.</li>
+        <li>Answer all the questions.</li>
         <li>You can change your answers at any time during the test.</li>
       </ul>
     </>

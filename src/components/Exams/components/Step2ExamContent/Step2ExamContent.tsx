@@ -31,6 +31,9 @@ const Step2ExamContent = (props: any) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
+  const [questionType, setQuestionType] = useState();
+  console.log("questionType", questionType);
+
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   const part = data;
   const group = test === IELT_TEST.READING ? data[groupSelected.part]?.groups : [];
@@ -45,12 +48,19 @@ const Step2ExamContent = (props: any) => {
   const onClickPart = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
+
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
   };
+
   const hightLightNumberPageClickQuestion = (displayNumber: any) => {
     setHightLightNumberPage(displayNumber);
   };
+
+  const onClickQuestionType = (questionType: any) => {
+    setQuestionType(questionType);
+  };
+
   const partRenderSelected = useMemo(() => {
     const questionsWithPageNumberTemp = (questions as any) || [];
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
@@ -69,7 +79,7 @@ const Step2ExamContent = (props: any) => {
   return (
     <>
       <Box sx={{ margin: "0 15px" }}>
-        <CardPart part={groupSelected.part + 1} content={contentPart}></CardPart>
+        <CardPart content={questionType}></CardPart>
       </Box>
       <Box sx={{ position: "relative" }}>
         <Box sx={{ padding: "0 15px", mt: "15px" }}>
@@ -95,6 +105,7 @@ const Step2ExamContent = (props: any) => {
                     showQuestion={showQuestion}
                     onHightLightNumberPage={hightLightNumberPageClickQuestion}
                     displayNumber={displayNumber}
+                    onClickQuestionType={onClickQuestionType}
                   />
                 }
                 width={6}

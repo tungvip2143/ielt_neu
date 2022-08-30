@@ -46,13 +46,13 @@ const RuleExam = (props: Props) => {
   return (
     <Box sx={container}>
       <Text.DescMedium sx={{ fontWeight: 700 }}>IELTS Academic {typeExam} </Text.DescMedium>
-      <Text.DescSmall sx={textTime}>Time:{time}</Text.DescSmall>
+      <Text.DescSmall sx={textTime}>Time: {time}</Text.DescSmall>
       <Text.DescMedium sx={textTitle}>INSTRUCTIONS TO CANDIDATES</Text.DescMedium>
       {informationsForCandidates}
       <Text.DescMedium sx={textTitle}>INFORMATION FOR CANDIDATES</Text.DescMedium>
       {intructionsToCandidates}
-      <Box sx={{ ...themeCssSx.flexBox.flexBetWeen }}>
-        <HelpFooter textHelp={textHelp} />
+      <Box sx={{ ...themeCssSx.flexBox.flexJusCenter }}>
+        <HelpFooter textHelp={textHelp} image={ImgHelp} />
       </Box>
       <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
     </Box>
