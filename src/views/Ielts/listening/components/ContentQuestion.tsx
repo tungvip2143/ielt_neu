@@ -36,7 +36,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       return ContentQuestion?.questions.map((question: any) => {
         return (
           <>
-            <SentenceCompletetion data={question} />
+            <SentenceCompletetion onClickPage={onClickPage} displayNumber={displayNumber} data={question} />
           </>
         );
       });
