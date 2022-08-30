@@ -28,7 +28,7 @@ const ContestManagement = () => {
   const history = useHistory();
   const onDeletePart = async (item: any) => {
     try {
-      await contestService.deletePart(item?.id);
+      await contestService.deleteExamination(item?.id);
       refetchDataTable();
     } catch (error) {
       console.log("error");
@@ -42,7 +42,7 @@ const ContestManagement = () => {
       <div style={{ textAlign: "end", marginBottom: 10 }}>
         <Link to={RouteBase.CreateContestManagement}>
           <ButtonUpload
-            titleButton="Create contest"
+            titleButton="Create examination"
             icon={<AddIcon />}
             onClick={() => {}}
             style={{ background: "#9155FE" }}
@@ -56,7 +56,7 @@ const ContestManagement = () => {
             {
               flex: 1,
               field: "name",
-              renderHeader: () => <Typography style={styles.titleTable}>Name Contest</Typography>,
+              renderHeader: () => <Typography style={styles.titleTable}>Examination name</Typography>,
             },
             {
               flex: 1,

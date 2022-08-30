@@ -4,7 +4,7 @@ import MPartReading from "models/Reading/Part.model";
 import { useEffect, useState } from "react";
 import ReadingService from "services/ReadingService";
 
-const useGetParts = () => {
+const useGetPartReading = () => {
   const [dataParts, setDataParts] = useState<MPartReading[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
@@ -29,13 +29,12 @@ const useGetParts = () => {
     const fetchData = async () => {
       try {
         const response = await ReadingService.getListParts(params);
-        console.log('responseReading',response);
-        
-        
+        console.log("responseReading", response);
+
         if (response.data.statusCode === 200) {
           const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
-          console.log('parts',parts);
-           
+          console.log("parts", parts);
+
           setDataParts(parts);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }
@@ -45,7 +44,7 @@ const useGetParts = () => {
         setLoading(false);
       }
     };
-    fetchData();  
+    fetchData();
   }, [params]);
 
   const onPageChange = (page: number) => {
@@ -58,4 +57,4 @@ const useGetParts = () => {
   return [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
 };
 
-export default useGetParts;
+export default useGetPartReading;
