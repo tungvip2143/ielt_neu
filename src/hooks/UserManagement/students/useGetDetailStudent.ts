@@ -1,9 +1,9 @@
 import UserPart from "models/Reading/UserPart";
 import { useEffect, useState } from "react";
-import userService from "services/studentService";
+import userService from "services/userService";
 
-const useGetPartDetail = (id: any) => {
-  const [dataPartDetail, setDataPartDetail] = useState<UserPart>();
+const useGetDetailStudent = (id: any) => {
+  const [dataPartDetail, setDataPartDetail] = useState<UserPart[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
@@ -41,4 +41,4 @@ const useGetPartDetail = (id: any) => {
   return [dataPartDetail, loading, error, refetchData];
 };
 
-export default useGetPartDetail;
+export default useGetDetailStudent;

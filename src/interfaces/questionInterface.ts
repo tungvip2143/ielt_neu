@@ -28,6 +28,9 @@ export interface ResponseParams {
   userIds?: string[];
   dob?: Date;
   password?: string;
+  studentCode?: string;
+  userId?: string;
+  image?: string;
 }
 
 export interface QuestionTypeI {

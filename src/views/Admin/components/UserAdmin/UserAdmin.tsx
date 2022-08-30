@@ -2,12 +2,13 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Card, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
-import CommonActionMenu from "./UserDetailModal";
 import CommonDataGrid from "components/CommonDataGrid";
-import useGetParts from "hooks/UserManagement/useGetParts";
 import { Link, useHistory } from "react-router-dom";
-import userService from "services/userService";
 import { RouteBase } from "constants/routeUrl";
+import useGetListStudents from "hooks/UserManagement/students/useGetListStudents";
+import studentService from "services/studentService";
+import CommonActionMenu from "components/CommonActionMenu";
+import { toast } from "react-toastify";
 
 const styles = {
   titleTable: {
@@ -18,7 +19,6 @@ const styles = {
 
 const UserAdmin = () => {
   //! State
-
   const {
     data: dataParts,
     loading,
@@ -27,18 +27,19 @@ const UserAdmin = () => {
     meta: metaPart,
     onPageChange,
     onPageSizeChange,
-  } = useGetParts();
-
+  } = useGetListStudents();
+  
   const history = useHistory();
 
   const onDeletePart = async (item: any) => {
     try {
-      await userService.deletePart(item?.id);
-      refetchDataTable();
+      await studentService.deletePart(item?.row?._id)
+      await refetchDataTable();
+      await toast.success("Delete success!");
     } catch (error) {
-      console.log("error");
+      toast.error("Error!");
     }
-  };
+  };  
 
   //! Render
   return (
@@ -59,8 +60,13 @@ const UserAdmin = () => {
           columns={[
             {
               flex: 1,
-              field: "email",
-              renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
+              field: "studentCode",
+              renderHeader: () => <Typography style={styles.titleTable}>Student Code</Typography>,
+            },
+            {
+              flex: 1,
+              field: "fullname",
+              renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
             },
             {
               flex: 1,
@@ -79,8 +85,17 @@ const UserAdmin = () => {
               hideSortIcons: true,
               disableColumnMenu: true,
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-              renderCell: (items: any) => {
-                return <CommonActionMenu row={items} />;
+              renderCell: (items: any) => {    
+                return <CommonActionMenu
+                onEdit={() => {
+                  history.push({
+                    pathname: RouteBase.UpdateUserWID(items?.row?.fullname),
+                    search: `?id=${items?.id}`,
+                  });
+                }}
+                onSubmitRemove={onDeletePart}
+                row={items}
+              />;
               },
             },
           ]}
