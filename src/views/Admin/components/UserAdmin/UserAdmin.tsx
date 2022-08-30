@@ -70,6 +70,11 @@ const UserAdmin = () => {
             },
             {
               flex: 1,
+              field: "candidateCode",
+              renderHeader: () => <Typography style={styles.titleTable}>Candidate Code</Typography>,
+            },
+            {
+              flex: 1,
               field: "createdAt",
               renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
             },
