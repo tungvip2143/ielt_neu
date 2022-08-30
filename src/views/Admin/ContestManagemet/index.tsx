@@ -68,11 +68,11 @@ const ContestManagement = () => {
               field: "updatedAt",
               renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
             },
-            {
-              flex: 1,
-              field: "active",
-              renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
-            },
+            // {
+            //   flex: 1,
+            //   field: "active",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
+            // },
             {
               flex: 0.3,
               field: "action",
