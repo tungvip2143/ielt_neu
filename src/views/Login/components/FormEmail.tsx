@@ -1,19 +1,17 @@
-import React from "react";
 //
-import { Formik, Form, FastField } from "formik";
-import ErrorFocus from "components/ErrorFocus";
-import InputField from "components/CustomField/InputField";
-import { GetAuthSelector } from "redux/selectors/auth";
-import useSagaCreators from "hooks/useSagaCreators";
-import { authActions } from "redux/creators/modules/auth";
-import { useLogin, studentLogin } from "hooks/auth/useAuth";
-import { Link, Redirect, useHistory } from "react-router-dom";
 import Button from "@mui/material/Button";
-import * as Yup from "yup";
-import { RouteBase } from "constants/routeUrl";
-import { useIeltsTestCode } from "hooks/ielts/useIelts";
-import { IeltsActions } from "redux/creators/modules/ielts";
+import InputField from "components/CustomField/InputField";
+import ErrorFocus from "components/ErrorFocus";
 import LoadingPage from "components/Loading";
+import { RouteBase } from "constants/routeUrl";
+import { FastField, Form, Formik } from "formik";
+import { studentLogin } from "hooks/auth/useAuth";
+import { useIeltsTestCode } from "hooks/ielts/useIelts";
+import useSagaCreators from "hooks/useSagaCreators";
+import { useHistory } from "react-router-dom";
+import { authActions } from "redux/creators/modules/auth";
+import { GetAuthSelector } from "redux/selectors/auth";
+import * as Yup from "yup";
 // !type
 interface InitialValueExam {
   candidateCode: string;
@@ -58,7 +56,6 @@ const FormEmail = () => {
       { examination: examinationId },
       {
         onSuccess: (response: any) => {
-          console.log("response", response);
           localStorage.setItem("testCode", response?.data?.data?.testCode);
           history.push(RouteBase.IeltsListening);
         },
