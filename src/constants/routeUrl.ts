@@ -55,10 +55,16 @@ export const RouteBase = {
   UpdateReadingWId: (id: string | number) => `/admin/reading/${id}`,
 
   //Contest
-  ContestManagement: "/admin/contestManagement",
-  CreateContestManagement: "/admin/contestManagement/create",
-  UpdateContestManagement: "/admin/contestManagement/:id",
-  UpdateContestManagementWId: (id: string | number) => `/admin/contestManagement/${id}`,
+  ContestManagement: "/admin/examination",
+  CreateContestManagement: "/admin/examination/create",
+  UpdateContestManagement: "/admin/examination/:id",
+  UpdateContestManagementWId: (id: string | number) => `/admin/examination/${id}`,
   //Static
   StaticManagement: "/admin/staticManagement",
+
+  //Test bank
+  TestBank: "/admin/testbank",
+  CreateTest: "/admin/testbank/create",
+  UpdateTest: "/admin/testbank/:id",
+  UpdateTestWId: (id: string | number) => `/admin/testbank/${id}`,
 };

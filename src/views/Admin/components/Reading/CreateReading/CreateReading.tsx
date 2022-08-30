@@ -38,7 +38,6 @@ export interface Props {
 const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
-  console.log("editorRefReading", editorRef.current);
   const [text, setText] = useState<boolean>(false);
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");

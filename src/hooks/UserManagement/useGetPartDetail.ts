@@ -1,9 +1,9 @@
 import UserPart from "models/Reading/UserPart";
 import { useEffect, useState } from "react";
-import userService from "services/userService";
+import userService from "services/studentService";
 
 const useGetPartDetail = (id: any) => {
-  const [dataPartDetail, setDataPartDetail] = useState<UserPart[]>([]);
+  const [dataPartDetail, setDataPartDetail] = useState<UserPart>();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
