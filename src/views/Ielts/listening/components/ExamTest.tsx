@@ -12,6 +12,7 @@ import ContentQuestion from "./ContentQuestion";
 import ReactAudioPlayer from "react-audio-player";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   data: any;
@@ -59,14 +60,6 @@ const ExamTest = (props: Props) => {
 
     return null;
   }, [groupSelected]);
-
-  // useEffect(() => {
-  //   let part = groupSelected.part;
-  //   let group = groupSelected.group;
-  //   let question = groupSelected.question;
-
-  //   setGroupSelected({ ...groupSelected, part, group, question });
-  // }, []);
 
   //! Function
   const onEachAudioEnded = () => {
@@ -134,10 +127,15 @@ const IeltsListeningContainer = () => {
     return localStorage.getItem("testCode");
   }, []);
 
-  const { data, isLoading } = useIeltsListening(testCode);
+  const history = useHistory();
+
+  const { data, isLoading, error } = useIeltsListening(testCode);
 
   if (isLoading) {
     return <LoadingPage />;
+  }
+  if (error) {
+    history.push("/login");
   }
 
   return <ExamTest data={data?.data.data} />;
