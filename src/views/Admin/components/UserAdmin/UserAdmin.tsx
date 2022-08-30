@@ -74,6 +74,16 @@ const UserAdmin = () => {
               renderHeader: () => <Typography style={styles.titleTable}>Candidate Code</Typography>,
             },
             {
+              flex: 1,
+              field: "createdAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
+            },
+            {
+              flex: 1,
+              field: "updatedAt",
+              renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
+            },
+            {
               flex: 0.3,
               field: "action",
               filterable: false,
