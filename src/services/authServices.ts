@@ -28,7 +28,7 @@ class AuthService {
     return httpServices.post(AUTH_URL.RESEND_CODE, {}, { headers: { Authorization: `Bearer ${accessToken}` } });
   }
 
-  login(body = { candidatesCode: "", studentCode: "" }) {
+  login(body = { email: "", password: "" }) {
     return httpServices.post(AUTH_URL.LOGIN, body);
   }
   studentLogin(body = { candidateCode: "", studentCode: "" }) {

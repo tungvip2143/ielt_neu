@@ -1,15 +1,11 @@
 import { Box, Button, Stack } from "@mui/material";
-import ImgEmail from "assets/image/login/email.svg";
-import ImgFacebook from "assets/image/login/facebook.svg";
-import ImgGoogle from "assets/image/login/google.svg";
 import InputField from "components/CustomField/InputField";
 import ErrorFocus from "components/ErrorFocus";
 import { RouteBase } from "constants/routeUrl";
 import { FastField, Form, Formik } from "formik";
 import { useLogin } from "hooks/auth/useAuth";
 import useSagaCreators from "hooks/useSagaCreators";
-import { useGetLocation } from "provider/LocationProvider";
-import { Redirect, useHistory } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import { GetAuthSelector } from "redux/selectors/auth";
 import CardView from "views/Login/components/CardView";
@@ -33,12 +29,6 @@ const input = {
   borderBottom: "1px solid rgb(138, 140, 145)",
   height: "3rem",
 };
-const forgotPassword = {
-  fontSize: "12px",
-  float: "right",
-  color: "#8a8c91",
-  marginBottom: "5px",
-};
 const btn = {
   width: "100%",
   borderRadius: "16px",
@@ -50,18 +40,7 @@ const btn = {
 const LoginAdminPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
-
-  const handleLoginEmail = () => {
-    history.push("/login/email");
-  };
-
   const { mutateAsync: login } = useLogin();
-  const history = useHistory();
-  const { initialPathName } = useGetLocation();
-
-  const signIn = () => {
-    console.log("123");
-  };
   const validate = Yup.object({
     email: Yup.string().min(5, "*Must be 5 characters").required("Required"),
     password: Yup.string().min(5, "*Must be 10 characters").required("Required"),
@@ -76,8 +55,7 @@ const LoginAdminPage = (props: any) => {
   if (isLogin) {
     return <Redirect to="/admin" />;
   }
-  //   history.push(RouteBase.IeltsWithExam(values?.exam?.id));
-  //history.push("/login/email");
+
   return (
     <>
       <Formik
