@@ -31,6 +31,7 @@ export interface ResponseParams {
   studentCode?: string;
   userId?: string;
   image?: string;
+  data?: [];
 }
 
 export interface QuestionTypeI {

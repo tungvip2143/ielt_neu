@@ -17,10 +17,12 @@ export const authSagas = {
   [authActions.checkAuth]: {
     saga: function* ({ payload = {} }) {
       const infoLocalStorage = authServices.getUserLocalStorage();
-      if (!isEmpty(infoLocalStorage)) {
+      const userType = authServices.getUserTypeFromLocalStorage();
+
+      if (!isEmpty(infoLocalStorage) && !isEmpty(userType)) {
         const { token } = infoLocalStorage;
         yield httpServices.attachTokenToHeader(token);
-        yield put({ type: authActions.saveInfoUser, payload: { token } });
+        yield put({ type: authActions.saveInfoUser, payload: { token, userType } });
       } else {
         yield put({ type: authActions.saveInfoUserFailed });
       }
