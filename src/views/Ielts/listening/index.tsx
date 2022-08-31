@@ -3,12 +3,11 @@ import ExamTest from "./components/ExamTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
 //
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
 import { Form, Formik } from "formik";
 import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
@@ -21,12 +20,21 @@ import ModalHide from "../../../components/Modal/ModalHide";
 import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
-import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 import { GetAuthSelector } from "redux/selectors/auth";
 import { RouteBase } from "constants/routeUrl";
 import LoadingPage from "components/Loading";
+import { makeStyles } from "@mui/styles";
 //
+const useStyles = makeStyles((theme) => {
+  return {
+    containerSteps: {
+      paddingTop: "16px",
+      background: theme.palette.background.exam,
+      height: "100%",
+    },
+  };
+});
 const stepRuleExam = {
   typeExam: "Listening",
   time: "1 hour",
@@ -34,11 +42,6 @@ const stepRuleExam = {
   intructionsToCandidates: <IntructionsToCandidates />,
 };
 
-const containerSteps = {
-  pt: "16px",
-  background: "#dbe5f5",
-  height: "100%",
-};
 const styleModal = {
   width: "770px",
   padding: "10px !important",
@@ -64,13 +67,18 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
+
   const { step, handler } = useStepExam();
+
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
+
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
+
   const history = useHistory();
 
+  const classes = useStyles();
   //! Function
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
@@ -91,19 +99,18 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);
   }, []);
+
   const handleCloseModalHelp = () => {
     setIsOpenModalHelp(false);
   };
-  //
+
   const handleOpenModalHide = useCallback(() => {
     setIsOpenModalHide(true);
   }, []);
+
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
-  //
-
-  // useCheckTestCode(Number(testCode));
 
   //! Render
   if (isLoading) {
@@ -121,7 +128,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 numberStep={TypeStepExamEnum.STEP4}
               />
 
-              <Box sx={containerSteps}>
+              <Box className={classes.containerSteps}>
                 {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
                 {step === TypeStepExamEnum.STEP3 && (

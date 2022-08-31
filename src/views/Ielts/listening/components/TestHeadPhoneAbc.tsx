@@ -13,6 +13,8 @@ import Box from "@mui/material/Box";
 import ReactAudioPlayer from "react-audio-player";
 // @ts-ignore
 import audio from "assets/audio/testSound/test-audio.mp3";
+import { textHeaderModal, warningDetailUser, textBtnSubmit } from "constants/constants";
+
 //
 const TestHeadPhoneAbc = () => {
   const [testSound, setTestSound] = React.useState(false);
@@ -53,7 +55,7 @@ const TestHeadPhoneAbc = () => {
     <Box sx={containerTest}>
       {testSound && <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} />}
       <div className="">
-        <Title image={ImgHeadPhone} text="Test sound" />
+        <Title image={ImgHeadPhone} text={textHeaderModal.testSound} />
         <Container>
           <Text.Desc16 sx={{ mb: "15px" }}>
             Put on your headphones and click on the Play sound button to play a sample sound.
@@ -63,8 +65,8 @@ const TestHeadPhoneAbc = () => {
               {testSound === false && <>Play sound</>} {testSound === true && <>Stop sound</>}
             </Button>
           </Box>
-          <HelpFooter textHelp="If your details are not correct, please inform the invigilator." image={ImgHelpError} />
-          <FooterSubmit textBtn="Continue" nextStep={nextStep} />
+          <HelpFooter textHelp={warningDetailUser.checkInformation} image={ImgHelpError} />
+          <FooterSubmit textBtn={textBtnSubmit.continue} nextStep={nextStep} />
         </Container>
       </div>
     </Box>
