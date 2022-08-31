@@ -11,7 +11,7 @@ class userService {
   }
 
   getListExamDetail(id: any, examId?: any) {
-    return httpServices.get(ADMIN_CONTEST_URL(id).GET_EXAMINATION_DETAIL);
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_EXAMINATION_DETAIL + id);
   }
 
   getListExamDetailGen(id: any, examId?: any) {
