@@ -49,7 +49,7 @@ const Reading = (props: Props) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
       return (
         <QuestionBox
-          onClickPage={() => {}}
+          onClickPage={() => { }}
           displayNumber={1}
           questions={group?.questions}
           questionBox={group?.questionBox}
@@ -58,19 +58,21 @@ const Reading = (props: Props) => {
       );
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-      return group?.questions?.map((el: any) => {
-        return (
-          <MachingHeading
-            onHightLightNumberPage={() => null}
-            question={group?.questions}
-            answerList={group?.answerList}
-            data={el}
-            onClickPage={() => {}}
-            displayNumber={1}
-            isView
-          />
-        );
-      });
+      // return group?.questions?.map((el: any) => {
+      console.log('++++++++++++++++++++++',);
+
+      return (
+        <MachingHeading
+          onHightLightNumberPage={() => null}
+          question={group?.questions}
+          answerList={group?.answerList}
+          data={group?.questions}
+          onClickPage={() => { }}
+          displayNumber={1}
+          isView
+        />
+      );
+      // });
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
       return (
@@ -109,7 +111,7 @@ const Reading = (props: Props) => {
                     {el?.groups?.map((group: any) => {
                       return (
                         <div>
-                          <Typography className="titlePart">{group?.questionBox}</Typography>
+                          <div dangerouslySetInnerHTML={{ __html: group?.questionBox }} />
                           {renderQuestion(group)}
                         </div>
                       );
