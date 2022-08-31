@@ -10,7 +10,7 @@ type Props = {
 const SentenceCompletetion = (props: Props) => {
   const { data, displayNumber, onClickPage } = props;
   const displayNumberI = data?.question?.displayNumber;
-  console.log("ffsdfsd", data);
+  console.log("``", data);
 
   const { handleChange, values }: any = useFormikContext();
 

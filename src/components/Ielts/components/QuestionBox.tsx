@@ -1,6 +1,6 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 
 type Props = {
   questionBox: any;
@@ -17,10 +17,9 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 };
 
 const QuestionBox = (props: Props) => {
+  const [questionitem, setQuestionItem] = useState<any>();
   const { questionBox, questions, displayNumber, onClickPage } = props;
-
   const { handleChange, values, setFieldValue }: any = useFormikContext();
-
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
@@ -39,7 +38,9 @@ const QuestionBox = (props: Props) => {
       input?.focus();
     }
   }, [displayNumber]);
+  //
 
+  //
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
     inputIndex++;
@@ -48,7 +49,7 @@ const QuestionBox = (props: Props) => {
       input.value = values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<input class="${inputIndex}"  name='answers.[${blankId - 1}].studentAnswer' 
+      `<strong>${blankId}</strong><input class="${inputIndex}"  name='answers.[${blankId - 1}].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });
@@ -59,8 +60,11 @@ const QuestionBox = (props: Props) => {
   };
 
   const test: any = Handlebars.compile(newQuestionBoxParsed);
+
   return (
-    <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+    <>
+      <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+    </>
   );
 };
 
