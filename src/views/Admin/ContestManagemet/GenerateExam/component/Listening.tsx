@@ -44,6 +44,7 @@ const Listening = (props: Props) => {
           displayNumber={1}
           questions={group?.questions}
           questionBox={group?.questionBox}
+          isView
         />
       );
     }
@@ -54,6 +55,7 @@ const Listening = (props: Props) => {
           displayNumber={1}
           questions={group?.questions}
           questionBox={group?.questionBox}
+          isView
         />
       );
     }
@@ -67,16 +69,19 @@ const Listening = (props: Props) => {
             data={el}
             onClickPage={() => {}}
             displayNumber={1}
+            isView
           />
         );
       });
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} />;
+      return (
+        <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} isView />
+      );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return group?.questions.map((question: any) => {
-        return <SentenceCompletetion data={question} />;
+        return <SentenceCompletetion data={question} isView />;
       });
     }
     if (
@@ -84,7 +89,7 @@ const Listening = (props: Props) => {
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      return <MultiChoice onClickPage={() => null} dataQuestions={group?.questions} audio={null} />;
+      return <MultiChoice isView onClickPage={() => null} dataQuestions={group?.questions} audio={null} />;
     }
   };
 

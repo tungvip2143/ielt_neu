@@ -5,10 +5,11 @@ type Props = {
   data?: any;
   displayNumber?: number;
   onClickPage?: (option: any) => void;
+  isView?: boolean
 };
 
 const SentenceCompletetion = (props: Props) => {
-  const { data, displayNumber, onClickPage } = props;
+  const { data, displayNumber, onClickPage, isView = false } = props;
   const displayNumberI = data?.question?.displayNumber;
   console.log("ffsdfsd", data);
 
@@ -26,10 +27,10 @@ const SentenceCompletetion = (props: Props) => {
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
     if (input) {
-      input.value = values.answers[displayNumberI - 1]?.studentAnswer;
+      input.value = isView ? '' : values.answers[displayNumberI - 1]?.studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<strong>${data?.question?.displayNumber}</strong> <input class="${displayNumberI}" name='answers.[${displayNumberI - 1
+      `<strong>${data?.question?.displayNumber}</strong> <input disabled=${isView} class="${displayNumberI}" name='answers.[${displayNumberI - 1
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
   });

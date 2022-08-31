@@ -29,11 +29,12 @@ type Props = {
   question?: any;
   onClickPage?: (options: any) => void;
   displayNumber: number;
+  isView?: boolean
 };
 
 const FlowChart = (props: Props) => {
   const classes = useStyles();
-  const { image, question, onClickPage, displayNumber } = props;
+  const { image, question, onClickPage, displayNumber, isView = false } = props;
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
@@ -62,6 +63,7 @@ const FlowChart = (props: Props) => {
                 <strong>{`${answer?.question?.displayNumber}.`}</strong>
               </span>
               <FastField
+                disabled={isView}
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
                 component={TextField}
