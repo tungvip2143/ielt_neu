@@ -25,31 +25,21 @@ const Reading = (props: Props) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
-          //   onHightLightNumberPage={onHightLightNumberPage}
           answerList={group?.answerList}
           questionBox={group?.questionBox}
           data={group?.questions}
           isView={true}
-          // onClickPage={onClickPage}
           displayNumber={1}
         />
       );
     }
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-      return (
-        <QuestionBox
-          // onClickPage={onClickPage}
-          displayNumber={1}
-          questions={group?.questions}
-          questionBox={group?.questionBox}
-          isView
-        />
-      );
+      return <QuestionBox displayNumber={1} questions={group?.questions} questionBox={group?.questionBox} isView />;
     }
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
       return (
         <QuestionBox
-          onClickPage={() => { }}
+          onClickPage={() => {}}
           displayNumber={1}
           questions={group?.questions}
           questionBox={group?.questionBox}
@@ -58,21 +48,17 @@ const Reading = (props: Props) => {
       );
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-      // return group?.questions?.map((el: any) => {
-      console.log('++++++++++++++++++++++',);
-
       return (
         <MachingHeading
           onHightLightNumberPage={() => null}
           question={group?.questions}
           answerList={group?.answerList}
           data={group?.questions}
-          onClickPage={() => { }}
+          onClickPage={() => {}}
           displayNumber={1}
           isView
         />
       );
-      // });
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
       return (
@@ -105,13 +91,19 @@ const Reading = (props: Props) => {
                     <Typography className="titlePart">
                       Part {el?.partNumber}: {el?.passageTitle}
                     </Typography>
-                    {/* <Typography className="titlePart">{el?.passageText}</Typography> */}
+                    <div dangerouslySetInnerHTML={{ __html: el?.passageText }} />
                   </div>
                   <div className="listeningWrapper" style={{ marginLeft: "20px" }}>
                     {el?.groups?.map((group: any) => {
                       return (
                         <div>
-                          <div dangerouslySetInnerHTML={{ __html: group?.questionBox }} />
+                          {/* {group?.questionType === QUESTION_TYPE.NOTE_COMPLETION &&
+                          group?.questionType === QUESTION_TYPE.SUMMARY_COMPLETION ? (
+                            <div dangerouslySetInnerHTML={{ __html: group?.questionBox }} />
+                          ) : (
+                            <Typography className="titlePart">{group?.questionBox}</Typography>
+                          )} */}
+
                           {renderQuestion(group)}
                         </div>
                       );
