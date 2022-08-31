@@ -1,7 +1,9 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import BlockIcon from "@mui/icons-material/Block";
 import SaveIcon from "@mui/icons-material/Save";
-import { Stack, Typography } from "@mui/material";
+import UndoIcon from "@mui/icons-material/Undo";
+import BorderColorOutlinedIcon from "@mui/icons-material/BorderColorOutlined";
+import { Button, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
@@ -51,14 +53,15 @@ const CreateContest = (props: Props) => {
     useContestManagemet();
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
 
+  const [dataFileExcel, setDataFileExcel] = useState([]);
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
     defaultValues: { name: dataPartDetail?.name || "" },
   });
+  console.log(dataPartDetail, "dataPartDetail111");
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
-  const [dataFileExcel, setDataFileExcel] = useState([]);
   const handlePickImage = () => {
     fileRef.current.click();
   };
@@ -73,9 +76,9 @@ const CreateContest = (props: Props) => {
         const responseFile = await fileService.postFileExcel(formData);
         if (responseFile?.data?.statusCode === 200) {
           setFile(responseFile?.data?.data?.uri);
-          console.log("responseFile", responseFile);
-
-          setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
+          toast.success("Upload file success");
+          setValueUserId(responseFile?.data?.data?.studentIds);
+          // setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
           setDataFileExcel(responseFile?.data?.data);
         }
       } catch (error) {}
@@ -99,6 +102,7 @@ const CreateContest = (props: Props) => {
       reset({
         name: data?.name,
         active: data?.active,
+        // dataFileExcel: data?.dataFileExcel,
       });
     },
     [reset]
@@ -112,7 +116,26 @@ const CreateContest = (props: Props) => {
       </Stack>
     );
   };
-
+  const renderButtonUpdate = () => {
+    return (
+      <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.goBack()}>
+          Back
+        </Button>
+        {!isEdit ? (
+          <Button variant="contained" onClick={() => setIsEdit(true)}>
+            <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
+            Edit
+          </Button>
+        ) : (
+          <>
+            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
+          </>
+        )}
+      </Stack>
+    );
+  };
   const handleChange = (event: any) => {
     if (isArray(valueUserId) && valueUserId?.includes(event.target.value)) {
       setValueUserId(valueUserId.filter((elm) => elm != event.target.value));
@@ -161,6 +184,7 @@ const CreateContest = (props: Props) => {
 
   return (
     <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
+      {openCreateScreen.type === "update" && renderButtonUpdate()}
       <div className="cardContainer">
         <div className="flex-1">
           <Typography style={{ fontWeight: "bold" }}>Examination name</Typography>
