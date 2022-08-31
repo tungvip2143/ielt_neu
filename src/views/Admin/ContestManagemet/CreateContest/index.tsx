@@ -22,6 +22,7 @@ import fileService from "services/fileService";
 import * as yup from "yup";
 import ListUserContest from "./ListUserContest";
 import "./styles.scss";
+import ListStudentId from "./ListStudentId";
 
 export interface Props {
   openCreateScreen: {
@@ -77,8 +78,8 @@ const CreateContest = (props: Props) => {
         if (responseFile?.data?.statusCode === 200) {
           setFile(responseFile?.data?.data?.uri);
           toast.success("Upload file success");
-          setValueUserId(responseFile?.data?.data?.studentIds);
-          // setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
+          // setValueUserId(responseFile?.data?.data?.studentIds);
+          setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
           setDataFileExcel(responseFile?.data?.data);
         }
       } catch (error) {}
@@ -99,6 +100,7 @@ const CreateContest = (props: Props) => {
   //! Function
   const resetAsyncForm = useCallback(
     async (data: any) => {
+      console.log("1111", data);
       reset({
         name: data?.name,
         active: data?.active,
@@ -149,7 +151,7 @@ const CreateContest = (props: Props) => {
       const body = {
         name: data.name,
         active: data.active,
-        userIds: valueUserId,
+        studentIds: valueUserId,
       };
 
       try {
@@ -164,15 +166,19 @@ const CreateContest = (props: Props) => {
       }
     }
     if (openCreateScreen.type === "update") {
-      const body = {
+      const body: any = {
         name: data.name,
         active: data.active,
-        userIds: valueUserId,
+        // studentIds: valueUserId,
       };
+      if (valueUserId.length) {
+        body.studentIds = valueUserId;
+      }
 
       try {
         const response = await contestService.putUpdateExamination(id, body);
         if (response.data.statusCode === 200) {
+          refetchData();
           toast.success("Update part success!");
         }
       } catch (error: any) {
@@ -220,12 +226,13 @@ const CreateContest = (props: Props) => {
           style={{ display: "flex", height: 40, marginBottom: 10, marginTop: 10 }}
           titleButton="Import file user"
           onClick={handlePickImage}
+          disabled={openCreateScreen.type === "update" && !isEdit}
         />
       </div>
-
       {openCreateScreen.type === "create" && renderButtonCreate()}
       <div className="mt-10">
-        <ListUserContest dataFileExcel={dataFileExcel} />
+        {openCreateScreen.type === "create" && <ListUserContest dataFileExcel={dataFileExcel} />}
+        {openCreateScreen.type === "update" && <ListStudentId studentIds={dataPartDetail?.studentIds || []} />}
       </div>
     </form>
   );
