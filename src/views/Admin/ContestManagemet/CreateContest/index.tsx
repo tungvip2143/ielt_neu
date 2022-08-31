@@ -38,6 +38,8 @@ const CreateContest = (props: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [valueUserId, setValueUserId] = useState<string[]>([]);
 
+  console.log("valueUserId", valueUserId);
+
   const validationSchema = yup.object().shape({
     name: yup.string().required("This field is required!"),
     active: yup.string().required("This field is required!"),
@@ -70,11 +72,10 @@ const CreateContest = (props: Props) => {
       try {
         const responseFile = await fileService.postFileExcel(formData);
         if (responseFile?.data?.statusCode === 200) {
+          setFile(responseFile?.data?.data?.uri);
           console.log("responseFile", responseFile);
 
-          setFile(responseFile?.data?.data?.uri);
-          toast.success("Upload file success");
-          setValueUserId(responseFile?.data?.data?.studentIds);
+          setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
           setDataFileExcel(responseFile?.data?.data);
         }
       } catch (error) {}
