@@ -73,7 +73,7 @@ const GenerateExam = () => {
         columns={[
           {
             flex: 1,
-            field: "examination",
+            field: "id",
             renderHeader: () => <Typography>Examination id</Typography>,
           },
           {
