@@ -6,6 +6,7 @@ import HelpFooter from "../HelpFooter/HelpFooter";
 import FooterSubmit from "../FooterSubmit/FooterSubmit";
 import { makeStyles } from "@mui/styles";
 import { warningDetailUser, textBtnSubmit } from "constants/constants";
+import imgHelp from "assets/image/exam/help.png";
 // ! type
 interface Props {
   stepRuleExam: {
@@ -50,13 +51,14 @@ const RuleExam = (props: Props) => {
   return (
     <Box className={classes.container}>
       <Text.DescMedium sx={{ fontWeight: 700 }}>IELTS Academic {typeExam} </Text.DescMedium>
-      <Text.DescSmall sx={textTime}>Time:{time}</Text.DescSmall>
+      <Text.DescSmall sx={textTime}>Time: {time}</Text.DescSmall>
       <Text.DescMedium sx={textTitle}>INSTRUCTIONS TO CANDIDATES</Text.DescMedium>
       {informationsForCandidates}
       <Text.DescMedium sx={textTitle}>INFORMATION FOR CANDIDATES</Text.DescMedium>
       {intructionsToCandidates}
-      <Box sx={{ ...themeCssSx.flexBox.flexBetWeen }}>
-        <HelpFooter textHelp={warningDetailUser.onStartTest} />
+
+      <Box sx={{ ...themeCssSx.flexBox.flexJusCenter }}>
+        <HelpFooter textHelp={warningDetailUser.onStartTest} image={imgHelp} />
       </Box>
       <FooterSubmit textBtn={textBtnSubmit.startTest} nextStep={nextStep} />
     </Box>

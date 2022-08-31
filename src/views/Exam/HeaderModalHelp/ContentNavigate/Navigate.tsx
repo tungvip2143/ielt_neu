@@ -27,11 +27,13 @@ const data = [
 // !type
 interface Props {
   handleCloseModal?: () => void;
+  typeExam?: any;
 }
 const Navigate = (props: Props) => {
   const [panel, setPanel] = React.useState<number>(1);
   //
-  const { handleCloseModal } = props;
+  const { handleCloseModal, typeExam } = props;
+
   const NavigateItem = ({ item, onHightLightNavigate }: any) => {
     const btn = {
       p: "5px 20px",
@@ -82,7 +84,7 @@ const Navigate = (props: Props) => {
         })}
       </Box>
       <Box sx={{ mb: "20px" }}>
-        {panel === 1 && <RulesExam />}
+        {panel === 1 && <RulesExam typeExam={typeExam} />}
         {panel === 2 && <TestHelp />}
         {panel === 3 && <TaskHelp />}
       </Box>

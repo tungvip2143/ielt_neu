@@ -20,6 +20,7 @@ interface TOFFLI {
   onHightLightNumberPage: (displayNumber: number) => void;
   showQuestion?: any;
   displayNumber: number;
+  onClickQuestionType?: any;
 }
 
 const TOFFL = ({
@@ -29,10 +30,11 @@ const TOFFL = ({
   showQuestion,
   onHightLightNumberPage,
   displayNumber,
+  onClickQuestionType,
 }: TOFFLI) => {
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-
+  console.log("partRenderSelected", partRenderSelected);
   //! Number
 
   const dataNumber = {
@@ -101,9 +103,7 @@ const TOFFL = ({
       <TitleExam dataNumber={dataNumber} title={partRenderSelected} />
       <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
         {renderPartValueGroup(partRenderSelected)}
-        {/* {partRenderSelected.map((item: any) => {
-          return <ItemQuestion expanded={expanded} onCollapse={handleCollapse} key={item.id} question={item} />;
-        })} */}
+        {onClickQuestionType(partRenderSelected?.questionType)}
       </Stack>
     </Box>
   );

@@ -15,6 +15,8 @@ import { textHeaderModal, warningDetailUser, textBtnSubmit } from "../../../cons
 //
 
 // !type
+import { format } from "date-fns";
+//! type
 interface Props {
   user?: any;
 }
@@ -32,8 +34,16 @@ const DetailUser = (props: Props) => {
     m: "5px 0",
   };
   const nextStep = TypeStepExamEnum.STEP2;
-  //! Reder
 
+  //
+  const handleBrithDay = () => {
+    if (user?.fullname) {
+      return format(new Date(user?.dob), "dd-MM-yyyy");
+    } else {
+      return "";
+    }
+  };
+  //! Render
   return (
     <Box sx={container}>
       <Box>

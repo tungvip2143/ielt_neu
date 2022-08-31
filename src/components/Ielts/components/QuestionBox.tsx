@@ -7,6 +7,7 @@ type Props = {
   displayNumber: number;
   questions: any[];
   onClickPage?: (option: any) => void;
+  isView?: boolean;
 };
 
 const CODE = "-@X$";
@@ -17,10 +18,7 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 };
 
 const QuestionBox = (props: Props) => {
-  const { questionBox, questions, displayNumber, onClickPage } = props;
-  // console.log("questions", questions);
-  // console.log("questionBox", questionBox);
-  // console.log("displayNumber", displayNumber);
+  const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
 
@@ -48,10 +46,10 @@ const QuestionBox = (props: Props) => {
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<input class="${inputIndex}"  name='answers.[${blankId - 1}].studentAnswer' 
+      `<input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${blankId - 1}].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });

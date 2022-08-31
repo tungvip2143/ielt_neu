@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
-import { TypeStepExamEnum } from "constants/enum";
+import { TypeStepExamEnum, TypeExam } from "constants/enum";
 //
 import { Box } from "@mui/material";
 //
@@ -12,8 +12,8 @@ import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
 //
-import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
-import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
+import InformationForCandidatesListening from "views/components/dataSteps/DataContentListening/InformationForCandidates";
+import IntructionsToCandidatesListening from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
@@ -26,6 +26,7 @@ import { RouteBase } from "constants/routeUrl";
 import LoadingPage from "components/Loading";
 import { makeStyles } from "@mui/styles";
 //
+
 const useStyles = makeStyles((theme) => {
   return {
     containerSteps: {
@@ -35,11 +36,15 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
+
+const styleListRule = {
+  padding: "0px 0px 24px 60px",
+};
 const stepRuleExam = {
   typeExam: "Listening",
-  time: "1 hour",
-  informationsForCandidates: <InformationForCandidates />,
-  intructionsToCandidates: <IntructionsToCandidates />,
+  time: "Approximately 30 minutes",
+  informationsForCandidates: <InformationForCandidatesListening styleListRule={styleListRule} />,
+  intructionsToCandidates: <IntructionsToCandidatesListening styleListRule={styleListRule} />,
 };
 
 const styleModal = {
@@ -112,6 +117,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
 
+  //
+  const timeExam = 1800000;
+
   //! Render
   if (isLoading) {
     return <LoadingPage />;
@@ -126,6 +134,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHelp={handleOpenModalHelp}
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
+                timeExam={timeExam}
               />
 
               <Box className={classes.containerSteps}>
@@ -139,7 +148,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
               </Box>
             </Box>
             {isOpenModalHelp && (
-              <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
+              <ModalHelpExam
+                open={isOpenModalHelp}
+                styleModal={styleModal}
+                handleCloseModal={handleCloseModalHelp}
+                typeExam={TypeExam.LISTENING}
+              />
             )}
             {isOpenModalHide && (
               <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />

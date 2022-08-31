@@ -80,7 +80,7 @@ const SignUp = (props: any) => {
       const responseSocial = await socialServices.loginSocial(body);
 
       if (responseSocial?.data?.data?.data?.access_token) {
-        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
+        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token, userType: "user" });
       }
     } catch (error: any) {
       toast.error(error?.response?.data?.message, {

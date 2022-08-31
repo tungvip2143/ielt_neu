@@ -128,7 +128,8 @@ const ModalCreateQuestion = (props: Props) => {
         directionText: directionRef?.current?.getContent(),
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
-        questionBox: data.questionBox,
+        questionBox:
+          questionType === "SUMMARY_COMPLETION" ? editorRef && editorRef?.current?.getContent() : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
@@ -161,7 +162,8 @@ const ModalCreateQuestion = (props: Props) => {
         directionText: directionRef?.current.getContent(),
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
-        questionBox: data.questionBox,
+        questionBox:
+          questionType === "SUMMARY_COMPLETION" ? editorRef && editorRef?.current?.getContent() : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
@@ -446,9 +448,7 @@ const ModalCreateQuestion = (props: Props) => {
           <div className="mt-5">
             <TinyMceCommon
               ref={editorRef}
-              initialValue={
-                dataQuestionDetail?.questionTypeTips ? dataQuestionDetail?.questionTypeTips : "Note completion"
-              }
+              initialValue={dataQuestionDetail?.questionBox ? dataQuestionDetail?.questionBox : "Note completion"}
               disabled={openModal.type === "detailQuestion"}
             />
             {openModal.type !== "detailQuestion" && (

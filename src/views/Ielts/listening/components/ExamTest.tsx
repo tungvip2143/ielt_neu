@@ -12,6 +12,7 @@ import ContentQuestion from "./ContentQuestion";
 import ReactAudioPlayer from "react-audio-player";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+import { useHistory } from "react-router-dom";
 
 type Props = {
   data: any;
@@ -20,6 +21,7 @@ type Props = {
 const ExamTest = (props: Props) => {
   //! State
   const { data } = props;
+  console.log("Data", data);
   const audioData = data || [];
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
 
@@ -31,6 +33,9 @@ const ExamTest = (props: Props) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
+  const [questionType, setQuestionType] = useState();
+  console.log("questionType", questionType);
+
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
 
@@ -43,6 +48,9 @@ const ExamTest = (props: Props) => {
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
   };
+  const onClickQuestionType = (questionType: any) => {
+    setQuestionType(questionType);
+  };
 
   const partRenderSelected = useMemo(() => {
     // const questionsWithPageNumberTemp = data as any;
@@ -52,14 +60,6 @@ const ExamTest = (props: Props) => {
 
     return null;
   }, [groupSelected]);
-
-  // useEffect(() => {
-  //   let part = groupSelected.part;
-  //   let group = groupSelected.group;
-  //   let question = groupSelected.question;
-
-  //   setGroupSelected({ ...groupSelected, part, group, question });
-  // }, []);
 
   //! Function
   const onEachAudioEnded = () => {
@@ -80,7 +80,7 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <CardPart content="Sample Listening (Note Completion)" />
+        <CardPart content={questionType} />
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying].partAudio}`}
@@ -98,6 +98,7 @@ const ExamTest = (props: Props) => {
                 audio={partRenderSelected?.partAudio}
                 displayNumber={displayNumber}
                 onClickPage={onClickPage}
+                onClickQuestionType={onClickQuestionType}
               />
             }
             styleAdd={styleHeight}
@@ -126,10 +127,15 @@ const IeltsListeningContainer = () => {
     return localStorage.getItem("testCode");
   }, []);
 
-  const { data, isLoading } = useIeltsListening(testCode);
+  const history = useHistory();
+
+  const { data, isLoading, error } = useIeltsListening(testCode);
 
   if (isLoading) {
     return <LoadingPage />;
+  }
+  if (error) {
+    history.push("/login");
   }
 
   return <ExamTest data={data?.data.data} />;

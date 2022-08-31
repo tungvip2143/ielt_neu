@@ -12,7 +12,7 @@ export const GET_LIST_LEVELS = `${ROOT_URL}/configs/question-levels`;
 export const GET_LIST_QUESTION_TYPE = `${ROOT_URL}/configs/question-types`;
 export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
 
-export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/excel`;
+export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/import-excel`;
 export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
@@ -137,6 +137,8 @@ export const ADMIN_CONTEST_URL = (id?: string | number) => {
     PUT_UPDATE_EXAMINATION: `${ROOT_URL}/examinations/`,
     DELETE_EXAMINATION: `${ROOT_URL}/examinations/`,
     POST_CREATE_EXAMINATION: `${ROOT_URL}/examinations`,
+    GET_LIST_EXAM_GENERATE: `${ROOT_URL}/examinations/${id}/exams`,
+    GET_LIS_EXAM_GENERATE_DETAIL: `${ROOT_URL}/examinations/${id}/exams/`,
   };
 };
 export const EXAM_MANAGEMENT_URL = () => {
@@ -147,12 +149,13 @@ export const EXAM_MANAGEMENT_URL = () => {
   };
 };
 
-export const TEST_URL = () => {
+export const TEST_URL = (id?: string) => {
   return {
     GET_LIST_TEST: `${ROOT_URL}/exams`,
     GET_TEST_DETAIL: `${ROOT_URL}/exams/`,
     POST_CREATE_TEST: `${ROOT_URL}/exams`,
     PUT_UPDATE_TEST: `${ROOT_URL}/exams/`,
     DELETE_TEST: `${ROOT_URL}/exams/`,
+    GENERATE_EXAM: `${ROOT_URL}/examinations/${id}/generate-exam`,
   };
 };

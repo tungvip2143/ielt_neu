@@ -30,7 +30,10 @@ export enum AnswerBoolean {
   FALSE = "FALSE",
   NOTGIVEN = "NOT GIVEN",
 }
-
+export enum TypeExam {
+  LISTENING = "LISTENING",
+  READING = "READING",
+}
 export const examSemester = [
   { id: 1, label: "Exam 1" },
   { id: 2, label: "Exam 2" },

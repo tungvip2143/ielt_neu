@@ -2,6 +2,6 @@ import { useHistory } from "react-router-dom";
 
 export const useCheckTestCode = (testCode: number) => {
   if (!testCode) {
-    return useHistory().push("/ielts");
+    return useHistory().push("/login");
   }
 };
