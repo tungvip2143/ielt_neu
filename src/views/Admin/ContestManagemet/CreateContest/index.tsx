@@ -12,7 +12,6 @@ import InputCommon from "components/Input";
 import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
 import useGetPartDetail from "hooks/ContestManagemet/useGetPartDetail";
 import { ResponseParams } from "interfaces/questionInterface";
-import { QuestionUser } from "interfaces/user";
 import { isArray } from "lodash";
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -79,6 +78,7 @@ const CreateContest = (props: Props) => {
           setFile(responseFile?.data?.data?.uri);
           toast.success("Upload file success");
           setValueUserId(responseFile?.data?.data?.studentIds);
+          // setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
           setDataFileExcel(responseFile?.data?.data);
         }
       } catch (error) {}

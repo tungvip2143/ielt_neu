@@ -7,7 +7,11 @@ import Stack from "@mui/material/Stack";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import CountDownItem from "./CountDownItem";
 import Countdown from "react-countdown";
-const CountDown = () => {
+interface Props {
+  timeExam?: any;
+}
+const CountDown = (props: Props) => {
+  const { timeExam } = props;
   const Countdown = {
     color: "#FEE49B",
     fontWeight: 700,
@@ -15,7 +19,7 @@ const CountDown = () => {
   return (
     <Stack direction="row" spacing={1} sx={Countdown}>
       <AccessAlarmIcon />
-      <CountDownItem />
+      <CountDownItem timeExam={timeExam} />
       <Typography
         sx={{
           color: "#FEE49B",

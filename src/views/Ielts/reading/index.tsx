@@ -1,6 +1,6 @@
 import EndTest from "components/Exams/EndTest";
 import ExamTest from "components/Exams/StartDoingHomework";
-import { TypeStepExamEnum } from "constants/enum";
+import { TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback } from "react";
 //
@@ -16,18 +16,22 @@ import { RouteBase } from "constants/routeUrl";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 import { useHistory } from "react-router-dom";
-import InformationForCandidates from "views/components/dataSteps/DataContentListening/InformationForCandidates";
-import IntructionsToCandidates from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
+import InformationForCandidates from "views/components/dataSteps/DataContentReading/InformationForCandidates";
+import IntructionsToCandidates from "views/components/dataSteps/DataContentReading/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
+import { GetAuthSelector } from "redux/selectors/auth";
 //
+const styleListRule = {
+  padding: "0px 0px 24px 60px",
+};
 const stepRuleExam = {
   typeExam: "Reading",
   time: "1 hour",
-  informationsForCandidates: <InformationForCandidates />,
-  intructionsToCandidates: <IntructionsToCandidates />,
+  informationsForCandidates: <InformationForCandidates styleListRule={styleListRule} />,
+  intructionsToCandidates: <IntructionsToCandidates styleListRule={styleListRule} />,
 };
 
 export interface IeltsReadingProps {
@@ -57,16 +61,23 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
 
-  const handleSubmit = async (values: any) => {
-    const answers = values.answers.filter((el: any) => {
-      return el.questionId && el.studentAnswer;
-    });
-    const body = { values: { answers }, testCode };
-    await submitIeltsReadingTest(body, {
-      onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-      },
-    });
+  // const handleSubmit = async (values: any) => {
+  //   const answers = values.answers.filter((el: any) => {
+  //     return el.questionId && el.studentAnswer;
+  //   });
+  //   const body = { values: { answers }, testCode };
+  //   await submitIeltsReadingTest(body, {
+  //     onSuccess: () => {
+  //       history.push(RouteBase.IeltsWriting);
+  //     },
+  //   });
+  // };
+  //!
+  const auth = GetAuthSelector();
+  const user = auth?.user?.user;
+  //
+  const handleSubmit = () => {
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
   };
 
   const handleOpenModalHelp = useCallback(() => {
@@ -96,6 +107,8 @@ const IeltsReading = (props: IeltsReadingProps) => {
     width: "770px",
     padding: "10px !important",
   };
+  //
+  const timeExam = 3600000;
 
   return (
     <Formik initialValues={initialValues()} onSubmit={handleSubmit}>
@@ -106,9 +119,10 @@ const IeltsReading = (props: IeltsReadingProps) => {
               handleOpenModalHelp={handleOpenModalHelp}
               handleOpenModalHide={handleOpenModalHide}
               numberStep={TypeStepExamEnum.STEP3}
+              timeExam={timeExam}
             />
             <Box sx={containerSteps}>
-              {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+              {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
               {step === TypeStepExamEnum.STEP2 && (
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
@@ -118,7 +132,12 @@ const IeltsReading = (props: IeltsReadingProps) => {
           </Box>
 
           {isOpenModalHelp && (
-            <ModalHelpExam open={isOpenModalHelp} styleModal={styleModal} handleCloseModal={handleCloseModalHelp} />
+            <ModalHelpExam
+              open={isOpenModalHelp}
+              styleModal={styleModal}
+              handleCloseModal={handleCloseModalHelp}
+              typeExam={TypeExam.READING}
+            />
           )}
           {isOpenModalHide && (
             <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />

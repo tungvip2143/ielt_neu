@@ -9,6 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { RouteBase } from "constants/routeUrl";
 import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
 import contestService from "services/contestService";
+import testBankService from "services/testBankService";
+import { toast } from "react-toastify";
 
 const styles = {
   titleTable: {
@@ -35,7 +37,8 @@ const ContestManagement = () => {
     }
   };
 
-  const [openModal, setOpenModal] = useState(false);
+  //!Function
+
   //! Render
   return (
     <div>
@@ -73,6 +76,22 @@ const ContestManagement = () => {
             //   field: "active",
             //   renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
             // },
+            {
+              flex: 1,
+              field: "generate",
+              renderHeader: () => <Typography style={styles.titleTable}>Generate exam</Typography>,
+              renderCell: (items: any) => {
+                return (
+                  <Button
+                    variant="contained"
+                    style={styles.buttonOpenModal}
+                    onClick={() => history.push({ pathname: RouteBase.GenerateExam, state: { id: items?.id } })}
+                  >
+                    Generate exam
+                  </Button>
+                );
+              },
+            },
             {
               flex: 0.3,
               field: "action",

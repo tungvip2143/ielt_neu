@@ -123,7 +123,7 @@ const Header: React.FC = (props) => {
                   <Box className="nav-link">
                     <Text.Sub20Bold sx={TextExams1}>TOEFL</Text.Sub20Bold>
                   </Box>
-                  <NavLink to="/ielts/choose-exam" activeClassName="ilets" className="nav-link">
+                  <NavLink to="/ielts" activeClassName="ilets" className="nav-link">
                     <Text.Sub20Bold className="child-active" sx={TextExams}>
                       IELTS
                     </Text.Sub20Bold>

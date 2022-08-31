@@ -13,9 +13,10 @@ interface Props {
   width?: any;
   styleModal?: any;
   handleCloseModal?: () => void;
+  typeExam?: any;
 }
 const ModalHelpExam = (props: Props) => {
-  const { open, onClose, width, styleModal, handleCloseModal } = props;
+  const { open, onClose, width, styleModal, handleCloseModal, typeExam } = props;
   const content = {
     background: themeCssSx.backgroundExam.container,
     padding: "12px",
@@ -27,7 +28,7 @@ const ModalHelpExam = (props: Props) => {
       <Modal open={open} onClose={onClose} styleModal={styleModal}>
         <HeaderModalHelp handleCloseModal={handleCloseModal} imageTitle={imgPeople} textTitle="Help" />
         <Box sx={content}>
-          <Navigate handleCloseModal={handleCloseModal} />
+          <Navigate handleCloseModal={handleCloseModal} typeExam={typeExam} />
         </Box>
       </Modal>
     </>
