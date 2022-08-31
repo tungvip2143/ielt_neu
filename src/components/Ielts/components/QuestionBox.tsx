@@ -7,7 +7,7 @@ type Props = {
   displayNumber: number;
   questions: any[];
   onClickPage?: (option: any) => void;
-  isView?: boolean
+  isView?: boolean;
 };
 
 const CODE = "-@X$";
@@ -46,10 +46,10 @@ const QuestionBox = (props: Props) => {
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = isView ? '' : values.answers[blankId - 1].studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<input class="${inputIndex}" disabled=${isView}  name='answers.[${blankId - 1}].studentAnswer' 
+      `<input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${blankId - 1}].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });
