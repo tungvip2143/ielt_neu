@@ -126,7 +126,7 @@ const CreateContest = (props: Props) => {
       const body = {
         name: data.name,
         active: data.active,
-        userIds: valueUserId,
+        studentIds: valueUserId,
       };
 
       try {
