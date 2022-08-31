@@ -31,15 +31,16 @@ type Props = {
   data?: any;
   answerList: string;
   question: any;
-  onHightLightNumberPage: (displayNumber: number) => void;
+  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (option: any) => void;
   displayNumber: number;
+  isView?: boolean
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data, answerList, question, onHightLightNumberPage, onClickPage, displayNumber } = props;
+  const { data, answerList, question, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
 
@@ -68,6 +69,7 @@ const MachingHeading = (props: Props) => {
               </div> */}
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
+                disabled={isView}
                 size="small"
                 name={`answers[${displayNumberT - 1}].studentAnswer`}
                 onFocus={() => handleFocus(displayNumberT)}
