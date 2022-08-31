@@ -4,7 +4,6 @@ import React, { Suspense } from "react";
 import { BrowserRouter as Router, Redirect, Route, Switch, useHistory } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
 import DefaultAdminLayout from "views/Admin/components/DefaultAdminLayout";
-import CreateReading from "views/Admin/components/Reading/CreateReading/CreateReading";
 import CreateWriting from "views/Admin/components/Writing/CreateWriting/CreateWriting";
 import CreateListening from "views/Admin/components/Listening/CreateListening/CreateListening";
 import CreateSpeaking from "views/Admin/components/Speaking/CreateSpeaking/CreateSpeaking";
@@ -19,6 +18,7 @@ import StaticManagement from "views/Admin/StaticManagement";
 import UserAdmin from "views/Admin/components/UserAdmin/UserAdmin";
 import CreateUser from "views/Admin/components/UserAdmin/CreateUser/CreateUser";
 import ViewExam from "views/Admin/ExamManagement/component/ViewExam";
+import CreateReading from "views/Admin/components/Reading/CreateReading/component/CreateReading";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
