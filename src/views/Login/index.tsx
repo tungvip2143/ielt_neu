@@ -16,13 +16,13 @@ import { Redirect } from "react-router-dom";
 import { GetAuthSelector } from "redux/selectors";
 const LoginPage = () => {
   // ! State
-  const auth = GetAuthSelector();
+  // const auth = GetAuthSelector();
 
-  const { isLogin } = auth;
+  // const { isLogin } = auth;
 
-  if (isLogin) {
-    return <Redirect to="/" />;
-  }
+  // if (isLogin) {
+  //   return <Redirect to="/" />;
+  // }
   //! Render
 
   return (
