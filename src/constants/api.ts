@@ -12,7 +12,7 @@ export const GET_LIST_LEVELS = `${ROOT_URL}/configs/question-levels`;
 export const GET_LIST_QUESTION_TYPE = `${ROOT_URL}/configs/question-types`;
 export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
 
-export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/excel`;
+export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/import-excel`;
 export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,

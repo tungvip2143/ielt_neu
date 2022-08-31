@@ -12,6 +12,7 @@ import { useFinishIeltsTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
 
 import { RouteBase } from "../../constants/routeUrl";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 const card = {
   p: "48px 32px",
   width: { xs: "90%", md: "80%" },
@@ -36,20 +37,19 @@ const EndTest = (props: Props) => {
   // !Hook
   const history = useHistory();
   const { mutateAsync: finishIeltsTest, isLoading: ieltsFinishLoading } = useFinishIeltsTest();
+  const { testCode } = useGetTestCode();
 
-  // const handleEndTest = async () => {
-  //   await finishIeltsTest(
-  //     { testCode: "123" },
-  //     {
-  //       onSuccess: () => {
-  //         history.push(`/ielts/review`);
-  //       },
-  //     }
-  //   );
-  // };
-  const handleEndTest = () => {
-    history.push(RouteBase.Login);
-    dispatch(authActions.logout);
+  const handleEndTest = async () => {
+    await finishIeltsTest(
+      { testCode },
+
+      {
+        onSuccess: () => {
+          history.push(RouteBase.Login);
+          dispatch(authActions.logout);
+        },
+      }
+    );
   };
 
   if (ieltsFinishLoading) {

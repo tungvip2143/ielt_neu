@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import contestService from "services/contestService";
 import fileService from "services/fileService";
 import * as yup from "yup";
+import ListUserContest from "./ListUserContest";
 import "./styles.scss";
 
 export interface Props {
@@ -55,7 +56,7 @@ const CreateContest = (props: Props) => {
   });
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
-
+  const [dataFileExcel, setDataFileExcel] = useState([]);
   const handlePickImage = () => {
     fileRef.current.click();
   };
@@ -74,6 +75,7 @@ const CreateContest = (props: Props) => {
           setFile(responseFile?.data?.data?.uri);
           toast.success("Upload file success");
           setValueUserId(responseFile?.data?.data?.studentIds);
+          setDataFileExcel(responseFile?.data?.data);
         }
       } catch (error) {}
     }
@@ -197,6 +199,9 @@ const CreateContest = (props: Props) => {
       </div>
 
       {openCreateScreen.type === "create" && renderButtonCreate()}
+      <div className="mt-10">
+        <ListUserContest dataFileExcel={dataFileExcel} />
+      </div>
     </form>
   );
 };

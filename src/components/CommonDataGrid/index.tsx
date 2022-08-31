@@ -39,6 +39,8 @@ export default function CommonDataGrid({
       disableSelectionOnClick
       keepNonExistentRowsSelected
       onPageChange={(page, detail) => {
+        console.log(page, "pagepage");
+
         onPageChange(page + 1);
       }}
       onPageSizeChange={(pageSize, detail) => {
