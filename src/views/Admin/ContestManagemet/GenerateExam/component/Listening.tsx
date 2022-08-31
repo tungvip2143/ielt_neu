@@ -33,6 +33,7 @@ const Listening = (props: Props) => {
           isView={true}
           // onClickPage={onClickPage}
           displayNumber={1}
+          disabled={true}
         />
       );
     }
@@ -111,8 +112,6 @@ const Listening = (props: Props) => {
                   </div>
                   <div className="listeningWrapper" style={{ marginLeft: "20px" }}>
                     {el?.groups?.map((group: any) => {
-                      console.log("+++++++++++++++++pppppp", group);
-
                       return (
                         <div>
                           <Typography className="titlePart">{group?.questionBox}</Typography>
