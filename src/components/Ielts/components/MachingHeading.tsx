@@ -31,7 +31,7 @@ type Props = {
   data?: any;
   answerList: string;
   question: any;
-  onHightLightNumberPage: (displayNumber: number) => void;
+  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (option: any) => void;
   displayNumber: number;
 };

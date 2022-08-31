@@ -444,7 +444,7 @@ const ModalCreateQuestion = (props: Props) => {
           <div className="mt-5">
             <TinyMceCommon
               ref={editorRef}
-              initialValue={dataQuestionDetail?.questionText ? dataQuestionDetail?.questionText : "Note completion"}
+              initialValue={dataQuestionDetail?.questionBox ? dataQuestionDetail?.questionBox : "Note completion"}
               disabled={openModal.type === "detailQuestion"}
             />
             {openModal.type !== "detailQuestion" && (
@@ -487,15 +487,19 @@ const ModalCreateQuestion = (props: Props) => {
         dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
           <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.questionBox}</Typography>
         ) : (
-          <InputCommon
-            id="standard-basic"
-            label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
-            variant="standard"
-            name="questionBox"
-            control={control}
-            required
-            fullWidth
-          />
+          <>
+            {questionType !== "SUMMARY_COMPLETION" && questionType !== "NOTE_COMPLETION" && (
+              <InputCommon
+                id="standard-basic"
+                label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
+                variant="standard"
+                name="questionBox"
+                control={control}
+                required
+                fullWidth
+              />
+            )}
+          </>
         )
       }
     >

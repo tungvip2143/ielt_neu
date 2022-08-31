@@ -42,7 +42,11 @@ const GenerateExam = () => {
         toast.success("Gender success");
         refetchDataTable();
       }
-    } catch (error) {}
+    } catch (error: any) {
+      toast.error(error?.response?.data?.message, {
+        autoClose: 3000,
+      });
+    }
   };
 
   //! Render

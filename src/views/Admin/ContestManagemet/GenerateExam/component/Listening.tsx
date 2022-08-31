@@ -19,6 +19,7 @@ export interface Props {
 
 const Listening = (props: Props) => {
   const { dataListening } = props;
+
   const renderQuestion = (group: any) => {
     const { questionType } = group;
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
@@ -54,18 +55,18 @@ const Listening = (props: Props) => {
         />
       );
     }
-    // if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-    //   return (
-    //     <MachingHeading
-    //       onHightLightNumberPage={onHightLightNumberPage}
-    //       question={question}
-    //       answerList={answerList}
-    //       data={data}
-    //       onClickPage={onClickPage}
-    //       displayNumber={displayNumber}
-    //     />
-    //   );
-    // }
+    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
+      return (
+        <MachingHeading
+          // onHightLightNumberPage={onHightLightNumberPage}
+          question={group?.questions}
+          answerList={group?.answerList}
+          data={group?.questions}
+          // onClickPage={onClickPage}
+          displayNumber={2}
+        />
+      );
+    }
     // if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
     //   return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     // }
@@ -85,7 +86,7 @@ const Listening = (props: Props) => {
           expanded={[]}
           onCollapse={() => {}}
           onHightLightNumberPage={() => {}}
-          displayNumber={1}
+          displayNumber={2}
           questionIdx={1}
           onClickPage={() => null}
         />
