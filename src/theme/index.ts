@@ -1,4 +1,13 @@
-import { createTheme, ThemeOptions } from "@mui/material";
+import { createTheme } from "@mui/material";
+import { Theme } from "@mui/material/styles";
+declare module "@mui/material/styles" {
+  interface Theme {}
+  interface ThemeOptions {}
+}
+
+declare module "@mui/styles/defaultTheme" {
+  interface DefaultTheme extends Theme {}
+}
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -67,7 +76,7 @@ declare module "@mui/material/Typography" {
   }
 }
 
-export const theme: ThemeOptions = createTheme({
+export const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -242,6 +251,11 @@ export const theme: ThemeOptions = createTheme({
     background: {
       default: "#F9FAFC",
       paper: "#FFFFFF",
+      exam: "#dbe5f5",
+      exercises: "#dde3ee",
+      pageNumber: "#000000",
+      white: "#fff",
+      btnShowModal: "#6aade4",
     },
     divider: "#E6E8F0",
     primary: {
@@ -284,6 +298,7 @@ export const theme: ThemeOptions = createTheme({
       primary: "#121828",
       secondary: "#65748B",
       disabled: "rgba(55, 65, 81, 0.48)",
+      countDown: "#FFB020",
     },
   },
   shape: {
