@@ -41,15 +41,7 @@ const useStyles = makeStyles((theme) => ({
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const {
-    data,
-    answerList,
-    onHightLightNumberPage,
-    onClickPage,
-    displayNumber,
-    isView = false,
-    disabled = false,
-  } = props;
+  const { data, answerList, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
 
   useEffect(() => {
@@ -80,7 +72,7 @@ const MachingType = (props: Props) => {
               </div>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
-                disabled={disabled}
+                disabled={isView}
                 inputRef={(el: any) => (inputRef.current[index + 1] = el)}
                 onFocus={() => handleFocus(index)}
                 component={TextField}
