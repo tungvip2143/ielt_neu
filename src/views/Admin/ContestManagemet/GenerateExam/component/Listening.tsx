@@ -51,7 +51,7 @@ const Listening = (props: Props) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
       return (
         <QuestionBox
-          onClickPage={() => {}}
+          onClickPage={() => { }}
           displayNumber={1}
           questions={group?.questions}
           questionBox={group?.questionBox}
@@ -67,7 +67,7 @@ const Listening = (props: Props) => {
             question={group?.questions}
             answerList={group?.answerList}
             data={el}
-            onClickPage={() => {}}
+            onClickPage={() => { }}
             displayNumber={1}
             isView
           />
@@ -119,7 +119,7 @@ const Listening = (props: Props) => {
                     {el?.groups?.map((group: any) => {
                       return (
                         <div>
-                          <Typography className="titlePart">{group?.questionBox}</Typography>
+                          <div dangerouslySetInnerHTML={{ __html: group?.questionBox }} />
                           {renderQuestion(group)}
                           {/* {group?.questions?.map((question: any) => {
                       return <Typography className="titlePart">{question?.questionText}</Typography>;
