@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Route, Switch, useHistory } from "react-router
 import "./styles/scss/styles.scss";
 import { ThemeProvider } from "@mui/material/styles";
 import { CssBaseline } from "@mui/material";
-import { theme } from "theme";
+import { theme } from "theme/index";
 import ScrollToTop from "components/ScrollToTop/ScrollToTop";
 import { RouteBase } from "constants/routeUrl";
 import DefaultLayout from "layout/DefaultLayout";
