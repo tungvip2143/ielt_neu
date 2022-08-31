@@ -56,7 +56,7 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage }: Props) => {
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
-                {item.question.options.map((answerChoice: any) => {
+                {item?.question?.options.map((answerChoice: any) => {
                   const displayNumber = Number(item.question.displayNumber) - 1;
                   return (
                     <RadioGroup
