@@ -15,6 +15,7 @@ interface Props {
   field?: FieldInputProps<any>;
   form?: FormikProps<any>;
   errorMsg?: string;
+  disabled?: boolean;
 }
 
 const ErrorText = styled(FormHelperText)`
@@ -48,7 +49,7 @@ const inputStyles = makeStyles((theme) => ({
 
 const InputField = (props: Props & TextFieldProps) => {
   //! State
-  const { id, label, variant, labelColor, width, InputProps, field, form, ...rest } = props;
+  const { id, label, variant, labelColor, width, InputProps, field, form, disabled = false, ...rest } = props;
   const { name = rest?.name || "" } = field || {};
   const { errors = {}, touched = {} } = form || {};
 
@@ -65,6 +66,7 @@ const InputField = (props: Props & TextFieldProps) => {
         <TextField
           variant={variant}
           id={id}
+          disabled={disabled}
           fullWidth
           error={isError}
           helperText={isError && <ErrorText>{errorMsg}</ErrorText>}

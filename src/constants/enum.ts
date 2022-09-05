@@ -38,3 +38,15 @@ export const examSemester = [
   { id: 4, label: "Exam 4" },
   { id: 5, label: "Exam 5" },
 ];
+
+export const partReading = [
+  { name: "Part 1", id: 1 },
+  { name: "Part 2", id: 2 },
+  { name: "Part 3", id: 3 },
+];
+export const partListening = [
+  { name: "Part 1", id: 1 },
+  { name: "Part 2", id: 2 },
+  { name: "Part 3", id: 3 },
+  { name: "Part 4", id: 4 },
+];

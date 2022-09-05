@@ -55,6 +55,8 @@ export const RouteBase = {
   CreateReading: "/admin/reading/create",
   UpdateReading: "/admin/reading/:id",
   UpdateReadingWId: (id: string | number) => `/admin/reading/${id}`,
+  ReadingWithIdAnd: (partNumber: string | number, partId: string | number) =>
+    `/admin/reading/${partNumber}?id=${partId}`,
 
   //Contest
   ContestManagement: "/admin/contestManagement",

@@ -39,7 +39,6 @@ const ChooseExam = () => {
   const { data, isLoading } = useGetExamination(initialFilter);
   const examinations = data?.data?.data?.data || [];
 
-  console.log("aaaaaaaaaa");
   console.log("examinations", examinations);
 
   return (
