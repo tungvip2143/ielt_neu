@@ -22,6 +22,7 @@ declare module "@mui/material/styles" {
       border: {
         input: {
           main: string;
+          bottom: string;
         };
       };
       button: {
@@ -308,6 +309,7 @@ export const theme = createTheme({
     border: {
       input: {
         main: " #e3f2fd",
+        bottom: "#ccc",
       },
     },
     button: {
@@ -546,7 +548,6 @@ export const theme = createTheme({
     },
     sub20Bold: {
       fontSize: "20px",
-      color: "#8A8C91",
       fontWeight: 700,
     },
     descNormal: {

@@ -8,9 +8,7 @@ import { makeStyles } from "@mui/styles";
 const useStyles = makeStyles((theme) => {
   return {
     header: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
+      ...theme.custom?.flexBox.flexBetweenCenter,
       position: "fixed",
       top: 0,
       right: 0,

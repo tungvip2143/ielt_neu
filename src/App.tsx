@@ -21,7 +21,6 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { useCheckAuth } from "hooks/auth/useCheckAuth";
 import PrivateRoute from "components/PrivateRoute";
-import LoginEmail from "views/Login/LoginEmail";
 import ListeningReview from "./views/Review/listening/index";
 import SpeakingReview from "./views/Review/speaking/index";
 import SignUp from "views/SignUp";

@@ -20,8 +20,8 @@ const useStyles = makeStyles((theme) => {
       width: "100%",
       borderRadius: "12px 12px 0px 0px",
       padding: "8px 0px 12px 16px",
-      border: "1px solid #e3f2fd",
-      borderBottom: "1px solid rgb(138, 140, 145)",
+      border: `1px solid ${theme.custom?.border.input.main}`,
+      borderBottom: `1px solid ${theme.custom?.border.input.bottom}`,
       height: "3rem",
     },
     btnSubmit: {
@@ -32,6 +32,7 @@ const useStyles = makeStyles((theme) => {
       background: theme.palette.primary.main,
       color: theme.palette.primary.contrastText,
       border: "none",
+      cursor: "pointer",
     },
   };
 });
@@ -45,24 +46,6 @@ const validate = Yup.object({
   candidateCode: Yup.string().min(5, "*Must be 5 characters").required("Required"),
   studentCode: Yup.string().min(5, "*Must be 10 characters").required("Required"),
 });
-
-// const input = {
-//   width: "100%",
-//   borderRadius: "12px 12px 0px 0px",
-//   padding: "8px 0px 12px 16px",
-//   border: "1px solid #e3f2fd",
-//   borderBottom: "1px solid rgb(138, 140, 145)",
-//   height: "3rem",
-// };
-
-// const btn = {
-//   width: "100%",
-//   borderRadius: "16px",
-//   padding: "16px 0 ",
-//   mt: "16px",
-//   background: "#104AC6",
-//   color: "#fff",
-// };
 
 const FormLogin = () => {
   // ! State
@@ -125,7 +108,6 @@ const FormLogin = () => {
             <div style={{ paddingBottom: "30px" }}>
               <FastField
                 lable="Mã sinh viên"
-                // style={input}
                 component={InputField}
                 type="text"
                 placeholder="Student Code"
@@ -136,12 +118,10 @@ const FormLogin = () => {
             <div style={{ paddingBottom: "30px" }}>
               <FastField
                 lable="Mã thí sinh"
-                // style={input}
                 error=""
                 component={InputField}
                 type="text"
                 placeholder="Candidates Code"
-                // name="username"
                 {...propsFormik.getFieldProps("candidateCode")}
                 className={classes.input}
               />
