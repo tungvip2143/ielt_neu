@@ -155,7 +155,6 @@ const ExamTest = (props: Props) => {
         <CardExercise
           styleAdd={styleAddExercise}
           width={5.9}
-          className={classes.cardExercies}
           content={
             <div className={classes.audioContent}>
               <ReactAudioPlayer
@@ -177,7 +176,6 @@ const ExamTest = (props: Props) => {
         />
         <CardExercise
           styleAdd={styleAddExercise}
-          className={classes.cardExercies}
           width={5.9}
           content={<RecordExam partAnswering={groupSelected.part} isRecording={isRecording} />}
         />

@@ -1,11 +1,10 @@
-//
 import Box from "@mui/material/Box";
 import Card from "@mui/material/Card";
-//
+
 import Text from "components/Typography/index";
 import { authActions } from "redux/creators/modules/auth";
 import useSagaCreators from "hooks/useSagaCreators";
-//
+
 import ButtonStartTest from "components/Button/ButtonStartTest";
 import LoadingPage from "components/Loading";
 import { useFinishIeltsTest } from "hooks/ielts/useIelts";
@@ -13,6 +12,7 @@ import { useHistory } from "react-router-dom";
 
 import { RouteBase } from "../../constants/routeUrl";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+
 const card = {
   p: "48px 32px",
   width: { xs: "90%", md: "80%" },
@@ -31,6 +31,7 @@ interface Props {
 }
 
 const EndTest = (props: Props) => {
+  //! State
   const { test } = props;
   const { dispatch } = useSagaCreators();
 
@@ -51,7 +52,7 @@ const EndTest = (props: Props) => {
       }
     );
   };
-
+  //! Render
   if (ieltsFinishLoading) {
     return <LoadingPage />;
   }

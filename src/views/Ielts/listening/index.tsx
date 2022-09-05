@@ -29,7 +29,13 @@ import { rulesdetailExam } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
 //! css
 const useStyles = makeStyles((theme) => {
-  return {};
+  return {
+    containerSteps: {
+      paddingTop: "16px",
+      background: theme.custom?.background.exam,
+      height: "100%",
+    },
+  };
 });
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -38,11 +44,6 @@ const stepRuleExam = {
   intructionsToCandidates: <IntructionsToCandidatesListening />,
 };
 
-const containerSteps = {
-  pt: "16px",
-  background: "#dbe5f5",
-  height: "100%",
-};
 const styleModal = {
   width: "770px",
   padding: "10px !important",
@@ -64,6 +65,7 @@ const initialValues = function () {
 };
 
 const IeltsListening = (props: IeltsListeningProps) => {
+  const classes = useStyles();
   //! State
 
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
@@ -125,7 +127,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 timeExam={timeExam}
               />
 
-              <Box sx={containerSteps}>
+              <Box className={classes.containerSteps}>
                 {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
                 {step === TypeStepExamEnum.STEP3 && (

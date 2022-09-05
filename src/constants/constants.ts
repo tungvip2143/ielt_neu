@@ -48,3 +48,7 @@ export const rulesdetailExam = {
     timeExam: "1 hour",
   },
 };
+export const titleRulesDetailCandidates = {
+  intructionCandidates: "INSTRUCTIONS TO CANDIDATES",
+  informationCandidates: "INFORMATION FOR CANDIDATES",
+};

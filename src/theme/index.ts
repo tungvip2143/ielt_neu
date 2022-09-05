@@ -33,6 +33,14 @@ declare module "@mui/material/styles" {
       text: {
         titleLogin: string;
       };
+      boxShadow: {
+        exercises: string;
+        card: string;
+      };
+      heightExercise: {
+        // review: "calc(100vh - 140px)",
+        examTest: string;
+      };
       flexBox: {
         flexBetweenCenter: {
           display: string;
@@ -320,6 +328,14 @@ export const theme = createTheme({
     text: {
       titleLogin: "#0b2283",
     },
+    boxShadow: {
+      exercises: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
+      card: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+    },
+    heightExercise: {
+      // review: "calc(100vh - 140px)",
+      examTest: "calc(100vh - 265px)",
+    },
     flexBox: {
       flexBetweenCenter: {
         display: "flex",
@@ -544,7 +560,6 @@ export const theme = createTheme({
     descMedium: {
       fontSize: "18px",
       color: "#36373B",
-      fontWeight: 500,
     },
     sub20Bold: {
       fontSize: "20px",

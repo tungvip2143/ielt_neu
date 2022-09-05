@@ -1,7 +1,6 @@
 import LoadingPage from "components/Loading";
 import { useIeltsListening } from "hooks/ielts/useIelts";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useState } from "react";
 import CardExercise from "components/Card/CardExercise";
 import CardPart from "components/Card/CardPart";
 import { isEmpty } from "lodash";
