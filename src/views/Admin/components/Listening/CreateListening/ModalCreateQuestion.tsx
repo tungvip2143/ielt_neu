@@ -455,6 +455,16 @@ const ModalCreateQuestion = (props: Props) => {
             {fields.map((field, index) => {
               return (
                 <div className="flex items-end justify-between mt-2">
+                  <div style={{ marginRight: 20 }}>
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Blank number"
+                      variant="standard"
+                      name={`questions[${index}].blankNumber`}
+                      disabled={openModal.type === "detailQuestion"}
+                    />
+                  </div>
                   <InputCommon
                     control={control}
                     id="standard-basic"
@@ -473,6 +483,102 @@ const ModalCreateQuestion = (props: Props) => {
               );
             })}
           </div>
+        );
+
+      case "SENTENCE_COMPLETION":
+        return (
+          <div className="mt-5">
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id} className="flex items-center">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Question"
+                      variant="standard"
+                      name={`questions[${index}].questionText`}
+                      disabled={openModal.type === "detailQuestion"}
+                    />
+                    <div className="flex items-end justify-between mt-2">
+                      <div style={{ marginRight: 20 }}>
+                        <InputCommon
+                          control={control}
+                          id="standard-basic"
+                          label="Blank number"
+                          variant="standard"
+                          name={`questions[${index}].blankNumber`}
+                          disabled={openModal.type === "detailQuestion"}
+                        />
+                      </div>
+                      <InputCommon
+                        control={control}
+                        id="standard-basic"
+                        label="Answer"
+                        variant="standard"
+                        name={`questions[${index}].answer`}
+                        disabled={openModal.type === "detailQuestion"}
+                      />
+                    </div>
+                  </div>
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        );
+
+      case "IDENTIFYING_VIEWS_CLAIMS":
+        return (
+          <>
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-2" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-center justify-between mt-2">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Question"
+                      variant="standard"
+                      name={`questions[${index}].questionText`}
+                      disabled={openModal.type === "detailQuestion"}
+                      style={{ marginRight: 20 }}
+                    />
+                    <InputCommon
+                      control={control}
+                      id="standard-basic"
+                      label="Correct answer"
+                      variant="standard"
+                      name={`questions[${index}].answer`}
+                      disabled={openModal.type === "detailQuestion"}
+                      style={{ marginTop: 10 }}
+                    />
+                  </div>
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
         );
 
       default:

@@ -10,6 +10,8 @@ class MExam {
   __v?: number;
   id?: string;
 
+  stt?: string;
+
   constructor(data: any) {
     this._id = data?._id;
     this.examination = data?.examination;
