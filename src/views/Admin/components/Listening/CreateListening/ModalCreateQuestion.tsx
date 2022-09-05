@@ -48,7 +48,7 @@ const ModalCreateQuestion = (props: Props) => {
   const editorRef = useRef<any>();
   const matchingRef = useRef<any>();
   const fileRef = useRef<any>();
-  const [questionType, setQuestionType] = useState<number | undefined | string>("");
+  const [questionType, setQuestionType] = useState<string>("");
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
   const [selectFile, setSelectFile] = useState<any>("");
@@ -85,6 +85,7 @@ const ModalCreateQuestion = (props: Props) => {
         data?.questions.map((el: any) => ({
           questionText: el.questionText,
           answer: el.answer,
+          blankNumber: el.blankNumber,
           options: el.options.map((option: any) => option.text),
         }))
       );
@@ -125,7 +126,10 @@ const ModalCreateQuestion = (props: Props) => {
         directionText: directionRef?.current?.getContent(),
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
-        questionBox: data.questionBox,
+        questionBox:
+          questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
+            ? editorRef && editorRef?.current?.getContent()
+            : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
@@ -157,7 +161,10 @@ const ModalCreateQuestion = (props: Props) => {
         directionText: directionRef.current.getContent(),
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
-        questionBox: data.questionBox,
+        questionBox:
+          questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
+            ? editorRef && editorRef?.current?.getContent()
+            : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
@@ -281,6 +288,7 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
+      case "MATCHING_SENTENCE_ENDINGS":
       case "MATCHING_HEADINGS":
         return (
           <div className="mt-5">
@@ -585,30 +593,32 @@ const ModalCreateQuestion = (props: Props) => {
         break;
     }
   };
+
+  const renderHeaderModal = (questionType: string) => {
+    if (questionType !== "SUMMARY_COMPLETION" && questionType !== "NOTE_COMPLETION") {
+      return (
+        <>
+          {dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
+            <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.questionBox}</Typography>
+          ) : (
+            <InputCommon
+              id="standard-basic"
+              label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
+              variant="standard"
+              name="questionBox"
+              control={control}
+              required
+              fullWidth
+            />
+          )}
+        </>
+      );
+    } else {
+      return <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>;
+    }
+  };
   return (
-    <ModalCreate
-      open={openModal}
-      onClose={onCloseModal}
-      titleModal={
-        dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
-          <Typography style={{ fontWeight: "bold" }}>{dataQuestionDetail?.questionBox}</Typography>
-        ) : (
-          <>
-            {questionType !== "SUMMARY_COMPLETION" && questionType !== "NOTE_COMPLETION" && (
-              <InputCommon
-                id="standard-basic"
-                label={!dataQuestionDetail?.questionBox ? "Question group" : ""}
-                variant="standard"
-                name="questionBox"
-                control={control}
-                required
-                fullWidth
-              />
-            )}
-          </>
-        )
-      }
-    >
+    <ModalCreate open={openModal} onClose={onCloseModal} titleModal={renderHeaderModal(questionType)}>
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">
         <TinyMceCommon
           ref={directionRef}

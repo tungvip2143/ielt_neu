@@ -338,7 +338,9 @@ const CreateQuestionListening = (props: Props) => {
                       onClick={() => onDelete(el.id)}
                     />
                   </div>
-                  <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
+                  <div dangerouslySetInnerHTML={{ __html: el.questionBox }} style={{ fontWeight: "bold" }}></div>
+
+                  {/* <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
                   <InputCommon
                     id="standard-basic"
                     variant="standard"
@@ -349,7 +351,7 @@ const CreateQuestionListening = (props: Props) => {
                     value={el.questionBox}
                     disabled
                     style={{ marginTop: el.questionBox ? "10px" : 0 }}
-                  />
+                  /> */}
                 </Card>
               );
             })}
