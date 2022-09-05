@@ -6,7 +6,7 @@ import { makeStyles } from "@mui/styles";
 
 import Title from "./components/Title";
 import CardView from "./components/CardView";
-import FormEmail from "./components/FormEmail";
+import FormLogin from "./components/FormLogin";
 import HeaderExam from "../Ielts/Header/HeaderExam";
 //
 const useStyles = makeStyles((theme) => {
@@ -14,14 +14,10 @@ const useStyles = makeStyles((theme) => {
     container: {
       width: "100vw",
       height: "100vh",
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      ...theme.custom?.flexBox.flexCenterCenter,
     },
     footer: {
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
+      ...theme.custom?.flexBox.flexCenterCenter,
       position: "fixed",
       bottom: 0,
       right: 0,
@@ -42,7 +38,7 @@ const LoginPage = () => {
       <CardView>
         <Title>Login to exam</Title>
         <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
-          <FormEmail />
+          <FormLogin />
         </Stack>
       </CardView>
       <Box className={classes.footer}>

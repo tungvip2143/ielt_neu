@@ -64,7 +64,7 @@ const validate = Yup.object({
 //   color: "#fff",
 // };
 
-const FormEmail = () => {
+const FormLogin = () => {
   // ! State
   const classes = useStyles();
   const { dispatch } = useSagaCreators();
@@ -157,4 +157,4 @@ const FormEmail = () => {
   );
 };
 
-export default FormEmail;
+export default FormLogin;
