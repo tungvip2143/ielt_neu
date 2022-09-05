@@ -7,7 +7,7 @@ import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
 import { Form, Formik } from "formik";
-import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
+import { useFinishIeltsSkill, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
@@ -70,6 +70,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
+  const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
@@ -85,11 +86,18 @@ const IeltsListening = (props: IeltsListeningProps) => {
     });
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
-      onSuccess: () => {
-        localStorage.setItem("LISTENING", "true");
-        history.push(RouteBase.IeltsReading);
+      onSuccess: async () => {
+        await updateIeltsListeningFinish(
+          { testCode, skill: "listening" },
+          {
+            onSuccess: () => {
+              localStorage.setItem("LISTENING", "true");
+            },
+          }
+        );
       },
     });
+    history.push(RouteBase.IeltsReading);
   };
 
   const handleOpenModalHelp = useCallback(() => {
@@ -109,7 +117,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const timeExam = 1800000;
 
   //! Render
-  if (isLoading) {
+  if (isLoading || listeningFinishLoading) {
     return <LoadingPage />;
   }
   return (

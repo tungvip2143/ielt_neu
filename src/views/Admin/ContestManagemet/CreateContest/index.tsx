@@ -60,7 +60,6 @@ const CreateContest = (props: Props) => {
     resolver: yupResolver(validationSchema),
     defaultValues: { name: dataPartDetail?.name || "" },
   });
-  console.log(dataPartDetail, "dataPartDetail111");
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
   const handlePickImage = () => {

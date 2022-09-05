@@ -17,7 +17,7 @@ const useStyles = makeStyles((theme) => {
     },
     headerRight: {
       ...theme.custom?.flexBox.flexBetweenCenter,
-      width: "60%",
+      // width: "60%",
     },
     homePage: {
       display: "flex",

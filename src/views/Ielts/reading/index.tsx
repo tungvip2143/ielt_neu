@@ -8,7 +8,7 @@ import { Box } from "@mui/material";
 //
 import LoadingPage from "components/Loading";
 import { Form, Formik } from "formik";
-import { useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
+import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 import Header from "views/Ielts/Header/Header";
 //
@@ -53,13 +53,15 @@ const initialValues = function () {
 
 const IeltsReading = (props: IeltsReadingProps) => {
   // !State
-  const { data, testCode } = props;
+  const { data } = props;
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const history = useHistory();
 
   const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
+  const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
+  const { testCode } = useGetTestCode();
 
   // const handleSubmit = async (values: any) => {
   //   const answers = values.answers.filter((el: any) => {
@@ -76,7 +78,8 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
   //
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await ieltsReadingFinish({ testCode, skill: "reading" });
     handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
   };
 
