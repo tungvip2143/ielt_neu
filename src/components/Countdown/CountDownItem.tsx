@@ -1,3 +1,4 @@
+import { useFormikContext } from "formik";
 import Countdown from "react-countdown";
 
 interface Data {
@@ -10,11 +11,13 @@ interface Props {
 }
 function CountDownItem(props: Props) {
   const Completionist = () => <span>You are good to go!</span>;
+  const { handleSubmit } = useFormikContext();
 
   // Renderer callback with condition
   const renderer = ({ minutes, seconds, completed }: Data) => {
     if (completed) {
       // Render a completed state
+      handleSubmit();
       return <Completionist />;
     } else {
       // Render a countdown

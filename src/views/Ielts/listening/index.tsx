@@ -77,7 +77,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //! Function
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
-  console.log("user", user);
 
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
@@ -107,7 +106,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   };
   //
   const timeExam = 1800000;
-  // useCheckTestCode(Number(testCode));
+  useCheckTestCode(Number(testCode));
 
   //! Render
   if (isLoading) {

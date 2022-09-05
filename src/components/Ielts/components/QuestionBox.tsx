@@ -1,12 +1,13 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo } from "react";
 
 type Props = {
   questionBox: any;
   displayNumber: number;
   questions: any[];
   onClickPage?: (option: any) => void;
+  isView?: boolean;
 };
 
 const CODE = "-@X$";
@@ -17,8 +18,8 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 };
 
 const QuestionBox = (props: Props) => {
-  const [questionitem, setQuestionItem] = useState<any>();
-  const { questionBox, questions, displayNumber, onClickPage } = props;
+  const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
+
   const { handleChange, values, setFieldValue }: any = useFormikContext();
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
@@ -46,10 +47,12 @@ const QuestionBox = (props: Props) => {
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<strong>${blankId}</strong><input class="${inputIndex}"  name='answers.[${blankId - 1}].studentAnswer' 
+      `<strong>${blankId}</strong><input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+        blankId - 1
+      }].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });

@@ -9,6 +9,8 @@ interface Props {
   dataQuestions?: any;
   audio?: any;
   onClickPage: (options: any) => void;
+
+  isView?: boolean
 }
 const formAnswer = {
   display: "flex",
@@ -34,7 +36,7 @@ const question = {
   color: themeCssSx.color.title,
 };
 
-const MultiChoice = ({ dataQuestions, audio, onClickPage }: Props) => {
+const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Props) => {
   const { values }: any = useFormikContext();
 
   // !Fucntion
@@ -56,16 +58,17 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage }: Props) => {
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
-                {item.question.options.map((answerChoice: any) => {
+                {item?.question?.options.map((answerChoice: any) => {
                   const displayNumber = Number(item.question.displayNumber) - 1;
                   return (
                     <RadioGroup
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue=""
                       name="radio-buttons-group"
-                      value={values?.answers[displayNumber]?.studentAnswer}
+                      value={isView ? false : values?.answers[displayNumber]?.studentAnswer}
                     >
                       <FormControlLabel
+                        disabled={isView}
                         key={answerChoice._id}
                         value={answerChoice.key}
                         label={`${answerChoice.key}.${answerChoice.text}`}
