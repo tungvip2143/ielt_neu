@@ -26,10 +26,13 @@ const NoteCompletion = (props: Props) => {
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
 
+  console.log("groupData", groupData);
+
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     groupData.questions.forEach((el: any) => {
-      const { blankNumber, displayNumber } = el.question;
+      const { blankNumber, displayNumberT } = el.question;
+      console.log("displayNumberT", displayNumberT);
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
