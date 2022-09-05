@@ -1,6 +1,6 @@
 import BlockIcon from "@mui/icons-material/Block";
 import SaveIcon from "@mui/icons-material/Save";
-import { Box, Card, Grid, Stack, Typography } from "@mui/material";
+import { Box, Button, Card, Grid, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
@@ -27,6 +27,7 @@ export interface Props {
 }
 
 const CreateTest = (props: Props) => {
+  //!State
   const { openCreateScreen } = props;
   const history = useHistory();
   const { search } = useLocation();
@@ -46,6 +47,8 @@ const CreateTest = (props: Props) => {
   } = useGetParts();
   const [dataParts, , , , , ,] = useGetPartReading();
   const [dataTestDetail, convertListening, convertReading, , , refetchData] = useGetDetailTest(id);
+
+  //! Function
 
   const resetAsyncForm = useCallback(
     async (data: any) => {
@@ -88,19 +91,9 @@ const CreateTest = (props: Props) => {
     return convertSelectPartListening;
   };
 
-  const renderButton = () => {
-    return (
-      <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave type="submit" icon={<SaveIcon sx={{ fontSize: "20px" }} />} title="Save" />
-        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
-      </Stack>
-    );
-  };
-
   const getListeningIds = (id: string, partNumber: number) => {
     const newObj = { ...listeningIds };
     newObj[`${partNumber}`] = id;
-    console.log("getListeningIds", partNumber, newObj);
     setListeningIds(newObj);
   };
 
@@ -111,40 +104,6 @@ const CreateTest = (props: Props) => {
     setReadingIds(newObj);
   };
 
-  const renderPartListening = (partNumber: number) => {
-    return (
-      <div className="partHeader">
-        <Typography className="partName">Part: {partNumber}</Typography>
-        <SelectField
-          control={control}
-          setValue={setValue}
-          name={`partNumberListening[${partNumber - 1}]`}
-          options={filterListening(partNumber)}
-          onChangeExtra={(e: any) => {
-            getListeningIds(e.value, partNumber - 1);
-          }}
-        />
-      </div>
-    );
-  };
-
-  const renderPartReading = (partNumber: number) => {
-    return (
-      <div className="partHeader">
-        <Typography className="partName">Part: {partNumber}</Typography>
-        <SelectField
-          control={control}
-          setValue={setValue}
-          name={`partNumberReading[${partNumber - 1}]`}
-          options={filterReading(partNumber)}
-          onChangeExtra={(e: any) => {
-            getReadingIds(e.value, partNumber - 1);
-          }}
-        />
-      </div>
-    );
-  };
-
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
       try {
@@ -152,8 +111,6 @@ const CreateTest = (props: Props) => {
           examName: data?.examName,
           readingIds: Object.values(readingIds || {}),
           listeningIds: Object.values(listeningIds || {}),
-          // speakingIds: ["627a20c2854826491d0c60af"],
-          // writingIds: ["627a20c2854826491d0c60af"],
         };
 
         const response = await testBankService.postCreateTest(body);
@@ -174,8 +131,6 @@ const CreateTest = (props: Props) => {
           examName: data?.examName,
           readingIds: Object.values(readingIds || {}),
           listeningIds: Object.values(listeningIds || {}),
-          // speakingIds: ["627a20c2854826491d0c60af"],
-          // writingIds: ["627a20c2854826491d0c60af"],
         };
 
         const response = await testBankService.putUpdateTest(id, body);
@@ -190,6 +145,51 @@ const CreateTest = (props: Props) => {
         });
       }
     }
+  };
+
+  //!Render
+
+  const renderButton = () => {
+    return (
+      <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
+        <ButtonSave type="submit" icon={<SaveIcon sx={{ fontSize: "20px" }} />} title="Save" />
+        <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
+      </Stack>
+    );
+  };
+
+  const renderPartReading = (partNumber: number) => {
+    return (
+      <div className="partHeader">
+        <Typography className="partName">Part: {partNumber}</Typography>
+        <SelectField
+          control={control}
+          setValue={setValue}
+          name={`partNumberReading[${partNumber - 1}]`}
+          options={filterReading(partNumber)}
+          onChangeExtra={(e: any) => {
+            getReadingIds(e.value, partNumber - 1);
+          }}
+        />
+      </div>
+    );
+  };
+
+  const renderPartListening = (partNumber: number) => {
+    return (
+      <div className="partHeader">
+        <Typography className="partName">Part: {partNumber}</Typography>
+        <SelectField
+          control={control}
+          setValue={setValue}
+          name={`partNumberListening[${partNumber - 1}]`}
+          options={filterListening(partNumber)}
+          onChangeExtra={(e: any) => {
+            getListeningIds(e.value, partNumber - 1);
+          }}
+        />
+      </div>
+    );
   };
 
   return (

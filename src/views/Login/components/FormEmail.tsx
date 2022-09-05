@@ -89,6 +89,7 @@ const FormEmail = () => {
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,
                 user: response?.data?.data?.data,
+                userType: "user",
               });
               onSubmitTestCode(response?.data?.data?.data?.examination?.id);
             },

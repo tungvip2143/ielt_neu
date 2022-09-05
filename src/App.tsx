@@ -29,6 +29,7 @@ import SignUpEmail from "views/SignUp/component/SignUpEmail";
 import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
 import ForgotPassword from "views/ForgotPassword";
+import LoginAdminPage from "views/Admin/LoginAdmin";
 
 //
 
@@ -54,14 +55,14 @@ const App: React.FC = () => {
               <PrivateRoute path={RouteBase.IeltsReading} exact component={IeltsReading} />
               <PrivateRoute path={RouteBase.IeltsWriting} exact component={IeltsWriting} />
               <PrivateRoute path={RouteBase.IeltsSpeaking} exact component={IeltsSpeaking} />
+              <Route path={RouteBase.AdminLogin} exact component={LoginAdminPage} />
               <PrivateRoute path={RouteBase.Admin} component={AdminLayout} />
-              <PrivateRoute path={RouteBase.LoginEmail} exact component={LoginEmail} />
+              {/* <PrivateRoute path={RouteBase.LoginEmail} exact component={LoginEmail} /> */}
               <PrivateRoute path={RouteBase.Pricing} exact component={Pricing} />
               <PrivateRoute path={RouteBase.ReviewReading} exact component={ReviewReading} />
               <PrivateRoute path={RouteBase.WritingReview} exact component={WritngReview} />
               <PrivateRoute path={RouteBase.ListeningReview} exact component={ListeningReview} />
               <PrivateRoute path={RouteBase.SpeakingReview} exact component={SpeakingReview} />
-              <Route path={RouteBase.AdminLogin} exact component={LoginPage} />
               <PrivateRoute path={RouteBase.Home} component={DefaultLayout} />
               {/* Admin site */}
             </Switch>

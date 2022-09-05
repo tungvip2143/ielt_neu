@@ -4,7 +4,7 @@ export const TINY_API = "93v3huof7n8saw08hun3sp087pjnt6g7bos3zupd33kp7yql";
 
 export const IMAGE_URL = "http://103.226.250.81:8689/";
 
-export const AUDIO_URL = "https://ielts-api.hoccontentcunglina.com/";
+export const AUDIO_URL = "http://103.226.250.81:8689/";
 
 export const validateLine = {
   regexPassword: "At least 1 lower letter, 1 uppercase letter & 1 number ",

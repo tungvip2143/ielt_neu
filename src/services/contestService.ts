@@ -6,8 +6,16 @@ class userService {
     return httpServices.get(ADMIN_CONTEST_URL().GET_LIST_EXAMINATION, params);
   }
 
-  getListExamDetail(id: any) {
-    return httpServices.get(ADMIN_CONTEST_URL().GET_EXAMINATION_DETAIL + id);
+  getListExamGen(params: any = {}, id: any) {
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_LIST_EXAM_GENERATE, params);
+  }
+
+  getListExamDetail(id: any, examId?: any) {
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_EXAMINATION_DETAIL + id);
+  }
+
+  getListExamDetailGen(id: any, examId?: any) {
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_LIS_EXAM_GENERATE_DETAIL + examId);
   }
 
   postCreateExamination(body: any) {
