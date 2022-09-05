@@ -91,7 +91,7 @@ const ItemQuestion = ({
       return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion data={data} />;
+      return <SentenceCompletetion displayNumber={displayNumber} data={data} />;
     }
     if (
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
