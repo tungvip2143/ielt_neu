@@ -8,7 +8,6 @@ import { Box, Button } from "@mui/material";
 import Header from "views/Ielts/Header/Header";
 import { Form, Formik } from "formik";
 import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
 import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
@@ -21,15 +20,20 @@ import ModalHide from "../../../components/Modal/ModalHide";
 import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
-import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 //
 import { GetAuthSelector } from "redux/selectors/auth";
 import { RouteBase } from "constants/routeUrl";
 import LoadingPage from "components/Loading";
+import { rulesdetailExam } from "../../../constants/constants";
 //
+import { makeStyles } from "@mui/styles";
+//! css
+const useStyles = makeStyles((theme) => {
+  return {};
+});
 const stepRuleExam = {
-  typeExam: "Listening",
-  time: "1 hour",
+  typeExam: rulesdetailExam.listening.title,
+  time: rulesdetailExam.listening.timeExam,
   informationsForCandidates: <InformationForCandidates />,
   intructionsToCandidates: <IntructionsToCandidates />,
 };

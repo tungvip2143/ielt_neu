@@ -38,7 +38,7 @@ export const textBtnSubmit = {
   startTest: "Start test",
   ok: "OK",
 };
-export const RulesdetailExam = {
+export const rulesdetailExam = {
   listening: {
     title: "Listening",
     timeExam: "30 minutes",
