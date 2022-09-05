@@ -59,7 +59,6 @@ const CreateContest = (props: Props) => {
     resolver: yupResolver(validationSchema),
     defaultValues: { name: dataPartDetail?.name || "" },
   });
-  console.log(dataPartDetail, "dataPartDetail111");
 
   const { control, handleSubmit, setValue, getValues, reset } = formController;
   const handlePickImage = () => {
@@ -77,8 +76,8 @@ const CreateContest = (props: Props) => {
         if (responseFile?.data?.statusCode === 200) {
           setFile(responseFile?.data?.data?.uri);
           toast.success("Upload file success");
-          setValueUserId(responseFile?.data?.data?.studentIds);
-          // setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
+          // setValueUserId(responseFile?.data?.data?.studentIds);
+          setValueUserId(responseFile?.data?.data?.map((el: any) => el?._id));
           setDataFileExcel(responseFile?.data?.data);
         }
       } catch (error) {}

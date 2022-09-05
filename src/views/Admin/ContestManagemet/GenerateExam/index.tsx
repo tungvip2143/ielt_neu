@@ -12,6 +12,7 @@ import * as yup from "yup";
 import "./style.scss";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { RouteBase } from "constants/routeUrl";
+import ProgressBar from "components/ProgressBar";
 
 const validationSchema = yup.object().shape({
   //   name: yup.string().required("This field is required!"),
@@ -27,12 +28,14 @@ const GenerateExam = () => {
 
   const [dataTest, , , , , ,] = useGetListTest();
   const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetListExam(id);
+  const [visible, setVisible] = useState(true);
 
   //! Function
 
   const convertOriginalExam = dataTest?.map((el: any) => ({ label: el?.examName, value: el?.id }));
 
   const handleGenerate = async () => {
+    setVisible(true);
     const body = {
       examIds: examId?.map((el: any) => el?.value),
     };
@@ -41,8 +44,10 @@ const GenerateExam = () => {
       if (response?.data?.statusCode === 200) {
         toast.success("Gender success");
         refetchDataTable();
+        setVisible(false);
       }
     } catch (error: any) {
+      setVisible(false);
       toast.error(error?.response?.data?.message, {
         autoClose: 3000,
       });
@@ -53,6 +58,7 @@ const GenerateExam = () => {
 
   return (
     <div className="cardWrapper">
+      <ProgressBar isVisible={visible} />
       <Typography sx={{ fontWeight: "bold", marginBottom: "10px" }}>Select original exams</Typography>
       <Autocomplete
         multiple
@@ -73,8 +79,11 @@ const GenerateExam = () => {
         columns={[
           {
             flex: 1,
-            field: "id",
-            renderHeader: () => <Typography>Examination id</Typography>,
+            field: "stt",
+            renderHeader: () => <Typography>STT</Typography>,
+            renderCell: (items) => {
+              return <Typography>{dataExam?.map((el: any, index: any) => index)}</Typography>;
+            },
           },
           {
             flex: 1,

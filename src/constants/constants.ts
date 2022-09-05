@@ -22,3 +22,7 @@ export const DEFAULT_IMAGE =
   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3eLpTAMWO-mtILepXLwg68-IChyGcXJgog&usqp=CAU";
 
 export { SocialProvider };
+
+export function calcItemStart(page: any = 1, size: any = 10) {
+  return page ? page * size - size : 0;
+}
