@@ -18,17 +18,6 @@ const useStyles = makeStyles((theme) => {
       justifyContent: "center",
       alignItems: "center",
     },
-    header: {
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-      position: "fixed",
-      top: 0,
-      right: 0,
-      left: 0,
-      height: "140px",
-      p: "20px 20px",
-    },
     footer: {
       display: "flex",
       justifyContent: "center",
@@ -45,8 +34,8 @@ const useStyles = makeStyles((theme) => {
 const LoginPage = () => {
   // ! State
   const classes = useStyles();
-  //! Render
 
+  //! Render
   return (
     <Box className={classes.container}>
       <HeaderExam />
