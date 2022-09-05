@@ -12,6 +12,30 @@ import { useHistory } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import { GetAuthSelector } from "redux/selectors/auth";
 import * as Yup from "yup";
+//
+import { makeStyles } from "@mui/styles";
+const useStyles = makeStyles((theme) => {
+  return {
+    input: {
+      width: "100%",
+      borderRadius: "12px 12px 0px 0px",
+      padding: "8px 0px 12px 16px",
+      border: `1px solid ${theme.custom?.border.input.main}`,
+      borderBottom: `1px solid ${theme.custom?.border.input.bottom}`,
+      height: "3rem",
+    },
+    btnSubmit: {
+      width: "100%",
+      borderRadius: "16px",
+      padding: "16px 0 ",
+      marginTop: "16px",
+      background: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
+      border: "none",
+      cursor: "pointer",
+    },
+  };
+});
 // !type
 interface InitialValueExam {
   candidateCode: string;
@@ -23,27 +47,9 @@ const validate = Yup.object({
   studentCode: Yup.string().min(5, "*Must be 10 characters").required("Required"),
 });
 
-const input = {
-  width: "100%",
-  borderRadius: "12px 12px 0px 0px",
-  // backgroundColor: "rgb(247, 249, 251)",
-  padding: "8px 0px 12px 16px",
-  border: "1px solid #e3f2fd",
-  borderBottom: "1px solid rgb(138, 140, 145)",
-  height: "3rem",
-};
-
-const btn = {
-  width: "100%",
-  borderRadius: "16px",
-  padding: "16px 0 ",
-  mt: "16px",
-  background: "#104AC6",
-  color: "#fff",
-};
-
-const FormEmail = () => {
+const FormLogin = () => {
   // ! State
+  const classes = useStyles();
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
   const { isLogin } = auth;
@@ -102,29 +108,28 @@ const FormEmail = () => {
             <div style={{ paddingBottom: "30px" }}>
               <FastField
                 lable="Mã sinh viên"
-                style={input}
                 component={InputField}
                 type="text"
                 placeholder="Student Code"
                 {...propsFormik.getFieldProps("studentCode")}
+                className={classes.input}
               />
             </div>
             <div style={{ paddingBottom: "30px" }}>
               <FastField
                 lable="Mã thí sinh"
-                style={input}
                 error=""
                 component={InputField}
                 type="text"
                 placeholder="Candidates Code"
-                // name="username"
                 {...propsFormik.getFieldProps("candidateCode")}
+                className={classes.input}
               />
             </div>
 
-            <Button style={btn} type="submit">
+            <button className={classes.btnSubmit} type="submit">
               LOGIN
-            </Button>
+            </button>
           </Form>
         )}
       </Formik>
@@ -132,4 +137,4 @@ const FormEmail = () => {
   );
 };
 
-export default FormEmail;
+export default FormLogin;

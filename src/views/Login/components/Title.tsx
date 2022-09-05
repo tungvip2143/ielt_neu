@@ -1,13 +1,25 @@
-import React from "react";
 import Text from "components/Typography/index";
+import CommonStyles from "components/CommonStyles";
+import { makeStyles } from "@mui/styles";
 
-const Title = (props: any) => {
-  const textLogin = {
-    color: "#0b2283",
-    fontWeight: "bold",
-    mb: "24px",
+const useStyles = makeStyles((theme) => {
+  return {
+    textLogin: {
+      color: theme.custom?.text.titleLogin,
+      marginBottom: "24px !important",
+    },
   };
-  return <Text.Sub20Bold sx={textLogin}>{props.children}</Text.Sub20Bold>;
+});
+const Title = (props: any) => {
+  //! State
+  const classes = useStyles();
+
+  //! Render
+  return (
+    <CommonStyles.Typography className={classes.textLogin} component="p" variant="sub20Bold">
+      {props.children}
+    </CommonStyles.Typography>
+  );
 };
 
 export default Title;

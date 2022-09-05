@@ -21,7 +21,6 @@ const QuestionBox = (props: Props) => {
   const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
-
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
@@ -40,7 +39,9 @@ const QuestionBox = (props: Props) => {
       input?.focus();
     }
   }, [displayNumber]);
+  //
 
+  //
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
     inputIndex++;
@@ -49,7 +50,9 @@ const QuestionBox = (props: Props) => {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${blankId - 1}].studentAnswer' 
+      `<strong>${blankId}</strong><input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+        blankId - 1
+      }].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });
@@ -60,8 +63,11 @@ const QuestionBox = (props: Props) => {
   };
 
   const test: any = Handlebars.compile(newQuestionBoxParsed);
+
   return (
-    <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+    <>
+      <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+    </>
   );
 };
 

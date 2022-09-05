@@ -1,38 +1,49 @@
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
-const container = {
-  width: "100vw",
-  height: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
+import LogoDuca from "assets/image/logo/duca.png";
+import { makeStyles } from "@mui/styles";
+
 import Title from "./components/Title";
 import CardView from "./components/CardView";
-import FormEmail from "./components/FormEmail";
-import { useEffect } from "react";
-import { Redirect } from "react-router-dom";
-import { GetAuthSelector } from "redux/selectors";
+import FormLogin from "./components/FormLogin";
+import HeaderExam from "../Ielts/Header/HeaderExam";
+//
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      width: "100vw",
+      height: "100vh",
+      ...theme.custom?.flexBox.flexCenterCenter,
+    },
+    footer: {
+      ...theme.custom?.flexBox.flexCenterCenter,
+      position: "fixed",
+      bottom: 0,
+      right: 0,
+      left: 0,
+      height: "140px",
+      p: "20px 20px",
+    },
+  };
+});
 const LoginPage = () => {
   // ! State
-  // const auth = GetAuthSelector();
+  const classes = useStyles();
 
-  // const { isLogin } = auth;
-
-  // if (isLogin) {
-  //   return <Redirect to="/" />;
-  // }
   //! Render
-
   return (
-    <Box sx={container}>
+    <Box className={classes.container}>
+      <HeaderExam />
       <CardView>
         <Title>Login to exam</Title>
         <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
-          <FormEmail />
+          <FormLogin />
         </Stack>
       </CardView>
+      <Box className={classes.footer}>
+        <img style={{ width: "300px" }} src={LogoDuca} alt="" />
+      </Box>
     </Box>
   );
 };

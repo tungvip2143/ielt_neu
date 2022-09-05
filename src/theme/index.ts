@@ -1,4 +1,72 @@
-import { createTheme, ThemeOptions } from "@mui/material";
+import { createTheme } from "@mui/material";
+import { Theme } from "@mui/material/styles";
+declare module "@mui/material/styles" {
+  interface Theme {}
+  interface ThemeOptions {}
+}
+
+declare module "@mui/styles/defaultTheme" {
+  interface DefaultTheme extends Theme {}
+}
+//
+declare module "@mui/material/styles" {
+  interface CustomTheme {
+    custom?: {
+      background: {
+        exam: string;
+        exercises: string;
+        pageNumber: string;
+        white: string;
+        btnShowModal: string;
+      };
+      border: {
+        input: {
+          main: string;
+          bottom: string;
+        };
+      };
+      button: {
+        background: {
+          main: string;
+        };
+      };
+      text: {
+        titleLogin: string;
+      };
+      flexBox: {
+        flexBetweenCenter: {
+          display: string;
+          justifyContent: string;
+          alignItems: string;
+        };
+        flexCenterCenter: {
+          display: string;
+          justifyContent: string;
+          alignItems: string;
+        };
+        flexBetWeen: {
+          display: string;
+          justifyContent: string;
+        };
+        flexAlignItemsCenter: {
+          display: string;
+          alignItems: string;
+        };
+        flexJusCenter: {
+          display: string;
+          justifyContent: string;
+        };
+        flexColCenter: {
+          display: string;
+          alignItems: string;
+          flexDirection: string;
+        };
+      };
+    };
+  }
+  interface Theme extends CustomTheme {}
+  interface ThemeOptions extends CustomTheme {}
+}
 
 declare module "@mui/material/styles" {
   interface TypographyVariants {
@@ -67,7 +135,7 @@ declare module "@mui/material/Typography" {
   }
 }
 
-export const theme: ThemeOptions = createTheme({
+export const theme = createTheme({
   breakpoints: {
     values: {
       xs: 0,
@@ -230,6 +298,59 @@ export const theme: ThemeOptions = createTheme({
       },
     },
   },
+  custom: {
+    background: {
+      exam: "#dbe5f5",
+      exercises: "#dde3ee",
+      pageNumber: "#000000",
+      white: "#fff",
+      btnShowModal: "#6aade4",
+    },
+    border: {
+      input: {
+        main: " #e3f2fd",
+        bottom: "#ccc",
+      },
+    },
+    button: {
+      background: {
+        main: "#104AC6",
+      },
+    },
+    text: {
+      titleLogin: "#0b2283",
+    },
+    flexBox: {
+      flexBetweenCenter: {
+        display: "flex",
+        justifyContent: "space-between",
+        alignItems: "center",
+      },
+      flexCenterCenter: {
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      },
+      flexBetWeen: {
+        display: "flex",
+        justifyContent: "space-between",
+      },
+      flexAlignItemsCenter: {
+        display: "flex",
+        alignItems: "center",
+      },
+      flexJusCenter: {
+        display: "flex",
+        justifyContent: "center",
+      },
+      flexColCenter: {
+        display: "flex",
+        alignItems: "center",
+        flexDirection: "column",
+      },
+    },
+  },
+
   palette: {
     action: {
       active: "#6B7280",
@@ -245,7 +366,7 @@ export const theme: ThemeOptions = createTheme({
     },
     divider: "#E6E8F0",
     primary: {
-      main: "#5048E5",
+      main: "#104AC6",
       light: "#828DF8",
       dark: "#3832A0",
       contrastText: "#FFFFFF",
@@ -426,7 +547,6 @@ export const theme: ThemeOptions = createTheme({
     },
     sub20Bold: {
       fontSize: "20px",
-      color: "#8A8C91",
       fontWeight: 700,
     },
     descNormal: {
