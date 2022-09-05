@@ -1,20 +1,23 @@
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
 
-import LogoDuca from "assets/image/logo/duca.png";
 import { makeStyles } from "@mui/styles";
 
 import Title from "./components/Title";
 import CardView from "./components/CardView";
 import FormLogin from "./components/FormLogin";
-import HeaderExam from "../Ielts/Header/HeaderExam";
 //
+import bgLogin from "assets/image/login/bg-login.jpg";
+import HeaderOdin from "../../components/Header/HeaderOdin";
 const useStyles = makeStyles((theme) => {
   return {
     container: {
       width: "100vw",
       height: "100vh",
       ...theme.custom?.flexBox.flexCenterCenter,
+      background: `url(${bgLogin})`,
+      backgroundSize: "cover",
+      backgroundRepeat: "no-repeat",
     },
     footer: {
       ...theme.custom?.flexBox.flexCenterCenter,
@@ -34,16 +37,13 @@ const LoginPage = () => {
   //! Render
   return (
     <Box className={classes.container}>
-      <HeaderExam />
+      <HeaderOdin />
       <CardView>
         <Title>Login to exam</Title>
         <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
           <FormLogin />
         </Stack>
       </CardView>
-      <Box className={classes.footer}>
-        <img style={{ width: "300px" }} src={LogoDuca} alt="" />
-      </Box>
     </Box>
   );
 };

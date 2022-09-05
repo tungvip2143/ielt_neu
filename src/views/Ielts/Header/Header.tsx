@@ -11,8 +11,8 @@ import ButtonHelp from "../../components/ButtonHelp/ButtonHelp";
 import OptionButton from "../../Exam/OptionButton/OptionButton";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import NumberUser from "assets/image/exam/number-user.png";
+import HeaderOdin from "../../../components/Header/HeaderOdin";
 //
-import HeaderExam from "../Header/HeaderExam";
 
 // ! type
 interface Props {
@@ -50,7 +50,7 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam
 
   return (
     <Box>
-      <HeaderExam />
+      <HeaderOdin />
       <Box sx={header}>
         <Box sx={headerContent}>
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
