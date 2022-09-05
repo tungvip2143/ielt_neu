@@ -52,7 +52,7 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
     },
     eachQuestion: {
-      background: "#000",
+      background: theme.custom?.background.pageNumber,
       color: "#fff",
       width: "23px",
       height: "23px",
