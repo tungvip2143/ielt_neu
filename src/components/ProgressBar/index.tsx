@@ -35,7 +35,7 @@ const ProgressBar = (props: Props) => {
   return (
     <>
       {isVisible && (
-        <Box sx={customLoading}>
+        <Box sx={{ marginBottom: "20px" }}>
           <LinearProgress />
         </Box>
       )}

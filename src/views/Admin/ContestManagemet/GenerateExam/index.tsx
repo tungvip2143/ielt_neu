@@ -28,7 +28,7 @@ const GenerateExam = () => {
 
   const [dataTest, , , , , ,] = useGetListTest();
   const [dataExam, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetListExam(id);
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
 
   //! Function
 
@@ -81,9 +81,6 @@ const GenerateExam = () => {
             flex: 1,
             field: "stt",
             renderHeader: () => <Typography>STT</Typography>,
-            renderCell: (items) => {
-              return <Typography>{dataExam?.map((el: any, index: any) => index)}</Typography>;
-            },
           },
           {
             flex: 1,

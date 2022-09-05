@@ -6,6 +6,8 @@ import contestService from "services/contestService";
 
 const useGetListExam = (id: any) => {
   const [dataExam, setDataExam] = useState<MExam[]>([]);
+  const [index, setIndex] = useState<number>(0);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
@@ -31,7 +33,15 @@ const useGetListExam = (id: any) => {
         const response = await contestService.getListExamGen(params, id);
 
         if (response.data.statusCode === 200) {
-          const list = MExam.parsePartListFromResponse(response?.data?.data?.data || []);
+          const { page, pageSize } = params;
+
+          const list = MExam.parsePartListFromResponse(response?.data?.data?.data || []).map(
+            (el: any, index: number) => ({
+              ...el,
+              stt: pageSize * (page - 1) + index + 1,
+            })
+          );
+
           setDataExam(list);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }
