@@ -26,7 +26,6 @@ import { RouteBase } from "constants/routeUrl";
 import LoadingPage from "components/Loading";
 import { rulesdetailExam } from "../../../constants/constants";
 //
-
 import { makeStyles } from "@mui/styles";
 //! css
 const useStyles = makeStyles((theme) => {
