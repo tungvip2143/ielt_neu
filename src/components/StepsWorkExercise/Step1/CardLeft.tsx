@@ -43,11 +43,9 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   const image = dataChangePart?.question?.image ? `${ROOT_ORIGINAL_URL}/${dataChangePart?.question?.image}` : imageNull;
   return (
     <>
-      {test === IELT_TEST.READING && (
-        <div dangerouslySetInnerHTML={{ __html: decode(dataChangePart?.passageText) || "" }}></div>
-        // <div>{ReactHtmlParser(ReactHtmlParser(dataChangePart?.passageText))}</div>
-      )}
-      {test === IELT_TEST.WRITING && (
+      <div dangerouslySetInnerHTML={{ __html: decode(dataChangePart?.passageText) || "" }}></div>
+
+      {/* {test === IELT_TEST.WRITING && (
         <div className={classes.container}>
           <span>
             <strong>{ReactHtmlParser(dataChangePart?.question?.title)}</strong>
@@ -57,7 +55,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
             <img className={classes.img} src={image} alt={`writing part ${dataChangePart?.question?.displayNumber}`} />
           </div>
         </div>
-      )}
+      )} */}
       {/* <Debug /> */}
     </>
   );

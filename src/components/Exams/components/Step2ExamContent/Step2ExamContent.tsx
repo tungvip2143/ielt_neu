@@ -11,8 +11,14 @@ import CardPart from "components/Card/CardPart";
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FooterExamResponsive from "./FooterExamResponsive";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useIeltsReading } from "hooks/ielts/useIelts";
+import { useHistory } from "react-router-dom";
+import LoadingPage from "components/Loading";
+import { useFormikContext } from "formik";
+import cacheService from "services/cacheService";
 //
 interface Props {
   data?: any;
@@ -20,6 +26,8 @@ interface Props {
 
 const Step2ExamContent = (props: any) => {
   const { data, test } = props;
+
+  console.log("data", data);
   //! State
   const [questions, setQuestions] = useState(data);
 
@@ -36,10 +44,14 @@ const Step2ExamContent = (props: any) => {
 
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   const part = data;
-  const group = test === IELT_TEST.READING ? data[groupSelected.part]?.groups : [];
-  const questionData =
-    test === IELT_TEST.READING ? data[groupSelected.part]?.groups[groupSelected.group]?.questions || [] : [];
-  const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
+  const group = data[groupSelected.part]?.groups;
+  const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
+  const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+  const { values } = useFormikContext();
+
+  useEffect(() => {
+    cacheService.cache("answers", values);
+  }, [values]);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -95,23 +107,22 @@ const Step2ExamContent = (props: any) => {
               width={5.9}
               styleAdd={styleAddExercise}
             />
-            {test === IELT_TEST.READING && (
-              <CardExercise
-                content={
-                  <TOFFL
-                    onClickPage={onClickPage}
-                    questionSelected={questionSelected}
-                    partRenderSelected={group[groupSelected.group]}
-                    showQuestion={showQuestion}
-                    onHightLightNumberPage={hightLightNumberPageClickQuestion}
-                    displayNumber={displayNumber}
-                    onClickQuestionType={onClickQuestionType}
-                  />
-                }
-                width={6}
-                styleAdd={styleAddExercise}
-              />
-            )}
+
+            <CardExercise
+              content={
+                <TOFFL
+                  onClickPage={onClickPage}
+                  questionSelected={questionSelected}
+                  partRenderSelected={group[groupSelected.group]}
+                  showQuestion={showQuestion}
+                  onHightLightNumberPage={hightLightNumberPageClickQuestion}
+                  displayNumber={displayNumber}
+                  onClickQuestionType={onClickQuestionType}
+                />
+              }
+              width={6}
+              styleAdd={styleAddExercise}
+            />
           </Grid>
         </Box>
 
@@ -132,4 +143,15 @@ const Step2ExamContent = (props: any) => {
   );
 };
 
-export default Step2ExamContent;
+const IeltsReadingContainer = () => {
+  const { testCode } = useGetTestCode();
+  const { data, isLoading } = useIeltsReading(testCode);
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <Step2ExamContent data={data?.data?.data} />;
+};
+
+export default IeltsReadingContainer;

@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 
 import { RouteBase } from "../../constants/routeUrl";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import cacheService from "services/cacheService";
 const card = {
   p: "48px 32px",
   width: { xs: "90%", md: "80%" },
@@ -45,8 +46,11 @@ const EndTest = (props: Props) => {
 
       {
         onSuccess: () => {
-          history.push(RouteBase.Login);
           dispatch(authActions.logout);
+          cacheService.clearCacheData();
+          localStorage.removeItem("testCode");
+          localStorage.removeItem("examinationId");
+          // history.push(RouteBase.Login);
         },
       }
     );

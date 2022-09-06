@@ -21,6 +21,7 @@ interface Props {
   handleOpenModalHide?: () => void;
   numberStep?: any;
   timeExam?: any;
+  handleSubmitWhenEndedTime?: () => void;
 }
 const header = {
   p: "2px 0px",
@@ -39,7 +40,13 @@ const headerContent = {
 };
 //
 
-const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam }: Props) => {
+const Header = ({
+  handleOpenModalHelp,
+  handleOpenModalHide,
+  numberStep,
+  timeExam,
+  handleSubmitWhenEndedTime,
+}: Props) => {
   const { step } = useStepExam();
   const btnHelp = {
     cursor: "pointer",
@@ -60,7 +67,9 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam
             </Stack>
           )}
 
-          {step === numberStep && <CountDown timeExam={timeExam} />}
+          {step === numberStep && (
+            <CountDown handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+          )}
           {step === numberStep && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <ButtonHelp handleOpenModalHelp={handleOpenModalHelp} style={btnHelp} />

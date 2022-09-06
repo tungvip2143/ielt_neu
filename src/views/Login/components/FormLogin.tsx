@@ -14,6 +14,8 @@ import { GetAuthSelector } from "redux/selectors/auth";
 import * as Yup from "yup";
 //
 import { makeStyles } from "@mui/styles";
+import { toast } from "react-toastify";
+import { getErrorMsg } from "helpers";
 const useStyles = makeStyles((theme) => {
   return {
     input: {
@@ -58,19 +60,14 @@ const FormLogin = () => {
   const { isLoading: isLoadingTestCode, mutateAsync: createTestCode } = useIeltsTestCode();
 
   const onSubmitTestCode = async (examinationId: InitialValueExam) => {
-    await createTestCode(
-      { examination: examinationId },
-      {
-        onSuccess: (response: any) => {
-          localStorage.setItem("testCode", response?.data?.data?.testCode);
-          history.push(RouteBase.IeltsListening);
-        },
-        onError: (err: any) => {
-          if (err.response.data.statusCode === 401) {
-          }
-        },
-      }
-    );
+    try {
+      const response = await createTestCode({ examination: examinationId });
+      console.log("response", response);
+      localStorage.setItem("testCode", response?.data?.data?.testCode);
+      // history.push(RouteBase.IeltsListening);
+    } catch (error) {
+      toast.error(getErrorMsg(error));
+    }
   };
 
   // ! Render
@@ -90,7 +87,7 @@ const FormLogin = () => {
         validationSchema={validate}
         onSubmit={async (values) => {
           await login(values, {
-            onSuccess: (response) => {
+            onSuccess: async (response) => {
               localStorage.setItem("examinationId", response?.data?.data?.data?.examination?.id);
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,

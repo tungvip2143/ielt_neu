@@ -1,7 +1,7 @@
-import React, { useCallback, useMemo } from "react";
+import React, { useCallback, useEffect, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
-import { TypeStepExamEnum, TypeExam } from "constants/enum";
+import { TypeStepExamEnum, TypeExam, TimeExamLeft } from "constants/enum";
 //
 import { Box, Button } from "@mui/material";
 //
@@ -27,6 +27,10 @@ import LoadingPage from "components/Loading";
 import { rulesdetailExam } from "../../../constants/constants";
 //
 import { makeStyles } from "@mui/styles";
+import { useGetTimeExam } from "hooks/ielts/useGetTimeExam";
+import { useGetExamValueFromLocalStorage } from "hooks/ielts/useGetExamValueFromLocalStorage";
+import cacheService from "services/cacheService";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 //! css
 const useStyles = makeStyles((theme) => {
   return {};
@@ -50,19 +54,6 @@ const styleModal = {
 // !type
 export interface IeltsListeningProps {}
 
-const initialValues = function () {
-  let value = {
-    questionId: "",
-    studentAnswer: "",
-  };
-
-  let answers = [];
-  for (let i = 0; i < 40; i++) {
-    answers.push(value);
-  }
-  return { answers };
-};
-
 const IeltsListening = (props: IeltsListeningProps) => {
   //! State
 
@@ -71,27 +62,47 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
-  const testCode = useMemo(() => {
-    return localStorage.getItem("testCode");
-  }, []);
+
+  // useConfirmCloseBrowser();
   const history = useHistory();
+  const genInitialValue = useMemo(() => {
+    let value = {
+      questionId: "",
+      studentAnswer: "",
+    };
+
+    let answers = [];
+    for (let i = 0; i < 40; i++) {
+      answers.push(value);
+    }
+    return { answers };
+  }, []);
+
+  const initialValues: any = useMemo(() => {
+    const dataCache = cacheService.getDataCache();
+    const { answers } = dataCache;
+    return answers ? answers : genInitialValue;
+  }, []);
 
   //! Function
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
 
   const handleSubmitForm = async (values: any) => {
+    const testCode = localStorage.getItem("testCode");
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
+    // console.log("testCode", testCode);
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
       onSuccess: async () => {
+        cacheService.clearCacheData();
         await updateIeltsListeningFinish(
           { testCode, skill: "listening" },
           {
             onSuccess: () => {
-              localStorage.setItem("LISTENING", "true");
+              // cacheService.cache("skill", "READING");
             },
           }
         );
@@ -114,14 +125,16 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-  const timeExam = 1800000;
+  const dataCache = cacheService.getDataCache();
+  const { LEFT_TIME } = dataCache;
+  const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 1800000;
 
   //! Render
   if (isLoading || listeningFinishLoading) {
     return <LoadingPage />;
   }
   return (
-    <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
+    <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
         return (
           <Form>
@@ -131,6 +144,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
                 timeExam={timeExam}
+                handleSubmitWhenEndedTime={() => formik.handleSubmit()}
               />
 
               <Box sx={containerSteps}>

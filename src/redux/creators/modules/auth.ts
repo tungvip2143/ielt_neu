@@ -19,6 +19,8 @@ export const authSagas = {
       const infoLocalStorage = authServices.getUserLocalStorage();
       const userType = authServices.getUserTypeFromLocalStorage();
 
+      console.log("infoLocalStorage", infoLocalStorage);
+
       if (!isEmpty(infoLocalStorage) && !isEmpty(userType)) {
         const { token } = infoLocalStorage;
         yield httpServices.attachTokenToHeader(token);
