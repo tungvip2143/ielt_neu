@@ -11,8 +11,10 @@ import { useFormikContext } from "formik";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-import NextQuestion from "assets/image/exam/next-exercise.png";
-import PrevQuestion from "assets/image/exam/prev-exercise.png";
+// import PrevQuestion from "assets/image/exam/next-exercise.png";
+// import PrevQuestion from "assets/image/exam/prev-exercise.png";
+import NextQuestion from "assets/image/exam/prev-exercise.png";
+
 import { AnyARecord } from "dns";
 
 interface CardTotalPageExamsI {
@@ -264,11 +266,11 @@ const CardPage = ({
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage} onClick={onClickBackQuestion}>
+          {/* <Box sx={nextPage} onClick={onClickBackQuestion}>
             <img src={NextQuestion} alt="" />
-          </Box>
+          </Box> */}
           <Box sx={nextPage} onClick={onClickNextQuestion}>
-            <img src={PrevQuestion} alt="" />
+            <img src={NextQuestion} alt="" />
           </Box>
         </Stack>
       </Box>
