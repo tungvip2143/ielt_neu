@@ -45,14 +45,10 @@ const IdentifyInformationType = (props: Props) => {
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
   const { values }: any = useFormikContext();
 
-  console.log('+++++++++++++', props);
-
-
   const onClickQuestion = () => {
     let sectionRender: any = {};
     sectionRender.question = questionIdx;
     onClickPage && onClickPage(sectionRender);
-    // onHightLightNumberPage(question?.question?.displayNumber);
   };
   return (
     <>
@@ -85,7 +81,7 @@ const IdentifyInformationType = (props: Props) => {
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
                 value={values?.answers[displayNumberT]?.studentAnswer}
-              // onChange={handleChange}
+                // onChange={handleChange}
               >
                 {question?.question?.options.map((answer: any) => {
                   return (
@@ -98,7 +94,7 @@ const IdentifyInformationType = (props: Props) => {
                           index={displayNumber}
                           component={Radio}
                           name={`answers[${displayNumberT}].studentAnswer`}
-                        //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
+                          //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
                         />
                       }
                       label={`${answer.key}. ${answer?.text}`}
@@ -112,59 +108,59 @@ const IdentifyInformationType = (props: Props) => {
 
         {(QUESTION_TYPE.IDENTIFYING_INFORMATION === questionType ||
           questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS) && (
-            <AccordionDetails>
-              <Stack spacing={2}>
-                <FormControl>
-                  <RadioGroup
-                    aria-labelledby="demo-controlled-radio-buttons-group"
-                    name="controlled-radio-buttons-group"
-                    value={values?.answers[displayNumberT]?.studentAnswer}
+          <AccordionDetails>
+            <Stack spacing={2}>
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={values?.answers[displayNumberT]?.studentAnswer}
                   // onChange={handleChange}
-                  >
-                    <FormControlLabel
-                      value={true}
-                      control={
-                        <Field
-                          questionId={question?.question?._id}
-                          index={displayNumberT}
-                          component={Radio}
-                          name={`answers[${displayNumberT}].studentAnswer`}
+                >
+                  <FormControlLabel
+                    value={true}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
                         // value={true}
-                        />
-                      }
-                      label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
-                    />
-                    <FormControlLabel
-                      value={false}
-                      control={
-                        <Field
-                          questionId={question?.question?._id}
-                          index={displayNumberT}
-                          component={Radio}
-                          name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
+                  />
+                  <FormControlLabel
+                    value={false}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
                         // value={false}
-                        />
-                      }
-                      label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
-                    />
-                    <FormControlLabel
-                      value={"not_given"}
-                      control={
-                        <Field
-                          questionId={question?.question?._id}
-                          index={displayNumberT}
-                          component={Radio}
-                          name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
+                  />
+                  <FormControlLabel
+                    value={"not_given"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
                         // value={"NOT_GIVEN"}
-                        />
-                      }
-                      label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
-                    />
-                  </RadioGroup>
-                </FormControl>
-              </Stack>
-            </AccordionDetails>
-          )}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Stack>
+          </AccordionDetails>
+        )}
       </Accordion>
     </>
   );

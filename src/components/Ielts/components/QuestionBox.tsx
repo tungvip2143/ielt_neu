@@ -52,9 +52,7 @@ const QuestionBox = (props: Props) => {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<strong>${blankId}</strong><input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
-        blankId - 1
-      }].studentAnswer' 
+      `<input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${blankId - 1}].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });
