@@ -6,7 +6,7 @@ import listeningService from "services/listeningService";
 
 const useGetParts = () => {
   const [data, setData] = useState<QuestionListening[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState<any>(null);
   const [meta, setMeta] = useState<MPagination>({
     page: 0,

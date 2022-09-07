@@ -9,6 +9,7 @@ import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
 import SelectField from "components/CustomField/SelectField";
+import UploadField from "components/CustomField/UploadField";
 import { AUDIO_URL } from "constants/constants";
 import { RouteBase } from "constants/routeUrl";
 import useGetPartDetail from "hooks/QuestionBank/Reading/useGetPartDetail";
@@ -159,8 +160,8 @@ const CreateQuestionSpeaking = (props: Props) => {
     fileRef.current.click();
   };
 
-  const onFileChange = (event: any) => {
-    setSelectFile(event.target.files[0]);
+  const onFileChange = (value: string) => {
+    setSelectFile(value);
   };
 
   const onSubmit = async (data: any) => {
@@ -280,7 +281,7 @@ const CreateQuestionSpeaking = (props: Props) => {
         />
       )}
 
-      <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
+      {/* <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
       <div className="text-end mb-2">
         <ButtonUpload
           style={{ display: "flex", height: 40 }}
@@ -288,8 +289,13 @@ const CreateQuestionSpeaking = (props: Props) => {
           disabled={openCreateScreen.type === "update" && !isEdit}
           onClick={handleOpenFile}
         />
-      </div>
-
+        
+      </div> */}
+      <UploadField
+        name="modelAnswerAudio"
+        onChange={onFileChange}
+        isHide={openCreateScreen.type === "update" && !isEdit}
+      />
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
         <>

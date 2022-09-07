@@ -22,30 +22,39 @@ import audioService from "services/audioService";
 import ButtonUpload from "components/Button/ButtonUpload";
 import { IMAGE_URL } from "constants/constants";
 import { RouteBase } from "constants/routeUrl";
+import useToggleDialog from "hooks/useToggleDialog";
 export interface Props {
   openCreateScreen: {
     type: string;
   };
 }
-const CreateQuestionWriting = (props: Props) => {
-  const history = useHistory();
-  const editorRef = useRef<any>();
-  const modelRef = useRef<any>();
 
+//! Main component
+const CreateQuestionWriting = (props: Props) => {
+  //! State
+  const { openCreateScreen } = props;
+  const [selectFile, setSelectFile] = useState<any>();
+  const history = useHistory();
   //Get id from url
   const { search } = useLocation();
   const id = search.split("=")[1];
-
+  const fileRef = useRef<any>();
+  const editorRef = useRef<any>();
+  const modelRef = useRef<any>();
   const usefulGrammarRef = useRef<any>();
   const ideaSuggestionRef = useRef<any>();
   const organizationRef = useRef<any>();
   const params = useParams<any>();
-  const { openCreateScreen } = props;
-  const [isEdit, setIsEdit] = useState(false);
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(id);
-  const fileRef = useRef<any>();
-  const [selectFile, setSelectFile] = useState<any>("");
   const [image, setImage] = useState<any>();
+  const [isEdit, setIsEdit] = useState(false);
+
+  const {
+    open: openModalQuestion,
+    toggle: toggleModalQuestion,
+    shouldRender: shouldRenderModalQuestion,
+  } = useToggleDialog();
+
   const validationSchema = yup.object().shape({
     title: yup.string().required("This is field required"),
     questionPartNumber: yup.string().required("This is field required"),
