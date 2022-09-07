@@ -31,7 +31,7 @@ export interface Props {
 }
 
 const validationSchema = yup.object().shape({
-  questionBox: yup.string().required("This is field required"),
+  // questionBox: yup.string().required("This is field required"),
   questionType: yup.mixed().required("This is field required"),
   // questions: yup.array(
   //   yup.object({
