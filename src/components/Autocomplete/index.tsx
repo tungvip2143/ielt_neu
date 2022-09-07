@@ -26,10 +26,11 @@ export const AutoCompletedMui: React.FC<FieldProps & TextFieldProps & Autocomple
       {...field}
       onChange={onChange}
       getOptionLabel={(option) => {
-        console.log("option", option);
         return option?.name ?? "";
       }}
-      filterOptions={(options, state) => options}
+      filterOptions={(options, state) => {
+        return options;
+      }}
       renderInput={(params) => (
         <TextField
           {...params}

@@ -11,7 +11,12 @@ const useGetQuestionType = () => {
       try {
         const response = await ReadingService.getListQuestionType();
         if (response.data.statusCode === 200) {
-          setDataQuestionType(response?.data?.data || []);
+          setDataQuestionType(
+            response?.data?.data?.map((el: any) => ({
+              name: el?.label,
+              id: el?.value,
+            })) || []
+          );
         }
         setLoading(false);
       } catch (error) {

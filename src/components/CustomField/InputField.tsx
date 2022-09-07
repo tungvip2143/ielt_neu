@@ -64,7 +64,7 @@ const InputField = (props: Props & TextFieldProps) => {
     <div style={{ width: width || "100%" }} className={classes.root}>
       <FormControl fullWidth>
         <TextField
-          variant={variant}
+          variant={variant || "standard"}
           id={id}
           disabled={disabled}
           fullWidth
