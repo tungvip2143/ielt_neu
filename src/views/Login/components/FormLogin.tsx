@@ -62,9 +62,7 @@ const FormLogin = () => {
   const onSubmitTestCode = async (examinationId: InitialValueExam) => {
     try {
       const response = await createTestCode({ examination: examinationId });
-      console.log("response", response);
       localStorage.setItem("testCode", response?.data?.data?.testCode);
-      // history.push(RouteBase.IeltsListening);
     } catch (error) {
       toast.error(getErrorMsg(error));
     }
@@ -88,7 +86,6 @@ const FormLogin = () => {
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: async (response) => {
-              localStorage.setItem("examinationId", response?.data?.data?.data?.examination?.id);
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,
                 user: response?.data?.data?.data,

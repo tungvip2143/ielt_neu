@@ -48,9 +48,7 @@ const EndTest = (props: Props) => {
         onSuccess: () => {
           history.push(RouteBase.Login);
           dispatch(authActions.logout);
-          cacheService.clearCacheData();
           localStorage.removeItem("testCode");
-          localStorage.removeItem("examinationId");
         },
       }
     );

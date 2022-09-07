@@ -7,7 +7,7 @@ export const useConfirmCloseBrowser = () => {
       return "Are you sure you want to close?";
     };
 
-    window.addEventListener("beforeunload", unloadCallback);
-    return () => window.removeEventListener("beforeunload", unloadCallback);
+    window.addEventListener("unload", unloadCallback);
+    return () => window.removeEventListener("unload", unloadCallback);
   }, []);
 };

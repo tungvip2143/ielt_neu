@@ -1,3 +1,4 @@
+import cacheService from "services/cacheService";
 import isEmpty from "lodash/isEmpty";
 import produce from "immer";
 import { put } from "redux-saga/effects";
@@ -33,6 +34,7 @@ export const authSagas = {
   [authActions.logout]: {
     saga: function* ({ payload = {} }) {
       yield authServices.clearUserLocalStorage();
+      yield cacheService.clearCacheData();
       window.location.reload();
     },
   },

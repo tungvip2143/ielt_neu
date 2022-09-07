@@ -1,11 +1,8 @@
 import { TimeExamLeft } from "constants/enum";
-import { useFormikContext } from "formik";
-import useSagaCreators from "hooks/useSagaCreators";
-import { use } from "i18next";
 import { useEffect, useRef } from "react";
 import Countdown from "react-countdown";
 import cacheService from "services/cacheService";
-import ieltsService from "services/ieltsService";
+import React from "react";
 
 interface Data {
   minutes: any;
@@ -17,8 +14,8 @@ interface Props {
   handleSubmitWhenEndedTime?: () => void;
 }
 function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
+  console.log("countdown rerendering");
   const Completionist = () => <span>You are good to go!</span>;
-  // const { handleSubmit } = useFormikContext();
   const countdownRef: any = useRef(null);
   useEffect(() => {
     return () => cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
@@ -46,4 +43,4 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
   );
 }
 
-export default CountDownItem;
+export default React.memo(CountDownItem);

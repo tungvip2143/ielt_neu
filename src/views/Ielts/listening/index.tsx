@@ -127,7 +127,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
-  const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 1800000;
+  const timeExam = useMemo(() => {
+    return LEFT_TIME ? Number(LEFT_TIME) : 1800000;
+  }, []);
 
   //! Render
   if (isLoading || listeningFinishLoading) {
@@ -144,7 +146,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
                 timeExam={timeExam}
-                handleSubmitWhenEndedTime={() => formik.handleSubmit()}
+                // handleSubmitWhenEndedTime={() => handleSubmitForm(formik.values)}
               />
 
               <Box sx={containerSteps}>

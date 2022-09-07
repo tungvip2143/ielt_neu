@@ -1,27 +1,22 @@
-import LoadingPage from "components/Loading";
-import { useIeltsListening } from "hooks/ielts/useIelts";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
 import CardPart from "components/Card/CardPart";
-import { isEmpty, random } from "lodash";
-import { useMemo } from "react";
-import { Box } from "@mui/system";
+import LoadingPage from "components/Loading";
+import { ROOT_ORIGINAL_URL } from "constants/api";
+import { useFormikContext } from "formik";
+import { getErrorMsg } from "helpers";
+import { showError } from "helpers/toast";
+import useSagaCreators from "hooks/useSagaCreators";
+import { isEmpty } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
+import ReactAudioPlayer from "react-audio-player";
+import { useQuery } from "react-query";
+import { authActions } from "redux/creators/modules/auth";
+import cacheService from "services/cacheService";
+import ieltsService from "services/ieltsService";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
-import ReactAudioPlayer from "react-audio-player";
-import { ROOT_ORIGINAL_URL } from "constants/api";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
-import { useHistory } from "react-router-dom";
-import { useFormikContext } from "formik";
-import cacheService from "services/cacheService";
-import { useQuery } from "react-query";
-import ieltsService from "services/ieltsService";
-import { showError } from "helpers/toast";
-import { getErrorMsg } from "helpers";
-import useSagaCreators from "hooks/useSagaCreators";
-import { authActions } from "redux/creators/modules/auth";
-import { RouteBase } from "constants/routeUrl";
 
 type Props = {
   data: any;
@@ -136,40 +131,28 @@ const ExamTest = (props: Props) => {
 };
 
 const IeltsListeningContainer = () => {
-  // const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
   const { dispatch } = useSagaCreators();
 
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
 
-  const history = useHistory();
-  const { data, isLoading, isError } = useQuery(
-    "get ielts listening data",
-    () => ieltsService.getIeltsListening(testCode),
-    {
-      onSuccess: () => {
-        cacheService.cache("skill", "LISTENING");
-      },
-      onError: (error) => {
-        history.push(RouteBase.Login);
-        localStorage.removeItem("testCode");
-        localStorage.removeItem("examinationId");
-        cacheService.clearCacheData();
-        setTimeout(() => {
-          showError(getErrorMsg(error));
-        }, 5000);
+  const { data, isLoading } = useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
+    onSuccess: () => {
+      cacheService.cache("skill", "LISTENING");
+    },
+    onError: (error) => {
+      showError(getErrorMsg(error));
+      localStorage.removeItem("testCode");
+      setTimeout(() => {
         dispatch(authActions.logout);
-      },
-    }
-  );
+      }, 3000);
+    },
+  });
 
   if (isLoading) {
     return <LoadingPage />;
   }
-  // if (isError) {
-  //   history.push("/login");
-  // }
 
   return <ExamTest data={data?.data.data} />;
 };
