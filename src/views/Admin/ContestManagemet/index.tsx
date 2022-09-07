@@ -9,6 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import { RouteBase } from "constants/routeUrl";
 import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
 import contestService from "services/contestService";
+import testBankService from "services/testBankService";
+import { toast } from "react-toastify";
 
 const styles = {
   titleTable: {
@@ -28,21 +30,22 @@ const ContestManagement = () => {
   const history = useHistory();
   const onDeletePart = async (item: any) => {
     try {
-      await contestService.deletePart(item?.id);
+      await contestService.deleteExamination(item?.id);
       refetchDataTable();
     } catch (error) {
       console.log("error");
     }
   };
 
-  const [openModal, setOpenModal] = useState(false);
+  //!Function
+
   //! Render
   return (
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
         <Link to={RouteBase.CreateContestManagement}>
           <ButtonUpload
-            titleButton="Create contest"
+            titleButton="Create examination"
             icon={<AddIcon />}
             onClick={() => {}}
             style={{ background: "#9155FE" }}
@@ -56,7 +59,7 @@ const ContestManagement = () => {
             {
               flex: 1,
               field: "name",
-              renderHeader: () => <Typography style={styles.titleTable}>Name Contest</Typography>,
+              renderHeader: () => <Typography style={styles.titleTable}>Examination name</Typography>,
             },
             {
               flex: 1,
@@ -68,10 +71,26 @@ const ContestManagement = () => {
               field: "updatedAt",
               renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
             },
+            // {
+            //   flex: 1,
+            //   field: "active",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
+            // },
             {
               flex: 1,
-              field: "active",
-              renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
+              field: "generate",
+              renderHeader: () => <Typography style={styles.titleTable}>Generate exam</Typography>,
+              renderCell: (items: any) => {
+                return (
+                  <Button
+                    variant="contained"
+                    style={styles.buttonOpenModal}
+                    onClick={() => history.push({ pathname: RouteBase.GenerateExam, state: { id: items?.id } })}
+                  >
+                    Generate exam
+                  </Button>
+                );
+              },
             },
             {
               flex: 0.3,

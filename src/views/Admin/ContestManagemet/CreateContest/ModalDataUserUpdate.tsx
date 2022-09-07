@@ -76,7 +76,7 @@ const ModalDataUserUpdate = ({ onCloseModal, fetchData, openModal, onSave = () =
     };
 
     try {
-      const response = await contestService.postCreatePart(body);
+      const response = await contestService.postCreateExamination(body);
 
       if (response.data.statusCode === 200) {
         toast.success("Create part success!");

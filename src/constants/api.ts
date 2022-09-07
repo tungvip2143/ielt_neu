@@ -11,9 +11,12 @@ export const BASE_URL = "http://103.226.250.81:8688/api/v1";
 export const GET_LIST_LEVELS = `${ROOT_URL}/configs/question-levels`;
 export const GET_LIST_QUESTION_TYPE = `${ROOT_URL}/configs/question-types`;
 export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
+
+export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/import-excel`;
 export const AUTH_URL = {
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
+  STUDENT_LOGIN: `${ROOT_URL}/auth/student/signin`,
   LOGOUT: `${ROOT_URL}/auth/logout`,
   SIGNUP_EMAIL: `${ROOT_URL}/auth/signup`,
   //Social
@@ -37,9 +40,10 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     TEST_CODE: `${ROOT_URL}/tests/prepare`,
     SUBMIT_READING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_WRITING_TEST: `${ROOT_URL}/tests/${testCode}`,
-    SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}`,
+    SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}/`,
     SUBMIT_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}`,
     FINISH_READING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
+    FINISH_IELTS_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_WRITING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
@@ -49,7 +53,8 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     REVIEW_LISTENING: `${ROOT_URL}/tests/${testCode}/listening/result`,
     REVIEW_SPEAKING: `${ROOT_URL}/tests/${testCode}/speaking/result`,
     UPLOAD_AUDIO_SPEAKING: `${ROOT_URL}/tests/${testCode}/${questionId}/audio-answer`,
-    GET_EXAMINATIONS: `${ROOT_URL}/examinations/list`,
+    GET_EXAMINATIONS: `${ROOT_URL}/examinations`,
+    FINISH_IELTS_EXAM: `${ROOT_URL}/tests`,
   };
 };
 
@@ -116,20 +121,42 @@ export const ADMIN_USER_URL = (id?: string | number) => {
     DELETE_PART: `${ROOT_URL}/users/`,
   };
 };
+export const ADMIN_STUDENT_URL = (id?: string | number) => {
+  return {
+    GET_LIST_PARTS: `${ROOT_URL}/students?sort=createdAt%3ADESC`,
+    GET_PART_DETAIL: `${ROOT_URL}/students/`,
+    POST_CREATE_PART: `${ROOT_URL}/students`,
+    PATCH_UPDATE_PART: `${ROOT_URL}/students/`,
+    DELETE_PART: `${ROOT_URL}/students/`,
+  };
+};
 
 export const ADMIN_CONTEST_URL = (id?: string | number) => {
   return {
-    GET_LIST_PARTS: `${ROOT_URL}/examinations/list?sort=createdAt%3ADESC`,
-    GET_PART_DETAIL: `${ROOT_URL}/examinations/`,
-    POST_CREATE_PART: `${ROOT_URL}/examinations/`,
-    PATCH_UPDATE_PART: `${ROOT_URL}/examinations/`,
-    DELETE_PART: `${ROOT_URL}/examinations/`,
+    GET_LIST_EXAMINATION: `${ROOT_URL}/examinations/list?sort=createdAt%3ADESC`,
+    GET_EXAMINATION_DETAIL: `${ROOT_URL}/examinations/`,
+    PUT_UPDATE_EXAMINATION: `${ROOT_URL}/examinations/`,
+    DELETE_EXAMINATION: `${ROOT_URL}/examinations/`,
+    POST_CREATE_EXAMINATION: `${ROOT_URL}/examinations`,
+    GET_LIST_EXAM_GENERATE: `${ROOT_URL}/examinations/${id}/exams`,
+    GET_LIS_EXAM_GENERATE_DETAIL: `${ROOT_URL}/examinations/${id}/exams/`,
   };
 };
-export const EXAM_MANAGEMENT_URL = (skill?: any, isGrading?: boolean) => {
+export const EXAM_MANAGEMENT_URL = () => {
   return {
     GET_LIST_VIEW_EXAM: `${ROOT_URL}/test-grades/`,
     GET_LIST_TEST_GRADE: `${ROOT_URL}/test-grades?sort=createdAt%3ADESC?`,
     PATCH_TEST_GRADE: `${ROOT_URL}/test-grades/`,
+  };
+};
+
+export const TEST_URL = (id?: string) => {
+  return {
+    GET_LIST_TEST: `${ROOT_URL}/exams`,
+    GET_TEST_DETAIL: `${ROOT_URL}/exams/`,
+    POST_CREATE_TEST: `${ROOT_URL}/exams`,
+    PUT_UPDATE_TEST: `${ROOT_URL}/exams/`,
+    DELETE_TEST: `${ROOT_URL}/exams/`,
+    GENERATE_EXAM: `${ROOT_URL}/examinations/${id}/generate-exam`,
   };
 };

@@ -6,7 +6,6 @@ import Stack from "@mui/material/Stack";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import Card from "@mui/material/Card";
 //
-import ButtonOutLineCommon from "components/Button/ButtonOutLineCommon";
 import Text from "components/Typography/index";
 
 //
@@ -22,6 +21,7 @@ import { isEmpty } from "lodash";
 import LoadingPage from "components/Loading";
 import { toast } from "react-toastify";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import ButtonCommon from "components/Button/ButtonCommon";
 
 const CardList = {
   borderRadius: "15px",
@@ -49,6 +49,12 @@ const lock = {
   left: 0,
   padding: { xs: "10px 10px", md: "30px 50px" },
 };
+const nameExam = {
+  padding: "6px 16px",
+  border: "1px solid #333",
+  width: "fit-content",
+  borderRadius: "5px",
+};
 interface Exam {
   exam: {
     id: number;
@@ -67,63 +73,9 @@ interface Exam {
 const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
   //! State
 
-  // !Hook
-  const { isLoading, mutateAsync: createTestCode } = useIeltsTestCode();
-  const { dispatch } = useSagaCreators();
-
-  const history = useHistory();
-  const location = useLocation();
-
-  const ExaminationId = useMemo(() => {
-    return localStorage.getItem("examinationId");
-  }, []);
-
-  const reading = localStorage.getItem("READING");
-  const listening = localStorage.getItem("LISTENING");
-  const speaking = localStorage.getItem("SPEAKING");
-  const writing = localStorage.getItem("WRITING");
-  const { testCode } = useGetTestCode();
-
-  // !Function
-  const handleTest = async () => {
-    if (!testCode) {
-      toast.error("Test already finished");
-      return;
-    }
-    if (id === 1 && !listening) {
-      history.push("/ielts/listening");
-      return;
-    } else if (id === 2 && !reading) {
-      history.push("/ielts/reading");
-      return;
-    } else if (id === 3 && !writing) {
-      history.push("/ielts/writing");
-      return;
-    } else if (id === 4 && !speaking) {
-      history.push("/ielts/speaking");
-      return;
-    }
-
-    toast.error("Test already finished");
-    // await createTestCode(
-    //   { examination: ExaminationId },
-    //   {
-    //     onSuccess: (response) => {
-    //       dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-
-    //     },
-    //     onError: (err: any) => {
-    //       if (err.response.data.statusCode === 401) {
-    //         history.push("/login");
-    //       }
-    //     },
-    //   }
-    // );
-  };
-
   //! Render
   return (
-    <Grid item xs={12} sm={12} md={12} lg={3} sx={{ position: "relative" }} onClick={handleTest}>
+    <Grid item xs={12} sm={12} md={12} lg={3} sx={{ position: "relative" }}>
       <Card sx={CardList} className={exam.hoverColor}>
         {/* <LinkCustom to={exam.path}> */}
         <Box sx={contentList}>
@@ -135,7 +87,9 @@ const CardIlets = ({ exam, onClick, onSelectExam, id }: Exam) => {
               <AccessAlarmIcon sx={{ color: "#36373B" }} />
               <Text.SubCardTitle>{exam.timeExam}</Text.SubCardTitle>
             </Stack>
-            <ButtonOutLineCommon>{exam.nameExam}</ButtonOutLineCommon>
+            <Box>
+              <Text.Desc16 sx={nameExam}>{exam.nameExam}</Text.Desc16>
+            </Box>
           </Box>
           <Box sx={{ width: { xs: "100px", sm: "120px", md: "150px", lg: "248px" } }}>
             <img style={{ transform: "translateX(-20px)", width: "100%" }} src={exam.image} alt="" />

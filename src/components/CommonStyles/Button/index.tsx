@@ -8,7 +8,6 @@ interface ButtonI extends LoadingButtonProps {
 const Button = ({ children, icon, ...restProps }: ButtonI) => {
   //! State
   const variant = restProps.variant || "contained";
-  console.log("restProps", restProps);
 
   //! Render
   return (

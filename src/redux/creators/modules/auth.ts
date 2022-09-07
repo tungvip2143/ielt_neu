@@ -10,16 +10,19 @@ export const authActions = {
   saveInfoUser: "saveInfoUser",
   saveInfoUserSuccess: "saveInfoUserSuccess",
   saveInfoUserFailed: "saveInfoUserFailed",
+  saveUserType: "saveUserType",
 };
 
 export const authSagas = {
   [authActions.checkAuth]: {
     saga: function* ({ payload = {} }) {
       const infoLocalStorage = authServices.getUserLocalStorage();
-      if (!isEmpty(infoLocalStorage)) {
+      const userType = authServices.getUserTypeFromLocalStorage();
+
+      if (!isEmpty(infoLocalStorage) && !isEmpty(userType)) {
         const { token } = infoLocalStorage;
         yield httpServices.attachTokenToHeader(token);
-        yield put({ type: authActions.saveInfoUser, payload: { token } });
+        yield put({ type: authActions.saveInfoUser, payload: { token, userType } });
       } else {
         yield put({ type: authActions.saveInfoUserFailed });
       }
@@ -33,26 +36,36 @@ export const authSagas = {
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
-      const { token } = action.payload;
+      const { token, userType } = action.payload;
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token });
+      yield authServices.saveUserTypeToLocalStorage(userType);
       yield put({ type: authActions.saveInfoUserSuccess, token });
     },
   },
+  // [authActions.saveUserType]: {
+  //   saga: function* (action: any) {
+  //     const { userType } = action;
+  //     yield put({ type: authActions.saveUserType, userType });
+  //   },
+  // },
 };
 
 export const authReducer = (
   state = {
     auth: {
       token: "",
+      user: {},
       isLogin: false,
       isCheckingAuth: false,
       error: null,
+      userType: "user",
     },
   },
   action: any
 ) => {
   return produce(state, (draftState) => {
+    console.log("draftState", draftState);
     switch (action.type) {
       case authActions.checkAuth: {
         draftState.auth.isCheckingAuth = true;
@@ -63,11 +76,18 @@ export const authReducer = (
         draftState.auth.isLogin = true;
         draftState.auth.isCheckingAuth = false;
         draftState.auth.token = action.token;
+        draftState.auth.user = action.user;
+
         break;
       }
 
       case authActions.saveInfoUserFailed: {
         draftState.auth.isCheckingAuth = false;
+        break;
+      }
+
+      case authActions.saveUserType: {
+        draftState.auth.userType = action.userType;
         break;
       }
 

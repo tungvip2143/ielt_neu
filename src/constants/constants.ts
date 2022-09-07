@@ -2,9 +2,9 @@ export const PAGE_SIZE = [10, 20, 50, 100];
 
 export const TINY_API = "93v3huof7n8saw08hun3sp087pjnt6g7bos3zupd33kp7yql";
 
-export const IMAGE_URL = "http://103.226.250.81:8688/";
+export const IMAGE_URL = "http://103.226.250.81:8689/";
 
-export const AUDIO_URL = "https://ielts-api.hoccontentcunglina.com/";
+export const AUDIO_URL = "http://103.226.250.81:8689/";
 
 export const validateLine = {
   regexPassword: "At least 1 lower letter, 1 uppercase letter & 1 number ",
@@ -18,5 +18,33 @@ const SocialProvider = {
   FACEBOOK: "FACEBOOK",
   GOOGLE: "GOOGLE",
 };
+export const DEFAULT_IMAGE =
+  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTG3eLpTAMWO-mtILepXLwg68-IChyGcXJgog&usqp=CAU";
 
 export { SocialProvider };
+export const textHeaderModal = {
+  confirmDetail: "Confirm your details",
+  testSound: "Test sound",
+  help: "Help",
+};
+export const warningDetailUser = {
+  checkInformation: "If your details are not correct, please inform the invigilator.",
+  onStartTest: "Do not click 'Start test' until you are told to do so.",
+};
+export const textBtnSubmit = {
+  detailUser: "My details are correct",
+  playSound: "Play sound",
+  continue: "continue",
+  startTest: "Start test",
+  ok: "OK",
+};
+export const rulesdetailExam = {
+  listening: {
+    title: "Listening",
+    timeExam: "30 minutes",
+  },
+  reading: {
+    title: "Reading",
+    timeExam: "1 hour",
+  },
+};

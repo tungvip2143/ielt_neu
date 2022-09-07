@@ -1,30 +1,52 @@
-import React, { useEffect, useRef } from "react";
-import ReactHtmlParser from "react-html-parser";
-import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
+import Handlebars from "handlebars";
+import { useEffect } from "react";
 type Props = {
   data?: any;
+  displayNumber?: number;
+  onClickPage?: (option: any) => void;
+  isView?: boolean;
 };
 
 const SentenceCompletetion = (props: Props) => {
-  const { data } = props;
-  console.log("sentence data", data);
-  const inputRef = useRef<any>([]);
+  const { data, displayNumber, onClickPage, isView = false } = props;
+  const displayNumberI = data?.question?.displayNumber;
+  console.log("displayNumberI", displayNumberI);
 
-  const { handleChange }: any = useFormikContext();
+  const { handleChange, values }: any = useFormikContext();
 
+  useEffect(() => {
+    const input = document.getElementsByClassName(`${displayNumber}`) as any;
+    if (input) {
+      input[0]?.focus();
+    }
+  }, [displayNumber]);
+
+  let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
-    inputRef?.current[blankId]?.focus();
+    inputIndex++;
+    const input: any = document.getElementById(`${blankId}`);
+    if (input) {
+      input.value = isView ? "" : values.answers[displayNumberI - 1]?.studentAnswer;
+    }
     return new Handlebars.SafeString(
-      `<input ref='${(el: any) =>
-        (inputRef.current[blankId] =
-          el)}' name='answers.[${blankId}].studentAnswer' style={{border:"1px solid #ccc"}} id="input-${blankId}" type="text" value="" maxlength="30">`
+      `<strong>${data?.question?.displayNumber}</strong> <input ${
+        isView ? "disabled" : ""
+      } class="${displayNumberI}" name='answers.[${
+        displayNumberI - 1
+      }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
   });
   const test: any = Handlebars.compile(data?.question?.questionText || "");
 
+  const onClickInput = (data: any) => {
+    const inputIdx: any = data.target.getAttribute("id") - 1;
+    onClickPage && onClickPage({ question: inputIdx });
+  };
+
   return (
     <div
+      onClick={(data) => onClickInput(data)}
       dangerouslySetInnerHTML={{
         __html: test(),
       }}

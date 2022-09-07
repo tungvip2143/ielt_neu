@@ -83,6 +83,11 @@ export const useFinishIeltsSpeakingTest = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+export const useFinishIeltsTest = () => {
+  return useMutation(ieltsService.finishIeltsTest, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
 
 export const useUploadAudioSpeaking = () => {
   return useMutation(ieltsService.uploadAudioSpeaking, {
@@ -92,6 +97,11 @@ export const useUploadAudioSpeaking = () => {
 
 export const useGetExamination = (queries: any) => {
   return useQuery(["get examinations", queries], () => ieltsService.getIeltsExaminatios(queries), {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+export const useFinishIeltsSkill = () => {
+  return useMutation(ieltsService.finishIeltsSkill, {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };

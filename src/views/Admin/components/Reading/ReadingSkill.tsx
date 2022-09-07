@@ -6,7 +6,7 @@ import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
 import LoadingPage from "components/Loading";
 import { RouteBase } from "constants/routeUrl";
-import useGetParts from "hooks/QuestionBank/Reading/useGetParts";
+import useGetPartReading from "hooks/QuestionBank/Reading/useGetPartReading";
 import { isEmpty } from "lodash";
 import { Link, useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -19,7 +19,7 @@ const styles = {
   },
 };
 const ReadingSkill = () => {
-  const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetParts();
+  const [dataParts, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] = useGetPartReading();
   const history = useHistory();
   const onDeletePart = async (item: any) => {
     try {

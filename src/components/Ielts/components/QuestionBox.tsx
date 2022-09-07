@@ -7,6 +7,7 @@ type Props = {
   displayNumber: number;
   questions: any[];
   onClickPage?: (option: any) => void;
+  isView?: boolean;
 };
 
 const CODE = "-@X$";
@@ -17,13 +18,10 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 };
 
 const QuestionBox = (props: Props) => {
-  const { questionBox, questions, displayNumber, onClickPage } = props;
-  // console.log("questions", questions);
-  // console.log("questionBox", questionBox);
-  // console.log("displayNumber", displayNumber);
+  const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
+  console.log("questions", questions);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
-
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
@@ -42,16 +40,21 @@ const QuestionBox = (props: Props) => {
       input?.focus();
     }
   }, [displayNumber]);
+  //
 
+  //
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
+    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<input class="${inputIndex}"  name='answers.[${blankId - 1}].studentAnswer' 
+      `<strong>${blankId}</strong><input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+        blankId - 1
+      }].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });
@@ -62,8 +65,11 @@ const QuestionBox = (props: Props) => {
   };
 
   const test: any = Handlebars.compile(newQuestionBoxParsed);
+
   return (
-    <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+    <>
+      <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+    </>
   );
 };
 

@@ -1,32 +1,24 @@
-import React, { useCallback } from "react";
-import RulesExamStep1 from "components/RulesExams/RulesExamStep1";
-import ExamTest from "components/Exams/StartDoingHomework";
+import { Box } from "@mui/material";
 import EndTest from "components/Exams/EndTest";
-import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import { TypeStepExamEnum } from "constants/enum";
-//
-import { Box, Button } from "@mui/material";
-//
-import Header from "views/Ielts/Header/Header";
-import RulesWriting from "components/RulesExams/RulesWriting";
+import { RouteBase } from "constants/routeUrl";
 import { Form, Formik } from "formik";
-import { useIeltsWritting, useUpdateIeltsWriting } from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
-import LoadingPage from "components/Loading";
-import { IELT_TEST } from "interfaces/testType";
-//
-import { useHistory } from "react-router-dom";
-import ModalExit from "components/Modal/ModalExit";
-import DetailUser from "../../components/DetailUser/DetailUser";
-import RuleExam from "../../components/RuleExam/RuleExam";
-import InformationForCandidates from "../../components/dataSteps/DataContentSpeaking/InformationForCandidates";
-import IntructionsToCandidates from "../../components/dataSteps/DataContentSpeaking/IntructionsToCandidates";
-import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
-import ModalHide from "../../../components/Modal/ModalHide";
-import StepExamWriting from "./component/StepExamWriting";
-import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useUpdateIeltsWriting } from "hooks/ielts/useIelts";
+import { IELT_TEST } from "interfaces/testType";
+import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
+import HandleQuestionProvider from "providers/HandleQuestionProvider";
+import React, { useCallback } from "react";
+import { useHistory } from "react-router-dom";
+import Header from "views/Ielts/Header/Header";
+import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
+import ModalHide from "../../../components/Modal/ModalHide";
+import InformationForCandidates from "../../components/dataSteps/DataContentSpeaking/InformationForCandidates";
+import IntructionsToCandidates from "../../components/dataSteps/DataContentSpeaking/IntructionsToCandidates";
+import DetailUser from "../../components/DetailUser/DetailUser";
+import RuleExam from "../../components/RuleExam/RuleExam";
+import StepExamWriting from "./component/StepExamWriting";
 
 export interface IeltsReadingProps {}
 
@@ -60,10 +52,10 @@ const stepRuleExam = {
 const IeltsWriting = (props: IeltsReadingProps) => {
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
+  const history = useHistory();
 
-  const { step, handler } = useStepExam();
+  const { step } = useStepExam();
   const { testCode } = useGetTestCode();
-  const { data, isLoading } = useIeltsWritting(testCode);
   const { mutateAsync: updateIeltsWriting } = useUpdateIeltsWriting();
 
   const handleSubmit = async (values: any) => {
@@ -71,8 +63,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
       { values, testCode },
       {
         onSuccess: () => {
-          handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-          localStorage.setItem("WRITING", "true");
+          history.push(RouteBase.IeltsSpeaking);
         },
       }
     );
@@ -96,9 +87,6 @@ const IeltsWriting = (props: IeltsReadingProps) => {
   };
   //
   useCheckTestCode(Number(testCode));
-  if (isLoading) {
-    return <LoadingPage />;
-  }
 
   return (
     <Formik
@@ -120,7 +108,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
               {step === TypeStepExamEnum.STEP2 && (
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
-              {step === TypeStepExamEnum.STEP3 && <StepExamWriting test={IELT_TEST.WRITING} data={data?.data?.data} />}
+              {step === TypeStepExamEnum.STEP3 && <StepExamWriting />}
               {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.WRITING} />}
             </Box>
 

@@ -26,6 +26,12 @@ export interface ResponseParams {
   name?: string;
   active?: boolean;
   userIds?: string[];
+  dob?: Date;
+  password?: string;
+  studentCode?: string;
+  userId?: string;
+  image?: string;
+  data?: [];
 }
 
 export interface QuestionTypeI {

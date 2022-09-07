@@ -8,6 +8,7 @@ import ManageAccountsIcon from "@mui/icons-material/ManageAccounts";
 import NoteAltIcon from "@mui/icons-material/NoteAlt";
 import QuizIcon from "@mui/icons-material/Quiz";
 import RecordVoiceOverIcon from "@mui/icons-material/RecordVoiceOver";
+import ContentPasteSearchOutlinedIcon from "@mui/icons-material/ContentPasteSearchOutlined";
 import WebIcon from "@mui/icons-material/Web";
 import { Divider, Drawer, Toolbar, Typography } from "@mui/material";
 import Collapse from "@mui/material/Collapse";
@@ -65,18 +66,24 @@ const MenuData = [
   },
   {
     id: 2,
-    icon: <QuizIcon />,
-    titleMenu: "Exam management",
-    path: RouteBase.ExamManagement,
+    icon: <ContentPasteSearchOutlinedIcon />,
+    titleMenu: "Test bank",
+    path: RouteBase.TestBank,
   },
   {
     id: 3,
-    icon: <CalendarMonthIcon />,
-    titleMenu: "Contest management",
-    path: RouteBase.ContestManagement,
+    icon: <QuizIcon />,
+    titleMenu: "Exams management",
+    path: RouteBase.ExamManagement,
   },
   {
     id: 4,
+    icon: <CalendarMonthIcon />,
+    titleMenu: "Examination",
+    path: RouteBase.ContestManagement,
+  },
+  {
+    id: 5,
     icon: <ManageAccountsIcon />,
     titleMenu: "User management",
     path: RouteBase.AdminUser,

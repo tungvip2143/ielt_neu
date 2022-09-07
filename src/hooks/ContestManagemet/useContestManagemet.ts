@@ -28,7 +28,7 @@ const useContestManagemet = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await contestService.getListParts(params);
+        const response = await contestService.getListExamination(params);
 
         if (response.data.statusCode === 200) {
           const parts = MContestManagemet.parsePartListFromResponse(response?.data?.data?.data || []);

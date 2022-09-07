@@ -13,6 +13,7 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
+import { useCheckRenderQuestion } from "hooks/ielts/useCheckRenderQuestion";
 
 interface CardTotalPageExamsI {
   questions?: any;
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme) => {
       display: "flex",
     },
     eachQuestion: {
-      background: theme.palette.primary.main,
+      background: theme.custom?.background.pageNumber,
       color: "#fff",
       width: "23px",
       height: "23px",
@@ -87,21 +88,6 @@ const containerNextPage = {
   width: "13%",
 };
 
-const didExercise = {
-  background: "#90caf9 ",
-  borderRadius: "2px",
-  position: "relative",
-  "&::affter": {
-    position: "absolute",
-    display: "block",
-    content: "fsdfdsf",
-    bottom: "10px",
-    width: "100%",
-    height: "1px",
-    background: "#333",
-  },
-};
-
 export enum Direction {
   next = "next",
   back = "back",
@@ -122,8 +108,15 @@ const CardTotalPageExams = ({
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
+  const { checkBackRenderQuestion, checkNextPartRender } = useCheckRenderQuestion({
+    question,
+    part,
+    group,
+    questions,
+    groupSelected,
+    handleSubmit,
+  });
 
-  //! Function
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -140,59 +133,6 @@ const CardTotalPageExams = ({
 
   const hideReview = () => {
     setCheckedReview(false);
-  };
-
-  //* Next question
-  const checkNextPartRender = () => {
-    let sectionRender: any = {};
-    let partLength = part.length - 1;
-    let groupLength = group.length - 1;
-    let questionLength = question.length - 1;
-    //
-    if (groupSelected.question < questionLength) {
-      sectionRender.question = groupSelected.question + 1;
-      return sectionRender;
-    }
-    if (groupSelected.group < groupLength) {
-      sectionRender.group = groupSelected.group + 1;
-      sectionRender.question = 0;
-      return sectionRender;
-    }
-    if (groupSelected.part < partLength) {
-      sectionRender.part = groupSelected.part + 1;
-      sectionRender.group = 0;
-      sectionRender.question = 0;
-      return sectionRender;
-    }
-    handleSubmit();
-    return;
-  };
-
-  const checkBackRenderQuestion = () => {
-    let sectionRender: any = {};
-
-    if (groupSelected.question > 0) {
-      sectionRender.question = groupSelected.question - 1;
-      return sectionRender;
-    }
-    if (groupSelected.group > 0) {
-      let questiongLength = questions[groupSelected.part]?.groups[groupSelected.group - 1]?.questions.length - 1;
-      sectionRender.group = groupSelected.group - 1;
-      sectionRender.question = questiongLength;
-      return sectionRender;
-    }
-
-    if (groupSelected.part > 0) {
-      let groupLength = questions[groupSelected.part - 1]?.groups?.length - 1;
-      let questiongLength = questions[groupSelected.part - 1]?.groups[groupLength]?.questions.length - 1;
-
-      sectionRender.part = groupSelected.part - 1;
-      sectionRender.group = groupLength;
-      sectionRender.question = questiongLength;
-      return sectionRender;
-    }
-
-    return;
   };
 
   const onClickNextQuestion = () => {

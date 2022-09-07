@@ -2,22 +2,30 @@ import { ADMIN_CONTEST_URL } from "../constants/api";
 import httpServices from "./httpServices";
 
 class userService {
-  getListParts(params: any = {}) {
-    return httpServices.get(ADMIN_CONTEST_URL().GET_LIST_PARTS, params);
+  getListExamination(params: any = {}) {
+    return httpServices.get(ADMIN_CONTEST_URL().GET_LIST_EXAMINATION, params);
   }
 
-  getPartDetail(id: any) {
-    return httpServices.get(ADMIN_CONTEST_URL().GET_PART_DETAIL + id);
-  }
-  postCreatePart(body: any) {
-    return httpServices.post(ADMIN_CONTEST_URL().POST_CREATE_PART, body);
+  getListExamGen(params: any = {}, id: any) {
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_LIST_EXAM_GENERATE, params);
   }
 
-  deletePart(id: any) {
-    return httpServices.delete(ADMIN_CONTEST_URL().DELETE_PART + id);
+  getListExamDetail(id: any, examId?: any) {
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_EXAMINATION_DETAIL + id);
   }
-  putUpdatePart(id: any, body: any) {
-    return httpServices.put(ADMIN_CONTEST_URL().PATCH_UPDATE_PART + id, body);
+
+  getListExamDetailGen(id: any, examId?: any) {
+    return httpServices.get(ADMIN_CONTEST_URL(id).GET_LIS_EXAM_GENERATE_DETAIL + examId);
+  }
+
+  postCreateExamination(body: any) {
+    return httpServices.post(ADMIN_CONTEST_URL().POST_CREATE_EXAMINATION, body);
+  }
+  deleteExamination(id: any) {
+    return httpServices.delete(ADMIN_CONTEST_URL().DELETE_EXAMINATION + id);
+  }
+  putUpdateExamination(id: any, body: any) {
+    return httpServices.put(ADMIN_CONTEST_URL().PUT_UPDATE_EXAMINATION + id, body);
   }
 }
 export default new userService();
