@@ -23,6 +23,7 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
   // Renderer callback with condition
   const renderer = ({ minutes, seconds, completed }: Data) => {
     if (completed) {
+      console.log("completed");
       // Render a completed state
       handleSubmitWhenEndedTime && handleSubmitWhenEndedTime();
       return <Completionist />;

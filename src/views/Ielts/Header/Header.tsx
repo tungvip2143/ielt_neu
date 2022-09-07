@@ -55,6 +55,7 @@ const Header = ({
     cursor: "pointer",
   };
 
+  console.log("rerendering");
   return (
     <Box>
       <HeaderExam />

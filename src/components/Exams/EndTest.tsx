@@ -41,17 +41,14 @@ const EndTest = (props: Props) => {
   const { testCode } = useGetTestCode();
 
   const handleEndTest = async () => {
-    await finishIeltsTest(
-      { testCode },
-
-      {
-        onSuccess: () => {
-          history.push(RouteBase.Login);
-          dispatch(authActions.logout);
-          localStorage.removeItem("testCode");
-        },
-      }
-    );
+    try {
+      await finishIeltsTest({ testCode });
+      // history.push(RouteBase.Login);
+      dispatch(authActions.logout);
+      localStorage.removeItem("testCode");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (ieltsFinishLoading) {

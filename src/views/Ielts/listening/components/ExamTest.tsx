@@ -3,6 +3,7 @@ import CardExercise from "components/Card/CardExercise";
 import CardPart from "components/Card/CardPart";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
+import { RouteBase } from "constants/routeUrl";
 import { useFormikContext } from "formik";
 import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
@@ -11,6 +12,7 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
+import { useHistory } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import cacheService from "services/cacheService";
 import ieltsService from "services/ieltsService";
@@ -132,6 +134,7 @@ const ExamTest = (props: Props) => {
 
 const IeltsListeningContainer = () => {
   const { dispatch } = useSagaCreators();
+  const history = useHistory();
 
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
@@ -143,10 +146,12 @@ const IeltsListeningContainer = () => {
     },
     onError: (error) => {
       showError(getErrorMsg(error));
+
       localStorage.removeItem("testCode");
       setTimeout(() => {
+        // history.push(RouteBase.Login);
         dispatch(authActions.logout);
-      }, 3000);
+      }, 1000);
     },
   });
 

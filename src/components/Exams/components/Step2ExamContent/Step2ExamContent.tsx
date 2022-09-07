@@ -19,6 +19,7 @@ import { useHistory } from "react-router-dom";
 import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 //
 interface Props {
   data?: any;
@@ -146,6 +147,7 @@ const Step2ExamContent = (props: any) => {
 const IeltsReadingContainer = () => {
   const { testCode } = useGetTestCode();
   const { data, isLoading } = useIeltsReading(testCode);
+  useConfirmCloseBrowser();
 
   if (isLoading) {
     return <LoadingPage />;

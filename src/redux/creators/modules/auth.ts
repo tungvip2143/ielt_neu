@@ -20,8 +20,6 @@ export const authSagas = {
       const infoLocalStorage = authServices.getUserLocalStorage();
       const userType = authServices.getUserTypeFromLocalStorage();
 
-      console.log("infoLocalStorage", infoLocalStorage);
-
       if (!isEmpty(infoLocalStorage) && !isEmpty(userType)) {
         const { token } = infoLocalStorage;
         yield httpServices.attachTokenToHeader(token);
@@ -35,6 +33,7 @@ export const authSagas = {
     saga: function* ({ payload = {} }) {
       yield authServices.clearUserLocalStorage();
       yield cacheService.clearCacheData();
+      // yield put({ type: authActions.logout });
       window.location.reload();
     },
   },
@@ -92,6 +91,12 @@ export const authReducer = (
 
       case authActions.saveUserType: {
         draftState.auth.userType = action.userType;
+        break;
+      }
+
+      case authActions.logout: {
+        draftState.auth.isLogin = false;
+        draftState.auth.token = "";
         break;
       }
 

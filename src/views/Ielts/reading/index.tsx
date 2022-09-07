@@ -25,6 +25,11 @@ import RuleExam from "../../components/RuleExam/RuleExam";
 import { GetAuthSelector } from "redux/selectors/auth";
 import IeltsReadingContainer from "components/Exams/components/Step2ExamContent/Step2ExamContent";
 import cacheService from "services/cacheService";
+import useSagaCreators from "hooks/useSagaCreators";
+import { toast } from "react-toastify";
+import { showError } from "helpers/toast";
+import { getErrorMsg } from "helpers";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 //
 const styleListRule = {
   padding: "0px 0px 24px 60px",
@@ -51,6 +56,7 @@ const IeltsReading = () => {
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
   const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
   const { testCode } = useGetTestCode();
+  const { dispatch } = useSagaCreators();
 
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
@@ -74,10 +80,20 @@ const IeltsReading = () => {
     const { answers } = dataCache;
     return answers ? answers : genInitialValue;
   }, []);
-  const handleSubmit = async () => {
-    await ieltsReadingFinish({ testCode, skill: "reading" });
-    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-  };
+  const handleSubmit = useCallback(async (values: any) => {
+    const answers = values.answers.filter((el: any) => {
+      return el.questionId && el.studentAnswer;
+    });
+    try {
+      const body = { values: { answers }, testCode };
+      await submitIeltsReadingTest(body);
+      await ieltsReadingFinish({ testCode, skill: "reading" }).then(() => {
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);
@@ -106,7 +122,7 @@ const IeltsReading = () => {
     width: "770px",
     padding: "10px !important",
   };
-  //
+
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
   const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 3600000;
@@ -121,6 +137,7 @@ const IeltsReading = () => {
               handleOpenModalHide={handleOpenModalHide}
               numberStep={TypeStepExamEnum.STEP3}
               timeExam={timeExam}
+              handleSubmitWhenEndedTime={() => handleSubmit(formik.values)}
             />
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
