@@ -104,7 +104,6 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
       let tempPassageText = dataChangePart.passageText;
       //* Add highlight text to passageText
       Object.entries(textHiglighted).forEach(([raw, changed]) => {
-        // console.log("textHiglighted", textHiglighted);
         tempPassageText = tempPassageText.replace(raw, changed);
       });
 
@@ -118,7 +117,6 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
     document.addEventListener("contextmenu", (event) => {
       event.preventDefault();
       setShowOption(true);
-      // console.log(event.pageX), console.log(event.pageY);
       const x = `${event.pageX}px`;
       const y = `${event.pageY}px`;
 
@@ -231,7 +229,6 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
     setIsOpenNote(false);
     const textarea: any = document.getElementById("note");
     if (textarea) {
-      const key = idMark.current;
       textarea.value = "";
     }
   };

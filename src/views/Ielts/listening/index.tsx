@@ -88,6 +88,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //! Function
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
+  console.log("nfkshdf", user);
 
   const handleSubmitForm = useCallback(async (values: any) => {
     const testCode = localStorage.getItem("testCode");

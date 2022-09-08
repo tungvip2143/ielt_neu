@@ -68,13 +68,11 @@ const MachingHeading = (props: Props) => {
     <div className={classes.root}>
       <div className={classes.questionBox}>
         {question.map((question: any, questionIndex: number): any => {
+          console.log("fsdf", question);
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
-              {/* <div>
-                <strong>{`${displayNumberT}.`}</strong>
-              </div> */}
-              {ReactHtmlParser(question?.question?.questionText)}
+              <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</strong>
               <FastField
                 disabled={isView}
                 size="small"

@@ -61,9 +61,7 @@ const FlowChart = (props: Props) => {
           const displayNumberT = answer?.question?.displayNumber;
           return (
             <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
-              <span>
-                <strong>{`${answer?.question?.displayNumber}.`}</strong>
-              </span>
+              <strong style={{ minWidth: "20px" }}>{`${answer?.question?.displayNumber}.`}</strong>
               <FastField
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
