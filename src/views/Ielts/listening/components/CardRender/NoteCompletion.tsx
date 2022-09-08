@@ -24,6 +24,8 @@ const NoteCompletion = (props: Props) => {
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
 
+  console.log("questionBox", questionBox);
+
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     groupData.questions.forEach((el: any) => {
@@ -47,10 +49,11 @@ const NoteCompletion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
+    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = values.answers[blankId - 1]?.studentAnswer;
     }
     return new Handlebars.SafeString(
       `
