@@ -1,4 +1,5 @@
-import { useContext, createContext } from "react";
+import { Search } from "@mui/icons-material";
+import { useContext, createContext, useRef, useMemo } from "react";
 
 const LocationContext = createContext<{ initialPathName: string }>({ initialPathName: window.location.pathname });
 
@@ -9,11 +10,18 @@ interface LocationProviderI {
 export const useGetLocation = () => useContext(LocationContext);
 
 const LocationProvider = (props: LocationProviderI) => {
-  return (
-    <LocationContext.Provider value={{ initialPathName: window.location.pathname }}>
-      {props.children}
-    </LocationContext.Provider>
+  const pathname = useRef(window.location.pathname);
+  const search = useRef(window.location.search);
+
+  //* initialPathName -> get first pathname that user input on url
+  const valueMemo = useMemo(
+    () => ({
+      initialPathName: pathname.current + search.current,
+    }),
+    []
   );
+
+  return <LocationContext.Provider value={valueMemo}>{props.children}</LocationContext.Provider>;
 };
 
 export default LocationProvider;
