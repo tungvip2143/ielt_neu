@@ -179,6 +179,7 @@ const CreateContest = (props: Props) => {
         if (response.data.statusCode === 200) {
           refetchData();
           toast.success("Update part success!");
+          setIsEdit(false);
         }
       } catch (error: any) {
         toast.error(error);

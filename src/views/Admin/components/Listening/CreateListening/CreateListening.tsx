@@ -196,9 +196,11 @@ const CreateQuestionListening = (props: Props) => {
           partTitle: data.partTitle,
           partAudio: responseAudio?.data?.data?.uri ? responseAudio?.data?.data?.uri : dataPartDetail?.partAudio,
         };
-        const response = await listeningService.postCreatePart(body);
+        const response = await listeningService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update speaking success!");
+          setIsEdit(false);
+
           // history.push(RouteBase.Listening);
         }
       } catch (error: any) {
@@ -279,7 +281,7 @@ const CreateQuestionListening = (props: Props) => {
           // autoPlay
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-          src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}${dataPartDetail?.partAudio}`}
+          src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}/${dataPartDetail?.partAudio}`}
           onPlay={(e) => console.log("onPlay")}
           showJumpControls={false}
           loop={false}

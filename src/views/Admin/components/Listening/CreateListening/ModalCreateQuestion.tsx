@@ -3,7 +3,7 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BlockIcon from "@mui/icons-material/Block";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import SaveIcon from "@mui/icons-material/Save";
-import { Box, InputAdornment, Stack, Typography } from "@mui/material";
+import { Box, Button, InputAdornment, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
@@ -22,6 +22,7 @@ import listeningService from "services/listeningService";
 import audioService from "services/audioService";
 import { IMAGE_URL } from "constants/constants";
 import ButtonUpload from "components/Button/ButtonUpload";
+import CommonStyles from "components/CommonStyles";
 
 export interface Props {
   openModal: any;
@@ -52,6 +53,7 @@ const ModalCreateQuestion = (props: Props) => {
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
   const [selectFile, setSelectFile] = useState<any>("");
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [image, setImage] = useState<any>();
   const { register, control, handleSubmit, reset, watch, setValue, getValues } = useForm<any>({
     mode: "onChange",
@@ -104,6 +106,7 @@ const ModalCreateQuestion = (props: Props) => {
     console.log("selectFileListening", selectFile);
   };
   const onFileChange = async (event: any) => {
+    setIsLoading(true);
     if (event.target && event.target.files[0]) {
       const formData = new FormData();
       formData.append("file", event.target.files[0]);
@@ -112,9 +115,11 @@ const ModalCreateQuestion = (props: Props) => {
         const responseImage = await audioService.postAudioListening(formData);
         if (responseImage?.data?.statusCode === 200) {
           setImage(responseImage?.data?.data?.uri);
+          setIsLoading(false);
         }
       } catch (error) {
         console.log("error", error, fetchData);
+        setIsLoading(false);
       }
     }
   };
@@ -400,16 +405,19 @@ const ModalCreateQuestion = (props: Props) => {
             {(selectFile || dataQuestionDetail?.image) && (
               <img
                 id="blah"
-                src={selectFile ? URL.createObjectURL(selectFile) : IMAGE_URL + dataQuestionDetail?.image}
+                src={selectFile ? URL.createObjectURL(selectFile) : `${IMAGE_URL}/${dataQuestionDetail?.image}`}
                 alt="image"
                 style={{ width: "100%", maxHeight: 400, marginTop: 20 }}
               />
             )}
-            <ButtonUpload
-              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
-              titleButton="Upload image"
+            <CommonStyles.Button
+              loading={isLoading}
+              sx={{ display: "flex", height: 40 }}
               onClick={handleClick}
-            />
+              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+            >
+              Upload image
+            </CommonStyles.Button>
             {openModal.type !== "detailQuestion" && (
               <div className="text-end">
                 <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
