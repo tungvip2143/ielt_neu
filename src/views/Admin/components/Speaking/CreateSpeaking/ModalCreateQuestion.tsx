@@ -8,7 +8,7 @@ import ButtonSave from "components/Button/ButtonSave";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import TinyMceCommon from "components/TinyMceCommon";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import ReadingService from "services/ReadingService";
@@ -21,6 +21,7 @@ import speakingService from "services/speakingService";
 import audioService from "services/audioService";
 import useGetDetailQuestion from "hooks/QuestionBank/Speaking/useGetDetailQuestion";
 import { AUDIO_URL, IMAGE_URL } from "constants/constants";
+import CommonStyles from "components/CommonStyles";
 
 export interface Props {
   openModal: any;
@@ -49,7 +50,7 @@ const ModalCreateQuestion = (props: Props) => {
     questionAudio: [],
     modelAnswerAudio: [],
   });
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [selectFile, setSelectFile] = useState<any>({});
   const { openModal, onCloseModal = () => {}, id, fetchData } = props;
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
@@ -79,6 +80,7 @@ const ModalCreateQuestion = (props: Props) => {
   };
 
   const onFileChange = async (event: any, key: string) => {
+    setIsLoading(true);
     const object = { ...selectFile };
     object[key] = event.target.files[0];
     setSelectFile(object);
@@ -89,9 +91,11 @@ const ModalCreateQuestion = (props: Props) => {
 
       if (responseAudio?.data?.statusCode === 200) {
         setValue(key, responseAudio?.data?.data?.uri);
+        setIsLoading(false);
       }
     } catch (error: any) {
       toast.error(error);
+      setIsLoading(false);
     }
   };
 
@@ -280,11 +284,13 @@ const ModalCreateQuestion = (props: Props) => {
                   />
                   {openModal.type !== "detailQuestion" && (
                     <div className="text-end my-3">
-                      <ButtonUpload
-                        style={{ display: "flex", height: 40 }}
-                        titleButton="Upload audio"
+                      <CommonStyles.Button
+                        loading={isLoading}
+                        sx={{ display: "flex", height: 40 }}
                         onClick={() => fileRef.current?.modelAnswerAudio[index]?.click()}
-                      />
+                      >
+                        Upload audio
+                      </CommonStyles.Button>
                     </div>
                   )}
                 </div>
