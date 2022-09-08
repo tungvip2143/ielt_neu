@@ -128,7 +128,7 @@ const CreateQuestionReading = (props: Props) => {
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
           history.push({
-            pathname: RouteBase.UpdateReadingWId(response?.data?.data?.partTitle),
+            pathname: RouteBase.UpdateReadingWId(response?.data?.data?.passageTitle),
             search: `?id=${response?.data?.data?.id}`,
           });
         }

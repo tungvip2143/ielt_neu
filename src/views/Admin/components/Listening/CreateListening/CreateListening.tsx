@@ -23,7 +23,6 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EditIcon from "@mui/icons-material/Edit";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { isEmpty } from "lodash";
 import listeningService from "services/listeningService";
 import { RouteBase } from "constants/routeUrl";
@@ -31,6 +30,10 @@ import SelectField from "components/CustomField/SelectField";
 import audioService from "services/audioService";
 import TinyMceCommon from "components/TinyMceCommon";
 import { AUDIO_URL } from "constants/constants";
+import useToggleDialog from "hooks/useToggleDialog";
+import CommonStyles from "components/CommonStyles";
+import RemoveQuestionGroup from "./Components/RemoveQuestionGroup";
+import { ROOT_URL } from "constants/api";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -54,6 +57,7 @@ const styles = {
 };
 
 const CreateQuestionListening = (props: Props) => {
+  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
   const [existAudio, setExistAudio] = useState<boolean>(false);
@@ -206,7 +210,6 @@ const CreateQuestionListening = (props: Props) => {
   const onDelete = async (id: number | string) => {
     try {
       await listeningService.deleteQuestionGroup(id);
-      alert("Delete question group success");
       refetchQuestionGroup();
     } catch (error) {
       console.log("error");
@@ -291,23 +294,6 @@ const CreateQuestionListening = (props: Props) => {
           onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
         />
-        {existAudio && (
-          <span
-            style={{
-              display: "flex",
-              fontSize: "0.8rem",
-              fontWeight: "400",
-              lineHeight: "1.66",
-              fontFamily: "Arial",
-              textAlign: "left",
-              marginTop: "10px",
-
-              color: " red",
-            }}
-          >
-            This field is required!
-          </span>
-        )}
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
@@ -333,10 +319,33 @@ const CreateQuestionListening = (props: Props) => {
                       style={{ color: "#15B8A6", fontSize: "20px", cursor: "grab", marginLeft: 10, marginRight: 10 }}
                       onClick={() => setOpenModal({ type: "updateQuestion", id: el.id })}
                     />
-                    <HighlightOffOutlinedIcon
-                      style={{ color: "#f44336", fontSize: "20px", cursor: "grab" }}
-                      onClick={() => onDelete(el.id)}
-                    />
+                    <RemoveQuestionGroup item={el} onDelete={onDelete} />
+                    {/* {shouldRenderRemove && (
+                      <CommonStyles.Modal
+                        open={openRemove}
+                        toggle={toggleRemove}
+                        header="Delete Confirmation"
+                        content={<div>Are you sure you want to delete?</div>}
+                        footer={
+                          <React.Fragment>
+                            <Button
+                              variant="outlined"
+                              sx={{ color: "black", fontWeight: "500" }}
+                              onClick={toggleRemove}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              variant="contained"
+                              style={{ background: "#9155FF" }}
+                              onClick={() => onDelete(el.id)}
+                            >
+                              Delete
+                            </Button>
+                          </React.Fragment>
+                        }
+                      />
+                    )} */}
                   </div>
                   <div dangerouslySetInnerHTML={{ __html: el.questionBox }} style={{ fontWeight: "bold" }}></div>
 

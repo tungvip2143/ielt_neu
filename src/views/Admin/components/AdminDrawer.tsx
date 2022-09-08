@@ -44,18 +44,18 @@ const MenuData = [
         icon: <HeadsetIcon />,
         link: RouteBase.Listening,
       },
-      {
-        id: 2,
-        title: "Speaking",
-        icon: <RecordVoiceOverIcon />,
-        link: RouteBase.Speaking,
-      },
-      {
-        id: 3,
-        title: "Writing",
-        icon: <NoteAltIcon />,
-        link: RouteBase.Writing,
-      },
+      // {
+      //   id: 2,
+      //   title: "Speaking",
+      //   icon: <RecordVoiceOverIcon />,
+      //   link: RouteBase.Speaking,
+      // },
+      // {
+      //   id: 3,
+      //   title: "Writing",
+      //   icon: <NoteAltIcon />,
+      //   link: RouteBase.Writing,
+      // },
       {
         id: 4,
         title: "Reading",
@@ -98,7 +98,6 @@ const MenuData = [
 
 const AdminDrawer = () => {
   const location = useLocation();
-  console.log("location", location);
 
   const [active, setActive] = React.useState<any>({});
   const [selectItem, setSelectItem] = React.useState<any>();
