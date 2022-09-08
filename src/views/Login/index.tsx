@@ -42,7 +42,7 @@ const LoginPage = () => {
         </Stack>
       </CardView>
       <Box className={classes.footer}>
-        <img style={{ width: "300px" }} src={LogoDuca} alt="" />
+        <img style={{ width: "200px" }} src={LogoDuca} alt="" />
       </Box>
     </Box>
   );

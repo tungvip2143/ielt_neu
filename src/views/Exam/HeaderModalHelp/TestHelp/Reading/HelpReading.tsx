@@ -73,12 +73,7 @@ const HelpReading = () => {
     margin: "40px 0 20px 0",
   };
   return (
-    <Box
-      sx={{
-        overflowY: "scroll",
-        maxHeight: "420px",
-      }}
-    >
+    <>
       <Title>At the top of the screen you can see:</Title>
       <img src={DemoNumberUser} alt="" />
       <TextDesc>Your name and candidate number.</TextDesc>
@@ -176,7 +171,7 @@ const HelpReading = () => {
       </table>
       <Title addCss={titleAdd}>Scrolling</Title>
       <TextDesc>For longer texts, you may need to scroll to see all of the test.</TextDesc>
-    </Box>
+    </>
   );
 };
 

@@ -52,6 +52,7 @@ const FormLogin = () => {
   const classes = useStyles();
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
+  console.log("auth", auth);
   const { isLogin } = auth;
   const history = useHistory();
   const { mutateAsync: login, isLoading: isLoadingLogin } = studentLogin();

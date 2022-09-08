@@ -79,6 +79,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //! Function
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
+  console.log("nfkshdf", user);
 
   const handleSubmitForm = async (values: any) => {
     const answers = values.answers.filter((el: any) => {
