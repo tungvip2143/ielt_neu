@@ -124,7 +124,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //
 
   const timeExam = useMemo(() => {
-    return LEFT_TIME ? Number(LEFT_TIME) : 10000;
+    return LEFT_TIME ? Number(LEFT_TIME) : 1800000;
   }, []);
 
   useConfirmCloseBrowser();
