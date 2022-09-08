@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 //
 import { Box, Button, Stack } from "@mui/material";
 import CountDown from "components/Countdown/CountDown";
@@ -13,6 +13,7 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import NumberUser from "assets/image/exam/number-user.png";
 //
 import HeaderExam from "../Header/HeaderExam";
+import { useFormikContext } from "formik";
 
 // ! type
 interface Props {
@@ -40,14 +41,11 @@ const headerContent = {
 };
 //
 
-const Header = ({
-  handleOpenModalHelp,
-  handleOpenModalHide,
-  numberStep,
-  timeExam,
-  handleSubmitWhenEndedTime,
-}: Props) => {
+const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam }: Props) => {
+  //! State
   const { step } = useStepExam();
+  const { handleSubmit } = useFormikContext();
+
   const btnHelp = {
     cursor: "pointer",
   };
@@ -55,7 +53,11 @@ const Header = ({
     cursor: "pointer",
   };
 
-  console.log("rerendering");
+  const handleSubmitWhenEndedTime = useCallback(() => {
+    handleSubmit();
+  }, [handleSubmit]);
+
+  //! Render
   return (
     <Box>
       <HeaderExam />

@@ -124,7 +124,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   //
 
   const timeExam = useMemo(() => {
-    return LEFT_TIME ? Number(LEFT_TIME) : 1800000;
+    return LEFT_TIME ? Number(LEFT_TIME) : 10000;
   }, []);
 
   useConfirmCloseBrowser();
@@ -144,7 +144,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
                 timeExam={timeExam}
-                handleSubmitWhenEndedTime={() => handleSubmitForm(formik.values)}
               />
 
               <Box sx={containerSteps}>

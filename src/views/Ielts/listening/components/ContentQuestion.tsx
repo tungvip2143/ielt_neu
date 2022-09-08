@@ -34,6 +34,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return ContentQuestion?.questions.map((question: any) => {
+        console.log("question", question);
         return (
           <>
             <SentenceCompletetion onClickPage={onClickPage} displayNumber={displayNumber} data={question} />

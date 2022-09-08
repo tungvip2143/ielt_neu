@@ -56,7 +56,6 @@ const IeltsReading = () => {
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
   const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
   const { testCode } = useGetTestCode();
-  const { dispatch } = useSagaCreators();
 
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
@@ -80,6 +79,7 @@ const IeltsReading = () => {
     const { answers } = dataCache;
     return answers ? answers : genInitialValue;
   }, []);
+
   const handleSubmit = useCallback(async (values: any) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
@@ -125,7 +125,7 @@ const IeltsReading = () => {
 
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
-  const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 3600000;
+  const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 100000;
 
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
@@ -137,8 +137,8 @@ const IeltsReading = () => {
               handleOpenModalHide={handleOpenModalHide}
               numberStep={TypeStepExamEnum.STEP3}
               timeExam={timeExam}
-              handleSubmitWhenEndedTime={() => handleSubmit(formik.values)}
             />
+
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
               {step === TypeStepExamEnum.STEP2 && (
@@ -157,6 +157,7 @@ const IeltsReading = () => {
               typeExam={TypeExam.READING}
             />
           )}
+
           {isOpenModalHide && (
             <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />
           )}

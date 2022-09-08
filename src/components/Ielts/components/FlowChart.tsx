@@ -29,7 +29,7 @@ type Props = {
   question?: any;
   onClickPage?: (options: any) => void;
   displayNumber: number;
-  isView?: boolean
+  isView?: boolean;
 };
 
 const FlowChart = (props: Props) => {
@@ -39,6 +39,7 @@ const FlowChart = (props: Props) => {
   const inputRef = useRef<any>([]);
 
   const handleFocus = (id: string, index: any) => {
+    console.log("id789", id, index);
     setFieldValue(`answers[${index}].questionId`, id);
   };
   const onClickQuestion = (questionIndx: number) => {

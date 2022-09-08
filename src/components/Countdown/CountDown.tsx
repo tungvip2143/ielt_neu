@@ -33,4 +33,4 @@ const CountDown = (props: Props) => {
   );
 };
 
-export default CountDown;
+export default React.memo(CountDown);
