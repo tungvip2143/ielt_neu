@@ -8,11 +8,9 @@ import Text from "components/Typography/index";
 //
 // ! type
 interface Data {
-  children?: any;
   content?: string;
 }
-const CardPart = ({ children, content }: Data) => {
-  console.log("content", content);
+const CardPart = ({ content }: Data) => {
   const card = {
     p: "12px 10px",
     boxShadow: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
