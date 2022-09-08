@@ -41,7 +41,6 @@ const Step2ExamContent = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [questionType, setQuestionType] = useState();
-  console.log("questionType", questionType);
 
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   const part = data;

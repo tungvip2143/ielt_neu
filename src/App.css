@@ -257,3 +257,26 @@ fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutl
 .css-1apkv71-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
   color: red !important;
 }
+/* note */
+.change-volum {
+  display: flex;
+  align-items: center;
+}
+.hight-light-note {
+  position: relative;
+  background-color: yellow;
+  width: fit-content;
+}
+
+.hover-note {
+  display: none;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 0;
+  top: -10px;
+  background: url(./assets//image//exam/hover-note.png) no-repeat;
+}
+.hight-light-note:hover .hover-note {
+  display: block;
+}

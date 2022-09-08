@@ -13,9 +13,7 @@ type Props = {
 const CODE = "-@X$";
 
 const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
-  console.log({ blankId, questionId, questionBox });
   questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
-  console.log("questionBox", questionBox);
   return questionBox;
 };
 
@@ -26,13 +24,10 @@ const NoteCompletion = (props: Props) => {
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
 
-  console.log("groupData", groupData);
-
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     groupData.questions.forEach((el: any) => {
       const { blankNumber, displayNumberT } = el.question;
-      console.log("displayNumberT", displayNumberT);
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
