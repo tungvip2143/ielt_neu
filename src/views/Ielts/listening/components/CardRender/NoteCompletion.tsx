@@ -57,6 +57,7 @@ const NoteCompletion = (props: Props) => {
     }
     return new Handlebars.SafeString(
       `
+      ${blankId}
       <input
           key="input-${blankId}"
           name="answers[${blankId - 1}].studentAnswer"

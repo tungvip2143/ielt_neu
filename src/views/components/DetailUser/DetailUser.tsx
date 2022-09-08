@@ -12,6 +12,7 @@ import Title from "../Title/Title";
 import Container from "../Container/Container";
 import ImgHelp from "assets/image/exam/help.png";
 import { format } from "date-fns";
+import { GetAuthSelector } from "redux/selectors";
 console.log("ImgHelp", ImgHelp);
 //! type
 interface Props {
@@ -19,7 +20,9 @@ interface Props {
 }
 const DetailUser = (props: Props) => {
   //! State
-  const { user } = props;
+  // const { user } = props;
+  const auth = GetAuthSelector();
+  const user = auth?.user;
   const container = {
     ...themeCssSx.flexBox.flexJusCenter,
     mt: "60px",

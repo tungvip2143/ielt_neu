@@ -87,9 +87,10 @@ const FormLogin = () => {
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: async (response) => {
+              console.log("response", response);
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,
-                user: response?.data?.data?.data,
+                user: response?.data?.data?.data?.user,
                 userType: "user",
               });
               onSubmitTestCode(response?.data?.data?.data?.examination?.id);

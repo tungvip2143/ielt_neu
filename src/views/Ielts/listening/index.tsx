@@ -86,9 +86,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
   }, []);
 
   //! Function
-  const auth = GetAuthSelector();
-  const user = auth?.user?.user;
-  console.log("nfkshdf", user);
 
   const handleSubmitForm = useCallback(async (values: any) => {
     const testCode = localStorage.getItem("testCode");
@@ -148,7 +145,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
               />
 
               <Box sx={containerSteps}>
-                {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
+                {step === TypeStepExamEnum.STEP1 && <DetailUser />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
                 {step === TypeStepExamEnum.STEP3 && (
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />

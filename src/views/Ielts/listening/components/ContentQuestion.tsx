@@ -29,7 +29,11 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
+    ) {
       return <FlowChart question={ContentQuestion?.questions} displayNumber={displayNumber} image={ContentQuestion} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {

@@ -5,6 +5,7 @@ import { RouteBase } from "constants/routeUrl";
 import { FastField, Form, Formik } from "formik";
 import { useLogin } from "hooks/auth/useAuth";
 import useSagaCreators from "hooks/useSagaCreators";
+import { useGetLocation } from "provider/LocationProvider";
 import { Redirect } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import { GetAuthSelector } from "redux/selectors/auth";
@@ -51,6 +52,7 @@ const LoginAdminPage = (props: any) => {
   };
   //! Render
   const { isLogin } = auth;
+  const { initialPathName } = useGetLocation();
 
   if (isLogin) {
     return <Redirect to="/admin" />;

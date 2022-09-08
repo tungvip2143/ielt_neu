@@ -39,11 +39,13 @@ export const authSagas = {
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
-      const { token, userType } = action.payload;
+      const { token, userType, user } = action.payload;
+      console.log("user", user);
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token });
       yield authServices.saveUserTypeToLocalStorage(userType);
-      yield put({ type: authActions.saveInfoUserSuccess, token });
+      yield localStorage.setItem("userInfo", user);
+      yield put({ type: authActions.saveInfoUserSuccess, token, user });
     },
   },
   // [authActions.saveUserType]: {
@@ -68,7 +70,7 @@ export const authReducer = (
   action: any
 ) => {
   return produce(state, (draftState) => {
-    console.log("draftState", draftState);
+    console.log("action", action);
     switch (action.type) {
       case authActions.checkAuth: {
         draftState.auth.isCheckingAuth = true;

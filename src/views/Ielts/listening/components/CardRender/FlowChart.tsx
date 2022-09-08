@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: "100%",
   },
+  imgBox: {
+    width: "60%",
+  },
 }));
 type Props = {
   image?: any;
@@ -55,7 +58,9 @@ const FlowChart = (props: Props) => {
 
   return (
     <div className={classes.container}>
-      <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image?.image}`} alt="flow chart" />
+      <div className={classes.imgBox}>
+        <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image?.image}`} alt="flow chart" />
+      </div>
       <div className={classes.answerBox}>
         {question?.map((answer: any, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;

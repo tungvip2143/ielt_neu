@@ -40,8 +40,8 @@ const App: React.FC = () => {
   // useConfirmCloseBrowser();
   //! Render
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <LocationProvider>
+    <LocationProvider>
+      <GoogleOAuthProvider clientId={clientId}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <ToastContainer position="top-right" autoClose={3000} />
@@ -68,8 +68,8 @@ const App: React.FC = () => {
             </Switch>
           </Router>
         </ThemeProvider>
-      </LocationProvider>
-    </GoogleOAuthProvider>
+      </GoogleOAuthProvider>
+    </LocationProvider>
   );
 };
 
