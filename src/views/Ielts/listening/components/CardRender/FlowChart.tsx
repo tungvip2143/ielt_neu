@@ -23,6 +23,9 @@ const useStyles = makeStyles((theme) => ({
   img: {
     width: "100%",
   },
+  imgBox: {
+    width: "60%",
+  },
 }));
 type Props = {
   image?: any;
@@ -55,15 +58,15 @@ const FlowChart = (props: Props) => {
 
   return (
     <div className={classes.container}>
-      <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image?.image}`} alt="flow chart" />
+      <div className={classes.imgBox}>
+        <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image?.image}`} alt="flow chart" />
+      </div>
       <div className={classes.answerBox}>
         {question?.map((answer: any, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;
           return (
             <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
-              <span>
-                <strong>{`${answer?.question?.displayNumber}.`}</strong>
-              </span>
+              <strong style={{ minWidth: "20px" }}>{`${answer?.question?.displayNumber}.`}</strong>
               <FastField
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}

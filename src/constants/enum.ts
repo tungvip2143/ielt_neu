@@ -6,6 +6,9 @@ export enum TypeExamEnum {
   SPEAKING = "SPEAKING",
 }
 
+export enum TimeExamLeft {
+  LEFT_TIME = "LEFT_TIME",
+}
 export enum TypeStepExamEnum {
   STEP1 = "STEP1",
   STEP2 = "STEP2",

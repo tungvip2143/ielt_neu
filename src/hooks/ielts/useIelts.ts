@@ -1,3 +1,4 @@
+import cacheService from "services/cacheService";
 import { getErrorMsg } from "./../../helpers/index";
 import { showError, showSuccess } from "helpers/toast";
 import { useQuery, useMutation } from "react-query";
@@ -9,9 +10,9 @@ export const useIeltsTestCode = () => {
   });
 };
 export const useIeltsListening = (testCode: any) => {
-  return useQuery("get ielts listening data", ieltsService.getIeltsListening, {
+  return useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
     onError: (error) => showError(getErrorMsg(error)),
-    meta: testCode,
+    // meta: testCode,
   });
 };
 
@@ -37,6 +38,9 @@ export const useIeltsResult = (query: any) => {
 export const useIeltsReading = (testCode: any) => {
   return useQuery("get ielts readding data", ieltsService.getIeltsReading, {
     onError: (error) => showError(getErrorMsg(error)),
+    onSuccess: () => {
+      cacheService.cache("skill", "READING");
+    },
     meta: testCode,
   });
 };

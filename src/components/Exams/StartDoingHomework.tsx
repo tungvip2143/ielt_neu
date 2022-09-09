@@ -6,7 +6,7 @@ import Step2ExamContent from "components/Exams/components/Step2ExamContent/Step2
 // import ButtonNumberPage from "components/Button/ButtonNumberPage";
 
 interface Props {
-  data: any;
+  data?: any;
   test?: string;
 }
 
@@ -15,7 +15,7 @@ const ExamTest = (props: Props) => {
 
   return (
     <Box>
-      <Step2ExamContent data={data} {...rest} />
+      <Step2ExamContent />
     </Box>
   );
 };

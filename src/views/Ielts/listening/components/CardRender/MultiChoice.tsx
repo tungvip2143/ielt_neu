@@ -10,7 +10,7 @@ interface Props {
   audio?: any;
   onClickPage: (options: any) => void;
 
-  isView?: boolean
+  isView?: boolean;
 }
 const formAnswer = {
   display: "flex",
@@ -71,7 +71,7 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
                         disabled={isView}
                         key={answerChoice._id}
                         value={answerChoice.key}
-                        label={`${answerChoice.key}.${answerChoice.text}`}
+                        label={`${answerChoice.text}`}
                         control={
                           <Field
                             questionId={item.question._id}

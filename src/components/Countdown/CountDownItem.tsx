@@ -1,5 +1,8 @@
-import { useFormikContext } from "formik";
+import { TimeExamLeft } from "constants/enum";
+import { useEffect, useRef } from "react";
 import Countdown from "react-countdown";
+import cacheService from "services/cacheService";
+import React from "react";
 
 interface Data {
   minutes: any;
@@ -8,18 +11,24 @@ interface Data {
 }
 interface Props {
   timeExam?: any;
+  handleSubmitWhenEndedTime?: () => void;
 }
-function CountDownItem(props: Props) {
+function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
+  console.log("countdown rerendering");
   const Completionist = () => <span>You are good to go!</span>;
-  const { handleSubmit } = useFormikContext();
-
+  const countdownRef: any = useRef(null);
+  useEffect(() => {
+    return () => cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
+  }, []);
   // Renderer callback with condition
   const renderer = ({ minutes, seconds, completed }: Data) => {
     if (completed) {
+      console.log("completed");
       // Render a completed state
-      handleSubmit();
+      handleSubmitWhenEndedTime && handleSubmitWhenEndedTime();
       return <Completionist />;
     } else {
+      cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
       // Render a countdown
       return (
         <span style={{ color: "#FEE49B" }}>
@@ -30,9 +39,9 @@ function CountDownItem(props: Props) {
   };
   return (
     <div className="App">
-      <Countdown date={Date.now() + props.timeExam} renderer={renderer} />
+      <Countdown date={Date.now() + timeExam} ref={countdownRef} renderer={renderer} />
     </div>
   );
 }
 
-export default CountDownItem;
+export default React.memo(CountDownItem);

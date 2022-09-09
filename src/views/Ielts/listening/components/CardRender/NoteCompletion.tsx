@@ -13,9 +13,7 @@ type Props = {
 const CODE = "-@X$";
 
 const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
-  console.log({ blankId, questionId, questionBox });
   questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
-  console.log("questionBox", questionBox);
   return questionBox;
 };
 
@@ -26,13 +24,12 @@ const NoteCompletion = (props: Props) => {
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
 
-  console.log("groupData", groupData);
+  console.log("questionBox", questionBox);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     groupData.questions.forEach((el: any) => {
       const { blankNumber, displayNumberT } = el.question;
-      console.log("displayNumberT", displayNumberT);
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
@@ -52,13 +49,15 @@ const NoteCompletion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
+    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = values.answers[blankId - 1]?.studentAnswer;
     }
     return new Handlebars.SafeString(
       `
+      ${blankId}
       <input
           key="input-${blankId}"
           name="answers[${blankId - 1}].studentAnswer"

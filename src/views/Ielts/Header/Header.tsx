@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 //
 import { Box, Button, Stack } from "@mui/material";
 import CountDown from "components/Countdown/CountDown";
@@ -13,6 +13,7 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import NumberUser from "assets/image/exam/number-user.png";
 //
 import HeaderExam from "../Header/HeaderExam";
+import { useFormikContext } from "formik";
 
 // ! type
 interface Props {
@@ -21,6 +22,7 @@ interface Props {
   handleOpenModalHide?: () => void;
   numberStep?: any;
   timeExam?: any;
+  handleSubmitWhenEndedTime?: () => void;
 }
 const header = {
   p: "2px 0px",
@@ -40,7 +42,10 @@ const headerContent = {
 //
 
 const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam }: Props) => {
+  //! State
   const { step } = useStepExam();
+  const { handleSubmit } = useFormikContext();
+
   const btnHelp = {
     cursor: "pointer",
   };
@@ -48,6 +53,11 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam
     cursor: "pointer",
   };
 
+  const handleSubmitWhenEndedTime = useCallback(() => {
+    handleSubmit();
+  }, [handleSubmit]);
+
+  //! Render
   return (
     <Box>
       <HeaderExam />
@@ -60,7 +70,9 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam
             </Stack>
           )}
 
-          {step === numberStep && <CountDown timeExam={timeExam} />}
+          {step === numberStep && (
+            <CountDown handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+          )}
           {step === numberStep && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <ButtonHelp handleOpenModalHelp={handleOpenModalHelp} style={btnHelp} />

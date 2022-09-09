@@ -34,18 +34,25 @@ type Props = {
   onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (option: any) => void;
   displayNumber: number;
-  isView?: boolean
+  isView?: boolean;
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data, answerList, question, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
+  const { data, answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
+  console.log("maching heading", data);
 
   const handleFocus = (displayNumber: number) => {
-    setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");
+    console.log("test3456");
+    data.map((question: any) => {
+      console.log("abcdef", displayNumber === question.question.displayNumber);
+      if (displayNumber === question.question.displayNumber) {
+        setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+      }
+    });
   };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
@@ -61,13 +68,11 @@ const MachingHeading = (props: Props) => {
     <div className={classes.root}>
       <div className={classes.questionBox}>
         {question.map((question: any, questionIndex: number): any => {
+          console.log("fsdf", question);
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
-              {/* <div>
-                <strong>{`${displayNumberT}.`}</strong>
-              </div> */}
-              {ReactHtmlParser(question?.question?.questionText)}
+              <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</strong>
               <FastField
                 disabled={isView}
                 size="small"

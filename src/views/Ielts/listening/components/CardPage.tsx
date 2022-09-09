@@ -11,9 +11,11 @@ import { useFormikContext } from "formik";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
 import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-import NextQuestion from "assets/image/exam/next-exercise.png";
-import PrevQuestion from "assets/image/exam/prev-exercise.png";
-import { AnyARecord } from "dns";
+// import PrevQuestion from "assets/image/exam/next-exercise.png";
+// import PrevQuestion from "assets/image/exam/prev-exercise.png";
+import NextQuestion from "assets/image/exam/prev-exercise.png";
+import VolumeUpIcon from "@mui/icons-material/VolumeUp";
+import Slider from "@mui/material/Slider";
 
 interface CardTotalPageExamsI {
   questions: any;
@@ -24,6 +26,7 @@ interface CardTotalPageExamsI {
   group: any;
   question: any;
   displayNumber: number;
+  handleChangeValueVolum?: any;
 }
 
 const box = {
@@ -63,6 +66,10 @@ const useStyles = makeStyles((theme) => {
       cursor: "pointer",
       borderRadius: "2px",
     },
+    sliderVolum: {
+      marginTop: "10px",
+      color: "#f5f5f5 !important",
+    },
   };
 });
 const nextPage = {
@@ -92,12 +99,14 @@ const CardPage = ({
   group,
   question,
   displayNumber,
+  handleChangeValueVolum,
 }: CardTotalPageExamsI) => {
   const [showPageReview, setShowPageReview] = useState<string>();
   const [checkedReview, setCheckedReview] = useState(false);
+  const [valueVolum, setValueVolum] = useState<number>(50);
+  console.log("volum", valueVolum);
   const { handleSubmit } = useFormikContext();
   //
-  console.log("displayNumber", displayNumber);
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -117,6 +126,10 @@ const CardPage = ({
   //
   const hideReview = () => {
     setCheckedReview(false);
+  };
+  //
+  const handleChangeVolum = (event: any) => {
+    setValueVolum(event.target.value);
   };
 
   // ! Next  question
@@ -260,15 +273,26 @@ const CardPage = ({
 
               <Box sx={{ width: { md: "20%" } }}></Box>
             </Box>
-            <img src={ImgHideTotalPage} alt="" />
+
+            {handleChangeValueVolum(valueVolum)}
+            <div className="change-volum">
+              <VolumeUpIcon sx={{ mr: "5px" }} />
+              <Box width={80}>
+                <Slider
+                  className={classes.sliderVolum}
+                  defaultValue={50}
+                  aria-label="Default"
+                  valueLabelDisplay="auto"
+                  size="medium"
+                  onChange={handleChangeVolum}
+                />
+              </Box>
+            </div>
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage} onClick={onClickBackQuestion}>
-            <img src={NextQuestion} alt="" />
-          </Box>
           <Box sx={nextPage} onClick={onClickNextQuestion}>
-            <img src={PrevQuestion} alt="" />
+            <img src={NextQuestion} alt="" />
           </Box>
         </Stack>
       </Box>

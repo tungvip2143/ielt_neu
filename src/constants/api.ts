@@ -33,7 +33,7 @@ export const AUTH_URL = {
 export const IELTS_URL = (testCode?: any, questionId?: string) => {
   return {
     IELTS: `${ROOT_URL}/ielts`,
-    LISTENING: `${ROOT_URL}/tests/${testCode?.meta}/listening`,
+    LISTENING: `${ROOT_URL}/tests`,
     READING: `${ROOT_URL}/tests/${testCode?.meta}/reading`,
     WRITTING: `${ROOT_URL}/tests/${testCode?.meta}/writing`,
     SPEAKING: `${ROOT_URL}/tests/${testCode?.meta}/speaking`,

@@ -31,7 +31,7 @@ const HeaderExam = () => {
         <img style={{ width: "300px" }} src={LogoNeu} alt="" />
       </div>
       <div>
-        <img style={{ width: "300px" }} src={LogoIdp} alt="" />
+        <img style={{ width: "150px" }} src={LogoIdp} alt="" />
       </div>
     </div>
   );
