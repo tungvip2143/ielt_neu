@@ -1,37 +1,40 @@
-import React from "react";
-import { Box, Stack } from "@mui/system";
+import { Box } from "@mui/system";
 import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
 import ImgUser from "assets/image/exam/logo-user.png";
 import Text from "../../../components/Typography/index";
 //
 import { TypeStepExamEnum } from "constants/enum";
-import { useStepExam } from "../../../provider/StepExamProvider";
 import FooterSubmit from "../FooterSubmit/FooterSubmit";
 import HelpFooter from "../HelpFooter/HelpFooter";
 import Title from "../Title/Title";
 import Container from "../Container/Container";
 import ImgHelp from "assets/image/exam/help.png";
 import { format } from "date-fns";
-import { GetAuthSelector } from "redux/selectors";
-console.log("ImgHelp", ImgHelp);
+import { warningDetailUser, textHeaderModal, textBtnSubmit } from "../../../constants/constants";
+//
+import { makeStyles } from "@mui/styles";
+import CommonStyles from "components/CommonStyles";
+
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      ...theme.custom?.flexBox.flexJusCenter,
+      marginTop: "60px",
+    },
+    textDetail: {
+      margin: "5px 0 !important",
+    },
+  };
+});
 //! type
 interface Props {
   user?: any;
 }
 const DetailUser = (props: Props) => {
   //! State
-  // const { user } = props;
-  const auth = GetAuthSelector();
-  const user = auth?.user;
-  const container = {
-    ...themeCssSx.flexBox.flexJusCenter,
-    mt: "60px",
-  };
-  const introduceUser = {
-    m: "5px 0",
-  };
-  const textHelp = "If your details are not correct, please inform the invigilator.";
-  const textBtn = " My details are correct";
+  const { user } = props;
+  const classes = useStyles();
+
   const nextStep = TypeStepExamEnum.STEP2;
   //
   const handleBrithDay = () => {
@@ -41,17 +44,24 @@ const DetailUser = (props: Props) => {
       return "";
     }
   };
+
   //! Render
   return (
-    <Box sx={container}>
+    <Box className={classes.container}>
       <Box>
-        <Title image={ImgUser} text="Confirm your details" />
+        <Title image={ImgUser} text={textHeaderModal.confirmDetail} />
         <Container>
-          <Text.Desc16 sx={introduceUser}>Name: {user?.fullname}</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Date of birth: {handleBrithDay()}</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Candidate number: {user?._id}</Text.Desc16>
-          <HelpFooter textHelp={textHelp} image={ImgHelp} />
-          <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
+          <CommonStyles.Typography component="p" variant="descMedium" className={classes.textDetail}>
+            Name: {user?.fullname}
+          </CommonStyles.Typography>
+          <CommonStyles.Typography component="p" variant="descMedium" className={classes.textDetail}>
+            Date of birth: {handleBrithDay()}
+          </CommonStyles.Typography>
+          <CommonStyles.Typography component="p" variant="descMedium" className={classes.textDetail}>
+            Candidate number: {user?._id}
+          </CommonStyles.Typography>
+          <HelpFooter textHelp={warningDetailUser.checkInformation} image={ImgHelp} />
+          <FooterSubmit textBtn={textBtnSubmit.detailUser} nextStep={nextStep} />
         </Container>
       </Box>
     </Box>
