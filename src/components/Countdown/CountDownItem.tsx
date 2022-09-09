@@ -1,5 +1,9 @@
 import { useFormikContext } from "formik";
-import Countdown from "react-countdown";
+import { useEffect, useState } from "react";
+import Countdown, { zeroPad, calcTimeDelta, formatTimeDelta } from "react-countdown";
+// import onMount from "react-countdown";
+
+// console.log("timer countdown", onMount);
 
 interface Data {
   minutes: any;
@@ -13,6 +17,10 @@ function CountDownItem(props: Props) {
   const Completionist = () => <span>You are good to go!</span>;
   const { handleSubmit } = useFormikContext();
 
+  const [timer, setTimer] = useState(false);
+
+  console.log("timer countdown", timer);
+
   // Renderer callback with condition
   const renderer = ({ minutes, seconds, completed }: Data) => {
     if (completed) {
@@ -21,8 +29,14 @@ function CountDownItem(props: Props) {
       return <Completionist />;
     } else {
       // Render a countdown
+      // if (minutes === 5) {
+      //   if (seconds === 20) {
+      //     setTimer(true);
+      //   }
+      // }
+
       return (
-        <span style={{ color: "#FEE49B" }}>
+        <span style={{ color: `${!timer ? "#FEE49B" : "red"}` }}>
           {minutes}:{seconds}
         </span>
       );

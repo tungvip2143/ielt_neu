@@ -114,7 +114,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-  const timeExam = 1800000;
+  // const timeExam = 1800000;
+  const timeExam = 330000;
 
   //! Render
   if (isLoading || listeningFinishLoading) {
