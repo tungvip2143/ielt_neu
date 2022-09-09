@@ -248,7 +248,7 @@ ul {
 }
 /* fix input exam */
 fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutline {
-  border: 1px solid #333;
+  border: 1px solid #333 !important;
 }
 /*  */
 .css-1qopneg-MuiFormHelperText-root.Mui-error {
