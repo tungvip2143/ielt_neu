@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
   imgBox: {
     width: "60%",
   },
+  inputAnswer: {
+    "& .css-reo2el": {
+      border: "1px solid #333",
+    },
+  },
 }));
 type Props = {
   image?: any;
@@ -46,7 +51,7 @@ const FlowChart = (props: Props) => {
   const handleFocus = (id: string, index: any, questionIndx: number) => {
     console.log("hello", id, index, questionIndx, onClickPage);
     setFieldValue(`answers[${index}].questionId`, id);
-    onClickPage && onClickPage({ question: questionIndx });
+    onClickPage && onClickPage({ question: questionIndx }); //!
   };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
@@ -80,7 +85,7 @@ const FlowChart = (props: Props) => {
                 // }
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
-                className="input-answer"
+                className={classes.inputAnswer}
               />
             </div>
           );
