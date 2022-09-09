@@ -7,6 +7,8 @@ import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
 //
 import { TypeStepExamEnum } from "constants/enum";
 import { useStepExam } from "../../../provider/StepExamProvider";
+import { useFormikContext } from "formik";
+import cacheService from "services/cacheService";
 // !type
 interface Props {
   textBtn?: string;
@@ -37,6 +39,7 @@ const btn = {
 const FooterSubmit = (props: Props) => {
   const { textBtn, nextStep } = props;
   const { handler } = useStepExam();
+  const { setFieldValue } = useFormikContext();
 
   return (
     <>
@@ -44,6 +47,7 @@ const FooterSubmit = (props: Props) => {
         <ButtonCommon.ButtonOutline
           onClick={() => {
             handler?.setStep && handler.setStep(nextStep);
+            cacheService.cache("step", nextStep);
           }}
           sx={btn}
         >

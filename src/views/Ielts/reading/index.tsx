@@ -2,7 +2,7 @@ import EndTest from "components/Exams/EndTest";
 import ExamTest from "components/Exams/StartDoingHomework";
 import { TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 //
 import { Box } from "@mui/material";
 //
@@ -23,6 +23,13 @@ import ModalHide from "../../../components/Modal/ModalHide";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
 import { GetAuthSelector } from "redux/selectors/auth";
+import IeltsReadingContainer from "components/Exams/components/Step2ExamContent/Step2ExamContent";
+import cacheService from "services/cacheService";
+import useSagaCreators from "hooks/useSagaCreators";
+import { toast } from "react-toastify";
+import { showError } from "helpers/toast";
+import { getErrorMsg } from "helpers";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 //
 const styleListRule = {
   padding: "0px 0px 24px 60px",
@@ -39,21 +46,8 @@ export interface IeltsReadingProps {
   testCode: number;
 }
 
-const initialValues = function () {
-  let value = {
-    questionId: "",
-    studentAnswer: "",
-  };
-  let answers = [];
-  for (let i = 0; i < 40; i++) {
-    answers.push(value);
-  }
-  return { answers };
-};
-
-const IeltsReading = (props: IeltsReadingProps) => {
+const IeltsReading = () => {
   // !State
-  const { data } = props;
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const history = useHistory();
@@ -63,25 +57,43 @@ const IeltsReading = (props: IeltsReadingProps) => {
   const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
   const { testCode } = useGetTestCode();
 
-  // const handleSubmit = async (values: any) => {
-  //   const answers = values.answers.filter((el: any) => {
-  //     return el.questionId && el.studentAnswer;
-  //   });
-  //   const body = { values: { answers }, testCode };
-  //   await submitIeltsReadingTest(body, {
-  //     onSuccess: () => {
-  //       history.push(RouteBase.IeltsWriting);
-  //     },
-  //   });
-  // };
-  //!
   const auth = GetAuthSelector();
   const user = auth?.user?.user;
   //
-  const handleSubmit = async () => {
-    await ieltsReadingFinish({ testCode, skill: "reading" });
-    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-  };
+
+  const genInitialValue = useMemo(() => {
+    let value = {
+      questionId: "",
+      studentAnswer: "",
+    };
+
+    let answers = [];
+    for (let i = 0; i < 40; i++) {
+      answers.push(value);
+    }
+    return { answers };
+  }, []);
+
+  const initialValues: any = useMemo(() => {
+    const dataCache = cacheService.getDataCache();
+    const { answers } = dataCache;
+    return answers ? answers : genInitialValue;
+  }, []);
+
+  const handleSubmit = useCallback(async (values: any) => {
+    const answers = values.answers.filter((el: any) => {
+      return el.questionId && el.studentAnswer;
+    });
+    try {
+      const body = { values: { answers }, testCode };
+      await submitIeltsReadingTest(body);
+      await ieltsReadingFinish({ testCode, skill: "reading" }).then(() => {
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  }, []);
 
   const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);
@@ -110,11 +122,14 @@ const IeltsReading = (props: IeltsReadingProps) => {
     width: "770px",
     padding: "10px !important",
   };
-  //
-  const timeExam = 3600000;
+
+  const dataCache = cacheService.getDataCache();
+  const { LEFT_TIME } = dataCache;
+  // const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 3600000;
+  const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 1800000;
 
   return (
-    <Formik initialValues={initialValues()} onSubmit={handleSubmit}>
+    <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
           <Box sx={{ height: { xs: "", lg: "100vh" }, overflow: { Xs: "", lg: "hidden" } }}>
@@ -124,12 +139,13 @@ const IeltsReading = (props: IeltsReadingProps) => {
               numberStep={TypeStepExamEnum.STEP3}
               timeExam={timeExam}
             />
+
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
               {step === TypeStepExamEnum.STEP2 && (
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
-              {step === TypeStepExamEnum.STEP3 && <ExamTest test={IELT_TEST.READING} data={data} />}
+              {step === TypeStepExamEnum.STEP3 && <IeltsReadingContainer />}
               {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.READING} />}
             </Box>
           </Box>
@@ -142,6 +158,7 @@ const IeltsReading = (props: IeltsReadingProps) => {
               typeExam={TypeExam.READING}
             />
           )}
+
           {isOpenModalHide && (
             <ModalHide open={isOpenModalHide} styleModal={styleModal} handleCloseModal={handleCloseModalHide} />
           )}
@@ -151,23 +168,10 @@ const IeltsReading = (props: IeltsReadingProps) => {
   );
 };
 
-const IeltsReadingContainer = () => {
-  const { testCode } = useGetTestCode();
-  const { data, isLoading } = useIeltsReading(testCode);
-  const history = useHistory();
-
-  if (isLoading) {
-    return <LoadingPage />;
-  }
-  useCheckTestCode(Number(testCode));
-
-  return <IeltsReading data={data?.data?.data} testCode={Number(testCode)} />;
-};
-
 const IeltsListeningRoot = () => {
   return (
     <StepExamProvider>
-      <IeltsReadingContainer />
+      <IeltsReading />
     </StepExamProvider>
   );
 };

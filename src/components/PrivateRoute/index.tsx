@@ -12,6 +12,7 @@ const PrivateRoute = (props: any) => {
   if (isLogin) {
     return <Route {...props} />;
   }
+
   if (userType === "admin") {
     return <Redirect to="/admin/login" />;
   } else {

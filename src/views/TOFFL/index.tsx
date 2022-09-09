@@ -34,7 +34,7 @@ const TOFFL = ({
 }: TOFFLI) => {
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  console.log("partRenderSelected", partRenderSelected);
+  // console.log("partRenderSelected", partRenderSelected);
   //! Number
 
   const dataNumber = {
@@ -55,7 +55,7 @@ const TOFFL = ({
   //
   const renderPartValueGroup = (partRenderSelected: any) => {
     const questionType = partRenderSelected?.questionType;
-    console.log("questionType", questionType);
+    // console.log("questionType", questionType);
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||

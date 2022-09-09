@@ -8,7 +8,7 @@ class IeltsService {
     return httpServices.post(IELTS_URL().TEST_CODE, { ...body });
   }
   getIeltsListening(testCode: any) {
-    return httpServices.get(IELTS_URL(testCode).LISTENING);
+    return httpServices.get(`${IELTS_URL().LISTENING}/${testCode}/listening`);
   }
   createIeltsListening(body = {}) {
     return httpServices;
@@ -75,6 +75,10 @@ class IeltsService {
 
   getIeltsExaminatios(queries: any) {
     return httpServices.get(`${IELTS_URL().GET_EXAMINATIONS}?${queryString.stringify(queries)}`);
+  }
+
+  saveExamToLocalStorage({ skill, exam }: any) {
+    localStorage.setItem(skill, exam);
   }
 
   // updateIeltExamination(body:any){

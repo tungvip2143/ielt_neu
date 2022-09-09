@@ -126,6 +126,8 @@ const CardTotalPageExams = ({
   //
 
   const handleCheckBox = (event: any) => {
+    console.log("event cardtotal", event.target.checked);
+
     setCheckedReview(event.target.checked);
   };
   //

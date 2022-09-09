@@ -18,11 +18,19 @@ declare module "@mui/material/styles" {
         pageNumber: string;
         white: string;
         btnShowModal: string;
+        noteReading: {
+          optionNote: string;
+          header: string;
+          content: string;
+        };
       };
       border: {
         input: {
           main: string;
           bottom: string;
+        };
+        noteReading: {
+          optionItem: string;
         };
       };
       button: {
@@ -32,6 +40,11 @@ declare module "@mui/material/styles" {
       };
       text: {
         titleLogin: string;
+      };
+      boxShadow: {
+        exercises: string;
+        card: string;
+        optionNote: string;
       };
       flexBox: {
         flexBetweenCenter: {
@@ -305,11 +318,19 @@ export const theme = createTheme({
       pageNumber: "#000000",
       white: "#fff",
       btnShowModal: "#6aade4",
+      noteReading: {
+        optionNote: "#eee",
+        header: "#db0",
+        content: "#fff046",
+      },
     },
     border: {
       input: {
         main: " #e3f2fd",
         bottom: "#ccc",
+      },
+      noteReading: {
+        optionItem: "#ddd",
       },
     },
     button: {
@@ -319,6 +340,11 @@ export const theme = createTheme({
     },
     text: {
       titleLogin: "#0b2283",
+    },
+    boxShadow: {
+      exercises: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
+      card: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
+      optionNote: "0 2px 5px rgb(0 0 0 / 50%)",
     },
     flexBox: {
       flexBetweenCenter: {

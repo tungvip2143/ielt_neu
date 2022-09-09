@@ -15,8 +15,8 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  console.log("ContentQuestion", ContentQuestion);
-  console.log("questionType", questionType);
+  // console.log("ContentQuestion", ContentQuestion);
+  // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
@@ -29,11 +29,16 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
+    ) {
       return <FlowChart question={ContentQuestion?.questions} displayNumber={displayNumber} image={ContentQuestion} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return ContentQuestion?.questions.map((question: any) => {
+        console.log("question", question);
         return (
           <>
             <SentenceCompletetion onClickPage={onClickPage} displayNumber={displayNumber} data={question} />
