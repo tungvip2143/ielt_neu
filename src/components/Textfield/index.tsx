@@ -42,7 +42,7 @@ export const TextField = (props: Props) => {
   const { name, value } = field;
   const { errors, touched, handleChange } = form;
 
-  console.log("value field", value);
+  console.log("vfsdfsd", props);
 
   const isTouched = getIn(touched, name);
   const errorMessage = getIn(errors, name);
@@ -57,7 +57,7 @@ export const TextField = (props: Props) => {
       value={value}
       size={size}
       fullWidth={fullWidth}
-      className={className}
+      className={props.className}
       onChange={handleChange}
       {...rest}
       // error={isTouched && Boolean(errorMessage)}

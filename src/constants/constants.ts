@@ -41,10 +41,14 @@ export const textBtnSubmit = {
 export const rulesdetailExam = {
   listening: {
     title: "Listening",
-    timeExam: "30 minutes",
+    timeExam: "Approximately 30 minutes",
   },
   reading: {
     title: "Reading",
     timeExam: "1 hour",
   },
+};
+export const titleRulesDetailCandidates = {
+  intructionCandidates: "INSTRUCTIONS TO CANDIDATES",
+  informationCandidates: "INFORMATION FOR CANDIDATES",
 };

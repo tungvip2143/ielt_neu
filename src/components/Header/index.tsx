@@ -11,6 +11,7 @@ import useSagaCreators from "hooks/useSagaCreators";
 import useToggleDialog from "hooks/useToggleDialog";
 import { authActions } from "redux/creators/modules/auth";
 import { GetAuthSelector } from "redux/selectors";
+import Volum from "../Volum/Volum";
 
 const TextExams = {
   color: "#000000 !important",

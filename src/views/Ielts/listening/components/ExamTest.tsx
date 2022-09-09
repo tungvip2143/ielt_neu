@@ -20,13 +20,14 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
 
-type Props = {
+interface Props {
   data: any;
-};
+  valueVolum?: any;
+}
 
 const ExamTest = (props: Props) => {
   //! State
-  const { data } = props;
+  const { data, valueVolum } = props;
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
@@ -42,7 +43,8 @@ const ExamTest = (props: Props) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [questionType, setQuestionType] = useState();
-  const [changeValueVolum, setChangeValueVolum] = useState<any>(0.5);
+  const [displayNumberTab, setDisplayNumber] = useState();
+  // const [changeValueVolum, setChangeValueVolum] = useState<any>(0.5);
 
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
@@ -74,13 +76,6 @@ const ExamTest = (props: Props) => {
     return null;
   }, [groupSelected]);
 
-  const handleChangeValueVolum = (value: any) => {
-    if (value === 100) {
-      return setChangeValueVolum(1);
-    }
-    setChangeValueVolum(Number(`0.${value}`));
-  };
-
   //! Function
   const onEachAudioEnded = () => {
     if (idxAudioPlaying === audioData.length - 1) {
@@ -108,7 +103,7 @@ const ExamTest = (props: Props) => {
             controls
             style={{ display: "none" }}
             onEnded={onEachAudioEnded}
-            volume={changeValueVolum}
+            volume={valueVolum}
           />
         </div>
         <Box sx={{ pt: "16px" }}>
@@ -135,7 +130,6 @@ const ExamTest = (props: Props) => {
         group={group}
         question={questionData}
         displayNumber={displayNumber}
-        handleChangeValueVolum={handleChangeValueVolum}
       />
 
       {/* <CardPage questions={audioData} onClickPage={onClickPage} /> */}
@@ -143,7 +137,7 @@ const ExamTest = (props: Props) => {
   );
 };
 
-const IeltsListeningContainer = () => {
+const IeltsListeningContainer = ({ valueVolum }: any) => {
   const { dispatch } = useSagaCreators();
   const history = useHistory();
 
@@ -170,7 +164,7 @@ const IeltsListeningContainer = () => {
     return <LoadingPage />;
   }
 
-  return <ExamTest data={data?.data.data} />;
+  return <ExamTest valueVolum={valueVolum} data={data?.data.data} />;
 };
 
 export default IeltsListeningContainer;

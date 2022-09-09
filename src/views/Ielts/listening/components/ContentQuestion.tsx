@@ -58,7 +58,14 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
       questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
     ) {
-      return <FlowChart question={ContentQuestion?.questions} displayNumber={displayNumber} image={ContentQuestion} />;
+      return (
+        <FlowChart
+          onClickPage={onClickPage}
+          question={ContentQuestion?.questions}
+          displayNumber={displayNumber}
+          image={ContentQuestion}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return ContentQuestion?.questions.map((question: any) => {

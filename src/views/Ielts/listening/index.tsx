@@ -59,6 +59,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
+  const [changeValueVolum, setChangeValueVolum] = React.useState<any>(0.5);
+
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
@@ -126,6 +128,13 @@ const IeltsListening = (props: IeltsListeningProps) => {
   }, []);
 
   useConfirmCloseBrowser();
+  //
+  const handleChangeValueVolum = (value: any) => {
+    if (value === 100) {
+      return setChangeValueVolum(1);
+    }
+    setChangeValueVolum(Number(`0.${value}`));
+  };
 
   //! Render
   if (isLoading || listeningFinishLoading) {
@@ -142,15 +151,17 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
                 timeExam={timeExam}
+                handleChangeValueVolum={handleChangeValueVolum}
+                typeExam={TypeExam.LISTENING}
               />
 
               <Box sx={containerSteps}>
                 {step === TypeStepExamEnum.STEP1 && <DetailUser />}
-                {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
+                {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP3 && (
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
                 )}
-                {step === TypeStepExamEnum.STEP4 && <ExamTest />}
+                {step === TypeStepExamEnum.STEP4 && <ExamTest valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>
