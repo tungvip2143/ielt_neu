@@ -99,7 +99,7 @@ const ItemQuestion = ({
       );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion data={data} />;
+      return <SentenceCompletetion displayNumber={displayNumber} data={data} />;
     }
     if (
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||

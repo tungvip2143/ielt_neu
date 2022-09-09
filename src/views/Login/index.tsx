@@ -26,133 +26,50 @@ import ItemSocial from "./components/ItemSocial";
 import Title from "./components/Title";
 //
 
-const container = {
-  width: "100vw",
-  height: "100vh",
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-};
+import LogoDuca from "assets/image/logo/duca.png";
+import { makeStyles } from "@mui/styles";
 
+import Title from "./components/Title";
+import CardView from "./components/CardView";
+import FormLogin from "./components/FormLogin";
+import HeaderExam from "../Ielts/Header/HeaderExam";
 //
-const dataGoogle = {
-  title: "Continue with Google",
-  img: ImgGoogle,
-  bg: "#4285f4",
-  color: "#fff",
-};
-const dataFacebook = {
-  title: "Continue with Facebook",
-  img: ImgFacebook,
-  bg: "#fff",
-  color: "#5b5c61",
-};
-
-const dataEmail = {
-  title: "Continue with Email",
-  img: ImgEmail,
-  bg: "#fff",
-  color: "#5b5c61",
-};
-//
-const content = {
-  desc: "No account?",
-  title: "Sign Up",
-};
-
-const LoginPage = (props: any) => {
-  const { dispatch } = useSagaCreators();
-  const auth = GetAuthSelector();
-  const { isLogin } = auth;
-
-  const handleLoginEmail = () => {
-    history.push("/login/email");
-  };
-
-  const { mutateAsync: login } = useLogin();
-  const history = useHistory();
-  const { initialPathName } = useGetLocation();
-
-  const loginSocial = async (res: any, provider: any) => {
-    try {
-      const body = {
-        token: res,
-        provider: provider,
-      };
-      const responseSocial = await socialServices.loginSocial(body);
-
-      if (responseSocial?.data?.data?.data?.access_token) {
-        dispatch(authActions.saveInfoUser, { token: responseSocial?.data?.data?.data?.access_token });
-      }
-    } catch (error: any) {
-      toast.error(error?.response?.data?.message, {
-        autoClose: 3000,
-      });
-    }
-  };
-
-  const signIn = useGoogleLogin({
-    flow: "implicit",
-    onSuccess: (tokenResponse: any) => {
-      loginSocial(tokenResponse.access_token, SocialProvider.GOOGLE);
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      width: "100vw",
+      height: "100vh",
+      ...theme.custom?.flexBox.flexCenterCenter,
     },
-  });
-
-  const handleLoginFacebook = async (res: any) => {
-    loginSocial(res.accessToken, SocialProvider.FACEBOOK);
+    footer: {
+      ...theme.custom?.flexBox.flexCenterCenter,
+      position: "fixed",
+      bottom: 0,
+      right: 0,
+      left: 0,
+      height: "140px",
+      p: "20px 20px",
+    },
   };
-
-  const showFB = () => {
-    return (
-      <FacebookLogin
-        appId="794031728446764"
-        autoLoad={false}
-        fields="name,email,picture"
-        scope="email"
-        callback={handleLoginFacebook}
-        icon="fa-facebook"
-        render={(renderProps) => <ItemSocial data={dataFacebook} onClick={renderProps.onClick} />}
-      />
-    );
-  };
+});
+const LoginPage = () => {
+  // ! State
+  const classes = useStyles();
 
   //! Render
-  if (isLogin) {
-    return <Redirect to={initialPathName} />;
-  }
-
   return (
-    <Formik
-      validateOnBlur={false}
-      validateOnChange={false}
-      initialValues={{
-        email: "",
-        password: "",
-      }}
-      onSubmit={async (values) => {
-        await login(values, {
-          onSuccess: (response) => {
-            dispatch(authActions.saveInfoUser, { token: response?.data?.data?.data?.access_token });
-          },
-        });
-      }}
-    >
-      {(propsFormik) => (
-        <Form>
-          <Box sx={container}>
-            <CardView>
-              <Title>Login</Title>
-              <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
-                <ItemSocial data={dataGoogle} onClick={signIn} />
-                {showFB()}
-                <ItemSocial onClick={handleLoginEmail} data={dataEmail} />
-              </Stack>
-              <Footer content={content} pathName={RouteBase.SignUp} />
-            </CardView>
-          </Box>
-        </Form>
-      )}
-    </Formik>
+    <Box className={classes.container}>
+      <HeaderExam />
+      <CardView>
+        <Title>Login to exam</Title>
+        <Stack direction="column" spacing={2} sx={{ mb: "16px" }}>
+          <FormLogin />
+        </Stack>
+      </CardView>
+      <Box className={classes.footer}>
+        <img style={{ width: "300px" }} src={LogoDuca} alt="" />
+      </Box>
+    </Box>
   );
 };
 export default LoginPage;

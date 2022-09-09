@@ -8,10 +8,10 @@ import { TypeStepExamEnum } from "constants/enum";
 import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
-import { useIeltsListening, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { useSelector } from "react-redux";
 import LoadingPage from "components/Loading";
-import { Formik, Form, FormikProps } from "formik";
+import { Form, Formik } from "formik";
+import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 //
 import { Redirect, useHistory } from "react-router-dom";
@@ -23,6 +23,7 @@ import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { GetAuthSelector } from "redux/selectors";
 //
 const stepRuleExam = {
   typeExam: "Reading",
@@ -50,24 +51,33 @@ const initialValues = function () {
 
 const IeltsReading = (props: IeltsReadingProps) => {
   // !State
-  const { data, testCode } = props;
+  const { data } = props;
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
 
   const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
+  const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
+  const { testCode } = useGetTestCode();
 
-  const handleSubmit = async (values: any) => {
-    const answers = values.answers.filter((el: any) => {
-      return el.questionId && el.studentAnswer;
-    });
-    const body = { values: { answers }, testCode };
-    await submitIeltsReadingTest(body, {
-      onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-        localStorage.setItem("READING", "true");
-      },
-    });
+  // const handleSubmit = async (values: any) => {
+  //   const answers = values.answers.filter((el: any) => {
+  //     return el.questionId && el.studentAnswer;
+  //   });
+  //   const body = { values: { answers }, testCode };
+  //   await submitIeltsReadingTest(body, {
+  //     onSuccess: () => {
+  //       history.push(RouteBase.IeltsWriting);
+  //     },
+  //   });
+  // };
+  //!
+  const auth = GetAuthSelector();
+  const user = auth?.user?.user;
+  //
+  const handleSubmit = async () => {
+    await ieltsReadingFinish({ testCode, skill: "reading" });
+    handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
   };
   //
 

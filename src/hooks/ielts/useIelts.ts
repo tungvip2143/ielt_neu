@@ -95,3 +95,8 @@ export const useGetExamination = (queries: any) => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+export const useFinishIeltsSkill = () => {
+  return useMutation(ieltsService.finishIeltsSkill, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};

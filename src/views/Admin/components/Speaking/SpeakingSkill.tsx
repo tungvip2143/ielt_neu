@@ -1,21 +1,28 @@
 import AddIcon from "@mui/icons-material/Add";
 import { Card, Typography } from "@mui/material";
+import { makeStyles } from "@mui/styles";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
+import CommonStyles from "components/CommonStyles";
 import { RouteBase } from "constants/routeUrl";
 import useGetParts from "hooks/QuestionBank/Speaking/useGetParts";
-
 import { Link, useHistory } from "react-router-dom";
 import readingService from "services/ReadingService";
+import LoadingCircular from "../../../../components/CommonStyles/LoadingCircular/LoadingCircular";
 
-const styles = {
-  titleTable: {
-    fontSize: 14,
-    fontWeight: "bold",
-  },
-};
+const useStyle = makeStyles((theme) => {
+  return {
+    titleTable: {
+      fontSize: 14,
+      fontWeight: "bold",
+    },
+  };
+});
+
 const SpeakingSkill = () => {
+  //! State
+
   const {
     data: dataParts,
     loading,
@@ -26,7 +33,7 @@ const SpeakingSkill = () => {
     onPageSizeChange,
   } = useGetParts();
   const history = useHistory();
-
+  const classes = useStyle();
   const onDeletePart = async (item: any) => {
     try {
       await readingService.deletePart(item?.id);
@@ -36,73 +43,75 @@ const SpeakingSkill = () => {
     }
   };
 
+  //! Render
   return (
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
         <Link to={RouteBase.CreateSpeaking}>
-          <ButtonUpload
-            titleButton="Create speaking"
-            icon={<AddIcon />}
-            onClick={() => {}}
-            style={{ background: "#9155FE" }}
-          />
+          <CommonStyles.Button loading={loading} style={{ background: "#9155FE" }} onClick={() => {}}>
+            <AddIcon />
+            Create speaking
+          </CommonStyles.Button>
         </Link>
       </div>
 
-      <Card>
-        <CommonDataGrid
-          columns={[
-            {
-              flex: 0.5,
-              field: "partNumber",
-              renderHeader: () => <Typography style={styles.titleTable}>Part</Typography>,
-            },
-            {
-              flex: 1,
-              field: "createdAt",
-              renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
-            },
-            {
-              flex: 1,
-              field: "updatedAt",
-              renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
-            },
-            {
-              flex: 0.3,
-              field: "action",
-              filterable: false,
-              hideSortIcons: true,
-              disableColumnMenu: true,
-              renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-              renderCell: (items: any) => {
-                console.log("items", items);
-
-                return (
-                  <CommonActionMenu
-                    onEdit={() => {
-                      history.push({
-                        pathname: RouteBase.SpeakingWithIdAnd(items?.row?.partNumber, items?.id),
-                      });
-                    }}
-                    onSubmitRemove={onDeletePart}
-                    row={items}
-                  />
-                );
+      {loading ? (
+        <LoadingCircular />
+      ) : (
+        <Card>
+          <CommonDataGrid
+            columns={[
+              {
+                flex: 0.5,
+                field: "partNumber",
+                renderHeader: () => <Typography className={classes.titleTable}>Part</Typography>,
               },
-            },
-          ]}
-          checkboxSelection
-          pagination={{
-            page: metaPart?.page,
-            pageSize: metaPart?.pageSize,
-            totalRow: metaPart?.total,
-          }}
-          loading={loading}
-          rows={dataParts}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-        />
-      </Card>
+              {
+                flex: 1,
+                field: "createdAt",
+                renderHeader: () => <Typography className={classes.titleTable}>Create at</Typography>,
+              },
+              {
+                flex: 1,
+                field: "updatedAt",
+                renderHeader: () => <Typography className={classes.titleTable}>Update at</Typography>,
+              },
+              {
+                flex: 0.3,
+                field: "action",
+                filterable: false,
+                hideSortIcons: true,
+                disableColumnMenu: true,
+                renderHeader: () => <Typography className={classes.titleTable}>Action</Typography>,
+                renderCell: (items: any) => {
+                  return (
+                    <CommonActionMenu
+                      onEdit={() => {
+                        history.push({
+                          pathname: RouteBase.UpdateSpeakingWId(items?.row?.partNumber),
+                          search: `?id=${items?.id}`,
+                        });
+                      }}
+                      onSubmitRemove={onDeletePart}
+                      row={items}
+                    />
+                  );
+                },
+              },
+            ]}
+            checkboxSelection
+            pagination={{
+              page: metaPart?.page,
+              pageSize: metaPart?.pageSize,
+              totalRow: metaPart?.total,
+            }}
+            loading={loading}
+            rows={dataParts}
+            onPageChange={onPageChange}
+            onPageSizeChange={onPageSizeChange}
+          />
+        </Card>
+      )}
     </div>
   );
 };

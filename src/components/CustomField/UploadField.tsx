@@ -38,17 +38,16 @@ const UploadField = (props: UploadFieldI) => {
     }
   };
 
+  const handleClick = () => {
+    fileRef?.current?.click();
+  };
   //! Render
   return (
     <Fragment>
       <input ref={fileRef} className="hidden" type="file" name={name} onChange={onFileChange} />
       {!isHide && (
         <div className="text-end my-3">
-          <CommonStyles.Button
-            loading={isLoading}
-            sx={{ display: "flex", height: 40 }}
-            onClick={() => fileRef?.current?.click()}
-          >
+          <CommonStyles.Button loading={isLoading} sx={{ display: "flex", height: 40 }} onClick={handleClick}>
             Upload audio
           </CommonStyles.Button>
         </div>

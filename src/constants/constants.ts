@@ -20,3 +20,29 @@ const SocialProvider = {
 };
 
 export { SocialProvider };
+export const textHeaderModal = {
+  confirmDetail: "Confirm your details",
+  testSound: "Test sound",
+  help: "Help",
+};
+export const warningDetailUser = {
+  checkInformation: "If your details are not correct, please inform the invigilator.",
+  onStartTest: "Do not click 'Start test' until you are told to do so.",
+};
+export const textBtnSubmit = {
+  detailUser: "My details are correct",
+  playSound: "Play sound",
+  continue: "continue",
+  startTest: "Start test",
+  ok: "OK",
+};
+export const rulesdetailExam = {
+  listening: {
+    title: "Listening",
+    timeExam: "30 minutes",
+  },
+  reading: {
+    title: "Reading",
+    timeExam: "1 hour",
+  },
+};

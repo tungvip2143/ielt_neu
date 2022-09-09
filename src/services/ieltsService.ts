@@ -59,6 +59,9 @@ class IeltsService {
   finishIeltsListening(testCode: any) {
     return httpServices.post(IELTS_URL(testCode).FINISH_LISTENING_TEST);
   }
+  finishIeltsSkill({ testCode, skill }: any) {
+    return httpServices.post(`${IELTS_URL().FINISH_IELTS_EXAM}/${testCode}/${skill}/finish`);
+  }
   finishIeltsSpeaking(testCode: any) {
     return httpServices.post(IELTS_URL(testCode).FINISH_SPEAKING_TEST);
   }

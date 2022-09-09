@@ -78,28 +78,6 @@ const Header: React.FC = (props) => {
     toggleSelectExam();
   };
 
-  const onSubmitExam = async (values: InitialValueExam) => {
-    console.log("values", values);
-
-    await createTestCode(
-      { examination: values?.exam?.id },
-      {
-        onSuccess: (response) => {
-          dispatch(IeltsActions.saveTestCode, { testCode: response?.data?.data?.testCode });
-          localStorage.setItem("examinationId", values?.exam?.id);
-          localStorage.setItem("examinationName", values?.exam?.name);
-          localStorage.setItem("testCode", response?.data?.data?.testCode);
-          history.push(RouteBase.IeltsWithExam(values?.exam?.id));
-          toggleSelectExam();
-        },
-        onError: (err: any) => {
-          if (err.response.data.statusCode === 401) {
-            // history.push("/login");
-          }
-        },
-      }
-    );
-  };
   //! Render
   return (
     <>

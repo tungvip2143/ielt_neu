@@ -10,6 +10,9 @@ const SentenceCompletetion = (props: Props) => {
   const { data } = props;
   console.log("sentence data", data);
   const inputRef = useRef<any>([]);
+  // const { data, displayNumber, onClickPage, isView = false } = props;
+  const displayNumberI = data?.question?.displayNumber;
+  console.log("displayNumberI", displayNumberI);
 
   const { handleChange }: any = useFormikContext();
 

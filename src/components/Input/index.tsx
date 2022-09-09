@@ -6,7 +6,7 @@ import { createStyles, makeStyles, withStyles } from "@mui/styles";
 import type { Control, FieldPath, FieldValues } from "react-hook-form";
 import { Controller } from "react-hook-form";
 
-interface Props<T> extends Omit<TextFieldProps, "name"> {
+interface Props<T extends FieldValues> extends Omit<TextFieldProps, "name"> {
   control: Control<T>;
   name: FieldPath<T>;
   label?: string;

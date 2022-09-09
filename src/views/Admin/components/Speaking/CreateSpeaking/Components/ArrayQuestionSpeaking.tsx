@@ -7,11 +7,14 @@ import React, { Fragment } from "react";
 import AudioPlayer from "react-h5-audio-player";
 
 const ArrayQuestionSpeaking = (props: any) => {
-  console.log("props", props);
   //! State
   const { arrayHelpers, name, isDetail } = props;
   const { form } = arrayHelpers || {};
+  console.log("propsa", props);
+
   const { setFieldValue } = form || {};
+  console.log("setFieldValue", setFieldValue);
+
   const valueOfList = arrayHelpers?.form?.values?.[name] || [];
 
   //! Render
@@ -27,6 +30,8 @@ const ArrayQuestionSpeaking = (props: any) => {
       )}
 
       {valueOfList.map((el: any, index: number) => {
+        console.log("eldsf", el);
+
         return (
           <div className="flex items-center mb-5">
             <div className="flex-1">

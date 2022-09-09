@@ -12,6 +12,8 @@ import OptionButton from "../../Exam/OptionButton/OptionButton";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import NumberUser from "assets/image/exam/number-user.png";
 //
+import HeaderExam from "../Header/HeaderExam";
+
 // ! type
 interface Props {
   onShowModalExit?: any;
@@ -24,6 +26,7 @@ const header = {
   background: "#36373b",
   zIndex: 999,
   width: "100%",
+  marginTop: "80px",
 };
 const headerContent = {
   m: "0 auto",
@@ -34,11 +37,8 @@ const headerContent = {
   minHeight: "40px",
 };
 //
-const headerTop = {};
-const logo = {
-  height: "60px",
-};
-const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep }: Props) => {
+
+const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam }: Props) => {
   const { step } = useStepExam();
   const btnHelp = {
     cursor: "pointer",
@@ -49,9 +49,7 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep }: Props)
 
   return (
     <Box>
-      <Box sx={headerTop}>
-        <img style={logo} src={LogoIelts} alt="" />
-      </Box>
+      <HeaderExam />
       <Box sx={header}>
         <Box sx={headerContent}>
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (

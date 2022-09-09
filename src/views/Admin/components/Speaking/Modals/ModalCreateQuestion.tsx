@@ -31,7 +31,7 @@ export interface Props {
   isEdit?: boolean;
   isDetail?: boolean;
   isCreate?: boolean;
-  onSubmit: (data: any, tinyMCEValye: any, typeModal: any, dataQuestionDetail?: any, helpers?: any) => void;
+  onSubmit: (data: any, tinyMCEValue: any, typeModal: any, dataQuestionDetail?: any, helpers?: any) => void;
   idQuestionGroup?: any;
 }
 
@@ -65,9 +65,6 @@ const ModalCreateQuestion = (props: Props) => {
   const ideaSuggestionRef = useRef<any>();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(idQuestionGroup);
 
-  //! Function
-
-  //! Render
   const renderButton = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[40px]">

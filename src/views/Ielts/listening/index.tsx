@@ -7,8 +7,7 @@ import { Box, Button } from "@mui/material";
 //
 import Header from "views/Ielts/Header/Header";
 import { Form, Formik } from "formik";
-import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
-import { useSelector } from "react-redux";
+import { useFinishIeltsSkill, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
@@ -21,7 +20,8 @@ import ModalHide from "../../../components/Modal/ModalHide";
 import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
-import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
+import LoadingPage from "components/Loading";
+import { RouteBase } from "constants/routeUrl";
 //
 //
 const stepRuleExam = {
@@ -58,11 +58,12 @@ const initialValues = function () {
 
 const IeltsListening = (props: IeltsListeningProps) => {
   //! State
-
+  const history = useHistory();
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
+  const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
@@ -74,11 +75,18 @@ const IeltsListening = (props: IeltsListeningProps) => {
     });
     const body = { values: { answers }, testCode };
     await updateIeltsListening(body, {
-      onSuccess: () => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP5);
-        localStorage.setItem("LISTENING", "true");
+      onSuccess: async () => {
+        await updateIeltsListeningFinish(
+          { testCode, skill: "listening" },
+          {
+            onSuccess: () => {
+              localStorage.setItem("LISTENING", "true");
+            },
+          }
+        );
       },
     });
+    history.push(RouteBase.IeltsReading);
   };
 
   const handleOpenModalHelp = useCallback(() => {
@@ -95,10 +103,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-
-  useCheckTestCode(Number(testCode));
+  const timeExam = 1800000;
 
   //! Render
+  if (isLoading || listeningFinishLoading) {
+    return <LoadingPage />;
+  }
   return (
     <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {

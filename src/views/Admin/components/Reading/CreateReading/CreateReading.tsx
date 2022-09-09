@@ -234,18 +234,19 @@ const CreateQuestionReading = (props: Props) => {
                       onClick={() => onDelete(el.id)}
                     />
                   </div>
-                  <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
-                  <InputCommon
+                  {/* <Typography style={{ fontWeight: "bold" }}>Question groups</Typography> */}
+                  <div dangerouslySetInnerHTML={{ __html: el.questionBox }} style={{ fontWeight: "bold" }}></div>
+                  {/* <InputCommon
                     id="standard-basic"
                     variant="standard"
                     name="question"
                     control={control}
                     required
                     fullWidth
-                    value={el.questionBox}
+                    value={<div dangerouslySetInnerHTML={{ __html: el.questionBox }}></div>}
                     disabled
                     style={{ marginTop: el.questionBox ? "10px" : 0 }}
-                  />
+                  /> */}
                 </Card>
               );
             })}

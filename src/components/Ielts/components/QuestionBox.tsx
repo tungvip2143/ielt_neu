@@ -7,6 +7,7 @@ type Props = {
   displayNumber: number;
   questions: any[];
   onClickPage?: (option: any) => void;
+  isView?: boolean;
 };
 
 const CODE = "-@X$";
@@ -17,10 +18,8 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 };
 
 const QuestionBox = (props: Props) => {
-  const { questionBox, questions, displayNumber, onClickPage } = props;
-  // console.log("questions", questions);
-  // console.log("questionBox", questionBox);
-  // console.log("displayNumber", displayNumber);
+  const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
+  console.log("questions", questions);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
 
@@ -45,6 +44,7 @@ const QuestionBox = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
+    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
