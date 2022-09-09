@@ -13,6 +13,11 @@ import Box from "@mui/material/Box";
 import ReactAudioPlayer from "react-audio-player";
 // @ts-ignore
 import audio from "assets/audio/testSound/test-listening.mp3";
+import { makeStyles } from "@mui/styles";
+
+const useStyles = makeStyles((theme) => {
+  return {};
+});
 //
 const TestHeadPhoneAbc = () => {
   const [testSound, setTestSound] = React.useState(false);
