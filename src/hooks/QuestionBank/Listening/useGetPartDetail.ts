@@ -1,12 +1,11 @@
-;
 import { QuestionListening } from "interfaces/listening";
 import { useEffect, useState } from "react";
 import listeningService from "services/listeningService";
 
 const useGetPartDetail = (id: any) => {
   const [dataPartDetail, setDataPartDetail] = useState<QuestionListening[]>([]);
-  console.log('dataPartDetail',dataPartDetail);
-  
+  console.log("dataPartDetail", dataPartDetail);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 
@@ -26,7 +25,7 @@ const useGetPartDetail = (id: any) => {
     const fetchData = async () => {
       try {
         const response = await listeningService.getPartDetail(id);
-        console.log('response1',response);
+        console.log("response1", response);
         if (response.data.statusCode === 200) {
           setDataPartDetail(response?.data?.data || {});
         }
