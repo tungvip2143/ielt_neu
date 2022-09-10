@@ -27,12 +27,6 @@ import CreateTest from "views/Admin/TestBank/CreateTest";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
-  const { initialPathName } = useGetLocation();
-
-  //* Handle when user go to /admin
-  if (history.location.pathname === RouteBase.Admin) {
-    return <Redirect to={RouteBase.Listening} />;
-  }
 
   return (
     // <Router>
