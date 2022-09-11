@@ -1,12 +1,56 @@
-import { useState } from "react";
-export const useHightLightText = (text: string) => {
+import { useMemo, useRef, useState } from "react";
+import ReactDOM from "react-dom";
+
+interface Props {
+  text: string;
+  values: any;
+  onChangeInput: (key: string, value: string) => void;
+  tagName: string;
+}
+
+export const useHightLightText = ({ text, values, onChangeInput, tagName }: Props) => {
   const [position, setPosition] = useState({ x: 0, y: 0 });
-  const [isScanner, setIsScanner] = useState(false);
+  const [isHightLight, setIsHightLight] = useState(false);
   const [textScanner, setTextScanner] = useState("");
-  const [newPassage, setNewPassage] = useState(text);
+  const [textHightlighted, setTextHightlighted] = useState({});
+  const [isNoted, setIsNoted] = useState(false);
+  const [markTagId, setMarkTagId] = useState("");
+  //-----clear-----
+  const [isOpenOptionClear, setIsOpenOptionClear] = useState(false);
+  const [clearItem, setClearItem] = useState("");
+
+  const idMark = useRef(0);
+
+  console.log("isHightLight1", isHightLight);
+
+  const passageTextWithHighlightTexted = useMemo(() => {
+    if (text) {
+      let tempPassageText: any = text;
+      //* Add highlight text to passageText
+      Object.entries(textHightlighted).forEach(([raw, changed]) => {
+        tempPassageText = tempPassageText.replace(raw, changed);
+      });
+
+      return tempPassageText;
+    }
+
+    return "";
+  }, [textHightlighted]);
 
   const handleRightClick = (e: any) => {
-    setIsScanner(true);
+    console.log("hello", e);
+    const domNode: any = ReactDOM.findDOMNode(e.target);
+    const tagName = domNode?.tagName;
+    console.log("tagName", tagName);
+    if (tagName === "MARK") {
+      const valueInnerTag = domNode.innerHTML.split("<")[0];
+      setClearItem(valueInnerTag);
+      setIsOpenOptionClear(true);
+    }
+    if (tagName === tagName) {
+      console.log("abcdef");
+      setIsHightLight(true);
+    }
     e?.preventDefault();
 
     const x = e.pageX;
@@ -14,23 +58,90 @@ export const useHightLightText = (text: string) => {
 
     setPosition({ x, y });
   };
-  // const selection =
 
   const onScannerText = (data: any) => {
     document.addEventListener("contextmenu", (e) => handleRightClick(e));
     const textScanned = data.view.getSelection().toString();
+
     setTextScanner(textScanned);
+
+    const domNode: any = ReactDOM.findDOMNode(data.target);
+    const tagName = domNode.tagName;
+    if (tagName === "MARK") {
+      const hightlightId = domNode.getAttribute("id");
+      const textarea: any = document.getElementById("note");
+      textarea.value = values[hightlightId] ? values[hightlightId] : "";
+      setIsNoted(true);
+      const x = data.pageX;
+      const y = data.pageY;
+      setPosition({ x, y });
+    }
   };
 
   const newText = () => {
-    const marked = `<mark>${textScanner}</mark>`;
-    return text.replace(textScanner, marked);
+    idMark.current = idMark.current + 1;
+    setMarkTagId(`mark-${idMark.current}`);
+    setTextHightlighted((prevText) => {
+      return {
+        ...prevText,
+        [textScanner]: `<mark id="mark-${idMark.current}" >${textScanner}</mark>`,
+      };
+    });
   };
 
   const onHightlight = () => {
-    const passage = newText();
-    setNewPassage(passage);
+    newText();
+    setIsHightLight(false);
   };
 
-  return { onScannerText, onHightlight, newPassage, position, isScanner };
+  // ------clear-----
+
+  const onClearHightLight = () => {
+    setIsOpenOptionClear(false);
+    setTextHightlighted((prevText: any) => {
+      delete prevText[clearItem];
+      const newTextHightlighted = { ...prevText };
+      return newTextHightlighted;
+    });
+  };
+
+  const onClearHightLightAll = () => {
+    setIsOpenOptionClear(false);
+    setTextHightlighted({});
+  };
+
+  // -------note--------
+  // const { setFieldValue, values } = useFormikContext();
+  const onClickNote = () => {
+    setIsNoted(true);
+    onHightlight();
+  };
+
+  const onCloseNote = () => {
+    setIsNoted(false);
+    const textarea: any = document.getElementById("note");
+    textarea.value = "";
+  };
+
+  const onInputChange = (e: any) => {
+    onChangeInput(`${markTagId}`, e.target.value);
+    // setFieldValue(`${markTagId}`, e.target.value);
+  };
+
+  return {
+    onScannerText,
+    onHightlight,
+    passageTextWithHighlightTexted,
+    position,
+    isOpenOptionClear,
+    clearItem,
+    onCloseNote,
+    onClearHightLightAll,
+    onClickNote,
+    onClearHightLight,
+    markTagId,
+    isNoted,
+    isHightLight,
+    onInputChange,
+  };
 };

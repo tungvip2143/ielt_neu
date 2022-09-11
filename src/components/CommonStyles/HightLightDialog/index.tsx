@@ -10,7 +10,7 @@ const useStyle = makeStyles((theme) => ({
     padding: "0px 0px 10px 10px",
     boxShadow: theme.custom?.boxShadow.optionNote,
     border: `1px solid ${theme.custom?.border.noteReading.optionItem}`,
-    transform: (position: any) => `translate(${position.x},${position.y})`,
+    transform: (position: any) => `translate(${position.x}px,${position.y}px)`,
     position: "fixed",
     top: "10px",
     left: 0,

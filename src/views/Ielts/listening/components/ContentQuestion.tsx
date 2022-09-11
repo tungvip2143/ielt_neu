@@ -5,6 +5,7 @@ import MultiChoice from "./CardRender/MultiChoice";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
 // ! type
 interface Props {
   ContentQuestion?: any;

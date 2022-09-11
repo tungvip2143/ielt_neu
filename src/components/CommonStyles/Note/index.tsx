@@ -7,7 +7,7 @@ const useStyle = makeStyles((theme) => ({
     width: "220px",
     background: theme.custom?.background.noteReading.content,
     borderRadius: "6px",
-    // transform: `translate(${translate.x},${translate.y})`,
+    transform: (position: any) => `translate(${position.x}px,${position.y}px)`,
     position: "fixed",
     top: "10px",
     left: 0,
@@ -36,13 +36,15 @@ const useStyle = makeStyles((theme) => ({
 type Props = {
   isOpenNote: boolean;
   onCloseNote: () => void;
-  onChangeTextNote: () => void;
+  onChangeTextNote: (e: any) => void;
+  position: any;
 };
 
 const Note = (props: Props) => {
   // !State
-  const classes = useStyle();
-  const { isOpenNote, onCloseNote, onChangeTextNote } = props;
+
+  const { isOpenNote, onCloseNote, onChangeTextNote, position } = props;
+  const classes = useStyle(position);
   return (
     <div style={{ display: isOpenNote ? "block" : "none" }} className={classes.noteContainer}>
       <div className={classes.noteHeader}>

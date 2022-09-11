@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+import CommonStyles from "components/CommonStyles";
 
 type Props = {
   questionBox?: any;
@@ -25,6 +27,22 @@ const NoteCompletion = (props: Props) => {
   const { setFieldValue, values }: any = useFormikContext();
 
   console.log("questionBox", questionBox);
+
+  const {
+    onScannerText,
+    onHightlight,
+    passageTextWithHighlightTexted,
+    position,
+    isOpenOptionClear,
+    clearItem,
+    onCloseNote,
+    onClearHightLightAll,
+    onClickNote,
+    onClearHightLight,
+    markTagId,
+    isNoted,
+    isHightLight,
+  } = useHightLightText({ text: questionBox, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
@@ -86,15 +104,21 @@ const NoteCompletion = (props: Props) => {
   const onClickInput = (data: any) => {
     const inputIdx: any = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    onScannerText(data);
   };
 
   //! Render
   return (
-    <div
-      onClick={(data) => onClickInput(data)}
-      dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
-      onInput={onChangeInputHandleBars}
-    />
+    <>
+      <div
+        onClick={(data) => onClickInput(data)}
+        dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
+        onInput={onChangeInputHandleBars}
+      />
+      {isHightLight && (
+        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position />
+      )}
+    </>
   );
 };
 
