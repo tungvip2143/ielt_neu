@@ -28,8 +28,6 @@ interface Props {
 const Step2ExamContent = (props: any) => {
   const { data, test } = props;
 
-  console.log("data", data);
-  //! State
   const [questions, setQuestions] = useState(data);
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
@@ -48,7 +46,6 @@ const Step2ExamContent = (props: any) => {
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values } = useFormikContext();
-  console.log("values", values);
 
   useEffect(() => {
     cacheService.cache("answers", values);

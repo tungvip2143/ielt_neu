@@ -103,7 +103,6 @@ const ModalCreateQuestion = (props: Props) => {
 
   const handleClick = () => {
     fileRef.current.click();
-    console.log("selectFileListening", selectFile);
   };
   const onFileChange = async (event: any) => {
     setIsLoading(true);
@@ -118,7 +117,6 @@ const ModalCreateQuestion = (props: Props) => {
           setIsLoading(false);
         }
       } catch (error) {
-        console.log("error", error, fetchData);
         setIsLoading(false);
       }
     }

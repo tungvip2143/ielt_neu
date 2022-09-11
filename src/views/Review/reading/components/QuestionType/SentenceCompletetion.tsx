@@ -8,7 +8,6 @@ type Props = {
 
 const SentenceCompletetion = (props: Props) => {
   const { data, question } = props;
-  console.log("sentence data", question);
   Handlebars.registerHelper("blank", function (blankId: any) {
     return new Handlebars.SafeString(
       `<input style={{border:"1px solid #ccc"}} id="input-${blankId}" type="text" value="" maxlength="30">`
