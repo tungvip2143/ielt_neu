@@ -569,7 +569,6 @@ export const theme = createTheme({
     descMedium: {
       fontSize: "18px",
       color: "#36373B",
-      fontWeight: 500,
     },
     sub20Bold: {
       fontSize: "20px",
