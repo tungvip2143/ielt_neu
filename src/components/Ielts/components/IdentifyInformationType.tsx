@@ -97,7 +97,7 @@ const IdentifyInformationType = (props: Props) => {
                           //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
                         />
                       }
-                      label={`${answer.key}. ${answer?.text}`}
+                      label={`${answer?.text}`}
                     />
                   );
                 })}

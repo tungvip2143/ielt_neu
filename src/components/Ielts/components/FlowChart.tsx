@@ -69,6 +69,7 @@ const FlowChart = (props: Props) => {
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
+                className="input-answer"
               />
             </div>
           );
