@@ -103,21 +103,21 @@ const FormLogin = () => {
             <ErrorFocus />
             <div style={{ paddingBottom: "30px" }}>
               <FastField
-                lable="Mã sinh viên"
+                lable="Student Code"
                 component={InputField}
                 type="text"
-                placeholder="Student Code"
+                placeholder="Please fill in the information"
                 {...propsFormik.getFieldProps("studentCode")}
                 className={classes.input}
               />
             </div>
             <div style={{ paddingBottom: "30px" }}>
               <FastField
-                lable="Mã thí sinh"
+                lable="Computer Number"
                 error=""
                 component={InputField}
                 type="text"
-                placeholder="Candidates Code"
+                placeholder="Please fill in the information"
                 {...propsFormik.getFieldProps("candidateCode")}
                 className={classes.input}
               />

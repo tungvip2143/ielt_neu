@@ -41,8 +41,9 @@ const ItemQuestion = ({
   ...remainProps
 }: PropsItemQuestion) => {
   const { values } = useFormikContext();
-
   const renderQuestion = (data: any) => {
+    console.log("dataQuestions", data);
+
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType

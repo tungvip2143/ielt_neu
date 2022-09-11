@@ -1,15 +1,12 @@
 import React from "react";
-import { Box, Stack } from "@mui/system";
-import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
-import Text from "../../../components/Typography/index";
+import { Box } from "@mui/system";
 import ImgHelp from "assets/image/exam/help.png";
-import ImgUser from "assets/image/exam/logo-user.png";
-import ButtonCommon from "components/Button/ButtonCommon";
-import { Button } from "@mui/material";
 import HelpFooter from "../HelpFooter/HelpFooter";
 import FooterSubmit from "../FooterSubmit/FooterSubmit";
-import { TypeStepExamEnum } from "constants/enum";
-
+//
+import { makeStyles } from "@mui/styles";
+import { warningDetailUser, textBtnSubmit, titleRulesDetailCandidates } from "../../../constants/constants";
+import CommonStyles from "components/CommonStyles";
 // ! type
 interface Props {
   stepRuleExam: {
@@ -20,41 +17,57 @@ interface Props {
   };
   nextStep?: string;
 }
-const container = {
-  m: "0px 10px",
-  p: "16px 10px",
-  background: "#dde3ee",
-  boxShadow: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
-  borderRadius: "6px",
-};
-const textTime = {
-  p: "20px 0",
-};
-const textTitle = {
-  pb: "20px",
-  fontWeight: 700,
-};
-const textHelp = "Do not click 'Start test' until you are told to do so.";
-const textBtn = "Start test";
+
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      margin: "0px 10px",
+      padding: "16px 10px",
+      background: theme.custom?.background.exercises,
+      boxShadow: theme.custom?.boxShadow.exercises,
+      borderRadius: "6px",
+    },
+    textTime: {
+      padding: "20px 0",
+    },
+    textTitle: {
+      paddingBottom: "20px",
+      fontWeight: 700,
+    },
+    textWarning: {
+      ...theme.custom?.flexBox.flexJusCenter,
+    },
+  };
+});
 
 const RuleExam = (props: Props) => {
+  //! State
   const {
     nextStep,
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
-  // console.log("typeExam", typeExam);
+  const classes = useStyles();
+  //! Render
   return (
-    <Box sx={container}>
-      <Text.DescMedium sx={{ fontWeight: 700 }}>IELTS Academic {typeExam} </Text.DescMedium>
-      <Text.DescSmall sx={textTime}>Time: {time}</Text.DescSmall>
-      <Text.DescMedium sx={textTitle}>INSTRUCTIONS TO CANDIDATES</Text.DescMedium>
+    <Box className={classes.container}>
+      <CommonStyles.Typography variant="descMedium" className={classes.textTitle}>
+        IELTS Academic {typeExam}{" "}
+      </CommonStyles.Typography>
+      <CommonStyles.Typography variant="descSmall" component="p" className={classes.textTime}>
+        Time: {time}
+      </CommonStyles.Typography>
+      <CommonStyles.Typography variant="descMedium" component="p" className={classes.textTitle}>
+        {titleRulesDetailCandidates.intructionCandidates}
+      </CommonStyles.Typography>
       {informationsForCandidates}
-      <Text.DescMedium sx={textTitle}>INFORMATION FOR CANDIDATES</Text.DescMedium>
+      <CommonStyles.Typography variant="descMedium" component="p" className={classes.textTitle} sx={{ mt: "18px" }}>
+        {titleRulesDetailCandidates.intructionCandidates}
+      </CommonStyles.Typography>
       {intructionsToCandidates}
-      <Box sx={{ ...themeCssSx.flexBox.flexJusCenter }}>
-        <HelpFooter textHelp={textHelp} image={ImgHelp} />
+      <Box className={classes.textWarning}>
+        <HelpFooter textHelp={warningDetailUser.onStartTest} image={ImgHelp} />
       </Box>
-      <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
+      <FooterSubmit textBtn={textBtnSubmit.startTest} nextStep={nextStep} />
     </Box>
   );
 };
