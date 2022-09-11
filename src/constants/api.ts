@@ -71,6 +71,7 @@ export const ADMIN_READING_URL = (id?: string | number) => {
     GET_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups?sort=createdAt%3ADESC&skill=READING`,
     POST_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups/reading`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/reading`,
+    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=READING`,
   };
 };
 
