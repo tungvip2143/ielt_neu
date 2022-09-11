@@ -120,9 +120,9 @@ const Header: React.FC = (props) => {
                   <NavLink to="#">
                     <Text.DescSmall sx={TextSecond}>User Reviews</Text.DescSmall>
                   </NavLink>
-                  <Link to="/login/admin">
+                  {/* <Link to="/login/admin">
                     <Text.DescSmall sx={TextSecond}>Admin</Text.DescSmall>
-                  </Link>
+                  </Link> */}
                 </Grid>
               </Grid>
             </Grid>

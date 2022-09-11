@@ -147,6 +147,7 @@ const CreateQuestionReading = (props: Props) => {
         const response = await ReadingService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
+          setIsEdit(false);
         }
       } catch (error: any) {
         toast.error(error);

@@ -29,7 +29,7 @@ interface Props {
   typeExam?: string;
 }
 const header = {
-  p: "2px 0px",
+  p: "10px 0px",
   background: "#36373b",
   zIndex: 999,
   width: "100%",

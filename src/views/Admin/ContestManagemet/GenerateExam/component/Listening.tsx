@@ -73,7 +73,7 @@ const Listening = (props: Props) => {
         );
       });
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
+    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP) {
       return (
         <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} isView />
       );
@@ -107,7 +107,7 @@ const Listening = (props: Props) => {
                     <AudioPlayer
                       preload="none"
                       style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-                      src={AUDIO_URL + el?.partAudio}
+                      src={`${AUDIO_URL}/${el?.partAudio}`}
                       onPlay={(e) => console.log("onPlay")}
                       showJumpControls={false}
                       loop={false}

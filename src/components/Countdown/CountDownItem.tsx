@@ -1,8 +1,7 @@
 import { TimeExamLeft } from "constants/enum";
-import { useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
 import Countdown from "react-countdown";
 import cacheService from "services/cacheService";
-import React from "react";
 
 interface Data {
   minutes: any;
@@ -14,28 +13,35 @@ interface Props {
   handleSubmitWhenEndedTime?: () => void;
 }
 function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
-  console.log("countdown rerendering");
   const Completionist = () => <span>You are good to go!</span>;
+
   const countdownRef: any = useRef(null);
+
   useEffect(() => {
     return () => cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
   }, []);
+
   // Renderer callback with condition
   const renderer = ({ minutes, seconds, completed }: Data) => {
     if (completed) {
-      console.log("completed");
       // Render a completed state
       handleSubmitWhenEndedTime && handleSubmitWhenEndedTime();
       return <Completionist />;
-    } else {
-      cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
-      // Render a countdown
+    }
+    cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
+    if ((minutes === 9 && seconds >= 55 && seconds <= 59) || (minutes === 4 && seconds >= 55 && seconds <= 59)) {
       return (
-        <span style={{ color: "#FEE49B" }}>
+        <span className="change-color">
           {minutes}:{seconds}
         </span>
       );
     }
+    // Render a countdown
+    return (
+      <span style={{ color: "#FEE49B" }}>
+        {minutes}:{seconds}
+      </span>
+    );
   };
   return (
     <div className="App">
