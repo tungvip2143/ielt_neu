@@ -29,7 +29,7 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
       return <Completionist />;
     }
     cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
-    if ((minutes === 9 && seconds >= 45 && seconds <= 50) || (minutes === 4 && seconds >= 45 && seconds <= 50)) {
+    if ((minutes === 9 && seconds >= 55 && seconds <= 59) || (minutes === 4 && seconds >= 55 && seconds <= 59)) {
       return (
         <span className="change-color">
           {minutes}:{seconds}
