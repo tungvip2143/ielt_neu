@@ -14,6 +14,7 @@ import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 import { useCheckRenderQuestion } from "hooks/ielts/useCheckRenderQuestion";
+import CacheService from "services/cacheService";
 
 interface CardTotalPageExamsI {
   questions?: any;
@@ -100,8 +101,12 @@ const CardTotalPageExams = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
-  const [showPageReview, setShowPageReview] = useState<string>();
-  const [checkedReview, setCheckedReview] = useState(false);
+  // const [showPageReview, setShowPageReview] = useState<string>();
+  // const [checkedReview, setCheckedReview] = useState(false);
+  const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
+    CacheService.getDataCache()?.inReviewList || []
+  );
+
   const { handleSubmit } = useFormikContext();
   const { checkBackRenderQuestion, checkNextPartRender } = useCheckRenderQuestion({
     question,
@@ -112,28 +117,38 @@ const CardTotalPageExams = ({
     handleSubmit,
   });
 
+  // useEffect(() => {
+  //   const hanldeHighLightReview = () => {
+  //     if (checkedReview) {
+  //       return setShowPageReview("show-page-review");
+  //     }
+  //     return setShowPageReview("hide-review");
+  //   };
+  //   hanldeHighLightReview();
+  // }, [checkedReview]);
   useEffect(() => {
-    const hanldeHighLightReview = () => {
-      if (checkedReview) {
-        return setShowPageReview("show-page-review");
-      }
-      return setShowPageReview("hide-review");
-    };
-    hanldeHighLightReview();
-  }, [checkedReview]);
+    CacheService.cache("inReviewList", inReviewListQuestions);
+  }, [inReviewListQuestions]);
   //! State
   const classes = useStyles();
   //
 
+  // const handleCheckBox = (event: any) => {
+  //   setCheckedReview(event.target.checked);
+  // };
   const handleCheckBox = (event: any) => {
-    console.log("event cardtotal", event.target.checked);
-
-    setCheckedReview(event.target.checked);
+    setInReviewListQuestions((prev: number[]) => {
+      if (inReviewListQuestions.includes(displayNumber)) {
+        const index = inReviewListQuestions.findIndex((i) => i === displayNumber);
+        return inReviewListQuestions.slice(0, index).concat(inReviewListQuestions.slice(index + 1));
+      }
+      return inReviewListQuestions.concat(displayNumber);
+    });
   };
   //
-  const hideReview = () => {
-    setCheckedReview(false);
-  };
+  // const hideReview = () => {
+  //   setCheckedReview(false);
+  // };
 
   const onClickNextQuestion = () => {
     const sectionRender = checkNextPartRender();
@@ -152,13 +167,16 @@ const CardTotalPageExams = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-    hideReview();
+    // hideReview();
+
     onClickPage(sectionRender);
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
     const { values }: any = useFormikContext();
     let sectionRender: any = {};
+
+    console.log("partValues cardtotal", partValues?.groups);
     //
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
@@ -178,10 +196,19 @@ const CardTotalPageExams = ({
         };
         return (
           <>
-            <Box
+            {/* <Box
               key={question.id}
               className={`${highLightPage()} ${
                 displayNumber === question.question.displayNumber && showPageReview
+              } ${`${didExerciseActive()}-abc`}`}
+              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
+            >
+              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
+            </Box> */}
+            <Box
+              key={question.id}
+              className={`${highLightPage()} ${
+                inReviewListQuestions.includes(question.question.displayNumber) ? "show-page-review" : "hide-review"
               } ${`${didExerciseActive()}-abc`}`}
               onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
             >
@@ -201,7 +228,8 @@ const CardTotalPageExams = ({
         <Box>
           <FormControlLabel
             value=""
-            control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            // control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />
         </Box>

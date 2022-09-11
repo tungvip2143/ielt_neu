@@ -120,8 +120,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-  // const timeExam = 1800000;
-  // const timeExam = 330000;
 
   const timeExam = useMemo(() => {
     return LEFT_TIME ? Number(LEFT_TIME) : 1800000;

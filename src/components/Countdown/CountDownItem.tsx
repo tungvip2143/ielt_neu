@@ -44,9 +44,9 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
   //   };
   // }, [minutes, seconds]);
 
-  useEffect(() => {
-    return () => cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
-  }, []);
+  // useEffect(() => {
+  //   return () => cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
+  // }, []);
 
   // Renderer callback with condition
   const renderer = ({ minutes, seconds, completed }: Data) => {
@@ -56,24 +56,22 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
       handleSubmitWhenEndedTime && handleSubmitWhenEndedTime();
       return <Completionist />;
     }
-    if ((minutes === 10 && seconds === 0) || (minutes === 5 && seconds === 0)) {
-      cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
 
+    // cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
+    if ((minutes === 10 && seconds === 0) || (minutes === 5 && seconds === 0)) {
       return (
         <span className="change-color">
           {minutes}:{seconds}
         </span>
       );
-    } else {
-      cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
-      // Render a countdown
-
-      return (
-        <span style={{ color: "#FEE49B" }}>
-          {minutes}:{seconds}
-        </span>
-      );
     }
+    // Render a countdown
+
+    return (
+      <span style={{ color: "#FEE49B" }}>
+        {minutes}:{seconds}
+      </span>
+    );
   };
   return (
     <div className="App">
