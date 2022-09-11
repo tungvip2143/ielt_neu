@@ -8,6 +8,8 @@ import useGetListTest from "hooks/TestBank/useGetListTest";
 import CommonActionMenu from "components/CommonActionMenu";
 import testBankService from "services/testBankService";
 import { toast } from "react-toastify";
+import CommonStyles from "components/CommonStyles";
+import LoadingCircular from "components/CommonStyles/LoadingCircular/LoadingCircular";
 
 const TestBank = () => {
   const history = useHistory();
@@ -27,72 +29,75 @@ const TestBank = () => {
     <div>
       <div style={{ textAlign: "end", marginBottom: 10 }}>
         <Link to={RouteBase.CreateTest}>
-          <ButtonUpload
-            titleButton="Create test"
-            icon={<AddIcon />}
-            onClick={() => {}}
-            style={{ background: "#9155FE" }}
-          />
+          <CommonStyles.Button loading={loading} style={{ background: "#9155FE" }} onClick={() => {}}>
+            <AddIcon />
+            Create test
+          </CommonStyles.Button>
         </Link>
       </div>
-      <Card>
-        <CommonDataGrid
-          columns={[
-            {
-              flex: 1,
-              field: "examName",
-              renderHeader: () => <Typography>Exam name</Typography>,
-            },
-            {
-              flex: 1,
-              field: "examCode",
-              renderHeader: () => <Typography>Exam code</Typography>,
-            },
-            {
-              flex: 1,
-              field: "createdAt",
-              renderHeader: () => <Typography>Create at</Typography>,
-            },
-            {
-              flex: 1,
-              field: "updatedAt",
-              renderHeader: () => <Typography>Update at</Typography>,
-            },
-            {
-              flex: 0.3,
-              field: "action",
-              filterable: false,
-              hideSortIcons: true,
-              disableColumnMenu: true,
-              renderHeader: () => <Typography>Action</Typography>,
-              renderCell: (items: any) => {
-                return (
-                  <CommonActionMenu
-                    onEdit={() => {
-                      history.push({
-                        pathname: RouteBase.UpdateTestWId(items?.row?.examName),
-                        search: `?id=${items?.id}`,
-                      });
-                    }}
-                    onSubmitRemove={onDeleteTest}
-                    row={items}
-                  />
-                );
+
+      {loading ? (
+        <LoadingCircular />
+      ) : (
+        <Card>
+          <CommonDataGrid
+            columns={[
+              {
+                flex: 1,
+                field: "examName",
+                renderHeader: () => <Typography>Exam name</Typography>,
               },
-            },
-          ]}
-          pagination={{
-            page: metaPart?.page,
-            pageSize: metaPart?.pageSize,
-            totalRow: metaPart?.totalRow,
-          }}
-          loading={loading}
-          checkboxSelection
-          rows={dataTest}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-        />
-      </Card>
+              {
+                flex: 1,
+                field: "examCode",
+                renderHeader: () => <Typography>Exam code</Typography>,
+              },
+              {
+                flex: 1,
+                field: "createdAt",
+                renderHeader: () => <Typography>Create at</Typography>,
+              },
+              {
+                flex: 1,
+                field: "updatedAt",
+                renderHeader: () => <Typography>Update at</Typography>,
+              },
+              {
+                flex: 0.3,
+                field: "action",
+                filterable: false,
+                hideSortIcons: true,
+                disableColumnMenu: true,
+                renderHeader: () => <Typography>Action</Typography>,
+                renderCell: (items: any) => {
+                  return (
+                    <CommonActionMenu
+                      onEdit={() => {
+                        history.push({
+                          pathname: RouteBase.UpdateTestWId(items?.row?.examName),
+                          search: `?id=${items?.id}`,
+                        });
+                      }}
+                      onSubmitRemove={onDeleteTest}
+                      row={items}
+                    />
+                  );
+                },
+              },
+            ]}
+            pagination={{
+              page: metaPart?.page,
+              pageSize: metaPart?.pageSize,
+              totalRow: metaPart?.totalRow,
+            }}
+            loading={loading}
+            checkboxSelection
+            rows={dataTest}
+            onPageChange={onPageChange}
+            onPageSizeChange={onPageSizeChange}
+          />
+        </Card>
+      )}
     </div>
   );
 };

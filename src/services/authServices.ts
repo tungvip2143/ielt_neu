@@ -66,6 +66,7 @@ class AuthService {
 
   clearUserLocalStorage() {
     localStorage.removeItem(USER_LOCAL_STORAGE);
+    localStorage.removeItem(USER_TYPE_LOCAL_STORAGE);
   }
 }
 
