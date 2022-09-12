@@ -26,6 +26,11 @@ const useStyles = makeStyles((theme) => ({
   imgBox: {
     width: "60%",
   },
+  inputAnswer: {
+    "& .css-reo2el": {
+      border: "1px solid #333",
+    },
+  },
 }));
 type Props = {
   image?: any;
@@ -43,8 +48,10 @@ const FlowChart = (props: Props) => {
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
-  const handleFocus = (id: string, index: any) => {
+  const handleFocus = (id: string, index: any, questionIndx: number) => {
+    console.log("hello", id, index, questionIndx, onClickPage);
     setFieldValue(`answers[${index}].questionId`, id);
+    onClickPage && onClickPage({ question: questionIndx }); //!
   };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
@@ -64,14 +71,21 @@ const FlowChart = (props: Props) => {
       <div className={classes.answerBox}>
         {question?.map((answer: any, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;
+          console.log("answer", answer);
           return (
             <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <strong style={{ minWidth: "20px" }}>{`${answer?.question?.displayNumber}.`}</strong>
               <FastField
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
-                onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
+                onFocus={() =>
+                  handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
+                }
+                // onClick={() =>
+                //   handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
+                // }
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
+                className={classes.inputAnswer}
               />
             </div>
           );

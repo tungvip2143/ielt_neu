@@ -55,7 +55,11 @@ const LoginAdminPage = (props: any) => {
   const { initialPathName } = useGetLocation();
 
   if (isLogin) {
-    return <Redirect to={RouteBase.Listening} />;
+    if (initialPathName === RouteBase.AdminLogin) {
+      return <Redirect to={RouteBase.Listening} />;
+    }
+
+    return <Redirect to={initialPathName} />;
   }
 
   return (

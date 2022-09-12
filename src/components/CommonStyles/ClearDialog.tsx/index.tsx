@@ -23,7 +23,7 @@ const useStyle = makeStyles((theme) => ({
     cursor: "pointer",
   },
   imageNote: {
-    marginLeft: "auto",
+    // marginLeft: "auto",
     display: "flex",
     cursor: "pointer",
   },

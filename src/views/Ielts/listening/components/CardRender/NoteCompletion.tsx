@@ -42,6 +42,7 @@ const NoteCompletion = (props: Props) => {
     markTagId,
     isNoted,
     isHightLight,
+    onInputChange,
   } = useHightLightText({ text: questionBox, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
   const newQuestionBoxParsed = useMemo(() => {
@@ -116,7 +117,20 @@ const NoteCompletion = (props: Props) => {
         onInput={onChangeInputHandleBars}
       />
       {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position />
+        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
+      )}
+      <CommonStyles.Note
+        position={position}
+        isOpenNote={isNoted}
+        onCloseNote={onCloseNote}
+        onChangeTextNote={onInputChange}
+      />
+      {isOpenOptionClear && (
+        <CommonStyles.ClearDialog
+          position={position}
+          onClearHightlight={onClearHightLight}
+          onClearHightlightAll={onClearHightLightAll}
+        />
       )}
     </>
   );

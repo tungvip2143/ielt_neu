@@ -8,14 +8,10 @@ type Props = {
   data: any;
   questionBox: string;
   answerList: string;
-  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (options: number) => void;
   displayNumber: number;
   isView?: boolean;
   disabled?: boolean;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted?: string;
-  onScannerText?: (data: string) => void;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -41,29 +37,15 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MachingType = (props: Props) => {
+const MachingTypeListening = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const {
-    data,
-    answerList,
-    onHightLightNumberPage,
-    onClickPage,
-    displayNumber,
-    isView = false,
-    getTextEachPart,
-    passageTextWithHighlightTexted,
-    onScannerText,
-  } = props;
+  const { data, answerList, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
+
   useEffect(() => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
-
-  console.log("passageTextWithHighlightTexted", passageTextWithHighlightTexted);
-  useEffect(() => {
-    getTextEachPart && getTextEachPart(answerList);
-  }, []);
 
   const { setFieldValue } = useFormikContext();
 
@@ -100,17 +82,9 @@ const MachingType = (props: Props) => {
           );
         })}
       </div>
-      <div className={classes.questionBox}>
-        <div
-          onClick={(data: any) => {
-            onScannerText && onScannerText(data);
-          }}
-          dangerouslySetInnerHTML={{ __html: passageTextWithHighlightTexted || answerList }}
-        />
-        {/* {ReactHtmlParser(passageTextWithHighlightTexted || answerList)}</div> */}
-      </div>
+      <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>
     </div>
   );
 };
 
-export default MachingType;
+export default MachingTypeListening;

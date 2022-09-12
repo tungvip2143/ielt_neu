@@ -21,7 +21,8 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
 
   const idMark = useRef(0);
 
-  console.log("isHightLight1", isHightLight);
+  // console.log("textScanner", textScanner);
+  console.log("textScannertextHightlighted", textHightlighted);
 
   const passageTextWithHighlightTexted = useMemo(() => {
     if (text) {
@@ -47,7 +48,7 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
       setClearItem(valueInnerTag);
       setIsOpenOptionClear(true);
     }
-    if (tagName === tagName) {
+    if (tagName === tagName && tagName != "MARK") {
       console.log("abcdef");
       setIsHightLight(true);
     }
@@ -62,6 +63,7 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   const onScannerText = (data: any) => {
     document.addEventListener("contextmenu", (e) => handleRightClick(e));
     const textScanned = data.view.getSelection().toString();
+    console.log("textScanned", textScanned);
 
     setTextScanner(textScanned);
 
@@ -111,7 +113,6 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   };
 
   // -------note--------
-  // const { setFieldValue, values } = useFormikContext();
   const onClickNote = () => {
     setIsNoted(true);
     onHightlight();

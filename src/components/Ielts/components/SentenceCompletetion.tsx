@@ -34,7 +34,7 @@ const SentenceCompletetion = (props: Props) => {
     onInputChange,
   } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
-  console.log("isHightLight", isHightLight);
+  console.log("isHightLight123", isHightLight);
 
   useEffect(() => {
     let input = document.getElementsByClassName(`${displayNumber}`) as any;
