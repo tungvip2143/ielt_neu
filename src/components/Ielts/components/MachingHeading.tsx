@@ -34,18 +34,22 @@ type Props = {
   onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (option: any) => void;
   displayNumber: number;
-  isView?: boolean
+  isView?: boolean;
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data, answerList, question, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
+  const { data, answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
 
   const handleFocus = (displayNumber: number) => {
-    setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");
+    data.map((question: any) => {
+      if (displayNumber === question.question.displayNumber) {
+        setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+      }
+    });
   };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
@@ -64,10 +68,7 @@ const MachingHeading = (props: Props) => {
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
-              {/* <div>
-                <strong>{`${displayNumberT}.`}</strong>
-              </div> */}
-              {ReactHtmlParser(question?.question?.questionText)}
+              <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</strong>
               <FastField
                 disabled={isView}
                 size="small"

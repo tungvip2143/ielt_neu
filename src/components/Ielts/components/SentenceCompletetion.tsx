@@ -10,24 +10,25 @@ type Props = {
 
 const SentenceCompletetion = (props: Props) => {
   const { data, displayNumber, onClickPage, isView = false } = props;
-  const displayNumberI = data?.question?.displayNumber;
-  console.log("displayNumberI", displayNumberI);
+  const displayNumberI = Number(data?.question?.displayNumber);
 
   const { handleChange, values }: any = useFormikContext();
 
   useEffect(() => {
-    const input = document.getElementsByClassName(`${displayNumber}`) as any;
+    let input = document.getElementsByClassName(`${displayNumber}`) as any;
     if (input) {
       input[0]?.focus();
     }
   }, [displayNumber]);
 
   let inputIndex = 0;
-  Handlebars.registerHelper("blank", function (blankId: any) {
+  Handlebars.registerHelper("blank", function (blankId: any, option) {
+    const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
     if (input) {
       input.value = isView ? "" : values.answers[displayNumberI - 1]?.studentAnswer;
+      values.answers[displayNumberI - 1].questionId = questionId;
     }
     return new Handlebars.SafeString(
       `<strong>${data?.question?.displayNumber}</strong> <input ${
@@ -48,7 +49,7 @@ const SentenceCompletetion = (props: Props) => {
     <div
       onClick={(data) => onClickInput(data)}
       dangerouslySetInnerHTML={{
-        __html: test(),
+        __html: test(data.questionId),
       }}
       onInput={handleChange}
     />

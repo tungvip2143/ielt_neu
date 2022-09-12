@@ -29,7 +29,7 @@ type Props = {
   question?: any;
   onClickPage?: (options: any) => void;
   displayNumber: number;
-  isView?: boolean
+  isView?: boolean;
 };
 
 const FlowChart = (props: Props) => {
@@ -68,6 +68,7 @@ const FlowChart = (props: Props) => {
                 onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
+                className="input-answer"
               />
             </div>
           );

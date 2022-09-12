@@ -220,7 +220,6 @@ const CardTotalPageExams = ({
 
               <Box sx={{ width: { md: "20%" } }}></Box>
             </Box>
-            <img src={ImgHideTotalPage} alt="" />
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>

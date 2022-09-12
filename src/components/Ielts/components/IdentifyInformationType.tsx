@@ -45,13 +45,10 @@ const IdentifyInformationType = (props: Props) => {
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
   const { values }: any = useFormikContext();
 
-  console.log("+++++++++++++", props);
-
   const onClickQuestion = () => {
     let sectionRender: any = {};
     sectionRender.question = questionIdx;
     onClickPage && onClickPage(sectionRender);
-    // onHightLightNumberPage(question?.question?.displayNumber);
   };
   return (
     <>
@@ -100,7 +97,7 @@ const IdentifyInformationType = (props: Props) => {
                           //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
                         />
                       }
-                      label={`${answer.key}. ${answer?.text}`}
+                      label={`${answer?.text}`}
                     />
                   );
                 })}

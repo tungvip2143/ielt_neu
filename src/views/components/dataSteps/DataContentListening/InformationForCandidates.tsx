@@ -10,10 +10,7 @@ const InformationForCandidatesListening = (props: Props) => {
       <li>There are 40 questions in this test.</li>
       <li>Each question carries one mark.</li>
       <li>There are four parts to the test.</li>
-      <li>
-        Please note you will only hear each part once in your actual test. However for familiarisation and practice
-        purposes, this familiarisation test will allow you to listen to each recording multiple times.
-      </li>
+      <li>Please note you will only hear each part once in your test</li>
       <li>
         For each part of the test there will be time for you to look through the questions and time for you to check
         your answers.

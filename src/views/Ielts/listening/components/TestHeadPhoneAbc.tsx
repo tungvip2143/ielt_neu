@@ -12,9 +12,18 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import Box from "@mui/material/Box";
 import ReactAudioPlayer from "react-audio-player";
 // @ts-ignore
-import audio from "assets/audio/testSound/test-audio.mp3";
+import audio from "assets/audio/testSound/test-listening.mp3";
+import { makeStyles } from "@mui/styles";
+//! type
+interface TestHeadPhoneI {
+  valueVolum?: any;
+}
+const useStyles = makeStyles((theme) => {
+  return {};
+});
 //
-const TestHeadPhoneAbc = () => {
+const TestHeadPhoneAbc = (props: TestHeadPhoneI) => {
+  const { valueVolum } = props;
   const [testSound, setTestSound] = React.useState(false);
   const containerTest = {
     ...themeCssSx.flexBox.flexJusCenter,
@@ -51,7 +60,7 @@ const TestHeadPhoneAbc = () => {
   };
   return (
     <Box sx={containerTest}>
-      {testSound && <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} />}
+      {testSound && <ReactAudioPlayer volume={valueVolum} src={audio} autoPlay controls style={{ display: "none" }} />}
       <div className="">
         <Title image={ImgHeadPhone} text="Test sound" />
         <Container>

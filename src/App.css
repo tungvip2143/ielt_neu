@@ -247,8 +247,10 @@ ul {
   background-image: url(./assets//image//exam//did-exercise.png) !important;
 }
 /* fix input exam */
-fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutline {
-  border: 1px solid #333;
+.input-answer {
+  border: 1px solid #ccc !important;
+  border-radius: 8px;
+
 }
 /*  */
 .css-1qopneg-MuiFormHelperText-root.Mui-error {
@@ -256,4 +258,44 @@ fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutl
 }
 .css-1apkv71-MuiFormLabel-root-MuiInputLabel-root.Mui-error {
   color: red !important;
+}
+/* note */
+.change-volum {
+  display: flex;
+  align-items: center;
+}
+.hight-light-note {
+  position: relative;
+  background-color: yellow;
+  width: fit-content;
+}
+
+.hover-note {
+  display: none;
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  right: 0;
+  top: -10px;
+  background: url(./assets//image//exam/hover-note.png) no-repeat;
+}
+.hight-light-note:hover .hover-note {
+  display: block;
+}
+
+.change-color {
+  /* color: red!important; */
+  animation: changeColor 0.5s infinite ease-in-out;
+  font-size: 120%;
+}
+
+@keyframes changeColor {
+  from {
+    opacity: 0;
+    color: red;
+  }
+  to {
+    opacity: 1;
+    color: #FEE49B;
+  }
 }

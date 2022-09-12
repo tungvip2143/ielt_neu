@@ -19,7 +19,6 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 
 const QuestionBox = (props: Props) => {
   const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
-  console.log("questions", questions);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
   const newQuestionBoxParsed = useMemo(() => {
@@ -45,16 +44,13 @@ const QuestionBox = (props: Props) => {
   //
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
-    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<strong>${blankId}</strong><input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
-        blankId - 1
-      }].studentAnswer' 
+      `<input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${blankId - 1}].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
     );
   });

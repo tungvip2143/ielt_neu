@@ -89,7 +89,6 @@ const CreateQuestionListening = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
-  console.log("dataPartDetail", dataPartDetail, dataListening);
   const [isEdit, setIsEdit] = useState(false);
 
   const formController = useForm<ResponseParams>({
@@ -115,8 +114,6 @@ const CreateQuestionListening = (props: Props) => {
       resetAsyncForm(dataPartDetail);
     }
   }, [dataPartDetail?.id]);
-
-  console.log("selectFile", selectFile);
 
   const renderButtonUpdate = () => {
     return (
@@ -160,7 +157,6 @@ const CreateQuestionListening = (props: Props) => {
 
   const onSubmit = async (data: any) => {
     if (openCreateScreen.type === "create") {
-      console.log("selectFile", selectFile);
       if (selectFile === null) {
         setExistAudio(true);
       }
@@ -169,8 +165,6 @@ const CreateQuestionListening = (props: Props) => {
 
       try {
         const responseAudio = await audioService.postAudioListening(formData);
-        console.log("responseAudio", responseAudio);
-
         if (responseAudio.data.statusCode === 200) {
           const body = {
             partNumber: data.partNumber,

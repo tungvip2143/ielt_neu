@@ -16,7 +16,6 @@ interface Props {
   idExam?: any;
 }
 const TitleIntroExam = ({ dataTitleIntroExam, idExam, examinationName }: Props) => {
-  console.log("examinationName", examinationName);
   return (
     <Box>
       <Text.DescSmallCard sx={{ color: "#8A8C91" }}>{dataTitleIntroExam.desc}</Text.DescSmallCard>

@@ -5,6 +5,8 @@ import MultiChoice from "./CardRender/MultiChoice";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
+import MachingTypeListening from "./CardRender/MachingTypeListening";
+import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 // ! type
 interface Props {
   ContentQuestion?: any;
@@ -15,11 +17,22 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  console.log("ContentQuestion", ContentQuestion);
-  console.log("questionType", questionType);
+  // console.log("ContentQuestion", ContentQuestion);
+  // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
+    if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
+      return (
+        <MachingTypeListening
+          answerList={ContentQuestion?.answerList}
+          questionBox={ContentQuestion?.questionBox}
+          data={ContentQuestion?.questions}
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
+        />
+      );
+    }
+    if (questionType === QUESTION_TYPE.NOTE_COMPLETION && questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}
@@ -29,8 +42,30 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart question={ContentQuestion?.questions} displayNumber={displayNumber} image={ContentQuestion} />;
+    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
+      return (
+        <MachingHeading
+          question={ContentQuestion?.questions}
+          answerList={ContentQuestion?.answerList}
+          data={ContentQuestion?.questions}
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
+        />
+      );
+    }
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
+    ) {
+      return (
+        <FlowChart
+          onClickPage={onClickPage}
+          question={ContentQuestion?.questions}
+          displayNumber={displayNumber}
+          image={ContentQuestion}
+        />
+      );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return ContentQuestion?.questions.map((question: any) => {

@@ -10,11 +10,8 @@ import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
-import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-import NextQuestion from "assets/image/exam/next-exercise.png";
-import PrevQuestion from "assets/image/exam/prev-exercise.png";
-import { AnyARecord } from "dns";
-
+import NextQuestion from "assets/image/exam/prev-exercise.png";
+import PrevQuestion from "assets/image/exam/next-exercise.png";
 interface CardTotalPageExamsI {
   questions: any;
   onClickPage: any;
@@ -24,6 +21,7 @@ interface CardTotalPageExamsI {
   group: any;
   question: any;
   displayNumber: number;
+  handleChangeValueVolum?: any;
 }
 
 const box = {
@@ -49,6 +47,7 @@ const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
+      marginRight: "10px",
     },
     eachQuestion: {
       background: "#000",
@@ -62,6 +61,10 @@ const useStyles = makeStyles((theme) => {
       fontWeight: "bold",
       cursor: "pointer",
       borderRadius: "2px",
+    },
+    sliderVolum: {
+      marginTop: "10px",
+      color: "#f5f5f5 !important",
     },
   };
 });
@@ -97,7 +100,6 @@ const CardPage = ({
   const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
   //
-  console.log("displayNumber", displayNumber);
   useEffect(() => {
     const hanldeHighLightReview = () => {
       if (checkedReview) {
@@ -260,15 +262,14 @@ const CardPage = ({
 
               <Box sx={{ width: { md: "20%" } }}></Box>
             </Box>
-            <img src={ImgHideTotalPage} alt="" />
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
           <Box sx={nextPage} onClick={onClickBackQuestion}>
-            <img src={NextQuestion} alt="" />
+            <img src={PrevQuestion} alt="" />
           </Box>
           <Box sx={nextPage} onClick={onClickNextQuestion}>
-            <img src={PrevQuestion} alt="" />
+            <img src={NextQuestion} alt="" />
           </Box>
         </Stack>
       </Box>

@@ -8,7 +8,7 @@ class IeltsService {
     return httpServices.post(IELTS_URL().TEST_CODE, { ...body });
   }
   getIeltsListening(testCode: any) {
-    return httpServices.get(IELTS_URL(testCode).LISTENING);
+    return httpServices.get(`${IELTS_URL().LISTENING}/${testCode}/listening`);
   }
   createIeltsListening(body = {}) {
     return httpServices;
@@ -23,23 +23,19 @@ class IeltsService {
 
   updateIeltsWriting(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_WRITING_TEST, values);
   }
 
   updateIeltsReading(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_READING_TEST, values);
   }
   updateIeltsListening(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_LISTENING_TEST, values);
   }
   updateIeltsSpeaking(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_SPEAKING_TEST, values);
   }
   getIeltsSpeaking(testCode: any) {
@@ -75,6 +71,10 @@ class IeltsService {
 
   getIeltsExaminatios(queries: any) {
     return httpServices.get(`${IELTS_URL().GET_EXAMINATIONS}?${queryString.stringify(queries)}`);
+  }
+
+  saveExamToLocalStorage({ skill, exam }: any) {
+    localStorage.setItem(skill, exam);
   }
 
   // updateIeltExamination(body:any){

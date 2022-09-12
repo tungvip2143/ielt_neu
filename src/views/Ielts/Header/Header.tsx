@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 //
 import { Box, Button, Stack } from "@mui/material";
 import CountDown from "components/Countdown/CountDown";
@@ -13,6 +13,9 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import NumberUser from "assets/image/exam/number-user.png";
 //
 import HeaderExam from "../Header/HeaderExam";
+import { useFormikContext } from "formik";
+import Volum from "../../../components/Volum/Volum";
+import { TypeExam } from "constants/enum";
 
 // ! type
 interface Props {
@@ -21,9 +24,12 @@ interface Props {
   handleOpenModalHide?: () => void;
   numberStep?: any;
   timeExam?: any;
+  handleSubmitWhenEndedTime?: () => void;
+  handleChangeValueVolum?: (value: any) => void;
+  typeExam?: string;
 }
 const header = {
-  p: "2px 0px",
+  p: "10px 0px",
   background: "#36373b",
   zIndex: 999,
   width: "100%",
@@ -39,8 +45,18 @@ const headerContent = {
 };
 //
 
-const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam }: Props) => {
+const Header = ({
+  handleOpenModalHelp,
+  handleOpenModalHide,
+  numberStep,
+  timeExam,
+  handleChangeValueVolum,
+  typeExam,
+}: Props) => {
+  //! State
   const { step } = useStepExam();
+  const { handleSubmit } = useFormikContext();
+
   const btnHelp = {
     cursor: "pointer",
   };
@@ -48,6 +64,11 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam
     cursor: "pointer",
   };
 
+  const handleSubmitWhenEndedTime = useCallback(() => {
+    handleSubmit();
+  }, [handleSubmit]);
+
+  //! Render
   return (
     <Box>
       <HeaderExam />
@@ -60,15 +81,23 @@ const Header = ({ handleOpenModalHelp, handleOpenModalHide, numberStep, timeExam
             </Stack>
           )}
 
-          {step === numberStep && <CountDown timeExam={timeExam} />}
           {step === numberStep && (
-            <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
-              <ButtonHelp handleOpenModalHelp={handleOpenModalHelp} style={btnHelp} />
-              <OptionButton handleOpenModalHide={handleOpenModalHide} addCss={optionBtn}>
-                Hide
-              </OptionButton>
-            </Stack>
+            <CountDown handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
           )}
+          <div className="flex">
+            {typeExam === TypeExam.LISTENING &&
+              (step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP4) && (
+                <Volum handleChangeValueVolum={handleChangeValueVolum} />
+              )}
+            {step === numberStep && (
+              <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
+                <ButtonHelp handleOpenModalHelp={handleOpenModalHelp} style={btnHelp} />
+                <OptionButton handleOpenModalHide={handleOpenModalHide} addCss={optionBtn}>
+                  Hide
+                </OptionButton>
+              </Stack>
+            )}
+          </div>
         </Box>
       </Box>
     </Box>
