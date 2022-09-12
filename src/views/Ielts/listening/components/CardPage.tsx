@@ -113,23 +113,17 @@ const CardPage = ({
   const { handleSubmit } = useFormikContext();
   //
 
+  console.log("inReviewListQuestions", inReviewListQuestions);
+  console.log("displayNumber", displayNumber);
+
   useEffect(() => {
     CacheService.cache("inReviewList", inReviewListQuestions);
-    // const hanldeHighLightReview = () => {
-    //   if (checkedReview) {
-    //     return setShowPageReview("show-page-review");
-    //   }
-    //   return setShowPageReview("hide-review");
-    // };
-    // hanldeHighLightReview();
   }, [inReviewListQuestions]);
   //! State
   const classes = useStyles();
   //
 
   const handleCheckBox = (event: any) => {
-    // setCheckedReview(event.target.checked);
-
     setInReviewListQuestions((prev: number[]) => {
       if (inReviewListQuestions.includes(displayNumber)) {
         const index = inReviewListQuestions.findIndex((i) => i === displayNumber);
@@ -138,10 +132,6 @@ const CardPage = ({
       return inReviewListQuestions.concat(displayNumber);
     });
   };
-  //
-  // const hideReview = () => {
-  //   setCheckedReview(false);
-  // };
   //
   const handleChangeVolum = (event: any) => {
     setValueVolum(event.target.value);
@@ -217,7 +207,6 @@ const CardPage = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-    // hideReview();
 
     onClickPage(sectionRender);
   };
@@ -244,15 +233,6 @@ const CardPage = ({
         };
         return (
           <>
-            {/* <Box
-              key={question.id}
-              className={`${highLightPage()} ${
-                displayNumber === question.question.displayNumber && showPageReview
-              } ${`${didExerciseActive()}-abc`}`}
-              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
-            >
-              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
-            </Box> */}
             <Box
               key={question.id}
               className={`${highLightPage()} ${
@@ -276,7 +256,6 @@ const CardPage = ({
         <Box>
           <FormControlLabel
             value=""
-            // control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />
