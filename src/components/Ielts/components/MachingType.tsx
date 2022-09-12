@@ -67,8 +67,12 @@ const MachingType = (props: Props) => {
 
   const { setFieldValue } = useFormikContext();
 
-  const handleFocus = (index: number) => {
+  const handleFocus = (index: number, questionIndex: number) => {
+    console.log("fsdf", questionIndex);
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
+    let sectionRender: any = {};
+    sectionRender.question = questionIndex;
+    onClickPage && onClickPage(sectionRender);
   };
 
   const onClickQuestion = (questionIndex: number) => {
@@ -91,7 +95,7 @@ const MachingType = (props: Props) => {
               <FastField
                 disabled={isView}
                 inputRef={(el: any) => (inputRef.current[index + 1] = el)}
-                onFocus={() => handleFocus(index)}
+                onFocus={() => handleFocus(index, questionIndex)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}
                 size="small"

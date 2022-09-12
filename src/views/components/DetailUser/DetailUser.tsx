@@ -47,9 +47,10 @@ const DetailUser = (props: Props) => {
       <Box>
         <Title image={ImgUser} text="Confirm your details" />
         <Container>
-          <Text.Desc16 sx={introduceUser}>Name: {user?.fullname}</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Date of birth: {handleBrithDay()}</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Candidate number: {user?._id}</Text.Desc16>
+          {/* <Text.Desc16 sx={introduceUser}>Name: {user?.fullname}</Text.Desc16> */}
+          <Text.Desc16 sx={introduceUser}>Student code : {user?.username}</Text.Desc16>
+          {/* <Text.Desc16 sx={introduceUser}>Date of birth: {handleBrithDay()}</Text.Desc16> */}
+          {/* <Text.Desc16 sx={introduceUser}>Candidate number: {user?._id}</Text.Desc16> */}
           <HelpFooter textHelp={textHelp} image={ImgHelp} />
           <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
         </Container>
