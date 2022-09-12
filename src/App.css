@@ -247,12 +247,6 @@ ul {
   box-shadow: 0 1px 3px rgb(0 0 0 / 50%);
   background-image: url(./assets//image//exam//did-exercise.png) !important;
 }
-/* fix input exam */
-.input-answer {
-  border: 1px solid #ccc !important;
-  border-radius: 8px;
-
-}
 /*  */
 .css-1qopneg-MuiFormHelperText-root.Mui-error {
   color: red !important;

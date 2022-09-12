@@ -77,6 +77,10 @@ class IeltsService {
     localStorage.setItem(skill, exam);
   }
 
+  getExamInformation() {
+    return httpServices.get(IELTS_URL().EXAM_INFORMATION);
+  }
+
   // updateIeltExamination(body:any){
   //   return httpServices.
   // }

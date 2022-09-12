@@ -42,8 +42,6 @@ type Props = {
 const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question, onClickPage, displayNumber } = props;
-  console.log("fasfsa", question);
-  console.log("dsad", image);
 
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
@@ -85,7 +83,7 @@ const FlowChart = (props: Props) => {
                 // }
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
-                className={classes.inputAnswer}
+                // className={classes.inputAnswer}
               />
             </div>
           );
