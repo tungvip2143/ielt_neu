@@ -59,12 +59,21 @@ const QuestionBox = (props: Props) => {
     const inputIdx: any = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
+  const onFocusInput = (event: any) => {
+    const inputIdx: any = event.target.getAttribute("class") - 1;
+    onClickPage && onClickPage({ question: inputIdx });
+  };
 
   const test: any = Handlebars.compile(newQuestionBoxParsed);
 
   return (
     <>
-      <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+      <div
+        onClick={(data) => onClickInput(data)}
+        onFocus={(event) => onFocusInput(event)}
+        dangerouslySetInnerHTML={{ __html: test() }}
+        onInput={handleChange}
+      />
     </>
   );
 };

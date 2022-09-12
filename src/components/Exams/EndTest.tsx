@@ -62,7 +62,7 @@ const EndTest = (props: Props) => {
         <Text.DescSmallCard>All of your answer have been saved.</Text.DescSmallCard>
         <Text.DescSmallCard>Please click the end test button below to finish the test</Text.DescSmallCard>
         <Box sx={{ mt: "50px" }}>
-          <ButtonStartTest onClick={handleEndTest}>End Test</ButtonStartTest>
+          <ButtonStartTest onClick={handleEndTest}>Log out</ButtonStartTest>
         </Box>
       </Box>
     </Card>

@@ -1,5 +1,7 @@
+import { useFormikContext } from "formik";
+
 import { TimeExamLeft } from "constants/enum";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import Countdown from "react-countdown";
 import cacheService from "services/cacheService";
 
@@ -28,6 +30,7 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
       handleSubmitWhenEndedTime && handleSubmitWhenEndedTime();
       return <Completionist />;
     }
+
     cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
     if ((minutes === 9 && seconds >= 55 && seconds <= 59) || (minutes === 4 && seconds >= 55 && seconds <= 59)) {
       return (
