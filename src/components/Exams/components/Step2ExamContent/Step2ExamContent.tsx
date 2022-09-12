@@ -20,6 +20,8 @@ import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+import CommonStyles from "components/CommonStyles";
 //
 interface Props {
   data?: any;
@@ -33,6 +35,7 @@ const Step2ExamContent = (props: any) => {
 
   // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
   const [questionSelected, setQuestionSelected] = useState<any>();
+  const [text, setText] = useState("");
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
@@ -46,7 +49,21 @@ const Step2ExamContent = (props: any) => {
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
-  const { values } = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
+  const {
+    onScannerText,
+    onHightlight,
+    passageTextWithHighlightTexted,
+    position,
+    isOpenOptionClear,
+    onCloseNote,
+    onClearHightLightAll,
+    onClickNote,
+    onClearHightLight,
+    isNoted,
+    isHightLight,
+    onInputChange,
+  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
   useEffect(() => {
     cacheService.cache("answers", values);
@@ -70,6 +87,10 @@ const Step2ExamContent = (props: any) => {
 
   const onClickQuestionType = (questionType: any) => {
     setQuestionType(questionType);
+  };
+
+  const getTextEachPart = (text: string) => {
+    setText(text);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -117,6 +138,9 @@ const Step2ExamContent = (props: any) => {
                   onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   displayNumber={displayNumber}
                   onClickQuestionType={onClickQuestionType}
+                  getTextEachPart={getTextEachPart}
+                  passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+                  onScannerText={onScannerText}
                 />
               }
               width={6}
@@ -138,6 +162,22 @@ const Step2ExamContent = (props: any) => {
         />
         <FooterExamResponsive />
       </Box>
+      {isHightLight && (
+        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
+      )}
+      <CommonStyles.Note
+        position={position}
+        isOpenNote={isNoted}
+        onCloseNote={onCloseNote}
+        onChangeTextNote={onInputChange}
+      />
+      {isOpenOptionClear && (
+        <CommonStyles.ClearDialog
+          position={position}
+          onClearHightlight={onClearHightLight}
+          onClearHightlightAll={onClearHightLightAll}
+        />
+      )}
     </>
   );
 };

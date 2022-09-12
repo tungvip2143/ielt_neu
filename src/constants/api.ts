@@ -54,6 +54,8 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     UPLOAD_AUDIO_SPEAKING: `${ROOT_URL}/tests/${testCode}/${questionId}/audio-answer`,
     GET_EXAMINATIONS: `${ROOT_URL}/examinations`,
     FINISH_IELTS_EXAM: `${ROOT_URL}/tests`,
+    START_TEST: `${ROOT_URL}`,
+    EXAM_INFORMATION: `${ROOT_URL}/tests/examination`,
   };
 };
 
