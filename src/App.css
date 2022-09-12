@@ -237,6 +237,7 @@ ul {
 }
 .show-page-review {
   border-radius: 50% !important;
+  background-image: url(./assets//image//exam/hight-light-page.png) !important;
 }
 .hide-review {
   border-radius: 2px !important;

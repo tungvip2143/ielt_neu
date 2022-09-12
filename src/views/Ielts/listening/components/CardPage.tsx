@@ -107,6 +107,9 @@ const CardPage = ({
   const { handleSubmit } = useFormikContext();
   //
 
+  console.log("inReviewListQuestions", inReviewListQuestions);
+  console.log("displayNumber", displayNumber);
+
   useEffect(() => {
     CacheService.cache("inReviewList", inReviewListQuestions);
   }, [inReviewListQuestions]);
@@ -123,6 +126,7 @@ const CardPage = ({
       return inReviewListQuestions.concat(displayNumber);
     });
   };
+  //
 
   // ! Next  question
   const checkNextPartRender = () => {
@@ -194,7 +198,6 @@ const CardPage = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-    // hideReview();
 
     onClickPage(sectionRender);
   };
@@ -221,15 +224,6 @@ const CardPage = ({
         };
         return (
           <>
-            {/* <Box
-              key={question.id}
-              className={`${highLightPage()} ${
-                displayNumber === question.question.displayNumber && showPageReview
-              } ${`${didExerciseActive()}-abc`}`}
-              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
-            >
-              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
-            </Box> */}
             <Box
               key={question.id}
               className={`${highLightPage()} ${
@@ -253,7 +247,6 @@ const CardPage = ({
         <Box>
           <FormControlLabel
             value=""
-            // control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />
