@@ -72,6 +72,9 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }
@@ -82,6 +85,9 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }

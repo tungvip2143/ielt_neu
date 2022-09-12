@@ -58,7 +58,8 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     if (
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
-      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING
     ) {
       return (
         <FlowChart
