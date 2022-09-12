@@ -40,18 +40,23 @@ const btn = {
 };
 const FooterSubmit = (props: Props) => {
   const { textBtn, nextStep } = props;
-  const { handler } = useStepExam();
+  const { handler, step } = useStepExam();
   const { data, refetch } = useGetExamInformation();
   const canStart = data?.data?.data?.canStart;
 
   const onStartExam = () => {
-    if (canStart) {
+    if (step === TypeStepExamEnum.STEP3) {
+      if (canStart) {
+        handler?.setStep && handler.setStep(nextStep);
+        cacheService.cache("step", nextStep);
+      }
+      if (!canStart) {
+        refetch();
+        showError("Exam have not started yet");
+      }
+    } else {
       handler?.setStep && handler.setStep(nextStep);
       cacheService.cache("step", nextStep);
-    }
-    if (!canStart) {
-      refetch();
-      showError("Exam have not started yet");
     }
   };
 

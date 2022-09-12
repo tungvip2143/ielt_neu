@@ -29,6 +29,7 @@ import { RouteBase } from "constants/routeUrl";
 import TinyMceCommon from "components/TinyMceCommon";
 import LoadingPage from "components/Loading";
 import { ErrorMessage } from "@hookform/error-message";
+import CommonStyles from "components/CommonStyles";
 
 export interface Props {
   openCreateScreen: {
@@ -97,7 +98,10 @@ const CreateQuestionReading = (props: Props) => {
           </Button>
         ) : (
           <>
-            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <CommonStyles.Button loading={loading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+              Save
+            </CommonStyles.Button>
+            {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" /> */}
             <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
           </>
         )}
@@ -108,7 +112,10 @@ const CreateQuestionReading = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" />
+        <CommonStyles.Button loading={loading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+          Continue
+        </CommonStyles.Button>
+        {/* <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" /> */}
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
