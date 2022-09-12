@@ -4,7 +4,7 @@ import ReactDOM from "react-dom";
 interface Props {
   text: string;
   values: any;
-  onChangeInput: (key: string, value: string) => void;
+  onChangeInput: any;
   tagName: string;
 }
 
@@ -63,7 +63,6 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   const onScannerText = (data: any) => {
     document.addEventListener("contextmenu", (e) => handleRightClick(e));
     const textScanned = data.view.getSelection().toString();
-    console.log("textScanned", textScanned);
 
     setTextScanner(textScanned);
 
@@ -71,6 +70,7 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
     const tagName = domNode.tagName;
     if (tagName === "MARK") {
       const hightlightId = domNode.getAttribute("id");
+      setMarkTagId(hightlightId);
       const textarea: any = document.getElementById("note");
       textarea.value = values[hightlightId] ? values[hightlightId] : "";
       setIsNoted(true);
@@ -105,6 +105,14 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
       const newTextHightlighted = { ...prevText };
       return newTextHightlighted;
     });
+
+    console.log("newValues markTagId", markTagId);
+
+    onChangeInput((field: any) => {
+      console.log("123456", field);
+    });
+
+    delete values[markTagId];
   };
 
   const onClearHightLightAll = () => {

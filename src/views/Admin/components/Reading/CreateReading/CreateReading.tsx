@@ -115,6 +115,8 @@ const CreateQuestionReading = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
+    console.log("dataas", data);
+
     if (openCreateScreen.type === "create") {
       const body = {
         partNumber: data.partNumber,
@@ -160,8 +162,8 @@ const CreateQuestionReading = (props: Props) => {
       await ReadingService.deleteQuestionGroup(id);
       toast.success("Delete question group success");
       refetchQuestionGroup();
-    } catch (error) {
-      console.log("error");
+    } catch (error: any) {
+      toast.error(error);
     }
   };
 

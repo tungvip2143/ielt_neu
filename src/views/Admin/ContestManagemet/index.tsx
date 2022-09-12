@@ -27,16 +27,41 @@ const ContestManagement = () => {
   //! State
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
     useContestManagemet();
+  console.log("dataContest", dataContest.canStart);
+
+  const [startTest, setStartTest] = useState<boolean>(false);
+  // console.log("startTest", startTest);
+  const refetchDataCanStart = async () => {
+    dataContest?.canStart;
+  };
   const history = useHistory();
   const onDeletePart = async (item: any) => {
     try {
-      await contestService.deleteExamination(item?.id);
-      refetchDataTable();
-    } catch (error) {
-      console.log("error");
+      const response = await contestService.deleteExamination(item?.id);
+      if (response.data.statusCode === 200) {
+        toast.success("Exam has been delete!");
+        refetchDataTable();
+      }
+    } catch (error: any) {
+      toast.error(error);
     }
   };
+  const onStartTest = async (item: any) => {
+    // setStartTest((prev) => !prev);
+    const body = {
+      canStart: true,
+    };
 
+    try {
+      const response = await contestService.putUpdateExamination(item?.id, body);
+      if (response.data.statusCode === 200) {
+        toast.success("Exam has been change status!");
+        refetchDataCanStart();
+      }
+    } catch (error: any) {
+      toast.error(error);
+    }
+  };
   //!Function
 
   //! Render
@@ -71,6 +96,7 @@ const ContestManagement = () => {
               field: "updatedAt",
               renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
             },
+
             // {
             //   flex: 1,
             //   field: "active",
@@ -93,7 +119,19 @@ const ContestManagement = () => {
               },
             },
             {
-              flex: 0.3,
+              flex: 0.7,
+              field: "canStart",
+              renderHeader: () => <Typography style={styles.titleTable}>Can Start</Typography>,
+              renderCell: (items: any) => {
+                return (
+                  <Button variant="contained" style={styles.buttonOpenModal} onClick={() => onStartTest(items)}>
+                    Start exam
+                  </Button>
+                );
+              },
+            },
+            {
+              flex: 0.4,
               field: "action",
               filterable: false,
               hideSortIcons: true,
