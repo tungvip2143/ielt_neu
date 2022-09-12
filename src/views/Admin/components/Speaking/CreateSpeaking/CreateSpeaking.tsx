@@ -110,8 +110,6 @@ const CreateQuestionSpeaking = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
-    console.log("data", data);
-
     if (openCreateScreen.type === "create") {
       const formData = new FormData();
       formData.append("file", selectFile);

@@ -75,8 +75,6 @@ const SpeakingSkill = () => {
               disableColumnMenu: true,
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
-                console.log("items", items);
-
                 return (
                   <CommonActionMenu
                     onEdit={() => {

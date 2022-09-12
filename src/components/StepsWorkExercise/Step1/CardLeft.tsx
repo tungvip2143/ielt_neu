@@ -30,9 +30,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   const { setFieldValue, values }: any = useFormikContext();
   const [clickHightLight, setClickHightLight] = useState("");
   const noteRef: any = useRef(null);
-  console.log("noteRef", noteRef.current?.value);
   //
-  console.log("values formik", values);
   const useStyles = makeStyles((theme) => ({
     div: {
       display: "flex",

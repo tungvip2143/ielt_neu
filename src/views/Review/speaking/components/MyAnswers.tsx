@@ -25,7 +25,6 @@ const MyAnswers = (props: Props) => {
   const classes = useStyles();
 
   const { audios, numberQuestion } = props;
-  console.log("sfsdfsdf", audios);
   return (
     <div className={classes.container}>
       <Text.SubTitle>My Answer</Text.SubTitle>

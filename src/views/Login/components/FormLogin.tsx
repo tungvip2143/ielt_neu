@@ -40,12 +40,12 @@ const useStyles = makeStyles((theme) => {
 });
 // !type
 interface InitialValueExam {
-  candidateCode: string;
+  orderNumber: string;
   studentCode: string;
 }
 //
 const validate = Yup.object({
-  candidateCode: Yup.string().min(5, "*Must be 5 characters").required("Required"),
+  orderNumber: Yup.string().required("Required"),
   studentCode: Yup.string().min(5, "*Must be 10 characters").required("Required"),
 });
 
@@ -80,7 +80,7 @@ const FormLogin = () => {
         validateOnBlur={false}
         validateOnChange={false}
         initialValues={{
-          candidateCode: "",
+          orderNumber: "",
           studentCode: "",
         }}
         validationSchema={validate}
@@ -118,7 +118,7 @@ const FormLogin = () => {
                 component={InputField}
                 type="text"
                 placeholder="Please fill in the information"
-                {...propsFormik.getFieldProps("candidateCode")}
+                {...propsFormik.getFieldProps("orderNumber")}
                 className={classes.input}
               />
             </div>

@@ -9,7 +9,6 @@ export const BASE_URL = "http://103.226.250.81:8688/api/v1";
 // export const POST_LIST_PARTS = `/question-parts?sort=createdAt%3ADESC&skill=${skill}`;
 
 export const GET_LIST_LEVELS = `${ROOT_URL}/configs/question-levels`;
-export const GET_LIST_QUESTION_TYPE = `${ROOT_URL}/configs/question-types`;
 export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
 
 export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/import-excel`;
@@ -69,9 +68,9 @@ export const ADMIN_READING_URL = (id?: string | number) => {
     PATCH_UPDATE_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/reading/`,
     GET_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups?sort=createdAt%3ADESC&skill=READING`,
+    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=READING`,
     POST_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups/reading`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/reading`,
-    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=READING`,
   };
 };
 
@@ -97,6 +96,7 @@ export const ADMIN_LISTENING_URL = (id?: string | number) => {
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/listening/`,
     POST_LIST_LISTENING_QUESTIONS: `${ROOT_URL}/question-groups/listening`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/listening`,
+    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=LISTENING`,
   };
 };
 export const ADMIN_SPEAKING_URL = (id?: string | number) => {

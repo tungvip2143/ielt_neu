@@ -22,9 +22,6 @@ const OTP = (props: Props) => {
   const { openModal, onCloseModal } = props;
   const history = useHistory();
   const [OTP, setOTP] = useState("");
-
-  console.log("OTP", OTP);
-
   const [checked, setChecked] = useState(true);
   const [time, setTime] = useState<number>(120);
   const interval = useRef<any>(null);

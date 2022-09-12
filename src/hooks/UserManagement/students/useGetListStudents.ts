@@ -30,7 +30,6 @@ const useGetListStudents = () => {
     const fetchData = async () => {
       try {
         const response = await studentService.getListParts(params);
-        // console.log("responseUser", response);
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
         setData(dataRes);
