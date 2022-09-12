@@ -25,11 +25,7 @@ const eachQuestion = {
 const ListNumberQuestion = (props: Props) => {
   const [hightLightPage, setHightLightPage] = React.useState("1");
   const { questions, onClickPage, handleDisplayNumber } = props;
-  console.log("questions", questions);
-
   const renderPartValues = (partValues: any, index: number) => {
-    console.log("partValues", partValues);
-
     let sectionRender: any = {};
 
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {

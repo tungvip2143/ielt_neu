@@ -49,7 +49,7 @@ const CreateUser = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   const [isEdit, setIsEdit] = useState(false);
   const fileRef = useRef<any>();
-
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),
@@ -87,6 +87,7 @@ const CreateUser = (props: Props) => {
     fileRef?.current?.click();
   };
   const onFileChange = async (event: any) => {
+    setIsLoading(true);
     if (event.target && event.target.files[0]) {
       const formData = new FormData();
       formData.append("file", event.target.files[0]);
@@ -95,8 +96,10 @@ const CreateUser = (props: Props) => {
       try {
         if (responseImage?.data?.statusCode === 200) {
           setImage(responseImage?.data?.data?.uri);
+          setIsLoading(false);
         }
       } catch (error: any) {
+        setIsLoading(false);
         toast.error(error);
       }
     }
@@ -126,7 +129,14 @@ const CreateUser = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Save" />
+        <CommonStyles.Button
+          loading={isLoading}
+          icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />}
+          type="submit"
+        >
+          Save
+        </CommonStyles.Button>
+        {/* <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Save" /> */}
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
@@ -162,7 +172,7 @@ const CreateUser = (props: Props) => {
         const response = await studentService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
-          history.goBack();
+          setIsEdit(false);
         }
       } catch (error: any) {
         toast.error(error?.response?.data?.message);
@@ -231,20 +241,20 @@ const CreateUser = (props: Props) => {
             )}
           </div>
           <div className="text-end" style={{ display: "flex", justifyContent: "center" }}>
-            <ButtonUpload
+            {/* <ButtonUpload
               style={{ display: "flex", height: 40 }}
               titleButton="Upload Image"
               onClick={handleClick}
               disabled={openCreateScreen.type === "update" && !isEdit}
-            />
-            {/* <CommonStyles.Button
-          loading={loading}
-          style={{ display: "flex", }}
-          onClick={handleClick}
-          disabled={openCreateScreen.type === "update" && !isEdit}
-        >
-          Upload Image
-        </CommonStyles.Button> */}
+            /> */}
+            <CommonStyles.Button
+              loading={isLoading}
+              style={{ display: "flex", height: 40 }}
+              onClick={handleClick}
+              disabled={openCreateScreen.type === "update" && !isEdit}
+            >
+              Upload Image
+            </CommonStyles.Button>
           </div>
         </div>
       </div>

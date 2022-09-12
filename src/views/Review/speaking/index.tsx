@@ -37,7 +37,6 @@ const SpeakingReview = (props: Props) => {
   const [isOpenAnswer, setIsModalAnswer] = useState(false);
   const [contentModal, setContentModal] = useState();
   const [numberQuestion, setNumberQuestion] = useState("1");
-  console.log("fsdfsdfs", numberQuestion);
   //! State
   const classes = useStyles();
   const { dataSpeaking } = props;
@@ -46,8 +45,6 @@ const SpeakingReview = (props: Props) => {
     part: 0,
     group: 0,
   });
-  console.log("groupSelected", groupSelected);
-
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
@@ -138,8 +135,6 @@ const SpeakingReviewContainer = () => {
   const param = useParams();
   const { testCode }: any = param;
   const { data, isLoading } = useGetSpeakingResultByTestCode(testCode);
-
-  console.log("data speaking123", data?.data?.data);
 
   if (isLoading) {
     return <LoadingPage />;
