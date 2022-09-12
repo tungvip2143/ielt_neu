@@ -31,7 +31,7 @@ class AuthService {
   login(body = { email: "", password: "" }) {
     return httpServices.post(AUTH_URL.LOGIN, body);
   }
-  studentLogin(body = { candidateCode: "", studentCode: "" }) {
+  studentLogin(body = { orderNumber: "", studentCode: "" }) {
     return httpServices.post(AUTH_URL.STUDENT_LOGIN, body);
   }
 

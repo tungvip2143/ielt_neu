@@ -37,6 +37,11 @@ const clientId = "76081722691-0m4n7lmh7n71akn2814n5lthkvl3obdg.apps.googleuserco
 
 const App: React.FC = () => {
   useCheckAuth();
+  window.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 70) {
+      e.preventDefault();
+    }
+  });
   // useConfirmCloseBrowser();
   //! Render
   return (

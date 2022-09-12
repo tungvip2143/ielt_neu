@@ -30,8 +30,6 @@ const useGetParts = () => {
     const fetchData = async () => {
       try {
         const response = await speakingService.getListParts(params);
-        console.log("responseSpeaking", response);
-
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
         setData(dataRes);

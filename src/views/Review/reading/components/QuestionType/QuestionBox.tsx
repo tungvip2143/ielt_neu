@@ -39,7 +39,6 @@ const QuestionBox = (props: Props) => {
   // !State
   const classes = useStyles();
   const { questionBox, question } = props;
-  console.log("question", question);
   Handlebars.registerHelper("blank", function (blankId: any) {
     const studenAnswer = question[blankId]?.studentAnswer ? question[blankId]?.studentAnswer : "";
     return new Handlebars.SafeString(

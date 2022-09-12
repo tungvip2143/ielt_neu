@@ -13,7 +13,7 @@ const styles = {
   },
 };
 
-const ListStudentId = ({ studentIds }: any) => {
+const ListStudentId = ({ studentIds, studentDetails }: any) => {
   //! State
   //   const {
   //     data: dataFileExcel,
@@ -24,6 +24,7 @@ const ListStudentId = ({ studentIds }: any) => {
   //     onPageChange,
   //     onPageSizeChange,
   //   } = useGetListStudents();
+  console.log("studentDetails", studentDetails);
 
   const history = useHistory();
 
@@ -56,14 +57,36 @@ const ListStudentId = ({ studentIds }: any) => {
           columns={[
             {
               flex: 1,
-              field: "id",
-              renderHeader: () => <Typography style={styles.titleTable}>Student Ids</Typography>,
+              field: "studentCode",
+              renderHeader: () => <Typography style={styles.titleTable}>Mã sinh viên</Typography>,
               //   renderCell: (item) => {
               //     console.log("item", item);
 
               //     return <p>eass</p>;
               //   },
             },
+            {
+              flex: 1,
+              field: "id",
+              renderHeader: () => <Typography style={styles.titleTable}>Student Id</Typography>,
+              //   renderCell: (item) => {
+              //     console.log("item", item);
+
+              //     return <p>eass</p>;
+              //   },
+            },
+
+            {
+              flex: 1,
+              field: "orderNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Order Number</Typography>,
+              //   renderCell: (item) => {
+              //     console.log("item", item);
+
+              //     return <p>eass</p>;
+              //   },
+            },
+
             // {
             //   flex: 1,
             //   field: "fullname",
@@ -105,7 +128,7 @@ const ListStudentId = ({ studentIds }: any) => {
           //     totalRow: metaPart?.total,
           //   }}
           //   loading={loading}
-          rows={studentIds.map((e: string) => ({ id: e }))}
+          rows={studentDetails.map((e: any) => ({ id: e._id, orderNumber: e.orderNumber, studentCode: e.studentCode }))}
           //   rows={[]}
           //   onPageChange={onPageChange}
           //   onPageSizeChange={onPageSizeChange}

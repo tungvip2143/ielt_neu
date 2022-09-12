@@ -10,7 +10,6 @@ class MContestManagemet {
   __v?: number;
   id?: string;
   canStart?: boolean;
-
   constructor(data: any) {
     this._id = data?._id;
     this.name = data?.name;

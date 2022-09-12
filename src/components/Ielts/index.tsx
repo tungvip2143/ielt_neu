@@ -118,16 +118,9 @@ export default function IeltsSections({ bg }: PropsBg3) {
   const [isSelectExam, setIsSelectExam] = React.useState<boolean>(false);
   const { data, isLoading } = useGetExamination(initialFilter);
   const examinations = data?.data?.data?.data || [];
-
   const { mutateAsync: finishIeltsReading, isLoading: readingLoading } = useFinishIeltsReadingTest();
-  console.log("examination", examinations);
-  console.log("loading", isLoading);
-
-  // console.log("fnsjdfds", id);
   const history = useHistory();
   const queries = useGetQuerystring();
-  console.log("queries", queries);
-  // console.log("history", idExam);
   const examinationName = localStorage.getItem("examinationName") || "";
   const { examName: reading } = useGetNameExam("READING");
   const { examName: writing } = useGetNameExam("WRITING");

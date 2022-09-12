@@ -1,6 +1,6 @@
 import { ResponseGenerator } from "interfaces";
 import { QuestionListening, RequestListListening } from "interfaces/listening";
-import { ADMIN_LISTENING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "../constants/api";
+import { ADMIN_LISTENING_URL, GET_LIST_LEVELS } from "../constants/api";
 import httpServices from "./httpServices";
 
 class listeningService {
@@ -20,7 +20,7 @@ class listeningService {
     return httpServices.get(GET_LIST_LEVELS);
   }
   getListQuestionType() {
-    return httpServices.get(GET_LIST_QUESTION_TYPE);
+    return httpServices.get(ADMIN_LISTENING_URL().GET_LIST_QUESTION_TYPE);
   }
   deletePart(id: any) {
     return httpServices.delete(ADMIN_LISTENING_URL().DELETE_PART + id);

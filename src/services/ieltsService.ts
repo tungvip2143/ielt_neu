@@ -23,23 +23,19 @@ class IeltsService {
 
   updateIeltsWriting(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_WRITING_TEST, values);
   }
 
   updateIeltsReading(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_READING_TEST, values);
   }
   updateIeltsListening(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_LISTENING_TEST, values);
   }
   updateIeltsSpeaking(data: any) {
     const { values, testCode } = data;
-    console.log("data api", data);
     return httpServices.patch(IELTS_URL(testCode).SUBMIT_SPEAKING_TEST, values);
   }
   getIeltsSpeaking(testCode: any) {

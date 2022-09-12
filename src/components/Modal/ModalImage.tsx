@@ -34,7 +34,6 @@ const imageCss = {
   height: "100%",
 };
 const ModalImage = ({ openModal, handleClose, image }: Props) => {
-  console.log("image", image);
   return (
     <Box sx={modal} onClick={() => handleClose()}>
       <Box sx={container}>
