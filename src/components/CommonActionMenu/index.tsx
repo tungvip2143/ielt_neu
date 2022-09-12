@@ -27,7 +27,10 @@ export default function CommonActionMenu({ row, onEdit, onSubmitRemove = () => {
   const TableCellActions = ({ row, onSubmitRemove, onEdit }: TableCellActionsI) => {
     //! State
     const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
-
+    const handleRemove = () => {
+      onSubmitRemove(row);
+      handleClose();
+    };
     //! Render
     return (
       <Menu
@@ -57,7 +60,7 @@ export default function CommonActionMenu({ row, onEdit, onSubmitRemove = () => {
                 <Button variant="outlined" sx={{ color: "black", fontWeight: "500" }} onClick={toggleRemove}>
                   Cancel
                 </Button>
-                <Button variant="contained" style={{ background: "#9155FF" }} onClick={() => onSubmitRemove(row)}>
+                <Button variant="contained" style={{ background: "#9155FF" }} onClick={handleRemove}>
                   Delete
                 </Button>
               </React.Fragment>

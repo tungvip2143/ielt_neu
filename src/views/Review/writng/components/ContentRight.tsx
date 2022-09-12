@@ -13,7 +13,6 @@ interface Props {
   question?: any;
 }
 const ContentRight = ({ apiContent, handleOpen, handleOpenAnswer, handleSetContentModal, question }: Props) => {
-  console.log("gdfgfdg", apiContent);
   const { displayNumber, image, modelAnswer, organization, questionNumber, tips, usefulGrammarNVocab, text } =
     apiContent?.question || {};
   const container = {

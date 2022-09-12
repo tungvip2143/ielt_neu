@@ -109,3 +109,9 @@ export const useFinishIeltsSkill = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+
+export const useGetExamInformation = () => {
+  return useQuery("get exam information", ieltsService.getExamInformation, {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};

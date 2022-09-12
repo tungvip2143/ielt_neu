@@ -7,7 +7,6 @@ import { ROOT_ORIGINAL_URL } from "constants/api";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
     gap: 16,
   },
   answer: {
@@ -39,7 +38,6 @@ const FlowChart = (props: Props) => {
   const inputRef = useRef<any>([]);
 
   const handleFocus = (id: string, index: any) => {
-    console.log("id789", id, index);
     setFieldValue(`answers[${index}].questionId`, id);
   };
   const onClickQuestion = (questionIndx: number) => {

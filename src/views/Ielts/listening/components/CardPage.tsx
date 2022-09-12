@@ -146,7 +146,7 @@ const CardPage = ({
       sectionRender.question = 0;
       return sectionRender;
     }
-    handleSubmit();
+    // handleSubmit();
     return;
   };
   // ! Back  question

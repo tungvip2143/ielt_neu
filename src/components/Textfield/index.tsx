@@ -12,6 +12,11 @@ const useStyles = makeStyles((theme) => ({
       outline: "none",
     },
   },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "red",
+    },
+  },
 }));
 
 const CssTextField = withStyles({
@@ -23,7 +28,6 @@ const CssTextField = withStyles({
     },
   },
 })(TextFieldMui);
-
 interface Props extends FastFieldProps {
   label?: string;
   type?: string;

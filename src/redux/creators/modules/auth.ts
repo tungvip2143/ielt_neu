@@ -33,14 +33,12 @@ export const authSagas = {
     saga: function* ({ payload = {} }) {
       yield authServices.clearUserLocalStorage();
       yield cacheService.clearCacheData();
-      // yield put({ type: authActions.logout });
       window.location.reload();
     },
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
       const { token, userType, user } = action.payload;
-      console.log("user", user);
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token });
       yield authServices.saveUserTypeToLocalStorage(userType);
@@ -48,12 +46,6 @@ export const authSagas = {
       yield put({ type: authActions.saveInfoUserSuccess, token, user });
     },
   },
-  // [authActions.saveUserType]: {
-  //   saga: function* (action: any) {
-  //     const { userType } = action;
-  //     yield put({ type: authActions.saveUserType, userType });
-  //   },
-  // },
 };
 
 export const authReducer = (
@@ -70,7 +62,6 @@ export const authReducer = (
   action: any
 ) => {
   return produce(state, (draftState) => {
-    console.log("action", action);
     switch (action.type) {
       case authActions.checkAuth: {
         draftState.auth.isCheckingAuth = true;

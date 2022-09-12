@@ -40,6 +40,8 @@ const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
   const [text, setText] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
@@ -98,7 +100,7 @@ const CreateQuestionReading = (props: Props) => {
           </Button>
         ) : (
           <>
-            <CommonStyles.Button loading={loading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+            <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
               Save
             </CommonStyles.Button>
             {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" /> */}
@@ -112,7 +114,7 @@ const CreateQuestionReading = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <CommonStyles.Button loading={loading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+        <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
           Continue
         </CommonStyles.Button>
         {/* <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" /> */}
@@ -122,7 +124,7 @@ const CreateQuestionReading = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
-    console.log("dataas", data);
+    setIsLoading(true);
 
     if (openCreateScreen.type === "create") {
       const body = {
@@ -140,9 +142,11 @@ const CreateQuestionReading = (props: Props) => {
             pathname: RouteBase.UpdateReadingWId(response?.data?.data?.passageTitle),
             search: `?id=${response?.data?.data?.id}`,
           });
+          setIsLoading(false);
         }
       } catch (error: any) {
         toast.error(error);
+        setIsLoading(false);
       }
     }
     if (openCreateScreen.type === "update") {

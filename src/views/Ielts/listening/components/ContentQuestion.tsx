@@ -5,6 +5,8 @@ import MultiChoice from "./CardRender/MultiChoice";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 // ! type

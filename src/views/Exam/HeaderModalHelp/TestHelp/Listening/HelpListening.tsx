@@ -5,7 +5,7 @@ import OptionButton from "../../../OptionButton/OptionButton";
 
 // ! image
 import DemoNumberUser from "assets/image/exam/test-help/demo-number-user.png";
-import DemoTimeExam from "assets/image/exam/test-help/demo-time.png";
+import TimeListening from "assets/image/exam/test-help/time-listening.png";
 import DemoNavigate from "assets/image/exam/test-help/navigate.png";
 import DemoNext from "assets/image/exam/next-exercise.png";
 import DemoHightLightAnswer from "assets/image/exam/test-help/demo-hight-light-page.png";
@@ -54,7 +54,7 @@ const HelpListening = () => {
       <Title>At the top of the screen you can see:</Title>
       <img src={DemoNumberUser} alt="" />
       <TextDesc>Your name and candidate number.</TextDesc>
-      <img src={DemoTimeExam} alt="" />
+      <img src={TimeListening} alt="" />
       <TextDesc>
         A clock, which tells you how much time you have left. When you hover over the time you can see the seconds.
       </TextDesc>

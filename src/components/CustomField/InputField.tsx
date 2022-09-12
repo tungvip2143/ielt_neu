@@ -18,7 +18,6 @@ const InputField = (props: any) => {
   } = props;
   const { name, value } = field;
   const { errors, touched } = form;
-  console.log("props", props);
   return (
     <Fragment>
       <label style={{ marginBottom: "5px" }} htmlFor={studentCode}>

@@ -21,6 +21,9 @@ interface TOFFLI {
   showQuestion?: any;
   displayNumber: number;
   onClickQuestionType?: any;
+  getTextEachPart?: (text: string) => void;
+  passageTextWithHighlightTexted: string;
+  onScannerText: (data: any) => void;
 }
 
 const TOFFL = ({
@@ -31,10 +34,11 @@ const TOFFL = ({
   onHightLightNumberPage,
   displayNumber,
   onClickQuestionType,
+  getTextEachPart,
+  passageTextWithHighlightTexted,
+  onScannerText,
 }: TOFFLI) => {
-  // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  console.log("partRenderSelected", partRenderSelected);
   //! Number
 
   const dataNumber = {
@@ -49,13 +53,8 @@ const TOFFL = ({
   useEffect(() => {
     setExpanded(showQuestion);
   }, [showQuestion]);
-  // useEffect(() => {
-  //   setExpanded(questionSelected);
-  // }, [questionSelected]);
-  //
   const renderPartValueGroup = (partRenderSelected: any) => {
     const questionType = partRenderSelected?.questionType;
-    // console.log("questionType", questionType);
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
@@ -74,6 +73,9 @@ const TOFFL = ({
           onHightLightNumberPage={onHightLightNumberPage}
           displayNumber={displayNumber}
           onClickPage={onClickPage}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }
@@ -91,6 +93,8 @@ const TOFFL = ({
             onHightLightNumberPage={onHightLightNumberPage}
             displayNumber={displayNumber}
             onClickPage={onClickPage}
+            getTextEachPart={getTextEachPart}
+            passageTextWithHighlightTexted={passageTextWithHighlightTexted}
           />
         </>
       );
