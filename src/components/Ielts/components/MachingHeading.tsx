@@ -3,7 +3,6 @@ import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import { FastField, useFormikContext } from "formik";
 import { TextField } from "components/Textfield";
-import Text from "components/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -43,13 +42,12 @@ const MachingHeading = (props: Props) => {
   const { data, answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
+  console.log("dsf", data);
 
-  const handleFocus = (displayNumber: number) => {
-    data.map((question: any) => {
-      if (displayNumber === question.question.displayNumber) {
-        setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
-      }
-    });
+  const handleFocus = (displayNumber: number, questionIndex: number) => {
+    console.log("Fdsfs", questionIndex);
+    setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+    onClickPage && onClickPage({ question: questionIndex }); //!
   };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
@@ -68,12 +66,12 @@ const MachingHeading = (props: Props) => {
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
-              <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</strong>
+              <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.displayNumber)}</strong>
               <FastField
                 disabled={isView}
                 size="small"
                 name={`answers[${displayNumberT - 1}].studentAnswer`}
-                onFocus={() => handleFocus(displayNumberT)}
+                onFocus={() => handleFocus(displayNumberT, questionIndex)}
                 component={TextField}
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
               />

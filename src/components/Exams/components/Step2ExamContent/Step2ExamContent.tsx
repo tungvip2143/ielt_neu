@@ -103,10 +103,9 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 250px)",
+    height: "calc(100vh - 275px)",
   };
-  //
-  const contentPart = "Sample Academic Reading Multiple Choice (one answer)";
+
   //! Render
   return (
     <>

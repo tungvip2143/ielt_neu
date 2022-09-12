@@ -17,6 +17,8 @@ import { useFormikContext } from "formik";
 import Volum from "../../../components/Volum/Volum";
 import { TypeExam } from "constants/enum";
 
+import { GetAuthSelector } from "redux/selectors";
+
 // ! type
 interface Props {
   onShowModalExit?: any;
@@ -57,6 +59,9 @@ const Header = ({
   const { step } = useStepExam();
   const { handleSubmit } = useFormikContext();
 
+  const auth = GetAuthSelector();
+  const user = auth?.user;
+  console.log("SFdf", user);
   const btnHelp = {
     cursor: "pointer",
   };
@@ -77,7 +82,7 @@ const Header = ({
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <img style={{ width: "18px", height: "18px" }} src={NumberUser} alt="" />
-              <p style={{ color: "#fff", fontSize: "14px" }}>XXXXX XXXX - 123456</p>
+              <p style={{ color: "#fff", fontSize: "14px" }}>{user?.username}</p>
             </Stack>
           )}
 
