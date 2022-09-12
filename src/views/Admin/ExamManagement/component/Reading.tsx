@@ -6,10 +6,11 @@ export interface Props {
 
 const Reading = (props: Props) => {
   const { dataReading } = props;
-  const detailDataReading = dataReading?.readingDetail.map((item: any) => {
+  const detailDataReading = (dataReading?.readingDetail || []).map((item: any) => {
     return item.groups;
   });
   const groupQuestionAnswer = detailDataReading?.map((item: any) => {
+    console.log("item", item, item.questions);
     return item.questions;
   });
   const questionAnswer = groupQuestionAnswer.map((question: any) => {
@@ -19,7 +20,7 @@ const Reading = (props: Props) => {
 
   return (
     <Card className="mt-[10px] p-[20px]">
-      <Typography sx={{ fontWeight: "bold" }}>Score: {dataReading?.score?.reading}</Typography>
+      <Typography sx={{ fontWeight: "bold" }}>Score: {dataReading?.score?.reading || 0}</Typography>
       <p>
         {/* {questionAnswer?.map((item: any) => {
           return <p>{item.answer}</p>;
