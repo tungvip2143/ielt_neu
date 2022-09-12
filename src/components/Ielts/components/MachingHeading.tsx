@@ -43,16 +43,16 @@ const MachingHeading = (props: Props) => {
   const { data, answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
-  console.log("maching heading", data);
-  console.log("ffdsf", question);
 
-  const handleFocus = (displayNumber: number) => {
-    console.log("test3456");
+  const handleFocus = (displayNumber: number, questionIndex: number) => {
     data.map((question: any) => {
       console.log("abcdef", displayNumber === question.question.displayNumber);
       if (displayNumber === question.question.displayNumber) {
         setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
       }
+      let sectionRender: any = {};
+      sectionRender.question = questionIndex;
+      onClickPage && onClickPage(sectionRender);
     });
   };
   const onClickQuestion = (questionIndex: number) => {
@@ -78,7 +78,7 @@ const MachingHeading = (props: Props) => {
                 disabled={isView}
                 size="small"
                 name={`answers[${displayNumberT - 1}].studentAnswer`}
-                onFocus={() => handleFocus(displayNumberT)}
+                onFocus={() => handleFocus(displayNumberT, questionIndex)}
                 component={TextField}
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
               />

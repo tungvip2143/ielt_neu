@@ -1,18 +1,28 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { useEffect } from "react";
+import { dataFavouriteStudents } from "../../data/dataFavouriteStudents";
 type Props = {
   data?: any;
   displayNumber?: number;
   onClickPage?: (option: any) => void;
   isView?: boolean;
+  questionIndx?: any;
 };
 
 const SentenceCompletetion = (props: Props) => {
-  const { data, displayNumber, onClickPage, isView = false } = props;
+  const { data, displayNumber, onClickPage, questionIndx, isView = false } = props;
+  const { setFieldValue } = useFormikContext();
   const displayNumberI = Number(data?.question?.displayNumber);
 
+  console.log("questionText", data.question?.questionText);
+
   const { handleChange, values }: any = useFormikContext();
+  const handleFocus = (id: string, index: any, questionIndx: number) => {
+    setFieldValue(`answers[${index}].questionId`, id);
+    onClickPage && onClickPage({ question: questionIndx }); //!
+  };
+  const inputAnswers = document.querySelectorAll(".input-answer-sentence-completetion");
 
   useEffect(() => {
     let input = document.getElementsByClassName(`${displayNumber}`) as any;
@@ -21,8 +31,10 @@ const SentenceCompletetion = (props: Props) => {
     }
   }, [displayNumber]);
 
+  useEffect(() => {}, []);
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any, option) {
+    console.log("blankId", blankId);
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
@@ -33,7 +45,7 @@ const SentenceCompletetion = (props: Props) => {
     return new Handlebars.SafeString(
       `<strong>${data?.question?.displayNumber}</strong> <input ${
         isView ? "disabled" : ""
-      } class="${displayNumberI}" name='answers.[${
+      } class="${displayNumberI} input-answer-sentence-completetion" name='answers.[${
         displayNumberI - 1
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );

@@ -68,10 +68,16 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return ContentQuestion?.questions.map((question: any) => {
+      return ContentQuestion?.questions.map((question: any, index: number) => {
         return (
           <>
-            <SentenceCompletetion onClickPage={onClickPage} displayNumber={displayNumber} data={question} />
+            <SentenceCompletetion
+              onClickPage={onClickPage}
+              displayNumber={displayNumber}
+              data={question}
+              questionIndx={index}
+              key={index}
+            />
           </>
         );
       });
