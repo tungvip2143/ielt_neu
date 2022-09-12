@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => {
     },
     container: {
       ...theme.custom?.flexBox.flexAlignItemsCenter,
-      marginRight: "10px",
+      marginRight: "20px",
     },
   };
 });

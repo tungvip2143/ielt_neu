@@ -50,8 +50,12 @@ const MachingType = (props: Props) => {
 
   const { setFieldValue } = useFormikContext();
 
-  const handleFocus = (index: number) => {
+  const handleFocus = (index: number, questionIndex: number) => {
+    console.log(index);
+    console.log(questionIndex);
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
+
+    // onClickPage && onClickPage({ question: questionIndx })
   };
 
   const onClickQuestion = (questionIndex: number) => {
@@ -64,6 +68,8 @@ const MachingType = (props: Props) => {
     <div className={classes.container}>
       <div className={classes.root}>
         {data?.map((question: any, questionIndex: number) => {
+          console.log("hgf", questionIndex);
+
           const index = Number(question?.question?.displayNumber) - 1;
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
@@ -74,7 +80,7 @@ const MachingType = (props: Props) => {
               <FastField
                 disabled={isView}
                 inputRef={(el: any) => (inputRef.current[index + 1] = el)}
-                onFocus={() => handleFocus(index)}
+                onFocus={() => handleFocus(index, questionIndex)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}
                 size="small"

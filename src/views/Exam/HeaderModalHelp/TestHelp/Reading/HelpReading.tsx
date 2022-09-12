@@ -149,8 +149,8 @@ const HelpReading = () => {
         small orange box appears the highlighted text contains notes.
       </TextDesc>
       <img src={DemoDescNote} alt="" />
-      {/* <TextDesc>To clear your highlighting right click on the highlighted text.</TextDesc>
-      <img src={DemoDescNoteClear} alt="" /> */}
+      <TextDesc>To clear your highlighting right click on the highlighted text.</TextDesc>
+      <img src={DemoDescNoteClear} alt="" />
       <table>
         <tr>
           <td>

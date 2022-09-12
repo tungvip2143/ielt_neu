@@ -10,6 +10,7 @@ import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 import { decode } from "html-entities";
 import { useMemo, useRef } from "react";
 import { useFormikContext } from "formik";
+import ReactDOM from "react-dom";
 
 // !type
 
@@ -147,10 +148,15 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
       });
     };
   });
-  const notes = document.querySelectorAll(".hight-light-note");
+  const notes = document.querySelectorAll(".high-light-note");
+  const highLightTextQuery = document.querySelectorAll(".high-light-text");
+  // console.log("fsdf", highLightTextQuery);
   useEffect(() => {
     const handlerMouseRight = (event: any) => {
       let valueInTag = event.target.innerHTML.split("<")[0];
+      var domNode = ReactDOM.findDOMNode(event.target);
+      console.log("domNode", domNode);
+
       setClickHightLight(valueInTag);
       setIsOpenOptionClear(true);
       const x = `${event.pageX}px`;
@@ -160,6 +166,26 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
     if (notes) {
       //* Add event click to each mark
       notes.forEach((note) => {
+        note.addEventListener("contextmenu", handlerMouseRight);
+      });
+    }
+  });
+  //
+  useEffect(() => {
+    const handlerMouseRight = (event: any) => {
+      let valueInTag = event.target.innerHTML.split("<")[0];
+      console.log("abcdef", event.target);
+      var domNode = ReactDOM.findDOMNode(event.target);
+      console.log("domNode", domNode);
+      setClickHightLight(valueInTag);
+      setIsOpenOptionClear(true);
+      const x = `${event.pageX}px`;
+      const y = `${event.pageY}px`;
+      setTransLate({ x, y });
+    };
+    if (highLightTextQuery) {
+      //* Add event click to each mark
+      highLightTextQuery.forEach((note) => {
         note.addEventListener("contextmenu", handlerMouseRight);
       });
     }
@@ -186,7 +212,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
       idMark.current = idMark.current + 1;
       return {
         ...prevText,
-        [getTextSelection]: `<mark id="mark-${idMark.current}" >${getTextSelection}</mark>`,
+        [getTextSelection]: `<mark id="mark-${idMark.current}" class="high-light-text" >${getTextSelection}</mark>`,
       };
     });
   };
@@ -198,7 +224,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
     setTextHighlighted((prevText: any) => {
       return {
         ...prevText,
-        [getTextSelection]: `<span id="${idMark.current}" class="mark-${idMark.current} hight-light-note">${getTextSelection} <span class="hover-note"></span></span>`,
+        [getTextSelection]: `<span id="${idMark.current}" class="mark-${idMark.current} high-light-note">${getTextSelection} <span class="hover-note"></span></span>`,
       };
     });
   };

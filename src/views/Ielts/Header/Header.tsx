@@ -16,6 +16,7 @@ import HeaderExam from "../Header/HeaderExam";
 import { useFormikContext } from "formik";
 import Volum from "../../../components/Volum/Volum";
 import { TypeExam } from "constants/enum";
+import UserAdmin from "../../Admin/components/UserAdmin/UserAdmin";
 
 // ! type
 interface Props {
@@ -27,6 +28,9 @@ interface Props {
   handleSubmitWhenEndedTime?: () => void;
   handleChangeValueVolum?: (value: any) => void;
   typeExam?: string;
+  user?: {
+    fullname: string;
+  };
 }
 const header = {
   p: "2px 0px",
@@ -52,8 +56,10 @@ const Header = ({
   timeExam,
   handleChangeValueVolum,
   typeExam,
+  user,
 }: Props) => {
   //! State
+  console.log("fsfuser", user);
   const { step } = useStepExam();
   const { handleSubmit } = useFormikContext();
 
@@ -77,7 +83,7 @@ const Header = ({
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <img style={{ width: "18px", height: "18px" }} src={NumberUser} alt="" />
-              <p style={{ color: "#fff", fontSize: "14px" }}>XXXXX XXXX - 123456</p>
+              <p style={{ color: "#fff", fontSize: "14px" }}>{user?.fullname} - 123456</p>
             </Stack>
           )}
 

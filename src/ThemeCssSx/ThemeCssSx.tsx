@@ -81,6 +81,6 @@ export const themeCssSx = {
   },
   heightExercise: {
     review: "calc(100vh - 140px)",
-    examTest: "calc(100vh - 280px)",
+    examTest: "calc(100vh - 260px)",
   },
 };

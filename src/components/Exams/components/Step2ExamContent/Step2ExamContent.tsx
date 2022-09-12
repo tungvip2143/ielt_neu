@@ -20,6 +20,7 @@ import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { themeCssSx } from "../../../../ThemeCssSx/ThemeCssSx";
 //
 interface Props {
   data?: any;
@@ -82,7 +83,7 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 250px)",
+    height: themeCssSx.heightExercise.examTest,
   };
   //
   const contentPart = "Sample Academic Reading Multiple Choice (one answer)";

@@ -8,11 +8,23 @@ import DemoNumberUser from "assets/image/exam/test-help/demo-number-user.png";
 import DemoTimeExam from "assets/image/exam/test-help/demo-time.png";
 import DemoNavigate from "assets/image/exam/test-help/navigate.png";
 import DemoNext from "assets/image/exam/next-exercise.png";
+import DemoPrev from "assets/image/exam/prev-exercise.png";
+import DemoReview from "assets/image/exam/test-help/demo-review.png";
+import DemoSmallNavigate from "assets/image/exam/test-help/demo-small-navigate.png";
+import DemoBigNavigate from "assets/image/exam/test-help/demo-big-navigate.png";
 import DemoHightLightAnswer from "assets/image/exam/test-help/demo-hight-light-page.png";
 import DemoDidAnswer from "assets/image/exam/test-help/demo-did-exercise.png";
 import DemoAnswerReview from "assets/image/exam/test-help/demo-review-question.png";
 import DemoNotAnswer from "assets/image/exam/test-help/demo-not-answer.png";
-
+import DemoNote from "assets/image/exam/test-help/demo-note.png";
+import DemoNoteHighLight from "assets/image/exam/test-help/demp-note-hight-light.png";
+import DemoNoteDidHighLight from "assets/image/exam/test-help/demo-note-did-high-light.png";
+import DemoCloseNote from "assets/image/exam/test-help/demo-close-note.png";
+import DemoDescNote from "assets/image/exam/test-help/demo-desc-note.png";
+import DemoDescNoteClear from "assets/image/exam/test-help/demo-clear-note.png";
+//
+import DemocNoteClear from "assets/image/exam/test-help/demo-select-clear-note.png";
+import DemoNoteClearAll from "assets/image/exam/test-help/demo-select-clear-all-note.png";
 const dataTableImage = [
   {
     id: 1,
@@ -92,6 +104,60 @@ const HelpListening = () => {
             </tr>
           );
         })}
+      </table>
+      <Title>Highlighting</Title>
+      <TextDesc>To highlight something in the test:</TextDesc>
+      <Title>Select the text you want to highlight using the mouse. </Title>
+      <Title>Right click over the text. </Title>
+      <img src={DemoNote} alt="" />
+      <table>
+        <tr>
+          <td>
+            <img src={DemoNoteHighLight} alt="" />
+          </td>
+          <td style={{ verticalAlign: "middle", fontSize: "12px", paddingLeft: "20px" }}>
+            Click to highlight the text you have selected.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src={DemoNoteDidHighLight} alt="" />
+          </td>
+          <td style={{ verticalAlign: "middle", fontSize: "12px", paddingLeft: "20px" }}>
+            Click to highlight the text you have selected and to add notes about what you have highlighted.
+          </td>
+        </tr>
+      </table>
+      <Title>Notes</Title>
+      <TextDesc>
+        To close the notes click on X in the top right. To view the notes right-click on the highlighted text (anything
+        you write in Notes will be deleted at the end of the test).
+      </TextDesc>
+      <img src={DemoCloseNote} alt="" />
+      <TextDesc>
+        You can locate those areas of highlighted text containing notes by hovering over each highlighted text. If a
+        small orange box appears the highlighted text contains notes.
+      </TextDesc>
+      <img src={DemoDescNote} alt="" />
+      <TextDesc>To clear your highlighting right click on the highlighted text.</TextDesc>
+      <img src={DemoDescNoteClear} alt="" />
+      <table>
+        <tr>
+          <td>
+            <img src={DemocNoteClear} alt="" />
+          </td>
+          <td style={{ verticalAlign: "middle", fontSize: "12px", paddingLeft: "20px" }}>
+            Click to clear the highlighting. This will also clear any notes you have made.
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <img src={DemoNoteClearAll} alt="" />
+          </td>
+          <td style={{ verticalAlign: "middle", fontSize: "12px", paddingLeft: "20px" }}>
+            Click to clear all highlighting including notes.
+          </td>
+        </tr>
       </table>
       <Title addCss={titleAdd}>Scrolling</Title>
       <TextDesc>For longer texts, you may need to scroll to see all of the test.</TextDesc>

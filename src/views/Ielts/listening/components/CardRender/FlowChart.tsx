@@ -26,11 +26,6 @@ const useStyles = makeStyles((theme) => ({
   imgBox: {
     width: "60%",
   },
-  inputAnswer: {
-    "& .css-reo2el": {
-      border: "1px solid #333",
-    },
-  },
 }));
 type Props = {
   image?: any;
@@ -85,7 +80,7 @@ const FlowChart = (props: Props) => {
                 // }
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
-                className={classes.inputAnswer}
+                className="input-answer"
               />
             </div>
           );

@@ -31,6 +31,7 @@ import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
+
 //! css
 const useStyles = makeStyles((theme) => {
   return {};
@@ -66,6 +67,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME, answers } = dataCache;
+
+  const auth = GetAuthSelector();
+  const user = auth?.user;
 
   const history = useHistory();
   const genInitialValue = useMemo(() => {
@@ -153,6 +157,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 timeExam={timeExam}
                 handleChangeValueVolum={handleChangeValueVolum}
                 typeExam={TypeExam.LISTENING}
+                user={user}
               />
 
               <Box sx={containerSteps}>

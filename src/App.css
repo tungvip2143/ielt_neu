@@ -263,7 +263,7 @@ ul {
   display: flex;
   align-items: center;
 }
-.hight-light-note {
+.high-light-note {
   position: relative;
   background-color: yellow;
   width: fit-content;
@@ -278,6 +278,13 @@ ul {
   top: -10px;
   background: url(./assets//image//exam/hover-note.png) no-repeat;
 }
-.hight-light-note:hover .hover-note {
+.high-light-note:hover .hover-note {
   display: block;
+}
+/*  */
+fieldset {
+  border: 1px solid #333 !important;
+}
+.input-answer .css-6k9065-MuiOutlinedInput-notchedOutline {
+  border: 1px solid #333 !important;
 }

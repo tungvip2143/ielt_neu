@@ -1,11 +1,10 @@
 import React from "react";
-import { Box, Stack } from "@mui/system";
+import { Box } from "@mui/system";
 import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
 import ImgUser from "assets/image/exam/logo-user.png";
 import Text from "../../../components/Typography/index";
 //
 import { TypeStepExamEnum } from "constants/enum";
-import { useStepExam } from "../../../provider/StepExamProvider";
 import FooterSubmit from "../FooterSubmit/FooterSubmit";
 import HelpFooter from "../HelpFooter/HelpFooter";
 import Title from "../Title/Title";
@@ -49,7 +48,7 @@ const DetailUser = (props: Props) => {
         <Container>
           <Text.Desc16 sx={introduceUser}>Name: {user?.fullname}</Text.Desc16>
           <Text.Desc16 sx={introduceUser}>Date of birth: {handleBrithDay()}</Text.Desc16>
-          <Text.Desc16 sx={introduceUser}>Candidate number: {user?._id}</Text.Desc16>
+          <Text.Desc16 sx={introduceUser}>Computer number: {user?._id}</Text.Desc16>
           <HelpFooter textHelp={textHelp} image={ImgHelp} />
           <FooterSubmit textBtn={textBtn} nextStep={nextStep} />
         </Container>

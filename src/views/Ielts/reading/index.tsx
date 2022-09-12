@@ -1,19 +1,15 @@
 import EndTest from "components/Exams/EndTest";
-import ExamTest from "components/Exams/StartDoingHomework";
 import { TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 //
 import { Box } from "@mui/material";
 //
-import LoadingPage from "components/Loading";
 import { Form, Formik } from "formik";
 import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 import Header from "views/Ielts/Header/Header";
-//
-import { RouteBase } from "constants/routeUrl";
-import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
+
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 import { useHistory } from "react-router-dom";
 import InformationForCandidates from "views/components/dataSteps/DataContentReading/InformationForCandidates";
@@ -25,11 +21,7 @@ import RuleExam from "../../components/RuleExam/RuleExam";
 import { GetAuthSelector } from "redux/selectors/auth";
 import IeltsReadingContainer from "components/Exams/components/Step2ExamContent/Step2ExamContent";
 import cacheService from "services/cacheService";
-import useSagaCreators from "hooks/useSagaCreators";
-import { toast } from "react-toastify";
-import { showError } from "helpers/toast";
-import { getErrorMsg } from "helpers";
-import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+
 //
 const styleListRule = {
   padding: "0px 0px 24px 60px",
@@ -108,11 +100,7 @@ const IeltsReading = () => {
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
-  //
 
-  const handleBackIeltsSelection = () => {
-    history.push("/ielts");
-  };
   const containerSteps = {
     pt: "16px",
     background: "#dbe5f5",
