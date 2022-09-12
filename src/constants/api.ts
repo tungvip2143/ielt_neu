@@ -71,7 +71,6 @@ export const ADMIN_READING_URL = (id?: string | number) => {
     GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=READING`,
     POST_LIST_READING_QUESTIONS: `${ROOT_URL}/question-groups/reading`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/reading`,
-    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=READING`,
   };
 };
 
@@ -97,6 +96,7 @@ export const ADMIN_LISTENING_URL = (id?: string | number) => {
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/listening/`,
     POST_LIST_LISTENING_QUESTIONS: `${ROOT_URL}/question-groups/listening`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/listening`,
+    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=LISTENING`,
   };
 };
 export const ADMIN_SPEAKING_URL = (id?: string | number) => {
