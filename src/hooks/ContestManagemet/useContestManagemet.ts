@@ -25,24 +25,28 @@ const useContestManagemet = () => {
     });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await contestService.getListExamination(params);
+  const fetchData = async () => {
+    try {
+      const response = await contestService.getListExamination(params);
 
-        if (response.data.statusCode === 200) {
-          const parts = MContestManagemet.parsePartListFromResponse(response?.data?.data?.data || []);
-          setDataContest(parts);
-          setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
-        }
-        setLoading(false);
-      } catch (error) {
-        setError(error);
-        setLoading(false);
+      if (response.data.statusCode === 200) {
+        const parts = MContestManagemet.parsePartListFromResponse(response?.data?.data?.data || []);
+        setDataContest(parts);
+        setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
       }
-    };
+      setLoading(false);
+    } catch (error) {
+      setError(error);
+      setLoading(false);
+    }
+  };
+  useEffect(() => {
     fetchData();
   }, [params]);
+
+  const refresh = () => {
+    fetchData();
+  };
 
   const onPageChange = (page: number) => {
     setParams({ ...params, page });
@@ -51,7 +55,7 @@ const useContestManagemet = () => {
     setParams({ pageSize, page: 1 });
   };
 
-  return [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange];
+  return [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange, refresh];
 };
 
 export default useContestManagemet;

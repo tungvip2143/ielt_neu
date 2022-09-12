@@ -11,6 +11,7 @@ import useContestManagemet from "hooks/ContestManagemet/useContestManagemet";
 import contestService from "services/contestService";
 import testBankService from "services/testBankService";
 import { toast } from "react-toastify";
+import CommonStyles from "components/CommonStyles";
 
 const styles = {
   titleTable: {
@@ -25,15 +26,16 @@ const styles = {
 
 const ContestManagement = () => {
   //! State
-  const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
+  const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange, refresh] =
     useContestManagemet();
-  console.log("dataContest", dataContest.canStart);
 
-  const [startTest, setStartTest] = useState<boolean>(false);
-  // console.log("startTest", startTest);
-  const refetchDataCanStart = async () => {
-    dataContest?.canStart;
-  };
+  const [dataItemId, setDataItemId] = useState<null | number>(null);
+  const [dataItemIds, setDataItemIds] = useState<null | number>(null);
+  console.log("dataItemIds", dataItemIds);
+
+  // const refetchDataCanStart = async () => {
+  //   dataContest?.canStart;
+  // };
   const history = useHistory();
   const onDeletePart = async (item: any) => {
     try {
@@ -46,17 +48,31 @@ const ContestManagement = () => {
       toast.error(error);
     }
   };
-  const onStartTest = async (item: any) => {
-    // setStartTest((prev) => !prev);
+  const onChangeStatus = async (item: any) => {
     const body = {
       canStart: true,
     };
-
     try {
       const response = await contestService.putUpdateExamination(item?.id, body);
       if (response.data.statusCode === 200) {
-        toast.success("Exam has been change status!");
-        refetchDataCanStart();
+        toast.success("Status has been changed!");
+        setDataItemId(item?.id);
+        refresh();
+      }
+    } catch (error: any) {
+      toast.error(error);
+    }
+  };
+  const onChangeStatusActive = async (item: any) => {
+    const body = {
+      active: true,
+    };
+    try {
+      const response = await contestService.putUpdateExamination(item?.id, body);
+      if (response.data.statusCode === 200) {
+        toast.success("Status has been changed!");
+        setDataItemIds(item?.row?._id);
+        refresh();
       }
     } catch (error: any) {
       toast.error(error);
@@ -120,13 +136,51 @@ const ContestManagement = () => {
             },
             {
               flex: 0.7,
+              field: "active",
+              renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
+              renderCell: (items: any) => {
+                return items?.row?.active || items?.row?._id === dataItemIds ? (
+                  <CommonStyles.Button
+                    variant="contained"
+                    style={{ borderRadius: 20 }}
+                    disabled={items?.row?.active || items?.row?._id === dataItemIds}
+                  >
+                    Actived
+                  </CommonStyles.Button>
+                ) : (
+                  <CommonStyles.Button
+                    variant="contained"
+                    style={styles.buttonOpenModal}
+                    onClick={() => onChangeStatusActive(items)}
+                  >
+                    Start Active
+                  </CommonStyles.Button>
+                );
+              },
+            },
+            {
+              flex: 0.7,
               field: "canStart",
               renderHeader: () => <Typography style={styles.titleTable}>Can Start</Typography>,
               renderCell: (items: any) => {
-                return (
-                  <Button variant="contained" style={styles.buttonOpenModal} onClick={() => onStartTest(items)}>
+                console.log("asasff", items?.row);
+
+                return items?.row?.canStart || items?.row?.id === dataItemId ? (
+                  <CommonStyles.Button
+                    variant="contained"
+                    style={{ borderRadius: 20 }}
+                    disabled={items?.row?.canStart || items?.row?.id === dataItemId}
+                  >
+                    Testing
+                  </CommonStyles.Button>
+                ) : (
+                  <CommonStyles.Button
+                    variant="contained"
+                    style={styles.buttonOpenModal}
+                    onClick={() => onChangeStatus(items)}
+                  >
                     Start exam
-                  </Button>
+                  </CommonStyles.Button>
                 );
               },
             },

@@ -9,6 +9,7 @@ import { Button, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
 import ButtonUpload from "components/Button/ButtonUpload";
+import CommonStyles from "components/CommonStyles";
 import DatePickerCommon from "components/DatePickerCommon";
 import InputCommon from "components/Input";
 import { DEFAULT_IMAGE, IMAGE_URL } from "constants/constants";
@@ -125,7 +126,7 @@ const CreateUser = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" />
+        <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Save" />
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
@@ -236,6 +237,14 @@ const CreateUser = (props: Props) => {
               onClick={handleClick}
               disabled={openCreateScreen.type === "update" && !isEdit}
             />
+            {/* <CommonStyles.Button
+          loading={loading}
+          style={{ display: "flex", }}
+          onClick={handleClick}
+          disabled={openCreateScreen.type === "update" && !isEdit}
+        >
+          Upload Image
+        </CommonStyles.Button> */}
           </div>
         </div>
       </div>

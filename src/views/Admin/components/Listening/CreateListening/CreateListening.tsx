@@ -125,13 +125,20 @@ const CreateQuestionListening = (props: Props) => {
           Back
         </Button>
         {!isEdit ? (
-          <Button variant="contained" onClick={() => setIsEdit(true)}>
+          // <Button variant="contained" onClick={() => setIsEdit(true)}>
+          //   <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
+          //   Edit
+          // </Button>
+          <CommonStyles.Button variant="contained" onClick={() => setIsEdit(true)}>
             <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
             Edit
-          </Button>
+          </CommonStyles.Button>
         ) : (
           <>
-            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <CommonStyles.Button loading={loading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+              Save
+            </CommonStyles.Button>
+            {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" /> */}
             <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
           </>
         )}
@@ -142,7 +149,10 @@ const CreateQuestionListening = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" />
+        <CommonStyles.Button loading={loading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+          Continue
+        </CommonStyles.Button>
+        {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" /> */}
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
@@ -290,12 +300,14 @@ const CreateQuestionListening = (props: Props) => {
       )}
       <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onChangeFile} />
       <div className="text-end mb-2">
-        <ButtonUpload
+        <CommonStyles.Button
+          loading={loading}
           style={{ display: "flex" }}
-          titleButton="Upload audio"
           onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
-        />
+        >
+          Upload audio
+        </CommonStyles.Button>
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
