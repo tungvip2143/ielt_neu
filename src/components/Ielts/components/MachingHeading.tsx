@@ -44,6 +44,7 @@ const MachingHeading = (props: Props) => {
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
   console.log("maching heading", data);
+  console.log("ffdsf", question);
 
   const handleFocus = (displayNumber: number) => {
     console.log("test3456");

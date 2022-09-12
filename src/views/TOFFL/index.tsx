@@ -34,7 +34,7 @@ const TOFFL = ({
 }: TOFFLI) => {
   // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  // console.log("partRenderSelected", partRenderSelected);
+  console.log("partRenderSelected", partRenderSelected);
   //! Number
 
   const dataNumber = {

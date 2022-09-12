@@ -237,6 +237,7 @@ ul {
 }
 .show-page-review {
   border-radius: 50% !important;
+  background-image: url(./assets//image//exam/hight-light-page.png) !important;
 }
 .hide-review {
   border-radius: 2px !important;
@@ -247,9 +248,10 @@ ul {
   background-image: url(./assets//image//exam//did-exercise.png) !important;
 }
 /* fix input exam */
-fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutline {
-  border: 1px solid #333 !important;
-  border-color: "none" !important;
+.input-answer {
+  border: 1px solid #ccc !important;
+  border-radius: 8px;
+
 }
 /*  */
 .css-1qopneg-MuiFormHelperText-root.Mui-error {
@@ -285,6 +287,7 @@ fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutl
 .change-color {
   /* color: red!important; */
   animation: changeColor 0.5s infinite ease-in-out;
+  font-size: 120%;
 }
 
 @keyframes changeColor {
@@ -297,3 +300,4 @@ fieldset.MuiOutlinedInput-notchedOutline.css-6k9065-MuiOutlinedInput-notchedOutl
     color: #FEE49B;
   }
 }
+

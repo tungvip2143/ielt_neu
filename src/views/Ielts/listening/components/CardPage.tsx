@@ -1,23 +1,19 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 //
-import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
+import FormControlLabel from "@mui/material/FormControlLabel";
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
-import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
-// import PrevQuestion from "assets/image/exam/next-exercise.png";
-// import PrevQuestion from "assets/image/exam/prev-exercise.png";
 import NextQuestion from "assets/image/exam/prev-exercise.png";
-import VolumeUpIcon from "@mui/icons-material/VolumeUp";
-import Slider from "@mui/material/Slider";
 import CacheService from "services/cacheService";
 
+import PrevQuestion from "assets/image/exam/next-exercise.png";
 interface CardTotalPageExamsI {
   questions: any;
   onClickPage: any;
@@ -53,6 +49,7 @@ const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
+      marginRight: "10px",
     },
     eachQuestion: {
       background: "#000",
@@ -100,16 +97,13 @@ const CardPage = ({
   group,
   question,
   displayNumber,
-  handleChangeValueVolum,
 }: CardTotalPageExamsI) => {
-  // const [showPageReview, setShowPageReview] = useState<string>();
-  // const [checkedReview, setCheckedReview] = useState(false);
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
 
-  const [valueVolum, setValueVolum] = useState<number>(50);
-  console.log("volum", valueVolum);
+  const classes = useStyles();
+  const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
   //
 
@@ -120,7 +114,7 @@ const CardPage = ({
     CacheService.cache("inReviewList", inReviewListQuestions);
   }, [inReviewListQuestions]);
   //! State
-  const classes = useStyles();
+
   //
 
   const handleCheckBox = (event: any) => {
@@ -133,9 +127,6 @@ const CardPage = ({
     });
   };
   //
-  const handleChangeVolum = (event: any) => {
-    setValueVolum(event.target.value);
-  };
 
   // ! Next  question
   const checkNextPartRender = () => {
@@ -277,24 +268,12 @@ const CardPage = ({
 
               <Box sx={{ width: { md: "20%" } }}></Box>
             </Box>
-
-            {handleChangeValueVolum(valueVolum)}
-            <div className="change-volum">
-              <VolumeUpIcon sx={{ mr: "5px" }} />
-              <Box width={80}>
-                <Slider
-                  className={classes.sliderVolum}
-                  defaultValue={50}
-                  aria-label="Default"
-                  valueLabelDisplay="auto"
-                  size="medium"
-                  onChange={handleChangeVolum}
-                />
-              </Box>
-            </div>
           </Box>
         </Box>
         <Stack direction="row" spacing={2} sx={containerNextPage}>
+          <Box sx={nextPage} onClick={onClickBackQuestion}>
+            <img src={PrevQuestion} alt="" />
+          </Box>
           <Box sx={nextPage} onClick={onClickNextQuestion}>
             <img src={NextQuestion} alt="" />
           </Box>

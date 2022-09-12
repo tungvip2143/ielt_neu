@@ -22,9 +22,10 @@ const ModalHide = (props: Props) => {
     mt: "0 !important",
     borderRadius: "0px 0px 12px 12px",
   };
+  const backdrop = "#000000 !important";
   return (
     <>
-      <Modal open={open} onClose={onClose} styleModal={styleModal}>
+      <Modal open={open} onClose={onClose} styleModal={styleModal} backdrop={backdrop}>
         <HeaderModalHelp handleCloseModal={handleCloseModal} imageTitle={tivi} textTitle="Screen hidden" />
         <Box sx={content}>
           <Desc16My15>Your answers have been stored.</Desc16My15>
