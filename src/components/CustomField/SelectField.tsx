@@ -9,7 +9,7 @@ interface IitemSelect {
   value: string | number | boolean;
 }
 
-interface Props<T> {
+interface Props<T extends FieldValues> {
   control: Control<T>;
   setValue: SetFieldValue<T>;
   name: FieldPath<T>;

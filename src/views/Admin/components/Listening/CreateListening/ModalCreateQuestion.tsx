@@ -296,6 +296,7 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
+
       case "MULTIPLE_CHOICE_1_ANSWER":
         return (
           <>
@@ -352,6 +353,7 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
+
       case "FORM_COMPLETION":
       case "LABELLING_A_PLAN_MAP":
         return (
