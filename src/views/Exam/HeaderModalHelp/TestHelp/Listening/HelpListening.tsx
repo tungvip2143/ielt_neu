@@ -41,11 +41,6 @@ const dataTableImage = [
     image: DemoNotAnswer,
     desc: "The black highlighting shows that you have not answered the question.",
   },
-  {
-    id: 6,
-    image: HightLightQuestion,
-    desc: "The circle shows that you want to review this question when you haven't completed it (marked for review).",
-  },
 ];
 const HelpListening = () => {
   //! Render
