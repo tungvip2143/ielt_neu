@@ -15,7 +15,7 @@ const SentenceCompletetion = (props: Props) => {
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
 
-  console.log("text", text);
+  // console.log("text", text);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
 
