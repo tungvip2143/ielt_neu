@@ -13,6 +13,9 @@ type Props = {
   displayNumber: number;
   isView?: boolean;
   disabled?: boolean;
+  getTextEachPart?: (text: string) => void;
+  passageTextWithHighlightTexted?: string;
+  onScannerText?: (data: string) => void;
 };
 
 const useStyles = makeStyles((theme) => ({
@@ -41,17 +44,35 @@ const useStyles = makeStyles((theme) => ({
 const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
-  const { data, answerList, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
+  const {
+    data,
+    answerList,
+    onHightLightNumberPage,
+    onClickPage,
+    displayNumber,
+    isView = false,
+    getTextEachPart,
+    passageTextWithHighlightTexted,
+    onScannerText,
+  } = props;
   const inputRef = useRef<any>([]);
-
   useEffect(() => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
+  console.log("passageTextWithHighlightTexted", passageTextWithHighlightTexted);
+  useEffect(() => {
+    getTextEachPart && getTextEachPart(answerList);
+  }, []);
+
   const { setFieldValue } = useFormikContext();
 
-  const handleFocus = (index: number) => {
+  const handleFocus = (index: number, questionIndex: number) => {
+    console.log("fsdf", questionIndex);
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
+    let sectionRender: any = {};
+    sectionRender.question = questionIndex;
+    onClickPage && onClickPage(sectionRender);
   };
 
   const onClickQuestion = (questionIndex: number) => {
@@ -74,7 +95,7 @@ const MachingType = (props: Props) => {
               <FastField
                 disabled={isView}
                 inputRef={(el: any) => (inputRef.current[index + 1] = el)}
-                onFocus={() => handleFocus(index)}
+                onFocus={() => handleFocus(index, questionIndex)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}
                 size="small"
@@ -83,7 +104,15 @@ const MachingType = (props: Props) => {
           );
         })}
       </div>
-      <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>
+      <div className={classes.questionBox}>
+        <div
+          onClick={(data: any) => {
+            onScannerText && onScannerText(data);
+          }}
+          dangerouslySetInnerHTML={{ __html: passageTextWithHighlightTexted || answerList }}
+        />
+        {/* {ReactHtmlParser(passageTextWithHighlightTexted || answerList)}</div> */}
+      </div>
     </div>
   );
 };

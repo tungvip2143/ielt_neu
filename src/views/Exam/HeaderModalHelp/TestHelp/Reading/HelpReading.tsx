@@ -7,7 +7,7 @@ import ButtonHelp from "../../../../components/ButtonHelp/ButtonHelp";
 //
 // ! image
 import DemoNumberUser from "assets/image/exam/test-help/demo-number-user.png";
-import DemoTimeExam from "assets/image/exam/test-help/demo-time.png";
+import TimeReading from "assets/image/exam/test-help/time-reading.png";
 import DemoNavigate from "assets/image/exam/test-help/navigate.png";
 import DemoNext from "assets/image/exam/next-exercise.png";
 import DemoPrev from "assets/image/exam/prev-exercise.png";
@@ -77,7 +77,7 @@ const HelpReading = () => {
       <Title>At the top of the screen you can see:</Title>
       <img src={DemoNumberUser} alt="" />
       <TextDesc>Your name and candidate number.</TextDesc>
-      <img src={DemoTimeExam} alt="" />
+      <img src={TimeReading} alt="" />
       <TextDesc>
         A clock, which tells you how much time you have left. When you hover over the time you can see the seconds.
       </TextDesc>

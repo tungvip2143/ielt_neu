@@ -1,5 +1,5 @@
 import { TextField as TextFieldMui, TextFieldProps, TextareaAutosize, TextareaAutosizeProps } from "@mui/material";
-import { makeStyles } from "@mui/styles";
+import { makeStyles, withStyles } from "@mui/styles";
 import { FastFieldProps } from "formik";
 import { getIn } from "formik";
 const useStyles = makeStyles((theme) => ({
@@ -12,8 +12,22 @@ const useStyles = makeStyles((theme) => ({
       outline: "none",
     },
   },
+  "& .MuiOutlinedInput-root": {
+    "& fieldset": {
+      borderColor: "red",
+    },
+  },
 }));
 
+const CssTextField = withStyles({
+  root: {
+    "& .MuiOutlinedInput-root": {
+      "& fieldset": {
+        borderColor: "#333",
+      },
+    },
+  },
+})(TextFieldMui);
 interface Props extends FastFieldProps {
   label?: string;
   type?: string;
@@ -46,7 +60,7 @@ export const TextField = (props: Props) => {
   const errorMessage = getIn(errors, name);
 
   return (
-    <TextFieldMui
+    <CssTextField
       variant="outlined"
       name={name}
       label={label}

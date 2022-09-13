@@ -7,7 +7,6 @@ import { ROOT_ORIGINAL_URL } from "constants/api";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
     gap: 16,
   },
   answer: {
@@ -38,8 +37,9 @@ const FlowChart = (props: Props) => {
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
-  const handleFocus = (id: string, index: any) => {
+  const handleFocus = (id: string, index: any, questionIndx: number) => {
     setFieldValue(`answers[${index}].questionId`, id);
+    onClickPage && onClickPage({ question: questionIndx }); //!
   };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
@@ -65,7 +65,9 @@ const FlowChart = (props: Props) => {
               <FastField
                 disabled={isView}
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
-                onFocus={() => handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1)}
+                onFocus={() =>
+                  handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
+                }
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
                 className="input-answer"

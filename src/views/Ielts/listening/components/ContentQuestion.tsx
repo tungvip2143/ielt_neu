@@ -5,6 +5,8 @@ import MultiChoice from "./CardRender/MultiChoice";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 // ! type
@@ -56,7 +58,8 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     if (
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
-      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING
     ) {
       return (
         <FlowChart

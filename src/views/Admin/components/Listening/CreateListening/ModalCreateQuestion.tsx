@@ -249,56 +249,13 @@ const ModalCreateQuestion = (props: Props) => {
 
   const renderViewType = (type?: any, data?: any) => {
     switch (type) {
-      case "IDENTIFYING_INFORMATION":
-        return (
-          <>
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-2" onClick={onAddQuestion} />
-              </div>
-            )}
-            {fields.map((field, index) => {
-              return (
-                <div className="flex items-center justify-between mt-2">
-                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Question"
-                      variant="standard"
-                      name={`questions[${index}].questionText`}
-                      disabled={openModal.type === "detailQuestion"}
-                      style={{ marginRight: 20 }}
-                    />
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Correct answer"
-                      variant="standard"
-                      name={`questions[${index}].answer`}
-                      disabled={openModal.type === "detailQuestion"}
-                      style={{ marginTop: 10 }}
-                    />
-                  </div>
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </>
-        );
       case "MATCHING_SENTENCE_ENDINGS":
-      case "MATCHING_HEADINGS":
         return (
           <div className="mt-5">
             <TinyMceCommon
               ref={matchingRef}
               initialValue={
-                dataQuestionDetail?.questionTypeTips ? dataQuestionDetail?.questionTypeTips : "Matching heading"
+                dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Sentence Endings"
               }
               disabled={openModal.type === "detailQuestion"}
             />
@@ -395,8 +352,8 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
+      case "FORM_COMPLETION":
       case "LABELLING_A_PLAN_MAP":
-      case "FLOW_CHART_COMPLETION":
         return (
           <>
             <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
@@ -452,15 +409,9 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
-      case "SUMMARY_COMPLETION":
-      case "NOTE_COMPLETION":
+      case "TABLE_COMPLETION":
         return (
           <div className="mt-5">
-            <TinyMceCommon
-              ref={editorRef}
-              initialValue={dataQuestionDetail?.questionBox ? dataQuestionDetail?.questionBox : "Note completion"}
-              disabled={openModal.type === "detailQuestion"}
-            />
             {openModal.type !== "detailQuestion" && (
               <div className="text-end">
                 <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
@@ -468,25 +419,37 @@ const ModalCreateQuestion = (props: Props) => {
             )}
             {fields.map((field, index) => {
               return (
-                <div className="flex items-end justify-between mt-2">
-                  <div style={{ marginRight: 20 }}>
+                <div key={field.id} className="flex items-center">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
                     <InputCommon
                       control={control}
                       id="standard-basic"
-                      label="Blank number"
+                      label="Question"
                       variant="standard"
-                      name={`questions[${index}].blankNumber`}
+                      name={`questions[${index}].questionText`}
                       disabled={openModal.type === "detailQuestion"}
                     />
+                    <div className="flex items-end justify-between mt-2">
+                      <div style={{ marginRight: 20 }}>
+                        <InputCommon
+                          control={control}
+                          id="standard-basic"
+                          label="Blank number"
+                          variant="standard"
+                          name={`questions[${index}].blankNumber`}
+                          disabled={openModal.type === "detailQuestion"}
+                        />
+                      </div>
+                      <InputCommon
+                        control={control}
+                        id="standard-basic"
+                        label="Answer"
+                        variant="standard"
+                        name={`questions[${index}].answer`}
+                        disabled={openModal.type === "detailQuestion"}
+                      />
+                    </div>
                   </div>
-                  <InputCommon
-                    control={control}
-                    id="standard-basic"
-                    label="Answer"
-                    variant="standard"
-                    name={`questions[${index}].answer`}
-                    disabled={openModal.type === "detailQuestion"}
-                  />
                   {fields.length > 1 && openModal.type !== "detailQuestion" && (
                     <RemoveCircleOutlineIcon
                       className="text-[#F44335] cursor-grab ml-[20px]"
@@ -498,7 +461,6 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
-
       case "SENTENCE_COMPLETION":
         return (
           <div className="mt-5">
@@ -551,8 +513,63 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
-
-      case "IDENTIFYING_VIEWS_CLAIMS":
+      case "DIAGRAM_LABELING":
+        return (
+          <>
+            <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
+            {(selectFile || dataQuestionDetail?.image) && (
+              <img
+                id="blah"
+                src={selectFile ? URL.createObjectURL(selectFile) : `${IMAGE_URL}/${dataQuestionDetail?.image}`}
+                alt="image"
+                style={{ width: "100%", maxHeight: 400, marginTop: 20 }}
+              />
+            )}
+            <CommonStyles.Button
+              loading={isLoading}
+              sx={{ display: "flex", height: 40 }}
+              onClick={handleClick}
+              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
+            >
+              Upload image
+            </CommonStyles.Button>
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between mt-2">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Answer"
+                    variant="standard"
+                    name={`questions[${index}].answer`}
+                    disabled={openModal.type === "detailQuestion"}
+                    style={{ marginLeft: 20 }}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        );
+      case "SHORT_ANSWER_QUESTION":
         return (
           <>
             {openModal.type !== "detailQuestion" && (
@@ -594,7 +611,6 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
-
       default:
         break;
     }
