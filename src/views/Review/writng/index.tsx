@@ -8,7 +8,7 @@ import { dataDummy, ieltsReadingDataDummy } from "api/ieltsResults";
 import { isEmpty } from "lodash";
 import { useMemo } from "react";
 import Writing from "./components/Writing";
-import CardPart from "components/Card/CardPart";
+import TypeQuestions from "components/Card/TypeQuestions";
 import QuestionNumberList from "./components/QuestionNumberList";
 import { useGetWritingResultByTestCode } from "hooks/review/useIeltsReview";
 import { makeStyles } from "@mui/styles";

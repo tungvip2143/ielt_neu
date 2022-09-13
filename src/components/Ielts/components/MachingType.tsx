@@ -8,7 +8,6 @@ type Props = {
   data: any;
   questionBox: string;
   answerList: string;
-  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (options: number) => void;
   displayNumber: number;
   isView?: boolean;
@@ -25,7 +24,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   questionBox: {
-    border: "1px solid #ccc",
+    border: `1px solid ${theme.custom?.border.primary}`,
     borderRadius: "5px",
     padding: 8,
   },
@@ -47,7 +46,6 @@ const MachingType = (props: Props) => {
   const {
     data,
     answerList,
-    onHightLightNumberPage,
     onClickPage,
     displayNumber,
     isView = false,
@@ -68,7 +66,7 @@ const MachingType = (props: Props) => {
   const { setFieldValue } = useFormikContext();
 
   const handleFocus = (index: number, questionIndex: number) => {
-    console.log("fsdf", questionIndex);
+    // console.log("fsdf", questionIndex);
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
     let sectionRender: any = {};
     sectionRender.question = questionIndex;
@@ -111,7 +109,6 @@ const MachingType = (props: Props) => {
           }}
           dangerouslySetInnerHTML={{ __html: passageTextWithHighlightTexted || answerList }}
         />
-        {/* {ReactHtmlParser(passageTextWithHighlightTexted || answerList)}</div> */}
       </div>
     </div>
   );

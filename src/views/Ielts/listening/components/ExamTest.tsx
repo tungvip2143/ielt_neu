@@ -1,6 +1,6 @@
 import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
-import CardPart from "components/Card/CardPart";
+import TypeQuestions from "components/Card/TypeQuestions";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import { useFormikContext } from "formik";
@@ -91,7 +91,7 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <CardPart content={questionType} />
+        <TypeQuestions content={questionType} />
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}

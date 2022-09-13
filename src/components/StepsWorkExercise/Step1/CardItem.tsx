@@ -1,11 +1,9 @@
 //
-//
 import IdentifyInformationType from "components/Ielts/components/IdentifyInformationType";
 import MachingHeading from "components/Ielts/components/MachingHeading";
 import MatchingType from "components/Ielts/components/MachingType";
 import QuestionBox from "components/Ielts/components/QuestionBox";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
-import { useFormikContext } from "formik";
 import FlowChart from "components/Ielts/components/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
 //
@@ -36,7 +34,6 @@ const ItemQuestion = ({
   questionType,
   questionBox,
   image,
-  onHightLightNumberPage,
   answerList,
   displayNumber,
   questionIdx,
@@ -46,14 +43,12 @@ const ItemQuestion = ({
   onScannerText,
   ...remainProps
 }: PropsItemQuestion) => {
-  const { values } = useFormikContext();
   const renderQuestion = (data: any) => {
-    console.log("dataQuestions", data);
+    // console.log("dataQuestions", data);
 
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
-          onHightLightNumberPage={onHightLightNumberPage}
           answerList={answerList}
           questionBox={questionBox}
           data={data}
@@ -94,7 +89,6 @@ const ItemQuestion = ({
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          onHightLightNumberPage={onHightLightNumberPage}
           question={question}
           answerList={answerList}
           data={data}
@@ -119,9 +113,8 @@ const ItemQuestion = ({
           questionType={questionType}
           QUESTION_TYPE={QUESTION_TYPE}
           question={question}
-          expanded={expanded}
-          onCollapse={onCollapse}
-          onHightLightNumberPage={onHightLightNumberPage}
+          // expanded={expanded}
+          // onCollapse={onCollapse}
           displayNumber={displayNumber}
           questionIdx={questionIdx}
           onClickPage={onClickPage}

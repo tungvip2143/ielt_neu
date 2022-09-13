@@ -62,7 +62,6 @@ const Listening = (props: Props) => {
       return group?.questions?.map((el: any) => {
         return (
           <MachingHeading
-            onHightLightNumberPage={() => null}
             question={group?.questions}
             answerList={group?.answerList}
             data={el}
