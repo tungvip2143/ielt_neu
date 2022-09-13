@@ -24,7 +24,9 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   //! State
   let text = dataChangePart.passageText;
   const { values, setFieldValue } = useFormikContext();
-  console.log("values123", values);
+  // console.log("dataChangePart", dataChangePart);
+  // console.log("fsdfsdfsdf", dataChangePart.passageText);
+
   const {
     onScannerText,
     onHightlight,
