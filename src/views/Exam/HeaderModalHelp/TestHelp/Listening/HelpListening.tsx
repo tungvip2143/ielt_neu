@@ -5,10 +5,11 @@ import OptionButton from "../../../OptionButton/OptionButton";
 
 // ! image
 import DemoNumberUser from "assets/image/exam/test-help/demo-number-user.png";
-import DemoTimeExam from "assets/image/exam/test-help/demo-time.png";
+import TimeListening from "assets/image/exam/test-help/time-listening.png";
 import DemoNavigate from "assets/image/exam/test-help/navigate.png";
 import DemoNext from "assets/image/exam/next-exercise.png";
 import DemoHightLightAnswer from "assets/image/exam/test-help/demo-hight-light-page.png";
+import HightLightQuestion from "assets/image/exam/test-help/review-question.png";
 import DemoDidAnswer from "assets/image/exam/test-help/demo-did-exercise.png";
 import DemoAnswerReview from "assets/image/exam/test-help/demo-review-question.png";
 import DemoNotAnswer from "assets/image/exam/test-help/demo-not-answer.png";
@@ -54,7 +55,7 @@ const HelpListening = () => {
       <Title>At the top of the screen you can see:</Title>
       <img src={DemoNumberUser} alt="" />
       <TextDesc>Your name and candidate number.</TextDesc>
-      <img src={DemoTimeExam} alt="" />
+      <img src={TimeListening} alt="" />
       <TextDesc>
         A clock, which tells you how much time you have left. When you hover over the time you can see the seconds.
       </TextDesc>
@@ -85,7 +86,7 @@ const HelpListening = () => {
         {dataTableImage.map((item) => {
           return (
             <tr key={item.id}>
-              <td>
+              <td style={{ textAlign: "center" }}>
                 <img src={item.image} alt="" />
               </td>
               <td style={{ fontSize: "12px", verticalAlign: "middle" }}>{item.desc}</td>

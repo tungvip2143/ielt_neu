@@ -101,8 +101,8 @@ const CardTotalPageExams = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
-  // const [showPageReview, setShowPageReview] = useState<string>();
-  // const [checkedReview, setCheckedReview] = useState(false);
+  const { values }: any = useFormikContext();
+
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
@@ -117,15 +117,6 @@ const CardTotalPageExams = ({
     handleSubmit,
   });
 
-  // useEffect(() => {
-  //   const hanldeHighLightReview = () => {
-  //     if (checkedReview) {
-  //       return setShowPageReview("show-page-review");
-  //     }
-  //     return setShowPageReview("hide-review");
-  //   };
-  //   hanldeHighLightReview();
-  // }, [checkedReview]);
   useEffect(() => {
     CacheService.cache("inReviewList", inReviewListQuestions);
   }, [inReviewListQuestions]);
@@ -133,9 +124,6 @@ const CardTotalPageExams = ({
   const classes = useStyles();
   //
 
-  // const handleCheckBox = (event: any) => {
-  //   setCheckedReview(event.target.checked);
-  // };
   const handleCheckBox = (event: any) => {
     setInReviewListQuestions((prev: number[]) => {
       if (inReviewListQuestions.includes(displayNumber)) {
@@ -146,9 +134,6 @@ const CardTotalPageExams = ({
     });
   };
   //
-  // const hideReview = () => {
-  //   setCheckedReview(false);
-  // };
 
   const onClickNextQuestion = () => {
     const sectionRender = checkNextPartRender();
@@ -167,13 +152,12 @@ const CardTotalPageExams = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-    // hideReview();
 
     onClickPage(sectionRender);
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
-    const { values }: any = useFormikContext();
+    // const { values }: any = useFormikContext();
     let sectionRender: any = {};
 
     console.log("partValues cardtotal", partValues?.groups);
@@ -228,7 +212,7 @@ const CardTotalPageExams = ({
         <Box>
           <FormControlLabel
             value=""
-            // control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            disabled={!Boolean(values?.answers?.[displayNumber - 1]?.studentAnswer)}
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />

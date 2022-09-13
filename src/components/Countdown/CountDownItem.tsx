@@ -35,14 +35,14 @@ function CountDownItem({ timeExam, handleSubmitWhenEndedTime }: Props) {
     if ((minutes === 9 && seconds >= 55 && seconds <= 59) || (minutes === 4 && seconds >= 55 && seconds <= 59)) {
       return (
         <span className="change-color">
-          {minutes}:{seconds}
+          {minutes}:{String(seconds).padStart(2, "0")}
         </span>
       );
     }
     // Render a countdown
     return (
       <span style={{ color: "#FEE49B" }}>
-        {minutes}:{seconds}
+        {minutes}:{String(seconds).padStart(2, "0")}
       </span>
     );
   };

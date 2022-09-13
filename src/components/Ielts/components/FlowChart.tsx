@@ -7,7 +7,6 @@ import { ROOT_ORIGINAL_URL } from "constants/api";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
     gap: 16,
   },
   answer: {
@@ -21,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     gap: 8,
   },
   img: {
-    width: "100%",
+    width: "60%",
   },
 }));
 type Props = {

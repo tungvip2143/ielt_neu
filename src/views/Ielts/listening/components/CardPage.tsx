@@ -88,6 +88,7 @@ const containerNextPage = {
   justifyContent: "flex-end",
   width: "13%",
 };
+
 const CardPage = ({
   questions,
   onClickPage,
@@ -98,12 +99,13 @@ const CardPage = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
+  const { values }: any = useFormikContext();
+
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
 
   const classes = useStyles();
-  const [checkedReview, setCheckedReview] = useState(false);
   const { handleSubmit } = useFormikContext();
   //
 
@@ -200,8 +202,10 @@ const CardPage = ({
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
-    const { values }: any = useFormikContext();
+    // const { values }: any = useFormikContext();
     let sectionRender: any = {};
+    console.log("groupSelected", groupSelected);
+
     //
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
@@ -215,21 +219,12 @@ const CardPage = ({
         };
 
         const didExerciseActive = () => {
-          if (values?.answers[`${add}`]?.studentAnswer) {
+          if (values?.answers?.[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
         };
         return (
           <>
-            {/* <Box
-              key={question.id}
-              className={`${highLightPage()} ${
-                displayNumber === question.question.displayNumber && showPageReview
-              } ${`${didExerciseActive()}-abc`}`}
-              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
-            >
-              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
-            </Box> */}
             <Box
               key={question.id}
               className={`${highLightPage()} ${
@@ -246,14 +241,16 @@ const CardPage = ({
   };
   //! Effect
 
+  // console.log("values.answers[displayNumber]", values.answers[displayNumber - 1], displayNumber);
+
   //! Render
   return (
     <>
       <Box className="quang-test" sx={TotalPage}>
         <Box>
           <FormControlLabel
+            disabled={!Boolean(values?.answers?.[displayNumber - 1]?.studentAnswer)}
             value=""
-            // control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />

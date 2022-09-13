@@ -7,8 +7,7 @@ import { ROOT_ORIGINAL_URL } from "constants/api";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
-    gap: 16,
+    gap: 30,
   },
   answer: {
     display: "flex",
@@ -78,12 +77,8 @@ const FlowChart = (props: Props) => {
                 onFocus={() =>
                   handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
                 }
-                // onClick={() =>
-                //   handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
-                // }
                 component={TextField}
                 name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
-                // className={classes.inputAnswer}
               />
             </div>
           );
