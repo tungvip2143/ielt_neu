@@ -76,7 +76,7 @@ export const authReducer = (
         draftState.auth.isLogin = true;
         draftState.auth.isCheckingAuth = false;
         draftState.auth.token = action.token;
-        draftState.auth.user = action.user;
+        draftState.auth.user = JSON.stringify(action.user);
 
         break;
       }
