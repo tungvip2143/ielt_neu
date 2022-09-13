@@ -7,8 +7,7 @@ import { ROOT_ORIGINAL_URL } from "constants/api";
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
-    flexDirection: "column",
-    gap: 16,
+    gap: 30,
   },
   answer: {
     display: "flex",
