@@ -52,8 +52,8 @@ const ModalCreateQuestion = (props: Props) => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       section: "",
+      name: "",
       questions: dataQuestionDetail?.questions?.map((el: any) => ({
-        answer: "",
         explanationText: "",
         questionText: el?.questionBox,
         blankNumber: el?.blankNumber,
@@ -66,8 +66,12 @@ const ModalCreateQuestion = (props: Props) => {
     control,
     name: "questions",
   });
+  const { append: AddAnswer, fields: fieldsAnswer, remove: removeAnswer } = useFieldArray({ control, name: "answer" });
   const onAddQuestion = () => {
     append({ section: "" });
+  };
+  const onAddAnswer = () => {
+    AddAnswer({ name: "" });
   };
 
   const resetAsyncForm = useCallback(
@@ -209,6 +213,7 @@ const ModalCreateQuestion = (props: Props) => {
   };
   const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
       case "MULTIPLE_CHOICE_1_ANSWER":
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
           return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
@@ -237,6 +242,9 @@ const ModalCreateQuestion = (props: Props) => {
 
   const onRemoveQuestion = (index: number) => {
     remove(index);
+  };
+  const onRemoveAnswer = (index: number) => {
+    removeAnswer(index);
   };
 
   const renderViewType = (type?: any, data?: any) => {
@@ -319,18 +327,48 @@ const ModalCreateQuestion = (props: Props) => {
         );
       case "MATCHING_HEADINGS":
         return (
-          <CommonReading
-            openModal={openModal}
-            fields={fields}
-            control={control}
-            onAddQuestion={onAddQuestion}
-            onRemoveQuestion={onRemoveQuestion}
-            blankInput
-            editorRef={editorRef}
-            dataQuestionDetail={dataQuestionDetail}
-            label
-            textType="Matching heading"
-          />
+          <div className="mt-5">
+            <TinyMceCommon
+              ref={matchingRef}
+              initialValue={dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Heading"}
+              disabled={openModal.type === "detailQuestion"}
+            />
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between mt-2">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Answer"
+                    variant="standard"
+                    name={`answer[${index}].name`}
+                    disabled={openModal.type === "detailQuestion"}
+                    style={{ marginLeft: 20 }}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         );
       case "MATCHING_FEATURES":
         return (
@@ -547,7 +585,95 @@ const ModalCreateQuestion = (props: Props) => {
             onRemoveQuestion={onRemoveQuestion}
           />
         );
-
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+        return (
+          <>
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+            {fields.map((field, index) => {
+              return (
+                <div key={field.id} className="flex items-center">
+                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+                    <div className="questionContainer">
+                      <InputCommon
+                        id="standard-basic"
+                        label="Question"
+                        variant="standard"
+                        name={`questions[${index}].questionText`}
+                        control={control}
+                        required
+                        fullWidth
+                        disabled={openModal.type === "detailQuestion"}
+                      />
+                    </div>
+                    <Box
+                      component="form"
+                      sx={{
+                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
+                      {questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" && (
+                        <>
+                          <div className="text-end">
+                            <AddCircleOutlineIcon
+                              className="text-[#9155FF] cursor-grab mt-[20px]"
+                              onClick={onAddAnswer}
+                            />
+                          </div>
+                          {fieldsAnswer.length === 0 ? (
+                            <InputCommon
+                              control={control}
+                              id="standard-basic"
+                              label="Correct answer"
+                              variant="standard"
+                              name={`answer[${index}].name`}
+                              disabled={openModal.type === "detailQuestion"}
+                              key={field.id}
+                            />
+                          ) : (
+                            fieldsAnswer?.map((field, index) => {
+                              return (
+                                <div className="mt-2 flex">
+                                  <InputCommon
+                                    control={control}
+                                    id="standard-basic"
+                                    label="Correct answer"
+                                    variant="standard"
+                                    name={`answer[${index}].name`}
+                                    disabled={openModal.type === "detailQuestion"}
+                                    key={field.id}
+                                  />
+                                  {fieldsAnswer.length > 1 && openModal.type !== "detailQuestion" && (
+                                    <RemoveCircleOutlineIcon
+                                      className="text-[#F44335] cursor-grab ml-[20px]"
+                                      onClick={() => onRemoveAnswer(index)}
+                                    />
+                                  )}
+                                </div>
+                              );
+                            })
+                          )}
+                        </>
+                      )}
+                    </Box>
+                  </div>
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </>
+        );
       default:
         break;
     }

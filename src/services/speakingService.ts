@@ -20,6 +20,7 @@ class speakingService {
   getListQuestionType() {
     return httpServices.get(ADMIN_SPEAKING_URL().GET_LIST_QUESTION_TYPE);
   }
+
   deletePart(id: any) {
     return httpServices.delete(ADMIN_SPEAKING_URL().DELETE_PART + id);
   }

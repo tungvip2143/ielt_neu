@@ -42,7 +42,7 @@ export const authSagas = {
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token });
       yield authServices.saveUserTypeToLocalStorage(userType);
-      yield localStorage.setItem("userInfo", user);
+      // yield localStorage.setItem("userInfo", user);
       yield put({ type: authActions.saveInfoUserSuccess, token, user });
     },
   },
@@ -72,7 +72,7 @@ export const authReducer = (
         draftState.auth.isLogin = true;
         draftState.auth.isCheckingAuth = false;
         draftState.auth.token = action.token;
-        draftState.auth.user = action.user;
+        draftState.auth.user = JSON.stringify(action.user);
 
         break;
       }
