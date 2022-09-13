@@ -73,7 +73,11 @@ const Listening = (props: Props) => {
         );
       });
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP) {
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING
+    ) {
       return (
         <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} isView />
       );

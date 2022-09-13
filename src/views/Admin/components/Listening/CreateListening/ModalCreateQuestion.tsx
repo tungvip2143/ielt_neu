@@ -23,6 +23,7 @@ import audioService from "services/audioService";
 import { IMAGE_URL } from "constants/constants";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonStyles from "components/CommonStyles";
+import CommonReading from "views/components/CommonReading/CommonReading";
 
 export interface Props {
   openModal: any;
@@ -515,6 +516,7 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
+
       case "DIAGRAM_LABELING":
         return (
           <>
