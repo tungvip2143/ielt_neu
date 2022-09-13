@@ -9,6 +9,7 @@ import TimeListening from "assets/image/exam/test-help/time-listening.png";
 import DemoNavigate from "assets/image/exam/test-help/navigate.png";
 import DemoNext from "assets/image/exam/next-exercise.png";
 import DemoHightLightAnswer from "assets/image/exam/test-help/demo-hight-light-page.png";
+import HightLightQuestion from "assets/image/exam/test-help/review-question.png";
 import DemoDidAnswer from "assets/image/exam/test-help/demo-did-exercise.png";
 import DemoAnswerReview from "assets/image/exam/test-help/demo-review-question.png";
 import DemoNotAnswer from "assets/image/exam/test-help/demo-not-answer.png";
@@ -85,7 +86,7 @@ const HelpListening = () => {
         {dataTableImage.map((item) => {
           return (
             <tr key={item.id}>
-              <td>
+              <td style={{ textAlign: "center" }}>
                 <img src={item.image} alt="" />
               </td>
               <td style={{ fontSize: "12px", verticalAlign: "middle" }}>{item.desc}</td>

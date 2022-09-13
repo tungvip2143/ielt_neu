@@ -98,6 +98,8 @@ const CardTotalPageExams = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
+  const { values }: any = useFormikContext();
+
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
@@ -150,8 +152,6 @@ const CardTotalPageExams = ({
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
-    const { values }: any = useFormikContext();
-
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
         const add = Number(question.question.displayNumber) - 1;
@@ -193,6 +193,7 @@ const CardTotalPageExams = ({
         <Box>
           <FormControlLabel
             value=""
+            disabled={!Boolean(values?.answers?.[displayNumber - 1]?.studentAnswer)}
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />
