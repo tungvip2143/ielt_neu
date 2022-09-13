@@ -25,8 +25,7 @@ const NoteCompletion = (props: Props) => {
   const queueAnswers = React.useRef<any>({});
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
-
-  console.log("questionBox", questionBox);
+  // console.log("questionBox", questionBox);
 
   const {
     onScannerText,

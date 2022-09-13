@@ -1,8 +1,5 @@
-import React from "react";
 import { Box } from "@mui/system";
-import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
 import ImgUser from "assets/image/exam/logo-user.png";
-import Text from "../../../components/Typography/index";
 //
 import { TypeStepExamEnum } from "constants/enum";
 import FooterSubmit from "../FooterSubmit/FooterSubmit";

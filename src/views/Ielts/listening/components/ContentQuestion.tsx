@@ -1,12 +1,9 @@
-import React from "react";
 import NoteCompletion from "./CardRender/NoteCompletion";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import MultiChoice from "./CardRender/MultiChoice";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
-
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
@@ -20,7 +17,7 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  console.log("ContentQuestion", ContentQuestion);
+  // console.log("ContentQuestion", ContentQuestion);
   // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
@@ -35,6 +32,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION && questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <NoteCompletion
@@ -45,6 +43,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
@@ -56,6 +55,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
+
     if (
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
@@ -72,6 +72,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return ContentQuestion?.questions.map((question: any) => {
         return (
@@ -81,6 +82,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         );
       });
     }
+
     if (
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
@@ -88,6 +90,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     ) {
       return <MultiChoice onClickPage={onClickPage} dataQuestions={ContentQuestion?.questions} audio={audio} />;
     }
+
     if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER) {
       return (
         <>

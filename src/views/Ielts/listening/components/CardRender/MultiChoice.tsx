@@ -4,6 +4,7 @@ import { Field, useFormikContext } from "formik";
 import ReactHtmlParser from "react-html-parser";
 import Text from "../../../../../components/Typography/index";
 import { themeCssSx } from "../../../../../ThemeCssSx/ThemeCssSx";
+import { makeStyles } from "@mui/styles";
 // ! type
 interface Props {
   dataQuestions?: any;
@@ -12,31 +13,37 @@ interface Props {
 
   isView?: boolean;
 }
-const formAnswer = {
-  display: "flex",
-  flexWrap: "wrap",
-  justifyContent: "space-between",
-};
-const itemAnswer = {
-  width: "49%",
-  mb: "30px",
-};
-const questionNumber = {
-  mr: "5px",
-  fontWeight: 700,
-  color: themeCssSx.color.title,
-};
-const title = {
-  background: "#f7f9fb",
-  padding: "10px 20px",
-  mb: "10px",
-  borderRadius: "5px",
-};
-const question = {
-  color: themeCssSx.color.title,
-};
+
+const useStyles = makeStyles((theme) => {
+  return {
+    formAnswer: {
+      display: "flex",
+      flexWrap: "wrap",
+      justifyContent: "space-between",
+    },
+    itemAnswer: {
+      width: "49%",
+      marginBottom: "30px",
+    },
+    questionNumber: {
+      marginRight: "5px",
+      fontWeight: 700,
+      color: theme.palette.text.primary,
+    },
+    title: {
+      background: theme.custom?.background.questionItemMultichoose,
+      padding: "10px 20px",
+      marginBottom: "10px",
+      borderRadius: "5px",
+    },
+    question: {
+      color: theme.palette.text.primary,
+    },
+  };
+});
 
 const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Props) => {
+  const classes = useStyles();
   const { values }: any = useFormikContext();
 
   // !Fucntion
@@ -48,13 +55,15 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
   return (
     <>
       <Box sx={{ mb: "20px" }}></Box>
-      <Box sx={formAnswer}>
+      <Box className={classes.formAnswer}>
         {dataQuestions.map((item: any, questionIdx: number) => {
           return (
-            <Box sx={itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
-              <Stack direction="row" sx={title}>
-                <Text.DescSmall sx={questionNumber}>{item.question.displayNumber}</Text.DescSmall>
-                <Text.DescSmall sx={question}>{ReactHtmlParser(item.question.questionText)}</Text.DescSmall>
+            <Box className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
+              <Stack direction="row" className={classes.title}>
+                <Text.DescSmall className={classes.questionNumber}>{item.question.displayNumber}.</Text.DescSmall>
+                <Text.DescSmall className={classes.question}>
+                  {ReactHtmlParser(item.question.questionText)}
+                </Text.DescSmall>
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
