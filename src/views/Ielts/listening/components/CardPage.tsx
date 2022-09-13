@@ -80,6 +80,12 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+const containerNextPage = {
+  display: "flex",
+  justifyContent: "flex-end",
+  width: "13%",
+};
+
 const CardPage = ({
   questions,
   onClickPage,
@@ -90,6 +96,8 @@ const CardPage = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
+  const { values }: any = useFormikContext();
+
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
@@ -188,8 +196,7 @@ const CardPage = ({
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
-    const { values }: any = useFormikContext();
-
+    let sectionRender: any = {};
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
         const add = Number(question.question.displayNumber) - 1;
@@ -202,7 +209,7 @@ const CardPage = ({
         };
 
         const didExerciseActive = () => {
-          if (values?.answers[`${add}`]?.studentAnswer) {
+          if (values?.answers?.[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
         };
@@ -223,12 +230,15 @@ const CardPage = ({
     });
   };
 
+  // console.log("values.answers[displayNumber]", values.answers[displayNumber - 1], displayNumber);
+
   //! Render
   return (
     <>
       <Box className={classes.totalPage}>
         <Box>
           <FormControlLabel
+            disabled={!Boolean(values?.answers?.[displayNumber - 1]?.studentAnswer)}
             value=""
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
