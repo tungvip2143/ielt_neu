@@ -57,7 +57,7 @@ const RuleExam = (props: Props) => {
         Time: {time}
       </CommonStyles.Typography>
       <CommonStyles.Typography variant="descMedium" component="p" className={classes.textTitle}>
-        {titleRulesDetailCandidates.intructionCandidates}
+        {titleRulesDetailCandidates.informationCandidates}
       </CommonStyles.Typography>
       {informationsForCandidates}
       <CommonStyles.Typography variant="descMedium" component="p" className={classes.textTitle} sx={{ mt: "18px" }}>
