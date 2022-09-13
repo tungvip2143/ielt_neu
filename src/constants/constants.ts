@@ -52,3 +52,8 @@ export const titleRulesDetailCandidates = {
   intructionCandidates: "INSTRUCTIONS TO CANDIDATES",
   informationCandidates: "INFORMATION FOR CANDIDATES",
 };
+export const testHeadPhone = {
+  putHeadPhone: "Put on your headphones and click on the Play sound button to play a sample sound.",
+  play: "Play sound",
+  stop: "Stop sound",
+};

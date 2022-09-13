@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
   },
   questionBox: {
-    border: "1px solid #ccc",
+    border: `1px solid ${theme.custom?.border.primary}`,
     borderRadius: "5px",
     padding: 8,
   },

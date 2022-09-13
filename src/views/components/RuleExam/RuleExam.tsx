@@ -42,11 +42,13 @@ const useStyles = makeStyles((theme) => {
 
 const RuleExam = (props: Props) => {
   //! State
+
   const {
     nextStep,
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
   const classes = useStyles();
+
   //! Render
   return (
     <Box className={classes.container}>

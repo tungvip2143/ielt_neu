@@ -23,7 +23,6 @@ import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 //
 import LoadingPage from "components/Loading";
 import { RouteBase } from "constants/routeUrl";
-import { GetAuthSelector } from "redux/selectors/auth";
 import { rulesdetailExam } from "../../../constants/constants";
 //
 import { makeStyles } from "@mui/styles";
@@ -33,7 +32,17 @@ import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
 //! css
 const useStyles = makeStyles((theme) => {
-  return {};
+  return {
+    container: {
+      height: "100vh",
+      overflow: "hidden",
+    },
+    containerSteps: {
+      paddingTop: "16px",
+      background: theme.custom?.background.exam,
+      height: "100%",
+    },
+  };
 });
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -42,11 +51,6 @@ const stepRuleExam = {
   intructionsToCandidates: <IntructionsToCandidatesListening />,
 };
 
-const containerSteps = {
-  pt: "16px",
-  background: "#dbe5f5",
-  height: "100%",
-};
 const styleModal = {
   width: "770px",
   padding: "10px !important",
@@ -61,11 +65,13 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const [changeValueVolum, setChangeValueVolum] = React.useState<any>(0.5);
 
+  const classes = useStyles();
+
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
-  const { LEFT_TIME, answers } = dataCache;
+  const { LEFT_TIME } = dataCache;
 
   const history = useHistory();
   const genInitialValue = useMemo(() => {
@@ -145,7 +151,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
       {(formik) => {
         return (
           <Form>
-            <Box sx={{ height: "100vh", overflow: "hidden" }}>
+            <Box className={classes.container}>
               <Header
                 handleOpenModalHelp={handleOpenModalHelp}
                 handleOpenModalHide={handleOpenModalHide}
@@ -155,7 +161,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 typeExam={TypeExam.LISTENING}
               />
 
-              <Box sx={containerSteps}>
+              <Box className={classes.containerSteps}>
                 {step === TypeStepExamEnum.STEP1 && <DetailUser />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP3 && (
