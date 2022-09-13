@@ -40,7 +40,7 @@ const TOFFL = ({
 }: TOFFLI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
-
+  console.log("Fsdfs", partRenderSelected);
   const dataNumber = {
     from: "1",
     to: "6",

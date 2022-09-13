@@ -9,6 +9,7 @@ import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
 
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
+import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
 // ! type
 interface Props {
   ContentQuestion?: any;
@@ -19,7 +20,7 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  // console.log("ContentQuestion", ContentQuestion);
+  console.log("ContentQuestion", ContentQuestion);
   // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
@@ -58,7 +59,9 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     if (
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
-      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
+      questionType === QUESTION_TYPE.FORM_COMPLETION ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING
     ) {
       return (
         <FlowChart
@@ -84,6 +87,13 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
       return <MultiChoice onClickPage={onClickPage} dataQuestions={ContentQuestion?.questions} audio={audio} />;
+    }
+    if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER) {
+      return (
+        <>
+          <MultichoiceAnswer />
+        </>
+      );
     }
 
     return null;
