@@ -18,6 +18,8 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   //-----clear-----
   const [isOpenOptionClear, setIsOpenOptionClear] = useState(false);
   const [clearItem, setClearItem] = useState("");
+  const [typeHighLightText, setTypeHighLightText] = useState("");
+  const [typeHighLightNote, setTypeHighLightNote] = useState("");
 
   const idMark = useRef(0);
 
@@ -86,7 +88,17 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
     setTextHightlighted((prevText) => {
       return {
         ...prevText,
-        [textScanner]: `<mark id="mark-${idMark.current}" >${textScanner}</mark>`,
+        [textScanner]: `<mark id="mark-${idMark.current}" class="high-light-text">${textScanner}</mark>`,
+      };
+    });
+  };
+  const showHightLightNote = () => {
+    idMark.current = idMark.current + 1;
+    setMarkTagId(`mark-${idMark.current}`);
+    setTextHightlighted((prevText) => {
+      return {
+        ...prevText,
+        [textScanner]: `<mark id="mark-${idMark.current}" class="high-light-note">${textScanner}</mark>`,
       };
     });
   };
@@ -106,10 +118,10 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
       return newTextHightlighted;
     });
 
-    console.log("newValues markTagId", markTagId);
+    // console.log("newValues markTagId", markTagId);
 
     onChangeInput((field: any) => {
-      console.log("123456", field);
+      // console.log("123456", field);
     });
 
     delete values[markTagId];
@@ -123,7 +135,8 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   // -------note--------
   const onClickNote = () => {
     setIsNoted(true);
-    onHightlight();
+    showHightLightNote();
+    setIsHightLight(false);
   };
 
   const onCloseNote = () => {

@@ -80,12 +80,6 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const containerNextPage = {
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "13%",
-};
-
 const CardPage = ({
   questions,
   onClickPage,
@@ -190,13 +184,11 @@ const CardPage = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-    // hideReview();
 
     onClickPage(sectionRender);
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
-    let sectionRender: any = {};
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
         const add = Number(question.question.displayNumber) - 1;
@@ -229,8 +221,6 @@ const CardPage = ({
       });
     });
   };
-
-  // console.log("values.answers[displayNumber]", values.answers[displayNumber - 1], displayNumber);
 
   //! Render
   return (

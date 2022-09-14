@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => {
     },
     title: {
       color: theme.palette.text.primary,
-      fontWeight: 700,
+      fontWeight: "bold !important",
     },
   };
 });

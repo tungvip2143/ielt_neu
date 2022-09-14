@@ -67,6 +67,7 @@ const SentenceCompletetion = (props: Props) => {
     onClickPage && onClickPage({ question: inputIdx });
     onScannerText(data);
   };
+
   const onFocusInput = (event: any) => {
     const inputIdx: any = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
