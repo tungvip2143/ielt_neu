@@ -18,7 +18,7 @@ interface Props {
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
   // console.log("ContentQuestion", ContentQuestion);
-  // console.log("questionType", questionType);
+  console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
