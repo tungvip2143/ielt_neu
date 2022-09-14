@@ -65,7 +65,6 @@ const Listening = (props: Props) => {
             onHightLightNumberPage={() => null}
             question={group?.questions}
             answerList={group?.answerList}
-            data={el}
             onClickPage={() => {}}
             displayNumber={1}
             isView

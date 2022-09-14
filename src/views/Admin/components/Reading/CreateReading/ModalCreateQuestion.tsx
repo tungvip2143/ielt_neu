@@ -121,7 +121,7 @@ const ModalCreateQuestion = (props: Props) => {
     if (event.target && event.target.files[0]) {
       const formData = new FormData();
       formData.append("file", event.target.files[0]);
-      setSelectFile(event.target.files[0] || dataQuestionDetail?.image);
+      setSelectFile(event.target.files[0]);
       try {
         const responseImage = await audioService.postAudioListening(formData);
         if (responseImage?.data?.statusCode === 200) {

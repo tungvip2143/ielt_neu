@@ -9,7 +9,7 @@ import ButtonSave from "components/Button/ButtonSave";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
-import { DataAnswer } from "constants/questionType";
+import { DataAnswer, DataAnswerMulti } from "constants/questionType";
 import useGetDetailQuestion from "hooks/QuestionBank/Listening/useGetDetailQuestion";
 import useGetQuestionType from "hooks/QuestionBank/Listening/useGetQuestionType";
 import { QuestionTypeI } from "interfaces/questionInterface";
@@ -78,7 +78,13 @@ const ModalCreateQuestion = (props: Props) => {
   const onAddQuestion = () => {
     append({ section: "" });
   };
-
+  const { append: AddAnswer, fields: fieldsAnswer, remove: removeAnswer } = useFieldArray({ control, name: "answer" });
+  const onRemoveAnswer = (index: number) => {
+    removeAnswer(index);
+  };
+  const onAddAnswer = () => {
+    AddAnswer({ name: "" });
+  };
   const resetAsyncForm = useCallback(
     async (data: any) => {
       setValue("questionBox", data.questionBox);
@@ -217,8 +223,58 @@ const ModalCreateQuestion = (props: Props) => {
       />
     );
   };
+  const renderMultiChoiceAnswer = (item: any, index: number, indexQuestion: number) => {
+    return (
+      <>
+        {console.log("fieldsAnswer", fieldsAnswer)}
+        {fieldsAnswer.length === 0 ? (
+          <InputCommon
+            control={control}
+            id="standard-basic"
+            label={item.title}
+            variant="standard"
+            name={`answer[${index}].name[${index}]`}
+            InputProps={{
+              startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
+            }}
+            disabled={openModal.type === "detailQuestion"}
+          />
+        ) : (
+          <>
+            {fieldsAnswer.map((field, index) => {
+              <InputCommon
+                key={field.id}
+                control={control}
+                id="standard-basic"
+                label={item.title}
+                variant="standard"
+                name={`answer[${index}].name[${index}]`}
+                InputProps={{
+                  startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
+                }}
+                disabled={openModal.type === "detailQuestion"}
+              />;
+              fieldsAnswer.length > 1 && openModal.type !== "detailQuestion" && (
+                <RemoveCircleOutlineIcon
+                  className="text-[#F44335] cursor-grab ml-[20px]"
+                  onClick={() => onRemoveAnswer(index)}
+                />
+              );
+            })}
+          </>
+        )}
+      </>
+    );
+  };
   const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+        return DataAnswerMulti.map((item: any, indexAnswer: number) => {
+          if (indexAnswer > 3) {
+            return null;
+          }
+          return <div key={indexAnswer}>{renderMultiChoiceAnswer(item, indexAnswer, index)}</div>;
+        });
       case "MULTIPLE_CHOICE_1_ANSWER":
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
           return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
