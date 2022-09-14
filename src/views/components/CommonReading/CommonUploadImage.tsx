@@ -16,6 +16,7 @@ const CommonUploadImage = ({
   isLoading,
   selectFile,
   onFileChange,
+  ref,
 }: {
   openModal: any;
   fields: Record<"id", string>[];
@@ -26,6 +27,7 @@ const CommonUploadImage = ({
   isLoading?: boolean;
   selectFile?: any;
   onFileChange: (event: any) => Promise<void>;
+  ref?: MutableRefObject<any>;
 }) => {
   const fileRef = useRef<any>();
   const handleClick = () => {

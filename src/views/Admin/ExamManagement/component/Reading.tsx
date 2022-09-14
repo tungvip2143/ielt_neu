@@ -6,19 +6,16 @@ export interface Props {
 
 const Reading = (props: Props) => {
   const { dataReading } = props;
-  console.log("dataReadingdetails", dataReading);
-
   return (
     <Card className="mt-[10px] p-[20px]">
       <Typography sx={{ fontWeight: "bold" }}>Score: {dataReading?.score?.reading || 0}</Typography>
       <Typography sx={{ fontWeight: "bold", textTransform: "uppercase" }}>Reading Part Exam</Typography>
       <p>
         {(dataReading?.readingDetail || []).map((e: any, index: number) => {
-          console.log("la;ksd", e);
           return (
             <>
               <div>
-                <div className="text-center mb-2 mt-3">
+                <div className=" mb-2 mt-3 text-xl">
                   Part {index + 1}:
                   <span className="ml-3 font-bold" dangerouslySetInnerHTML={{ __html: e?.passageTitle }} />
                 </div>
@@ -27,20 +24,30 @@ const Reading = (props: Props) => {
                 return (
                   <>
                     <div style={{ textTransform: "capitalize" }}>
-                      <p style={{ fontWeight: "bold" }}>
+                      <p className="font-bold mt-2">
                         Type of question:{" "}
-                        <span style={{ fontWeight: "normal" }}>{group.questionType.replace("_", " ")}</span>
+                        <span style={{ fontWeight: "normal" }}>{group.questionType.replaceAll("_", " ")}</span>
                       </p>
                     </div>
                     {(group?.questions || []).map((question: any) => {
                       return (
                         <>
                           <div className="flex justify-between ml-5 mr-5">
-                            <p className="text-red-600 capitalize">
-                              Your Answer: {question?.studentAnswer === null ? "X" : question?.studentAnswer}
-                            </p>
+                            {question?.studentAnswer === question?.question?.answer ? (
+                              <p className="text-green-600 capitalize">
+                                Your Answer: {question?.studentAnswer === null ? "V" : question?.studentAnswer}
+                              </p>
+                            ) : (
+                              <p className="text-red-600 capitalize">
+                                Your Answer: {question?.studentAnswer === null ? "X" : question?.studentAnswer}
+                              </p>
+                            )}
+
                             <span className="text-black">
                               Correct Answer: <span className="text-green-600">{question?.question?.answer}</span>
+                            </span>
+                            <span>
+                              Score: <span>{question?.score}</span>
                             </span>
                           </div>
                         </>
