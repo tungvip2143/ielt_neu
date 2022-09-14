@@ -3,19 +3,16 @@ import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import BlockIcon from "@mui/icons-material/Block";
 import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import SaveIcon from "@mui/icons-material/Save";
-import { Box, InputAdornment, Stack, Typography } from "@mui/material";
+import { InputAdornment, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
-import CommonStyles from "components/CommonStyles";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import TinyMceCommon from "components/TinyMceCommon";
-import { IMAGE_URL } from "constants/constants";
-import { DataAnswer, DataAnswerMulti } from "constants/questionType";
+import { DataAnswerMulti } from "constants/questionType";
 import useGetDetailQuestion from "hooks/QuestionBank/Reading/useGetDetailQuestion";
 import useGetQuestionType from "hooks/QuestionBank/Reading/useGetQuestionType";
-import { QuestionTypeI } from "interfaces/questionInterface";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -23,6 +20,7 @@ import audioService from "services/audioService";
 import ReadingService from "services/ReadingService";
 import CommonReading from "views/components/CommonReading/CommonReading";
 import CommonUploadImage from "views/components/CommonReading/CommonUploadImage";
+import QuestionGrops from "views/components/CommonReading/QuestionGrops";
 import * as yup from "yup";
 
 export interface Props {
@@ -66,14 +64,12 @@ const ModalCreateQuestion = (props: Props) => {
     control,
     name: "questions",
   });
-  const { append: AddAnswer, fields: fieldsAnswer, remove: removeAnswer } = useFieldArray({ control, name: "answer" });
   const onAddQuestion = () => {
     append({ section: "" });
   };
-  const onAddAnswer = () => {
-    AddAnswer({ name: "" });
+  const onRemoveQuestion = (index: number) => {
+    remove(index);
   };
-
   const resetAsyncForm = useCallback(
     async (data: any) => {
       setValue("questionBox", data.questionBox);
@@ -117,7 +113,7 @@ const ModalCreateQuestion = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
-    const keys = ["A", "B", "C", "D"];
+    // const keys = ["A", "B", "C", "D"];
     if (openModal.type === "createQuestion") {
       const body = {
         level: "A1",
@@ -134,9 +130,10 @@ const ModalCreateQuestion = (props: Props) => {
           return {
             ...el,
             options:
-              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e }))
-                : [],
+              data.questionType === "MULTIPLE_CHOICE_1_ANSWER" ||
+              ("MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
+                // ? el.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e }))
+                []),
           };
         }),
 
@@ -170,9 +167,10 @@ const ModalCreateQuestion = (props: Props) => {
           return {
             ...el,
             options:
-              data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
-                : [],
+              data.questionType === "MULTIPLE_CHOICE_1_ANSWER" ||
+              ("MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
+                // ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                []),
           };
         }),
 
@@ -212,63 +210,16 @@ const ModalCreateQuestion = (props: Props) => {
       />
     );
   };
-  const renderMultiChoiceAnswer = (item: any, index: number, indexQuestion: number) => {
-    return (
-      <>
-        {console.log("fieldsAnswer", fieldsAnswer)}
-        {fieldsAnswer.length === 0 ? (
-          <InputCommon
-            control={control}
-            id="standard-basic"
-            label={item.title}
-            variant="standard"
-            name={`answer[${index}].name[${index}]`}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-            }}
-            disabled={openModal.type === "detailQuestion"}
-          />
-        ) : (
-          <>
-            {fieldsAnswer.map((field, index) => {
-              <InputCommon
-                key={field.id}
-                control={control}
-                id="standard-basic"
-                label={item.title}
-                variant="standard"
-                name={`answer[${index}].name[${index}]`}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-                }}
-                disabled={openModal.type === "detailQuestion"}
-              />;
-              fieldsAnswer.length > 1 && openModal.type !== "detailQuestion" && (
-                <RemoveCircleOutlineIcon
-                  className="text-[#F44335] cursor-grab ml-[20px]"
-                  onClick={() => onRemoveAnswer(index)}
-                />
-              );
-            })}
-          </>
-        )}
-      </>
-    );
-  };
-  // const [answerMulti, setAnswerMulti] = useState(DataAnswerMulti);
   const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
-      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
-        return DataAnswerMulti.map((item: any, indexAnswer: number) => {
-          if (indexAnswer > 3) {
-            return null;
-          }
-          return <div key={indexAnswer}>{renderMultiChoiceAnswer(item, indexAnswer, index)}</div>;
-        });
       case "MULTIPLE_CHOICE_1_ANSWER":
-        return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
-          return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
-        });
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+      // return DataAnswerMulti.map((item: any, indexAnswer: number) => {
+      //   if (indexAnswer > 3) {
+      //     return null;
+      //   }
+      //   return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
+      // });
       default:
         return (
           <InputCommon
@@ -291,74 +242,12 @@ const ModalCreateQuestion = (props: Props) => {
     );
   };
 
-  const onRemoveQuestion = (index: number) => {
-    remove(index);
-  };
-  const onRemoveAnswer = (index: number) => {
-    removeAnswer(index);
-  };
   const fileRef = useRef<any>();
   const handleClick = () => {
     fileRef.current.click();
   };
   const renderViewType = (type?: any, data?: any) => {
     switch (type) {
-      case "MULTIPLE_CHOICE_1_ANSWER":
-        return (
-          <>
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-              </div>
-            )}
-            {fields.map((field, index) => {
-              return (
-                <div key={field.id} className="flex items-center">
-                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <div className="questionContainer">
-                      <InputCommon
-                        id="standard-basic"
-                        label="Question"
-                        variant="standard"
-                        name={`questions[${index}].questionText`}
-                        control={control}
-                        required
-                        fullWidth
-                        disabled={openModal.type === "detailQuestion"}
-                      />
-                    </div>
-                    <Box
-                      component="form"
-                      sx={{
-                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
-                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
-                        <InputCommon
-                          control={control}
-                          id="standard-basic"
-                          label="Correct answer"
-                          variant="standard"
-                          name={`questions[${index}].answer`}
-                          disabled={openModal.type === "detailQuestion"}
-                        />
-                      )}
-                    </Box>
-                  </div>
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </>
-        );
       case "IDENTIFYING_INFORMATION":
         return (
           <CommonReading
@@ -674,114 +563,29 @@ const ModalCreateQuestion = (props: Props) => {
             onRemoveQuestion={onRemoveQuestion}
           />
         );
+      case "MULTIPLE_CHOICE_1_ANSWER":
       case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
-        // return (
-        //   <>
-        //     {openModal.type !== "detailQuestion" && (
-        //       <div className="text-end">
-        //         <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-        //       </div>
-        //     )}
-        //     <div className="flex items-center">
-        //       <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-        //         <div className="questionContainer">
-        //           {fieldsAnswer.length === 0 ? (
-        //             <InputCommon
-        //               id="standard-basic"
-        //               label="Question"
-        //               variant="standard"
-        //               name={`questions.questionText`}
-        //               control={control}
-        //               required
-        //               fullWidth
-        //               disabled={openModal.type === "detailQuestion"}
-        //             />
-        //           ) : (
-        //             fieldsAnswer.map((field, index) => {
-        //               return (
-        //                 <div>
-        //                   <div>{renderViewAnswer(questionType, index)}</div>
-        //                   <InputCommon
-        //                     key={field.id}
-        //                     id="standard-basic"
-        //                     label="Question"
-        //                     variant="standard"
-        //                     name={`questions[${index}].questionText`}
-        //                     control={control}
-        //                     required
-        //                     fullWidth
-        //                     disabled={openModal.type === "detailQuestion"}
-        //                   />
-        //                   {fields.length > 1 && openModal.type !== "detailQuestion" && (
-        //                     <RemoveCircleOutlineIcon
-        //                       className="text-[#F44335] cursor-grab ml-[20px]"
-        //                       onClick={() => onRemoveAnswer(index)}
-        //                     />
-        //                   )}
-        //                 </div>
-        //               );
-        //             })
-        //           )}
-        //         </div>
-        //         <div className="text-end">
-        //           <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddAnswer} />
-        //         </div>
-        //         <Box
-        //           component="form"
-        //           sx={{
-        //             "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-        //           }}
-        //           noValidate
-        //           autoComplete="off"
-        //         >
-        //           {questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" && (
-        //             <>
-        //               <InputCommon
-        //                 control={control}
-        //                 id="standard-basic"
-        //                 label="Correct answer"
-        //                 variant="standard"
-        //                 name={`answer.name`}
-        //                 disabled={openModal.type === "detailQuestion"}
-        //               />
-        //             </>
-        //           )}
-        //         </Box>
-        //       </div>
-        //     </div>
-        //   </>
-        // );
         return (
-          <div className="mt-2">
-            <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
-            {(selectFile || dataQuestionDetail?.image) && (
-              <img
-                id="blah"
-                src={selectFile ? URL.createObjectURL(selectFile) : `${IMAGE_URL}/${dataQuestionDetail?.image}`}
-                alt="image"
-                style={{ width: "100%", maxHeight: 400, marginTop: 20 }}
-              />
+          <>
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
             )}
-            <CommonStyles.Button
-              loading={isLoading}
-              sx={{ display: "flex", height: 40 }}
-              onClick={handleClick}
-              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
-            >
-              Upload image
-            </CommonStyles.Button>
-            <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-              <InputCommon
-                control={control}
-                id="standard-basic"
-                label="Correct answer"
-                variant="standard"
-                name="answer"
-                disabled={openModal.type === "detailQuestion"}
-                style={{ marginTop: 10 }}
-              />
-            </div>
-          </div>
+            {fields.map((fieldQuestion, indexQuestion) => {
+              return (
+                <QuestionGrops
+                  fieldQuestion={fieldQuestion}
+                  indexQuestion={indexQuestion}
+                  control={control}
+                  openModal={openModal}
+                  questionType={questionType}
+                  onRemoveQuestion={onRemoveQuestion}
+                  fields={fields}
+                />
+              );
+            })}
+          </>
         );
       default:
         break;
