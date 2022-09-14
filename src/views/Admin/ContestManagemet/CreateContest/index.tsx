@@ -53,7 +53,6 @@ const CreateContest = (props: Props) => {
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
     useContestManagemet();
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
-  console.log("dataPartDetailasd", dataPartDetail);
 
   const [dataFileExcel, setDataFileExcel] = useState([]);
   const formController = useForm<ResponseParams>({
