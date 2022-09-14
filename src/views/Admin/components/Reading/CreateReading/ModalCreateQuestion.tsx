@@ -114,6 +114,7 @@ const ModalCreateQuestion = (props: Props) => {
 
   const onSubmit = async (data: any) => {
     // const keys = ["A", "B", "C", "D"];
+    console.log("data1234", data);
     if (openModal.type === "createQuestion") {
       const body = {
         level: "A1",
@@ -130,13 +131,11 @@ const ModalCreateQuestion = (props: Props) => {
           return {
             ...el,
             options:
-              data.questionType === "MULTIPLE_CHOICE_1_ANSWER" ||
-              ("MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
-                // ? el.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e }))
-                []),
+              data.questionType === ("MULTIPLE_CHOICE_1_ANSWER" || "MULTIPLE_CHOICE_MULTIPLE_ANSWER")
+                ? el?.options?.map((e: any, index: number) => ({ text: e, key: index }))
+                : [],
           };
         }),
-
         partId: id,
       };
       try {
@@ -164,18 +163,19 @@ const ModalCreateQuestion = (props: Props) => {
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
+          console.log("el", el);
           return {
             ...el,
             options:
-              data.questionType === "MULTIPLE_CHOICE_1_ANSWER" ||
-              ("MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
-                // ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
-                []),
+              data.questionType === ("MULTIPLE_CHOICE_1_ANSWER" || "MULTIPLE_CHOICE_MULTIPLE_ANSWER")
+                ? el?.options?.map((e: any, index: number) => ({ key: index, text: e }))
+                : [],
           };
         }),
 
         partId: id,
       };
+      console.log("questions2", body.questions);
 
       try {
         const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
@@ -563,30 +563,30 @@ const ModalCreateQuestion = (props: Props) => {
             onRemoveQuestion={onRemoveQuestion}
           />
         );
-      case "MULTIPLE_CHOICE_1_ANSWER":
-      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
-        return (
-          <>
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-              </div>
-            )}
-            {fields.map((fieldQuestion, indexQuestion) => {
-              return (
-                <QuestionGrops
-                  fieldQuestion={fieldQuestion}
-                  indexQuestion={indexQuestion}
-                  control={control}
-                  openModal={openModal}
-                  questionType={questionType}
-                  onRemoveQuestion={onRemoveQuestion}
-                  fields={fields}
-                />
-              );
-            })}
-          </>
-        );
+      // case "MULTIPLE_CHOICE_1_ANSWER":
+      // case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+      //   return (
+      //     <>
+      //       {openModal.type !== "detailQuestion" && (
+      //         <div className="text-end">
+      //           <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+      //         </div>
+      //       )}
+      //       {fields.map((fieldQuestion, indexQuestion) => {
+      //         return (
+      //           <QuestionGrops
+      //             fieldQuestion={fieldQuestion}
+      //             indexQuestion={indexQuestion}
+      //             control={control}
+      //             openModal={openModal}
+      //             questionType={questionType}
+      //             onRemoveQuestion={onRemoveQuestion}
+      //             fields={fields}
+      //           />
+      //         );
+      //       })}
+      //     </>
+      //   );
       default:
         break;
     }

@@ -1,9 +1,10 @@
 import InputCommon from "components/Input";
-import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 import { Control } from "react-hook-form/dist/types";
 import { Box } from "@mui/material";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import { useFieldArray } from "react-hook-form";
+import Question from "./Question";
+import RemoveCircleOutlineIcon from "@mui/icons-material/RemoveCircleOutline";
 
 const QuestionGrops = ({
   fieldQuestion,
@@ -26,9 +27,6 @@ const QuestionGrops = ({
   const onAddAnswer = () => {
     AddAnswer({ name: "" });
   };
-  const onRemoveAnswer = (index: number) => {
-    removeAnswer(index);
-  };
   return (
     <div key={fieldQuestion.id} className="flex items-center">
       <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
@@ -46,25 +44,15 @@ const QuestionGrops = ({
         ) : (
           fieldsAnswer.map((field: any, index: number) => {
             return (
-              <div className="flex items-center" key={field.id}>
-                <InputCommon
-                  key={field.id}
-                  id="standard-basic"
-                  label="Question"
-                  variant="standard"
-                  name={`questions[${indexQuestion}][${index}].questionText`}
-                  control={control}
-                  required
-                  fullWidth
-                  disabled={openModal.type === "detailQuestion"}
-                />
-                {fieldsAnswer.length > 1 && openModal.type !== "detailQuestion" && (
-                  <RemoveCircleOutlineIcon
-                    className="text-[#F44335] cursor-grab ml-[20px]"
-                    onClick={() => onRemoveAnswer(index)}
-                  />
-                )}
-              </div>
+              <Question
+                indexQuestion={indexQuestion}
+                control={control}
+                openModal={openModal}
+                field={field}
+                index={index}
+                fieldsAnswer={fieldsAnswer}
+                removeAnswer={removeAnswer}
+              />
             );
           })
         )}
@@ -79,19 +67,14 @@ const QuestionGrops = ({
           noValidate
           autoComplete="off"
         >
-          {questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" ||
-            ("MULTIPLE_CHOICE_1_ANSWER" && (
-              <>
-                <InputCommon
-                  control={control}
-                  id="standard-basic"
-                  label="Correct answer"
-                  variant="standard"
-                  name={`answer.name`}
-                  disabled={openModal.type === "detailQuestion"}
-                />
-              </>
-            ))}
+          <InputCommon
+            control={control}
+            id="standard-basic"
+            label="Correct answer"
+            variant="standard"
+            name={`questions[0].answer`}
+            disabled={openModal.type === "detailQuestion"}
+          />
         </Box>
       </div>
       {fields.length > 1 && openModal.type !== "detailQuestion" && (
