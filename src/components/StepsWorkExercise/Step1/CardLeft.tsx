@@ -12,7 +12,9 @@ import { useMemo, useRef } from "react";
 import { useFormikContext } from "formik";
 import CommonStyles from "components/CommonStyles";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
-import { useClearHighLlight } from "hooks/ielts/useClearHighlight";
+import { useClearHighlight } from "hooks/ielts/useClearHighlight";
+import { useRightClick } from "hooks/ielts/useRightClick";
+import { useNoted } from "hooks/ielts/useNoted";
 
 // !type
 
@@ -26,41 +28,33 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   let text = dataChangePart.passageText;
   const { values, setFieldValue } = useFormikContext();
 
-  const { clearHighlight } = useClearHighLlight();
-  useHightLightText();
+  useClearHighlight();
+  const { isAction, position, toggleAction, className } = useRightClick();
+  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
+  useHightLightText({ noted, toggleNote });
 
   //! Render
   return (
     <>
-      <button type="button" onClick={clearHighlight}>
-        clear highlight
-      </button>
+      <button type="button">clear highlight</button>
       <div style={{ height: "100%" }}>
         <div
           // onClick={(data) => onScannerText(data)}
           style={{ zIndex: 999 }}
           dangerouslySetInnerHTML={{ __html: decode(text) || "" }}
         ></div>
-        {/* {isHightLight && (
-          <CommonStyles.HightLightDialog
-            onClickHighlight={onHightlight}
-            onClickNote={onClickNote}
+        {isAction && (
+          <CommonStyles.HightLightDialog onCloseAction={toggleAction} onClickNote={onClickNote} position={position} />
+        )}
+        {isNoted && (
+          <CommonStyles.Note
+            onCloseNote={toggleNote}
+            noted={noted}
             position={position}
+            onChangeTextNote={onChangeInput}
+            className={className}
           />
         )}
-        {isOpenOptionClear && (
-          <CommonStyles.ClearDialog
-            onClearHightlight={onClearHightLight}
-            onClearHightlightAll={onClearHightLightAll}
-            position={position}
-          />
-        )}
-        <CommonStyles.Note
-          isOpenNote={isNoted}
-          onCloseNote={onCloseNote}
-          onChangeTextNote={onInputChange}
-          position={position}
-        /> */}
       </div>
     </>
   );
