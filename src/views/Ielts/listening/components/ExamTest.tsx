@@ -1,9 +1,8 @@
 import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
-import CardPart from "components/Card/CardPart";
+import TypeQuestions from "components/Card/TypeQuestions";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
-import { RouteBase } from "constants/routeUrl";
 import { useFormikContext } from "formik";
 import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
@@ -12,7 +11,6 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
-import { useHistory } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import cacheService from "services/cacheService";
 import ieltsService from "services/ieltsService";
@@ -43,8 +41,6 @@ const ExamTest = (props: Props) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [questionType, setQuestionType] = useState();
-  const [displayNumberTab, setDisplayNumber] = useState();
-  // const [changeValueVolum, setChangeValueVolum] = useState<any>(0.5);
 
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
@@ -95,7 +91,7 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <CardPart content={questionType} />
+        <TypeQuestions content={questionType} />
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}
@@ -131,15 +127,12 @@ const ExamTest = (props: Props) => {
         question={questionData}
         displayNumber={displayNumber}
       />
-
-      {/* <CardPage questions={audioData} onClickPage={onClickPage} /> */}
     </>
   );
 };
 
 const IeltsListeningContainer = ({ valueVolum }: any) => {
   const { dispatch } = useSagaCreators();
-  const history = useHistory();
 
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
@@ -154,7 +147,6 @@ const IeltsListeningContainer = ({ valueVolum }: any) => {
 
       localStorage.removeItem("testCode");
       setTimeout(() => {
-        // history.push(RouteBase.Login);
         dispatch(authActions.logout);
       }, 1000);
     },

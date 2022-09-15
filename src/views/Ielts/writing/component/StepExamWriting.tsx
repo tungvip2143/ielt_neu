@@ -1,7 +1,6 @@
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import React, { useState, useMemo } from "react";
 import CardExercise from "../../../../components/Card/CardExercise";
-import CardPart from "../../../../components/Card/CardPart";
 import Grid from "@mui/material/Grid";
 import { isEmpty } from "lodash";
 import Writing from "./Writing";
@@ -11,6 +10,7 @@ import { useHandleQuestion } from "../../../../providers/HandleQuestionProvider"
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 import { useIeltsWritting } from "hooks/ielts/useIelts";
 import LoadingPage from "components/Loading";
+import TypeQuestions from "../../../../components/Card/TypeQuestions";
 
 // !type
 interface Props {
@@ -44,7 +44,7 @@ const StepExamWriting = (props: Props) => {
   return (
     <Box sx={container}>
       <Box sx={{ mb: "15px" }}>
-        <CardPart content={contentPart} />
+        <TypeQuestions content={contentPart} />
       </Box>
       <Grid container>
         <CardExercise

@@ -268,13 +268,6 @@ const ModalCreateQuestion = (props: Props) => {
   };
   const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
-      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
-        return DataAnswerMulti.map((item: any, indexAnswer: number) => {
-          if (indexAnswer > 3) {
-            return null;
-          }
-          return <div key={indexAnswer}>{renderMultiChoiceAnswer(item, indexAnswer, index)}</div>;
-        });
       case "MULTIPLE_CHOICE_1_ANSWER":
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
           return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
@@ -481,7 +474,21 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
-
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+      case "NOTE_COMPLETION":
+        return (
+          <CommonReading
+            openModal={openModal}
+            fields={fields}
+            control={control}
+            onAddQuestion={onAddQuestion}
+            onRemoveQuestion={onRemoveQuestion}
+            blankInput
+            editorRef={editorRef}
+            dataQuestionDetail={dataQuestionDetail}
+            textType="Note Completion"
+          />
+        );
       case "SHORT_ANSWER_QUESTION":
         return (
           <CommonReading

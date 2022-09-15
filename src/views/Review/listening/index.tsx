@@ -5,7 +5,6 @@ import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
 //
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import CardPart from "components/Card/CardPart";
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { useGetListeningResultByTestCode } from "hooks/review/useIeltsReview";
 import { IELT_TEST } from "interfaces/testType";

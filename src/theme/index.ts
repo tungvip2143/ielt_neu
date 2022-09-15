@@ -18,6 +18,7 @@ declare module "@mui/material/styles" {
         pageNumber: string;
         white: string;
         btnShowModal: string;
+        questionItemMultichoose: string;
         noteReading: {
           optionNote: string;
           header: string;
@@ -32,6 +33,8 @@ declare module "@mui/material/styles" {
         noteReading: {
           optionItem: string;
         };
+        primary: string;
+        second: string;
       };
       button: {
         background: {
@@ -40,11 +43,14 @@ declare module "@mui/material/styles" {
       };
       text: {
         titleLogin: string;
+        btnSubmit: string;
       };
       boxShadow: {
         exercises: string;
         card: string;
         optionNote: string;
+        btnSubmit: string;
+        nextPage: string;
       };
       flexBox: {
         flexBetweenCenter: {
@@ -317,6 +323,7 @@ export const theme = createTheme({
       exercises: "#dde3ee",
       pageNumber: "#000000",
       white: "#fff",
+      questionItemMultichoose: "#f7f9fb",
       btnShowModal: "#6aade4",
       noteReading: {
         optionNote: "#eee",
@@ -332,6 +339,8 @@ export const theme = createTheme({
       noteReading: {
         optionItem: "#ddd",
       },
+      primary: "#ccc",
+      second: "#333",
     },
     button: {
       background: {
@@ -340,11 +349,15 @@ export const theme = createTheme({
     },
     text: {
       titleLogin: "#0b2283",
+      btnSubmit: "#1e415b",
     },
     boxShadow: {
       exercises: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
       card: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
       optionNote: "0 2px 5px rgb(0 0 0 / 50%)",
+      btnSubmit: "0 1px 1px rgb(0 0 0 / 50%)",
+      nextPage:
+        "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
     },
     flexBox: {
       flexBetweenCenter: {
@@ -428,7 +441,7 @@ export const theme = createTheme({
       contrastText: "#FFFFFF",
     },
     text: {
-      primary: "#121828",
+      primary: "#000000",
       secondary: "#65748B",
       disabled: "rgba(55, 65, 81, 0.48)",
     },

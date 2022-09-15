@@ -2,15 +2,12 @@ import { useState, useEffect } from "react";
 //
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-//
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Checkbox from "@mui/material/Checkbox";
 //
 import { makeStyles } from "@mui/styles";
 import { useFormikContext } from "formik";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 //
-import ImgHideTotalPage from "assets/image/exam/hide-total-page.png";
 import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 import { useCheckRenderQuestion } from "hooks/ielts/useCheckRenderQuestion";
@@ -28,32 +25,14 @@ interface CardTotalPageExamsI {
   displayNumber: number;
 }
 
-const box = {
-  boxShadow: "rgba(0, 0, 0, 0.30) 0px 5px 15px",
-  width: "80%",
-  display: { xs: "none", lg: "block" },
-  borderRadius: "8px 8px 0 0",
-  border: "1px solid #fff",
-  background: themeCssSx.backgroundExam.content,
-};
-const TotalPage = {
-  display: "flex",
-  width: "100%",
-  position: "fixed",
-  bottom: { xs: "0", lg: "0px" },
-  margin: "0 15px",
-};
-const containerTotalPage = {
-  ...themeCssSx.flexBox.flexBetweenCenter,
-  p: "5px 10px",
-};
 const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
+      marginRight: "10px",
     },
     eachQuestion: {
-      background: theme.custom?.background.pageNumber,
+      background: "#000",
       color: "#fff",
       width: "23px",
       height: "23px",
@@ -65,27 +44,45 @@ const useStyles = makeStyles((theme) => {
       cursor: "pointer",
       borderRadius: "2px",
     },
+    sliderVolum: {
+      marginTop: "10px",
+      color: "#f5f5f5 !important",
+    },
+    box: {
+      boxShadow: theme.custom?.boxShadow.card,
+      width: "80%",
+      display: "block",
+      borderRadius: "8px 8px 0 0",
+      border: "1px solid #fff",
+      background: theme.custom?.background.exercises,
+    },
+    totalPage: {
+      display: "flex",
+      width: "100%",
+      position: "fixed",
+      bottom: 0,
+      margin: "0 15px",
+    },
+    containerTotalPage: {
+      ...theme.custom?.flexBox.flexBetweenCenter,
+      padding: "5px 10px",
+    },
+    nextPage: {
+      ...theme.custom?.flexBox.flexCenterCenter,
+      width: "45px",
+      height: "45px",
+      borderRadius: "50%",
+      transform: "rotate(180deg)",
+      cursor: "pointer",
+      boxShadow: theme.custom?.boxShadow.nextPage,
+    },
+    containerNextPage: {
+      display: "flex",
+      justifyContent: "flex-end",
+      width: "13%",
+    },
   };
 });
-const nextPage = {
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  width: "45px",
-  height: "45px",
-  borderRadius: "50%",
-  transform: "rotate(180deg)",
-  cursor: "pointer",
-  boxShadow:
-    "rgba(0, 0, 0, 0.03) 0px -23px 25px 0px inset, rgba(0, 0, 0, 0.03) 0px -36px 30px 0px inset, rgba(0, 0, 0, 0.03) 0px -79px 40px 0px inset, rgba(0, 0, 0, 0.02) 0px 2px 1px, rgba(0, 0, 0, 0.01) 0px 4px 2px, rgba(0, 0, 0, 0.01) 0px 8px 4px, rgba(0, 0, 0, 0.01) 0px 16px 8px, rgba(0, 0, 0, 0.01) 0px 32px 16px",
-};
-
-const containerNextPage = {
-  display: "flex",
-  justifyContent: "flex-end",
-  width: "13%",
-};
-
 export enum Direction {
   next = "next",
   back = "back",
@@ -101,11 +98,12 @@ const CardTotalPageExams = ({
   question,
   displayNumber,
 }: CardTotalPageExamsI) => {
-  // const [showPageReview, setShowPageReview] = useState<string>();
-  // const [checkedReview, setCheckedReview] = useState(false);
+  const { values }: any = useFormikContext();
+
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
+  const classes = useStyles();
 
   const { handleSubmit } = useFormikContext();
   const { checkBackRenderQuestion, checkNextPartRender } = useCheckRenderQuestion({
@@ -117,25 +115,11 @@ const CardTotalPageExams = ({
     handleSubmit,
   });
 
-  // useEffect(() => {
-  //   const hanldeHighLightReview = () => {
-  //     if (checkedReview) {
-  //       return setShowPageReview("show-page-review");
-  //     }
-  //     return setShowPageReview("hide-review");
-  //   };
-  //   hanldeHighLightReview();
-  // }, [checkedReview]);
   useEffect(() => {
     CacheService.cache("inReviewList", inReviewListQuestions);
   }, [inReviewListQuestions]);
   //! State
-  const classes = useStyles();
-  //
 
-  // const handleCheckBox = (event: any) => {
-  //   setCheckedReview(event.target.checked);
-  // };
   const handleCheckBox = (event: any) => {
     setInReviewListQuestions((prev: number[]) => {
       if (inReviewListQuestions.includes(displayNumber)) {
@@ -145,10 +129,6 @@ const CardTotalPageExams = ({
       return inReviewListQuestions.concat(displayNumber);
     });
   };
-  //
-  // const hideReview = () => {
-  //   setCheckedReview(false);
-  // };
 
   const onClickNextQuestion = () => {
     const sectionRender = checkNextPartRender();
@@ -167,17 +147,11 @@ const CardTotalPageExams = ({
     sectionRender.part = partIndex;
     sectionRender.group = groupIndex;
     sectionRender.question = questionIndex;
-    // hideReview();
 
     onClickPage(sectionRender);
   };
 
   const renderPartValues = (partValues: any, partIndex: number) => {
-    const { values }: any = useFormikContext();
-    let sectionRender: any = {};
-
-    console.log("partValues cardtotal", partValues?.groups);
-    //
     return partValues?.groups?.map((group: any, groupIndex: number) => {
       return group.questions.map((question: any, questionIndex: number) => {
         const add = Number(question.question.displayNumber) - 1;
@@ -196,15 +170,6 @@ const CardTotalPageExams = ({
         };
         return (
           <>
-            {/* <Box
-              key={question.id}
-              className={`${highLightPage()} ${
-                displayNumber === question.question.displayNumber && showPageReview
-              } ${`${didExerciseActive()}-abc`}`}
-              onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
-            >
-              <span className={didExerciseActive()}>{question.question.displayNumber}</span>
-            </Box> */}
             <Box
               key={question.id}
               className={`${highLightPage()} ${
@@ -224,17 +189,17 @@ const CardTotalPageExams = ({
   //! Render
   return (
     <>
-      <Box className="quang-test" sx={TotalPage}>
+      <Box className={classes.totalPage}>
         <Box>
           <FormControlLabel
             value=""
-            // control={<Checkbox checked={checkedReview} onChange={handleCheckBox} />}
+            disabled={!Boolean(values?.answers?.[displayNumber - 1]?.studentAnswer)}
             control={<Checkbox checked={inReviewListQuestions.includes(displayNumber)} onChange={handleCheckBox} />}
             label="Review"
           />
         </Box>
-        <Box sx={box}>
-          <Box sx={containerTotalPage}>
+        <Box className={classes.box}>
+          <Box className={classes.containerTotalPage}>
             <Box sx={{ display: "flex", flexWrap: "wrap" }}>
               {questions?.map((group: any, index: number) => {
                 return (
@@ -252,11 +217,11 @@ const CardTotalPageExams = ({
             </Box>
           </Box>
         </Box>
-        <Stack direction="row" spacing={2} sx={containerNextPage}>
-          <Box sx={nextPage} onClick={onClickBackQuestion}>
+        <Stack direction="row" spacing={2} className={classes.containerNextPage}>
+          <Box className={classes.nextPage} onClick={onClickBackQuestion}>
             <img src={NextQuestion} alt="" />
           </Box>
-          <Box sx={nextPage} onClick={onClickNextQuestion}>
+          <Box className={classes.nextPage} onClick={onClickNextQuestion}>
             <img src={PrevQuestion} alt="" />
           </Box>
         </Stack>

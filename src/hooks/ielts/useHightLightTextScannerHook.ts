@@ -22,7 +22,7 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   const idMark = useRef(0);
 
   // console.log("textScanner", textScanner);
-  console.log("textScannertextHightlighted", textHightlighted);
+  // console.log("textScannertextHightlighted", textHightlighted);
 
   const passageTextWithHighlightTexted = useMemo(() => {
     if (text) {
@@ -36,7 +36,7 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
     }
 
     return "";
-  }, [textHightlighted]);
+  }, [textHightlighted, text]);
 
   const handleRightClick = (e: any) => {
     console.log("hello", e);

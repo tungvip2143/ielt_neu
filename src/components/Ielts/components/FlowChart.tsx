@@ -20,7 +20,7 @@ const useStyles = makeStyles((theme) => ({
     gap: 8,
   },
   img: {
-    width: "100%",
+    width: "60%",
   },
 }));
 type Props = {

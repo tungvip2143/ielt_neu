@@ -21,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     gap: 8,
   },
   answerList: {
-    border: "1px solid #ccc",
+    border: `1px solid ${theme.custom?.border.primary}`,
     borderRadius: "5px",
     padding: 16,
   },
@@ -30,7 +30,6 @@ type Props = {
   data?: any;
   answerList: string;
   question: any;
-  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (option: any) => void;
   displayNumber: number;
   isView?: boolean;
@@ -45,7 +44,7 @@ const MachingHeading = (props: Props) => {
   console.log("question", question);
 
   const handleFocus = (displayNumber: number, questionIndex: number) => {
-    console.log("Fdsfs", questionIndex);
+    // console.log("Fdsfs", questionIndex);
     setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
     onClickPage && onClickPage({ question: questionIndex });
   };

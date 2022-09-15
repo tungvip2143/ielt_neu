@@ -1,21 +1,13 @@
 import React, { useState, useEffect } from "react";
-//
-import { ieltsApi } from "api/ieltsResults";
-//
-import Text from "components/Typography/index";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-
-//
 import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 
-//
 // !type
 interface TOFFLI {
   partRenderSelected?: any;
-  questionSelected?: any;
   onClickPage: (id: string) => void;
   onHightLightNumberPage: (displayNumber: number) => void;
   showQuestion?: any;
@@ -28,7 +20,6 @@ interface TOFFLI {
 
 const TOFFL = ({
   partRenderSelected,
-  questionSelected,
   onClickPage,
   showQuestion,
   onHightLightNumberPage,
@@ -40,7 +31,7 @@ const TOFFL = ({
 }: TOFFLI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
-
+  // console.log("Fsdfs", partRenderSelected);
   const dataNumber = {
     from: "1",
     to: "6",

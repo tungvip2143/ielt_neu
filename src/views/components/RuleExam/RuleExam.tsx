@@ -42,11 +42,13 @@ const useStyles = makeStyles((theme) => {
 
 const RuleExam = (props: Props) => {
   //! State
+
   const {
     nextStep,
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
   const classes = useStyles();
+
   //! Render
   return (
     <Box className={classes.container}>
@@ -57,7 +59,7 @@ const RuleExam = (props: Props) => {
         Time: {time}
       </CommonStyles.Typography>
       <CommonStyles.Typography variant="descMedium" component="p" className={classes.textTitle}>
-        {titleRulesDetailCandidates.intructionCandidates}
+        {titleRulesDetailCandidates.informationCandidates}
       </CommonStyles.Typography>
       {informationsForCandidates}
       <CommonStyles.Typography variant="descMedium" component="p" className={classes.textTitle} sx={{ mt: "18px" }}>

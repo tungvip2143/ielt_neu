@@ -1,42 +1,33 @@
 import EndTest from "components/Exams/EndTest";
-import ExamTest from "components/Exams/StartDoingHomework";
 import { TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 //
 import { Box } from "@mui/material";
-//
-import LoadingPage from "components/Loading";
 import { Form, Formik } from "formik";
 import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 import Header from "views/Ielts/Header/Header";
 //
-import { RouteBase } from "constants/routeUrl";
-import { useCheckTestCode } from "hooks/ielts/useCheckTestCodeHook";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
-import { useHistory } from "react-router-dom";
 import InformationForCandidates from "views/components/dataSteps/DataContentReading/InformationForCandidates";
 import IntructionsToCandidates from "views/components/dataSteps/DataContentReading/IntructionsToCandidates";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
-import { GetAuthSelector } from "redux/selectors/auth";
 import IeltsReadingContainer from "components/Exams/components/Step2ExamContent/Step2ExamContent";
 import cacheService from "services/cacheService";
-import useSagaCreators from "hooks/useSagaCreators";
-import { toast } from "react-toastify";
-import { showError } from "helpers/toast";
-import { getErrorMsg } from "helpers";
-import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { rulesdetailExam } from "../../../constants/constants";
+import { makeStyles } from "@mui/styles";
+
 //
 const styleListRule = {
   padding: "0px 0px 24px 60px",
 };
 const stepRuleExam = {
-  typeExam: "Reading",
-  time: "1 hour",
+  typeExam: rulesdetailExam.reading.title,
+  time: rulesdetailExam.reading.timeExam,
   informationsForCandidates: <InformationForCandidates styleListRule={styleListRule} />,
   intructionsToCandidates: <IntructionsToCandidates styleListRule={styleListRule} />,
 };
@@ -46,20 +37,29 @@ export interface IeltsReadingProps {
   testCode: number;
 }
 
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      height: "100vh",
+      overflow: "hidden",
+    },
+    containerSteps: {
+      paddingTop: "16px",
+      background: theme.custom?.background.exam,
+      height: "100%",
+    },
+  };
+});
+
 const IeltsReading = () => {
   // !State
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
-  const history = useHistory();
-
+  const classes = useStyles();
   const { step, handler } = useStepExam();
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
   const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
   const { testCode } = useGetTestCode();
-
-  const auth = GetAuthSelector();
-  const user = auth?.user?.user;
-  //
 
   const genInitialValue = useMemo(() => {
     let value = {
@@ -101,23 +101,14 @@ const IeltsReading = () => {
   const handleCloseModalHelp = () => {
     setIsOpenModalHelp(false);
   };
-  //
+
   const handleOpenModalHide = useCallback(() => {
     setIsOpenModalHide(true);
   }, []);
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
-  //
 
-  const handleBackIeltsSelection = () => {
-    history.push("/ielts");
-  };
-  const containerSteps = {
-    pt: "16px",
-    background: "#dbe5f5",
-    height: "100%",
-  };
   const styleModal = {
     width: "770px",
     padding: "10px !important",
@@ -131,7 +122,7 @@ const IeltsReading = () => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
-          <Box sx={{ height: { xs: "", lg: "100vh" }, overflow: { Xs: "", lg: "hidden" } }}>
+          <Box className={classes.container}>
             <Header
               handleOpenModalHelp={handleOpenModalHelp}
               handleOpenModalHide={handleOpenModalHide}
@@ -139,8 +130,8 @@ const IeltsReading = () => {
               timeExam={timeExam}
             />
 
-            <Box sx={containerSteps}>
-              {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
+            <Box className={classes.containerSteps}>
+              {step === TypeStepExamEnum.STEP1 && <DetailUser />}
               {step === TypeStepExamEnum.STEP2 && (
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
