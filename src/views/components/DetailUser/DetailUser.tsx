@@ -28,8 +28,8 @@ const useStyles = makeStyles((theme) => {
 });
 const DetailUser = (props: Props) => {
   //! State
-  const userDetail: any = localStorage.getItem("userDetail");
-  const convertUser = JSON.parse(userDetail);
+  // const userDetail: any = localStorage.getItem("userDetail");
+  // const convertUser = JSON.parse(userDetail);
 
   const classes = useStyles();
 
@@ -48,7 +48,7 @@ const DetailUser = (props: Props) => {
       <Box>
         <Title image={ImgUser} text={textHeaderModal.confirmDetail} />
         <Container>
-          <p className={classes.introduceUser}>Student code : {convertUser?.username}</p>
+          {/* <p className={classes.introduceUser}>Student code : {convertUser?.username}</p> */}
           <HelpFooter textHelp={warningDetailUser.checkInformation} image={ImgHelp} />
           <FooterSubmit textBtn={textBtnSubmit.detailUser} nextStep={nextStep} />
         </Container>

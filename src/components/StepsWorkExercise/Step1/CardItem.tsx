@@ -24,9 +24,6 @@ interface PropsItemQuestion {
   displayNumber: number;
   questionIdx?: number;
   onClickPage?: (option: any) => void;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted: string;
-  onScannerText?: (data: any) => void;
 }
 const ItemQuestion = ({
   question = [],
@@ -39,9 +36,6 @@ const ItemQuestion = ({
   displayNumber,
   questionIdx,
   onClickPage,
-  getTextEachPart,
-  passageTextWithHighlightTexted,
-  onScannerText,
   ...remainProps
 }: PropsItemQuestion) => {
   const renderQuestion = (data: any) => {
@@ -55,13 +49,9 @@ const ItemQuestion = ({
           data={data}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
-
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <QuestionBox
@@ -69,9 +59,6 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }

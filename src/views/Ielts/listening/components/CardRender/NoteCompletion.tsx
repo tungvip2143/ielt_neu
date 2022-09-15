@@ -87,17 +87,13 @@ const NoteCompletion = (props: Props) => {
     const inputIdx: any = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = (event: any) => {
-    const inputIdx: any = event.target.getAttribute("class") - 1;
-    onClickPage && onClickPage({ question: inputIdx });
-  };
 
   //! Render
   return (
     <>
       <div
-        onClick={(data) => onClickInput(data)}
-        onFocus={(event) => onFocusInput(event)}
+        // onClick={(data) => onClickInput(data)}
+        onFocus={(event) => onClickInput(event)}
         dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
         onInput={onChangeInputHandleBars}
       />

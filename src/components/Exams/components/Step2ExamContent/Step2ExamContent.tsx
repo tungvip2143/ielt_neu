@@ -64,20 +64,6 @@ const Step2ExamContent = (props: any) => {
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
   useEffect(() => {
     cacheService.cache("answers", values);
@@ -140,9 +126,6 @@ const Step2ExamContent = (props: any) => {
                   onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   displayNumber={displayNumber}
                   onClickQuestionType={onClickQuestionType}
-                  getTextEachPart={getTextEachPart}
-                  passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-                  onScannerText={onScannerText}
                 />
               }
               width={6}
@@ -164,22 +147,6 @@ const Step2ExamContent = (props: any) => {
         />
         <FooterExamResponsive />
       </Box>
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };

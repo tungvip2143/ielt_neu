@@ -10,8 +10,11 @@ import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 import { decode } from "html-entities";
 import { useMemo, useRef } from "react";
 import { useFormikContext } from "formik";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
 import CommonStyles from "components/CommonStyles";
+import { useHightLightText } from "hooks/ielts/useHighlightText";
+import { useClearHighlight } from "hooks/ielts/useClearHighlight";
+import { useRightClick } from "hooks/ielts/useRightClick";
+import { useNoted } from "hooks/ielts/useNoted";
 
 // !type
 
@@ -24,53 +27,34 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   //! State
   let text = dataChangePart.passageText;
   const { values, setFieldValue } = useFormikContext();
-  // console.log("dataChangePart", dataChangePart);
-  // console.log("fsdfsdfsdf", dataChangePart.passageText);
 
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
+  useClearHighlight();
+  const { isAction, position, toggleAction, className } = useRightClick();
+  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
+  useHightLightText({ noted, toggleNote });
 
   //! Render
   return (
     <>
+      <button type="button">clear highlight</button>
       <div style={{ height: "100%" }}>
         <div
-          onClick={(data) => onScannerText(data)}
+          // onClick={(data) => onScannerText(data)}
           style={{ zIndex: 999 }}
-          dangerouslySetInnerHTML={{ __html: decode(passageTextWithHighlightTexted) || "" }}
+          dangerouslySetInnerHTML={{ __html: decode(text) || "" }}
         ></div>
-        {isHightLight && (
-          <CommonStyles.HightLightDialog
-            onClickHighlight={onHightlight}
-            onClickNote={onClickNote}
+        {isAction && (
+          <CommonStyles.HightLightDialog onCloseAction={toggleAction} onClickNote={onClickNote} position={position} />
+        )}
+        {isNoted && (
+          <CommonStyles.Note
+            onCloseNote={toggleNote}
+            noted={noted}
             position={position}
+            onChangeTextNote={onChangeInput}
+            className={className}
           />
         )}
-        {isOpenOptionClear && (
-          <CommonStyles.ClearDialog
-            onClearHightlight={onClearHightLight}
-            onClearHightlightAll={onClearHightLightAll}
-            position={position}
-          />
-        )}
-        <CommonStyles.Note
-          isOpenNote={isNoted}
-          onCloseNote={onCloseNote}
-          onChangeTextNote={onInputChange}
-          position={position}
-        />
       </div>
     </>
   );

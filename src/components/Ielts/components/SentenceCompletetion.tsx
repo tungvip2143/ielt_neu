@@ -1,8 +1,6 @@
-import CommonStyles from "components/CommonStyles";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 type Props = {
   data?: any;
   displayNumber?: number;
@@ -14,8 +12,6 @@ const SentenceCompletetion = (props: Props) => {
   const { data, displayNumber, onClickPage, isView = false } = props;
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
-
-  console.log("text", text);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
 
@@ -50,10 +46,10 @@ const SentenceCompletetion = (props: Props) => {
     const inputIdx: any = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = (event: any) => {
+  const onFocusInput = useCallback((event: any) => {
     const inputIdx: any = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
-  };
+  }, []);
 
   return (
     <>

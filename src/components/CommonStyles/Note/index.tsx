@@ -1,5 +1,5 @@
 import { makeStyles } from "@mui/styles";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 
 const useStyle = makeStyles((theme) => ({
@@ -34,29 +34,43 @@ const useStyle = makeStyles((theme) => ({
   },
 }));
 type Props = {
-  isOpenNote: boolean;
-  onCloseNote: () => void;
-  onChangeTextNote: (e: any) => void;
+  isOpenNote?: boolean;
+  onCloseNote?: () => void;
+  onChangeTextNote?: (e: any) => void;
   position: any;
+  noted: any;
+  className: string;
 };
 
 const Note = (props: Props) => {
   // !State
 
-  const { isOpenNote, onCloseNote, onChangeTextNote, position } = props;
+  useEffect(() => {
+    const input: any = document.getElementById("textarea");
+    if (input) {
+      const end = input.value.length;
+
+      // ✅ Move focus to END of input field
+      input.setSelectionRange(end, end);
+      input.focus();
+    }
+  }, []);
+
+  const { isOpenNote, onCloseNote, onChangeTextNote, position, className, noted } = props;
   const classes = useStyle(position);
+  const [input, setInput] = useState("");
   return (
-    <div style={{ display: isOpenNote ? "block" : "none" }} className={classes.noteContainer}>
+    <div className={classes.noteContainer}>
       <div className={classes.noteHeader}>
         <img src={imgCloseNote} alt="" onClick={onCloseNote} className={classes.imgClose} />
       </div>
       <div className={classes.noteContent}>
         <textarea
-          //   ref={noteRef}
           className={classes.contentNote}
+          value={noted[className] ? noted[className] : ""}
+          autoFocus
           onChange={onChangeTextNote}
-          //   defaultValue={textNote}
-          id="note"
+          id="textarea"
         />
       </div>
     </div>
