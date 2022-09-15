@@ -1,15 +1,17 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 //
-
-import Text from "components/Typography/index";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import ReactHtmlParser, { convertNodeToElement, processNodes } from "react-html-parser";
-import { Debug } from "components/Formik/FormikDebug";
 import { makeStyles } from "@mui/styles";
-import { IELT_TEST } from "interfaces/testType";
+import imgHightLight from "assets/image/exam/hight-light-note.png";
+import imgNote from "assets/image/exam/note.png";
+import imgClear from "assets/image/exam/clear-item.png";
+import imgClearAll from "assets/image/exam/clear-all.png";
+
+import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 import { decode } from "html-entities";
-import { ROOT_ORIGINAL_URL } from "constants/api";
+import { useMemo, useRef } from "react";
+import { useFormikContext } from "formik";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+import CommonStyles from "components/CommonStyles";
 
 // !type
 
@@ -18,47 +20,58 @@ interface Props {
   test?: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-  div: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  img: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
-  container: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: 16,
-  },
-}));
-
 const CardLeft = ({ dataChangePart, test }: Props) => {
-  const classes = useStyles();
-  const imageNull =
-    "http://103.226.250.81:8688/uploads/2022/8/5/bai-mau-ielts-writing-task-1-line-graphresultjpg-11343019082022582245.jpg";
+  //! State
+  let text = dataChangePart.passageText;
+  const { values, setFieldValue } = useFormikContext();
+  // console.log("dataChangePart", dataChangePart);
+  // console.log("fsdfsdfsdf", dataChangePart.passageText);
 
-  const image = dataChangePart?.question?.image ? `${ROOT_ORIGINAL_URL}/${dataChangePart?.question?.image}` : imageNull;
+  const {
+    onScannerText,
+    onHightlight,
+    passageTextWithHighlightTexted,
+    position,
+    isOpenOptionClear,
+    onCloseNote,
+    onClearHightLightAll,
+    onClickNote,
+    onClearHightLight,
+    isNoted,
+    isHightLight,
+    onInputChange,
+  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
+
+  //! Render
   return (
     <>
-      {test === IELT_TEST.READING && (
-        <div dangerouslySetInnerHTML={{ __html: decode(dataChangePart?.passageText) || "" }}></div>
-        // <div>{ReactHtmlParser(ReactHtmlParser(dataChangePart?.passageText))}</div>
-      )}
-      {test === IELT_TEST.WRITING && (
-        <div className={classes.container}>
-          <span>
-            <strong>{ReactHtmlParser(dataChangePart?.question?.title)}</strong>
-          </span>
-          <Text.Desc16>{ReactHtmlParser(dataChangePart?.question?.text)}</Text.Desc16>
-          <div className={classes.div}>
-            <img className={classes.img} src={image} alt={`writing part ${dataChangePart?.question?.displayNumber}`} />
-          </div>
-        </div>
-      )}
-      {/* <Debug /> */}
+      <div style={{ height: "100%" }}>
+        <div
+          onClick={(data) => onScannerText(data)}
+          style={{ zIndex: 999 }}
+          dangerouslySetInnerHTML={{ __html: decode(passageTextWithHighlightTexted) || "" }}
+        ></div>
+        {isHightLight && (
+          <CommonStyles.HightLightDialog
+            onClickHighlight={onHightlight}
+            onClickNote={onClickNote}
+            position={position}
+          />
+        )}
+        {isOpenOptionClear && (
+          <CommonStyles.ClearDialog
+            onClearHightlight={onClearHightLight}
+            onClearHightlightAll={onClearHightLightAll}
+            position={position}
+          />
+        )}
+        <CommonStyles.Note
+          isOpenNote={isNoted}
+          onCloseNote={onCloseNote}
+          onChangeTextNote={onInputChange}
+          position={position}
+        />
+      </div>
     </>
   );
 };

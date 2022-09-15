@@ -4,27 +4,50 @@ import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
-//
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import CardPart from "components/Card/CardPart";
-
+import TypeQuestions from "components/Card/TypeQuestions";
+//
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
-import { IELT_TEST } from "interfaces/testType";
 import { isEmpty } from "lodash";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import FooterExamResponsive from "./FooterExamResponsive";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useIeltsReading } from "hooks/ielts/useIelts";
+import LoadingPage from "components/Loading";
+import { useFormikContext } from "formik";
+import cacheService from "services/cacheService";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+import CommonStyles from "components/CommonStyles";
+import { makeStyles } from "@mui/styles";
 //
 interface Props {
   data?: any;
 }
-
+const useStyles = makeStyles((theme) => {
+  return {
+    typeQuestion: {
+      margin: "0 15px",
+    },
+    containerDad: {
+      position: "relative",
+    },
+    containerContent: {
+      padding: "0 15px",
+      marginTop: "15px",
+    },
+    containerExercises: {
+      justifyContent: "space-between",
+      display: "flex",
+    },
+  };
+});
 const Step2ExamContent = (props: any) => {
   const { data, test } = props;
+
   //! State
   const [questions, setQuestions] = useState(data);
-
-  // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
-  const [questionSelected, setQuestionSelected] = useState<any>();
+  const [text, setText] = useState("");
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
@@ -32,20 +55,33 @@ const Step2ExamContent = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [questionType, setQuestionType] = useState();
-  console.log("questionType", questionType);
 
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   const part = data;
-  const group = test === IELT_TEST.READING ? data[groupSelected.part]?.groups : [];
-  const questionData =
-    test === IELT_TEST.READING ? data[groupSelected.part]?.groups[groupSelected.group]?.questions || [] : [];
-  const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
+  const group = data[groupSelected.part]?.groups;
+  const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
+  const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+  const { values, setFieldValue } = useFormikContext();
+  const {
+    onScannerText,
+    onHightlight,
+    passageTextWithHighlightTexted,
+    position,
+    isOpenOptionClear,
+    onCloseNote,
+    onClearHightLightAll,
+    onClickNote,
+    onClearHightLight,
+    isNoted,
+    isHightLight,
+    onInputChange,
+  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
+
+  useEffect(() => {
+    cacheService.cache("answers", values);
+  }, [values]);
 
   const onClickPage = (groupRenderSelected: any) => {
-    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-  };
-
-  const onClickPart = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
 
@@ -61,6 +97,10 @@ const Step2ExamContent = (props: any) => {
     setQuestionType(questionType);
   };
 
+  const getTextEachPart = (text: string) => {
+    setText(text);
+  };
+
   const partRenderSelected = useMemo(() => {
     const questionsWithPageNumberTemp = (questions as any) || [];
     if (!isEmpty(questionsWithPageNumberTemp[groupSelected?.part])) {
@@ -71,47 +111,41 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 250px)",
+    height: "calc(100vh - 275px)",
   };
-  //
-  const contentPart = "Sample Academic Reading Multiple Choice (one answer)";
+  const classes = useStyles();
   //! Render
   return (
     <>
-      <Box sx={{ margin: "0 15px" }}>
-        <CardPart content={questionType}></CardPart>
+      <Box className={classes.typeQuestion}>
+        <TypeQuestions content={questionType}></TypeQuestions>
       </Box>
-      <Box sx={{ position: "relative" }}>
-        <Box sx={{ padding: "0 15px", mt: "15px" }}>
-          <Grid
-            container
-            sx={{
-              justifyContent: "space-between",
-              display: { xs: "block", lg: "flex" },
-            }}
-          >
+      <Box className={classes.containerDad}>
+        <Box className={classes.containerContent}>
+          <Grid container className={classes.containerExercises}>
             <CardExercise
               content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
               width={5.9}
               styleAdd={styleAddExercise}
             />
-            {test === IELT_TEST.READING && (
-              <CardExercise
-                content={
-                  <TOFFL
-                    onClickPage={onClickPage}
-                    questionSelected={questionSelected}
-                    partRenderSelected={group[groupSelected.group]}
-                    showQuestion={showQuestion}
-                    onHightLightNumberPage={hightLightNumberPageClickQuestion}
-                    displayNumber={displayNumber}
-                    onClickQuestionType={onClickQuestionType}
-                  />
-                }
-                width={6}
-                styleAdd={styleAddExercise}
-              />
-            )}
+
+            <CardExercise
+              content={
+                <TOFFL
+                  onClickPage={onClickPage}
+                  partRenderSelected={group[groupSelected.group]}
+                  showQuestion={showQuestion}
+                  onHightLightNumberPage={hightLightNumberPageClickQuestion}
+                  displayNumber={displayNumber}
+                  onClickQuestionType={onClickQuestionType}
+                  getTextEachPart={getTextEachPart}
+                  passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+                  onScannerText={onScannerText}
+                />
+              }
+              width={6}
+              styleAdd={styleAddExercise}
+            />
           </Grid>
         </Box>
 
@@ -128,8 +162,36 @@ const Step2ExamContent = (props: any) => {
         />
         <FooterExamResponsive />
       </Box>
+      {isHightLight && (
+        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
+      )}
+      <CommonStyles.Note
+        position={position}
+        isOpenNote={isNoted}
+        onCloseNote={onCloseNote}
+        onChangeTextNote={onInputChange}
+      />
+      {isOpenOptionClear && (
+        <CommonStyles.ClearDialog
+          position={position}
+          onClearHightlight={onClearHightLight}
+          onClearHightlightAll={onClearHightLightAll}
+        />
+      )}
     </>
   );
 };
 
-export default Step2ExamContent;
+const IeltsReadingContainer = () => {
+  const { testCode } = useGetTestCode();
+  const { data, isLoading } = useIeltsReading(testCode);
+  useConfirmCloseBrowser();
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <Step2ExamContent data={data?.data?.data} />;
+};
+
+export default IeltsReadingContainer;

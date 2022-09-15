@@ -16,7 +16,6 @@ export const IeltsReducer = (
   action: ReducerInterface
 ) => {
   return produce(state, (draftState) => {
-    console.log("action", action.payload);
     switch (action.type) {
       case IeltsActions.saveTestCode: {
         draftState.ielts.testCode = action.payload.testCode;

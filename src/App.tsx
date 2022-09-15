@@ -29,6 +29,7 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
 import ForgotPassword from "views/ForgotPassword";
 import LoginAdminPage from "views/Admin/LoginAdmin";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 
 //
 
@@ -36,11 +37,16 @@ const clientId = "76081722691-0m4n7lmh7n71akn2814n5lthkvl3obdg.apps.googleuserco
 
 const App: React.FC = () => {
   useCheckAuth();
-
+  window.addEventListener("keydown", function (e) {
+    if ((e.ctrlKey || e.metaKey) && e.keyCode === 70) {
+      e.preventDefault();
+    }
+  });
+  // useConfirmCloseBrowser();
   //! Render
   return (
-    <GoogleOAuthProvider clientId={clientId}>
-      <LocationProvider>
+    <LocationProvider>
+      <GoogleOAuthProvider clientId={clientId}>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <ToastContainer position="top-right" autoClose={3000} />
@@ -67,8 +73,8 @@ const App: React.FC = () => {
             </Switch>
           </Router>
         </ThemeProvider>
-      </LocationProvider>
-    </GoogleOAuthProvider>
+      </GoogleOAuthProvider>
+    </LocationProvider>
   );
 };
 

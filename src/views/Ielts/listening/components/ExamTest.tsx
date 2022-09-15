@@ -1,32 +1,39 @@
-import LoadingPage from "components/Loading";
-import { useIeltsListening } from "hooks/ielts/useIelts";
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import CardExercise from "components/Card/CardExercise";
-import CardPart from "components/Card/CardPart";
-import { isEmpty } from "lodash";
-import { useMemo } from "react";
 import { Box } from "@mui/system";
+import CardExercise from "components/Card/CardExercise";
+import TypeQuestions from "components/Card/TypeQuestions";
+import LoadingPage from "components/Loading";
+import { ROOT_ORIGINAL_URL } from "constants/api";
+import { useFormikContext } from "formik";
+import { getErrorMsg } from "helpers";
+import { showError } from "helpers/toast";
+import useSagaCreators from "hooks/useSagaCreators";
+import { isEmpty } from "lodash";
+import React, { useEffect, useMemo, useState } from "react";
+import ReactAudioPlayer from "react-audio-player";
+import { useQuery } from "react-query";
+import { authActions } from "redux/creators/modules/auth";
+import cacheService from "services/cacheService";
+import ieltsService from "services/ieltsService";
+import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
-import ReactAudioPlayer from "react-audio-player";
-import { ROOT_ORIGINAL_URL } from "constants/api";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
-import { useHistory } from "react-router-dom";
 
-type Props = {
+interface Props {
   data: any;
-};
+  valueVolum?: any;
+}
 
 const ExamTest = (props: Props) => {
   //! State
-  const { data } = props;
-  console.log("Data", data);
+  const { data, valueVolum } = props;
   const audioData = data || [];
+  const dataCache = cacheService.getDataCache();
+  const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
+  const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
+  const { values } = useFormikContext();
 
-  // const [questions, setQuestions] = React.useState(data || {});
-
+  console.log("formik value", values);
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -34,13 +41,17 @@ const ExamTest = (props: Props) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
   const [questionType, setQuestionType] = useState();
-  console.log("questionType", questionType);
 
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
 
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+
+  useEffect(() => {
+    cacheService.cache("answers", values);
+    cacheService.cache("idxAudioPlaying", idxAudioPlaying);
+  }, [values, idxAudioPlaying]);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -80,14 +91,15 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <CardPart content={questionType} />
+        <TypeQuestions content={questionType} />
         <div>
           <ReactAudioPlayer
-            src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying].partAudio}`}
+            src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}
             autoPlay
             controls
             style={{ display: "none" }}
             onEnded={onEachAudioEnded}
+            volume={valueVolum}
           />
         </div>
         <Box sx={{ pt: "16px" }}>
@@ -115,30 +127,36 @@ const ExamTest = (props: Props) => {
         question={questionData}
         displayNumber={displayNumber}
       />
-
-      {/* <CardPage questions={audioData} onClickPage={onClickPage} /> */}
     </>
   );
 };
 
-const IeltsListeningContainer = () => {
-  // const testCode = useSelector((state: any) => state?.IeltsReducer?.ielts?.testCode);
+const IeltsListeningContainer = ({ valueVolum }: any) => {
+  const { dispatch } = useSagaCreators();
+
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
 
-  const history = useHistory();
+  const { data, isLoading } = useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
+    onSuccess: () => {
+      cacheService.cache("skill", "LISTENING");
+    },
+    onError: (error) => {
+      showError(getErrorMsg(error));
 
-  const { data, isLoading, error } = useIeltsListening(testCode);
+      localStorage.removeItem("testCode");
+      setTimeout(() => {
+        dispatch(authActions.logout);
+      }, 1000);
+    },
+  });
 
   if (isLoading) {
     return <LoadingPage />;
   }
-  if (error) {
-    history.push("/login");
-  }
 
-  return <ExamTest data={data?.data.data} />;
+  return <ExamTest valueVolum={valueVolum} data={data?.data.data} />;
 };
 
 export default IeltsListeningContainer;

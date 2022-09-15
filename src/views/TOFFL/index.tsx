@@ -1,42 +1,37 @@
 import React, { useState, useEffect } from "react";
-//
-import { ieltsApi } from "api/ieltsResults";
-//
-import Text from "components/Typography/index";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
-
-//
 import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 
-//
 // !type
 interface TOFFLI {
   partRenderSelected?: any;
-  questionSelected?: any;
   onClickPage: (id: string) => void;
   onHightLightNumberPage: (displayNumber: number) => void;
   showQuestion?: any;
   displayNumber: number;
   onClickQuestionType?: any;
+  getTextEachPart?: (text: string) => void;
+  passageTextWithHighlightTexted: string;
+  onScannerText: (data: any) => void;
 }
 
 const TOFFL = ({
   partRenderSelected,
-  questionSelected,
   onClickPage,
   showQuestion,
   onHightLightNumberPage,
   displayNumber,
   onClickQuestionType,
+  getTextEachPart,
+  passageTextWithHighlightTexted,
+  onScannerText,
 }: TOFFLI) => {
-  // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  console.log("partRenderSelected", partRenderSelected);
   //! Number
-
+  // console.log("Fsdfs", partRenderSelected);
   const dataNumber = {
     from: "1",
     to: "6",
@@ -49,13 +44,8 @@ const TOFFL = ({
   useEffect(() => {
     setExpanded(showQuestion);
   }, [showQuestion]);
-  // useEffect(() => {
-  //   setExpanded(questionSelected);
-  // }, [questionSelected]);
-  //
   const renderPartValueGroup = (partRenderSelected: any) => {
     const questionType = partRenderSelected?.questionType;
-    console.log("questionType", questionType);
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
@@ -74,6 +64,9 @@ const TOFFL = ({
           onHightLightNumberPage={onHightLightNumberPage}
           displayNumber={displayNumber}
           onClickPage={onClickPage}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }
@@ -91,6 +84,8 @@ const TOFFL = ({
             onHightLightNumberPage={onHightLightNumberPage}
             displayNumber={displayNumber}
             onClickPage={onClickPage}
+            getTextEachPart={getTextEachPart}
+            passageTextWithHighlightTexted={passageTextWithHighlightTexted}
           />
         </>
       );

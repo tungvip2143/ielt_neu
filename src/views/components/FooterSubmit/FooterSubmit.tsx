@@ -7,6 +7,10 @@ import { themeCssSx } from "../../../ThemeCssSx/ThemeCssSx";
 //
 import { TypeStepExamEnum } from "constants/enum";
 import { useStepExam } from "../../../provider/StepExamProvider";
+import { useFormikContext } from "formik";
+import cacheService from "services/cacheService";
+import { useGetExamInformation } from "hooks/ielts/useIelts";
+import { showError } from "helpers/toast";
 // !type
 interface Props {
   textBtn?: string;
@@ -36,17 +40,30 @@ const btn = {
 };
 const FooterSubmit = (props: Props) => {
   const { textBtn, nextStep } = props;
-  const { handler } = useStepExam();
+  const { handler, step } = useStepExam();
+  const { data, refetch } = useGetExamInformation();
+  const canStart = data?.data?.data?.canStart;
+
+  const onStartExam = () => {
+    if (step === TypeStepExamEnum.STEP3) {
+      refetch();
+      if (canStart) {
+        handler?.setStep && handler.setStep(nextStep);
+        cacheService.cache("step", nextStep);
+      }
+      if (!canStart) {
+        showError("Exam have not started yet");
+      }
+    } else {
+      handler?.setStep && handler.setStep(nextStep);
+      cacheService.cache("step", nextStep);
+    }
+  };
 
   return (
     <>
       <Box sx={containerBtn}>
-        <ButtonCommon.ButtonOutline
-          onClick={() => {
-            handler?.setStep && handler.setStep(nextStep);
-          }}
-          sx={btn}
-        >
+        <ButtonCommon.ButtonOutline onClick={onStartExam} sx={btn}>
           {textBtn}
         </ButtonCommon.ButtonOutline>
       </Box>

@@ -11,6 +11,7 @@ import useSagaCreators from "hooks/useSagaCreators";
 import useToggleDialog from "hooks/useToggleDialog";
 import { authActions } from "redux/creators/modules/auth";
 import { GetAuthSelector } from "redux/selectors";
+import Volum from "../Volum/Volum";
 
 const TextExams = {
   color: "#000000 !important",
@@ -119,9 +120,9 @@ const Header: React.FC = (props) => {
                   <NavLink to="#">
                     <Text.DescSmall sx={TextSecond}>User Reviews</Text.DescSmall>
                   </NavLink>
-                  <Link to="/login/admin">
+                  {/* <Link to="/login/admin">
                     <Text.DescSmall sx={TextSecond}>Admin</Text.DescSmall>
-                  </Link>
+                  </Link> */}
                 </Grid>
               </Grid>
             </Grid>

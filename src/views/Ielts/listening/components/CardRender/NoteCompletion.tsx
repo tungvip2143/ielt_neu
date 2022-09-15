@@ -2,6 +2,8 @@ import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
+import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
+import CommonStyles from "components/CommonStyles";
 
 type Props = {
   questionBox?: any;
@@ -13,9 +15,7 @@ type Props = {
 const CODE = "-@X$";
 
 const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
-  console.log({ blankId, questionId, questionBox });
   questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
-  console.log("questionBox", questionBox);
   return questionBox;
 };
 
@@ -25,14 +25,29 @@ const NoteCompletion = (props: Props) => {
   const queueAnswers = React.useRef<any>({});
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
+  // console.log("questionBox", questionBox);
 
-  console.log("groupData", groupData);
+  const {
+    onScannerText,
+    onHightlight,
+    passageTextWithHighlightTexted,
+    position,
+    isOpenOptionClear,
+    clearItem,
+    onCloseNote,
+    onClearHightLightAll,
+    onClickNote,
+    onClearHightLight,
+    markTagId,
+    isNoted,
+    isHightLight,
+    onInputChange,
+  } = useHightLightText({ text: questionBox, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     groupData.questions.forEach((el: any) => {
       const { blankNumber, displayNumberT } = el.question;
-      console.log("displayNumberT", displayNumberT);
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
@@ -52,13 +67,15 @@ const NoteCompletion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
+    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = values.answers[blankId - 1]?.studentAnswer;
     }
     return new Handlebars.SafeString(
       `
+      ${blankId}
       <input
           key="input-${blankId}"
           name="answers[${blankId - 1}].studentAnswer"
@@ -87,15 +104,34 @@ const NoteCompletion = (props: Props) => {
   const onClickInput = (data: any) => {
     const inputIdx: any = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    onScannerText(data);
   };
 
   //! Render
   return (
-    <div
-      onClick={(data) => onClickInput(data)}
-      dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
-      onInput={onChangeInputHandleBars}
-    />
+    <>
+      <div
+        onClick={(data) => onClickInput(data)}
+        dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
+        onInput={onChangeInputHandleBars}
+      />
+      {isHightLight && (
+        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
+      )}
+      <CommonStyles.Note
+        position={position}
+        isOpenNote={isNoted}
+        onCloseNote={onCloseNote}
+        onChangeTextNote={onInputChange}
+      />
+      {isOpenOptionClear && (
+        <CommonStyles.ClearDialog
+          position={position}
+          onClearHightlight={onClearHightLight}
+          onClearHightlightAll={onClearHightLightAll}
+        />
+      )}
+    </>
   );
 };
 

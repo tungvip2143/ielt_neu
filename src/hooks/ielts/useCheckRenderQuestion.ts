@@ -20,7 +20,7 @@ export const useCheckRenderQuestion = ({ groupSelected, part, group, question, q
       sectionRender.question = 0;
       return sectionRender;
     }
-    handleSubmit();
+    // handleSubmit();
     return;
   };
 

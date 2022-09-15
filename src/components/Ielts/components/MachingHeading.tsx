@@ -3,7 +3,6 @@ import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import { FastField, useFormikContext } from "formik";
 import { TextField } from "components/Textfield";
-import Text from "components/Typography";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -22,7 +21,7 @@ const useStyles = makeStyles((theme) => ({
     gap: 8,
   },
   answerList: {
-    border: "1px solid #ccc",
+    border: `1px solid ${theme.custom?.border.primary}`,
     borderRadius: "5px",
     padding: 16,
   },
@@ -31,21 +30,23 @@ type Props = {
   data?: any;
   answerList: string;
   question: any;
-  onHightLightNumberPage?: (displayNumber: number) => void;
   onClickPage?: (option: any) => void;
   displayNumber: number;
-  isView?: boolean
+  isView?: boolean;
 };
 
 const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
-  const { data, answerList, question, onHightLightNumberPage, onClickPage, displayNumber, isView = false } = props;
+  const { data, answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
+  // console.log("dsf", data);
 
-  const handleFocus = (displayNumber: number) => {
-    setFieldValue(`answers[${displayNumber}].questionId`, data?.questionId || "");
+  const handleFocus = (displayNumber: number, questionIndex: number) => {
+    // console.log("Fdsfs", questionIndex);
+    setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+    onClickPage && onClickPage({ question: questionIndex }); //!
   };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
@@ -64,15 +65,12 @@ const MachingHeading = (props: Props) => {
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
-              {/* <div>
-                <strong>{`${displayNumberT}.`}</strong>
-              </div> */}
-              {ReactHtmlParser(question?.question?.questionText)}
+              <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.displayNumber)}</strong>
               <FastField
                 disabled={isView}
                 size="small"
                 name={`answers[${displayNumberT - 1}].studentAnswer`}
-                onFocus={() => handleFocus(displayNumberT)}
+                onFocus={() => handleFocus(displayNumberT, questionIndex)}
                 component={TextField}
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
               />

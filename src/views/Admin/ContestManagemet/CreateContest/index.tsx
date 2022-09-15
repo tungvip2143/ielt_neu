@@ -53,6 +53,7 @@ const CreateContest = (props: Props) => {
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
     useContestManagemet();
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
+  console.log("dataPartDetailasd", dataPartDetail);
 
   const [dataFileExcel, setDataFileExcel] = useState([]);
   const formController = useForm<ResponseParams>({
@@ -179,6 +180,7 @@ const CreateContest = (props: Props) => {
         if (response.data.statusCode === 200) {
           refetchData();
           toast.success("Update part success!");
+          setIsEdit(false);
         }
       } catch (error: any) {
         toast.error(error);
@@ -231,7 +233,12 @@ const CreateContest = (props: Props) => {
       {openCreateScreen.type === "create" && renderButtonCreate()}
       <div className="mt-10">
         {openCreateScreen.type === "create" && <ListUserContest dataFileExcel={dataFileExcel} />}
-        {openCreateScreen.type === "update" && <ListStudentId studentIds={dataPartDetail?.studentIds || []} />}
+        {openCreateScreen.type === "update" && (
+          <ListStudentId
+            studentIds={dataPartDetail?.studentIds || []}
+            studentDetails={dataPartDetail?.studentDetails || []}
+          />
+        )}
       </div>
     </form>
   );

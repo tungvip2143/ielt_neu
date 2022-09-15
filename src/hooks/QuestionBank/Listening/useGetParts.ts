@@ -30,12 +30,8 @@ const useGetParts = () => {
     const fetchData = async () => {
       try {
         const response = await listeningService.getListParts(params);
-        console.log("responseListening", response);
-
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
-        console.log("metaRes", metaRes);
-
         setData(dataRes);
         setMeta(metaRes);
         setLoading(false);

@@ -1,6 +1,7 @@
 import { TypeStepExamEnum } from "constants/enum";
 import React, { Dispatch, useMemo, SetStateAction, useContext } from "react";
 import { useState } from "react";
+import cacheService from "services/cacheService";
 
 const StepExamContext = React.createContext<{
   step: TypeStepExamEnum;
@@ -18,7 +19,10 @@ interface StepExamProviderI {
 
 const StepExamProvider = ({ children }: StepExamProviderI) => {
   //! State
-  const [step, setStep] = useState(TypeStepExamEnum.STEP1);
+  const dataCache = cacheService.getDataCache();
+  const { step: stepExamDoing } = dataCache;
+  const InitialStep: any = stepExamDoing ? stepExamDoing : TypeStepExamEnum.STEP1;
+  const [step, setStep] = useState(InitialStep);
 
   const handler = useMemo(() => {
     return {

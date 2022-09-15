@@ -1,5 +1,6 @@
 import PrivateRoute from "components/PrivateRoute";
 import { RouteBase } from "constants/routeUrl";
+import { useGetLocation } from "provider/LocationProvider";
 import React, { Suspense } from "react";
 import { Redirect, Switch, useHistory } from "react-router-dom";
 import AdminScreen from "views/Admin/Admin";
@@ -26,11 +27,6 @@ import CreateTest from "views/Admin/TestBank/CreateTest";
 
 const AdminLayout: React.FC = (props) => {
   const history = useHistory();
-
-  //* Handle when user go to /admin
-  if (history.location.pathname === RouteBase.Admin) {
-    return <Redirect to={RouteBase.Listening} />;
-  }
 
   return (
     // <Router>

@@ -1,8 +1,6 @@
 import * as React from "react";
 import { Modal as ModalMui, Box, Button as ButtonMui, ButtonProps, Stack, StackProps } from "@mui/material";
 import Text from "components/Typography";
-import { theme } from "theme/index";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 
 export interface Props {
   children?: React.ReactNode;
@@ -11,6 +9,7 @@ export interface Props {
   open: boolean;
   width?: string;
   styleModal?: any;
+  backdrop?: string;
 }
 
 interface IProps {
@@ -38,7 +37,7 @@ interface StackMuiProps extends StackProps {
 
 function Modal(props: Props) {
   //! Destructure props
-  const { children, onClose, open, width, styleModal } = props;
+  const { children, onClose, open, width, styleModal, backdrop } = props;
 
   // !State
   const styleCss = {
@@ -53,12 +52,19 @@ function Modal(props: Props) {
     border: "none",
     zIndex: 999,
   };
+  const handleBackdrop = () => {
+    if (backdrop) {
+      return { background: `${backdrop}` };
+    }
+    return { background: "rgba(0,0,0,0.2)" };
+  };
   return (
     <ModalMui
       open={open}
       onClose={onClose}
       aria-labelledby="modal-modal-title"
       aria-describedby="modal-modal-description"
+      sx={handleBackdrop()}
     >
       <Stack spacing={1} sx={styleCss} style={styleModal}>
         {children}

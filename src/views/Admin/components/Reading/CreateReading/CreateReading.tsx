@@ -29,6 +29,7 @@ import { RouteBase } from "constants/routeUrl";
 import TinyMceCommon from "components/TinyMceCommon";
 import LoadingPage from "components/Loading";
 import { ErrorMessage } from "@hookform/error-message";
+import CommonStyles from "components/CommonStyles";
 
 export interface Props {
   openCreateScreen: {
@@ -39,6 +40,8 @@ const CreateQuestionReading = (props: Props) => {
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
   const [text, setText] = useState<boolean>(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
   const [openModal, setOpenModal] = useState({});
   const [err, setErr] = useState("");
   const history = useHistory();
@@ -97,7 +100,10 @@ const CreateQuestionReading = (props: Props) => {
           </Button>
         ) : (
           <>
-            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+              Save
+            </CommonStyles.Button>
+            {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" /> */}
             <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
           </>
         )}
@@ -108,13 +114,18 @@ const CreateQuestionReading = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" />
+        <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+          Continue
+        </CommonStyles.Button>
+        {/* <ButtonSave type="submit" icon={<ArrowCircleRightIcon sx={{ fontSize: "20px" }} />} title="Continue" /> */}
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
   };
 
   const onSubmit = async (data: any) => {
+    setIsLoading(true);
+
     if (openCreateScreen.type === "create") {
       const body = {
         partNumber: data.partNumber,
@@ -128,12 +139,14 @@ const CreateQuestionReading = (props: Props) => {
         if (response.data.statusCode === 200) {
           toast.success("Create part success!");
           history.push({
-            pathname: RouteBase.UpdateReadingWId(response?.data?.data?.partTitle),
+            pathname: RouteBase.UpdateReadingWId(response?.data?.data?.passageTitle),
             search: `?id=${response?.data?.data?.id}`,
           });
+          setIsLoading(false);
         }
       } catch (error: any) {
         toast.error(error);
+        setIsLoading(false);
       }
     }
     if (openCreateScreen.type === "update") {
@@ -147,6 +160,7 @@ const CreateQuestionReading = (props: Props) => {
         const response = await ReadingService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update part success!");
+          setIsEdit(false);
         }
       } catch (error: any) {
         toast.error(error);
@@ -159,8 +173,8 @@ const CreateQuestionReading = (props: Props) => {
       await ReadingService.deleteQuestionGroup(id);
       toast.success("Delete question group success");
       refetchQuestionGroup();
-    } catch (error) {
-      console.log("error");
+    } catch (error: any) {
+      toast.error(error);
     }
   };
 
@@ -233,18 +247,19 @@ const CreateQuestionReading = (props: Props) => {
                       onClick={() => onDelete(el.id)}
                     />
                   </div>
-                  <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
-                  <InputCommon
+                  {/* <Typography style={{ fontWeight: "bold" }}>Question groups</Typography> */}
+                  <div dangerouslySetInnerHTML={{ __html: el.questionBox }} style={{ fontWeight: "bold" }}></div>
+                  {/* <InputCommon
                     id="standard-basic"
                     variant="standard"
                     name="question"
                     control={control}
                     required
                     fullWidth
-                    value={el.questionBox}
+                    value={<div dangerouslySetInnerHTML={{ __html: el.questionBox }}></div>}
                     disabled
                     style={{ marginTop: el.questionBox ? "10px" : 0 }}
-                  />
+                  /> */}
                 </Card>
               );
             })}

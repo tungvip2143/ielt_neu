@@ -23,7 +23,6 @@ import { useHistory, useLocation, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import EditIcon from "@mui/icons-material/Edit";
-import HighlightOffOutlinedIcon from "@mui/icons-material/HighlightOffOutlined";
 import { isEmpty } from "lodash";
 import listeningService from "services/listeningService";
 import { RouteBase } from "constants/routeUrl";
@@ -31,6 +30,10 @@ import SelectField from "components/CustomField/SelectField";
 import audioService from "services/audioService";
 import TinyMceCommon from "components/TinyMceCommon";
 import { AUDIO_URL } from "constants/constants";
+import useToggleDialog from "hooks/useToggleDialog";
+import CommonStyles from "components/CommonStyles";
+import RemoveQuestionGroup from "./Components/RemoveQuestionGroup";
+import { ROOT_URL } from "constants/api";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -54,12 +57,14 @@ const styles = {
 };
 
 const CreateQuestionListening = (props: Props) => {
+  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
   const [existAudio, setExistAudio] = useState<boolean>(false);
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [err, setErr] = useState("");
   const history = useHistory();
   const { search } = useLocation();
@@ -85,7 +90,6 @@ const CreateQuestionListening = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
-  console.log("dataPartDetail", dataPartDetail, dataListening);
   const [isEdit, setIsEdit] = useState(false);
 
   const formController = useForm<ResponseParams>({
@@ -112,8 +116,6 @@ const CreateQuestionListening = (props: Props) => {
     }
   }, [dataPartDetail?.id]);
 
-  console.log("selectFile", selectFile);
-
   const renderButtonUpdate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
@@ -121,13 +123,20 @@ const CreateQuestionListening = (props: Props) => {
           Back
         </Button>
         {!isEdit ? (
-          <Button variant="contained" onClick={() => setIsEdit(true)}>
+          // <Button variant="contained" onClick={() => setIsEdit(true)}>
+          //   <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
+          //   Edit
+          // </Button>
+          <CommonStyles.Button variant="contained" onClick={() => setIsEdit(true)}>
             <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
             Edit
-          </Button>
+          </CommonStyles.Button>
         ) : (
           <>
-            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+              Save
+            </CommonStyles.Button>
+            {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" /> */}
             <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
           </>
         )}
@@ -138,15 +147,18 @@ const CreateQuestionListening = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" />
+        <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+          Continue
+        </CommonStyles.Button>
+        {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" /> */}
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
   };
 
   const onSubmit = async (data: any) => {
+    setIsLoading(true);
     if (openCreateScreen.type === "create") {
-      console.log("selectFile", selectFile);
       if (selectFile === null) {
         setExistAudio(true);
       }
@@ -155,8 +167,6 @@ const CreateQuestionListening = (props: Props) => {
 
       try {
         const responseAudio = await audioService.postAudioListening(formData);
-        console.log("responseAudio", responseAudio);
-
         if (responseAudio.data.statusCode === 200) {
           const body = {
             partNumber: data.partNumber,
@@ -170,11 +180,13 @@ const CreateQuestionListening = (props: Props) => {
               pathname: RouteBase.UpdateListeningWId(response?.data?.data?.partTitle),
               search: `?id=${response?.data?.data?.id}`,
             });
+            setIsLoading(false);
           }
           onSubmit;
         }
       } catch (error: any) {
         toast.error(error);
+        setIsLoading(false);
       }
     }
 
@@ -192,9 +204,11 @@ const CreateQuestionListening = (props: Props) => {
           partTitle: data.partTitle,
           partAudio: responseAudio?.data?.data?.uri ? responseAudio?.data?.data?.uri : dataPartDetail?.partAudio,
         };
-        const response = await listeningService.postCreatePart(body);
+        const response = await listeningService.patchUpdatePart(id, body);
         if (response.data.statusCode === 200) {
           toast.success("Update speaking success!");
+          setIsEdit(false);
+
           // history.push(RouteBase.Listening);
         }
       } catch (error: any) {
@@ -206,7 +220,6 @@ const CreateQuestionListening = (props: Props) => {
   const onDelete = async (id: number | string) => {
     try {
       await listeningService.deleteQuestionGroup(id);
-      alert("Delete question group success");
       refetchQuestionGroup();
     } catch (error) {
       console.log("error");
@@ -276,7 +289,7 @@ const CreateQuestionListening = (props: Props) => {
           // autoPlay
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
-          src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}${dataPartDetail?.partAudio}`}
+          src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}/${dataPartDetail?.partAudio}`}
           onPlay={(e) => console.log("onPlay")}
           showJumpControls={false}
           loop={false}
@@ -285,29 +298,13 @@ const CreateQuestionListening = (props: Props) => {
       )}
       <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onChangeFile} />
       <div className="text-end mb-2">
-        <ButtonUpload
+        <CommonStyles.Button
           style={{ display: "flex" }}
-          titleButton="Upload audio"
           onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
-        />
-        {existAudio && (
-          <span
-            style={{
-              display: "flex",
-              fontSize: "0.8rem",
-              fontWeight: "400",
-              lineHeight: "1.66",
-              fontFamily: "Arial",
-              textAlign: "left",
-              marginTop: "10px",
-
-              color: " red",
-            }}
-          >
-            This field is required!
-          </span>
-        )}
+        >
+          Upload audio
+        </CommonStyles.Button>
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (
@@ -333,12 +330,37 @@ const CreateQuestionListening = (props: Props) => {
                       style={{ color: "#15B8A6", fontSize: "20px", cursor: "grab", marginLeft: 10, marginRight: 10 }}
                       onClick={() => setOpenModal({ type: "updateQuestion", id: el.id })}
                     />
-                    <HighlightOffOutlinedIcon
-                      style={{ color: "#f44336", fontSize: "20px", cursor: "grab" }}
-                      onClick={() => onDelete(el.id)}
-                    />
+                    <RemoveQuestionGroup item={el} onDelete={onDelete} />
+                    {/* {shouldRenderRemove && (
+                      <CommonStyles.Modal
+                        open={openRemove}
+                        toggle={toggleRemove}
+                        header="Delete Confirmation"
+                        content={<div>Are you sure you want to delete?</div>}
+                        footer={
+                          <React.Fragment>
+                            <Button
+                              variant="outlined"
+                              sx={{ color: "black", fontWeight: "500" }}
+                              onClick={toggleRemove}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              variant="contained"
+                              style={{ background: "#9155FF" }}
+                              onClick={() => onDelete(el.id)}
+                            >
+                              Delete
+                            </Button>
+                          </React.Fragment>
+                        }
+                      />
+                    )} */}
                   </div>
-                  <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
+                  <div dangerouslySetInnerHTML={{ __html: el.questionBox }} style={{ fontWeight: "bold" }}></div>
+
+                  {/* <Typography style={{ fontWeight: "bold" }}>Question groups</Typography>
                   <InputCommon
                     id="standard-basic"
                     variant="standard"
@@ -349,7 +371,7 @@ const CreateQuestionListening = (props: Props) => {
                     value={el.questionBox}
                     disabled
                     style={{ marginTop: el.questionBox ? "10px" : 0 }}
-                  />
+                  /> */}
                 </Card>
               );
             })}

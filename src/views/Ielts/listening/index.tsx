@@ -1,35 +1,48 @@
+import { TypeExam, TypeStepExamEnum } from "constants/enum";
+import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
-import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
-import { TypeStepExamEnum, TypeExam } from "constants/enum";
 //
-import { Box, Button } from "@mui/material";
+import { Box } from "@mui/material";
 //
-import Header from "views/Ielts/Header/Header";
 import { Form, Formik } from "formik";
 import { useFinishIeltsSkill, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
+import Header from "views/Ielts/Header/Header";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
 //
+import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import InformationForCandidatesListening from "views/components/dataSteps/DataContentListening/InformationForCandidates";
 import IntructionsToCandidatesListening from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
-import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
+import EndTest from "../../../components/Exams/EndTest";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
-import HandleQuestionProvider from "providers/HandleQuestionProvider";
-import EndTest from "../../../components/Exams/EndTest";
 import { IELT_TEST } from "../../../interfaces/testType";
+import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 //
-import { GetAuthSelector } from "redux/selectors/auth";
-import { RouteBase } from "constants/routeUrl";
 import LoadingPage from "components/Loading";
+import { RouteBase } from "constants/routeUrl";
 import { rulesdetailExam } from "../../../constants/constants";
 //
 import { makeStyles } from "@mui/styles";
+import cacheService from "services/cacheService";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { showError } from "helpers/toast";
+import { getErrorMsg } from "helpers";
 //! css
 const useStyles = makeStyles((theme) => {
-  return {};
+  return {
+    container: {
+      height: "100vh",
+      overflow: "hidden",
+    },
+    containerSteps: {
+      paddingTop: "16px",
+      background: theme.custom?.background.exam,
+      height: "100%",
+    },
+  };
 });
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -38,11 +51,6 @@ const stepRuleExam = {
   intructionsToCandidates: <IntructionsToCandidatesListening />,
 };
 
-const containerSteps = {
-  pt: "16px",
-  background: "#dbe5f5",
-  height: "100%",
-};
 const styleModal = {
   width: "770px",
   padding: "10px !important",
@@ -50,55 +58,61 @@ const styleModal = {
 // !type
 export interface IeltsListeningProps {}
 
-const initialValues = function () {
-  let value = {
-    questionId: "",
-    studentAnswer: "",
-  };
-
-  let answers = [];
-  for (let i = 0; i < 40; i++) {
-    answers.push(value);
-  }
-  return { answers };
-};
-
 const IeltsListening = (props: IeltsListeningProps) => {
   //! State
 
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
+  const [changeValueVolum, setChangeValueVolum] = React.useState<any>(0.5);
+
+  const classes = useStyles();
+
   const { step, handler } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
-  const testCode = useMemo(() => {
-    return localStorage.getItem("testCode");
-  }, []);
+  const dataCache = cacheService.getDataCache();
+  const { LEFT_TIME } = dataCache;
+
   const history = useHistory();
+  const genInitialValue = useMemo(() => {
+    let value = {
+      questionId: "",
+      studentAnswer: "",
+    };
+
+    let answers = [];
+    for (let i = 0; i < 40; i++) {
+      answers.push(value);
+    }
+    return { answers };
+  }, []);
+
+  const initialValues: any = useMemo(() => {
+    const dataCache = cacheService.getDataCache();
+    const { answers } = dataCache;
+    return answers ? answers : genInitialValue;
+  }, []);
 
   //! Function
-  const auth = GetAuthSelector();
-  const user = auth?.user?.user;
 
-  const handleSubmitForm = async (values: any) => {
+  const handleSubmitForm = useCallback(async (values: any) => {
+    const testCode = localStorage.getItem("testCode");
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
+    // console.log("testCode", testCode);
     const body = { values: { answers }, testCode };
-    await updateIeltsListening(body, {
-      onSuccess: async () => {
-        await updateIeltsListeningFinish(
-          { testCode, skill: "listening" },
-          {
-            onSuccess: () => {
-              localStorage.setItem("LISTENING", "true");
-            },
-          }
-        );
-      },
-    });
+    try {
+      await updateIeltsListening(body);
+      await updateIeltsListeningFinish({ testCode, skill: "listening" }).then(() => {
+        cacheService.clearCacheData();
+      });
+    } catch (err) {
+      showError(getErrorMsg(err));
+    }
+
     history.push(RouteBase.IeltsReading);
-  };
+  }, []);
 
   const handleOpenModalHelp = useCallback(() => {
     setIsOpenModalHelp(true);
@@ -114,32 +128,46 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setIsOpenModalHide(false);
   };
   //
-  const timeExam = 1800000;
+
+  const timeExam = useMemo(() => {
+    return LEFT_TIME ? Number(LEFT_TIME) : 1800000;
+  }, []);
+
+  useConfirmCloseBrowser();
+  //
+  const handleChangeValueVolum = (value: any) => {
+    if (value === 100) {
+      return setChangeValueVolum(1);
+    }
+    setChangeValueVolum(Number(`0.${value}`));
+  };
 
   //! Render
   if (isLoading || listeningFinishLoading) {
     return <LoadingPage />;
   }
   return (
-    <Formik initialValues={initialValues()} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
+    <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
         return (
           <Form>
-            <Box sx={{ height: "100vh", overflow: "hidden" }}>
+            <Box className={classes.container}>
               <Header
                 handleOpenModalHelp={handleOpenModalHelp}
                 handleOpenModalHide={handleOpenModalHide}
                 numberStep={TypeStepExamEnum.STEP4}
                 timeExam={timeExam}
+                handleChangeValueVolum={handleChangeValueVolum}
+                typeExam={TypeExam.LISTENING}
               />
 
-              <Box sx={containerSteps}>
-                {step === TypeStepExamEnum.STEP1 && <DetailUser user={user} />}
-                {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc />}
+              <Box className={classes.containerSteps}>
+                {step === TypeStepExamEnum.STEP1 && <DetailUser />}
+                {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP3 && (
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
                 )}
-                {step === TypeStepExamEnum.STEP4 && <ExamTest />}
+                {step === TypeStepExamEnum.STEP4 && <ExamTest valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>

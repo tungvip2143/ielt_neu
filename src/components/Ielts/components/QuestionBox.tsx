@@ -8,6 +8,9 @@ type Props = {
   questions: any[];
   onClickPage?: (option: any) => void;
   isView?: boolean;
+  getTextEachPart?: (text: string) => void;
+  passageTextWithHighlightTexted?: string;
+  onScannerText?: any;
 };
 
 const CODE = "-@X$";
@@ -18,8 +21,16 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
 };
 
 const QuestionBox = (props: Props) => {
-  const { questionBox, questions, displayNumber, onClickPage, isView = false } = props;
-  console.log("questions", questions);
+  const {
+    questionBox,
+    questions,
+    displayNumber,
+    onClickPage,
+    isView = false,
+    onScannerText,
+    getTextEachPart,
+    passageTextWithHighlightTexted,
+  } = props;
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
   const newQuestionBoxParsed = useMemo(() => {
@@ -40,19 +51,20 @@ const QuestionBox = (props: Props) => {
       input?.focus();
     }
   }, [displayNumber]);
-  //
 
-  //
+  useEffect(() => {
+    getTextEachPart && getTextEachPart(newQuestionBoxParsed);
+  }, []);
+
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
-    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `<strong>${blankId}</strong><input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+      ` <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
         blankId - 1
       }].studentAnswer' 
        id="input-${blankId}" type="text" maxlength="30">`
@@ -62,13 +74,24 @@ const QuestionBox = (props: Props) => {
   const onClickInput = (data: any) => {
     const inputIdx: any = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    // onScannerText(data);
+  };
+  const onFocusInput = (event: any) => {
+    const inputIdx: any = event.target.getAttribute("class") - 1;
+    onClickPage && onClickPage({ question: inputIdx });
   };
 
-  const test: any = Handlebars.compile(newQuestionBoxParsed);
+  const textRender = passageTextWithHighlightTexted ? passageTextWithHighlightTexted : newQuestionBoxParsed;
+  const test: any = Handlebars.compile(textRender);
 
   return (
     <>
-      <div onClick={(data) => onClickInput(data)} dangerouslySetInnerHTML={{ __html: test() }} onInput={handleChange} />
+      <div
+        onClick={(data) => onClickInput(data)}
+        onFocus={(event) => onFocusInput(event)}
+        dangerouslySetInnerHTML={{ __html: test() }}
+        onInput={handleChange}
+      />
     </>
   );
 };

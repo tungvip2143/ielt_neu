@@ -9,9 +9,10 @@ import CountDownItem from "./CountDownItem";
 import Countdown from "react-countdown";
 interface Props {
   timeExam?: any;
+  handleSubmitWhenEndedTime?: () => void;
 }
 const CountDown = (props: Props) => {
-  const { timeExam } = props;
+  const { timeExam, handleSubmitWhenEndedTime } = props;
   const Countdown = {
     color: "#FEE49B",
     fontWeight: 700,
@@ -19,7 +20,7 @@ const CountDown = (props: Props) => {
   return (
     <Stack direction="row" spacing={1} sx={Countdown}>
       <AccessAlarmIcon />
-      <CountDownItem timeExam={timeExam} />
+      <CountDownItem handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
       <Typography
         sx={{
           color: "#FEE49B",
@@ -32,4 +33,4 @@ const CountDown = (props: Props) => {
   );
 };
 
-export default CountDown;
+export default React.memo(CountDown);

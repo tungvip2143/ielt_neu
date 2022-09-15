@@ -50,7 +50,6 @@ const Reading = (props: Props) => {
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          onHightLightNumberPage={() => null}
           question={group?.questions}
           answerList={group?.answerList}
           data={group?.questions}

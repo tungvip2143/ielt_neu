@@ -1,3 +1,4 @@
+import cacheService from "services/cacheService";
 import isEmpty from "lodash/isEmpty";
 import produce from "immer";
 import { put } from "redux-saga/effects";
@@ -31,24 +32,24 @@ export const authSagas = {
   [authActions.logout]: {
     saga: function* ({ payload = {} }) {
       yield authServices.clearUserLocalStorage();
+      yield cacheService.clearCacheData();
       window.location.reload();
     },
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
-      const { token, userType } = action.payload;
+      const { token, userType, user } = action.payload;
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token });
       yield authServices.saveUserTypeToLocalStorage(userType);
-      yield put({ type: authActions.saveInfoUserSuccess, token });
+      yield localStorage.setItem("userInfo", JSON.stringify(user));
+      yield put({ type: authActions.saveInfoUserSuccess, token, user });
+
+      if (!localStorage.getItem("userDetail")) {
+        localStorage.setItem("userDetail", JSON.stringify(user));
+      }
     },
   },
-  // [authActions.saveUserType]: {
-  //   saga: function* (action: any) {
-  //     const { userType } = action;
-  //     yield put({ type: authActions.saveUserType, userType });
-  //   },
-  // },
 };
 
 export const authReducer = (
@@ -65,7 +66,6 @@ export const authReducer = (
   action: any
 ) => {
   return produce(state, (draftState) => {
-    console.log("draftState", draftState);
     switch (action.type) {
       case authActions.checkAuth: {
         draftState.auth.isCheckingAuth = true;
@@ -76,7 +76,7 @@ export const authReducer = (
         draftState.auth.isLogin = true;
         draftState.auth.isCheckingAuth = false;
         draftState.auth.token = action.token;
-        draftState.auth.user = action.user;
+        draftState.auth.user = JSON.stringify(action.user);
 
         break;
       }
@@ -88,6 +88,12 @@ export const authReducer = (
 
       case authActions.saveUserType: {
         draftState.auth.userType = action.userType;
+        break;
+      }
+
+      case authActions.logout: {
+        draftState.auth.isLogin = false;
+        draftState.auth.token = "";
         break;
       }
 

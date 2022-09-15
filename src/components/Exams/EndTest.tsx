@@ -13,6 +13,7 @@ import { useHistory } from "react-router-dom";
 
 import { RouteBase } from "../../constants/routeUrl";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import cacheService from "services/cacheService";
 const card = {
   p: "48px 32px",
   width: { xs: "90%", md: "80%" },
@@ -40,16 +41,14 @@ const EndTest = (props: Props) => {
   const { testCode } = useGetTestCode();
 
   const handleEndTest = async () => {
-    await finishIeltsTest(
-      { testCode },
-
-      {
-        onSuccess: () => {
-          history.push(RouteBase.Login);
-          dispatch(authActions.logout);
-        },
-      }
-    );
+    try {
+      await finishIeltsTest({ testCode });
+      // history.push(RouteBase.Login);
+      dispatch(authActions.logout);
+      localStorage.removeItem("testCode");
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   if (ieltsFinishLoading) {
@@ -63,7 +62,7 @@ const EndTest = (props: Props) => {
         <Text.DescSmallCard>All of your answer have been saved.</Text.DescSmallCard>
         <Text.DescSmallCard>Please click the end test button below to finish the test</Text.DescSmallCard>
         <Box sx={{ mt: "50px" }}>
-          <ButtonStartTest onClick={handleEndTest}>End Test</ButtonStartTest>
+          <ButtonStartTest onClick={handleEndTest}>Log out</ButtonStartTest>
         </Box>
       </Box>
     </Card>

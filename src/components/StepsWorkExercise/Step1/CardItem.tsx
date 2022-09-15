@@ -1,11 +1,9 @@
 //
-//
 import IdentifyInformationType from "components/Ielts/components/IdentifyInformationType";
 import MachingHeading from "components/Ielts/components/MachingHeading";
 import MatchingType from "components/Ielts/components/MachingType";
 import QuestionBox from "components/Ielts/components/QuestionBox";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
-import { useFormikContext } from "formik";
 import FlowChart from "components/Ielts/components/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
 //
@@ -25,6 +23,9 @@ interface PropsItemQuestion {
   displayNumber: number;
   questionIdx?: number;
   onClickPage?: (option: any) => void;
+  getTextEachPart?: (text: string) => void;
+  passageTextWithHighlightTexted: string;
+  onScannerText?: (data: any) => void;
 }
 const ItemQuestion = ({
   question = [],
@@ -33,25 +34,29 @@ const ItemQuestion = ({
   questionType,
   questionBox,
   image,
-  onHightLightNumberPage,
   answerList,
   displayNumber,
   questionIdx,
   onClickPage,
+  getTextEachPart,
+  passageTextWithHighlightTexted,
+  onScannerText,
   ...remainProps
 }: PropsItemQuestion) => {
-  const { values } = useFormikContext();
-
   const renderQuestion = (data: any) => {
+    // console.log("dataQuestions", data);
+
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
-          onHightLightNumberPage={onHightLightNumberPage}
           answerList={answerList}
           questionBox={questionBox}
           data={data}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }
@@ -62,6 +67,9 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }
@@ -72,13 +80,15 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
+          getTextEachPart={getTextEachPart}
+          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
+          onScannerText={onScannerText}
         />
       );
     }
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          onHightLightNumberPage={onHightLightNumberPage}
           question={question}
           answerList={answerList}
           data={data}
@@ -103,9 +113,8 @@ const ItemQuestion = ({
           questionType={questionType}
           QUESTION_TYPE={QUESTION_TYPE}
           question={question}
-          expanded={expanded}
-          onCollapse={onCollapse}
-          onHightLightNumberPage={onHightLightNumberPage}
+          // expanded={expanded}
+          // onCollapse={onCollapse}
           displayNumber={displayNumber}
           questionIdx={questionIdx}
           onClickPage={onClickPage}
