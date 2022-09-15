@@ -6,6 +6,7 @@ import QuestionBox from "components/Ielts/components/QuestionBox";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import FlowChart from "components/Ielts/components/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
+import MatchingParagrapInformation from "../../Ielts/components/MatchingParagrapInformation";
 //
 interface PropsItemQuestion {
   expanded?: any;
@@ -44,7 +45,7 @@ const ItemQuestion = ({
   ...remainProps
 }: PropsItemQuestion) => {
   const renderQuestion = (data: any) => {
-    // console.log("dataQuestions", data);
+    console.log("dataQuestions", data);
 
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
@@ -60,20 +61,8 @@ const ItemQuestion = ({
         />
       );
     }
-    if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-      return (
-        <QuestionBox
-          onClickPage={onClickPage}
-          displayNumber={displayNumber}
-          questions={data}
-          questionBox={questionBox}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
-        />
-      );
-    }
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
+
+    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <QuestionBox
           onClickPage={onClickPage}
@@ -97,11 +86,23 @@ const ItemQuestion = ({
         />
       );
     }
+    if (questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION) {
+      return (
+        <>
+          <MatchingParagrapInformation
+            questions={data}
+            displayNumber={displayNumber}
+            onClickPage={onClickPage}
+            question={question}
+          />
+        </>
+      );
+    }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
       return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion displayNumber={displayNumber} data={data} />;
+      return <SentenceCompletetion displayNumber={displayNumber} data={data} onClickPage={onClickPage} />;
     }
     if (
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||

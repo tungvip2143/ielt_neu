@@ -52,7 +52,8 @@ const TOFFL = ({
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
       questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS ||
-      questionType === QUESTION_TYPE.MATCHING_HEADINGS
+      questionType === QUESTION_TYPE.MATCHING_HEADINGS ||
+      questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION
     ) {
       return (
         <ItemQuestion

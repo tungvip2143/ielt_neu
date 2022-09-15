@@ -58,7 +58,7 @@ const MachingType = (props: Props) => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
-  console.log("passageTextWithHighlightTexted", passageTextWithHighlightTexted);
+  // console.log("passageTextWithHighlightTexted", passageTextWithHighlightTexted);
   useEffect(() => {
     getTextEachPart && getTextEachPart(answerList);
   }, []);

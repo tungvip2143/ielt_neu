@@ -29,7 +29,7 @@ const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
-      marginRight: "10px",
+      marginRight: "2px",
     },
     eachQuestion: {
       background: "#000",
@@ -83,10 +83,6 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-export enum Direction {
-  next = "next",
-  back = "back",
-}
 
 const CardTotalPageExams = ({
   questions,

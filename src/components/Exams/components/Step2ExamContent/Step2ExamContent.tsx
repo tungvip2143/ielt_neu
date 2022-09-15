@@ -57,6 +57,8 @@ const Step2ExamContent = (props: any) => {
   const [questionType, setQuestionType] = useState();
 
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
+  console.log("fsdfdsfs", groupSelected);
+
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];

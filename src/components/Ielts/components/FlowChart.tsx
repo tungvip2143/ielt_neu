@@ -58,7 +58,7 @@ const FlowChart = (props: Props) => {
         {question?.map((answer: any, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;
           return (
-            <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
+            <div key={answer._id} className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <span>
                 <strong>{`${answer?.question?.displayNumber}.`}</strong>
               </span>

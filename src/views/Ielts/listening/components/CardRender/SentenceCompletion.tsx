@@ -8,7 +8,6 @@ type Props = {
 
 const SentenceCompletetion = (props: Props) => {
   const { data } = props;
-  console.log("sentence", data);
   const inputRef = useRef<any>([]);
 
   const { handleChange }: any = useFormikContext();

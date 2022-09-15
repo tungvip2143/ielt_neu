@@ -21,6 +21,8 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
   // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
+    console.log("ContentQuestion", ContentQuestion);
+
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MachingTypeListening
@@ -33,7 +35,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION && questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}
@@ -61,7 +63,8 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
       questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
       questionType === QUESTION_TYPE.FORM_COMPLETION ||
-      questionType === QUESTION_TYPE.DIAGRAM_LABELING
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION
     ) {
       return (
         <FlowChart
@@ -77,7 +80,12 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       return ContentQuestion?.questions.map((question: any) => {
         return (
           <>
-            <SentenceCompletetion onClickPage={onClickPage} displayNumber={displayNumber} data={question} />
+            <SentenceCompletetion
+              key={question._id}
+              onClickPage={onClickPage}
+              displayNumber={displayNumber}
+              data={question}
+            />
           </>
         );
       });

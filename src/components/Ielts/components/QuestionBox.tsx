@@ -1,6 +1,6 @@
+import { useEffect, useMemo } from "react";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { useEffect, useMemo } from "react";
 
 type Props = {
   questionBox: any;
@@ -36,6 +36,8 @@ const QuestionBox = (props: Props) => {
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
+      console.log("Fdsfsd", el);
+
       const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));

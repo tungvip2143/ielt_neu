@@ -15,26 +15,9 @@ const SentenceCompletetion = (props: Props) => {
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
 
-  // console.log("text", text);
+  console.log("text", text);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
-
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
-
-  console.log("isHightLight123", isHightLight);
 
   useEffect(() => {
     let input = document.getElementsByClassName(`${displayNumber}`) as any;
@@ -45,6 +28,7 @@ const SentenceCompletetion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any, option) {
+    console.log("Fsdfsd", blankId);
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
@@ -60,12 +44,11 @@ const SentenceCompletetion = (props: Props) => {
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
   });
-  const test: any = Handlebars.compile(passageTextWithHighlightTexted || "");
+  const test: any = Handlebars.compile(text || "");
 
   const onClickInput = (data: any) => {
     const inputIdx: any = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
-    onScannerText(data);
   };
   const onFocusInput = (event: any) => {
     const inputIdx: any = event.target.getAttribute("id") - 1;
@@ -82,22 +65,6 @@ const SentenceCompletetion = (props: Props) => {
         }}
         onInput={handleChange}
       />
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };

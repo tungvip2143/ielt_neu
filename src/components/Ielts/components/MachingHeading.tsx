@@ -64,7 +64,7 @@ const MachingHeading = (props: Props) => {
         {question.map((question: any, questionIndex: number): any => {
           const displayNumberT = question?.question?.displayNumber;
           return (
-            <div key={question.id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
+            <div key={question._id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
               <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.displayNumber)}</strong>
               <FastField
                 disabled={isView}
