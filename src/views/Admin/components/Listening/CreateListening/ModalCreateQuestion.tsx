@@ -136,7 +136,9 @@ const ModalCreateQuestion = (props: Props) => {
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
-          questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
+          questionType === "SUMMARY_COMPLETION" ||
+          questionType === "NOTE_COMPLETION" ||
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
@@ -171,7 +173,9 @@ const ModalCreateQuestion = (props: Props) => {
         image: image ? image : dataQuestionDetail?.image,
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
-          questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
+          questionType === "SUMMARY_COMPLETION" ||
+          questionType === "NOTE_COMPLETION" ||
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
@@ -504,7 +508,11 @@ const ModalCreateQuestion = (props: Props) => {
   };
 
   const renderHeaderModal = (questionType: string) => {
-    if (questionType !== "SUMMARY_COMPLETION" && questionType !== "NOTE_COMPLETION") {
+    if (
+      questionType !== "SUMMARY_COMPLETION" &&
+      questionType !== "NOTE_COMPLETION" &&
+      questionType !== "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+    ) {
       return (
         <>
           {dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
