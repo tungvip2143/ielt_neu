@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 //
 import { Box, Stack } from "@mui/material";
 import CountDown from "components/Countdown/CountDown";
@@ -66,8 +66,14 @@ const Header = ({
   typeExam,
 }: Props) => {
   //! State
-  const userDetail: any = localStorage.getItem("userDetail");
-  const convertUser = JSON.parse(userDetail);
+  const convertUser: any = useMemo(() => {
+    const user = localStorage.getItem("userDetail");
+    if (user) {
+      const userDetail = JSON.parse(user);
+      return userDetail;
+    }
+    return {};
+  }, []);
 
   const { step } = useStepExam();
   const { handleSubmit } = useFormikContext();
