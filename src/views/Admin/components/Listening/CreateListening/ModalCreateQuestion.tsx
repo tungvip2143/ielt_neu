@@ -82,9 +82,7 @@ const ModalCreateQuestion = (props: Props) => {
   const onRemoveAnswer = (index: number) => {
     removeAnswer(index);
   };
-  const onAddAnswer = () => {
-    AddAnswer({ name: "" });
-  };
+
   const resetAsyncForm = useCallback(
     async (data: any) => {
       setValue("questionBox", data.questionBox);
@@ -170,7 +168,7 @@ const ModalCreateQuestion = (props: Props) => {
         level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
         directionText: directionRef.current.getContent(),
-        image: image ? image : "",
+        image: image ? image : dataQuestionDetail?.image,
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
           questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
@@ -404,6 +402,7 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
+      case "FLOW_CHART_COMPLETION":
       case "DIAGRAM_LABELING":
       case "TABLE_COMPLETION":
       case "FORM_COMPLETION":

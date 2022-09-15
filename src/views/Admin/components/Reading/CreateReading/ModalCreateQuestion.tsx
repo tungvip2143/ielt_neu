@@ -21,7 +21,6 @@ import audioService from "services/audioService";
 import ReadingService from "services/ReadingService";
 import CommonReading from "views/components/CommonReading/CommonReading";
 import CommonUploadImage from "views/components/CommonReading/CommonUploadImage";
-import QuestionGrops from "views/components/CommonReading/QuestionGrops";
 import * as yup from "yup";
 
 export interface Props {
@@ -49,8 +48,6 @@ const ModalCreateQuestion = (props: Props) => {
   const [questionType, setQuestionType] = useState<string>("");
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
-  console.log("dataQuestionDetail", dataQuestionDetail);
-
   const [selectFile, setSelectFile] = useState<any>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [image, setImage] = useState<any>();
@@ -161,7 +158,6 @@ const ModalCreateQuestion = (props: Props) => {
                 : [],
           };
         }),
-
         partId: id,
       };
       try {
@@ -181,7 +177,7 @@ const ModalCreateQuestion = (props: Props) => {
         level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
         directionText: directionRef?.current.getContent(),
-        image: image ? image : "",
+        image: image ? image : dataQuestionDetail?.image,
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
           questionType === "SUMMARY_COMPLETION" ||
@@ -191,6 +187,7 @@ const ModalCreateQuestion = (props: Props) => {
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
+          console.log("el", el);
           return {
             ...el,
             // options:
