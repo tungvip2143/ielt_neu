@@ -25,29 +25,12 @@ const NoteCompletion = (props: Props) => {
   const queueAnswers = React.useRef<any>({});
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   const { setFieldValue, values }: any = useFormikContext();
-  // console.log("questionBox", questionBox);
-
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    clearItem,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    markTagId,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text: questionBox, values, onChangeInput: setFieldValue, tagName: "DIV" });
+  console.log("questionBox", questionBox);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     groupData.questions.forEach((el: any) => {
-      const { blankNumber, displayNumberT } = el.question;
+      const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
@@ -75,7 +58,7 @@ const NoteCompletion = (props: Props) => {
     }
     return new Handlebars.SafeString(
       `
-      ${blankId}
+      <strong>${blankId}</strong>
       <input
           key="input-${blankId}"
           name="answers[${blankId - 1}].studentAnswer"
@@ -104,7 +87,6 @@ const NoteCompletion = (props: Props) => {
   const onClickInput = (data: any) => {
     const inputIdx: any = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
-    onScannerText(data);
   };
 
   //! Render
@@ -112,25 +94,10 @@ const NoteCompletion = (props: Props) => {
     <>
       <div
         onClick={(data) => onClickInput(data)}
+        onFocus={(data) => onClickInput(data)}
         dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
         onInput={onChangeInputHandleBars}
       />
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };
