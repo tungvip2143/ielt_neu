@@ -10,8 +10,9 @@ import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 import { decode } from "html-entities";
 import { useMemo, useRef } from "react";
 import { useFormikContext } from "formik";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
 import CommonStyles from "components/CommonStyles";
+import { useHightLightText } from "hooks/ielts/useHighlightText";
+import { useClearHighLlight } from "hooks/ielts/useClearHighlight";
 
 // !type
 
@@ -24,34 +25,23 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   //! State
   let text = dataChangePart.passageText;
   const { values, setFieldValue } = useFormikContext();
-  // console.log("dataChangePart", dataChangePart);
-  // console.log("fsdfsdfsdf", dataChangePart.passageText);
 
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
+  const { clearHighlight } = useClearHighLlight();
+  useHightLightText();
 
   //! Render
   return (
     <>
+      <button type="button" onClick={clearHighlight}>
+        clear highlight
+      </button>
       <div style={{ height: "100%" }}>
         <div
-          onClick={(data) => onScannerText(data)}
+          // onClick={(data) => onScannerText(data)}
           style={{ zIndex: 999 }}
-          dangerouslySetInnerHTML={{ __html: decode(passageTextWithHighlightTexted) || "" }}
+          dangerouslySetInnerHTML={{ __html: decode(text) || "" }}
         ></div>
-        {isHightLight && (
+        {/* {isHightLight && (
           <CommonStyles.HightLightDialog
             onClickHighlight={onHightlight}
             onClickNote={onClickNote}
@@ -70,7 +60,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
           onCloseNote={onCloseNote}
           onChangeTextNote={onInputChange}
           position={position}
-        />
+        /> */}
       </div>
     </>
   );

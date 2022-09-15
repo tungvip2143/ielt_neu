@@ -17,7 +17,7 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  // console.log("ContentQuestion", ContentQuestion);
+  console.log("ContentQuestion", ContentQuestion);
   // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
@@ -33,7 +33,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION && questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}

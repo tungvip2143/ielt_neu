@@ -1,8 +1,6 @@
-import CommonStyles from "components/CommonStyles";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
-import { useEffect } from "react";
+import { useCallback, useEffect, useMemo } from "react";
 type Props = {
   data?: any;
   displayNumber?: number;
@@ -15,26 +13,9 @@ const SentenceCompletetion = (props: Props) => {
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
 
-  // console.log("text", text);
+  console.log("text", data);
 
   const { handleChange, values, setFieldValue }: any = useFormikContext();
-
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
-
-  console.log("isHightLight123", isHightLight);
 
   useEffect(() => {
     let input = document.getElementsByClassName(`${displayNumber}`) as any;
@@ -60,17 +41,16 @@ const SentenceCompletetion = (props: Props) => {
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
   });
-  const test: any = Handlebars.compile(passageTextWithHighlightTexted || "");
+  const test: any = Handlebars.compile(text || "");
 
   const onClickInput = (data: any) => {
     const inputIdx: any = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
-    onScannerText(data);
   };
-  const onFocusInput = (event: any) => {
+  const onFocusInput = useCallback((event: any) => {
     const inputIdx: any = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
-  };
+  }, []);
 
   return (
     <>
@@ -82,22 +62,6 @@ const SentenceCompletetion = (props: Props) => {
         }}
         onInput={handleChange}
       />
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };
