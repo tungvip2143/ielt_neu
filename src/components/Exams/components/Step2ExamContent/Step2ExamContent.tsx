@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => {
     },
     containerContent: {
       padding: "0 15px",
-      marginTop: "15px",
     },
     containerExercises: {
       justifyContent: "space-between",
@@ -97,15 +96,15 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 275px)",
+    height: "calc(100vh - 210px)",
   };
   const classes = useStyles();
   //! Render
   return (
     <>
-      <Box className={classes.typeQuestion}>
+      {/* <Box className={classes.typeQuestion}>
         <TypeQuestions content={questionType}></TypeQuestions>
-      </Box>
+      </Box> */}
       <Box className={classes.containerDad}>
         <Box className={classes.containerContent}>
           <Grid container className={classes.containerExercises}>
