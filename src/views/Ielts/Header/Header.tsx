@@ -66,14 +66,14 @@ const Header = ({
   typeExam,
 }: Props) => {
   //! State
-  // const convertUser: any = useMemo(() => {
-  //   const user = localStorage.getItem("userDetail");
-  //   if (user) {
-  //     const userDetail = JSON.parse(user);
-  //     return userDetail;
-  //   }
-  //   return {};
-  // }, []);
+  const convertUser: any = useMemo(() => {
+    const user = localStorage.getItem("userDetail");
+    if (user) {
+      const userDetail = JSON.parse(user);
+      return userDetail;
+    }
+    return {};
+  }, []);
 
   const { step } = useStepExam();
   const { handleSubmit } = useFormikContext();
@@ -98,7 +98,7 @@ const Header = ({
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <img className={classes.imgUser} src={NumberUser} alt="" />
-              {/* <p className={classes.textUser}>{convertUser?.username}</p> */}
+              <p className={classes.textUser}>{convertUser?.username}</p>
             </Stack>
           )}
 

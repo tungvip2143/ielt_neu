@@ -15,9 +15,8 @@ export const useHightLightText = ({ noted, toggleNote }) => {
     $("body").mouseup(function () {
       let selection = getSelectedText();
       let selection_text = selection.toString();
-      const tag = selection.anchorNode.lastChild.tagName;
-      console.log("selection", selection);
-      if (selection_text && tag !== "INPUT" && tag !== "TEXTAREA") {
+
+      if (selection_text) {
         highlight.current = highlight.current + 1;
 
         let mark = document.createElement("MARK");

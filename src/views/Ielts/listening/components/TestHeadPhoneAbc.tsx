@@ -25,7 +25,7 @@ const useStyles = makeStyles((theme) => {
   return {
     containerTest: {
       ...theme.custom?.flexBox.flexJusCenter,
-      marginTop: "60px",
+      paddingTop: "60px",
     },
     btn: {
       color: `${theme.custom?.text.btnSubmit} !important`,

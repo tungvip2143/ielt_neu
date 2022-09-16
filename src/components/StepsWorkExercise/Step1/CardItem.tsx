@@ -39,8 +39,6 @@ const ItemQuestion = ({
   ...remainProps
 }: PropsItemQuestion) => {
   const renderQuestion = (data: any) => {
-    console.log("dataQuestions", data);
-
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
@@ -86,32 +84,37 @@ const ItemQuestion = ({
       );
     }
     if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
-      return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
-    }
-    if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion displayNumber={displayNumber} data={data} onClickPage={onClickPage} />;
-    }
-    if (
-      questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
-      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
-      questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
-    ) {
-      return (
-        <IdentifyInformationType
-          questionType={questionType}
-          QUESTION_TYPE={QUESTION_TYPE}
-          question={question}
-          // expanded={expanded}
-          // onCollapse={onCollapse}
-          displayNumber={displayNumber}
-          questionIdx={questionIdx}
-          onClickPage={onClickPage}
-        />
-      );
+      if (
+        questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+        questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+        questionType === QUESTION_TYPE.TABLE_COMPLETION
+      ) {
+        return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
+      }
+      if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
+        return <SentenceCompletetion displayNumber={displayNumber} data={data} onClickPage={onClickPage} />;
+      }
+      if (
+        questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
+        questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
+        questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
+      ) {
+        return (
+          <IdentifyInformationType
+            questionType={questionType}
+            QUESTION_TYPE={QUESTION_TYPE}
+            question={question}
+            // expanded={expanded}
+            // onCollapse={onCollapse}
+            displayNumber={displayNumber}
+            questionIdx={questionIdx}
+            onClickPage={onClickPage}
+          />
+        );
+      }
     }
   };
 
   return <>{renderQuestion(question)}</>;
 };
 export default ItemQuestion;
-//

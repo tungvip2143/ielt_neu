@@ -91,7 +91,7 @@ const ExamTest = (props: Props) => {
   return (
     <>
       <Box sx={container}>
-        <TypeQuestions content={questionType} />
+        {/* <TypeQuestions content={questionType} /> */}
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}
@@ -102,7 +102,7 @@ const ExamTest = (props: Props) => {
             volume={valueVolum}
           />
         </div>
-        <Box sx={{ pt: "16px" }}>
+        <Box>
           <CardExercise
             content={
               <ContentQuestion
