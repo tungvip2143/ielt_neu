@@ -33,16 +33,16 @@ const Listening = (props: Props) => {
                         <>
                           <div className="flex justify-between ml-5 mr-5">
                             {question?.studentAnswer === question?.question?.answer ? (
-                              <p className="text-green-600 capitalize">
+                              <p className="text-green-600 capitalize flex-1">
                                 Your Answer: {question?.studentAnswer === null ? "V" : question?.studentAnswer}
                               </p>
                             ) : (
-                              <p className="text-red-600 capitalize">
+                              <p className="text-red-600 capitalize flex-1">
                                 Your Answer: {question?.studentAnswer === null ? "X" : question?.studentAnswer}
                               </p>
                             )}
 
-                            <span className="text-black">
+                            <span className="text-black flex-1 flex justify-start">
                               Correct Answer: <span className="text-green-600">{question?.question?.answer}</span>
                             </span>
                             <span>
