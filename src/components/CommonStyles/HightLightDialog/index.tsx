@@ -46,12 +46,18 @@ type Props = {
   onClickNote?: () => void;
   position: any;
   onCloseAction: () => void;
+  clearAll: () => void;
 };
 
 const HightLightDialog = (props: Props) => {
   // !State
-  const { onClickHighlight, onClickNote, position, onCloseAction } = props;
+  const { onClickHighlight, onClickNote, position, onCloseAction, clearAll } = props;
   const classes = useStyle(position);
+
+  const onClearAll = () => {
+    clearAll();
+    onCloseAction();
+  };
 
   // !Render
   return (
@@ -63,7 +69,7 @@ const HightLightDialog = (props: Props) => {
         <img className={classes.imgNote} src={imgHightLight} alt="" />
         <p>Note</p>
       </div>
-      <div id="clear-all" className={classes.noteItem}>
+      <div id="clear-all" onClick={onClearAll} className={classes.noteItem}>
         <img className={classes.imgNote} src={imgNote} alt="" />
         <p>Clear all</p>
       </div>

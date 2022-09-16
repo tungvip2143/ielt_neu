@@ -28,7 +28,7 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   let text = dataChangePart.passageText;
   const { values, setFieldValue } = useFormikContext();
 
-  useClearHighlight();
+  const { clearAll } = useClearHighlight();
   const { isAction, position, toggleAction, className } = useRightClick();
   const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
   useHightLightText({ noted, toggleNote });
@@ -36,7 +36,6 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
   //! Render
   return (
     <>
-      <button type="button">clear highlight</button>
       <div style={{ height: "100%" }}>
         <div
           // onClick={(data) => onScannerText(data)}
@@ -44,7 +43,12 @@ const CardLeft = ({ dataChangePart, test }: Props) => {
           dangerouslySetInnerHTML={{ __html: decode(text) || "" }}
         ></div>
         {isAction && (
-          <CommonStyles.HightLightDialog onCloseAction={toggleAction} onClickNote={onClickNote} position={position} />
+          <CommonStyles.HightLightDialog
+            clearAll={clearAll}
+            onCloseAction={toggleAction}
+            onClickNote={onClickNote}
+            position={position}
+          />
         )}
         {isNoted && (
           <CommonStyles.Note

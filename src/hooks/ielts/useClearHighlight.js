@@ -2,13 +2,15 @@ import $ from "jquery";
 import { useEffect } from "react";
 
 export const useClearHighlight = () => {
-  const tags = document.getElementsByTagName("mark");
-  console.log("tag", tags);
-  // if (tags.length > 0) {
-  //   tags.map((tag) => {
-  //     tag.onclick = onclick = (e) => {
-  //       console.log("tag", tag);
-  //     };
-  //   });
-  // }
+  const clearAll = () => {
+    const tags = document.querySelectorAll("mark");
+    if (tags) {
+      tags.forEach((mark) => {
+        let text = mark.textContent || mark.innerText;
+        let node = document.createTextNode(text);
+        mark.parentNode.replaceChild(node, mark);
+      });
+    }
+  };
+  return { clearAll };
 };
