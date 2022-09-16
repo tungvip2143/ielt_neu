@@ -13,9 +13,6 @@ interface TOFFLI {
   showQuestion?: any;
   displayNumber: number;
   onClickQuestionType?: any;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted: string;
-  onScannerText: (data: any) => void;
 }
 
 const TOFFL = ({
@@ -25,9 +22,6 @@ const TOFFL = ({
   onHightLightNumberPage,
   displayNumber,
   onClickQuestionType,
-  getTextEachPart,
-  passageTextWithHighlightTexted,
-  onScannerText,
 }: TOFFLI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
@@ -64,9 +58,6 @@ const TOFFL = ({
           onHightLightNumberPage={onHightLightNumberPage}
           displayNumber={displayNumber}
           onClickPage={onClickPage}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
@@ -84,8 +75,6 @@ const TOFFL = ({
             onHightLightNumberPage={onHightLightNumberPage}
             displayNumber={displayNumber}
             onClickPage={onClickPage}
-            getTextEachPart={getTextEachPart}
-            passageTextWithHighlightTexted={passageTextWithHighlightTexted}
           />
         </>
       );
