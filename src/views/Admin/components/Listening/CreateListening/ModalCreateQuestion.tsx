@@ -147,7 +147,7 @@ const ModalCreateQuestion = (props: Props) => {
             ...el,
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                ? el?.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e ? e : {} }))
                 : [],
           };
         }),
