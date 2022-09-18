@@ -24,7 +24,6 @@ const SentenceCompletetion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any, option) {
-    console.log("Fsdfsd", blankId);
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
