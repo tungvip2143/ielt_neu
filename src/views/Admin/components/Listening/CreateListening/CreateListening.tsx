@@ -57,10 +57,8 @@ const styles = {
 };
 
 const CreateQuestionListening = (props: Props) => {
-  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
-  const [existAudio, setExistAudio] = useState<boolean>(false);
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
@@ -159,9 +157,6 @@ const CreateQuestionListening = (props: Props) => {
   const onSubmit = async (data: any) => {
     setIsLoading(true);
     if (openCreateScreen.type === "create") {
-      if (selectFile === null) {
-        setExistAudio(true);
-      }
       const formData = new FormData();
       formData.append("file", selectFile);
 
