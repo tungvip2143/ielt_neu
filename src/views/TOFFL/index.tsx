@@ -25,7 +25,6 @@ const TOFFL = ({
 }: TOFFLI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
-  // console.log("Fsdfs", partRenderSelected);
   const dataNumber = {
     from: "1",
     to: "6",
@@ -46,7 +45,8 @@ const TOFFL = ({
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
       questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS ||
-      questionType === QUESTION_TYPE.MATCHING_HEADINGS
+      questionType === QUESTION_TYPE.MATCHING_HEADINGS ||
+      questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION
     ) {
       return (
         <ItemQuestion
@@ -85,7 +85,7 @@ const TOFFL = ({
   return (
     <Box>
       <TitleExam dataNumber={dataNumber} title={partRenderSelected} />
-      <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
+      <Stack direction="column" spacing={1} sx={{ pb: "100px" }} className="exam">
         {renderPartValueGroup(partRenderSelected)}
         {onClickQuestionType(partRenderSelected?.questionType)}
       </Stack>

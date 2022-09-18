@@ -1,6 +1,6 @@
+import { useEffect, useMemo } from "react";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { useEffect, useMemo } from "react";
 
 type Props = {
   questionBox: any;
@@ -64,10 +64,12 @@ const QuestionBox = (props: Props) => {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      ` <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+      `<span class="noselect">
+      <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
         blankId - 1
       }].studentAnswer' 
-       id="input-${blankId}" type="text" maxlength="30">`
+       id="input-${blankId}" type="text" maxlength="30">
+      </span>`
     );
   });
 

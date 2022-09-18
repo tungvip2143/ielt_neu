@@ -7,9 +7,6 @@ export const useRightClick = () => {
   const [isAction, setIsAction] = useState<boolean>(false);
   const [className, setClassName] = useState("");
 
-  console.log("position", position);
-  console.log("position isAction", isAction);
-
   const handleRightClick = (e: any) => {
     const domNode: any = ReactDOM.findDOMNode(e.target);
     const tagName = domNode?.tagName;

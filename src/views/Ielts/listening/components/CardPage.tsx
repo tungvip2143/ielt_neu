@@ -230,8 +230,6 @@ const CardPage = ({
     });
   };
 
-  // console.log("values.answers[displayNumber]", values.answers[displayNumber - 1], displayNumber);
-
   //! Render
   return (
     <>

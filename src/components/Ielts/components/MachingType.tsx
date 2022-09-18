@@ -58,7 +58,6 @@ const MachingType = (props: Props) => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
-  console.log("passageTextWithHighlightTexted", passageTextWithHighlightTexted);
   useEffect(() => {
     getTextEachPart && getTextEachPart(answerList);
   }, []);
@@ -66,7 +65,6 @@ const MachingType = (props: Props) => {
   const { setFieldValue } = useFormikContext();
 
   const handleFocus = (index: number, questionIndex: number) => {
-    // console.log("fsdf", questionIndex);
     setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
     let sectionRender: any = {};
     sectionRender.question = questionIndex;

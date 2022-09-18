@@ -1,14 +1,12 @@
-import React, { useEffect, useRef } from "react";
-import ReactHtmlParser from "react-html-parser";
-import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
+import Handlebars from "handlebars";
+import { useRef } from "react";
 type Props = {
   data?: any;
 };
 
 const SentenceCompletetion = (props: Props) => {
   const { data } = props;
-  console.log("sentence", data);
   const inputRef = useRef<any>([]);
 
   const { handleChange }: any = useFormikContext();

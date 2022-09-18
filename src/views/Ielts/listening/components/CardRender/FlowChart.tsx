@@ -68,7 +68,7 @@ const FlowChart = (props: Props) => {
         {question?.map((answer: any, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;
           return (
-            <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
+            <div key={answer.questionId} className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <strong style={{ minWidth: "20px" }}>{`${answer?.question?.displayNumber}.`}</strong>
               <FastField
                 inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}

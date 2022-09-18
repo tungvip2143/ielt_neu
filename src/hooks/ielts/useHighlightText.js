@@ -4,8 +4,6 @@ import { useEffect, useRef } from "react";
 export const useHightLightText = ({ noted, toggleNote }) => {
   const highlight = useRef(0);
 
-  console.log("noted at highligh", noted);
-
   useEffect(() => {
     function getSelectedText() {
       let t = document.all
@@ -14,35 +12,68 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       return t;
     }
 
-    $("body").mouseup(function () {
-      var selection = getSelectedText();
-      var selection_text = selection.toString();
-      highlight.current = highlight.current + 1;
+    function clearSelection() {
+      if (document.selection && document.selection.empty) {
+        document.selection.empty();
+      } else if (window.getSelection) {
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+      }
+    }
 
-      var mark = document.createElement("MARK");
-      // const clear = document.querySelector(".clear");
-      console.log("mark", mark);
-      mark.textContent = selection_text;
-      mark.className = highlight.current;
-      mark.ref = highlight;
+    $(".exam").mouseup(function (event) {
+      let selection = getSelectedText();
+      let selection_text = selection.toString();
+      let range = selection.getRangeAt(0);
+      const docFragment = range.cloneContents();
+      const input = docFragment.querySelector("input");
+      const textarea = docFragment.querySelector("textarea");
+      const p = docFragment.querySelector("p");
+      const clickNumber = event.detail;
 
-      if (selection) {
-        var range = selection.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(mark);
+      // var unFocus = function () {
+      //   if (document.selection) {
+      //     document.selection.empty();
+      //   } else {
+      //     window.getSelection().removeAllRanges();
+      //   }
+      // };
 
-        mark.onclick = () => {
-          const className = mark.className;
-          if (noted[className]) {
-            toggleNote();
-            return;
-          }
+      // if (inputTags) {
+      //   inputTags.forEach((input) => {
+      //     console.log("input12345", input);
+      //     input.onmousemove = () => {
+      //       unFocus();
+      //     };
+      //   });
+      // }
 
-          var text = mark.textContent || mark.innerText;
-          var node = document.createTextNode(text);
-          mark.parentNode.replaceChild(node, mark);
-        };
+      // $("input,textarea").bind("cut copy paste", function (e) {
+      //   e.preventDefault(); //disable cut,copy,paste
+      // });
+      if (clickNumber < 2 && !input && !textarea && !p) {
+        if (selection_text) {
+          highlight.current = highlight.current + 1;
+
+          let mark = document.createElement("MARK");
+          mark.textContent = selection_text;
+          mark.className = `mark-${highlight.current}`;
+          mark.ref = highlight;
+          mark.setAttribute("style", "font-size:inherit");
+          console.log("abcd");
+
+          range.deleteContents();
+          range.insertNode(mark);
+
+          // mark.onclick = () => {
+          //   let text = mark.textContent || mark.innerText;
+          //   let node = document.createTextNode(text);
+          //   mark.parentNode.replaceChild(node, mark);
+          // };
+        }
+      } else {
+        clearSelection();
       }
     });
-  }, [noted]);
+  }, []);
 };
