@@ -44,7 +44,6 @@ export const authSagas = {
       yield authServices.saveUserTypeToLocalStorage(userType);
       yield localStorage.setItem("userInfo", JSON.stringify(user));
       yield put({ type: authActions.saveInfoUserSuccess, token, user });
-      yield localStorage.setItem("userDetail", JSON.stringify(user));
     },
   },
 };

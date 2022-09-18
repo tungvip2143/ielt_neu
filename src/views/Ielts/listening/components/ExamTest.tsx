@@ -102,7 +102,7 @@ const ExamTest = (props: Props) => {
             volume={valueVolum}
           />
         </div>
-        <Box sx={{ pt: "16px" }}>
+        <Box>
           <CardExercise
             content={
               <ContentQuestion
