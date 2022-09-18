@@ -44,7 +44,7 @@ const useStyles = makeStyles((theme) => {
       overflow: "hidden",
     },
     containerSteps: {
-      paddingTop: "16px",
+      // paddingTop: "16px",
       background: theme.custom?.background.exam,
       height: "100%",
     },

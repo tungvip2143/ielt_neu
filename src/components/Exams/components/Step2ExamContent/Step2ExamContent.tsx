@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme) => {
     },
     containerContent: {
       padding: "0 15px",
+      paddingTop: "15px",
     },
     containerExercises: {
       justifyContent: "space-between",
@@ -56,7 +57,7 @@ const Step2ExamContent = (props: any) => {
   const [questionType, setQuestionType] = useState();
 
   const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
-  console.log("fsdfdsfs", groupSelected);
+  // console.log("fsdfdsfs", groupSelected);
 
   const part = data;
   const group = data[groupSelected.part]?.groups;
@@ -64,8 +65,6 @@ const Step2ExamContent = (props: any) => {
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
 
-  console.log("displayNumber container", displayNumber);
-  console.log("displayNumber groupSelected", groupSelected);
   useEffect(() => {
     cacheService.cache("answers", values);
   }, [values]);
