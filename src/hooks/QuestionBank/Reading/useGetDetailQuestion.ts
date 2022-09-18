@@ -4,6 +4,8 @@ import ReadingService from "services/ReadingService";
 
 const useGetDetailQuestion = (id: any) => {
   const [dataQuestionDetail, setDataQuestionDetail] = useState<MPartReading>({});
+  console.log("dataQuestionDetail", dataQuestionDetail);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 

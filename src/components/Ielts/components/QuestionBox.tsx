@@ -36,8 +36,6 @@ const QuestionBox = (props: Props) => {
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
-      console.log("Fdsfsd", el);
-
       const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
@@ -66,10 +64,12 @@ const QuestionBox = (props: Props) => {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      ` <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+      `<span class="noselect">
+      <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
         blankId - 1
       }].studentAnswer' 
-       id="input-${blankId}" type="text" maxlength="30">`
+       id="input-${blankId}" type="text" maxlength="30">
+      </span>`
     );
   });
 

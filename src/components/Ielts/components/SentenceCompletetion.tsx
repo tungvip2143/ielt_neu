@@ -13,7 +13,7 @@ const SentenceCompletetion = (props: Props) => {
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
 
-  const { handleChange, values, setFieldValue }: any = useFormikContext();
+  const { handleChange, values, setFieldValue }: any = useFormikContext() ?? {};
 
   useEffect(() => {
     let input = document.getElementsByClassName(`${displayNumber}`) as any;
@@ -24,13 +24,12 @@ const SentenceCompletetion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any, option) {
-    console.log("Fsdfsd", blankId);
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
     if (input) {
-      input.value = isView ? "" : values.answers[displayNumberI - 1]?.studentAnswer;
-      values.answers[displayNumberI - 1].questionId = questionId;
+      input.value = isView ? "" : values.answers?.[displayNumberI - 1]?.studentAnswer;
+      values?.answers?.[displayNumberI - 1]?.questionId === questionId;
     }
     return new Handlebars.SafeString(
       `<strong>${data?.question?.displayNumber}</strong> <input ${

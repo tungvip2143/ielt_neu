@@ -11,6 +11,7 @@ import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
 import CommonStyles from "components/CommonStyles";
+import { useClearHighlight } from "hooks/ielts/useClearHighlight";
 // ! type
 interface Props {
   ContentQuestion?: any;
@@ -28,6 +29,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
   const { isAction, position, toggleAction, className } = useRightClick();
   const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
   useHightLightText({ noted, toggleNote });
+  const { clearAll, clearMarkItem } = useClearHighlight({ className });
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     console.log("ContentQuestion", ContentQuestion);
@@ -123,11 +125,17 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     <>
       <TitleExam title={ContentQuestion} />
 
-      <div>
+      <div className="exam">
         {renderPartValueGroup(ContentQuestion)}
         {onClickQuestionType(ContentQuestion?.questionType)}
         {isAction && (
-          <CommonStyles.HightLightDialog onCloseAction={toggleAction} onClickNote={onClickNote} position={position} />
+          <CommonStyles.HightLightDialog
+            clearAll={clearAll}
+            onCloseAction={toggleAction}
+            onClickNote={onClickNote}
+            position={position}
+            clearMarkItem={clearMarkItem}
+          />
         )}
         {isNoted && (
           <CommonStyles.Note

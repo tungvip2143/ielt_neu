@@ -16,6 +16,7 @@ import { useFormikContext } from "formik";
 import Volum from "../../../components/Volum/Volum";
 import { TypeExam } from "constants/enum";
 import { makeStyles } from "@mui/styles";
+import authServices from "services/authServices";
 
 // ! type
 interface Props {
@@ -66,14 +67,6 @@ const Header = ({
   typeExam,
 }: Props) => {
   //! State
-  const convertUser: any = useMemo(() => {
-    const user = localStorage.getItem("userDetail");
-    if (user) {
-      const userDetail = JSON.parse(user);
-      return userDetail;
-    }
-    return {};
-  }, []);
 
   const { step } = useStepExam();
   const { handleSubmit } = useFormikContext();
@@ -84,6 +77,11 @@ const Header = ({
   const optionBtn = {
     cursor: "pointer",
   };
+
+  const user: any = useMemo(() => {
+    const { user } = authServices.getUserLocalStorage();
+    return user;
+  }, []);
 
   const handleSubmitWhenEndedTime = useCallback(() => {
     handleSubmit();
@@ -98,7 +96,7 @@ const Header = ({
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
             <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
               <img className={classes.imgUser} src={NumberUser} alt="" />
-              <p className={classes.textUser}>{convertUser?.username}</p>
+              <p className={classes.textUser}>{user?.username}</p>
             </Stack>
           )}
 
