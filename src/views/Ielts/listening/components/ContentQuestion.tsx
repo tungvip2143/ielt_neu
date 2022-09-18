@@ -29,7 +29,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
   const { isAction, position, toggleAction, className } = useRightClick();
   const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
   useHightLightText({ noted, toggleNote });
-  const { clearAll } = useClearHighlight();
+  const { clearAll, clearMarkItem } = useClearHighlight({ className });
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     console.log("ContentQuestion", ContentQuestion);
@@ -125,7 +125,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     <>
       <TitleExam title={ContentQuestion} />
 
-      <div>
+      <div className="exam">
         {renderPartValueGroup(ContentQuestion)}
         {onClickQuestionType(ContentQuestion?.questionType)}
         {isAction && (
@@ -134,6 +134,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
             onCloseAction={toggleAction}
             onClickNote={onClickNote}
             position={position}
+            clearMarkItem={clearMarkItem}
           />
         )}
         {isNoted && (

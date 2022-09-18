@@ -12,29 +12,68 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       return t;
     }
 
-    $("body").mouseup(function () {
+    function clearSelection() {
+      if (document.selection && document.selection.empty) {
+        document.selection.empty();
+      } else if (window.getSelection) {
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+      }
+    }
+
+    $(".exam").mouseup(function (event) {
       let selection = getSelectedText();
       let selection_text = selection.toString();
+      let range = selection.getRangeAt(0);
+      const docFragment = range.cloneContents();
+      const input = docFragment.querySelector("input");
+      const textarea = docFragment.querySelector("textarea");
+      const clickNumber = event.detail;
+      const inputTags = document.querySelectorAll("input");
+      const textareaTag = document.querySelector("textareaTag");
 
-      if (selection_text) {
-        highlight.current = highlight.current + 1;
+      var unFocus = function () {
+        if (document.selection) {
+          document.selection.empty();
+        } else {
+          window.getSelection().removeAllRanges();
+        }
+      };
 
-        let mark = document.createElement("MARK");
-        console.log("mark", mark);
-        mark.textContent = selection_text;
-        mark.className = highlight.current;
-        mark.ref = highlight;
-        mark.setAttribute("style", "font-size:inherit");
+      if (inputTags) {
+        inputTags.forEach((input) => {
+          console.log("input12345", input);
+          input.onmousemove = () => {
+            unFocus();
+          };
+        });
+      }
 
-        let range = selection.getRangeAt(0);
-        range.deleteContents();
-        range.insertNode(mark);
+      // $("input,textarea").bind("cut copy paste", function (e) {
+      //   e.preventDefault(); //disable cut,copy,paste
+      // });
+      if (clickNumber < 2 && !input && !textarea) {
+        if (selection_text) {
+          highlight.current = highlight.current + 1;
 
-        mark.onclick = () => {
-          let text = mark.textContent || mark.innerText;
-          let node = document.createTextNode(text);
-          mark.parentNode.replaceChild(node, mark);
-        };
+          let mark = document.createElement("MARK");
+          mark.textContent = selection_text;
+          mark.className = `mark-${highlight.current}`;
+          mark.ref = highlight;
+          mark.setAttribute("style", "font-size:inherit");
+          console.log("abcd");
+
+          range.deleteContents();
+          range.insertNode(mark);
+
+          // mark.onclick = () => {
+          //   let text = mark.textContent || mark.innerText;
+          //   let node = document.createTextNode(text);
+          //   mark.parentNode.replaceChild(node, mark);
+          // };
+        }
+      } else {
+        clearSelection();
       }
     });
   }, []);

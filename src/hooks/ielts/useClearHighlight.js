@@ -1,7 +1,7 @@
 import $ from "jquery";
 import { useEffect } from "react";
 
-export const useClearHighlight = () => {
+export const useClearHighlight = ({ className }) => {
   const clearAll = () => {
     const tags = document.querySelectorAll("mark");
     if (tags) {
@@ -12,5 +12,15 @@ export const useClearHighlight = () => {
       });
     }
   };
-  return { clearAll };
+
+  const clearMarkItem = () => {
+    console.log("className", className);
+    const tag = document.querySelector(`[class = ${className}]`);
+    if (tag) {
+      let text = tag.textContent || tag.innerText;
+      let node = document.createTextNode(text);
+      tag.parentNode.replaceChild(node, tag);
+    }
+  };
+  return { clearAll, clearMarkItem };
 };
