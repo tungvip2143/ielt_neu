@@ -34,6 +34,8 @@ const IdentifyInformationType = (props: Props) => {
     sectionRender.question = questionIdx;
     onClickPage && onClickPage(sectionRender);
   };
+
+  console.log("abcdefghik");
   return (
     <>
       <Accordion
