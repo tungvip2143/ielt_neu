@@ -64,6 +64,8 @@ const Step2ExamContent = (props: any) => {
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
 
+  console.log("displayNumber container", displayNumber);
+  console.log("displayNumber groupSelected", groupSelected);
   useEffect(() => {
     cacheService.cache("answers", values);
   }, [values]);

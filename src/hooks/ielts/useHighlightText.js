@@ -28,31 +28,30 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       const docFragment = range.cloneContents();
       const input = docFragment.querySelector("input");
       const textarea = docFragment.querySelector("textarea");
+      const p = docFragment.querySelector("p");
       const clickNumber = event.detail;
-      const inputTags = document.querySelectorAll("input");
-      const textareaTag = document.querySelector("textareaTag");
 
-      var unFocus = function () {
-        if (document.selection) {
-          document.selection.empty();
-        } else {
-          window.getSelection().removeAllRanges();
-        }
-      };
+      // var unFocus = function () {
+      //   if (document.selection) {
+      //     document.selection.empty();
+      //   } else {
+      //     window.getSelection().removeAllRanges();
+      //   }
+      // };
 
-      if (inputTags) {
-        inputTags.forEach((input) => {
-          console.log("input12345", input);
-          input.onmousemove = () => {
-            unFocus();
-          };
-        });
-      }
+      // if (inputTags) {
+      //   inputTags.forEach((input) => {
+      //     console.log("input12345", input);
+      //     input.onmousemove = () => {
+      //       unFocus();
+      //     };
+      //   });
+      // }
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste
       // });
-      if (clickNumber < 2 && !input && !textarea) {
+      if (clickNumber < 2 && !input && !textarea && !p) {
         if (selection_text) {
           highlight.current = highlight.current + 1;
 

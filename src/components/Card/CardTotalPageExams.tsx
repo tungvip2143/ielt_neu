@@ -12,6 +12,7 @@ import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 import { useCheckRenderQuestion } from "hooks/ielts/useCheckRenderQuestion";
 import CacheService from "services/cacheService";
+import classnames from "classnames";
 
 interface CardTotalPageExamsI {
   questions?: any;
@@ -152,6 +153,9 @@ const CardTotalPageExams = ({
       return group.questions.map((question: any, questionIndex: number) => {
         const add = Number(question.question.displayNumber) - 1;
 
+        console.log("displayNumber", displayNumber);
+        console.log("displayNumber 123", question.question.displayNumber);
+
         const highLightPage = () => {
           if (displayNumber == question.question.displayNumber) {
             return "high-light-page";
@@ -160,6 +164,7 @@ const CardTotalPageExams = ({
         };
 
         const didExerciseActive = () => {
+          console.log("abc");
           if (values?.answers[`${add}`]?.studentAnswer) {
             return "did-exercise";
           }
@@ -168,9 +173,14 @@ const CardTotalPageExams = ({
           <>
             <Box
               key={question.id}
-              className={`${highLightPage()} ${
-                inReviewListQuestions.includes(question.question.displayNumber) ? "show-page-review" : "hide-review"
-              } ${`${didExerciseActive()}-abc`}`}
+              className={classnames(
+                highLightPage(),
+                inReviewListQuestions.includes(question.question.displayNumber) ? "show-page-review" : "hide-review",
+                `${didExerciseActive()}-abc`
+              )}
+              // className={`${highLightPage()} ${
+              //   inReviewListQuestions.includes(question.question.displayNumber) ? "show-page-review" : "hide-review"
+              // } ${`${didExerciseActive()}-abc`}`}
               onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
             >
               <span className={didExerciseActive()}>{question.question.displayNumber}</span>
