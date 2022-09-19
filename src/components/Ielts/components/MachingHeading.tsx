@@ -3,7 +3,7 @@ import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import { FastField, useFormikContext } from "formik";
 import { TextField } from "components/Textfield";
-
+import { QuestionItemI } from "../../../constants/typeData.types";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 type Props = {
-  data?: any;
   answerList: string;
   question: any;
   onClickPage?: (option: any) => void;
@@ -41,7 +40,7 @@ const MachingHeading = (props: Props) => {
   const { answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
-  console.log("question", question);
+  // console.log("5675", question);
 
   const handleFocus = (displayNumber: number, questionIndex: number) => {
     // console.log("Fdsfs", questionIndex);

@@ -13,14 +13,18 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
+import { QuestionItemI } from "../../../constants/typeData.types";
 
 type Props = {
-  question: any;
-  questionType: any;
-  QUESTION_TYPE?: any;
+  question: QuestionItemI;
+  questionType: string;
+  QUESTION_TYPE: {
+    IDENTIFYING_INFORMATION: string;
+    IDENTIFYING_VIEWS_CLAIMS: string;
+  };
   displayNumber: number;
   questionIdx?: number;
-  onClickPage?: (options: any) => void;
+  onClickPage?: (options: object) => void;
 };
 
 const IdentifyInformationType = (props: Props) => {

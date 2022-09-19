@@ -1,16 +1,15 @@
 import { useEffect, useMemo } from "react";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-
+import { QuestionItemI } from "../../../constants/typeData.types";
 type Props = {
-  questionBox: any;
+  questionBox: string;
   displayNumber: number;
-  questions: any[];
-  onClickPage?: (option: any) => void;
+  questions: QuestionItemI[];
+  onClickPage?: (option: object) => void;
   isView?: boolean;
   getTextEachPart?: (text: string) => void;
   passageTextWithHighlightTexted?: string;
-  onScannerText?: any;
 };
 
 const CODE = "-@X$";
@@ -27,11 +26,9 @@ const QuestionBox = (props: Props) => {
     displayNumber,
     onClickPage,
     isView = false,
-    onScannerText,
     getTextEachPart,
     passageTextWithHighlightTexted,
   } = props;
-
   const { handleChange, values, setFieldValue }: any = useFormikContext();
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
@@ -46,7 +43,7 @@ const QuestionBox = (props: Props) => {
   }, [questions, questionBox]);
 
   useEffect(() => {
-    const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
+    const input: Element | any = document.querySelector(`[id=input-${displayNumber}]`);
     if (input) {
       input?.focus();
     }
@@ -73,13 +70,13 @@ const QuestionBox = (props: Props) => {
     );
   });
 
-  const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("class") - 1;
+  const onClickInput = (data: Event | any) => {
+    const inputIdx: number = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
     // onScannerText(data);
   };
-  const onFocusInput = (event: any) => {
-    const inputIdx: any = event.target.getAttribute("class") - 1;
+  const onFocusInput = (event: Event | any) => {
+    const inputIdx: number = event.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
 

@@ -5,7 +5,7 @@ import React, { useCallback, useMemo } from "react";
 //
 import { Box } from "@mui/material";
 import { Form, Formik } from "formik";
-import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
+import { useFinishIeltsSkill, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 import Header from "views/Ielts/Header/Header";
 //
@@ -31,11 +31,6 @@ const stepRuleExam = {
   informationsForCandidates: <InformationForCandidates styleListRule={styleListRule} />,
   intructionsToCandidates: <IntructionsToCandidates styleListRule={styleListRule} />,
 };
-
-export interface IeltsReadingProps {
-  data: any;
-  testCode: number;
-}
 
 const useStyles = makeStyles((theme) => {
   return {

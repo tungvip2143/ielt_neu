@@ -1,12 +1,13 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { useCallback, useEffect, useMemo } from "react";
-type Props = {
-  data?: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface Props {
+  data: QuestionItemI;
   displayNumber?: number;
   onClickPage?: (option: any) => void;
   isView?: boolean;
-};
+}
 
 const SentenceCompletetion = (props: Props) => {
   const { data, displayNumber, onClickPage, isView = false } = props;

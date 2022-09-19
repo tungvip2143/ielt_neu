@@ -62,7 +62,6 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         <MachingHeading
           question={ContentQuestion?.questions}
           answerList={ContentQuestion?.answerList}
-          data={ContentQuestion?.questions}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />

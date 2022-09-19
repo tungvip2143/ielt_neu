@@ -4,18 +4,18 @@ import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
 
-type Props = {
+interface Props {
   data: any;
   questionBox: string;
   answerList: string;
-  onClickPage?: (options: number) => void;
+  onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
   disabled?: boolean;
   getTextEachPart?: (text: string) => void;
   passageTextWithHighlightTexted?: string;
   onScannerText?: (data: string) => void;
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {

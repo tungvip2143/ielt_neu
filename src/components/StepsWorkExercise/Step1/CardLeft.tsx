@@ -20,13 +20,11 @@ import { useNoted } from "hooks/ielts/useNoted";
 
 interface Props {
   dataChangePart: any;
-  test?: string;
 }
 
-const CardLeft = ({ dataChangePart, test }: Props) => {
+const CardLeft = ({ dataChangePart }: Props) => {
   //! State
   let text = dataChangePart.passageText;
-  const { values, setFieldValue } = useFormikContext();
 
   const { isAction, position, toggleAction, className } = useRightClick();
   const { clearAll, clearMarkItem } = useClearHighlight({ className });

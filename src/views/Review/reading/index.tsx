@@ -115,7 +115,7 @@ const ReadingReview = (props: any) => {
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
                 <CardExercise
-                  content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />}
+                  content={<CardLeft dataChangePart={partRenderSelected} />}
                   width={5.9}
                   styleAdd={styleAddExercise}
                 />

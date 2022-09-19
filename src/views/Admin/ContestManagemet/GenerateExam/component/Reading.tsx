@@ -52,7 +52,6 @@ const Reading = (props: Props) => {
         <MachingHeading
           question={group?.questions}
           answerList={group?.answerList}
-          data={group?.questions}
           onClickPage={() => {}}
           displayNumber={1}
           isView

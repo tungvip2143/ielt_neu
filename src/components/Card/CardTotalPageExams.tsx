@@ -18,7 +18,6 @@ interface CardTotalPageExamsI {
   questions?: any;
   onClickPage?: any;
   setDisplayNumber?: any;
-  test?: any;
   groupSelected?: any;
   part?: any;
   group?: any;
