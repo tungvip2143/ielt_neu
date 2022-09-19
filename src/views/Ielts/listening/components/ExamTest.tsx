@@ -105,7 +105,6 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
             content={
               <ContentQuestion
                 ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
-                audio={partRenderSelected?.partAudio}
                 displayNumber={displayNumber}
                 onClickPage={onClickPage}
                 onClickQuestionType={onClickQuestionType}

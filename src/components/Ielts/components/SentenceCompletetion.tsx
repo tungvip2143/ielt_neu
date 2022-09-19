@@ -3,32 +3,33 @@ import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
 import { useEffect } from "react";
-type Props = {
-  data?: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface SentenceCompletionI {
+  data?: QuestionItemI;
   displayNumber?: number;
-  onClickPage?: (option: any) => void;
+  onClickPage?: (option: object) => void;
   isView?: boolean;
-};
+}
 
-const SentenceCompletetion = (props: Props) => {
+const SentenceCompletetion = (props: SentenceCompletionI) => {
   const { data, displayNumber, onClickPage, isView = false } = props;
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
 
-  console.log("text", text);
+  // console.log("text", text);
 
-  const { handleChange, values, setFieldValue }: any = useFormikContext();
+  const { handleChange, values }: any = useFormikContext();
 
   useEffect(() => {
-    let input = document.getElementsByClassName(`${displayNumber}`) as any;
+    let input: HTMLCollectionOf<Element | any> = document.getElementsByClassName(`${displayNumber}`);
     if (input) {
       input[0]?.focus();
     }
   }, [displayNumber]);
 
   let inputIndex = 0;
-  Handlebars.registerHelper("blank", function (blankId: any, option) {
-    console.log("Fsdfsd", blankId);
+  Handlebars.registerHelper("blank", function (blankId: number, option) {
+    // console.log("Fsdfsd", blankId);
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
@@ -44,14 +45,14 @@ const SentenceCompletetion = (props: Props) => {
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
   });
-  const test: any = Handlebars.compile(text || "");
+  const test: HandlebarsTemplateDelegate<any> = Handlebars.compile(text || "");
 
-  const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("id") - 1;
+  const onClickInput = (data: Event | any) => {
+    const inputIdx: number = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = (event: any) => {
-    const inputIdx: any = event.target.getAttribute("id") - 1;
+  const onFocusInput = (event: Event | any) => {
+    const inputIdx: number = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
 
@@ -61,7 +62,7 @@ const SentenceCompletetion = (props: Props) => {
         onClick={(data) => onClickInput(data)}
         onFocus={(event) => onFocusInput(event)}
         dangerouslySetInnerHTML={{
-          __html: test(data.questionId),
+          __html: test(data?.questionId),
         }}
         onInput={handleChange}
       />

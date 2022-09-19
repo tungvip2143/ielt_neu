@@ -1,21 +1,13 @@
-export interface TypeQuestionsDataI {
-  questions: {
-    question: {
-      blankNumber?: number;
-      displayNumber: string | any;
-      options?: [];
-      questionText?: string;
-      _id: string;
-    };
-    questionId: string;
-    studentAnswer: string;
-  }[];
+export interface Option {
+  key: string;
+  text: string;
+  _id: string;
 }
 export interface contentQuestionItemI {
   blankNumber?: number;
   displayNumber: string | any;
-  options?: [];
-  questionText?: string;
+  options: Option[];
+  questionText: string;
   _id: string;
 }
 export interface QuestionItemI {
@@ -24,7 +16,7 @@ export interface QuestionItemI {
   studentAnswer: string;
 }
 
-export interface PartContentQuestionsI extends TypeQuestionsDataI {
+export interface PartContentQuestionsI {
   directionText: string;
   groupNumber: number;
   image: string;
@@ -32,6 +24,7 @@ export interface PartContentQuestionsI extends TypeQuestionsDataI {
   questionType: string;
   answerList?: any;
   _id: string;
+  questions: QuestionItemI[];
 }
 
 export interface AllQuestionsDataI {
@@ -40,3 +33,14 @@ export interface AllQuestionsDataI {
   partNumber: number;
   _id: string;
 }
+
+export interface FormikI {
+  setFieldValue: (field: string, value: any, shouldValidate?: boolean | undefined) => void;
+  values: any;
+}
+// handleChange: {
+//   (e: ChangeEvent<any>): void;
+//   <T = string | ChangeEvent<any>>(field: T): T extends ChangeEvent<any>
+//     ? void
+//     : (e: string | ChangeEvent<any>) => void;
+// };

@@ -3,13 +3,12 @@ import Radio from "components/Radio";
 import { Field, useFormikContext } from "formik";
 import ReactHtmlParser from "react-html-parser";
 import Text from "../../../../../components/Typography/index";
-import { themeCssSx } from "../../../../../ThemeCssSx/ThemeCssSx";
 import { makeStyles } from "@mui/styles";
+import { QuestionItemI, Option } from "../../../../../constants/typeData.types";
 // ! type
-interface Props {
-  dataQuestions?: any;
-  audio?: any;
-  onClickPage: (options: any) => void;
+interface MultiQuestionsChooseAnserI {
+  questions: QuestionItemI[];
+  onClickPage: (options: object) => void;
 
   isView?: boolean;
 }
@@ -42,7 +41,8 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Props) => {
+const MultiChoice = ({ questions, onClickPage, isView = false }: MultiQuestionsChooseAnserI) => {
+  console.log("klklk", questions);
   const classes = useStyles();
   const { values }: any = useFormikContext();
 
@@ -56,18 +56,18 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
     <>
       <Box sx={{ mb: "20px" }}></Box>
       <Box className={classes.formAnswer}>
-        {dataQuestions.map((item: any, questionIdx: number) => {
+        {questions.map((item: QuestionItemI, questionIdx: number) => {
           return (
-            <Box key={item._id} className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
+            <Box key={item.question._id} className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
               <Stack direction="row" className={classes.title}>
                 <Text.DescSmall className={classes.questionNumber}>{item.question.displayNumber}.</Text.DescSmall>
                 <Text.DescSmall className={classes.question}>
-                  {ReactHtmlParser(item.question.questionText)}
+                  {ReactHtmlParser(item.question.questionText ?? "")}
                 </Text.DescSmall>
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
-                {item?.question?.options.map((answerChoice: any) => {
+                {item?.question?.options.map((answerChoice: Option) => {
                   const displayNumber = Number(item.question.displayNumber) - 1;
                   return (
                     <RadioGroup

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
-import { PartContentQuestionsI, QuestionItemI } from "../../../../../constants/typeData.types";
+import { PartContentQuestionsI, QuestionItemI, FormikI } from "../../../../../constants/typeData.types";
 interface NoteCompletionDadI {
   groupData: PartContentQuestionsI;
 }
@@ -26,7 +26,7 @@ const NoteCompletion = (props: NoteCompletionI) => {
   const { questionBox, groupData, displayNumber, onClickPage } = props;
   // console.log("fsd242343", groupData);
 
-  const { setFieldValue, values }: any = useFormikContext();
+  const { setFieldValue, values }: FormikI = useFormikContext();
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox: string = questionBox ?? "";
@@ -44,19 +44,19 @@ const NoteCompletion = (props: NoteCompletionI) => {
   }, [groupData, questionBox]);
 
   useEffect(() => {
-    const input = document.querySelector(`[id=input-${displayNumber}]`) as React.ReactNode | any;
+    const input: Element | any = document.querySelector(`[id=input-${displayNumber}]`);
     if (input) {
       input?.focus();
     }
   }, [displayNumber]);
 
-  const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed);
+  const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed || "");
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: number) {
     // console.log("blankId", blankId);
     inputIndex++;
-    const input: any = document.querySelector(`[id=input-${blankId}]`);
+    const input: Element | any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
       input.value = values.answers[blankId - 1]?.studentAnswer;
     }
@@ -75,7 +75,7 @@ const NoteCompletion = (props: NoteCompletionI) => {
   });
 
   //! Function
-  const onChangeInputHandleBars = (e: any) => {
+  const onChangeInputHandleBars = (e: Event | any) => {
     queueAnswers.current = {
       ...queueAnswers.current,
       [e.target.name]: e.target.value,

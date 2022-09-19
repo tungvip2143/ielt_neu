@@ -11,8 +11,7 @@ import { PartContentQuestionsI } from "../../../../constants/typeData.types";
 // ! type
 
 interface PartContentQuestionspPropsI {
-  ContentQuestion?: PartContentQuestionsI;
-  audio?: string;
+  ContentQuestion?: PartContentQuestionsI | any;
   displayNumber: number;
   onClickPage: (options: object) => void;
   onClickQuestionType: (questionType: string) => void;
@@ -22,7 +21,6 @@ interface PartContentQuestionspPropsI {
 
 const ContentQuestion = ({
   ContentQuestion,
-  audio,
   displayNumber,
   onClickPage,
   onClickQuestionType,
@@ -30,7 +28,7 @@ const ContentQuestion = ({
   const questionType = ContentQuestion?.questionType;
   // console.log("questionType", questionType);
 
-  const renderPartValueGroup = (ContentQuestion: any) => {
+  const renderPartValueGroup = (ContentQuestion: PartContentQuestionsI) => {
     console.log("ContentQuestion", ContentQuestion);
 
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
@@ -38,7 +36,7 @@ const ContentQuestion = ({
         <MachingTypeListening
           answerList={ContentQuestion.answerList}
           questionBox={ContentQuestion.questionBox ?? ""}
-          data={ContentQuestion.questions}
+          questions={ContentQuestion.questions}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
@@ -79,9 +77,9 @@ const ContentQuestion = ({
       return (
         <FlowChart
           onClickPage={onClickPage}
-          question={ContentQuestion?.questions}
+          questions={ContentQuestion?.questions}
           displayNumber={displayNumber}
-          image={ContentQuestion}
+          image={ContentQuestion.image}
         />
       );
     }
@@ -106,7 +104,7 @@ const ContentQuestion = ({
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      return <MultiChoice onClickPage={onClickPage} dataQuestions={ContentQuestion?.questions} audio={audio} />;
+      return <MultiChoice onClickPage={onClickPage} questions={ContentQuestion?.questions} />;
     }
 
     if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER) {
@@ -124,10 +122,8 @@ const ContentQuestion = ({
     <>
       <TitleExam title={ContentQuestion} />
 
-      <div>
-        {renderPartValueGroup(ContentQuestion)}
-        {onClickQuestionType(ContentQuestion?.questionType ?? "")}
-      </div>
+      <div>{renderPartValueGroup(ContentQuestion)}</div>
+      {/* {onClickQuestionType(ContentQuestion?.questionType ?? "")} */}
     </>
   );
 };

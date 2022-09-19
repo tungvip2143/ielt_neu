@@ -3,6 +3,7 @@ import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import { FastField, useFormikContext } from "formik";
 import { TextField } from "components/Textfield";
+import { QuestionItemI } from "../../../constants/typeData.types";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -26,14 +27,14 @@ const useStyles = makeStyles((theme) => ({
     padding: 16,
   },
 }));
-type Props = {
+interface Props {
   data?: any;
   answerList: string;
   question: any;
   onClickPage?: (option: any) => void;
   displayNumber: number;
   isView?: boolean;
-};
+}
 
 const MachingHeading = (props: Props) => {
   // !State
@@ -41,7 +42,7 @@ const MachingHeading = (props: Props) => {
   const { data, answerList, question, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
-  // console.log("dsf", data);
+  console.log("dsf", question);
 
   const handleFocus = (displayNumber: number, questionIndex: number) => {
     // console.log("Fdsfs", questionIndex);
