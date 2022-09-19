@@ -12,7 +12,6 @@ import PrevQuestion from "assets/image/exam/next-exercise.png";
 interface CardTotalPageExamsI {
   questions: any;
   onClickPage: any;
-  setDisplayNumber: any;
   groupSelected: any;
   part: any;
   group: any;
@@ -89,7 +88,6 @@ const containerNextPage = {
 const CardPage = ({
   questions,
   onClickPage,
-  setDisplayNumber,
   groupSelected,
   part,
   group,
@@ -175,14 +173,12 @@ const CardPage = ({
 
   const onClickNextQuestion = () => {
     const sectionRender = checkNextPartRender();
-    setDisplayNumber(displayNumber);
     onClickPage(sectionRender);
   };
 
   const onClickBackQuestion = () => {
     const sectionRender = checkBackRenderQuestion();
     onClickPage(sectionRender);
-    setDisplayNumber(displayNumber);
   };
 
   const handleClickQuestion = (partIndex: number, groupIndex: number, questionIndex: number) => {

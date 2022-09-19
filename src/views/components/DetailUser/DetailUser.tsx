@@ -11,9 +11,6 @@ import { format } from "date-fns";
 import { warningDetailUser, textBtnSubmit, textHeaderModal } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
 //! type
-interface Props {
-  user?: any;
-}
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -26,7 +23,7 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-const DetailUser = (props: Props) => {
+const DetailUser = () => {
   //! State
   const userDetail: any = localStorage.getItem("userDetail");
   const convertUser = JSON.parse(userDetail);

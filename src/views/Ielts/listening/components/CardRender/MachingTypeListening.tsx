@@ -8,7 +8,7 @@ type Props = {
   data: any;
   questionBox: string;
   answerList: string;
-  onClickPage?: (options: number) => void;
+  onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
   disabled?: boolean;
@@ -41,6 +41,7 @@ const MachingTypeListening = (props: Props) => {
   // !Style
   const classes = useStyles();
   const { data, answerList, onClickPage, displayNumber, isView = false } = props;
+  console.log("312", data);
   const inputRef = useRef<any>([]);
 
   useEffect(() => {
@@ -56,6 +57,7 @@ const MachingTypeListening = (props: Props) => {
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndex;
+    console.log("FSdfs", sectionRender);
     onClickPage && onClickPage(sectionRender);
   };
 

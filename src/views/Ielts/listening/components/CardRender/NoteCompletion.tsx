@@ -2,13 +2,15 @@ import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
-
-type Props = {
-  questionBox?: any;
-  groupData?: any;
+import { PartContentQuestionsI, QuestionItemI } from "../../../../../constants/typeData.types";
+interface NoteCompletionDadI {
+  groupData: PartContentQuestionsI;
+}
+interface NoteCompletionI extends NoteCompletionDadI {
   displayNumber: number;
-  onClickPage: (options: any) => void;
-};
+  onClickPage: (options: object) => void;
+  questionBox: string;
+}
 
 const CODE = "-@X$";
 
@@ -17,16 +19,19 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
   return questionBox;
 };
 
-const NoteCompletion = (props: Props) => {
+const NoteCompletion = (props: NoteCompletionI) => {
   //! State
   const inputDebounce = React.useRef(new Timer());
-  const queueAnswers = React.useRef<any>({});
+  const queueAnswers = React.useRef<object>({});
   const { questionBox, groupData, displayNumber, onClickPage } = props;
+  // console.log("fsd242343", groupData);
+
   const { setFieldValue, values }: any = useFormikContext();
 
   const newQuestionBoxParsed = useMemo(() => {
-    let tempQuestionBox = questionBox;
-    groupData.questions.forEach((el: any) => {
+    let tempQuestionBox: string = questionBox ?? "";
+    groupData.questions.forEach((el: QuestionItemI) => {
+      // console.log("332423", el);
       const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
@@ -39,7 +44,7 @@ const NoteCompletion = (props: Props) => {
   }, [groupData, questionBox]);
 
   useEffect(() => {
-    const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
+    const input = document.querySelector(`[id=input-${displayNumber}]`) as React.ReactNode | any;
     if (input) {
       input?.focus();
     }
@@ -48,8 +53,8 @@ const NoteCompletion = (props: Props) => {
   const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed);
 
   let inputIndex = 0;
-  Handlebars.registerHelper("blank", function (blankId: any) {
-    console.log("blankId", blankId);
+  Handlebars.registerHelper("blank", function (blankId: number) {
+    // console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
@@ -83,12 +88,12 @@ const NoteCompletion = (props: Props) => {
     }, 0);
   };
 
-  const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("class") - 1;
+  const onClickInput = (data: Event | any) => {
+    const inputIdx: number = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = (event: any) => {
-    const inputIdx: any = event.target.getAttribute("class") - 1;
+  const onFocusInput = (event: Event | any) => {
+    const inputIdx: number = event.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
 

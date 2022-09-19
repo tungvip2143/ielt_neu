@@ -17,15 +17,17 @@ import ieltsService from "services/ieltsService";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
+import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 
-interface Props {
-  data: any;
-  valueVolum?: any;
+interface AllQuestionsDataPropsI {
+  data: AllQuestionsDataI[];
+  valueVolum?: number;
 }
 
-const ExamTest = (props: Props) => {
+const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum } = props;
+
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
@@ -39,8 +41,7 @@ const ExamTest = (props: Props) => {
     group: 0,
     question: 0,
   });
-  const [showQuestion, setShowQuestion] = useState("1");
-  const [questionType, setQuestionType] = useState();
+  const [questionType, setQuestionType] = useState<string>();
 
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
@@ -53,18 +54,15 @@ const ExamTest = (props: Props) => {
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
-  const onClickPage = (groupRenderSelected: any) => {
+  const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
-  const onClickShowQuestion = (displayNumber: any) => {
-    setShowQuestion(displayNumber);
-  };
-  const onClickQuestionType = (questionType: any) => {
+
+  const onClickQuestionType = (questionType: string) => {
     setQuestionType(questionType);
   };
 
   const partRenderSelected = useMemo(() => {
-    // const questionsWithPageNumberTemp = data as any;
     if (!isEmpty(audioData[groupSelected?.part])) {
       return audioData[groupSelected?.part];
     }
@@ -120,7 +118,6 @@ const ExamTest = (props: Props) => {
       <CardPage
         onClickPage={onClickPage}
         questions={audioData}
-        setDisplayNumber={onClickShowQuestion}
         groupSelected={groupSelected}
         part={part}
         group={group}

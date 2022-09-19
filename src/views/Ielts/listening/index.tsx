@@ -67,7 +67,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const classes = useStyles();
 
-  const { step, handler } = useStepExam();
+  const { step } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();

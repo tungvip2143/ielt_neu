@@ -7,17 +7,27 @@ import SentenceCompletetion from "components/Ielts/components/SentenceCompleteti
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
+import { PartContentQuestionsI } from "../../../../constants/typeData.types";
 // ! type
-interface Props {
-  ContentQuestion?: any;
-  audio?: any;
+
+interface PartContentQuestionspPropsI {
+  ContentQuestion?: PartContentQuestionsI;
+  audio?: string;
   displayNumber: number;
-  onClickPage: (options: any) => void;
-  onClickQuestionType?: any;
+  onClickPage: (options: object) => void;
+  onClickQuestionType: (questionType: string) => void;
 }
-const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
+
+// interface PartContentQuestionspPropsI
+
+const ContentQuestion = ({
+  ContentQuestion,
+  audio,
+  displayNumber,
+  onClickPage,
+  onClickQuestionType,
+}: PartContentQuestionspPropsI) => {
   const questionType = ContentQuestion?.questionType;
-  // console.log("ContentQuestion", ContentQuestion);
   // console.log("questionType", questionType);
 
   const renderPartValueGroup = (ContentQuestion: any) => {
@@ -26,9 +36,9 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MachingTypeListening
-          answerList={ContentQuestion?.answerList}
-          questionBox={ContentQuestion?.questionBox}
-          data={ContentQuestion?.questions}
+          answerList={ContentQuestion.answerList}
+          questionBox={ContentQuestion.questionBox ?? ""}
+          data={ContentQuestion.questions}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
@@ -40,7 +50,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
         <NoteCompletion
           displayNumber={displayNumber}
           groupData={ContentQuestion}
-          questionBox={ContentQuestion?.questionBox}
+          questionBox={ContentQuestion.questionBox ?? ""}
           onClickPage={onClickPage}
         />
       );
@@ -116,7 +126,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
 
       <div>
         {renderPartValueGroup(ContentQuestion)}
-        {onClickQuestionType(ContentQuestion?.questionType)}
+        {onClickQuestionType(ContentQuestion?.questionType ?? "")}
       </div>
     </>
   );
