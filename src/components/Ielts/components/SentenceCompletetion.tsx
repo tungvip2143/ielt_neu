@@ -46,16 +46,17 @@ const SentenceCompletetion = (props: Props) => {
     const inputIdx: any = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = useCallback((event: any) => {
+  const onFocusInput = useCallback((event: any, displayNumber: any) => {
     const inputIdx: any = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    setFieldValue(`answers[${displayNumber - 1}].questionId`, data.questionId);
   }, []);
 
   return (
     <>
       <div
         onClick={(data) => onClickInput(data)}
-        onFocus={(event) => onFocusInput(event)}
+        onFocus={(event) => onFocusInput(event, displayNumber)}
         dangerouslySetInnerHTML={{
           __html: test(data.questionId),
         }}

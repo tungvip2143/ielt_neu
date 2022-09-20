@@ -21,6 +21,7 @@ const useStyles = makeStyles((theme) => {
 });
 const MatchingParagrapInformation = (props: MatchingParagrapInformationI) => {
   const { questions, question, displayNumber, onClickPage } = props;
+
   const inputRef = useRef<any>([]);
   useEffect(() => {
     inputRef.current[displayNumber]?.focus();
@@ -34,17 +35,16 @@ const MatchingParagrapInformation = (props: MatchingParagrapInformationI) => {
     sectionRender.question = questionIndex;
     onClickPage && onClickPage(sectionRender);
   };
-  const handleFocus = (displayNumber: number, questionIndex: number) => {
-    // console.log("Fdsfs", questionIndex);
-    setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
-    onClickPage && onClickPage({ question: questionIndex }); //!
-  };
 
   return (
     <>
       {questions.map((question: QuestionItemI, questionIndex: number) => {
         const displayNumberT = question?.question?.displayNumber;
 
+        const handleFocus = (displayNumber: number, questionIndex: number) => {
+          setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+          onClickPage && onClickPage({ question: questionIndex }); //!
+        };
         return (
           <>
             <div key={question.questionId} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
