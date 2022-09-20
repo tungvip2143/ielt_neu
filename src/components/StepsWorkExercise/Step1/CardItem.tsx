@@ -47,12 +47,13 @@ const ItemQuestion = ({
         <MatchingType
           answerList={answerList ?? ""}
           questionBox={questionBox ?? ""}
-          data={data}
+          questions={data}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <QuestionBox
@@ -63,16 +64,18 @@ const ItemQuestion = ({
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          question={question}
+          questions={question}
           answerList={answerList ?? ""}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION) {
       return (
         <>

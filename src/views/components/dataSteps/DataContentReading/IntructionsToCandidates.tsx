@@ -1,12 +1,15 @@
 import React from "react";
 
 //! type
-interface Props {
+interface IntructionsToCandidatesI {
   styleListRule?: any;
 }
 
-const IntructionsToCandidates = (props: Props) => {
+const IntructionsToCandidates = (props: IntructionsToCandidatesI) => {
+  //! State
   const { styleListRule } = props;
+
+  //! Render
   return (
     <>
       <ul style={{ ...styleListRule, marginTop: "16px", marginBottom: "16px" }}>

@@ -26,27 +26,22 @@ const useStyles = makeStyles((theme) => ({
     padding: 16,
   },
 }));
-type Props = {
+interface MachingHeadingI {
   answerList: string;
-  question: any;
-  onClickPage?: (option: any) => void;
+  questions: QuestionItemI[];
+  onClickPage?: (option: object) => void;
   displayNumber: number;
   isView?: boolean;
-};
+}
 
-const MachingHeading = (props: Props) => {
+const MachingHeading = (props: MachingHeadingI) => {
   // !State
   const classes = useStyles();
-  const { answerList, question, onClickPage, displayNumber, isView = false } = props;
+  const { answerList, questions, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
   // console.log("5675", question);
 
-  const handleFocus = (displayNumber: number, questionIndex: number) => {
-    // console.log("Fdsfs", questionIndex);
-    setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
-    onClickPage && onClickPage({ question: questionIndex });
-  };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndex;
@@ -60,10 +55,14 @@ const MachingHeading = (props: Props) => {
   return (
     <div className={classes.root}>
       <div className={classes.questionBox}>
-        {question.map((question: any, questionIndex: number): any => {
+        {questions.map((question: QuestionItemI, questionIndex: number): any => {
           const displayNumberT = question?.question?.displayNumber;
+          const handleFocus = (displayNumber: number, questionIndex: number) => {
+            setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+            onClickPage && onClickPage({ question: questionIndex });
+          };
           return (
-            <div key={question._id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
+            <div key={question.questionId} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
               <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.displayNumber)}</strong>
               <div style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</div>
               <FastField
