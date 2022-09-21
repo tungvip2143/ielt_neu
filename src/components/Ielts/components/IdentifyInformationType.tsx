@@ -75,9 +75,22 @@ const IdentifyInformationType = (props: Props) => {
                 name="controlled-radio-buttons-group"
                 value={values?.answers[displayNumberT]?.studentAnswer}
               >
-                {question?.question?.options.map((answer: any) => {
-                  console.log("55435", answer.key);
-
+                {question?.question?.options.map((answer: any, index: number) => {
+                  const checkSortIndex = () => {
+                    if (index === 0) {
+                      return "A";
+                    }
+                    if (index === 1) {
+                      return "B";
+                    }
+                    if (index === 2) {
+                      return "C";
+                    }
+                    if (index === 3) {
+                      return "D";
+                    }
+                    return;
+                  };
                   return (
                     <FormControlLabel
                       key={answer._id}
@@ -90,7 +103,7 @@ const IdentifyInformationType = (props: Props) => {
                           name={`answers[${displayNumberT}].studentAnswer`}
                         />
                       }
-                      label={`${answer?.text}`}
+                      label={`${checkSortIndex()}. ${answer?.text}`}
                     />
                   );
                 })}

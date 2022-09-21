@@ -35,7 +35,7 @@ const SentenceCompletetion = (props: Props) => {
     return new Handlebars.SafeString(
       `<strong>${data?.question?.displayNumber}</strong> <input ${
         isView ? "disabled" : ""
-      } class="${displayNumberI}" name='answers.[${
+      } class="${displayNumberI} noselect" name='answers.[${
         displayNumberI - 1
       }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
     );
