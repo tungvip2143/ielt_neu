@@ -59,7 +59,7 @@ const LoginAdminPage = (props: any) => {
       return <Redirect to={RouteBase.Listening} />;
     }
 
-    return <Redirect to={initialPathName} />;
+    // return <Redirect to={initialPathName} />;
   }
 
   return (
