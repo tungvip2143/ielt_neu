@@ -24,9 +24,6 @@ interface PropsItemQuestion {
   displayNumber: number;
   questionIdx?: number;
   onClickPage?: (option: any) => void;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted: string;
-  onScannerText?: (data: any) => void;
 }
 const ItemQuestion = ({
   question = [],
@@ -39,14 +36,11 @@ const ItemQuestion = ({
   displayNumber,
   questionIdx,
   onClickPage,
-  getTextEachPart,
-  passageTextWithHighlightTexted,
-  onScannerText,
   ...remainProps
 }: PropsItemQuestion) => {
-  const renderQuestion = (data: any) => {
-    console.log("dataQuestions", data);
+  console.log("questionTYpe", questionType);
 
+  const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
@@ -55,13 +49,9 @@ const ItemQuestion = ({
           data={data}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
-
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <QuestionBox
@@ -69,9 +59,6 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
@@ -98,28 +85,37 @@ const ItemQuestion = ({
         </>
       );
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
+
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION
+    ) {
       return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     }
+
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return <SentenceCompletetion displayNumber={displayNumber} data={data} onClickPage={onClickPage} />;
     }
+
     if (
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
       return (
-        <IdentifyInformationType
-          questionType={questionType}
-          QUESTION_TYPE={QUESTION_TYPE}
-          question={question}
-          // expanded={expanded}
-          // onCollapse={onCollapse}
-          displayNumber={displayNumber}
-          questionIdx={questionIdx}
-          onClickPage={onClickPage}
-        />
+        <>
+          <IdentifyInformationType
+            questionType={questionType}
+            QUESTION_TYPE={QUESTION_TYPE}
+            question={question}
+            // expanded={expanded}
+            // onCollapse={onCollapse}
+            displayNumber={displayNumber}
+            questionIdx={questionIdx}
+            onClickPage={onClickPage}
+          />
+        </>
       );
     }
   };
@@ -127,4 +123,3 @@ const ItemQuestion = ({
   return <>{renderQuestion(question)}</>;
 };
 export default ItemQuestion;
-//

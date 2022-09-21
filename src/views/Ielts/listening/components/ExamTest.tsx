@@ -89,7 +89,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   return (
     <>
       <Box sx={container}>
-        <TypeQuestions content={questionType} />
+        {/* <TypeQuestions content={questionType} /> */}
         <div>
           <ReactAudioPlayer
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}

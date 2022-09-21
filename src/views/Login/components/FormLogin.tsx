@@ -16,6 +16,7 @@ import * as Yup from "yup";
 import { makeStyles } from "@mui/styles";
 import { toast } from "react-toastify";
 import { getErrorMsg } from "helpers";
+import { showError } from "helpers/toast";
 const useStyles = makeStyles((theme) => {
   return {
     input: {
@@ -85,17 +86,18 @@ const FormLogin = () => {
         }}
         validationSchema={validate}
         onSubmit={async (values) => {
-          await login(values, {
-            onSuccess: async (response) => {
-              console.log("response", response);
-              dispatch(authActions.saveInfoUser, {
-                token: response?.data?.data?.data?.access_token,
-                user: response?.data?.data?.data?.user,
-                userType: "user",
-              });
-              onSubmitTestCode(response?.data?.data?.data?.examination?.id);
-            },
-          });
+          try {
+            const response = await login(values);
+            console.log("user login", response?.data?.data?.data?.user);
+            dispatch(authActions.saveInfoUser, {
+              token: response?.data?.data?.data?.access_token,
+              user: response?.data?.data?.data?.user,
+              userType: "user",
+            });
+            onSubmitTestCode(response?.data?.data?.data?.examination?.id);
+          } catch (err) {
+            showError(getErrorMsg(err));
+          }
         }}
       >
         {(propsFormik) => (

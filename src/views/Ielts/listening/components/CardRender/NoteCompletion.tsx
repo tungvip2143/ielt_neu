@@ -68,7 +68,7 @@ const NoteCompletion = (props: NoteCompletionI) => {
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
-          class='${inputIndex}'
+          class='${inputIndex} noselect'
         />
       `
     );
@@ -101,8 +101,8 @@ const NoteCompletion = (props: NoteCompletionI) => {
   return (
     <>
       <div
-        onClick={(data) => onClickInput(data)}
-        onFocus={(event) => onFocusInput(event)}
+        // onClick={(data) => onClickInput(data)}
+        onFocus={(event) => onClickInput(event)}
         dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
         onInput={onChangeInputHandleBars}
       />

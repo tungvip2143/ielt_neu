@@ -113,6 +113,7 @@ export const ADMIN_SPEAKING_URL = (id?: string | number) => {
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/speaking/`,
     POST_LIST_SPEAKING_QUESTIONS: `${ROOT_URL}/question-groups/speaking`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/speaking`,
+    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=SPEAKING`,
   };
 };
 export const ADMIN_USER_URL = (id?: string | number) => {

@@ -10,6 +10,8 @@ import ImgHelp from "assets/image/exam/help.png";
 import { format } from "date-fns";
 import { warningDetailUser, textBtnSubmit, textHeaderModal } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
+import { useMemo } from "react";
+import authServices from "services/authServices";
 //! type
 
 const useStyles = makeStyles((theme) => {
@@ -25,27 +27,22 @@ const useStyles = makeStyles((theme) => {
 });
 const DetailUser = () => {
   //! State
-  const userDetail: any = localStorage.getItem("userDetail");
-  const convertUser = JSON.parse(userDetail);
 
   const classes = useStyles();
 
   const nextStep = TypeStepExamEnum.STEP2;
-  //
-  // const handleBrithDay = () => {
-  //   if (user?.fullname) {
-  //     return format(new Date(user?.dob), "dd-MM-yyyy");
-  //   } else {
-  //     return "";
-  //   }
-  // };
+  const user: any = useMemo(() => {
+    const { user } = authServices.getUserLocalStorage();
+    return user;
+  }, []);
+
   //! Render
   return (
     <Box className={classes.container}>
       <Box>
         <Title image={ImgUser} text={textHeaderModal.confirmDetail} />
         <Container>
-          <p className={classes.introduceUser}>Student code : {convertUser?.username}</p>
+          <p className={classes.introduceUser}>Student code : {user?.username}</p>
           <HelpFooter textHelp={warningDetailUser.checkInformation} image={ImgHelp} />
           <FooterSubmit textBtn={textBtnSubmit.detailUser} nextStep={nextStep} />
         </Container>

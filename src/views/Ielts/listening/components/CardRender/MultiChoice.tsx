@@ -67,7 +67,19 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultiQuestionsC
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
-                {item?.question?.options.map((answerChoice: Option) => {
+                {item?.question?.options.map((answerChoice: any, index: number) => {
+                  const checkSortIndex = () => {
+                    if (index === 0) {
+                      return "A";
+                    }
+                    if (index === 1) {
+                      return "B";
+                    }
+                    if (index === 2) {
+                      return "C";
+                    }
+                    return;
+                  };
                   const displayNumber = Number(item.question.displayNumber) - 1;
                   return (
                     <RadioGroup
@@ -81,7 +93,7 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultiQuestionsC
                         disabled={isView}
                         key={answerChoice._id}
                         value={answerChoice.key}
-                        label={`${answerChoice.text}`}
+                        label={`${checkSortIndex()}. ${answerChoice.text}`}
                         control={
                           <Field
                             questionId={item.question._id}

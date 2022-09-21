@@ -13,9 +13,6 @@ interface TOFFLI {
   showQuestion?: any;
   displayNumber: number;
   onClickQuestionType?: any;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted: string;
-  onScannerText: (data: any) => void;
 }
 
 const TOFFL = ({
@@ -25,13 +22,9 @@ const TOFFL = ({
   onHightLightNumberPage,
   displayNumber,
   onClickQuestionType,
-  getTextEachPart,
-  passageTextWithHighlightTexted,
-  onScannerText,
 }: TOFFLI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
-  // console.log("Fsdfs", partRenderSelected);
   const dataNumber = {
     from: "1",
     to: "6",
@@ -65,9 +58,6 @@ const TOFFL = ({
           onHightLightNumberPage={onHightLightNumberPage}
           displayNumber={displayNumber}
           onClickPage={onClickPage}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
@@ -85,8 +75,6 @@ const TOFFL = ({
             onHightLightNumberPage={onHightLightNumberPage}
             displayNumber={displayNumber}
             onClickPage={onClickPage}
-            getTextEachPart={getTextEachPart}
-            passageTextWithHighlightTexted={passageTextWithHighlightTexted}
           />
         </>
       );
@@ -97,7 +85,7 @@ const TOFFL = ({
   return (
     <Box>
       <TitleExam dataNumber={dataNumber} title={partRenderSelected} />
-      <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
+      <Stack direction="column" spacing={1} sx={{ pb: "100px" }} className="exam">
         {renderPartValueGroup(partRenderSelected)}
         {onClickQuestionType(partRenderSelected?.questionType)}
       </Stack>

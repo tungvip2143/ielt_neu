@@ -47,7 +47,10 @@ const Listening = (props: Props) => {
         />
       );
     }
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER
+    ) {
       return (
         <QuestionBox
           onClickPage={() => {}}
@@ -64,7 +67,6 @@ const Listening = (props: Props) => {
           <MachingHeading
             question={group?.questions}
             answerList={group?.answerList}
-            data={el}
             onClickPage={() => {}}
             displayNumber={1}
             isView
@@ -72,7 +74,12 @@ const Listening = (props: Props) => {
         );
       });
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP) {
+    if (
+      questionType === QUESTION_TYPE.FORM_COMPLETION ||
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING
+    ) {
       return (
         <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} isView />
       );
