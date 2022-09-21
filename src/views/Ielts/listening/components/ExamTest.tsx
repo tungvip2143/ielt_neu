@@ -26,6 +26,9 @@ interface Props {
 const ExamTest = (props: Props) => {
   //! State
   const { data, valueVolum } = props;
+
+  // console.log("ngocanhdeptrai", data);
+
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;

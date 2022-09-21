@@ -13,6 +13,8 @@ const SentenceCompletetion = (props: Props) => {
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
 
+  console.log("SentenceCompletetion", data);
+
   const { handleChange, values, setFieldValue }: any = useFormikContext() ?? {};
 
   useEffect(() => {
@@ -41,12 +43,14 @@ const SentenceCompletetion = (props: Props) => {
   });
   const test: any = Handlebars.compile(text || "");
 
-  const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("id") - 1;
+  const onClickInput = (event: any) => {
+    const inputIdx: any = event.target.classList[0] - 1;
+    setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
     onClickPage && onClickPage({ question: inputIdx });
   };
   const onFocusInput = useCallback((event: any) => {
-    const inputIdx: any = event.target.getAttribute("id") - 1;
+    const inputIdx: any = event.target.classList[0] - 1;
+    setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
     onClickPage && onClickPage({ question: inputIdx });
   }, []);
 
