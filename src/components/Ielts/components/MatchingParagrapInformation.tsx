@@ -8,7 +8,6 @@ interface MatchingParagrapInformationI {
   questions: QuestionItemI[];
   displayNumber: number;
   onClickPage: (option: object) => void;
-  question: QuestionItemI;
 }
 const useStyles = makeStyles((theme) => {
   return {
@@ -20,7 +19,8 @@ const useStyles = makeStyles((theme) => {
   };
 });
 const MatchingParagrapInformation = (props: MatchingParagrapInformationI) => {
-  const { questions, question, displayNumber, onClickPage } = props;
+  //! State
+  const { questions, displayNumber, onClickPage } = props;
 
   const inputRef = useRef<any>([]);
   useEffect(() => {
@@ -36,6 +36,7 @@ const MatchingParagrapInformation = (props: MatchingParagrapInformationI) => {
     onClickPage && onClickPage(sectionRender);
   };
 
+  //! Render
   return (
     <>
       {questions.map((question: QuestionItemI, questionIndex: number) => {

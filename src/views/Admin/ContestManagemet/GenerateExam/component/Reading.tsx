@@ -27,7 +27,7 @@ const Reading = (props: Props) => {
         <MatchingType
           answerList={group?.answerList}
           questionBox={group?.questionBox}
-          data={group?.questions}
+          questions={group?.questions}
           isView={true}
           displayNumber={1}
         />
@@ -50,7 +50,7 @@ const Reading = (props: Props) => {
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          question={group?.questions}
+          questions={group?.questions}
           answerList={group?.answerList}
           onClickPage={() => {}}
           displayNumber={1}

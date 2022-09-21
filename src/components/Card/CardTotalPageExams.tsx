@@ -95,7 +95,6 @@ const CardTotalPageExams = ({
   displayNumber,
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
-  console.log("fsdf", values);
 
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []

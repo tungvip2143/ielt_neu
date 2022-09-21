@@ -7,12 +7,14 @@ import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import FlowChart from "components/Ielts/components/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
 import MatchingParagrapInformation from "../../Ielts/components/MatchingParagrapInformation";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import { QuestionItemI, PartContentQuestionsI } from "../../../constants/typeData.types";
+import { string } from "yup";
 //
 interface PropsItemQuestion {
   expanded?: string;
   questionBox?: string;
-  question: any;
+  questions?: QuestionItemI[];
+  question?: QuestionItemI | any;
   idShowQuestion?: boolean;
 
   // onCollapse: (id: any) => (e: any, expanded: any) => void;
@@ -26,7 +28,8 @@ interface PropsItemQuestion {
   onClickPage: (option: object) => void;
 }
 const ItemQuestion = ({
-  question = [],
+  questions,
+  question,
   expanded,
   onCollapse,
   questionType,
@@ -39,15 +42,16 @@ const ItemQuestion = ({
   ...remainProps
 }: PropsItemQuestion) => {
   // console.log("questionTYpe", questionType);
-  // console.log("432424", question);
+  // console.log("432424", questions);
+  // console.log("423", question);
 
-  const renderQuestion = (data: any) => {
+  const renderQuestion = (dataQuestions: QuestionItemI[], dataQuestionItem: QuestionItemI) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
           answerList={answerList ?? ""}
           questionBox={questionBox ?? ""}
-          data={data}
+          questions={dataQuestions}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
@@ -58,7 +62,7 @@ const ItemQuestion = ({
         <QuestionBox
           onClickPage={onClickPage}
           displayNumber={displayNumber}
-          questions={data}
+          questions={dataQuestions}
           questionBox={questionBox ?? ""}
         />
       );
@@ -66,7 +70,7 @@ const ItemQuestion = ({
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          question={question}
+          questions={dataQuestions}
           answerList={answerList ?? ""}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
@@ -77,10 +81,9 @@ const ItemQuestion = ({
       return (
         <>
           <MatchingParagrapInformation
-            questions={data}
+            questions={dataQuestions}
             displayNumber={displayNumber}
             onClickPage={onClickPage}
-            question={question}
           />
         </>
       );
@@ -91,11 +94,14 @@ const ItemQuestion = ({
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
       questionType === QUESTION_TYPE.TABLE_COMPLETION
     ) {
-      return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
+      return (
+        <FlowChart onClickPage={onClickPage} question={dataQuestions} image={image} displayNumber={displayNumber} />
+      );
     }
 
+    //* da map roi
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion displayNumber={displayNumber} data={data} onClickPage={onClickPage} />;
+      return <SentenceCompletetion displayNumber={displayNumber} data={dataQuestionItem} onClickPage={onClickPage} />;
     }
 
     if (
@@ -108,9 +114,7 @@ const ItemQuestion = ({
           <IdentifyInformationType
             questionType={questionType}
             QUESTION_TYPE={QUESTION_TYPE}
-            question={question}
-            // expanded={expanded}
-            // onCollapse={onCollapse}
+            question={dataQuestionItem}
             displayNumber={displayNumber}
             questionIdx={questionIdx}
             onClickPage={onClickPage}
@@ -120,6 +124,6 @@ const ItemQuestion = ({
     }
   };
 
-  return <>{renderQuestion(question)}</>;
+  return <>{renderQuestion(questions ?? [], question)}</>;
 };
 export default ItemQuestion;

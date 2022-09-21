@@ -60,7 +60,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          question={ContentQuestion?.questions}
+          questions={ContentQuestion?.questions}
           answerList={ContentQuestion?.answerList}
           onClickPage={onClickPage}
           displayNumber={displayNumber}

@@ -2,7 +2,7 @@ import { useEffect, useMemo } from "react";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { QuestionItemI } from "../../../constants/typeData.types";
-type Props = {
+interface SummaryCompletionI {
   questionBox: string;
   displayNumber: number;
   questions: QuestionItemI[];
@@ -10,7 +10,7 @@ type Props = {
   isView?: boolean;
   getTextEachPart?: (text: string) => void;
   passageTextWithHighlightTexted?: string;
-};
+}
 
 const CODE = "-@X$";
 
@@ -19,7 +19,8 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
   return questionBox;
 };
 
-const QuestionBox = (props: Props) => {
+const QuestionBox = (props: SummaryCompletionI) => {
+  //! State
   const {
     questionBox,
     questions,
@@ -85,6 +86,7 @@ const QuestionBox = (props: Props) => {
   const textRender = passageTextWithHighlightTexted ? passageTextWithHighlightTexted : newQuestionBoxParsed;
   const test: any = Handlebars.compile(textRender);
 
+  //! Render
   return (
     <>
       <div

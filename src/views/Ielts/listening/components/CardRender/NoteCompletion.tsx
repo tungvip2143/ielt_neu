@@ -39,7 +39,7 @@ const NoteCompletion = (props: Props) => {
   }, [groupData, questionBox]);
 
   useEffect(() => {
-    const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
+    const input = document.querySelector(`[id=input-${displayNumber}]`) as Element | any;
     if (input) {
       input?.focus();
     }
@@ -70,7 +70,7 @@ const NoteCompletion = (props: Props) => {
   });
 
   //! Function
-  const onChangeInputHandleBars = (e: any) => {
+  const onChangeInputHandleBars = (e: Event | any) => {
     queueAnswers.current = {
       ...queueAnswers.current,
       [e.target.name]: e.target.value,
@@ -84,7 +84,7 @@ const NoteCompletion = (props: Props) => {
   };
 
   const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("class") - 1;
+    const inputIdx: number = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
 
@@ -92,7 +92,6 @@ const NoteCompletion = (props: Props) => {
   return (
     <>
       <div
-        // onClick={(data) => onClickInput(data)}
         onFocus={(event) => onClickInput(event)}
         dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
         onInput={onChangeInputHandleBars}

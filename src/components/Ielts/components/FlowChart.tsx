@@ -25,15 +25,15 @@ const useStyles = makeStyles((theme) => ({
     width: "60%",
   },
 }));
-type Props = {
+interface FlowChartI {
   image?: string;
   question?: QuestionItemI[];
   onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
-};
+}
 
-const FlowChart = (props: Props) => {
+const FlowChart = (props: FlowChartI) => {
   //! State
   const classes = useStyles();
   const { image, question, onClickPage, displayNumber, isView = false } = props;

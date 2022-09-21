@@ -14,8 +14,10 @@ import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
 import { QuestionItemI } from "../../../constants/typeData.types";
+import { makeStyles } from "@mui/styles";
+import { answerMultiChoice } from "../../../constants/constants";
 
-type MultiChoiceOneAnswerI = {
+interface MultiChoiceOneAnswerI {
   question: QuestionItemI;
   questionType: string;
   QUESTION_TYPE: {
@@ -25,14 +27,30 @@ type MultiChoiceOneAnswerI = {
   displayNumber: number;
   questionIdx?: number;
   onClickPage?: (options: object) => void;
-};
+}
+
+const useStyles = makeStyles((theme) => {
+  return {
+    numberQuestion: {
+      alignItems: "center",
+      background: theme.custom?.background.questionItemMultichoose,
+      padding: "0 20px",
+      borderRadius: "10px !important",
+    },
+    AccordionSummary: {
+      padding: "0 !important",
+      display: "flex",
+    },
+  };
+});
 
 const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
+  //! State
   const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage } = props;
-  console.log("question", question);
+
+  const classes = useStyles();
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
-  console.log("31323", displayNumberT);
 
   const { values }: any = useFormikContext();
 
@@ -42,6 +60,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
     onClickPage && onClickPage(sectionRender);
   };
 
+  //! Render
   return (
     <>
       <Accordion
@@ -50,16 +69,11 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
         expanded={displayNumber === question?.question?.displayNumber}
         disableGutters
       >
-        <Stack
-          direction="row"
-          spacing={2}
-          sx={{ alignItems: "center", background: "#f7f9fb", p: "0 20px", borderRadius: "10px !important" }}
-        >
+        <Stack direction="row" spacing={2} className={classes.numberQuestion}>
           <AccordionSummary
-            className="accordion-title"
+            className={`accordion-title ${classes.AccordionSummary}`}
             aria-controls="panel1a-content"
             onClick={onClickQuestion}
-            sx={{ p: "0 !important", display: "flex" }}
           >
             <Text.DescSmall sx={{ mr: "5px" }}>{question?.question?.displayNumber}.</Text.DescSmall>
             <Text.DescSmall>{ReactHtmlParser(question?.question?.questionText)}</Text.DescSmall>
@@ -75,8 +89,6 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                 value={values?.answers[displayNumberT]?.studentAnswer}
               >
                 {question?.question?.options.map((answer: any) => {
-                  console.log("55435", answer.key);
-
                   return (
                     <FormControlLabel
                       key={answer._id}
@@ -118,7 +130,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                         name={`answers[${displayNumberT}].studentAnswer`}
                       />
                     }
-                    label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
+                    label={<Typography style={{ fontSize: 14 }}>{answerMultiChoice.true}</Typography>}
                   />
                   <FormControlLabel
                     value={false}
@@ -130,7 +142,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                         name={`answers[${displayNumberT}].studentAnswer`}
                       />
                     }
-                    label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
+                    label={<Typography style={{ fontSize: 14 }}>{answerMultiChoice.false}</Typography>}
                   />
                   <FormControlLabel
                     value={"not_given"}
@@ -142,7 +154,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                         name={`answers[${displayNumberT}].studentAnswer`}
                       />
                     }
-                    label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
+                    label={<Typography style={{ fontSize: 14 }}>{answerMultiChoice.notGiven}</Typography>}
                   />
                 </RadioGroup>
               </FormControl>

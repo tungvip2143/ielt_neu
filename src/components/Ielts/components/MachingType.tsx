@@ -3,9 +3,9 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
-
+import { QuestionItemI } from "../../../constants/typeData.types";
 interface MatchingSentenceEndingI {
-  data: any;
+  questions: QuestionItemI[];
   questionBox: string;
   answerList: string;
   onClickPage?: (options: object) => void;
@@ -44,7 +44,7 @@ const MachingType = (props: MatchingSentenceEndingI) => {
   // !Style
   const classes = useStyles();
   const {
-    data,
+    questions,
     answerList,
     onClickPage,
     displayNumber,
@@ -73,7 +73,7 @@ const MachingType = (props: MatchingSentenceEndingI) => {
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        {data?.map((question: any, questionIndex: number) => {
+        {questions?.map((question: QuestionItemI, questionIndex: number) => {
           const handleFocus = (index: number, questionIndex: number) => {
             setFieldValue(`answers[${index}].questionId`, question?.questionId || "");
             let sectionRender: any = {};
@@ -82,14 +82,14 @@ const MachingType = (props: MatchingSentenceEndingI) => {
           };
           const index = Number(question?.question?.displayNumber) - 1;
           return (
-            <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
+            <div className={classes.question} key={question.questionId} onClick={() => onClickQuestion(questionIndex)}>
               <div>
                 <strong>{`${question?.question?.displayNumber}.`}</strong>
               </div>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
                 disabled={isView}
-                inputRef={(el: any) => (inputRef.current[index + 1] = el)}
+                inputRef={(el: Event | any) => (inputRef.current[index + 1] = el)}
                 onFocus={() => handleFocus(index, questionIndex)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}
@@ -101,7 +101,7 @@ const MachingType = (props: MatchingSentenceEndingI) => {
       </div>
       <div className={classes.questionBox}>
         <div
-          onClick={(data: any) => {
+          onClick={(data: Event | any) => {
             onScannerText && onScannerText(data);
           }}
           dangerouslySetInnerHTML={{ __html: passageTextWithHighlightTexted || answerList }}
