@@ -3,6 +3,8 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { makeStyles } from "@mui/styles";
 import { ROOT_ORIGINAL_URL } from "constants/api";
+import { QuestionItemI } from "../../../constants/typeData.types";
+import { Object } from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,8 +27,8 @@ const useStyles = makeStyles((theme) => ({
 }));
 type Props = {
   image?: string;
-  question?: any;
-  onClickPage?: (options: any) => void;
+  question?: QuestionItemI[];
+  onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
 };
@@ -37,7 +39,7 @@ const FlowChart = (props: Props) => {
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
-  const handleFocus = (id: string, index: any, questionIndx: number) => {
+  const handleFocus = (id: string, index: number, questionIndx: number) => {
     setFieldValue(`answers[${index}].questionId`, id);
     onClickPage && onClickPage({ question: questionIndx }); //!
   };
@@ -55,16 +57,16 @@ const FlowChart = (props: Props) => {
     <div className={classes.container}>
       <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
-        {question?.map((answer: any, questionIndx: number) => {
+        {question?.map((answer: QuestionItemI, questionIndx: number) => {
           const displayNumberT = answer?.question?.displayNumber;
           return (
-            <div key={answer._id} className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
+            <div key={answer.questionId} className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <span>
                 <strong>{`${answer?.question?.displayNumber}.`}</strong>
               </span>
               <FastField
                 disabled={isView}
-                inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
+                inputRef={(el: Event | any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() =>
                   handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
                 }

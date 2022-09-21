@@ -4,8 +4,8 @@ import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 //
 import { Box } from "@mui/material";
-import { Form, Formik } from "formik";
-import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
+import { Form, Formik, useFormikContext } from "formik";
+import { useFinishIeltsSkill, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 import Header from "views/Ielts/Header/Header";
 //
@@ -31,11 +31,6 @@ const stepRuleExam = {
   informationsForCandidates: <InformationForCandidates styleListRule={styleListRule} />,
   intructionsToCandidates: <IntructionsToCandidates styleListRule={styleListRule} />,
 };
-
-export interface IeltsReadingProps {
-  data: any;
-  testCode: number;
-}
 
 const useStyles = makeStyles((theme) => {
   return {
@@ -117,7 +112,6 @@ const IeltsReading = () => {
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
   const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 3600000;
-
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (

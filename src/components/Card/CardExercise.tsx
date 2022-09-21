@@ -7,10 +7,10 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 // ! type
 
 interface Props {
-  content?: any;
-  width?: any;
-  className?: any;
-  styleAdd?: any;
+  content?: React.ReactNode;
+  width?: number;
+  className?: string;
+  styleAdd?: { height: string };
 }
 
 const CardExercise = ({ content, width, className, styleAdd }: Props) => {
@@ -22,7 +22,7 @@ const CardExercise = ({ content, width, className, styleAdd }: Props) => {
     border: "1px solid #ccc",
     borderRadius: "6px",
     boxShadow: "0 0.0714em 0.214em rgb(0 0 0 / 25%)",
-    height: styleAdd?.height || "100%",
+    height: styleAdd?.height ?? "",
   };
   return (
     <Grid item xs={12} sm={12} md={12} lg={width}>

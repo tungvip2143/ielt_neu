@@ -1,9 +1,9 @@
 import React from "react";
 //! type
-interface Props {
+interface InformationForCandidatesI {
   styleListRule?: any;
 }
-const InformationForCandidates = (props: Props) => {
+const InformationForCandidates = (props: InformationForCandidatesI) => {
   const { styleListRule } = props;
 
   return (

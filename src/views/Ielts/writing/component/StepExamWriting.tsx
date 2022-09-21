@@ -48,7 +48,7 @@ const StepExamWriting = (props: Props) => {
       </Box>
       <Grid container>
         <CardExercise
-          content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+          content={<CardLeft dataChangePart={partRenderSelected} />}
           width={6}
           styleAdd={styleAddExercise}
         />

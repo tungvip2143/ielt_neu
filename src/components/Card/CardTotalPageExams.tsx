@@ -18,7 +18,6 @@ interface CardTotalPageExamsI {
   questions?: any;
   onClickPage?: any;
   setDisplayNumber?: any;
-  test?: any;
   groupSelected?: any;
   part?: any;
   group?: any;
@@ -96,6 +95,7 @@ const CardTotalPageExams = ({
   displayNumber,
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
+  console.log("fsdf", values);
 
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []

@@ -2,19 +2,19 @@ import { lazy } from "react";
 import withErrorBoundary from "components/HOCs/withErrorBoundary";
 
 const HomePage = lazy(() => import("views/Home"));
-const Ielts = lazy(() => import("views/Ielts"));
+// const Ielts = lazy(() => import("views/Ielts"));
 const TOFFL = lazy(() => import("views/TOFFL"));
 const IeltsListening = lazy(() => import("views/Ielts/listening"));
 const Page404 = lazy(() => import("views/Page404"));
 
 //! Route in Default Layout
 const routes = [
-  {
-    path: "/ielts",
-    name: "Ielts",
-    component: Ielts,
-    isPrivate: false,
-  },
+  // {
+  //   path: "/ielts",
+  //   name: "Ielts",
+  //   component: Ielts,
+  //   isPrivate: false,
+  // },
   {
     path: "/ielts/listening",
     name: "IeltsListening",

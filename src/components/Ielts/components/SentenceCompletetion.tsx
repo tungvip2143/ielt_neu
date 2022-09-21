@@ -1,12 +1,13 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { useCallback, useEffect, useMemo } from "react";
-type Props = {
-  data?: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface Props {
+  data: QuestionItemI;
   displayNumber?: number;
   onClickPage?: (option: any) => void;
   isView?: boolean;
-};
+}
 
 const SentenceCompletetion = (props: Props) => {
   const { data, displayNumber, onClickPage, isView = false } = props;
@@ -45,16 +46,17 @@ const SentenceCompletetion = (props: Props) => {
     const inputIdx: any = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = useCallback((event: any) => {
+  const onFocusInput = useCallback((event: any, displayNumber: any) => {
     const inputIdx: any = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    setFieldValue(`answers[${displayNumber - 1}].questionId`, data.questionId);
   }, []);
 
   return (
     <>
       <div
         onClick={(data) => onClickInput(data)}
-        onFocus={(event) => onFocusInput(event)}
+        onFocus={(event) => onFocusInput(event, displayNumber)}
         dangerouslySetInnerHTML={{
           __html: test(data.questionId),
         }}
