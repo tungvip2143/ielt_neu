@@ -59,7 +59,7 @@ const Step2ExamContent = (props: any) => {
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
-
+  console.log("values formik", values);
   useEffect(() => {
     cacheService.cache("answers", values);
   }, [values]);

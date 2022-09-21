@@ -112,7 +112,6 @@ const IeltsReading = () => {
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
   const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 3600000;
-
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (

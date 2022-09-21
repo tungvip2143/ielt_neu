@@ -2,10 +2,10 @@ import HelpListening from "./Listening/HelpListening";
 import { TypeExam } from "constants/enum";
 import HelpReading from "./Reading/HelpReading";
 //! Type
-interface Props {
+interface TestHelpI {
   typeExam?: string;
 }
-const TestHelp = (props: Props) => {
+const TestHelp = (props: TestHelpI) => {
   //! State
   const { typeExam } = props;
   console.log("type", typeExam);

@@ -3,9 +3,9 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
-
-interface MatchingSentenceEndingI {
-  data: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface MatchSentenceEndingI {
+  questions: QuestionItemI[];
   questionBox: string;
   answerList: string;
   onClickPage?: (options: object) => void;
@@ -40,11 +40,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MachingType = (props: MatchingSentenceEndingI) => {
+const MachingType = (props: MatchSentenceEndingI) => {
   // !Style
   const classes = useStyles();
   const {
-    data,
+    questions,
     answerList,
     onClickPage,
     displayNumber,
@@ -73,14 +73,14 @@ const MachingType = (props: MatchingSentenceEndingI) => {
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        {data?.map((question: any, questionIndex: number) => {
+        {questions?.map((question: any, questionIndex: number) => {
+          const index = Number(question?.question?.displayNumber) - 1;
           const handleFocus = (index: number, questionIndex: number) => {
             setFieldValue(`answers[${index}].questionId`, question?.questionId || "");
             let sectionRender: any = {};
             sectionRender.question = questionIndex;
             onClickPage && onClickPage(sectionRender);
           };
-          const index = Number(question?.question?.displayNumber) - 1;
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
               <div>

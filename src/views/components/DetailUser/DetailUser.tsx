@@ -7,7 +7,6 @@ import HelpFooter from "../HelpFooter/HelpFooter";
 import Title from "../Title/Title";
 import Container from "../Container/Container";
 import ImgHelp from "assets/image/exam/help.png";
-import { format } from "date-fns";
 import { warningDetailUser, textBtnSubmit, textHeaderModal } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
 import { useMemo } from "react";
