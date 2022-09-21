@@ -16,6 +16,7 @@ declare module "@mui/material/styles" {
         exam: string;
         exercises: string;
         pageNumber: string;
+        black: string;
         white: string;
         btnShowModal: string;
         questionItemMultichoose: string;
@@ -326,6 +327,7 @@ export const theme = createTheme({
       exercises: "#dde3ee",
       pageNumber: "#000000",
       white: "#fff",
+      black: "#000000",
       questionItemMultichoose: "#f7f9fb",
       btnShowModal: "#6aade4",
       noteReading: {

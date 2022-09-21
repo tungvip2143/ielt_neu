@@ -27,7 +27,7 @@ const Step3 = () => {
   };
   return (
     <Box>
-      <TitleExam dataNumber={dataNumber} />
+      <TitleExam />
       <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
         {/* {data?.part3?.map((item: any) => {
           return <ItemQuestion key={item.id} question={item} />;

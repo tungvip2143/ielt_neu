@@ -1,14 +1,16 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { useCallback, useEffect, useMemo } from "react";
-type Props = {
-  data?: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface SentenceCompletionI {
+  data: QuestionItemI;
   displayNumber?: number;
-  onClickPage?: (option: any) => void;
+  onClickPage?: (option: object) => void;
   isView?: boolean;
-};
+}
 
-const SentenceCompletetion = (props: Props) => {
+const SentenceCompletetion = (props: SentenceCompletionI) => {
+  //! State
   const { data, displayNumber, onClickPage, isView = false } = props;
   const displayNumberI = Number(data?.question?.displayNumber);
   const text = data?.question?.questionText;
@@ -23,6 +25,7 @@ const SentenceCompletetion = (props: Props) => {
   }, [displayNumber]);
 
   let inputIndex = 0;
+
   Handlebars.registerHelper("blank", function (blankId: any, option) {
     const questionId = option.data.root;
     inputIndex++;
@@ -42,19 +45,22 @@ const SentenceCompletetion = (props: Props) => {
   const test: any = Handlebars.compile(text || "");
 
   const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("id") - 1;
+    const inputIdx: number = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
-  const onFocusInput = useCallback((event: any) => {
-    const inputIdx: any = event.target.getAttribute("id") - 1;
+
+  const onFocusInput = useCallback((event: any, displayNumber: any) => {
+    const inputIdx: number = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    setFieldValue(`answers[${displayNumber - 1}].questionId`, data.questionId);
   }, []);
 
+  //! Render
   return (
     <>
       <div
         onClick={(data) => onClickInput(data)}
-        onFocus={(event) => onFocusInput(event)}
+        onFocus={(event) => onFocusInput(event, displayNumber)}
         dangerouslySetInnerHTML={{
           __html: test(data.questionId),
         }}

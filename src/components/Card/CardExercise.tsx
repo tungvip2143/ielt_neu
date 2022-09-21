@@ -7,10 +7,10 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 // ! type
 
 interface Props {
-  content?: any;
-  width?: any;
-  className?: any;
-  styleAdd?: any;
+  content?: React.ReactNode;
+  width?: number;
+  className?: string;
+  styleAdd?: { height: string };
 }
 
 const CardExercise = ({ content, width, className, styleAdd }: Props) => {

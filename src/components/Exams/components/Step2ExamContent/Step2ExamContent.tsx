@@ -17,13 +17,12 @@ import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
-import CommonStyles from "components/CommonStyles";
 import { makeStyles } from "@mui/styles";
+import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 //
-interface Props {
-  data?: any;
-}
+// interface Props {
+//   data?: AllQuestionsDataI[];
+// }
 const useStyles = makeStyles((theme) => {
   return {
     typeQuestion: {
@@ -43,8 +42,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 const Step2ExamContent = (props: any) => {
-  const { data, test } = props;
-
+  const { data } = props;
   //! State
   const [questions, setQuestions] = useState(data);
   const [text, setText] = useState("");
@@ -54,39 +52,24 @@ const Step2ExamContent = (props: any) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
-  const [questionType, setQuestionType] = useState();
 
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
   // console.log("fsdfdsfs", groupSelected);
-
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
-
+  console.log("values formik", values);
   useEffect(() => {
     cacheService.cache("answers", values);
   }, [values]);
 
-  const onClickPage = (groupRenderSelected: any) => {
+  const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
 
-  const onClickShowQuestion = (displayNumber: any) => {
+  const onClickShowQuestion = (displayNumber: string | any) => {
     setShowQuestion(displayNumber);
-  };
-
-  const hightLightNumberPageClickQuestion = (displayNumber: any) => {
-    setHightLightNumberPage(displayNumber);
-  };
-
-  const onClickQuestionType = (questionType: any) => {
-    setQuestionType(questionType);
-  };
-
-  const getTextEachPart = (text: string) => {
-    setText(text);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -112,7 +95,7 @@ const Step2ExamContent = (props: any) => {
         <Box className={classes.containerContent}>
           <Grid container className={classes.containerExercises}>
             <CardExercise
-              content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+              content={<CardLeft dataChangePart={partRenderSelected} />}
               width={5.9}
               styleAdd={styleAddExercise}
             />
@@ -123,9 +106,7 @@ const Step2ExamContent = (props: any) => {
                   onClickPage={onClickPage}
                   partRenderSelected={group[groupSelected.group]}
                   showQuestion={showQuestion}
-                  onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   displayNumber={displayNumber}
-                  onClickQuestionType={onClickQuestionType}
                 />
               }
               width={6}
@@ -137,7 +118,6 @@ const Step2ExamContent = (props: any) => {
         <CardTotalPageExams
           onClickPage={onClickPage}
           questions={questions}
-          test={test}
           setDisplayNumber={onClickShowQuestion}
           groupSelected={groupSelected}
           part={part}
