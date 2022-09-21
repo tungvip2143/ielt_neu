@@ -145,7 +145,7 @@ const Step2ExamContent = (props: any) => {
           question={questionData}
           displayNumber={displayNumber}
         />
-        <FooterExamResponsive />
+        {/* <FooterExamResponsive /> */}
       </Box>
     </>
   );
