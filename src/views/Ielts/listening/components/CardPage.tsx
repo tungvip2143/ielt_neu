@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => {
     eachItem: {
       display: "flex",
       marginRight: "10px",
+      [theme.breakpoints.down("xl")]: {
+        marginTop: "2px",
+      },
     },
     eachQuestion: {
       background: "#000",

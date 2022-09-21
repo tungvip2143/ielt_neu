@@ -31,6 +31,7 @@ export const textHeaderModal = {
   confirmDetail: "Confirm your details",
   testSound: "Test sound",
   help: "Help",
+  screenHidden: "Screen hidden",
 };
 export const warningDetailUser = {
   checkInformation: "If your details are not correct, please inform the invigilator.",

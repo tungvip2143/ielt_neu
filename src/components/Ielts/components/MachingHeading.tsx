@@ -60,7 +60,6 @@ const MachingHeading = (props: MatchingHeadingI) => {
             setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
             onClickPage && onClickPage({ question: questionIndex });
           };
-
           const displayNumberT = question?.question?.displayNumber;
 
           return (

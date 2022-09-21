@@ -22,7 +22,7 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  console.log("ContentQuestion", ContentQuestion);
+  // console.log("ContentQuestion", ContentQuestion);
   // console.log("questionType", questionType);
 
   // !Hook
@@ -32,7 +32,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
   const { clearAll, clearMarkItem } = useClearHighlight({ className });
 
   const renderPartValueGroup = (ContentQuestion: any) => {
-    console.log("ContentQuestion", ContentQuestion);
+    // console.log("ContentQuestion", ContentQuestion);
 
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (

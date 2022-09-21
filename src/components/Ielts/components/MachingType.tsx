@@ -73,14 +73,14 @@ const MachingType = (props: MatchingSentenceEndingI) => {
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        {questions?.map((question: QuestionItemI, questionIndex: number) => {
+        {questions?.map((question: any, questionIndex: number) => {
+          const index = Number(question?.question?.displayNumber) - 1;
           const handleFocus = (index: number, questionIndex: number) => {
             setFieldValue(`answers[${index}].questionId`, question?.questionId || "");
             let sectionRender: any = {};
             sectionRender.question = questionIndex;
             onClickPage && onClickPage(sectionRender);
           };
-          const index = Number(question?.question?.displayNumber) - 1;
           return (
             <div className={classes.question} key={question.questionId} onClick={() => onClickQuestion(questionIndex)}>
               <div>
