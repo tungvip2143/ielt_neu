@@ -34,15 +34,12 @@ type Props = {
 };
 
 const FlowChart = (props: Props) => {
+  //! State
   const classes = useStyles();
   const { image, question, onClickPage, displayNumber, isView = false } = props;
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
-  const handleFocus = (id: string, index: number, questionIndx: number) => {
-    setFieldValue(`answers[${index}].questionId`, id);
-    onClickPage && onClickPage({ question: questionIndx }); //!
-  };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndx;
@@ -53,11 +50,17 @@ const FlowChart = (props: Props) => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
+  //! Render
   return (
     <div className={classes.container}>
       <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
         {question?.map((answer: QuestionItemI, questionIndx: number) => {
+          const handleFocus = (id: string, index: number, questionIndx: number) => {
+            setFieldValue(`answers[${index}].questionId`, id);
+            onClickPage && onClickPage({ question: questionIndx }); //!
+          };
+
           const displayNumberT = answer?.question?.displayNumber;
           return (
             <div key={answer.questionId} className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>

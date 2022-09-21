@@ -4,7 +4,7 @@ import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
 
-interface Props {
+interface MatchingSentenceEndingI {
   data: any;
   questionBox: string;
   answerList: string;
@@ -40,7 +40,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MachingType = (props: Props) => {
+const MachingType = (props: MatchingSentenceEndingI) => {
   // !Style
   const classes = useStyles();
   const {
@@ -64,13 +64,6 @@ const MachingType = (props: Props) => {
 
   const { setFieldValue } = useFormikContext();
 
-  const handleFocus = (index: number, questionIndex: number) => {
-    setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
-    let sectionRender: any = {};
-    sectionRender.question = questionIndex;
-    onClickPage && onClickPage(sectionRender);
-  };
-
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndex;
@@ -81,6 +74,12 @@ const MachingType = (props: Props) => {
     <div className={classes.container}>
       <div className={classes.root}>
         {data?.map((question: any, questionIndex: number) => {
+          const handleFocus = (index: number, questionIndex: number) => {
+            setFieldValue(`answers[${index}].questionId`, question?.questionId || "");
+            let sectionRender: any = {};
+            sectionRender.question = questionIndex;
+            onClickPage && onClickPage(sectionRender);
+          };
           const index = Number(question?.question?.displayNumber) - 1;
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>

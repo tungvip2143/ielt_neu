@@ -15,7 +15,7 @@ import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
 import { QuestionItemI } from "../../../constants/typeData.types";
 
-type Props = {
+type MultiChoiceOneAnswerI = {
   question: QuestionItemI;
   questionType: string;
   QUESTION_TYPE: {
@@ -27,7 +27,7 @@ type Props = {
   onClickPage?: (options: object) => void;
 };
 
-const IdentifyInformationType = (props: Props) => {
+const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
   const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage } = props;
   console.log("question", question);
 
@@ -42,7 +42,6 @@ const IdentifyInformationType = (props: Props) => {
     onClickPage && onClickPage(sectionRender);
   };
 
-  console.log("abcdefghik");
   return (
     <>
       <Accordion

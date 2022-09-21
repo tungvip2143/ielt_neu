@@ -42,11 +42,6 @@ const MachingHeading = (props: Props) => {
   const { setFieldValue } = useFormikContext();
   // console.log("5675", question);
 
-  const handleFocus = (displayNumber: number, questionIndex: number) => {
-    // console.log("Fdsfs", questionIndex);
-    setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
-    onClickPage && onClickPage({ question: questionIndex });
-  };
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndex;
@@ -61,6 +56,11 @@ const MachingHeading = (props: Props) => {
     <div className={classes.root}>
       <div className={classes.questionBox}>
         {question.map((question: any, questionIndex: number): any => {
+          const handleFocus = (displayNumber: number, questionIndex: number) => {
+            // console.log("Fdsfs", questionIndex);
+            setFieldValue(`answers[${displayNumber - 1}].questionId`, question.questionId || "");
+            onClickPage && onClickPage({ question: questionIndex });
+          };
           const displayNumberT = question?.question?.displayNumber;
           return (
             <div key={question._id} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
