@@ -33,14 +33,22 @@ const stepRuleExam = {
 };
 
 const useStyles = makeStyles((theme) => {
+  const heightHeaderLogo = theme.custom?.heightHeaderLogo ?? 80;
+  const heightHeaderExam = theme.custom?.heightHeaderExam ?? 60;
+  const paddingTopExam = heightHeaderLogo + heightHeaderExam;
   return {
     container: {
       height: "100vh",
       overflow: "hidden",
+      paddingTop: `${paddingTopExam}px`,
+      background: theme.custom?.background.exam,
+      [theme.breakpoints.down("lg")]: {
+        overflow: "unset",
+        height: "100%",
+      },
     },
     containerSteps: {
       // paddingTop: "16px",
-      background: theme.custom?.background.exam,
       height: "100%",
     },
   };
@@ -116,14 +124,13 @@ const IeltsReading = () => {
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
+          <Header
+            handleOpenModalHelp={handleOpenModalHelp}
+            handleOpenModalHide={handleOpenModalHide}
+            numberStep={TypeStepExamEnum.STEP3}
+            timeExam={timeExam}
+          />
           <Box className={classes.container}>
-            <Header
-              handleOpenModalHelp={handleOpenModalHelp}
-              handleOpenModalHide={handleOpenModalHide}
-              numberStep={TypeStepExamEnum.STEP3}
-              timeExam={timeExam}
-            />
-
             <Box className={classes.containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser />}
               {step === TypeStepExamEnum.STEP2 && (

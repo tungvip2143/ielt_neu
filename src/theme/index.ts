@@ -82,6 +82,9 @@ declare module "@mui/material/styles" {
           flexDirection: string;
         };
       };
+      heightHeaderLogo: number;
+      heightHeaderExam: number;
+      heightHeaderExamListening: number;
     };
   }
   interface Theme extends CustomTheme {}
@@ -162,7 +165,7 @@ export const theme = createTheme({
       sm: 576,
       md: 768,
       lg: 1080,
-      xl: 1280,
+      xl: 1300,
     },
   },
   components: {
@@ -390,6 +393,9 @@ export const theme = createTheme({
         flexDirection: "column",
       },
     },
+    heightHeaderLogo: 80,
+    heightHeaderExam: 60,
+    heightHeaderExamListening: 77,
   },
 
   palette: {

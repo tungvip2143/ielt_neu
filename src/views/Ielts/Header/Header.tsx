@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme) => {
       zIndex: 999,
       width: "100%",
       marginTop: "80px",
+      position: "fixed",
     },
     headerContent: {
       margin: "0 auto",
