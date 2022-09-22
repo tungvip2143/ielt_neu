@@ -147,7 +147,7 @@ const ModalCreateQuestion = (props: Props) => {
             ...el,
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                ? el?.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e ? e : "" }))
                 : [],
           };
         }),
@@ -228,7 +228,6 @@ const ModalCreateQuestion = (props: Props) => {
   const renderMultiChoiceAnswer = (item: any, index: number, indexQuestion: number) => {
     return (
       <>
-        {console.log("fieldsAnswer", fieldsAnswer)}
         {fieldsAnswer.length === 0 ? (
           <InputCommon
             control={control}

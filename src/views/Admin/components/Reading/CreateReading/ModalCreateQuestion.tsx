@@ -187,7 +187,6 @@ const ModalCreateQuestion = (props: Props) => {
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
-          console.log("el", el);
           return {
             ...el,
             // options:

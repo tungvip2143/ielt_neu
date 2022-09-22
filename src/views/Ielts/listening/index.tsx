@@ -87,7 +87,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    // console.log("testCode", testCode);
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);
