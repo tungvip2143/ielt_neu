@@ -159,7 +159,7 @@ const CreateContest = (props: Props) => {
           history.goBack();
         }
       } catch (error: any) {
-        toast.error(error);
+        toast.error("Max student of examination is 40!");
       }
     }
     if (openCreateScreen.type === "update") {
