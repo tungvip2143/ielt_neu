@@ -11,8 +11,6 @@ interface Props {
 
 const CardLeft = (props: Props) => {
   const { ContentQuestion, numberPage } = props;
-  console.log("dataGruop", ContentQuestion);
-  // console.log("audio", audio);
 
   const contianer = {
     ...themeCssSx.flexBox.flexJusAlign,

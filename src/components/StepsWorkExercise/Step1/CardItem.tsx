@@ -23,9 +23,6 @@ interface PropsItemQuestion {
   displayNumber: number;
   questionIdx?: number;
   onClickPage?: (option: any) => void;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted: string;
-  onScannerText?: (data: any) => void;
 }
 const ItemQuestion = ({
   question = [],
@@ -38,14 +35,9 @@ const ItemQuestion = ({
   displayNumber,
   questionIdx,
   onClickPage,
-  getTextEachPart,
-  passageTextWithHighlightTexted,
-  onScannerText,
   ...remainProps
 }: PropsItemQuestion) => {
   const renderQuestion = (data: any) => {
-    // console.log("dataQuestions", data);
-
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
@@ -54,9 +46,6 @@ const ItemQuestion = ({
           data={data}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
@@ -67,9 +56,6 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
@@ -80,9 +66,6 @@ const ItemQuestion = ({
           displayNumber={displayNumber}
           questions={data}
           questionBox={questionBox}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
@@ -97,7 +80,11 @@ const ItemQuestion = ({
         />
       );
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION
+    ) {
       return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {

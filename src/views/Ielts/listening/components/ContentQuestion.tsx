@@ -7,6 +7,10 @@ import SentenceCompletetion from "components/Ielts/components/SentenceCompleteti
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
+import { useRightClick } from "hooks/ielts/useRightClick";
+import { useNoted } from "hooks/ielts/useNoted";
+import { useHightLightText } from "hooks/ielts/useHighlightText";
+import CommonStyles from "components/CommonStyles";
 // ! type
 interface Props {
   ContentQuestion?: any;
@@ -17,8 +21,11 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
-  // console.log("ContentQuestion", ContentQuestion);
-  // console.log("questionType", questionType);
+
+  // !Hook
+  const { isAction, position, toggleAction, className } = useRightClick();
+  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
+  useHightLightText({ noted, toggleNote });
 
   const renderPartValueGroup = (ContentQuestion: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
@@ -33,7 +40,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION && questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}
@@ -109,6 +116,18 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       <div>
         {renderPartValueGroup(ContentQuestion)}
         {onClickQuestionType(ContentQuestion?.questionType)}
+        {isAction && (
+          <CommonStyles.HightLightDialog onCloseAction={toggleAction} onClickNote={onClickNote} position={position} />
+        )}
+        {isNoted && (
+          <CommonStyles.Note
+            onCloseNote={toggleNote}
+            noted={noted}
+            position={position}
+            onChangeTextNote={onChangeInput}
+            className={className}
+          />
+        )}
       </div>
     </>
   );

@@ -34,7 +34,6 @@ const useStyles = makeStyles((theme) => {
     },
     containerContent: {
       padding: "0 15px",
-      marginTop: "15px",
     },
     containerExercises: {
       justifyContent: "space-between",
@@ -62,20 +61,6 @@ const Step2ExamContent = (props: any) => {
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
 
   useEffect(() => {
     cacheService.cache("answers", values);
@@ -111,15 +96,15 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 275px)",
+    height: "calc(100vh - 210px)",
   };
   const classes = useStyles();
   //! Render
   return (
     <>
-      <Box className={classes.typeQuestion}>
+      {/* <Box className={classes.typeQuestion}>
         <TypeQuestions content={questionType}></TypeQuestions>
-      </Box>
+      </Box> */}
       <Box className={classes.containerDad}>
         <Box className={classes.containerContent}>
           <Grid container className={classes.containerExercises}>
@@ -138,9 +123,6 @@ const Step2ExamContent = (props: any) => {
                   onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   displayNumber={displayNumber}
                   onClickQuestionType={onClickQuestionType}
-                  getTextEachPart={getTextEachPart}
-                  passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-                  onScannerText={onScannerText}
                 />
               }
               width={6}
@@ -162,22 +144,6 @@ const Step2ExamContent = (props: any) => {
         />
         <FooterExamResponsive />
       </Box>
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };

@@ -19,7 +19,7 @@ const useStyles = makeStyles((theme) => {
   return {
     container: {
       ...theme.custom?.flexBox.flexJusCenter,
-      marginTop: "60px",
+      paddingTop: "60px",
     },
     introduceUser: {
       margin: "5px 0",
