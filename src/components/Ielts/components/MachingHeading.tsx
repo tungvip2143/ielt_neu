@@ -64,7 +64,7 @@ const MachingHeading = (props: MachingHeadingI) => {
           return (
             <div key={question.questionId} className={classes.question} onClick={() => onClickQuestion(questionIndex)}>
               <strong style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.displayNumber)}</strong>
-              <div style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</div>
+              {/* <div style={{ minWidth: "24px" }}>{ReactHtmlParser(question?.question?.questionText)}</div> */}
               <FastField
                 disabled={isView}
                 size="small"

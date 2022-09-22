@@ -18,7 +18,6 @@ import IntructionsToCandidatesListening from "views/components/dataSteps/DataCon
 import EndTest from "../../../components/Exams/EndTest";
 import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
-import { IELT_TEST } from "../../../interfaces/testType";
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
 //
 import LoadingPage from "components/Loading";
@@ -30,7 +29,6 @@ import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
-import authServices from "services/authServices";
 
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -54,7 +52,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [changeValueVolum, setChangeValueVolum] = React.useState<any>(0.5);
 
   const { step } = useStepExam();
-  console.log("4234", step);
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
@@ -134,7 +131,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const heightHeaderExam = theme.custom?.heightHeaderExamListening ?? 80;
     const paddingTopStep123 = heightHeaderLogo + heightHeaderExam - 17;
     const paddingTopExam = heightHeaderLogo + heightHeaderExam + 16;
-    console.log("42423", paddingTopExam);
 
     const handlePaddingTop = () => {
       if (step === TypeStepExamEnum.STEP1 || step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3) {
@@ -187,7 +183,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
                   <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
                 )}
                 {step === TypeStepExamEnum.STEP4 && <ExamTest valueVolum={changeValueVolum} />}
-                {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
+                {step === TypeStepExamEnum.STEP5 && <EndTest />}
               </Box>
             </Box>
             {isOpenModalHelp && (

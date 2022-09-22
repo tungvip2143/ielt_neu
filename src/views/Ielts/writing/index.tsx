@@ -109,7 +109,7 @@ const IeltsWriting = (props: IeltsReadingProps) => {
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
               {step === TypeStepExamEnum.STEP3 && <StepExamWriting />}
-              {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.WRITING} />}
+              {step === TypeStepExamEnum.STEP4 && <EndTest />}
             </Box>
 
             {isOpenModalHelp && (

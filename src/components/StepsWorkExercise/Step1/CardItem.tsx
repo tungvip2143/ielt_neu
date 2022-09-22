@@ -38,8 +38,8 @@ const ItemQuestion = ({
   onClickPage,
   ...remainProps
 }: PropsItemQuestion) => {
-  // console.log("questionTYpe", questionType);
-  // console.log("432424", question);
+  console.log("questionTYpe", questionType);
+  console.log("432424", question);
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {

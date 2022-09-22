@@ -27,16 +27,10 @@ const content = {
   textAlign: "center",
 };
 
-interface Props {
-  test?: string;
-}
-
-const EndTest = (props: Props) => {
-  const { test } = props;
+const EndTest = () => {
   const { dispatch } = useSagaCreators();
 
   // !Hook
-  const history = useHistory();
   const { mutateAsync: finishIeltsTest, isLoading: ieltsFinishLoading } = useFinishIeltsTest();
   const { testCode } = useGetTestCode();
 

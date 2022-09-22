@@ -1,6 +1,5 @@
 import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
-import TypeQuestions from "components/Card/TypeQuestions";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import { useFormikContext } from "formik";

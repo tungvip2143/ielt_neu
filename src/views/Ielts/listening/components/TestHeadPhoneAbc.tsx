@@ -19,7 +19,7 @@ import CommonStyles from "components/CommonStyles";
 
 //! type
 interface TestHeadPhoneI {
-  valueVolum?: any;
+  valueVolum: number;
 }
 const useStyles = makeStyles((theme) => {
   return {
