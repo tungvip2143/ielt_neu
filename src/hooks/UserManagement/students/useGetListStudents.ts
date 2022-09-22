@@ -6,6 +6,7 @@ import studentService from "services/studentService";
 
 const useGetListStudents = () => {
   const [data, setData] = useState<QuestionUser[]>([]);
+  // const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [meta, setMeta] = useState<MPagination>({

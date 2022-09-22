@@ -42,7 +42,7 @@ const GenerateExam = () => {
     try {
       const response = await testBankService.generateExam(id, body);
       if (response?.data?.statusCode === 200) {
-        toast.success("Gender success");
+        toast.success("Render success");
         refetchDataTable();
         setVisible(false);
       }
