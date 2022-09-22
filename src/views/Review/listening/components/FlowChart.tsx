@@ -37,8 +37,6 @@ type Props = {
 const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question } = props;
-  console.log("questionImage", image);
-  //   console.log("dataFlowChart", question);
 
   return (
     <>

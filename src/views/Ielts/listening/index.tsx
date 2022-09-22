@@ -30,20 +30,8 @@ import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
-//! css
-const useStyles = makeStyles((theme) => {
-  return {
-    container: {
-      height: "100vh",
-      overflow: "hidden",
-    },
-    containerSteps: {
-      paddingTop: "16px",
-      background: theme.custom?.background.exam,
-      height: "100%",
-    },
-  };
-});
+import authServices from "services/authServices";
+
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
   time: rulesdetailExam.listening.timeExam,
@@ -65,9 +53,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
   const [changeValueVolum, setChangeValueVolum] = React.useState<any>(0.5);
 
-  const classes = useStyles();
-
-  const { step, handler } = useStepExam();
+  const { step } = useStepExam();
+  console.log("4234", step);
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
@@ -142,6 +129,40 @@ const IeltsListening = (props: IeltsListeningProps) => {
     setChangeValueVolum(Number(`0.${value}`));
   };
 
+  //! css
+  const useStyles = makeStyles((theme) => {
+    const heightHeaderLogo = theme.custom?.heightHeaderLogo ?? 80;
+    const heightHeaderExam = theme.custom?.heightHeaderExamListening ?? 80;
+    const paddingTopStep123 = heightHeaderLogo + heightHeaderExam - 17;
+    const paddingTopExam = heightHeaderLogo + heightHeaderExam + 16;
+    console.log("42423", paddingTopExam);
+
+    const handlePaddingTop = () => {
+      if (step === TypeStepExamEnum.STEP1 || step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3) {
+        return paddingTopStep123;
+      }
+      if (step === TypeStepExamEnum.STEP4) {
+        return paddingTopExam;
+      }
+    };
+    return {
+      container: {
+        height: "100vh",
+        overflow: "hidden",
+        paddingTop: `${handlePaddingTop()}px`,
+        background: theme.custom?.background.exam,
+        [theme.breakpoints.down("lg")]: {
+          overflow: "unset",
+          height: "100%",
+        },
+      },
+      containerSteps: {
+        height: "100%",
+      },
+    };
+  });
+  const classes = useStyles();
+
   //! Render
   if (isLoading || listeningFinishLoading) {
     return <LoadingPage />;
@@ -151,16 +172,15 @@ const IeltsListening = (props: IeltsListeningProps) => {
       {(formik) => {
         return (
           <Form>
+            <Header
+              handleOpenModalHelp={handleOpenModalHelp}
+              handleOpenModalHide={handleOpenModalHide}
+              numberStep={TypeStepExamEnum.STEP4}
+              timeExam={timeExam}
+              handleChangeValueVolum={handleChangeValueVolum}
+              typeExam={TypeExam.LISTENING}
+            />
             <Box className={classes.container}>
-              <Header
-                handleOpenModalHelp={handleOpenModalHelp}
-                handleOpenModalHide={handleOpenModalHide}
-                numberStep={TypeStepExamEnum.STEP4}
-                timeExam={timeExam}
-                handleChangeValueVolum={handleChangeValueVolum}
-                typeExam={TypeExam.LISTENING}
-              />
-
               <Box className={classes.containerSteps}>
                 {step === TypeStepExamEnum.STEP1 && <DetailUser />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc valueVolum={changeValueVolum} />}

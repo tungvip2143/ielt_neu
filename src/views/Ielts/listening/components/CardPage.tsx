@@ -26,6 +26,9 @@ const useStyles = makeStyles((theme) => {
     eachItem: {
       display: "flex",
       marginRight: "10px",
+      [theme.breakpoints.down("xl")]: {
+        marginTop: "2px",
+      },
     },
     eachQuestion: {
       background: "#000",
@@ -229,8 +232,6 @@ const CardPage = ({
       });
     });
   };
-
-  // console.log("values.answers[displayNumber]", values.answers[displayNumber - 1], displayNumber);
 
   //! Render
   return (

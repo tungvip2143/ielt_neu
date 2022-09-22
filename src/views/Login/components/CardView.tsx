@@ -6,7 +6,6 @@ interface Props {
   children?: React.ReactNode;
 }
 const CardView = (props: Props) => {
-  console.log("props", props);
   const card = {
     width: "440px",
     p: "40px 32px",
