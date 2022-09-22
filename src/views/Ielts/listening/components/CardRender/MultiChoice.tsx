@@ -58,7 +58,7 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
       <Box className={classes.formAnswer}>
         {dataQuestions.map((item: any, questionIdx: number) => {
           return (
-            <Box className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
+            <Box key={item._id} className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
               <Stack direction="row" className={classes.title}>
                 <Text.DescSmall className={classes.questionNumber}>{item.question.displayNumber}.</Text.DescSmall>
                 <Text.DescSmall className={classes.question}>
@@ -67,10 +67,23 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
-                {item?.question?.options.map((answerChoice: any) => {
+                {item?.question?.options.map((answerChoice: any, index: number) => {
+                  const checkSortIndex = () => {
+                    if (index === 0) {
+                      return "A";
+                    }
+                    if (index === 1) {
+                      return "B";
+                    }
+                    if (index === 2) {
+                      return "C";
+                    }
+                    return;
+                  };
                   const displayNumber = Number(item.question.displayNumber) - 1;
                   return (
                     <RadioGroup
+                      key={answerChoice._id}
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue=""
                       name="radio-buttons-group"
@@ -80,7 +93,7 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
                         disabled={isView}
                         key={answerChoice._id}
                         value={answerChoice.key}
-                        label={`${answerChoice.text}`}
+                        label={`${checkSortIndex()}. ${answerChoice.text}`}
                         control={
                           <Field
                             questionId={item.question._id}

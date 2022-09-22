@@ -12,12 +12,12 @@ import NextQuestion from "assets/image/exam/next-exercise.png";
 import PrevQuestion from "assets/image/exam/prev-exercise.png";
 import { useCheckRenderQuestion } from "hooks/ielts/useCheckRenderQuestion";
 import CacheService from "services/cacheService";
+import classnames from "classnames";
 
 interface CardTotalPageExamsI {
   questions?: any;
   onClickPage?: any;
   setDisplayNumber?: any;
-  test?: any;
   groupSelected?: any;
   part?: any;
   group?: any;
@@ -29,7 +29,10 @@ const useStyles = makeStyles((theme) => {
   return {
     eachItem: {
       display: "flex",
-      marginRight: "10px",
+      marginRight: "2px",
+      [theme.breakpoints.down("xl")]: {
+        marginTop: "2px",
+      },
     },
     eachQuestion: {
       background: "#000",
@@ -62,6 +65,10 @@ const useStyles = makeStyles((theme) => {
       position: "fixed",
       bottom: 0,
       margin: "0 15px",
+      [theme.breakpoints.down("xl")]: {
+        alignItems: "center",
+        padding: "0 20px 0 0",
+      },
     },
     containerTotalPage: {
       ...theme.custom?.flexBox.flexBetweenCenter,
@@ -83,10 +90,6 @@ const useStyles = makeStyles((theme) => {
     },
   };
 });
-export enum Direction {
-  next = "next",
-  back = "back",
-}
 
 const CardTotalPageExams = ({
   questions,
@@ -99,6 +102,7 @@ const CardTotalPageExams = ({
   displayNumber,
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
+  console.log("fsdf", values);
 
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
@@ -172,9 +176,11 @@ const CardTotalPageExams = ({
           <>
             <Box
               key={question.id}
-              className={`${highLightPage()} ${
-                inReviewListQuestions.includes(question.question.displayNumber) ? "show-page-review" : "hide-review"
-              } ${`${didExerciseActive()}-abc`}`}
+              className={classnames(
+                highLightPage(),
+                inReviewListQuestions.includes(question.question.displayNumber) ? "show-page-review" : "hide-review",
+                `${didExerciseActive()}-abc`
+              )}
               onClick={() => handleClickQuestion(partIndex, groupIndex, questionIndex)}
             >
               <span className={didExerciseActive()}>{question.question.displayNumber}</span>

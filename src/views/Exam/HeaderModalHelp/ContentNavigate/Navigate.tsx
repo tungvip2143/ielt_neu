@@ -1,14 +1,11 @@
 import React from "react";
 import { Box } from "@mui/material";
-import IntructionsToCandidates from "views/components/dataSteps/DataContentReading/IntructionsToCandidates";
-import InformationForCandidates from "views/components/dataSteps/DataContentReading/InformationForCandidates";
-import Text from "components/Typography/index";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
-import ButtonCommon from "components/Button/ButtonCommon";
 import BtnHelpOk from "../btnHelpOk/BtnHelpOk";
 import RulesExam from "../RulesExam/RulesExam";
 import TestHelp from "../TestHelp/TestHelp";
 import TaskHelp from "../../TaskHelp/TaskHelp";
+import { makeStyles } from "@mui/styles";
 
 const data = [
   {
@@ -25,57 +22,75 @@ const data = [
   },
 ];
 // !type
-interface Props {
+interface NavigateI {
   handleCloseModal?: () => void;
-  typeExam?: any;
+  typeExam?: string;
 }
-const Navigate = (props: Props) => {
-  const [panel, setPanel] = React.useState<number>(1);
-  //
-  const { handleCloseModal, typeExam } = props;
+interface NavigateItemI {
+  item: {
+    id: number;
+    title: string;
+  };
+  onHightLightNavigate: () => void;
+}
 
-  const NavigateItem = ({ item, onHightLightNavigate }: any) => {
-    const btn = {
-      p: "5px 20px",
+const useStyles = makeStyles((theme) => {
+  return {
+    container: {
+      display: "flex",
+      borderBottom: "1px solid rgba(0,0,0,.2)",
+      margin: "16px 0",
+    },
+    btn: {
+      padding: "5px 20px",
       borderRadius: "6px 6px 0 0",
       background: "rgba(0, 0, 0, 0.1)",
-      ml: "10px",
+      marginLeft: "10px",
       fontWeight: 700,
       cursor: "pointer",
       zIndex: 999,
       border: "1px solid rgba(0,0,0,.2)",
       borderBottom: "0",
-    };
-    const btnHightLight = {
-      ...btn,
-      background: themeCssSx.backgroundExam.container,
+    },
+    btnHightLight: {
+      background: theme.custom?.background.exam,
       marginBottom: "-2px",
-      borderBottom: `1px solid ${themeCssSx.backgroundExam.container}`,
-    };
+      borderBottom: `1px solid ${theme.custom?.background.exam}`,
+    },
+    footer: {
+      ...theme.custom?.flexBox.flexJusCenter,
+    },
+  };
+});
+
+const Navigate = (props: NavigateI) => {
+  //! State
+
+  const { handleCloseModal, typeExam } = props;
+  const [panel, setPanel] = React.useState<number>(1);
+  const classes = useStyles();
+
+  const NavigateItem = ({ item, onHightLightNavigate }: NavigateItemI) => {
     const hightLightNavigate = () => {
       if (panel === item.id) {
-        return btnHightLight;
+        return classes.btnHightLight;
       }
-      return btn;
+      return;
     };
 
     return (
       <>
-        <Box onClick={onHightLightNavigate} sx={hightLightNavigate()}>
+        <Box onClick={onHightLightNavigate} className={`${classes.btn} ${hightLightNavigate()}`}>
           {item.title}
         </Box>
       </>
     );
   };
-  const container = {
-    display: "flex",
-    borderBottom: "1px solid rgba(0,0,0,.2)",
-    my: "16px",
-  };
 
+  //! Render
   return (
     <>
-      <Box sx={container}>
+      <Box className={classes.container}>
         {data.map((item) => {
           const handleSetPanel = () => {
             setPanel(item.id);
@@ -88,7 +103,7 @@ const Navigate = (props: Props) => {
         {panel === 2 && <TestHelp typeExam={typeExam} />}
         {panel === 3 && <TaskHelp />}
       </Box>
-      <Box sx={{ ...themeCssSx.flexBox.flexJusCenter }}>
+      <Box className={classes.footer}>
         <BtnHelpOk handleCloseModal={handleCloseModal} />
       </Box>
     </>

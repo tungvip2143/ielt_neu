@@ -1,6 +1,7 @@
 import { makeStyles } from "@mui/styles";
 import React, { useEffect, useState } from "react";
 import imgCloseNote from "assets/image/exam/test-help/img-close.png";
+import classnames from "classnames";
 
 const useStyle = makeStyles((theme) => ({
   noteContainer: {
@@ -58,15 +59,14 @@ const Note = (props: Props) => {
 
   const { isOpenNote, onCloseNote, onChangeTextNote, position, className, noted } = props;
   const classes = useStyle(position);
-  const [input, setInput] = useState("");
   return (
     <div className={classes.noteContainer}>
-      <div className={classes.noteHeader}>
+      <div className={classnames(classes.noteHeader, "noselect")}>
         <img src={imgCloseNote} alt="" onClick={onCloseNote} className={classes.imgClose} />
       </div>
       <div className={classes.noteContent}>
         <textarea
-          className={classes.contentNote}
+          className={classnames(classes.contentNote, "noselect")}
           value={noted[className] ? noted[className] : ""}
           autoFocus
           onChange={onChangeTextNote}

@@ -29,7 +29,7 @@ const Listening = (props: Props) => {
           //   onHightLightNumberPage={onHightLightNumberPage}
           answerList={group?.answerList}
           questionBox={group?.questionBox}
-          data={group?.questions}
+          questions={group?.questions}
           isView={true}
           // onClickPage={onClickPage}
           displayNumber={1}
@@ -65,7 +65,7 @@ const Listening = (props: Props) => {
       return group?.questions?.map((el: any) => {
         return (
           <MachingHeading
-            question={group?.questions}
+            questions={group?.questions}
             answerList={group?.answerList}
             onClickPage={() => {}}
             displayNumber={1}

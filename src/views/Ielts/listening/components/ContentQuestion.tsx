@@ -11,6 +11,7 @@ import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
 import CommonStyles from "components/CommonStyles";
+import { useClearHighlight } from "hooks/ielts/useClearHighlight";
 // ! type
 interface Props {
   ContentQuestion?: any;
@@ -21,13 +22,18 @@ interface Props {
 }
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
+  // console.log("ContentQuestion", ContentQuestion);
+  // console.log("questionType", questionType);
 
   // !Hook
   const { isAction, position, toggleAction, className } = useRightClick();
   const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
   useHightLightText({ noted, toggleNote });
+  const { clearAll, clearMarkItem } = useClearHighlight({ className });
 
   const renderPartValueGroup = (ContentQuestion: any) => {
+    // console.log("ContentQuestion", ContentQuestion);
+
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MachingTypeListening
@@ -54,9 +60,8 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          question={ContentQuestion?.questions}
+          questions={ContentQuestion?.questions}
           answerList={ContentQuestion?.answerList}
-          data={ContentQuestion?.questions}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
@@ -68,7 +73,8 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
       questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
       questionType === QUESTION_TYPE.FORM_COMPLETION ||
-      questionType === QUESTION_TYPE.DIAGRAM_LABELING
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION
     ) {
       return (
         <FlowChart
@@ -84,7 +90,12 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       return ContentQuestion?.questions.map((question: any) => {
         return (
           <>
-            <SentenceCompletetion onClickPage={onClickPage} displayNumber={displayNumber} data={question} />
+            <SentenceCompletetion
+              key={question._id}
+              onClickPage={onClickPage}
+              displayNumber={displayNumber}
+              data={question}
+            />
           </>
         );
       });
@@ -113,11 +124,17 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
     <>
       <TitleExam title={ContentQuestion} />
 
-      <div>
+      <div className="exam">
         {renderPartValueGroup(ContentQuestion)}
         {onClickQuestionType(ContentQuestion?.questionType)}
         {isAction && (
-          <CommonStyles.HightLightDialog onCloseAction={toggleAction} onClickNote={onClickNote} position={position} />
+          <CommonStyles.HightLightDialog
+            clearAll={clearAll}
+            onCloseAction={toggleAction}
+            onClickNote={onClickNote}
+            position={position}
+            clearMarkItem={clearMarkItem}
+          />
         )}
         {isNoted && (
           <CommonStyles.Note

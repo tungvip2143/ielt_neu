@@ -4,8 +4,8 @@ import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 //
 import { Box } from "@mui/material";
-import { Form, Formik } from "formik";
-import { useFinishIeltsSkill, useIeltsReading, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
+import { Form, Formik, useFormikContext } from "formik";
+import { useFinishIeltsSkill, useUpdateIeltsReadingTest } from "hooks/ielts/useIelts";
 import { IELT_TEST } from "interfaces/testType";
 import Header from "views/Ielts/Header/Header";
 //
@@ -32,20 +32,23 @@ const stepRuleExam = {
   intructionsToCandidates: <IntructionsToCandidates styleListRule={styleListRule} />,
 };
 
-export interface IeltsReadingProps {
-  data: any;
-  testCode: number;
-}
-
 const useStyles = makeStyles((theme) => {
+  const heightHeaderLogo = theme.custom?.heightHeaderLogo ?? 80;
+  const heightHeaderExam = theme.custom?.heightHeaderExam ?? 60;
+  const paddingTopExam = heightHeaderLogo + heightHeaderExam;
   return {
     container: {
       height: "100vh",
       overflow: "hidden",
+      paddingTop: `${paddingTopExam}px`,
+      background: theme.custom?.background.exam,
+      [theme.breakpoints.down("lg")]: {
+        overflow: "unset",
+        height: "100%",
+      },
     },
     containerSteps: {
-      paddingTop: "16px",
-      background: theme.custom?.background.exam,
+      // paddingTop: "16px",
       height: "100%",
     },
   };
@@ -117,19 +120,17 @@ const IeltsReading = () => {
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
   const timeExam = LEFT_TIME ? Number(LEFT_TIME) : 3600000;
-
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (
         <Form>
+          <Header
+            handleOpenModalHelp={handleOpenModalHelp}
+            handleOpenModalHide={handleOpenModalHide}
+            numberStep={TypeStepExamEnum.STEP3}
+            timeExam={timeExam}
+          />
           <Box className={classes.container}>
-            <Header
-              handleOpenModalHelp={handleOpenModalHelp}
-              handleOpenModalHide={handleOpenModalHide}
-              numberStep={TypeStepExamEnum.STEP3}
-              timeExam={timeExam}
-            />
-
             <Box className={classes.containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser />}
               {step === TypeStepExamEnum.STEP2 && (

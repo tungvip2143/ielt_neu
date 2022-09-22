@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme) => {
     },
     title: {
       color: theme.palette.text.primary,
-      fontWeight: 700,
+      fontWeight: "bold !important",
     },
   };
 });
@@ -27,13 +27,15 @@ const TypeQuestions = ({ content }: Data) => {
   const classes = useStyles();
   //! Render
   return (
-    <Box className={classes.card}>
+    <>
+      {/* <Box className={classes.card}>
       <Stack direction="row" spacing={4} sx={{ alignItems: "center" }}>
         <CommonStyles.Typography component="p" variant="desc16" className={classes.title}>
           {content}
         </CommonStyles.Typography>
       </Stack>
-    </Box>
+    </Box> */}
+    </>
   );
 };
 
