@@ -51,12 +51,17 @@ const ExamTest = (props: Props) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
+  console.log("groupSelected", groupSelected);
+  console.log("groupSelected", data);
+
   useEffect(() => {
     cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
   const onClickPage = (groupRenderSelected: any) => {
+    console.log("groupRenderSelected", groupRenderSelected);
+
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
   const onClickShowQuestion = (displayNumber: any) => {

@@ -48,9 +48,10 @@ const SentenceCompletetion = (props: Props) => {
     setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
     onClickPage && onClickPage({ question: inputIdx });
   };
+
   const onFocusInput = useCallback((event: any) => {
-    const inputIdx: any = event.target.classList[0] - 1;
-    setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
+    const inputIdx: number = event.target.getAttribute("id") - 1;
+
     onClickPage && onClickPage({ question: inputIdx });
   }, []);
 

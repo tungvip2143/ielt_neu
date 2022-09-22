@@ -23,7 +23,7 @@ interface Props {
 const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
   const questionType = ContentQuestion?.questionType;
   console.log("ContentQuestion", ContentQuestion);
-  // console.log("questionType", questionType);
+  console.log("questionType", questionType);
 
   // !Hook
   const { isAction, position, toggleAction, className } = useRightClick();
