@@ -20,15 +20,15 @@ const ListUserContest = ({ dataFileExcel }: any) => {
 
   const history = useHistory();
 
-  const onDeletePart = async (item: any) => {
-    try {
-      await studentService.deletePart(item?.row?._id);
-      //   await refetchDataTable();
-      await toast.success("Delete success!");
-    } catch (error) {
-      toast.error("Error!");
-    }
-  };
+  // const onDeletePart = async (item: any) => {
+  //   try {
+  //     await studentService.deletePart(item?.row?._id);
+  //     //   await refetchDataTable();
+  //     await toast.success("Delete success!");
+  //   } catch (error) {
+  //     toast.error("Error!");
+  //   }
+  // };
 
   //! Render
   return (
