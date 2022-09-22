@@ -9,6 +9,7 @@ import useGetListStudents from "hooks/UserManagement/students/useGetListStudents
 import studentService from "services/studentService";
 import CommonActionMenu from "components/CommonActionMenu";
 import { toast } from "react-toastify";
+import moment from "moment";
 
 const styles = {
   titleTable: {
@@ -28,9 +29,17 @@ const UserAdmin = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetListStudents();
+  console.log("dataPartsa", dataParts);
 
   const history = useHistory();
-
+  const rows = dataParts?.map((el: any) => ({
+    id: el?._id,
+    fullname: el?.fullname,
+    studentCode: el?.studentCode,
+    candidateCode: el?.candidateCode,
+    updatedAt: moment(el?.updatedAt).format("DD-MM-YYYY HH:mm"),
+    createdAt: moment(el?.createdAt).format("DD-MM-YYYY HH:mm"),
+  }));
   const onDeletePart = async (item: any) => {
     try {
       await studentService.deletePart(item?.row?._id);
@@ -106,17 +115,16 @@ const UserAdmin = () => {
               },
             },
           ]}
-          checkboxSelection
+          checkboxSelection={false}
           pagination={{
-            page: metaPart?.page,
+            page: metaPart?.page ? metaPart?.page - 1 : 0,
             pageSize: metaPart?.pageSize,
             totalRow: metaPart?.total,
           }}
           loading={loading}
-          rows={dataParts}
+          rows={rows}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
-          getRowId={(row: any) => row._id}
         />
       </Card>
     </div>

@@ -1,7 +1,7 @@
 import { Button, Card, Typography } from "@mui/material";
 import ButtonCommon from "components/Button/ButtonCommon";
 import CommonDataGrid from "components/CommonDataGrid";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import CommonActionMenu from "components/CommonActionMenu";
 import { Link, useHistory } from "react-router-dom";
 import ButtonUpload from "components/Button/ButtonUpload";
@@ -29,9 +29,20 @@ const ContestManagement = () => {
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange, refresh] =
     useContestManagemet();
 
-  const [dataItemId, setDataItemId] = useState<null | number>(null);
-  const [dataItemIds, setDataItemIds] = useState<null | number>(null);
-  console.log("dataItemIds", dataItemIds);
+  const [canStartStatus, setCanStartStatus] = useState<boolean>(false);
+  const canStartList = dataContest.reduce((returnObj: any, currentValue: any) => {
+    returnObj[currentValue.id] = currentValue.canStart;
+    return returnObj;
+  }, {});
+
+  const [startActiveStatus, setStartActiveStatus] = useState<boolean>(false);
+  const activeList = dataContest.reduce((returnObj1: any, currentValue1: any) => {
+    returnObj1[currentValue1.id] = currentValue1.active;
+    return returnObj1;
+  }, {});
+  // const [dataItemId, setDataItemId] = useState<null | number>(null);
+  // const [dataItemIds, setDataItemIds] = useState<null | number>(null);
+  // console.log("dataItemIds", dataItemIds);
 
   // const refetchDataCanStart = async () => {
   //   dataContest?.canStart;
@@ -49,14 +60,17 @@ const ContestManagement = () => {
     }
   };
   const onChangeStatus = async (item: any) => {
+    setCanStartStatus(!canStartStatus);
+    canStartList[item?.id] = !canStartList[item?.id];
     const body = {
-      canStart: true,
+      canStart: canStartList[item?.id],
     };
     try {
       const response = await contestService.putUpdateExamination(item?.id, body);
+
       if (response.data.statusCode === 200) {
         toast.success("Status has been changed!");
-        setDataItemId(item?.id);
+        // setDataItemId(item?.id);
         refresh();
       }
     } catch (error: any) {
@@ -64,22 +78,25 @@ const ContestManagement = () => {
     }
   };
   const onChangeStatusActive = async (item: any) => {
+    setStartActiveStatus(!startActiveStatus);
+    activeList[item?.id] = !activeList[item?.id];
     const body = {
-      active: true,
+      active: activeList[item?.id],
     };
     try {
       const response = await contestService.putUpdateExamination(item?.id, body);
+
       if (response.data.statusCode === 200) {
         toast.success("Status has been changed!");
-        setDataItemIds(item?.row?._id);
+        // setDataItemIds(item?.row?._id);
         refresh();
       }
     } catch (error: any) {
       toast.error(error);
     }
   };
-  //!Function
 
+  //!Function
   //! Render
   return (
     <div>
@@ -139,11 +156,12 @@ const ContestManagement = () => {
               field: "active",
               renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
               renderCell: (items: any) => {
-                return items?.row?.active || items?.row?._id === dataItemIds ? (
+                return items?.row?.active === true ? (
                   <CommonStyles.Button
                     variant="contained"
                     style={{ borderRadius: 20 }}
-                    disabled={items?.row?.active || items?.row?._id === dataItemIds}
+                    // disabled={items?.row?.active || items?.row?._id === dataItemIds}
+                    onClick={() => onChangeStatusActive(items)}
                   >
                     Actived
                   </CommonStyles.Button>
@@ -163,13 +181,12 @@ const ContestManagement = () => {
               field: "canStart",
               renderHeader: () => <Typography style={styles.titleTable}>Can Start</Typography>,
               renderCell: (items: any) => {
-                console.log("asasff", items?.row);
-
-                return items?.row?.canStart || items?.row?.id === dataItemId ? (
+                return items?.row?.canStart === true ? (
                   <CommonStyles.Button
                     variant="contained"
                     style={{ borderRadius: 20 }}
-                    disabled={items?.row?.canStart || items?.row?.id === dataItemId}
+                    // disabled={items?.row?.canStart || items?.row?.id === dataItemId}
+                    onClick={() => onChangeStatus(items)}
                   >
                     Testing
                   </CommonStyles.Button>
