@@ -30,16 +30,17 @@ const ContestManagement = () => {
     useContestManagemet();
 
   const [canStartStatus, setCanStartStatus] = useState<boolean>(false);
-  const canStartList = dataContest.reduce((returnObj: any, currentValue: any) => {
-    returnObj[currentValue.id] = currentValue.canStart;
-    return returnObj;
+  const canStartList = dataContest.reduce((returnObjCanStart: any, currentValueCanStart: any) => {
+    returnObjCanStart[currentValueCanStart.id] = currentValueCanStart.canStart;
+    return returnObjCanStart;
   }, {});
 
   const [startActiveStatus, setStartActiveStatus] = useState<boolean>(false);
-  const activeList = dataContest.reduce((returnObj1: any, currentValue1: any) => {
-    returnObj1[currentValue1.id] = currentValue1.active;
-    return returnObj1;
+  const activeList = dataContest.reduce((returnObjStartActive: any, currentValueStartActive: any) => {
+    returnObjStartActive[currentValueStartActive.id] = currentValueStartActive.active;
+    return returnObjStartActive;
   }, {});
+
   // const [dataItemId, setDataItemId] = useState<null | number>(null);
   // const [dataItemIds, setDataItemIds] = useState<null | number>(null);
   // console.log("dataItemIds", dataItemIds);
@@ -79,6 +80,7 @@ const ContestManagement = () => {
   };
   const onChangeStatusActive = async (item: any) => {
     setStartActiveStatus(!startActiveStatus);
+
     activeList[item?.id] = !activeList[item?.id];
     const body = {
       active: activeList[item?.id],

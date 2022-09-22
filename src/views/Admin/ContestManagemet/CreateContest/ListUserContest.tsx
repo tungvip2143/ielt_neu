@@ -87,14 +87,10 @@ const ListUserContest = ({ dataFileExcel }: any) => {
             // },
           ]}
           checkboxSelection
-          pagination={{
-            page: meta?.page,
-            pageSize: meta?.pageSize,
-            totalRow: meta?.total,
-          }}
           rows={dataFileExcel}
           onPageChange={onPageChange}
           onPageSizeChange={onPageSizeChange}
+          hideFooter={true}
           getRowId={(row: any) => row._id}
         />
       </Card>
