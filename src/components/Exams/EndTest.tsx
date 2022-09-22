@@ -57,9 +57,6 @@ const EndTest = (props: Props) => {
         <Text.DescSmallCard>
           Đề nghị bạn để các thiết bị lại vị trí như ban đầu. Ấn LOGOUT và chuẩn bị rời khỏi phòng thi.
         </Text.DescSmallCard>
-        <Text.DescSmallCard>
-          chỉ để lại nút logout ở giữa thôi còn lại thay hết như trên hộ em nhé. Em cám ơn ạ
-        </Text.DescSmallCard>
         <Box sx={{ mt: "50px" }}>
           <ButtonStartTest onClick={handleEndTest}>Log out</ButtonStartTest>
         </Box>
