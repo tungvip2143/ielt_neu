@@ -21,7 +21,7 @@ interface Props {
 const useStyles = makeStyles((theme) => {
   return {
     container: {
-      margin: "0px 10px",
+      margin: "16px 10px",
       padding: "16px 10px",
       background: theme.custom?.background.exercises,
       boxShadow: theme.custom?.boxShadow.exercises,

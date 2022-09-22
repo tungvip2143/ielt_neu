@@ -1,17 +1,16 @@
 import { useEffect, useMemo } from "react";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-
-type Props = {
-  questionBox: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface NoteCompletionI {
+  questionBox: string;
   displayNumber: number;
-  questions: any[];
-  onClickPage?: (option: any) => void;
+  questions: QuestionItemI[];
+  onClickPage?: (option: object) => void;
   isView?: boolean;
   getTextEachPart?: (text: string) => void;
   passageTextWithHighlightTexted?: string;
-  onScannerText?: any;
-};
+}
 
 const CODE = "-@X$";
 
@@ -20,24 +19,24 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
   return questionBox;
 };
 
-const QuestionBox = (props: Props) => {
+const QuestionBox = (props: NoteCompletionI) => {
   const {
     questionBox,
     questions,
     displayNumber,
     onClickPage,
     isView = false,
-    onScannerText,
     getTextEachPart,
     passageTextWithHighlightTexted,
   } = props;
-
   const { handleChange, values, setFieldValue }: any = useFormikContext();
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el) => {
       const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
+      // console.log("543543", el);
+
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
 
@@ -46,7 +45,7 @@ const QuestionBox = (props: Props) => {
   }, [questions, questionBox]);
 
   useEffect(() => {
-    const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
+    const input: Element | any = document.querySelector(`[id=input-${displayNumber}]`);
     if (input) {
       input?.focus();
     }
@@ -73,13 +72,13 @@ const QuestionBox = (props: Props) => {
     );
   });
 
-  const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("class") - 1;
+  const onClickInput = (data: Event | any) => {
+    const inputIdx: number = data.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
     // onScannerText(data);
   };
-  const onFocusInput = (event: any) => {
-    const inputIdx: any = event.target.getAttribute("class") - 1;
+  const onFocusInput = (event: Event | any) => {
+    const inputIdx: number = event.target.getAttribute("class") - 1;
     onClickPage && onClickPage({ question: inputIdx });
   };
 

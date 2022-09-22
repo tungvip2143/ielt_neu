@@ -68,7 +68,7 @@ const NoteCompletion = (props: Props) => {
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
-          class='${inputIndex}'
+          class='${inputIndex} noselect'
         />
       `
     );

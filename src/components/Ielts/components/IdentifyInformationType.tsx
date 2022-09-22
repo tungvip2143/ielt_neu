@@ -13,20 +13,27 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
+import { QuestionItemI } from "../../../constants/typeData.types";
 
-type Props = {
-  question: any;
-  questionType: any;
-  QUESTION_TYPE?: any;
+type MultiChoiceOneAnswerI = {
+  question: QuestionItemI;
+  questionType: string;
+  QUESTION_TYPE: {
+    IDENTIFYING_INFORMATION: string;
+    IDENTIFYING_VIEWS_CLAIMS: string;
+  };
   displayNumber: number;
   questionIdx?: number;
-  onClickPage?: (options: any) => void;
+  onClickPage?: (options: object) => void;
 };
 
-const IdentifyInformationType = (props: Props) => {
+const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
   const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage } = props;
+  console.log("question", question);
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
+  console.log("31323", displayNumberT);
+
   const { values }: any = useFormikContext();
 
   const onClickQuestion = () => {
@@ -35,7 +42,6 @@ const IdentifyInformationType = (props: Props) => {
     onClickPage && onClickPage(sectionRender);
   };
 
-  console.log("abcdefghik");
   return (
     <>
       <Accordion
@@ -91,7 +97,7 @@ const IdentifyInformationType = (props: Props) => {
                       control={
                         <Field
                           questionId={question?.question?._id}
-                          index={displayNumber}
+                          index={displayNumberT}
                           component={Radio}
                           name={`answers[${displayNumberT}].studentAnswer`}
                         />

@@ -7,23 +7,23 @@ import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import FlowChart from "components/Ielts/components/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
 import MatchingParagrapInformation from "../../Ielts/components/MatchingParagrapInformation";
+import { QuestionItemI } from "../../../constants/typeData.types";
 //
 interface PropsItemQuestion {
-  expanded?: any;
-  questionBox?: any;
-  question?: any;
-  idShowQuestion?: any;
-  onHightLightNumberPage: (displayNumber: number) => void;
+  expanded?: string;
+  questionBox?: string;
+  question: any;
+  idShowQuestion?: boolean;
 
   // onCollapse: (id: any) => (e: any, expanded: any) => void;
-  onCollapse?: any;
+  onCollapse?: (id: Event | any) => void;
   questionType?: string;
   image?: string;
-  answerList?: any;
-  directionText?: any;
+  answerList?: string;
+  directionText?: string;
   displayNumber: number;
   questionIdx?: number;
-  onClickPage?: (option: any) => void;
+  onClickPage: (option: object) => void;
 }
 const ItemQuestion = ({
   question = [],
@@ -38,41 +38,44 @@ const ItemQuestion = ({
   onClickPage,
   ...remainProps
 }: PropsItemQuestion) => {
-  console.log("questionTYpe", questionType);
+  // console.log("questionTYpe", questionType);
+  // console.log("432424", question);
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
-          answerList={answerList}
-          questionBox={questionBox}
-          data={data}
+          answerList={answerList ?? ""}
+          questionBox={questionBox ?? ""}
+          questions={data}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <QuestionBox
           onClickPage={onClickPage}
           displayNumber={displayNumber}
           questions={data}
-          questionBox={questionBox}
+          questionBox={questionBox ?? ""}
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          question={question}
-          answerList={answerList}
-          data={data}
+          questions={question}
+          answerList={answerList ?? ""}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
       );
     }
+
     if (questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION) {
       return (
         <>

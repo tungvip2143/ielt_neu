@@ -1,10 +1,12 @@
 import React from "react";
-interface Props {
+interface IntructionsToCandidatesI {
   styleListRule?: any;
 }
-const IntructionsToCandidatesListening = (props: Props) => {
+const IntructionsToCandidatesListening = (props: IntructionsToCandidatesI) => {
+  //! State
   const { styleListRule } = props;
 
+  //! Render
   return (
     <ul style={{ ...styleListRule }}>
       <li>Answer all the questions.</li>
