@@ -3,7 +3,7 @@ import Handlebars from "handlebars";
 import { useCallback, useEffect, useMemo } from "react";
 import { QuestionItemI } from "../../../constants/typeData.types";
 interface SentenceCompletionI {
-  data: QuestionItemI;
+  questionItem: QuestionItemI;
   displayNumber?: number;
   onClickPage?: (option: object) => void;
   isView?: boolean;
@@ -11,14 +11,16 @@ interface SentenceCompletionI {
 
 const SentenceCompletetion = (props: SentenceCompletionI) => {
   //! State
-  const { data, displayNumber, onClickPage, isView = false } = props;
-  const displayNumberI = Number(data?.question?.displayNumber);
-  const text = data?.question?.questionText;
+  const { questionItem, displayNumber, onClickPage, isView = false } = props;
+
+  const displayNumberI = Number(questionItem.question.displayNumber);
+
+  const text = questionItem.question.questionText;
 
   const { handleChange, values, setFieldValue }: any = useFormikContext() ?? {};
 
   useEffect(() => {
-    let input = document.getElementsByClassName(`${displayNumber}`) as any;
+    let input = document.getElementsByClassName(`${displayNumber}`) as Element | any;
     if (input) {
       input[0]?.focus();
     }
@@ -26,7 +28,7 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
 
   let inputIndex = 0;
 
-  Handlebars.registerHelper("blank", function (blankId: any, option) {
+  Handlebars.registerHelper("blank", function (blankId: number, option) {
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
@@ -34,8 +36,9 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
       input.value = isView ? "" : values.answers?.[displayNumberI - 1]?.studentAnswer;
       values?.answers?.[displayNumberI - 1]?.questionId === questionId;
     }
+
     return new Handlebars.SafeString(
-      `<strong>${data?.question?.displayNumber}</strong> <input ${
+      `<strong>${questionItem?.question?.displayNumber}</strong> <input ${
         isView ? "disabled" : ""
       } class="${displayNumberI} noselect" name='answers.[${
         displayNumberI - 1
@@ -52,7 +55,7 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
   const onFocusInput = useCallback((event: any, displayNumber: any) => {
     const inputIdx: number = event.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
-    setFieldValue(`answers[${displayNumber - 1}].questionId`, data.questionId);
+    setFieldValue(`answers[${displayNumber - 1}].questionId`, questionItem.questionId);
   }, []);
 
   //! Render
@@ -62,7 +65,7 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
         onClick={(data) => onClickInput(data)}
         onFocus={(event) => onFocusInput(event, displayNumber)}
         dangerouslySetInnerHTML={{
-          __html: test(data.questionId),
+          __html: test(questionItem.questionId),
         }}
         onInput={handleChange}
       />
