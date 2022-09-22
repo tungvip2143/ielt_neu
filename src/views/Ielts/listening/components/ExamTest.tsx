@@ -36,7 +36,7 @@ const ExamTest = (props: Props) => {
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
   const { values } = useFormikContext();
 
-  // console.log("formik value", values);
+  console.log("formik value", values);
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,

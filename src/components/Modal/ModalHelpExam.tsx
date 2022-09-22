@@ -1,33 +1,42 @@
-import React from "react";
 import Modal from "./index";
 import HeaderModalHelp from "../../views/Exam/HeaderModalHelp/HeaderModalHelp";
 import Navigate from "../../views/Exam/HeaderModalHelp/ContentNavigate/Navigate";
-import { themeCssSx } from "../../ThemeCssSx/ThemeCssSx";
 import { Box } from "@mui/material";
 import imgPeople from "assets/image/exam/test-help/people-logo.png";
+import { makeStyles } from "@mui/styles";
+import { textHeaderModal } from "../../constants/constants";
 
 // !type
-interface Props {
-  open?: any;
-  onClose?: any;
-  width?: any;
-  styleModal?: any;
+interface ModalHelpExamI {
+  open: boolean;
+  styleModal?: object;
   handleCloseModal?: () => void;
-  typeExam?: any;
+  typeExam?: string;
 }
-const ModalHelpExam = (props: Props) => {
-  const { open, onClose, width, styleModal, handleCloseModal, typeExam } = props;
-  const content = {
-    background: themeCssSx.backgroundExam.container,
-    padding: "12px",
-    mt: "0 !important",
-    borderRadius: "0px 0px 12px 12px",
+
+const useStyles = makeStyles((theme) => {
+  return {
+    containerContent: {
+      background: theme.custom?.background.exam,
+      padding: "12px",
+      marginTop: "0 !important",
+      borderRadius: "0px 0px 12px 12px",
+    },
   };
+});
+
+const ModalHelpExam = (props: ModalHelpExamI) => {
+  //! State
+
+  const { open, styleModal, handleCloseModal, typeExam } = props;
+  const classes = useStyles();
+
+  //! Render
   return (
     <>
-      <Modal open={open} onClose={onClose} styleModal={styleModal}>
-        <HeaderModalHelp handleCloseModal={handleCloseModal} imageTitle={imgPeople} textTitle="Help" />
-        <Box sx={content}>
+      <Modal open={open} styleModal={styleModal}>
+        <HeaderModalHelp handleCloseModal={handleCloseModal} imageTitle={imgPeople} textTitle={textHeaderModal.help} />
+        <Box className={classes.containerContent}>
           <Navigate handleCloseModal={handleCloseModal} typeExam={typeExam} />
         </Box>
       </Modal>

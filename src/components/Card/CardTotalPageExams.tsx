@@ -18,7 +18,6 @@ interface CardTotalPageExamsI {
   questions?: any;
   onClickPage?: any;
   setDisplayNumber?: any;
-  test?: any;
   groupSelected?: any;
   part?: any;
   group?: any;
@@ -31,6 +30,9 @@ const useStyles = makeStyles((theme) => {
     eachItem: {
       display: "flex",
       marginRight: "2px",
+      [theme.breakpoints.down("xl")]: {
+        marginTop: "2px",
+      },
     },
     eachQuestion: {
       background: "#000",
@@ -63,6 +65,10 @@ const useStyles = makeStyles((theme) => {
       position: "fixed",
       bottom: 0,
       margin: "0 15px",
+      [theme.breakpoints.down("xl")]: {
+        alignItems: "center",
+        padding: "0 20px 0 0",
+      },
     },
     containerTotalPage: {
       ...theme.custom?.flexBox.flexBetweenCenter,
@@ -96,6 +102,7 @@ const CardTotalPageExams = ({
   displayNumber,
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
+  console.log("fsdf", values);
 
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []

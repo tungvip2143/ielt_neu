@@ -4,7 +4,7 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import CommonStyles from "components/CommonStyles";
-
+import { PartContentQuestionsI } from "../../../constants/typeData.types";
 const useStyles = makeStyles((theme) => ({
   title: {
     display: "flex",
@@ -13,15 +13,11 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 // !type
-interface Props {
-  dataNumber?: {
-    from: any;
-    to: any;
-  };
-  title?: any;
+interface TitleExamI {
+  title?: PartContentQuestionsI;
 }
 
-const TitleExam = ({ dataNumber, title }: Props) => {
+const TitleExam = ({ title }: TitleExamI) => {
   // !State
   const classes = useStyles();
 
@@ -37,7 +33,7 @@ const TitleExam = ({ dataNumber, title }: Props) => {
       </div>
 
       <CommonStyles.Typography component="p" variant="desc16" sx={{ mb: "20px" }}>
-        {ReactHtmlParser(title?.directionText)}
+        {ReactHtmlParser(title?.directionText ?? "")}
       </CommonStyles.Typography>
     </>
   );

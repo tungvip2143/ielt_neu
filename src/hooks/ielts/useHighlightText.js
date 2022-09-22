@@ -29,24 +29,26 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       const input = docFragment.querySelector("input");
       const textarea = docFragment.querySelector("textarea");
       const p = docFragment.querySelector("p");
+      const inputsTag = document.getElementsByTagName("input");
       const clickNumber = event.detail;
 
-      // var unFocus = function () {
-      //   if (document.selection) {
-      //     document.selection.empty();
-      //   } else {
-      //     window.getSelection().removeAllRanges();
-      //   }
-      // };
+      const unFocus = function () {
+        if (document.selection) {
+          document.selection.empty();
+        } else {
+          window.getSelection().removeAllRanges();
+        }
+      };
 
-      // if (inputTags) {
-      //   inputTags.forEach((input) => {
-      //     console.log("input12345", input);
-      //     input.onmousemove = () => {
-      //       unFocus();
-      //     };
-      //   });
-      // }
+      if (inputsTag) {
+        const arrInputs = Object.values(inputsTag);
+        arrInputs.forEach((input) => {
+          console.log("input12345", input);
+          input.onmousemove = () => {
+            unFocus();
+          };
+        });
+      }
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste

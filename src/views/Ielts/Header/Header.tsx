@@ -8,7 +8,6 @@ import { TypeStepExamEnum } from "constants/enum";
 //
 import ButtonHelp from "../../components/ButtonHelp/ButtonHelp";
 import OptionButton from "../../Exam/OptionButton/OptionButton";
-import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import NumberUser from "assets/image/exam/number-user.png";
 //
 import HeaderExam from "../Header/HeaderExam";
@@ -19,11 +18,10 @@ import { makeStyles } from "@mui/styles";
 import authServices from "services/authServices";
 
 // ! type
-interface Props {
-  onShowModalExit?: any;
+interface HeaderExamI {
   handleOpenModalHelp?: () => void;
   handleOpenModalHide?: () => void;
-  numberStep?: any;
+  numberStep?: string;
   timeExam?: any;
   handleSubmitWhenEndedTime?: () => void;
   handleChangeValueVolum?: (value: any) => void;
@@ -38,6 +36,7 @@ const useStyles = makeStyles((theme) => {
       zIndex: 999,
       width: "100%",
       marginTop: "80px",
+      position: "fixed",
     },
     headerContent: {
       margin: "0 auto",
@@ -55,6 +54,12 @@ const useStyles = makeStyles((theme) => {
       color: "#fff",
       fontSize: "14px",
     },
+    containerUser: {
+      ...theme.custom?.flexBox.flexJusCenter,
+    },
+    help: {
+      ...theme.custom?.flexBox.flexCenterCenter,
+    },
   };
 });
 
@@ -65,7 +70,7 @@ const Header = ({
   timeExam,
   handleChangeValueVolum,
   typeExam,
-}: Props) => {
+}: HeaderExamI) => {
   //! State
 
   const { step } = useStepExam();
@@ -94,7 +99,7 @@ const Header = ({
       <Box className={classes.header}>
         <Box className={classes.headerContent}>
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
-            <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
+            <Stack direction="row" spacing={1} className={classes.containerUser}>
               <img className={classes.imgUser} src={NumberUser} alt="" />
               <p className={classes.textUser}>{user?.username}</p>
             </Stack>
@@ -109,7 +114,7 @@ const Header = ({
                 <Volum handleChangeValueVolum={handleChangeValueVolum} />
               )}
             {step === numberStep && (
-              <Stack direction="row" spacing={1} sx={themeCssSx.flexBox.flexJusAlign}>
+              <Stack direction="row" spacing={1} className={classes.help}>
                 <ButtonHelp handleOpenModalHelp={handleOpenModalHelp} style={btnHelp} />
                 <OptionButton handleOpenModalHide={handleOpenModalHide} addCss={optionBtn}>
                   Hide

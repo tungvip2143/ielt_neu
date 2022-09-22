@@ -16,7 +16,7 @@ const SentenceCompletetion = (props: Props) => {
     return new Handlebars.SafeString(
       `<input ref='${(el: any) =>
         (inputRef.current[blankId] =
-          el)}' name='answers.[${blankId}].studentAnswer' style={{border:"1px solid #ccc"}} id="input-${blankId}" type="text" value="" maxlength="30">`
+          el)}' name='answers.[${blankId}].studentAnswer' class="noselect" style={{border:"1px solid #ccc"}} id="input-${blankId}" type="text" value="" maxlength="30">`
     );
   });
   const test: any = Handlebars.compile(data?.question?.questionText || "");
