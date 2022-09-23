@@ -7,6 +7,9 @@ class studentService {
   getListParts(params: RequestListListening): Promise<ResponseGenerator<QuestionUser[]>> {
     return httpServices.get(ADMIN_STUDENT_URL().GET_LIST_PARTS, params);
   }
+  // getListParts(params: any) {
+  //   return httpServices.get(ADMIN_STUDENT_URL().GET_LIST_PARTS, params);
+  // }
 
   getPartDetail(id: any) {
     return httpServices.get(ADMIN_STUDENT_URL().GET_PART_DETAIL + id);

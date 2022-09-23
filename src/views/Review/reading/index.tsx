@@ -5,7 +5,6 @@ import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
 //
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import CardPart from "components/Card/CardPart";
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { useGetReadingResultByTestCode } from "hooks/review/useIeltsReview";
 import { IELT_TEST } from "interfaces/testType";
@@ -116,7 +115,7 @@ const ReadingReview = (props: any) => {
               </Box>
               <Grid container sx={{ justifyContent: "space-between", p: "40px 20px", width: "calc(100vw - 200px)" }}>
                 <CardExercise
-                  content={<CardLeft test={IELT_TEST.READING} dataChangePart={partRenderSelected} />}
+                  content={<CardLeft dataChangePart={partRenderSelected} />}
                   width={5.9}
                   styleAdd={styleAddExercise}
                 />

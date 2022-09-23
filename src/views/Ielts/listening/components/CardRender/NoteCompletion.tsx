@@ -13,9 +13,7 @@ type Props = {
 const CODE = "-@X$";
 
 const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionId: number) => {
-  console.log({ blankId, questionId, questionBox });
   questionBox = questionBox.replace(`{{blank ${blankId}}}`, `{{blank ${questionId}${CODE}}}`);
-  console.log("questionBox", questionBox);
   return questionBox;
 };
 
@@ -30,12 +28,16 @@ const NoteCompletion = (props: Props) => {
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
-    groupData.questions.forEach((el: any) => {
-      const { blankNumber, displayNumberT } = el.question;
-      console.log("displayNumberT", displayNumberT);
+
+    groupData.questions.forEach((el: any, index: any) => {
+      // console.log("groupData", index);
+
+      const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
+
+    // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
 
     tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
     return tempQuestionBox;
@@ -52,19 +54,21 @@ const NoteCompletion = (props: Props) => {
 
   let inputIndex = 0;
   Handlebars.registerHelper("blank", function (blankId: any) {
+    console.log("blankId", blankId);
     inputIndex++;
     const input: any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1].studentAnswer;
+      input.value = values.answers[blankId - 1]?.studentAnswer;
     }
     return new Handlebars.SafeString(
       `
+      <strong>${blankId}</strong>
       <input
           key="input-${blankId}"
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
-          class='${inputIndex}'
+          class='${inputIndex} noselect'
         />
       `
     );
@@ -85,17 +89,21 @@ const NoteCompletion = (props: Props) => {
   };
 
   const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("class") - 1;
-    onClickPage && onClickPage({ question: inputIdx });
+    const InputClass = data.target.classList[0] - 1;
+
+    onClickPage && onClickPage({ question: InputClass });
   };
 
   //! Render
   return (
-    <div
-      onClick={(data) => onClickInput(data)}
-      dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
-      onInput={onChangeInputHandleBars}
-    />
+    <>
+      <div
+        // onClick={(data) => onClickInput(data)}
+        onFocus={(event) => onClickInput(event)}
+        dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
+        onInput={onChangeInputHandleBars}
+      />
+    </>
   );
 };
 

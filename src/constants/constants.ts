@@ -26,6 +26,7 @@ export const textHeaderModal = {
   confirmDetail: "Confirm your details",
   testSound: "Test sound",
   help: "Help",
+  screenHidden: "Screen hidden",
 };
 export const warningDetailUser = {
   checkInformation: "If your details are not correct, please inform the invigilator.",
@@ -41,10 +42,19 @@ export const textBtnSubmit = {
 export const rulesdetailExam = {
   listening: {
     title: "Listening",
-    timeExam: "30 minutes",
+    timeExam: "Approximately 30 minutes",
   },
   reading: {
     title: "Reading",
     timeExam: "1 hour",
   },
+};
+export const titleRulesDetailCandidates = {
+  intructionCandidates: "INSTRUCTIONS TO CANDIDATES",
+  informationCandidates: "INFORMATION FOR CANDIDATES",
+};
+export const testHeadPhone = {
+  putHeadPhone: "Put on your headphones and click on the Play sound button to play a sample sound.",
+  play: "Play sound",
+  stop: "Stop sound",
 };

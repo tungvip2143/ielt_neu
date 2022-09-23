@@ -12,6 +12,7 @@ import i18n from "i18n";
 import store from "redux/store";
 import "./index.css";
 import { BrowserRouter } from "react-router-dom";
+import "./web.config";
 
 const cache = createEmotionCache();
 const client = new QueryClient();

@@ -13,46 +13,35 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
-import { TRUE } from "sass";
+import { QuestionItemI } from "../../../constants/typeData.types";
 
-type Props = {
-  question: any;
-  questionType: any;
-  expanded?: any;
-  onCollapse?: any;
-  QUESTION_TYPE?: any;
-  idShowQuestion?: any;
-  onHightLightNumberPage?: any;
+type MultiChoiceOneAnswerI = {
+  question: QuestionItemI;
+  questionType: string;
+  QUESTION_TYPE: {
+    IDENTIFYING_INFORMATION: string;
+    IDENTIFYING_VIEWS_CLAIMS: string;
+  };
   displayNumber: number;
   questionIdx?: number;
-  onClickPage?: (options: any) => void;
+  onClickPage?: (options: object) => void;
 };
 
-const IdentifyInformationType = (props: Props) => {
-  const {
-    question,
-    questionType,
-    expanded,
-    onCollapse,
-    QUESTION_TYPE,
-    idShowQuestion,
-    onHightLightNumberPage,
-    displayNumber,
-    questionIdx,
-    onClickPage,
-  } = props;
+const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
+  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage } = props;
+  console.log("question", question);
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
-  const { values }: any = useFormikContext();
+  console.log("31323", displayNumberT);
 
-  console.log("+++++++++++++", props);
+  const { values }: any = useFormikContext();
 
   const onClickQuestion = () => {
     let sectionRender: any = {};
     sectionRender.question = questionIdx;
     onClickPage && onClickPage(sectionRender);
-    // onHightLightNumberPage(question?.question?.displayNumber);
   };
+
   return (
     <>
       <Accordion
@@ -84,9 +73,23 @@ const IdentifyInformationType = (props: Props) => {
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
                 value={values?.answers[displayNumberT]?.studentAnswer}
-                // onChange={handleChange}
               >
-                {question?.question?.options.map((answer: any) => {
+                {question?.question?.options.map((answer: any, index: number) => {
+                  const checkSortIndex = () => {
+                    if (index === 0) {
+                      return "A";
+                    }
+                    if (index === 1) {
+                      return "B";
+                    }
+                    if (index === 2) {
+                      return "C";
+                    }
+                    if (index === 3) {
+                      return "D";
+                    }
+                    return;
+                  };
                   return (
                     <FormControlLabel
                       key={answer._id}
@@ -94,13 +97,12 @@ const IdentifyInformationType = (props: Props) => {
                       control={
                         <Field
                           questionId={question?.question?._id}
-                          index={displayNumber}
+                          index={displayNumberT}
                           component={Radio}
                           name={`answers[${displayNumberT}].studentAnswer`}
-                          //   value={answer.key || values?.answers[displayNumber]?.studentAnswer}
                         />
                       }
-                      label={`${answer.key}. ${answer?.text}`}
+                      label={`${checkSortIndex()}. ${answer?.text}`}
                     />
                   );
                 })}
@@ -118,7 +120,6 @@ const IdentifyInformationType = (props: Props) => {
                   aria-labelledby="demo-controlled-radio-buttons-group"
                   name="controlled-radio-buttons-group"
                   value={values?.answers[displayNumberT]?.studentAnswer}
-                  // onChange={handleChange}
                 >
                   <FormControlLabel
                     value={true}
@@ -128,7 +129,6 @@ const IdentifyInformationType = (props: Props) => {
                         index={displayNumberT}
                         component={Radio}
                         name={`answers[${displayNumberT}].studentAnswer`}
-                        // value={true}
                       />
                     }
                     label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
@@ -141,7 +141,6 @@ const IdentifyInformationType = (props: Props) => {
                         index={displayNumberT}
                         component={Radio}
                         name={`answers[${displayNumberT}].studentAnswer`}
-                        // value={false}
                       />
                     }
                     label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
@@ -154,7 +153,6 @@ const IdentifyInformationType = (props: Props) => {
                         index={displayNumberT}
                         component={Radio}
                         name={`answers[${displayNumberT}].studentAnswer`}
-                        // value={"NOT_GIVEN"}
                       />
                     }
                     label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}

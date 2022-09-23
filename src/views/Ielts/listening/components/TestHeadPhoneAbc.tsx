@@ -12,32 +12,48 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import Box from "@mui/material/Box";
 import ReactAudioPlayer from "react-audio-player";
 // @ts-ignore
-import audio from "assets/audio/testSound/test-audio.mp3";
-//
-const TestHeadPhoneAbc = () => {
-  const [testSound, setTestSound] = React.useState(false);
-  const containerTest = {
-    ...themeCssSx.flexBox.flexJusCenter,
-    mt: "60px",
-  };
-  const btn = {
-    color: "#1e415b",
-    fonnSize: "15.4px",
-    fontWeight: 700,
-    margin: "0 auto 16px!important",
-    padding: "6px 16px",
-    background: "transparent",
-    textShadow: "0 1px 1px #fff",
-    boxShadow: "0 1px 1px rgb(0 0 0 / 50%)",
-    borderRadius: "5px",
-    border: "none",
-    "&:hover": {
-      color: "#1e415b",
+import audio from "assets/audio/testSound/test-listening.mp3";
+import { makeStyles } from "@mui/styles";
+import { warningDetailUser, textBtnSubmit, textHeaderModal, testHeadPhone } from "../../../../constants/constants";
+import CommonStyles from "components/CommonStyles";
+
+//! type
+interface TestHeadPhoneI {
+  valueVolum?: number;
+}
+const useStyles = makeStyles((theme) => {
+  return {
+    containerTest: {
+      ...theme.custom?.flexBox.flexJusCenter,
+      paddingTop: "60px",
+    },
+    btn: {
+      color: `${theme.custom?.text.btnSubmit} !important`,
+      fonnSize: "15.4px",
+      fontWeight: 700,
+      margin: "0 auto 16px!important",
+      padding: "6px 16px !important",
+      background: "unset !important",
+      textShadow: "0 1px 1px #fff !important",
+      boxShadow: `${theme.custom?.boxShadow.btnSubmit} !important`,
+      borderRadius: "5px",
       border: "none",
-      background: "none",
-      boxShadow: "0 1px 1px rgb(0 0 0 / 50%)",
+      "&:hover": {
+        color: `${theme.custom?.text.btnSubmit} !important`,
+        border: "none",
+        background: "unset !important",
+        boxShadow: theme.custom?.boxShadow.btnSubmit,
+      },
     },
   };
+});
+//
+const TestHeadPhoneAbc = (props: TestHeadPhoneI) => {
+  const { valueVolum } = props;
+  const [testSound, setTestSound] = React.useState(false);
+
+  const classes = useStyles();
+
   const boxBtn = {
     ...themeCssSx.flexBox.flexJusCenter,
   };
@@ -50,21 +66,21 @@ const TestHeadPhoneAbc = () => {
     }
   };
   return (
-    <Box sx={containerTest}>
-      {testSound && <ReactAudioPlayer src={audio} autoPlay controls style={{ display: "none" }} />}
+    <Box className={classes.containerTest}>
+      {testSound && <ReactAudioPlayer volume={valueVolum} src={audio} autoPlay controls style={{ display: "none" }} />}
       <div className="">
-        <Title image={ImgHeadPhone} text="Test sound" />
+        <Title image={ImgHeadPhone} text={textHeaderModal.testSound} />
         <Container>
-          <Text.Desc16 sx={{ mb: "15px" }}>
-            Put on your headphones and click on the Play sound button to play a sample sound.
-          </Text.Desc16>
+          <CommonStyles.Typography component="p" variant="desc16" sx={{ mb: "15px" }}>
+            {testHeadPhone.putHeadPhone}
+          </CommonStyles.Typography>
           <Box sx={boxBtn}>
-            <Button onClick={handleTestSound} sx={btn}>
-              {testSound === false && <>Play sound</>} {testSound === true && <>Stop sound</>}
-            </Button>
+            <CommonStyles.Button onClick={handleTestSound} className={classes.btn}>
+              {testSound === false && <>{testHeadPhone.play}</>} {testSound === true && <>{testHeadPhone.stop}</>}
+            </CommonStyles.Button>
           </Box>
-          <HelpFooter textHelp="If your details are not correct, please inform the invigilator." image={ImgHelpError} />
-          <FooterSubmit textBtn="Continue" nextStep={nextStep} />
+          <HelpFooter textHelp={warningDetailUser.checkInformation} image={ImgHelpError} />
+          <FooterSubmit textBtn={textBtnSubmit.continue} nextStep={nextStep} />
         </Container>
       </div>
     </Box>

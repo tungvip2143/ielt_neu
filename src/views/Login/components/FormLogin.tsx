@@ -14,6 +14,9 @@ import { GetAuthSelector } from "redux/selectors/auth";
 import * as Yup from "yup";
 //
 import { makeStyles } from "@mui/styles";
+import { toast } from "react-toastify";
+import { getErrorMsg } from "helpers";
+import { showError } from "helpers/toast";
 const useStyles = makeStyles((theme) => {
   return {
     input: {
@@ -38,12 +41,12 @@ const useStyles = makeStyles((theme) => {
 });
 // !type
 interface InitialValueExam {
-  candidateCode: string;
+  orderNumber: string;
   studentCode: string;
 }
 //
 const validate = Yup.object({
-  candidateCode: Yup.string().min(5, "*Must be 5 characters").required("Required"),
+  orderNumber: Yup.string().required("Required"),
   studentCode: Yup.string().min(5, "*Must be 10 characters").required("Required"),
 });
 
@@ -52,25 +55,19 @@ const FormLogin = () => {
   const classes = useStyles();
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
+  console.log("auth", auth);
   const { isLogin } = auth;
   const history = useHistory();
   const { mutateAsync: login, isLoading: isLoadingLogin } = studentLogin();
   const { isLoading: isLoadingTestCode, mutateAsync: createTestCode } = useIeltsTestCode();
 
   const onSubmitTestCode = async (examinationId: InitialValueExam) => {
-    await createTestCode(
-      { examination: examinationId },
-      {
-        onSuccess: (response: any) => {
-          localStorage.setItem("testCode", response?.data?.data?.testCode);
-          history.push(RouteBase.IeltsListening);
-        },
-        onError: (err: any) => {
-          if (err.response.data.statusCode === 401) {
-          }
-        },
-      }
-    );
+    try {
+      const response = await createTestCode({ examination: examinationId });
+      localStorage.setItem("testCode", response?.data?.data?.testCode);
+    } catch (error) {
+      toast.error(getErrorMsg(error));
+    }
   };
 
   // ! Render
@@ -84,22 +81,23 @@ const FormLogin = () => {
         validateOnBlur={false}
         validateOnChange={false}
         initialValues={{
-          candidateCode: "",
+          orderNumber: "",
           studentCode: "",
         }}
         validationSchema={validate}
         onSubmit={async (values) => {
-          await login(values, {
-            onSuccess: (response) => {
-              localStorage.setItem("examinationId", response?.data?.data?.data?.examination?.id);
-              dispatch(authActions.saveInfoUser, {
-                token: response?.data?.data?.data?.access_token,
-                user: response?.data?.data?.data,
-                userType: "user",
-              });
-              onSubmitTestCode(response?.data?.data?.data?.examination?.id);
-            },
-          });
+          try {
+            const response = await login(values);
+            console.log("user login", response?.data?.data?.data?.user);
+            dispatch(authActions.saveInfoUser, {
+              token: response?.data?.data?.data?.access_token,
+              user: response?.data?.data?.data?.user,
+              userType: "user",
+            });
+            onSubmitTestCode(response?.data?.data?.data?.examination?.id);
+          } catch (err) {
+            showError(getErrorMsg(err));
+          }
         }}
       >
         {(propsFormik) => (
@@ -107,22 +105,22 @@ const FormLogin = () => {
             <ErrorFocus />
             <div style={{ paddingBottom: "30px" }}>
               <FastField
-                lable="Mã sinh viên"
+                lable="Student Code"
                 component={InputField}
                 type="text"
-                placeholder="Student Code"
+                placeholder="Please fill in the information"
                 {...propsFormik.getFieldProps("studentCode")}
                 className={classes.input}
               />
             </div>
             <div style={{ paddingBottom: "30px" }}>
               <FastField
-                lable="Mã thí sinh"
+                lable="Computer Number"
                 error=""
                 component={InputField}
                 type="text"
-                placeholder="Candidates Code"
-                {...propsFormik.getFieldProps("candidateCode")}
+                placeholder="Please fill in the information"
+                {...propsFormik.getFieldProps("orderNumber")}
                 className={classes.input}
               />
             </div>

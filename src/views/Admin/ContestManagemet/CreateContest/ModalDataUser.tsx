@@ -49,7 +49,6 @@ const ModalDataUser = ({ onCloseModal, fetchData, openModal, onSave = () => {} }
   );
 
   const handleChange = (event: any) => {
-    console.log("event.target", event.target);
     if (isArray(valueUserId) && valueUserId?.includes(event.target.value)) {
       setValueUserId(valueUserId.filter((elm) => elm != event.target.value));
       return;
@@ -67,7 +66,6 @@ const ModalDataUser = ({ onCloseModal, fetchData, openModal, onSave = () => {} }
     onSave(dataParts.filter((e) => valueUserId.includes(e._id)).map((e) => ({ ...e, id: e._id })));
     onCloseModal();
   };
-  console.log("dataParts", dataParts);
 
   //! Render
   return (

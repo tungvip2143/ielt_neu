@@ -6,14 +6,11 @@ import SaveIcon from "@mui/icons-material/Save";
 import { Box, InputAdornment, Stack, Typography } from "@mui/material";
 import ButtonCancel from "components/Button/ButtonCancel";
 import ButtonSave from "components/Button/ButtonSave";
-import ButtonUpload from "components/Button/ButtonUpload";
-import CommonStyles from "components/CommonStyles";
 import SelectField from "components/CustomField/SelectField";
 import InputCommon from "components/Input";
 import ModalCreate from "components/Modal/ModalCreate";
 import TinyMceCommon from "components/TinyMceCommon";
-import { IMAGE_URL } from "constants/constants";
-import { DataAnswer } from "constants/questionType";
+import { DataAnswer, DataAnswerMulti } from "constants/questionType";
 import useGetDetailQuestion from "hooks/QuestionBank/Reading/useGetDetailQuestion";
 import useGetQuestionType from "hooks/QuestionBank/Reading/useGetQuestionType";
 import { QuestionTypeI } from "interfaces/questionInterface";
@@ -22,6 +19,8 @@ import { useFieldArray, useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import audioService from "services/audioService";
 import ReadingService from "services/ReadingService";
+import CommonReading from "views/components/CommonReading/CommonReading";
+import CommonUploadImage from "views/components/CommonReading/CommonUploadImage";
 import * as yup from "yup";
 
 export interface Props {
@@ -32,23 +31,20 @@ export interface Props {
 }
 
 const validationSchema = yup.object().shape({
-  // questionBox: yup.string().required("This is field required"),
   questionType: yup.mixed().required("This is field required"),
-  // questions: yup.array(
-  //   yup.object({
-  //     questionText: yup.string().required("This is field required"),
-  //     answer: yup.string().required("This is field required"),
-  //     options: yup.array(yup.string().required("mmm")),
-  //   })
-  // ),
 });
 
 const ModalCreateQuestion = (props: Props) => {
+  //! State
+
   const { openModal, onCloseModal = () => {}, id, fetchData } = props;
   const directionRef = useRef<any>();
   const editorRef = useRef<any>();
-  const matchingRef = useRef<any>();
   const fileRef = useRef<any>();
+  const handleClick = () => {
+    fileRef.current.click();
+  };
+  const matchingRef = useRef<any>();
   const [questionType, setQuestionType] = useState<string>("");
   const [dataQuestionType] = useGetQuestionType();
   const [dataQuestionDetail, loading, error, refetchData] = useGetDetailQuestion(openModal.id);
@@ -60,8 +56,8 @@ const ModalCreateQuestion = (props: Props) => {
     resolver: yupResolver(validationSchema),
     defaultValues: {
       section: "",
+      name: "",
       questions: dataQuestionDetail?.questions?.map((el: any) => ({
-        answer: "",
         explanationText: "",
         questionText: el?.questionBox,
         blankNumber: el?.blankNumber,
@@ -74,10 +70,24 @@ const ModalCreateQuestion = (props: Props) => {
     control,
     name: "questions",
   });
+  const { append: AddAnswer, fields: fieldsAnswer, remove: removeAnswer } = useFieldArray({ control, name: "answer" });
   const onAddQuestion = () => {
     append({ section: "" });
   };
-
+  const onAddAnswer = () => {
+    AddAnswer({ name: "" });
+  };
+  const onSaveModal = (e: any) => {
+    e.preventDefault();
+    handleSubmit(onSubmit)();
+  };
+  const onRemoveQuestion = (index: number) => {
+    remove(index);
+  };
+  const onRemoveAnswer = (index: number) => {
+    removeAnswer(index);
+  };
+  //! Function
   const resetAsyncForm = useCallback(
     async (data: any) => {
       setValue("questionBox", data.questionBox);
@@ -101,10 +111,6 @@ const ModalCreateQuestion = (props: Props) => {
       resetAsyncForm(dataQuestionDetail);
     }
   }, [dataQuestionDetail?.id, dataQuestionType?.length]);
-  const handleClick = () => {
-    fileRef.current.click();
-  };
-
   const onFileChange = async (event: any) => {
     setIsLoading(true);
     if (event.target && event.target.files[0]) {
@@ -128,26 +134,30 @@ const ModalCreateQuestion = (props: Props) => {
     const keys = ["A", "B", "C", "D"];
     if (openModal.type === "createQuestion") {
       const body = {
-        level: "A1",
         answerList: matchingRef?.current?.getContent(),
         directionText: directionRef?.current?.getContent(),
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
-          questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
+          questionType === "SUMMARY_COMPLETION" ||
+          questionType === "NOTE_COMPLETION" ||
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
+            // options:
+            //   data.questionType === "MULTIPLE_CHOICE_1_ANSWER" ||  data.questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+            //   ? el.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e }))
+            //   :[],
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
                 ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
                 : [],
           };
         }),
-
         partId: id,
       };
       try {
@@ -167,26 +177,31 @@ const ModalCreateQuestion = (props: Props) => {
         level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
         directionText: directionRef?.current.getContent(),
-        image: image ? image : "",
+        image: image ? image : dataQuestionDetail?.image,
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
-          questionType === "SUMMARY_COMPLETION" || questionType === "NOTE_COMPLETION"
+          questionType === "SUMMARY_COMPLETION" ||
+          questionType === "NOTE_COMPLETION" ||
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
+            // options:
+            //   data.questionType === ("MULTIPLE_CHOICE_1_ANSWER" || "MULTIPLE_CHOICE_MULTIPLE_ANSWER") &&
+            //   // ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+            //   [],
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+                ? el.options?.map((e: any, index: number) => ({ key: index, text: e }))
                 : [],
           };
         }),
-
         partId: id,
       };
-
+      console.log("questions", body.questions);
       try {
         const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
         if (response.data.statusCode === 200) {
@@ -198,11 +213,6 @@ const ModalCreateQuestion = (props: Props) => {
         console.log("error", error, fetchData);
       }
     }
-  };
-
-  const onSaveModal = (e: any) => {
-    e.preventDefault();
-    handleSubmit(onSubmit)();
   };
 
   const renderMultiChoice = (item: any, index: number, indexQuestion: number) => {
@@ -226,6 +236,13 @@ const ModalCreateQuestion = (props: Props) => {
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
           return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
         });
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+      // return DataAnswerMulti.map((item: any, indexAnswer: number) => {
+      //   if (indexAnswer > 3) {
+      //     return null;
+      //   }
+      //   return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
+      // });
       default:
         return (
           <InputCommon
@@ -248,61 +265,73 @@ const ModalCreateQuestion = (props: Props) => {
     );
   };
 
-  const onRemoveQuestion = (index: number) => {
-    remove(index);
-  };
-
   const renderViewType = (type?: any, data?: any) => {
     switch (type) {
+      case "IDENTIFYING_VIEWS_CLAIMS":
+      case "SHORT_ANSWER_QUESTION":
+      case "MATCHING_FEATURES":
+      case "MATCHING_PARAGRAPH_INFORMATION":
       case "IDENTIFYING_INFORMATION":
         return (
-          <>
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-2" onClick={onAddQuestion} />
-              </div>
-            )}
-            {fields.map((field, index) => {
-              return (
-                <div className="flex items-center justify-between mt-2">
-                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Question"
-                      variant="standard"
-                      name={`questions[${index}].questionText`}
-                      disabled={openModal.type === "detailQuestion"}
-                      style={{ marginRight: 20 }}
-                    />
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Correct answer"
-                      variant="standard"
-                      name={`questions[${index}].answer`}
-                      disabled={openModal.type === "detailQuestion"}
-                      style={{ marginTop: 10 }}
-                    />
-                  </div>
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </>
+          <CommonReading
+            openModal={openModal}
+            fields={fields}
+            control={control}
+            onAddQuestion={onAddQuestion}
+            onRemoveQuestion={onRemoveQuestion}
+          />
         );
-      case "MATCHING_SENTENCE_ENDINGS":
+      // case "MATCHING_PARAGRAPH_INFORMATION":
+      //   return (
+      //     <div className="mt-5">
+      //       <TinyMceCommon
+      //         ref={matchingRef}
+      //         initialValue={dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Heading"}
+      //         disabled={openModal.type === "detailQuestion"}
+      //       />
+      //       {openModal.type !== "detailQuestion" && (
+      //         <div className="text-end">
+      //           <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+      //         </div>
+      //       )}
+
+      //       {fields.map((field, index) => {
+      //         return (
+      //           <div className="flex items-end justify-between mt-2">
+      //             <InputCommon
+      //               control={control}
+      //               id="standard-basic"
+      //               label="Section"
+      //               variant="standard"
+      //               name={`questions[${index}].questionText`}
+      //               disabled={openModal.type === "detailQuestion"}
+      //             />
+      //             <InputCommon
+      //               control={control}
+      //               id="standard-basic"
+      //               label="Answer"
+      //               variant="standard"
+      //               name={`answer[${index}].name`}
+      //               disabled={openModal.type === "detailQuestion"}
+      //               style={{ marginLeft: 20 }}
+      //             />
+      //             {fields.length > 1 && openModal.type !== "detailQuestion" && (
+      //               <RemoveCircleOutlineIcon
+      //                 className="text-[#F44335] cursor-grab ml-[20px]"
+      //                 onClick={() => onRemoveQuestion(index)}
+      //               />
+      //             )}
+      //           </div>
+      //         );
+      //       })}
+      //     </div>
+      //   );
       case "MATCHING_HEADINGS":
         return (
           <div className="mt-5">
             <TinyMceCommon
               ref={matchingRef}
-              initialValue={dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching heading"}
+              initialValue={dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Heading"}
               disabled={openModal.type === "detailQuestion"}
             />
             {openModal.type !== "detailQuestion" && (
@@ -327,7 +356,7 @@ const ModalCreateQuestion = (props: Props) => {
                     id="standard-basic"
                     label="Answer"
                     variant="standard"
-                    name={`questions[${index}].answer`}
+                    name={`questions.[${index}].answer`}
                     disabled={openModal.type === "detailQuestion"}
                     style={{ marginLeft: 20 }}
                   />
@@ -342,93 +371,23 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
-      case "MULTIPLE_CHOICE_1_ANSWER":
+
+      case "MATCHING_SENTENCE_ENDINGS":
         return (
-          <>
+          <div className="mt-5">
+            <TinyMceCommon
+              ref={matchingRef}
+              initialValue={
+                dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Sentence Endings"
+              }
+              disabled={openModal.type === "detailQuestion"}
+            />
             {openModal.type !== "detailQuestion" && (
               <div className="text-end">
                 <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
               </div>
             )}
-            {fields.map((field, index) => {
-              return (
-                <div key={field.id} className="flex items-center">
-                  <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <div className="questionContainer">
-                      <InputCommon
-                        id="standard-basic"
-                        label="Question"
-                        variant="standard"
-                        name={`questions[${index}].questionText`}
-                        control={control}
-                        required
-                        fullWidth
-                        disabled={openModal.type === "detailQuestion"}
-                      />
-                    </div>
-                    <Box
-                      component="form"
-                      sx={{
-                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
-                      }}
-                      noValidate
-                      autoComplete="off"
-                    >
-                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
-                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
-                        <InputCommon
-                          control={control}
-                          id="standard-basic"
-                          label="Correct answer"
-                          variant="standard"
-                          name={`questions[${index}].answer`}
-                          disabled={openModal.type === "detailQuestion"}
-                        />
-                      )}
-                    </Box>
-                  </div>
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </>
-        );
-      case "LABELLING_A_PLAN_MAP":
-      case "FLOW_CHART_COMPLETION":
-        return (
-          <>
-            <input ref={fileRef} className="hidden" type="file" name="directionAudio" onChange={onFileChange} />
-            {(selectFile || dataQuestionDetail?.image) && (
-              <img
-                id="blah"
-                src={selectFile ? URL.createObjectURL(selectFile) : `${IMAGE_URL}/${dataQuestionDetail?.image}`}
-                alt="image"
-                style={{ width: "100%", maxHeight: 400, marginTop: 20 }}
-              />
-            )}
-            <CommonStyles.Button
-              loading={isLoading}
-              sx={{ display: "flex", height: 40 }}
-              onClick={handleClick}
-              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
-            >
-              Upload image
-            </CommonStyles.Button>
-            {/* <ButtonUpload
-              style={{ display: "flex", height: 30, marginBottom: 10, marginTop: 10 }}
-              titleButton="Upload image"
-              onClick={handleClick}
-            /> */}
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-              </div>
-            )}
+
             {fields.map((field, index) => {
               return (
                 <div className="flex items-end justify-between mt-2">
@@ -448,52 +407,6 @@ const ModalCreateQuestion = (props: Props) => {
                     name={`questions[${index}].answer`}
                     disabled={openModal.type === "detailQuestion"}
                     style={{ marginLeft: 20 }}
-                  />
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </>
-        );
-      case "SUMMARY_COMPLETION":
-      case "NOTE_COMPLETION":
-        return (
-          <div className="mt-5">
-            <TinyMceCommon
-              ref={editorRef}
-              initialValue={dataQuestionDetail?.questionBox ? dataQuestionDetail?.questionBox : "Note completion"}
-              disabled={openModal.type === "detailQuestion"}
-            />
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-              </div>
-            )}
-            {fields.map((field, index) => {
-              return (
-                <div className="flex items-end justify-between mt-2">
-                  <div style={{ marginRight: 20 }}>
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Blank number"
-                      variant="standard"
-                      name={`questions[${index}].blankNumber`}
-                      disabled={openModal.type === "detailQuestion"}
-                    />
-                  </div>
-                  <InputCommon
-                    control={control}
-                    id="standard-basic"
-                    label="Answer"
-                    variant="standard"
-                    name={`questions[${index}].answer`}
-                    disabled={openModal.type === "detailQuestion"}
                   />
                   {fields.length > 1 && openModal.type !== "detailQuestion" && (
                     <RemoveCircleOutlineIcon
@@ -559,36 +472,144 @@ const ModalCreateQuestion = (props: Props) => {
           </div>
         );
 
+      case "FLOW_CHART_COMPLETION":
+      case "TABLE_COMPLETION":
+      case "DIAGRAM_LABELING":
+        return (
+          <CommonUploadImage
+            openModal={openModal}
+            fields={fields}
+            control={control}
+            onAddQuestion={onAddQuestion}
+            onRemoveQuestion={onRemoveQuestion}
+            dataQuestionDetail={dataQuestionDetail}
+            isLoading={isLoading}
+            selectFile={selectFile}
+            onFileChange={onFileChange}
+          />
+        );
+      case "LIST_SELECTION":
+        return (
+          <div className="flex items-center justify-between mt-2">
+            <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
+              <InputCommon
+                control={control}
+                id="standard-basic"
+                label="Correct answer"
+                variant="standard"
+                name="answer"
+                disabled={openModal.type === "detailQuestion"}
+                style={{ marginTop: 10 }}
+              />
+            </div>
+          </div>
+        );
+      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
+      case "SUMMARY_COMPLETION":
+      case "NOTE_COMPLETION":
+        return (
+          <CommonReading
+            openModal={openModal}
+            fields={fields}
+            control={control}
+            onAddQuestion={onAddQuestion}
+            onRemoveQuestion={onRemoveQuestion}
+            blankInput
+            editorRef={editorRef}
+            dataQuestionDetail={dataQuestionDetail}
+            textType="Note Completion"
+          />
+        );
+      // case "SUMMARY_COMPLETION":
+      //   return (
+      //     <CommonReading
+      //       openModal={openModal}
+      //       fields={fields}
+      //       control={control}
+      //       onAddQuestion={onAddQuestion}
+      //       onRemoveQuestion={onRemoveQuestion}
+      //       blankInput
+      //       editorRef={editorRef}
+      //       dataQuestionDetail={dataQuestionDetail}
+      //       textType="Summary Completion"
+      //     />
+      //   );
       case "IDENTIFYING_VIEWS_CLAIMS":
+        return (
+          <CommonReading
+            openModal={openModal}
+            fields={fields}
+            control={control}
+            onAddQuestion={onAddQuestion}
+            onRemoveQuestion={onRemoveQuestion}
+          />
+        );
+      case "MULTIPLE_CHOICE_1_ANSWER":
+        // return (
+        //   <>
+        //     {openModal.type !== "detailQuestion" && (
+        //       <div className="text-end">
+        //         <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+        //       </div>
+        //     )}
+        //     {fields.map((fieldQuestion, indexQuestion) => {
+        //       return (
+        //         <QuestionGrops
+        //           fieldQuestion={fieldQuestion}
+        //           indexQuestion={indexQuestion}
+        //           control={control}
+        //           openModal={openModal}
+        //           questionType={questionType}
+        //           onRemoveQuestion={onRemoveQuestion}
+        //           fields={fields}
+        //         />
+        //       );
+        //     })}
+        //   </>
+        // );
         return (
           <>
             {openModal.type !== "detailQuestion" && (
               <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-2" onClick={onAddQuestion} />
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
               </div>
             )}
             {fields.map((field, index) => {
               return (
-                <div className="flex items-center justify-between mt-2">
+                <div key={field.id} className="flex items-center">
                   <div style={{ border: "1px solid #bcbcbc", marginTop: 10, padding: 20, borderRadius: 6, flex: 1 }}>
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Question"
-                      variant="standard"
-                      name={`questions[${index}].questionText`}
-                      disabled={openModal.type === "detailQuestion"}
-                      style={{ marginRight: 20 }}
-                    />
-                    <InputCommon
-                      control={control}
-                      id="standard-basic"
-                      label="Correct answer"
-                      variant="standard"
-                      name={`questions[${index}].answer`}
-                      disabled={openModal.type === "detailQuestion"}
-                      style={{ marginTop: 10 }}
-                    />
+                    <div className="questionContainer">
+                      <InputCommon
+                        id="standard-basic"
+                        label="Question"
+                        variant="standard"
+                        name={`questions[${index}].questionText`}
+                        control={control}
+                        required
+                        fullWidth
+                        disabled={openModal.type === "detailQuestion"}
+                      />
+                    </div>
+                    <Box
+                      component="form"
+                      sx={{
+                        "& .MuiTextField-root": { width: "25ch", marginRight: 1 },
+                      }}
+                      noValidate
+                      autoComplete="off"
+                    >
+                      <div className="grid grid-cols-2 gap-4">{renderViewAnswer(questionType, index)}</div>
+                      {questionType === "MULTIPLE_CHOICE_1_ANSWER" && (
+                        <InputCommon
+                          control={control}
+                          id="standard-basic"
+                          label="Correct answer"
+                          variant="standard"
+                          name={`questions[${index}].answer`}
+                          disabled={openModal.type === "detailQuestion"}
+                        />
+                      )}
+                    </Box>
                   </div>
                   {fields.length > 1 && openModal.type !== "detailQuestion" && (
                     <RemoveCircleOutlineIcon
@@ -601,14 +622,16 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </>
         );
-
       default:
         break;
     }
   };
-
   const renderHeaderModal = (questionType: string) => {
-    if (questionType !== "SUMMARY_COMPLETION" && questionType !== "NOTE_COMPLETION") {
+    if (
+      questionType !== "SUMMARY_COMPLETION" &&
+      questionType !== "NOTE_COMPLETION" &&
+      questionType !== "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+    ) {
       return (
         <>
           {dataQuestionDetail?.questionBox && openModal.type === "detailQuestion" ? (
@@ -631,6 +654,7 @@ const ModalCreateQuestion = (props: Props) => {
     }
   };
 
+  //! Render
   return (
     <ModalCreate open={openModal} onClose={onCloseModal} titleModal={renderHeaderModal(questionType)}>
       <form noValidate onSubmit={handleSubmit((data) => onSubmit(data))} autoComplete="off">

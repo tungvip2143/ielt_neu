@@ -6,6 +6,8 @@ import ReadingService from "services/ReadingService";
 
 const useGetPartReading = () => {
   const [dataParts, setDataParts] = useState<MPartReading[]>([]);
+  console.log("dataParts1", dataParts);
+
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
@@ -29,12 +31,9 @@ const useGetPartReading = () => {
     const fetchData = async () => {
       try {
         const response = await ReadingService.getListParts(params);
-        console.log("responseReading", response);
 
         if (response.data.statusCode === 200) {
           const parts = MPartReading.parsePartListFromResponse(response?.data?.data?.data || []);
-          console.log("parts", parts);
-
           setDataParts(parts);
           setMetaPart(MPagination.parsePaginationFromResponse(response?.data?.data?.paging));
         }

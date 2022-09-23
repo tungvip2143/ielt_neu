@@ -1,4 +1,4 @@
-import { ADMIN_READING_URL, GET_LIST_LEVELS, GET_LIST_QUESTION_TYPE } from "./../constants/api";
+import { ADMIN_READING_URL, GET_LIST_LEVELS } from "./../constants/api";
 import httpServices from "./httpServices";
 
 class ReadingService {
@@ -18,7 +18,7 @@ class ReadingService {
     return httpServices.get(GET_LIST_LEVELS);
   }
   getListQuestionType() {
-    return httpServices.get(GET_LIST_QUESTION_TYPE);
+    return httpServices.get(ADMIN_READING_URL().GET_LIST_QUESTION_TYPE);
   }
   deletePart(id: any) {
     return httpServices.delete(ADMIN_READING_URL().DELETE_PART + id);

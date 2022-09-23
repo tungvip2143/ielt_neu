@@ -1,64 +1,60 @@
-import React, { useEffect } from "react";
+import { useEffect, useState } from "react";
 //
-
-import Text from "components/Typography/index";
-import Stack from "@mui/material/Stack";
-import Box from "@mui/material/Box";
-import ReactHtmlParser, { convertNodeToElement, processNodes } from "react-html-parser";
-import { Debug } from "components/Formik/FormikDebug";
 import { makeStyles } from "@mui/styles";
-import { IELT_TEST } from "interfaces/testType";
+import imgHightLight from "assets/image/exam/hight-light-note.png";
+import imgNote from "assets/image/exam/note.png";
+import imgClear from "assets/image/exam/clear-item.png";
+import imgClearAll from "assets/image/exam/clear-all.png";
+
+import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 import { decode } from "html-entities";
-import { ROOT_ORIGINAL_URL } from "constants/api";
+import { useMemo, useRef } from "react";
+import { useFormikContext } from "formik";
+import CommonStyles from "components/CommonStyles";
+import { useHightLightText } from "hooks/ielts/useHighlightText";
+import { useClearHighlight } from "hooks/ielts/useClearHighlight";
+import { useRightClick } from "hooks/ielts/useRightClick";
+import { useNoted } from "hooks/ielts/useNoted";
 
 // !type
 
 interface Props {
   dataChangePart: any;
-  test?: string;
 }
 
-const useStyles = makeStyles((theme) => ({
-  div: {
-    display: "flex",
-    justifyContent: "center",
-  },
-  img: {
-    maxHeight: "100%",
-    maxWidth: "100%",
-  },
-  container: {
-    height: "100%",
-    display: "flex",
-    flexDirection: "column",
-    gap: 16,
-  },
-}));
+const CardLeft = ({ dataChangePart }: Props) => {
+  //! State
+  let text = dataChangePart.passageText;
 
-const CardLeft = ({ dataChangePart, test }: Props) => {
-  const classes = useStyles();
-  const imageNull =
-    "http://103.226.250.81:8688/uploads/2022/8/5/bai-mau-ielts-writing-task-1-line-graphresultjpg-11343019082022582245.jpg";
+  const { isAction, position, toggleAction, className } = useRightClick();
+  const { clearAll, clearMarkItem } = useClearHighlight({ className });
+  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
+  useHightLightText({ noted, toggleNote });
 
-  const image = dataChangePart?.question?.image ? `${ROOT_ORIGINAL_URL}/${dataChangePart?.question?.image}` : imageNull;
+  //! Render
   return (
     <>
-      {test === IELT_TEST.READING && (
-        <div dangerouslySetInnerHTML={{ __html: decode(dataChangePart?.passageText) || "" }}></div>
-        // <div>{ReactHtmlParser(ReactHtmlParser(dataChangePart?.passageText))}</div>
-      )}
-      {test === IELT_TEST.WRITING && (
-        <div className={classes.container}>
-          <span>
-            <strong>{ReactHtmlParser(dataChangePart?.question?.title)}</strong>
-          </span>
-          <Text.Desc16>{ReactHtmlParser(dataChangePart?.question?.text)}</Text.Desc16>
-          <div className={classes.div}>
-            <img className={classes.img} src={image} alt={`writing part ${dataChangePart?.question?.displayNumber}`} />
-          </div>
-        </div>
-      )}
-      {/* <Debug /> */}
+      <div style={{ height: "100%" }} className="exam">
+        <div style={{ zIndex: 999 }} dangerouslySetInnerHTML={{ __html: decode(text) || "" }}></div>
+        {isAction && (
+          <CommonStyles.HightLightDialog
+            clearAll={clearAll}
+            clearMarkItem={clearMarkItem}
+            onCloseAction={toggleAction}
+            onClickNote={onClickNote}
+            position={position}
+          />
+        )}
+        {isNoted && (
+          <CommonStyles.Note
+            onCloseNote={toggleNote}
+            noted={noted}
+            position={position}
+            onChangeTextNote={onChangeInput}
+            className={className}
+          />
+        )}
+      </div>
     </>
   );
 };

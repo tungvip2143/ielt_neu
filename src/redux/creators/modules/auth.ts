@@ -1,3 +1,4 @@
+import cacheService from "services/cacheService";
 import isEmpty from "lodash/isEmpty";
 import produce from "immer";
 import { put } from "redux-saga/effects";
@@ -18,11 +19,10 @@ export const authSagas = {
     saga: function* ({ payload = {} }) {
       const infoLocalStorage = authServices.getUserLocalStorage();
       const userType = authServices.getUserTypeFromLocalStorage();
-
       if (!isEmpty(infoLocalStorage) && !isEmpty(userType)) {
-        const { token } = infoLocalStorage;
+        const { token, user } = infoLocalStorage;
         yield httpServices.attachTokenToHeader(token);
-        yield put({ type: authActions.saveInfoUser, payload: { token, userType } });
+        yield put({ type: authActions.saveInfoUser, payload: { token, userType, user } });
       } else {
         yield put({ type: authActions.saveInfoUserFailed });
       }
@@ -31,24 +31,20 @@ export const authSagas = {
   [authActions.logout]: {
     saga: function* ({ payload = {} }) {
       yield authServices.clearUserLocalStorage();
+      yield cacheService.clearCacheData();
       window.location.reload();
     },
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
-      const { token, userType } = action.payload;
+      const { token, userType, user } = action.payload;
+      console.log("checkout", token, userType, user);
       yield httpServices.attachTokenToHeader(token);
-      yield authServices.saveUserToLocalStorage({ token });
+      yield authServices.saveUserToLocalStorage({ token, user });
       yield authServices.saveUserTypeToLocalStorage(userType);
-      yield put({ type: authActions.saveInfoUserSuccess, token });
+      yield put({ type: authActions.saveInfoUserSuccess, token, user });
     },
   },
-  // [authActions.saveUserType]: {
-  //   saga: function* (action: any) {
-  //     const { userType } = action;
-  //     yield put({ type: authActions.saveUserType, userType });
-  //   },
-  // },
 };
 
 export const authReducer = (
@@ -65,7 +61,6 @@ export const authReducer = (
   action: any
 ) => {
   return produce(state, (draftState) => {
-    console.log("draftState", draftState);
     switch (action.type) {
       case authActions.checkAuth: {
         draftState.auth.isCheckingAuth = true;
@@ -88,6 +83,12 @@ export const authReducer = (
 
       case authActions.saveUserType: {
         draftState.auth.userType = action.userType;
+        break;
+      }
+
+      case authActions.logout: {
+        draftState.auth.isLogin = false;
+        draftState.auth.token = "";
         break;
       }
 

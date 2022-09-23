@@ -15,6 +15,8 @@ const useStyles = makeStyles((theme) => {
       left: 0,
       height: "80px",
       padding: "10px 20px",
+      zIndex: 9999,
+      background: theme.custom?.background.white,
     },
   };
 });
@@ -31,7 +33,7 @@ const HeaderExam = () => {
         <img style={{ width: "300px" }} src={LogoNeu} alt="" />
       </div>
       <div>
-        <img style={{ width: "300px" }} src={LogoIdp} alt="" />
+        <img style={{ width: "150px" }} src={LogoIdp} alt="" />
       </div>
     </div>
   );

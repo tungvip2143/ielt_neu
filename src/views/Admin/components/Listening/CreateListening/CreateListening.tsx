@@ -57,13 +57,12 @@ const styles = {
 };
 
 const CreateQuestionListening = (props: Props) => {
-  const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
   const [selectFile, setSelectFile] = useState<any>(null);
   const fileRef = useRef<any>();
-  const [existAudio, setExistAudio] = useState<boolean>(false);
   const { openCreateScreen } = props;
   const editorRef = useRef<any>();
   const [openModal, setOpenModal] = useState({});
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [err, setErr] = useState("");
   const history = useHistory();
   const { search } = useLocation();
@@ -89,7 +88,6 @@ const CreateQuestionListening = (props: Props) => {
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
 
   const [dataListening, loading, error, refetchQuestionGroup] = useGetListListeningQuestion(id);
-  console.log("dataPartDetail", dataPartDetail, dataListening);
   const [isEdit, setIsEdit] = useState(false);
 
   const formController = useForm<ResponseParams>({
@@ -116,8 +114,6 @@ const CreateQuestionListening = (props: Props) => {
     }
   }, [dataPartDetail?.id]);
 
-  console.log("selectFile", selectFile);
-
   const renderButtonUpdate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
@@ -125,13 +121,20 @@ const CreateQuestionListening = (props: Props) => {
           Back
         </Button>
         {!isEdit ? (
-          <Button variant="contained" onClick={() => setIsEdit(true)}>
+          // <Button variant="contained" onClick={() => setIsEdit(true)}>
+          //   <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
+          //   Edit
+          // </Button>
+          <CommonStyles.Button variant="contained" onClick={() => setIsEdit(true)}>
             <BorderColorOutlinedIcon style={{ fontSize: 16, cursor: "grab", marginRight: 10 }} />
             Edit
-          </Button>
+          </CommonStyles.Button>
         ) : (
           <>
-            <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" />
+            <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+              Save
+            </CommonStyles.Button>
+            {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" /> */}
             <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => setIsEdit(false)} />{" "}
           </>
         )}
@@ -142,25 +145,23 @@ const CreateQuestionListening = (props: Props) => {
   const renderButtonCreate = () => {
     return (
       <Stack spacing={2} direction="row" className="justify-center mt-[14px]">
-        <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" />
+        <CommonStyles.Button loading={isLoading} icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit">
+          Continue
+        </CommonStyles.Button>
+        {/* <ButtonSave icon={<SaveIcon sx={{ fontSize: "20px" }} />} type="submit" title="Continue" /> */}
         <ButtonCancel icon={<BlockIcon sx={{ fontSize: "20px" }} />} onClick={() => history.goBack()} />{" "}
       </Stack>
     );
   };
 
   const onSubmit = async (data: any) => {
+    setIsLoading(true);
     if (openCreateScreen.type === "create") {
-      console.log("selectFile", selectFile);
-      if (selectFile === null) {
-        setExistAudio(true);
-      }
       const formData = new FormData();
       formData.append("file", selectFile);
 
       try {
         const responseAudio = await audioService.postAudioListening(formData);
-        console.log("responseAudio", responseAudio);
-
         if (responseAudio.data.statusCode === 200) {
           const body = {
             partNumber: data.partNumber,
@@ -174,11 +175,13 @@ const CreateQuestionListening = (props: Props) => {
               pathname: RouteBase.UpdateListeningWId(response?.data?.data?.partTitle),
               search: `?id=${response?.data?.data?.id}`,
             });
+            setIsLoading(false);
           }
           onSubmit;
         }
       } catch (error: any) {
         toast.error(error);
+        setIsLoading(false);
       }
     }
 
@@ -290,12 +293,13 @@ const CreateQuestionListening = (props: Props) => {
       )}
       <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onChangeFile} />
       <div className="text-end mb-2">
-        <ButtonUpload
+        <CommonStyles.Button
           style={{ display: "flex" }}
-          titleButton="Upload audio"
           onClick={handleOpenFile}
           disabled={openCreateScreen.type === "update" && !isEdit}
-        />
+        >
+          Upload audio
+        </CommonStyles.Button>
       </div>
       {openCreateScreen.type === "create" && renderButtonCreate()}
       {openCreateScreen.type === "update" && (

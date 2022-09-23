@@ -29,6 +29,8 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
 import ForgotPassword from "views/ForgotPassword";
 import LoginAdminPage from "views/Admin/LoginAdmin";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { useDisableCtrlF } from "hooks/useDisableCtrlFBrowser";
 
 //
 
@@ -36,7 +38,7 @@ const clientId = "76081722691-0m4n7lmh7n71akn2814n5lthkvl3obdg.apps.googleuserco
 
 const App: React.FC = () => {
   useCheckAuth();
-
+  useDisableCtrlF();
   //! Render
   return (
     <LocationProvider>

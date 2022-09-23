@@ -29,8 +29,6 @@ const useGetListTest = () => {
     const fetchData = async () => {
       try {
         const response = await testBankService.getListTest(params);
-        console.log("responseReading", response);
-
         if (response.data.statusCode === 200) {
           const test = MTest.parsePartListFromResponse(response?.data?.data?.data || []);
 

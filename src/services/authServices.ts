@@ -31,7 +31,7 @@ class AuthService {
   login(body = { email: "", password: "" }) {
     return httpServices.post(AUTH_URL.LOGIN, body);
   }
-  studentLogin(body = { candidateCode: "", studentCode: "" }) {
+  studentLogin(body = { orderNumber: "", studentCode: "" }) {
     return httpServices.post(AUTH_URL.STUDENT_LOGIN, body);
   }
 
@@ -66,6 +66,7 @@ class AuthService {
 
   clearUserLocalStorage() {
     localStorage.removeItem(USER_LOCAL_STORAGE);
+    localStorage.removeItem(USER_TYPE_LOCAL_STORAGE);
   }
 }
 

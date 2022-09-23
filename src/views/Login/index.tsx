@@ -8,6 +8,12 @@ import Title from "./components/Title";
 import CardView from "./components/CardView";
 import FormLogin from "./components/FormLogin";
 import HeaderExam from "../Ielts/Header/HeaderExam";
+import { GetAuthSelector } from "redux/selectors";
+import { useGetLocation } from "provider/LocationProvider";
+import { Redirect } from "react-router-dom";
+import { RouteBase } from "constants/routeUrl";
+import cacheService from "services/cacheService";
+
 //
 const useStyles = makeStyles((theme) => {
   return {
@@ -30,6 +36,19 @@ const useStyles = makeStyles((theme) => {
 const LoginPage = () => {
   // ! State
   const classes = useStyles();
+  const auth = GetAuthSelector();
+  const location = useGetLocation();
+  const { isLogin } = auth;
+  console.log("isLogin", isLogin);
+
+  if (isLogin) {
+    const dataCache = cacheService.getDataCache();
+    const { skill } = dataCache;
+    if (skill === "READING") {
+      return <Redirect to={RouteBase.IeltsReading} />;
+    }
+    return <Redirect to={RouteBase.IeltsListening} />;
+  }
 
   //! Render
   return (
@@ -42,7 +61,7 @@ const LoginPage = () => {
         </Stack>
       </CardView>
       <Box className={classes.footer}>
-        <img style={{ width: "300px" }} src={LogoDuca} alt="" />
+        <img style={{ width: "200px" }} src={LogoDuca} alt="" />
       </Box>
     </Box>
   );

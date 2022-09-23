@@ -6,6 +6,7 @@ import studentService from "services/studentService";
 
 const useGetListStudents = () => {
   const [data, setData] = useState<QuestionUser[]>([]);
+  // const [data, setData] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
   const [meta, setMeta] = useState<MPagination>({
@@ -30,7 +31,6 @@ const useGetListStudents = () => {
     const fetchData = async () => {
       try {
         const response = await studentService.getListParts(params);
-        // console.log("responseUser", response);
         const dataRes = response?.data?.data?.data || [];
         const metaRes = response?.data?.data?.paging || {};
         setData(dataRes);

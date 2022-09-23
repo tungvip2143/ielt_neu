@@ -4,61 +4,72 @@ import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
-//
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import CardPart from "components/Card/CardPart";
-
-import CardTotalPageExams from "components/Card/CardTotalPageExams";
-import { IELT_TEST } from "interfaces/testType";
-import { isEmpty } from "lodash";
-import { useMemo, useState } from "react";
-import FooterExamResponsive from "./FooterExamResponsive";
+import TypeQuestions from "components/Card/TypeQuestions";
 //
-interface Props {
-  data?: any;
-}
-
+import CardTotalPageExams from "components/Card/CardTotalPageExams";
+import { isEmpty } from "lodash";
+import { useEffect, useMemo, useState } from "react";
+import FooterExamResponsive from "./FooterExamResponsive";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useIeltsReading } from "hooks/ielts/useIelts";
+import LoadingPage from "components/Loading";
+import { useFormikContext } from "formik";
+import cacheService from "services/cacheService";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import { makeStyles } from "@mui/styles";
+import { AllQuestionsDataI } from "../../../../constants/typeData.types";
+//
+// interface Props {
+//   data?: AllQuestionsDataI[];
+// }
+const useStyles = makeStyles((theme) => {
+  return {
+    typeQuestion: {
+      margin: "0 15px",
+    },
+    containerDad: {
+      position: "relative",
+    },
+    containerContent: {
+      padding: "0 15px",
+      paddingTop: "15px",
+    },
+    containerExercises: {
+      justifyContent: "space-between",
+      display: "flex",
+    },
+  };
+});
 const Step2ExamContent = (props: any) => {
-  const { data, test } = props;
+  const { data } = props;
   //! State
   const [questions, setQuestions] = useState(data);
-
-  // const initialQuestion = questions[0]?.groups[0]?.questions[0]?.questionId;
-  const [questionSelected, setQuestionSelected] = useState<any>();
+  const [text, setText] = useState("");
   const [groupSelected, setGroupSelected] = useState({
     part: 0,
     group: 0,
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
-  const [questionType, setQuestionType] = useState();
-  console.log("questionType", questionType);
 
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
+  // console.log("fsdfdsfs", groupSelected);
   const part = data;
-  const group = test === IELT_TEST.READING ? data[groupSelected.part]?.groups : [];
-  const questionData =
-    test === IELT_TEST.READING ? data[groupSelected.part]?.groups[groupSelected.group]?.questions || [] : [];
-  const displayNumber = test === IELT_TEST.READING ? questionData[groupSelected.question]?.question?.displayNumber : "";
+  const group = data[groupSelected.part]?.groups;
+  const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
+  const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
+  const { values, setFieldValue } = useFormikContext();
+  console.log("values formik", values);
+  useEffect(() => {
+    cacheService.cache("answers", values);
+  }, [values]);
 
-  const onClickPage = (groupRenderSelected: any) => {
+  const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
 
-  const onClickPart = (groupRenderSelected: any) => {
-    setGroupSelected({ ...groupSelected, ...groupRenderSelected });
-  };
-
-  const onClickShowQuestion = (displayNumber: any) => {
+  const onClickShowQuestion = (displayNumber: string | any) => {
     setShowQuestion(displayNumber);
-  };
-
-  const hightLightNumberPageClickQuestion = (displayNumber: any) => {
-    setHightLightNumberPage(displayNumber);
-  };
-
-  const onClickQuestionType = (questionType: any) => {
-    setQuestionType(questionType);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -71,54 +82,42 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 250px)",
+    height: "calc(100vh - 210px)",
   };
-  //
-  const contentPart = "Sample Academic Reading Multiple Choice (one answer)";
+  const classes = useStyles();
   //! Render
   return (
     <>
-      <Box sx={{ margin: "0 15px" }}>
-        <CardPart content={questionType}></CardPart>
-      </Box>
-      <Box sx={{ position: "relative" }}>
-        <Box sx={{ padding: "0 15px", mt: "15px" }}>
-          <Grid
-            container
-            sx={{
-              justifyContent: "space-between",
-              display: { xs: "block", lg: "flex" },
-            }}
-          >
+      {/* <Box className={classes.typeQuestion}>
+        <TypeQuestions content={questionType}></TypeQuestions>
+      </Box> */}
+      <Box className={classes.containerDad}>
+        <Box className={classes.containerContent}>
+          <Grid container className={classes.containerExercises}>
             <CardExercise
-              content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+              content={<CardLeft dataChangePart={partRenderSelected} />}
               width={5.9}
               styleAdd={styleAddExercise}
             />
-            {test === IELT_TEST.READING && (
-              <CardExercise
-                content={
-                  <TOFFL
-                    onClickPage={onClickPage}
-                    questionSelected={questionSelected}
-                    partRenderSelected={group[groupSelected.group]}
-                    showQuestion={showQuestion}
-                    onHightLightNumberPage={hightLightNumberPageClickQuestion}
-                    displayNumber={displayNumber}
-                    onClickQuestionType={onClickQuestionType}
-                  />
-                }
-                width={6}
-                styleAdd={styleAddExercise}
-              />
-            )}
+
+            <CardExercise
+              content={
+                <TOFFL
+                  onClickPage={onClickPage}
+                  partRenderSelected={group[groupSelected.group]}
+                  showQuestion={showQuestion}
+                  displayNumber={displayNumber}
+                />
+              }
+              width={6}
+              styleAdd={styleAddExercise}
+            />
           </Grid>
         </Box>
 
         <CardTotalPageExams
           onClickPage={onClickPage}
           questions={questions}
-          test={test}
           setDisplayNumber={onClickShowQuestion}
           groupSelected={groupSelected}
           part={part}
@@ -126,10 +125,22 @@ const Step2ExamContent = (props: any) => {
           question={questionData}
           displayNumber={displayNumber}
         />
-        <FooterExamResponsive />
+        {/* <FooterExamResponsive /> */}
       </Box>
     </>
   );
 };
 
-export default Step2ExamContent;
+const IeltsReadingContainer = () => {
+  const { testCode } = useGetTestCode();
+  const { data, isLoading } = useIeltsReading(testCode);
+  useConfirmCloseBrowser();
+
+  if (isLoading) {
+    return <LoadingPage />;
+  }
+
+  return <Step2ExamContent data={data?.data?.data} />;
+};
+
+export default IeltsReadingContainer;
