@@ -42,16 +42,21 @@ const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question, onClickPage, displayNumber } = props;
 
+  console.log("FlowChart", question);
+
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
   const handleFocus = (id: string, index: any, questionIndx: number) => {
     setFieldValue(`answers[${index}].questionId`, id);
-    onClickPage && onClickPage({ question: questionIndx }); //!
+    onClickPage && onClickPage({ question: questionIndx });
   };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
+
     sectionRender.question = questionIndx;
+    console.log("sectionRender", sectionRender);
+
     onClickPage && onClickPage(sectionRender);
   };
 

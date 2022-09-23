@@ -51,7 +51,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const [isOpenModalHelp, setIsOpenModalHelp] = React.useState(false);
   const [isOpenModalHide, setIsOpenModalHide] = React.useState(false);
-  const [changeValueVolum, setChangeValueVolum] = React.useState<any>(0.5);
+  const [changeValueVolum, setChangeValueVolum] = React.useState<number>(0.5);
 
   const { step } = useStepExam();
   console.log("4234", step);
@@ -87,7 +87,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    // console.log("testCode", testCode);
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);
@@ -122,7 +121,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   useConfirmCloseBrowser();
   //
-  const handleChangeValueVolum = (value: any) => {
+  const handleChangeValueVolum = (value: number) => {
     if (value === 100) {
       return setChangeValueVolum(1);
     }
@@ -170,6 +169,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
   return (
     <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
+        console.log("formik values", formik.values);
+
         return (
           <Form>
             <Header

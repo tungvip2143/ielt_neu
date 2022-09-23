@@ -1,6 +1,7 @@
 // import TableCommon from "./TableCommon";
 import { Card, Typography } from "@mui/material";
 import CommonDataGrid from "components/CommonDataGrid";
+import useGetListStudents from "hooks/UserManagement/students/useGetListStudents";
 // import ListStudentId from "models/Exam/ListUserContest";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,16 +16,15 @@ const styles = {
 
 const ListStudentId = ({ studentIds, studentDetails }: any) => {
   //! State
-  //   const {
-  //     data: dataFileExcel,
-  //     loading,
-  //     error,
-  //     refetchDataTable,
-  //     meta: metaPart,
-  //     onPageChange,
-  //     onPageSizeChange,
-  //   } = useGetListStudents();
-  console.log("studentDetails", studentDetails);
+  // const {
+  //   data: dataFileExcel,
+  //   loading,
+  //   error,
+  //   refetchDataTable,
+  //   meta: metaPart,
+  //   onPageChange,
+  //   onPageSizeChange,
+  // } = useGetListStudents();
 
   const history = useHistory();
 
@@ -78,6 +78,11 @@ const ListStudentId = ({ studentIds, studentDetails }: any) => {
 
             {
               flex: 1,
+              field: "fullname",
+              renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
+            },
+            {
+              flex: 0.3,
               field: "orderNumber",
               renderHeader: () => <Typography style={styles.titleTable}>Order Number</Typography>,
               //   renderCell: (item) => {
@@ -87,11 +92,6 @@ const ListStudentId = ({ studentIds, studentDetails }: any) => {
               //   },
             },
 
-            // {
-            //   flex: 1,
-            //   field: "fullname",
-            //   renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
-            // },
             // {
             //   flex: 1,
             //   field: "candidateCode",
@@ -121,18 +121,22 @@ const ListStudentId = ({ studentIds, studentDetails }: any) => {
             //   //   },
             // },
           ]}
-          checkboxSelection
-          //   pagination={{
-          //     page: metaPart?.page,
-          //     pageSize: metaPart?.pageSize,
-          //     totalRow: metaPart?.total,
-          //   }}
-          //   loading={loading}
-          rows={studentDetails.map((e: any) => ({ id: e._id, orderNumber: e.orderNumber, studentCode: e.studentCode }))}
-          //   rows={[]}
-          //   onPageChange={onPageChange}
-          //   onPageSizeChange={onPageSizeChange}
+          // checkboxSelection
+          // pagination={{
+          //   page: metaPart?.page,
+          //   pageSize: metaPart?.pageSize,
+          //   totalRow: studentDetails.length,
+          // }}
+          rows={studentDetails.map((e: any) => ({
+            id: e._id,
+            orderNumber: e.orderNumber,
+            studentCode: e.studentCode,
+            fullname: e.fullname,
+          }))}
+          // onPageChange={onPageChange}
+          // onPageSizeChange={onPageSizeChange}
           getRowId={(row: any) => row.id}
+          hideFooter={true}
         />
       </Card>
     </div>

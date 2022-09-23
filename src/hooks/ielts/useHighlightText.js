@@ -43,10 +43,16 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       if (inputsTag) {
         const arrInputs = Object.values(inputsTag);
         arrInputs.forEach((input) => {
-          console.log("input12345", input);
-          input.onmousemove = () => {
-            unFocus();
-          };
+          input.addEventListener(
+            "select",
+            function () {
+              this.selectionStart = this.selectionEnd;
+            },
+            false
+          );
+          // input.onmousemove = () => {
+          //   unFocus();
+          // };
         });
       }
 
