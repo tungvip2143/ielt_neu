@@ -23,7 +23,7 @@ interface PartRenderSlectedI {
 const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage }: PartRenderSlectedI) => {
   const questionType = partTypeQuestions?.questionType;
   // console.log("ContentQuestion", ContentQuestion);
-  // console.log("questionType", questionType);
+  console.log("questionType", questionType);
 
   // !Hook
   const { isAction, position, toggleAction, className } = useRightClick();

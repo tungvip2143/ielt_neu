@@ -46,6 +46,8 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
     group: 0,
     question: 0,
   });
+  console.log("424234", groupSelected);
+
   const [showQuestion, setShowQuestion] = useState("1");
 
   const part = data;
