@@ -87,7 +87,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
-    // console.log("testCode", testCode);
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);
@@ -170,6 +169,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
   return (
     <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
+        console.log("formik values", formik.values);
+
         return (
           <Form>
             <Header

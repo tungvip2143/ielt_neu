@@ -16,6 +16,10 @@ interface PartRenderSlectedI {
 const TOFFL = ({ partRenderSelected, onClickPage, showQuestion, displayNumber }: PartRenderSlectedI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
+  const dataNumber = {
+    from: "1",
+    to: "6",
+  };
   //
   const handleCollapse = (id: Event | any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? id : false);

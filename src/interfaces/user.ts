@@ -12,6 +12,5 @@ export interface QuestionUser {
   deleted: boolean;
   createdAt: string;
   updatedAt: string;
-
   fullname: string;
 }

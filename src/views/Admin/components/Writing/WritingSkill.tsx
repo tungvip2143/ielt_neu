@@ -60,8 +60,6 @@ const WritingSkill = () => {
               field: "action",
               renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
               renderCell: (items: any) => {
-                console.log("items", items);
-
                 return (
                   <CommonActionMenu
                     onEdit={() => {

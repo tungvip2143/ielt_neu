@@ -5,7 +5,6 @@ export interface Props {
 }
 const Listening = (props: Props) => {
   const { dataListening } = props;
-  console.log("dataListening", dataListening);
 
   return (
     <Card className="mt-[10px] p-[20px]">
