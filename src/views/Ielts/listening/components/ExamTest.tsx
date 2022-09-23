@@ -30,13 +30,12 @@ interface ExamTest {
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum } = props;
-
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
-  const { values } = useFormikContext();
+  const { values, handleSubmit } = useFormikContext();
 
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
@@ -55,6 +54,10 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
     cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
+
+  useEffect(() => {
+    handleSubmit();
+  }, [displayNumber]);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
