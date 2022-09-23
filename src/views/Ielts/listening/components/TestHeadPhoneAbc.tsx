@@ -17,6 +17,8 @@ import { makeStyles } from "@mui/styles";
 import { warningDetailUser, textBtnSubmit, textHeaderModal, testHeadPhone } from "../../../../constants/constants";
 import CommonStyles from "components/CommonStyles";
 
+console.log("audio", audio);
+
 //! type
 interface TestHeadPhoneI {
   valueVolum?: number;
