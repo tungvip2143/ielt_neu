@@ -8,7 +8,7 @@ import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
 import useSagaCreators from "hooks/useSagaCreators";
 import { isEmpty } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
 import { authActions } from "redux/creators/modules/auth";
@@ -30,17 +30,14 @@ interface ExamTest {
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum } = props;
-
-  // console.log("ngocanhdeptrai", data);
-
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
-  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
-  const { values, setFieldValue } = useFormikContext();
 
-  console.log("formik value", values);
+  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
+  const { values, handleSubmit, setFieldValue } = useFormikContext();
+
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -73,9 +70,11 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
-  const onClickPage = (groupRenderSelected: any) => {
-    console.log("groupRenderSelected", groupRenderSelected);
+  useEffect(() => {
+    handleSubmit();
+  }, [displayNumber]);
 
+  const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
   const onClickShowQuestion = (displayNumber: any) => {
@@ -100,6 +99,20 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
     setIdxAudioPlaying(idxAudioPlaying + 1);
   };
 
+  useEffect(() => {
+    const audio: any = document.getElementById("audio");
+    const cache = cacheService.getDataCache();
+    const current_time = cache?.audio_current_time;
+    current_time ? (audio.currentTime = current_time) : (audio.currentTime = 0);
+    const setAudioCurrentTime = () => {
+      cacheService.cache("audio_current_time", audio.currentTime);
+    };
+
+    window.addEventListener("beforeunload", setAudioCurrentTime);
+
+    return () => window.removeEventListener("beforeunload", setAudioCurrentTime);
+  }, []);
+
   //! Render
   const container = {
     margin: "0 15px",
@@ -119,6 +132,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
             style={{ display: "none" }}
             onEnded={onEachAudioEnded}
             volume={valueVolum}
+            id="audio"
           />
         </div>
         <Box>

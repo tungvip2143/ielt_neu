@@ -7,7 +7,7 @@ export const useHightLightText = ({ noted, toggleNote }) => {
 
   if (inputsTag) {
     const arrInputs = Object.values(inputsTag);
-    arrInputs.forEach((input) => {
+    arrInputs.forEach(function (input) {
       input.addEventListener(
         "select",
         function () {

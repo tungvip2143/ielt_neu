@@ -90,9 +90,9 @@ const IeltsReading = () => {
     try {
       const body = { values: { answers }, testCode };
       await submitIeltsReadingTest(body);
-      await ieltsReadingFinish({ testCode, skill: "reading" }).then(() => {
-        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
-      });
+      // await ieltsReadingFinish({ testCode, skill: "reading" }).then(() => {
+      //   handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+      // });
     } catch (err) {
       console.log(err);
     }
@@ -129,6 +129,7 @@ const IeltsReading = () => {
             handleOpenModalHide={handleOpenModalHide}
             numberStep={TypeStepExamEnum.STEP3}
             timeExam={timeExam}
+            typeExam={TypeExam.READING}
           />
           <Box className={classes.container}>
             <Box className={classes.containerSteps}>

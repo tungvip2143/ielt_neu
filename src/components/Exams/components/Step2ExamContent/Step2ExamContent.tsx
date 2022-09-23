@@ -5,7 +5,6 @@ import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import TypeQuestions from "components/Card/TypeQuestions";
 //
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { isEmpty } from "lodash";
@@ -18,7 +17,6 @@ import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { makeStyles } from "@mui/styles";
-import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 //
 // interface Props {
 //   data?: AllQuestionsDataI[];
@@ -55,7 +53,7 @@ const Step2ExamContent = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
 
-  // console.log("fsdfdsfs", groupSelected);
+  console.log("data123", data);
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
@@ -71,7 +69,7 @@ const Step2ExamContent = (props: any) => {
       return part.groups.map((group: any) => {
         return group.questions.map((question: any, index: number) => {
           inputIndex++;
-          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "quang test");
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "");
         });
       });
     });
