@@ -71,6 +71,7 @@ const FlowChart = (props: FlowChartI) => {
       <div className={classes.answerBox}>
         {questions.map((question: QuestionItemI, questionIndx: number) => {
           const displayNumberT = question?.question?.displayNumber;
+          const saveStudentAnswer = question.studentAnswer ?? "test student answer";
           return (
             <div key={question.questionId} className={classes.question} onClick={() => onClickQuestion(questionIndx)}>
               <strong style={{ minWidth: "20px" }}>{`${question?.question?.displayNumber}.`}</strong>
@@ -81,6 +82,7 @@ const FlowChart = (props: FlowChartI) => {
                 }
                 component={TextField}
                 name={`answers[${Number(question?.question?.displayNumber) - 1}].studentAnswer`}
+                saveStudentAnswer={saveStudentAnswer}
               />
             </div>
           );

@@ -40,6 +40,7 @@ interface Props extends FastFieldProps {
   size?: "small" | "medium" | undefined;
   onFocus?: () => void;
   autoFocus: any;
+  saveStudentAnswer: string;
 }
 export const TextField = (props: Props) => {
   const {
@@ -52,6 +53,7 @@ export const TextField = (props: Props) => {
     className,
     size = "small",
     onFocus,
+    saveStudentAnswer,
     ...rest
   } = props;
   const { name, value } = field;
@@ -59,6 +61,14 @@ export const TextField = (props: Props) => {
 
   const isTouched = getIn(touched, name);
   const errorMessage = getIn(errors, name);
+  // const saveStudentAnswerOnApi = () => {
+  //   if (value) {
+  //     return value;
+  //   }
+  //   if (!value) {
+  //     return saveStudentAnswer;
+  //   }
+  // };
 
   return (
     <CssTextField

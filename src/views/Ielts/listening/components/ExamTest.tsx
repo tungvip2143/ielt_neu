@@ -38,7 +38,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
-  const { values } = useFormikContext();
+  const { values, setFieldValue } = useFormikContext();
 
   console.log("formik value", values);
   const [groupSelected, setGroupSelected] = React.useState({
@@ -54,8 +54,19 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
-  console.log("groupSelected", groupSelected);
-  console.log("groupSelected", data);
+  // console.log("groupSelected", groupSelected);
+  // console.log("groupSelected", data);
+  var inputIndex = 0;
+  useEffect(() => {
+    data.map((part: any) => {
+      return part.groups.map((group: any) => {
+        return group.questions.map((question: any) => {
+          inputIndex++;
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "");
+        });
+      });
+    });
+  }, []);
 
   useEffect(() => {
     cacheService.cache("answers", values);

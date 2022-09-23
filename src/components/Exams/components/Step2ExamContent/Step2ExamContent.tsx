@@ -43,6 +43,8 @@ const useStyles = makeStyles((theme) => {
 });
 const Step2ExamContent = (props: any) => {
   const { data } = props;
+  console.log("3232", data);
+
   //! State
   const [questions, setQuestions] = useState(data);
   const [text, setText] = useState("");
@@ -63,6 +65,17 @@ const Step2ExamContent = (props: any) => {
   useEffect(() => {
     cacheService.cache("answers", values);
   }, [values]);
+  var inputIndex = 0;
+  useEffect(() => {
+    data.map((part: any) => {
+      return part.groups.map((group: any) => {
+        return group.questions.map((question: any, index: number) => {
+          inputIndex++;
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "quang test");
+        });
+      });
+    });
+  }, []);
 
   const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
