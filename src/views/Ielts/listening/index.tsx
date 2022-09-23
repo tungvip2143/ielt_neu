@@ -56,7 +56,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const { step } = useStepExam();
   console.log("4234", step);
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
-  const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
+  // const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
 
@@ -90,14 +90,14 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);
-      await updateIeltsListeningFinish({ testCode, skill: "listening" }).then(() => {
-        cacheService.clearCacheData();
-      });
+      // await updateIeltsListeningFinish({ testCode, skill: "listening" }).then(() => {
+      //   cacheService.clearCacheData();
+      // });
     } catch (err) {
       showError(getErrorMsg(err));
     }
 
-    history.push(RouteBase.IeltsReading);
+    // history.push(RouteBase.IeltsReading);
   }, []);
 
   const handleOpenModalHelp = useCallback(() => {
@@ -134,7 +134,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const heightHeaderExam = theme.custom?.heightHeaderExamListening ?? 80;
     const paddingTopStep123 = heightHeaderLogo + heightHeaderExam - 17;
     const paddingTopExam = heightHeaderLogo + heightHeaderExam + 16;
-    console.log("42423", paddingTopExam);
 
     const handlePaddingTop = () => {
       if (step === TypeStepExamEnum.STEP1 || step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3) {
@@ -163,14 +162,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const classes = useStyles();
 
   //! Render
-  if (isLoading || listeningFinishLoading) {
-    return <LoadingPage />;
-  }
+  // if (isLoading) {
+  //   return <LoadingPage />;
+  // }
   return (
     <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
-        console.log("formik values", formik.values);
-
         return (
           <Form>
             <Header

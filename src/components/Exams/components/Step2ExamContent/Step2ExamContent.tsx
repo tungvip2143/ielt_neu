@@ -53,7 +53,7 @@ const Step2ExamContent = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
 
-  // console.log("fsdfdsfs", groupSelected);
+  console.log("data123", data);
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
