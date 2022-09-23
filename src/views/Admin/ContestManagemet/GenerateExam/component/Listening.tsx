@@ -86,7 +86,7 @@ const Listening = (props: Props) => {
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return group?.questions.map((question: any) => {
-        return <SentenceCompletetion data={question} isView />;
+        return <SentenceCompletetion questionItem={question} isView />;
       });
     }
     if (
@@ -94,7 +94,7 @@ const Listening = (props: Props) => {
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      return <MultiChoice isView onClickPage={() => null} dataQuestions={group?.questions} audio={null} />;
+      return <MultiChoice isView onClickPage={() => null} questions={group?.questions} />;
     }
   };
 

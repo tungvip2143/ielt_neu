@@ -65,7 +65,7 @@ const Reading = (props: Props) => {
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return group?.questions.map((question: any) => {
-        return <SentenceCompletetion data={question} isView />;
+        return <SentenceCompletetion questionItem={question} isView />;
       });
     }
     if (
@@ -73,7 +73,7 @@ const Reading = (props: Props) => {
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      return <MultiChoice isView onClickPage={() => null} dataQuestions={group?.questions} audio={null} />;
+      return <MultiChoice isView onClickPage={() => null} questions={group?.questions} />;
     }
   };
 
@@ -93,18 +93,7 @@ const Reading = (props: Props) => {
                   </div>
                   <div className="listeningWrapper" style={{ marginLeft: "20px" }}>
                     {el?.groups?.map((group: any) => {
-                      return (
-                        <div>
-                          {/* {group?.questionType === QUESTION_TYPE.NOTE_COMPLETION &&
-                          group?.questionType === QUESTION_TYPE.SUMMARY_COMPLETION ? (
-                            <div dangerouslySetInnerHTML={{ __html: group?.questionBox }} />
-                          ) : (
-                            <Typography className="titlePart">{group?.questionBox}</Typography>
-                          )} */}
-
-                          {renderQuestion(group)}
-                        </div>
-                      );
+                      return <div>{renderQuestion(group)}</div>;
                     })}
                   </div>
                 </div>

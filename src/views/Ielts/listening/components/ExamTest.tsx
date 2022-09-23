@@ -17,13 +17,17 @@ import ieltsService from "services/ieltsService";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
+import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 
-interface Props {
-  data: any;
-  valueVolum?: any;
+interface AllQuestionsDataPropsI {
+  data: AllQuestionsDataI[];
+  valueVolum?: number;
+}
+interface ExamTest {
+  valueVolum: number;
 }
 
-const ExamTest = (props: Props) => {
+const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum } = props;
 
@@ -43,7 +47,6 @@ const ExamTest = (props: Props) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
-  const [questionType, setQuestionType] = useState();
 
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
@@ -67,9 +70,6 @@ const ExamTest = (props: Props) => {
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
   };
-  const onClickQuestionType = (questionType: any) => {
-    setQuestionType(questionType);
-  };
 
   const partRenderSelected = useMemo(() => {
     // const questionsWithPageNumberTemp = data as any;
@@ -77,7 +77,7 @@ const ExamTest = (props: Props) => {
       return audioData[groupSelected?.part];
     }
 
-    return null;
+    return { groups: [], partAudio: "" };
   }, [groupSelected]);
 
   //! Function
@@ -114,11 +114,10 @@ const ExamTest = (props: Props) => {
           <CardExercise
             content={
               <ContentQuestion
-                ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
-                audio={partRenderSelected?.partAudio}
+                partTypeQuestions={partRenderSelected.groups[groupSelected.group]}
+                audio={partRenderSelected.partAudio}
                 displayNumber={displayNumber}
                 onClickPage={onClickPage}
-                onClickQuestionType={onClickQuestionType}
               />
             }
             styleAdd={styleHeight}
@@ -139,7 +138,7 @@ const ExamTest = (props: Props) => {
   );
 };
 
-const IeltsListeningContainer = ({ valueVolum }: any) => {
+const IeltsListeningContainer = ({ valueVolum }: ExamTest) => {
   const { dispatch } = useSagaCreators();
 
   const testCode = useMemo(() => {
