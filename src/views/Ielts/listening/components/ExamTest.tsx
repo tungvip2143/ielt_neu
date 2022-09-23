@@ -34,8 +34,6 @@ const ExamTest = (props: Props) => {
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
   const { values } = useFormikContext();
 
-  console.log("audioInitialIndex", dataCache);
-
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -50,17 +48,12 @@ const ExamTest = (props: Props) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
-  console.log("groupSelected", groupSelected);
-  console.log("groupSelected", data);
-
   useEffect(() => {
     cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
   const onClickPage = (groupRenderSelected: any) => {
-    console.log("groupRenderSelected", groupRenderSelected);
-
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
   const onClickShowQuestion = (displayNumber: any) => {
@@ -118,7 +111,7 @@ const ExamTest = (props: Props) => {
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}
             autoPlay
             controls
-            // style={{ display: "none" }}
+            style={{ display: "none" }}
             onEnded={onEachAudioEnded}
             volume={valueVolum}
             id="audio"
