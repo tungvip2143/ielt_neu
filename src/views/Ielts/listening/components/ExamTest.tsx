@@ -27,16 +27,15 @@ const ExamTest = (props: Props) => {
   //! State
   const { data, valueVolum } = props;
 
-  // console.log("ngocanhdeptrai", data);
-
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
-  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
+  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
   const { values } = useFormikContext();
 
-  console.log("formik value", values);
+  console.log("audioInitialIndex", dataCache);
+
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -97,7 +96,9 @@ const ExamTest = (props: Props) => {
     const setAudioCurrentTime = () => {
       cacheService.cache("audio_current_time", audio.currentTime);
     };
+
     window.addEventListener("beforeunload", setAudioCurrentTime);
+
     return () => window.removeEventListener("beforeunload", setAudioCurrentTime);
   }, []);
 
@@ -117,7 +118,7 @@ const ExamTest = (props: Props) => {
             src={`${ROOT_ORIGINAL_URL}/${audioData[idxAudioPlaying]?.partAudio}`}
             autoPlay
             controls
-            style={{ display: "none" }}
+            // style={{ display: "none" }}
             onEnded={onEachAudioEnded}
             volume={valueVolum}
             id="audio"
