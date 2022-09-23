@@ -60,7 +60,7 @@ const NoteCompletion = (props: NoteCompletionI) => {
       <input
           key="input-${blankId}"
           name="answers[${blankId - 1}].studentAnswer"
-          id="input-${blankId}"
+          id="${inputIndex}"
           type="text"
           class='${inputIndex} noselect'
         />
@@ -83,7 +83,9 @@ const NoteCompletion = (props: NoteCompletionI) => {
   };
 
   const onClickInput = (data: Event | any) => {
-    const inputIdx: number = data.target.getAttribute("class") - 1;
+    const inputIdx: number = data.target.getAttribute("id") - 1;
+    console.log("4243", inputIdx);
+
     onClickPage && onClickPage({ question: inputIdx });
   };
 
