@@ -98,7 +98,7 @@ const ItemQuestion = ({
     }
 
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion displayNumber={displayNumber} data={data} onClickPage={onClickPage} />;
+      return <SentenceCompletetion displayNumber={displayNumber} questionItem={data} onClickPage={onClickPage} />;
     }
 
     if (
