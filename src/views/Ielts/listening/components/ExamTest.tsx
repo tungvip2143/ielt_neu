@@ -30,6 +30,9 @@ interface ExamTest {
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum } = props;
+
+  // console.log("ngocanhdeptrai", data);
+
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
@@ -37,7 +40,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
   const { values } = useFormikContext();
 
-  // console.log("formik value", values);
+  console.log("formik value", values);
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
@@ -51,12 +54,17 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
+  console.log("groupSelected", groupSelected);
+  console.log("groupSelected", data);
+
   useEffect(() => {
     cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
   const onClickPage = (groupRenderSelected: any) => {
+    console.log("groupRenderSelected", groupRenderSelected);
+
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
   const onClickShowQuestion = (displayNumber: any) => {

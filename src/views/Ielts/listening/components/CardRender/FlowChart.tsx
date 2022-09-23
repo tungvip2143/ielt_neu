@@ -48,11 +48,14 @@ const FlowChart = (props: FlowChartI) => {
 
   const handleFocus = (id: string, index: number, questionIndx: number) => {
     setFieldValue(`answers[${index}].questionId`, id);
-    onClickPage && onClickPage({ question: questionIndx }); //!
+    onClickPage && onClickPage({ question: questionIndx });
   };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
+
     sectionRender.question = questionIndx;
+    console.log("sectionRender", sectionRender);
+
     onClickPage && onClickPage(sectionRender);
   };
 

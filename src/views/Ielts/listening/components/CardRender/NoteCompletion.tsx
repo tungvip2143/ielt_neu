@@ -82,9 +82,10 @@ const NoteCompletion = (props: NoteCompletionI) => {
     }, 0);
   };
 
-  const onClickInput = (data: Event | any) => {
-    const inputIdx: number = data.target.getAttribute("class") - 1;
-    onClickPage && onClickPage({ question: inputIdx });
+  const onClickInput = (data: any) => {
+    const InputClass = data.target.classList[0] - 1;
+
+    onClickPage && onClickPage({ question: InputClass });
   };
 
   //! Render

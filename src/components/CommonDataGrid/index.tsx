@@ -7,12 +7,14 @@ import { PAGE_SIZE } from "constants/constants";
 interface ICommonDataGrid {
   columns: GridColDef[];
   loading?: boolean;
-  pagination?: MPagination;
+  pagination?: MPagination | null;
   rows: Array<any>;
   onPageChange?: (page: number) => void;
   onPageSizeChange?: (pageSize: number) => void;
   getRowId?: any;
   checkboxSelection?: boolean;
+  hideFooterPagination?: boolean;
+  hideFooter?: boolean;
 }
 
 export default function CommonDataGrid({
@@ -24,6 +26,8 @@ export default function CommonDataGrid({
   onPageChange = () => null,
   onPageSizeChange = () => null,
   checkboxSelection,
+  hideFooterPagination,
+  hideFooter,
 }: ICommonDataGrid) {
   return (
     <DataGrid
@@ -47,6 +51,8 @@ export default function CommonDataGrid({
       pagination
       paginationMode="server"
       autoHeight
+      hideFooterPagination={hideFooterPagination}
+      hideFooter={hideFooter}
     />
   );
 }

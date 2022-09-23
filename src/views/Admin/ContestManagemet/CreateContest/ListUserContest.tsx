@@ -1,6 +1,7 @@
 // import TableCommon from "./TableCommon";
 import { Card, Typography } from "@mui/material";
 import CommonDataGrid from "components/CommonDataGrid";
+import useGetListStudents from "hooks/UserManagement/students/useGetListStudents";
 // import ListUserContest from "models/Exam/ListUserContest";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -15,27 +16,19 @@ const styles = {
 
 const ListUserContest = ({ dataFileExcel }: any) => {
   //! State
-  //   const {
-  //     data: dataFileExcel,
-  //     loading,
-  //     error,
-  //     refetchDataTable,
-  //     meta: metaPart,
-  //     onPageChange,
-  //     onPageSizeChange,
-  //   } = useGetListStudents();
+  const { data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange } = useGetListStudents();
 
   const history = useHistory();
 
-  const onDeletePart = async (item: any) => {
-    try {
-      await studentService.deletePart(item?.row?._id);
-      //   await refetchDataTable();
-      await toast.success("Delete success!");
-    } catch (error) {
-      toast.error("Error!");
-    }
-  };
+  // const onDeletePart = async (item: any) => {
+  //   try {
+  //     await studentService.deletePart(item?.row?._id);
+  //     //   await refetchDataTable();
+  //     await toast.success("Delete success!");
+  //   } catch (error) {
+  //     toast.error("Error!");
+  //   }
+  // };
 
   //! Render
   return (
@@ -94,15 +87,10 @@ const ListUserContest = ({ dataFileExcel }: any) => {
             // },
           ]}
           checkboxSelection
-          //   pagination={{
-          //     page: metaPart?.page,
-          //     pageSize: metaPart?.pageSize,
-          //     totalRow: metaPart?.total,
-          //   }}
-          //   loading={loading}
           rows={dataFileExcel}
-          //   onPageChange={onPageChange}
-          //   onPageSizeChange={onPageSizeChange}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+          hideFooter={true}
           getRowId={(row: any) => row._id}
         />
       </Card>

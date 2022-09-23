@@ -47,6 +47,16 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
   });
   const test: any = Handlebars.compile(text || "");
 
+  // <<<<<<< HEAD
+  //   const onClickInput = (event: any) => {
+  //     const inputIdx: any = event.target.classList[0] - 1;
+  //     setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
+  //     onClickPage && onClickPage({ question: inputIdx });
+  //   };
+  //   const onFocusInput = useCallback((event: any) => {
+  //     const inputIdx: any = event.target.classList[0] - 1;
+  //     setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
+  // =======
   const onClickInput = (data: any) => {
     const inputIdx: number = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
@@ -54,6 +64,7 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
 
   const onFocusInput = useCallback((event: any, displayNumber: any) => {
     const inputIdx: number = event.target.getAttribute("id") - 1;
+
     onClickPage && onClickPage({ question: inputIdx });
     setFieldValue(`answers[${displayNumber - 1}].questionId`, questionItem.questionId);
   }, []);
