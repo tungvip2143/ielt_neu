@@ -8,7 +8,7 @@ import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
 import useSagaCreators from "hooks/useSagaCreators";
 import { isEmpty } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
 import { authActions } from "redux/creators/modules/auth";
@@ -34,7 +34,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
-  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
+  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
   const { values, handleSubmit } = useFormikContext();
 
   const [groupSelected, setGroupSelected] = React.useState({
@@ -49,8 +49,6 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
 
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
-
-  console.log("data456", data);
 
   useEffect(() => {
     cacheService.cache("answers", values);
@@ -86,6 +84,20 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
     setIdxAudioPlaying(idxAudioPlaying + 1);
   };
 
+  useEffect(() => {
+    const audio: any = document.getElementById("audio");
+    const cache = cacheService.getDataCache();
+    const current_time = cache?.audio_current_time;
+    current_time ? (audio.currentTime = current_time) : (audio.currentTime = 0);
+    const setAudioCurrentTime = () => {
+      cacheService.cache("audio_current_time", audio.currentTime);
+    };
+
+    window.addEventListener("beforeunload", setAudioCurrentTime);
+
+    return () => window.removeEventListener("beforeunload", setAudioCurrentTime);
+  }, []);
+
   //! Render
   const container = {
     margin: "0 15px",
@@ -105,6 +117,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
             style={{ display: "none" }}
             onEnded={onEachAudioEnded}
             volume={valueVolum}
+            id="audio"
           />
         </div>
         <Box>
