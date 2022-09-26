@@ -59,6 +59,7 @@ const NoteCompletion = (props: NoteCompletionI) => {
       <strong>${blankId}</strong>
       <input
           key="input-${blankId}"
+          value="quang"
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
