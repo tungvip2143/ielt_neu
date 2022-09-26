@@ -120,7 +120,8 @@ const ContestManagement = () => {
                 sx={{ color: "#5048E5", cursor: "pointer" }}
                 onClick={() => {
                   history.push({
-                    pathname: RouteBase.Scores(index),
+                    pathname: RouteBase.Scores,
+                    // search: `?id=${index}`,
                   });
                 }}
               />

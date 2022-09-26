@@ -72,5 +72,5 @@ export const RouteBase = {
   UpdateTest: "/admin/testbank/:id",
   UpdateTestWId: (id: string | number) => `/admin/testbank/${id}`,
   //Examination
-  Scores: (id: string | number) => `/admin/examination/scores/${id}`,
+  Scores: `/admin/examination/scores`,
 };
