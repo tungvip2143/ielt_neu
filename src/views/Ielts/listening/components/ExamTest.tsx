@@ -66,7 +66,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   }, []);
 
   useEffect(() => {
-    cacheService.cache("answers", values);
+    // cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
