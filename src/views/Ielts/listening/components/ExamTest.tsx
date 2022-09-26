@@ -18,18 +18,23 @@ import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
 import { AllQuestionsDataI } from "../../../../constants/typeData.types";
+import { useStepExam } from "provider/StepExamProvider";
+import { useGetExamInformation } from "hooks/ielts/useIelts";
+import { TypeStepExamEnum } from "constants/enum";
 
 interface AllQuestionsDataPropsI {
   data: AllQuestionsDataI[];
   valueVolum?: number;
+  prevStep?: any;
 }
 interface ExamTest {
   valueVolum: number;
+  prevStep: any;
 }
 
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
-  const { data, valueVolum } = props;
+  const { data, valueVolum, prevStep } = props;
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
@@ -50,6 +55,22 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
+  //
+  const { handler, step } = useStepExam();
+
+  useEffect(() => {
+    const load = () => {
+      handler?.setStep && handler.setStep(prevStep);
+      cacheService.cache("step", prevStep);
+      console.log("jfkdsfjldsfds");
+    };
+
+    window.addEventListener("load", load);
+
+    return () => window.removeEventListener("load", load);
+  }, []);
+
+  //
   useEffect(() => {
     cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
@@ -148,7 +169,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   );
 };
 
-const IeltsListeningContainer = ({ valueVolum }: ExamTest) => {
+const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
   const { dispatch } = useSagaCreators();
 
   const testCode = useMemo(() => {
@@ -173,7 +194,7 @@ const IeltsListeningContainer = ({ valueVolum }: ExamTest) => {
     return <LoadingPage />;
   }
 
-  return <ExamTest valueVolum={valueVolum} data={data?.data.data} />;
+  return <ExamTest valueVolum={valueVolum} prevStep={prevStep} data={data?.data.data} />;
 };
 
 export default IeltsListeningContainer;
