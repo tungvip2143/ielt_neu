@@ -13,6 +13,7 @@ export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
 
 export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/import-excel`;
 export const AUTH_URL = {
+  AUTH_INFORMATION: `${ROOT_URL}/auth/me`,
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
   STUDENT_LOGIN: `${ROOT_URL}/auth/student/signin`,

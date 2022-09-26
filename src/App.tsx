@@ -29,7 +29,6 @@ import { GoogleOAuthProvider } from "@react-oauth/google";
 import LocationProvider from "provider/LocationProvider";
 import ForgotPassword from "views/ForgotPassword";
 import LoginAdminPage from "views/Admin/LoginAdmin";
-import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { useDisableCtrlF } from "hooks/useDisableCtrlFBrowser";
 
 //

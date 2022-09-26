@@ -19,6 +19,7 @@ import ContestManagement from "views/Admin/ContestManagemet";
 import CreateContest from "views/Admin/ContestManagemet/CreateContest";
 import GenerateExam from "views/Admin/ContestManagemet/GenerateExam";
 import DetailExam from "views/Admin/ContestManagemet/GenerateExam/DetailExam";
+import ScoreExamination from "views/Admin/ContestManagemet/Score";
 import ExamManagement from "views/Admin/ExamManagement";
 import ViewExam from "views/Admin/ExamManagement/component/ViewExam";
 import StaticManagement from "views/Admin/StaticManagement";
@@ -26,8 +27,6 @@ import TestBank from "views/Admin/TestBank";
 import CreateTest from "views/Admin/TestBank/CreateTest";
 
 const AdminLayout: React.FC = (props) => {
-  const history = useHistory();
-
   return (
     // <Router>
     <DefaultAdminLayout>
@@ -39,7 +38,6 @@ const AdminLayout: React.FC = (props) => {
             <PrivateRoute path={RouteBase.Speaking} exact component={SpeakingSkill} />
             <PrivateRoute path={RouteBase.Writing} exact component={WritingSkill} />
             <PrivateRoute path={RouteBase.Reading} exact component={ReadingSkill} />
-
             <PrivateRoute path={RouteBase.AdminUser} exact component={UserAdmin} />
             <PrivateRoute
               path={RouteBase.CreateUser}
@@ -97,11 +95,13 @@ const AdminLayout: React.FC = (props) => {
             />
 
             <PrivateRoute path={RouteBase.ExamManagement} exact component={ExamManagement} />
+            <PrivateRoute path={RouteBase.Scores} exact component={ScoreExamination} />
+
             <PrivateRoute path={RouteBase.ViewExam} exact component={ViewExam} />
 
             <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
             <PrivateRoute path={RouteBase.GenerateExam} exact component={GenerateExam} />
-            <PrivateRoute path={RouteBase.generateExamDetail} exact component={DetailExam} />
+            <PrivateRoute path={RouteBase.GenerateExamDetail} exact component={DetailExam} />
             <PrivateRoute
               path={RouteBase.CreateContestManagement}
               exact

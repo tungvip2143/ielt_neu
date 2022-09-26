@@ -4,6 +4,7 @@ import ErrorFocus from "components/ErrorFocus";
 import { RouteBase } from "constants/routeUrl";
 import { FastField, Form, Formik } from "formik";
 import { useLogin } from "hooks/auth/useAuth";
+import useInfoUser from "hooks/auth/useInfoUser";
 import useSagaCreators from "hooks/useSagaCreators";
 import { useGetLocation } from "provider/LocationProvider";
 import { Redirect } from "react-router-dom";
@@ -41,6 +42,7 @@ const btn = {
 const LoginAdminPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
+
   const { mutateAsync: login } = useLogin();
   const validate = Yup.object({
     email: Yup.string().min(5, "*Must be 5 characters").required("Required"),
@@ -75,9 +77,11 @@ const LoginAdminPage = (props: any) => {
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: (response) => {
+              console.log("response", response);
+
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,
-                userType: "admin",
+                userType: response?.data?.data?.data?.user?.userType,
               });
             },
           });
