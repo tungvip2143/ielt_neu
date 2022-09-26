@@ -101,6 +101,25 @@ const CardPage = ({
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
 
+  console.log("SentenceCompletetion", values);
+  // console.log("ngocanhdeptrai", questions);
+  // const check = () => {
+  //   const flat_questions = questions.reduce((return_questions: any, part_elm: any) => {
+  //     const flat_group = part_elm?.groups.reduce((return_group: any, group_elm: any) => {
+  //       const group_elm_list = group_elm.questions.reduce((return_questions_list: any, question_elm: any) => {
+  //         return_questions_list.push(question_elm);
+  //         return return_questions_list;
+  //       }, []);
+  //       return_group = [...return_group, ...group_elm_list];
+  //       return return_group;
+  //     }, []);
+  //     return_questions = [...return_questions, ...flat_group];
+  //     return return_questions;
+  //   }, []);
+  //   console.log("ngocanhdeptrai", flat_questions);
+  // };
+  // useEffect(() => check(), []);
+
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );

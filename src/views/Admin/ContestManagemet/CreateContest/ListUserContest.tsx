@@ -15,6 +15,8 @@ const styles = {
 };
 
 const ListUserContest = ({ dataFileExcel }: any) => {
+  console.log("dataFileExcel", dataFileExcel);
+
   //! State
   const { data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange } = useGetListStudents();
 
@@ -33,17 +35,6 @@ const ListUserContest = ({ dataFileExcel }: any) => {
   //! Render
   return (
     <div>
-      {/* <div style={{ textAlign: "end", marginBottom: 10 }}>
-        <Link to={RouteBase.CreateUser}>
-          <ButtonUpload
-            titleButton="Create User"
-            icon={<AddIcon />}
-            onClick={() => {}}
-            style={{ background: "#9155FE" }}
-          />
-        </Link>
-      </div> */}
-
       <Card>
         <CommonDataGrid
           columns={[
@@ -52,38 +43,45 @@ const ListUserContest = ({ dataFileExcel }: any) => {
               field: "studentCode",
               renderHeader: () => <Typography style={styles.titleTable}>Student Code</Typography>,
             },
-            {
-              flex: 1,
-              field: "fullname",
-              renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
-            },
-            {
-              flex: 1,
-              field: "candidateCode",
-              renderHeader: () => <Typography style={styles.titleTable}>Candidate Code</Typography>,
-            },
             // {
-            //   flex: 0.3,
-            //   field: "action",
-            //   filterable: false,
-            //   hideSortIcons: true,
-            //   disableColumnMenu: true,
-            //   renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-            //   //   renderCell: (items: any) => {
-            //   //     return (
-            //   //       <CommonActionMenu
-            //   //         onEdit={() => {
-            //   //           console.log("123");
-            //   //           //   history.push({
-            //   //           //     pathname: RouteBase.UpdateUserWID(items?.row?.fullname),
-            //   //           //     search: `?id=${items?.id}`,
-            //   //           //   });
-            //   //         }}
-            //   //         // onSubmitRemove={onDeletePart}
-            //   //         // row={items}
-            //   //       />
-            //   //     );
-            //   //   },
+            //   flex: 1,
+            //   field: "gender",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Gender</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "fullname",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "birthday",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Birthday</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "identifyCard",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Identify Card</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "phoneNumber",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Phone Number</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "email",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "speciality",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Speciality</Typography>,
+            // },
+            // {
+            //   flex: 1,
+            //   field: "class",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Class</Typography>,
             // },
           ]}
           checkboxSelection

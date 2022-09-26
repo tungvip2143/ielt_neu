@@ -93,14 +93,11 @@ const GenerateExam = () => {
             field: "updatedAt",
             renderHeader: () => <Typography>Update at</Typography>,
           },
-
           {
             flex: 0.3,
             field: "action",
             renderHeader: () => <Typography>Action</Typography>,
             renderCell: (items: any) => {
-              console.log("items", items);
-
               return (
                 <InfoOutlinedIcon
                   sx={{ color: "#5048E5", cursor: "pointer" }}

@@ -17,6 +17,7 @@ import CreateWriting from "views/Admin/components/Writing/CreateWriting/CreateWr
 import WritingSkill from "views/Admin/components/Writing/WritingSkill";
 import ContestManagement from "views/Admin/ContestManagemet";
 import CreateContest from "views/Admin/ContestManagemet/CreateContest";
+import CreateUserTesting from "views/Admin/ContestManagemet/CreateContest/components/CreateUserTesting";
 import GenerateExam from "views/Admin/ContestManagemet/GenerateExam";
 import DetailExam from "views/Admin/ContestManagemet/GenerateExam/DetailExam";
 import ExamManagement from "views/Admin/ExamManagement";
@@ -95,10 +96,19 @@ const AdminLayout: React.FC = (props) => {
 
             <PrivateRoute path={RouteBase.ExamManagement} exact component={ExamManagement} />
             <PrivateRoute path={RouteBase.ViewExam} exact component={ViewExam} />
-
             <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
             <PrivateRoute path={RouteBase.GenerateExam} exact component={GenerateExam} />
             <PrivateRoute path={RouteBase.GenerateExamDetail} exact component={DetailExam} />
+            <PrivateRoute
+              path={RouteBase.CreateUserTesting}
+              exact
+              component={() => <CreateUserTesting openCreateScreen={{ type: "create" }} />}
+            />
+            <PrivateRoute
+              path={RouteBase.UpdateCreateUserTesting}
+              exact
+              component={() => <CreateUserTesting openCreateScreen={{ type: "update" }} />}
+            />
             <PrivateRoute
               path={RouteBase.CreateContestManagement}
               exact

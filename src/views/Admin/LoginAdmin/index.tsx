@@ -60,6 +60,7 @@ const LoginAdminPage = (props: any) => {
     if (initialPathName === RouteBase.AdminLogin) {
       return <Redirect to={RouteBase.Listening} />;
     }
+
     return <Redirect to={initialPathName} />;
   }
 
