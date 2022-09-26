@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from "react";
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import { QuestionItemI } from "../../../../../api/constants/typeData.types";
 interface NoteCompletionI {
   questionBox: string;
   displayNumber: number;

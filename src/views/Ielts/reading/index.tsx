@@ -16,7 +16,7 @@ import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
-import IeltsReadingContainer from "components/Exams/components/Step2ExamContent/Step2ExamContent";
+import ExamReading from "views/Ielts/reading/components/Step2ExamContent";
 import cacheService from "services/cacheService";
 import { rulesdetailExam } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
@@ -137,7 +137,7 @@ const IeltsReading = () => {
               {step === TypeStepExamEnum.STEP2 && (
                 <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP3} />
               )}
-              {step === TypeStepExamEnum.STEP3 && <IeltsReadingContainer />}
+              {step === TypeStepExamEnum.STEP3 && <ExamReading />}
               {step === TypeStepExamEnum.STEP4 && <EndTest test={IELT_TEST.READING} />}
             </Box>
           </Box>

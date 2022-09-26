@@ -4,7 +4,7 @@ import Stack from "@mui/material/Stack";
 import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
-import { PartContentQuestionsI, QuestionItemI } from "../../constants/typeData.types";
+import { PartContentQuestionsI, QuestionItemI } from "../../../../constants/typeData.types";
 // !type
 interface PartRenderSlectedI {
   partRenderSelected: PartContentQuestionsI;
@@ -13,7 +13,7 @@ interface PartRenderSlectedI {
   displayNumber: number;
 }
 
-const TOFFL = ({ partRenderSelected, onClickPage, showQuestion, displayNumber }: PartRenderSlectedI) => {
+const PartExamReading = ({ partRenderSelected, onClickPage, showQuestion, displayNumber }: PartRenderSlectedI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
   const dataNumber = {
@@ -81,4 +81,4 @@ const TOFFL = ({ partRenderSelected, onClickPage, showQuestion, displayNumber }:
   );
 };
 
-export default TOFFL;
+export default PartExamReading;

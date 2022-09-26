@@ -3,7 +3,7 @@ import ReactHtmlParser from "react-html-parser";
 import { makeStyles } from "@mui/styles";
 import { FastField, useFormikContext } from "formik";
 import { TextField } from "components/Textfield";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import { QuestionItemI } from "api/constants/typeData.types";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",

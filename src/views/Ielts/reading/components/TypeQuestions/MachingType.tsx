@@ -3,7 +3,7 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import { QuestionItemI } from "../../../../../api/constants/typeData.types";
 interface MatchSentenceEndingI {
   questions: QuestionItemI[];
   questionBox: string;

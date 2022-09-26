@@ -1,13 +1,13 @@
 //
-import IdentifyInformationType from "components/Ielts/components/IdentifyInformationType";
-import MachingHeading from "components/Ielts/components/MachingHeading";
-import MatchingType from "components/Ielts/components/MachingType";
-import QuestionBox from "components/Ielts/components/QuestionBox";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
-import FlowChart from "components/Ielts/components/FlowChart";
-import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
-import MatchingParagrapInformation from "../../Ielts/components/MatchingParagrapInformation";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import SentenceCompletetion from "views/Ielts/reading/components/TypeQuestions/SentenceCompletetion";
+import IdentifyInformationType from "views/Ielts/reading/components/TypeQuestions/IdentifyInformationType";
+import MatchingType from "views/Ielts/reading/components/TypeQuestions/MachingType";
+import QuestionBox from "views/Ielts/reading/components/TypeQuestions/QuestionBox";
+import FlowChart from "views/Ielts/reading/components/TypeQuestions/FlowChart";
+import MatchingParagrapInformation from "views/Ielts/reading/components/TypeQuestions/MatchingParagrapInformation";
+import MachingHeading from "views/Ielts/reading/components/TypeQuestions/MachingHeading";
+
 //
 interface PropsItemQuestion {
   expanded?: string;
@@ -38,8 +38,8 @@ const ItemQuestion = ({
   onClickPage,
   ...remainProps
 }: PropsItemQuestion) => {
-  // console.log("questionTYpe", questionType);
-  // console.log("432424", question);
+  console.log("questionTYpe", questionType);
+  console.log("432424", question);
 
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {

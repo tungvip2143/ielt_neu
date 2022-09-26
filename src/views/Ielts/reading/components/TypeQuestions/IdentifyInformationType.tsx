@@ -13,7 +13,7 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import { QuestionItemI } from "../../../../../api/constants/typeData.types";
 
 type MultiChoiceOneAnswerI = {
   question: QuestionItemI;

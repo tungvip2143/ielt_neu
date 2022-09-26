@@ -1,7 +1,7 @@
 import { useFormikContext } from "formik";
 import Handlebars from "handlebars";
 import { useCallback, useEffect, useMemo } from "react";
-import { QuestionItemI } from "../../../constants/typeData.types";
+import { QuestionItemI } from "../../../../../constants/typeData.types";
 interface SentenceCompletionI {
   questionItem: QuestionItemI;
   displayNumber?: number;

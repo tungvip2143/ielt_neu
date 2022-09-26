@@ -1,7 +1,7 @@
 import React from "react";
 import NoteCompletion from "./NoteCompletion";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
-import SentenceCompletetion from "../../../../components/Ielts/components/SentenceCompletetion";
+import SentenceCompletetion from "../../../Ielts/reading/components/TypeQuestions/SentenceCompletetion";
 import MultiChoice from "./MultiChoice";
 import Sign from "../../reading/components/Sign";
 import FlowChart from "./FlowChart";

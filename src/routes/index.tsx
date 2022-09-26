@@ -3,7 +3,7 @@ import withErrorBoundary from "components/HOCs/withErrorBoundary";
 
 const HomePage = lazy(() => import("views/Home"));
 // const Ielts = lazy(() => import("views/Ielts"));
-const TOFFL = lazy(() => import("views/TOFFL"));
+const TOFFL = lazy(() => import("views/Ielts/reading/components/PartExamReading"));
 const IeltsListening = lazy(() => import("views/Ielts/listening"));
 const Page404 = lazy(() => import("views/Page404"));
 

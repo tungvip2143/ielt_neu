@@ -10,7 +10,6 @@ import Record from "./Record";
 import { TypeStepExamEnum } from "constants/enum";
 import { useStepExam } from "provider/StepExamProvider";
 import { useState } from "react";
-import RuleSpeaking from "components/RulesExams/RulesSpeaking";
 // ! type
 
 const container = {

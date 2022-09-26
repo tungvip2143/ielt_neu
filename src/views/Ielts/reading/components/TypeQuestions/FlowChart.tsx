@@ -3,8 +3,8 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { makeStyles } from "@mui/styles";
 import { ROOT_ORIGINAL_URL } from "constants/api";
-import { QuestionItemI } from "../../../constants/typeData.types";
 import { Object } from "lodash";
+import { QuestionItemI } from "../../../../../api/constants/typeData.types";
 
 const useStyles = makeStyles((theme) => ({
   container: {

@@ -3,14 +3,13 @@ import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
-import TOFFL from "views/TOFFL/index";
+import PartExamReading from "views/Ielts/reading/components/PartExamReading";
 import { ieltsReadingDataDummy } from "api/ieltsResults";
 import TypeQuestions from "components/Card/TypeQuestions";
 //
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
-import FooterExamResponsive from "./FooterExamResponsive";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 import { useIeltsReading } from "hooks/ielts/useIelts";
 import LoadingPage from "components/Loading";
@@ -102,7 +101,7 @@ const Step2ExamContent = (props: any) => {
 
             <CardExercise
               content={
-                <TOFFL
+                <PartExamReading
                   onClickPage={onClickPage}
                   partRenderSelected={group[groupSelected.group]}
                   showQuestion={showQuestion}

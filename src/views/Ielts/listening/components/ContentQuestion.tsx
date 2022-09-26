@@ -3,9 +3,9 @@ import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import MultiChoice from "./CardRender/MultiChoice";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import FlowChart from "./CardRender/FlowChart";
-import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
+import SentenceCompletetion from "views/Ielts/reading/components/TypeQuestions/SentenceCompletetion";
 import MachingTypeListening from "./CardRender/MachingTypeListening";
-import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
+import MachingHeading from "views/Ielts/reading/components/TypeQuestions/MachingHeading";
 import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
 import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
@@ -22,8 +22,8 @@ interface PartRenderSlectedI {
 }
 const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage }: PartRenderSlectedI) => {
   const questionType = partTypeQuestions?.questionType;
-  // console.log("ContentQuestion", ContentQuestion);
-  // console.log("questionType", questionType);
+  console.log("ContentQuestion", partTypeQuestions);
+  console.log("questionType", questionType);
 
   // !Hook
   const { isAction, position, toggleAction, className } = useRightClick();
@@ -44,7 +44,11 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER
+    ) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}
