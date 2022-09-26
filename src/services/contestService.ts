@@ -10,7 +10,7 @@ class userService {
     return httpServices.get(ADMIN_CONTEST_URL(id).GET_LIST_EXAM_GENERATE, params);
   }
 
-  getListExamDetail(id: any, examId?: any) {
+  getListExamDetail(id: any) {
     return httpServices.get(ADMIN_CONTEST_URL(id).GET_EXAMINATION_DETAIL + id);
   }
 

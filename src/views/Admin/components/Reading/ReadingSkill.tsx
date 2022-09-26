@@ -38,6 +38,7 @@ const ReadingSkill = () => {
       toast.error("error");
     }
   };
+  //! Function
 
   //! Render
   return (

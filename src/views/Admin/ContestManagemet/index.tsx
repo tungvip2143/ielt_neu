@@ -146,7 +146,7 @@ const ContestManagement = () => {
                   <Button
                     variant="contained"
                     style={styles.buttonOpenModal}
-                    onClick={() => history.push({ pathname: RouteBase.GenerateExam, state: { id: items?.id } })}
+                    onClick={() => history.push({ pathname: RouteBase.GenerateExam, search: `?id=${items?.id}` })}
                   >
                     Generate exam
                   </Button>

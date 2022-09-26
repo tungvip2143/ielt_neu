@@ -11,11 +11,12 @@ import "./style.scss";
 const DetailExam = () => {
   //!State
   const { search } = useLocation<any>();
-  const location = useLocation<any>();
   const [tab, setTab] = useState<string>("LISTENING");
+  const urlId = search.split("=")[1];
+  console.log("urlId", urlId);
 
-  const id = location?.state?.id;
-  const idExam = search.split("=")[1];
+  const id = urlId.split("?")[1];
+  const idExam = urlId.split("?")[0];
   const [examDetail, loading, error, refetchData] = useGetExamDetail(id, idExam);
 
   //!Function

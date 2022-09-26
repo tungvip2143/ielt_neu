@@ -29,7 +29,6 @@ const UserAdmin = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetListStudents();
-  console.log("dataPartsa", dataParts);
 
   const history = useHistory();
   const rows = dataParts?.map((el: any) => ({

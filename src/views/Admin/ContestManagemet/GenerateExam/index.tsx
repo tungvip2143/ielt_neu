@@ -22,8 +22,9 @@ const validationSchema = yup.object().shape({
 const GenerateExam = () => {
   //!State
   const history = useHistory();
-  const search = useLocation<any>();
-  const id = search.state?.id;
+  const { search } = useLocation<any>();
+
+  const id = search.split("=")[1];
   const [examId, setExamId] = useState<any>([]);
 
   const [dataTest, , , , , ,] = useGetListTest();
@@ -98,14 +99,15 @@ const GenerateExam = () => {
             field: "action",
             renderHeader: () => <Typography>Action</Typography>,
             renderCell: (items: any) => {
+              console.log("items", items);
+
               return (
                 <InfoOutlinedIcon
                   sx={{ color: "#5048E5", cursor: "pointer" }}
                   onClick={() => {
                     history.push({
-                      pathname: RouteBase.generateExamDetailWid(items?.row?.id),
-                      search: `?id=${items?.id}`,
-                      state: { id: id },
+                      pathname: RouteBase.GenerateExamDetailWid(items?.row?.stt),
+                      search: `?id=${items?.id}?${id}`,
                     });
                   }}
                 />

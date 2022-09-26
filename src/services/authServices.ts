@@ -46,7 +46,9 @@ class AuthService {
   saveUserTypeToLocalStorage(body = {}) {
     localStorage.setItem(USER_TYPE_LOCAL_STORAGE, JSON.stringify(body));
   }
-
+  getInfoUser() {
+    return httpServices.get(AUTH_URL.AUTH_INFORMATION);
+  }
   getUserTypeFromLocalStorage() {
     const user = localStorage.getItem(USER_TYPE_LOCAL_STORAGE);
     if (!!user) {

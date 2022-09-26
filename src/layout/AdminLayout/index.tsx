@@ -26,8 +26,6 @@ import TestBank from "views/Admin/TestBank";
 import CreateTest from "views/Admin/TestBank/CreateTest";
 
 const AdminLayout: React.FC = (props) => {
-  const history = useHistory();
-
   return (
     // <Router>
     <DefaultAdminLayout>
@@ -39,7 +37,6 @@ const AdminLayout: React.FC = (props) => {
             <PrivateRoute path={RouteBase.Speaking} exact component={SpeakingSkill} />
             <PrivateRoute path={RouteBase.Writing} exact component={WritingSkill} />
             <PrivateRoute path={RouteBase.Reading} exact component={ReadingSkill} />
-
             <PrivateRoute path={RouteBase.AdminUser} exact component={UserAdmin} />
             <PrivateRoute
               path={RouteBase.CreateUser}
@@ -101,7 +98,7 @@ const AdminLayout: React.FC = (props) => {
 
             <PrivateRoute path={RouteBase.ContestManagement} exact component={ContestManagement} />
             <PrivateRoute path={RouteBase.GenerateExam} exact component={GenerateExam} />
-            <PrivateRoute path={RouteBase.generateExamDetail} exact component={DetailExam} />
+            <PrivateRoute path={RouteBase.GenerateExamDetail} exact component={DetailExam} />
             <PrivateRoute
               path={RouteBase.CreateContestManagement}
               exact
