@@ -12,6 +12,7 @@ import contestService from "services/contestService";
 import testBankService from "services/testBankService";
 import { toast } from "react-toastify";
 import CommonStyles from "components/CommonStyles";
+import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 
 const styles = {
   titleTable: {
@@ -97,148 +98,177 @@ const ContestManagement = () => {
       toast.error(error);
     }
   };
-
+  const [modal, setModal] = useState(false);
   //!Function
+  const handleOpen = () => {
+    setModal(true);
+  };
   //! Render
   return (
-    <div>
-      <div style={{ textAlign: "end", marginBottom: 10 }}>
-        <Link to={RouteBase.CreateContestManagement}>
-          <ButtonUpload
-            titleButton="Create examination"
-            icon={<AddIcon />}
-            onClick={() => {}}
-            style={{ background: "#9155FE" }}
-          />
-        </Link>
-      </div>
+    <>
+      {modal === false ? (
+        [1, 2, 3, 4].map((item, index) => {
+          return (
+            <div className="flex justify-between items-center hover:bg-slate-100 m-5 px-4 ease-in-out">
+              <button
+                onClick={handleOpen}
+                className="text-sm font-medium w-full bg-transparent text-start py-4 border-none cursor-pointer"
+              >
+                Examinations {index}
+              </button>
+              <InfoOutlinedIcon
+                sx={{ color: "#5048E5", cursor: "pointer" }}
+                onClick={() => {
+                  history.push({
+                    pathname: RouteBase.Scores,
+                    // search: `?id=${index}`,
+                  });
+                }}
+              />
+            </div>
+          );
+        })
+      ) : (
+        <div>
+          <div style={{ textAlign: "end", marginBottom: 10 }}>
+            <Link to={RouteBase.CreateContestManagement}>
+              <ButtonUpload
+                titleButton="Create examination"
+                icon={<AddIcon />}
+                onClick={() => {}}
+                style={{ background: "#9155FE" }}
+              />
+            </Link>
+          </div>
 
-      <Card>
-        <CommonDataGrid
-          columns={[
-            {
-              flex: 1,
-              field: "name",
-              renderHeader: () => <Typography style={styles.titleTable}>Examination name</Typography>,
-            },
-            {
-              flex: 1,
-              field: "createdAt",
-              renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
-            },
-            {
-              flex: 1,
-              field: "updatedAt",
-              renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
-            },
+          <Card>
+            <CommonDataGrid
+              columns={[
+                {
+                  flex: 1,
+                  field: "name",
+                  renderHeader: () => <Typography style={styles.titleTable}>Examination name</Typography>,
+                },
+                {
+                  flex: 1,
+                  field: "createdAt",
+                  renderHeader: () => <Typography style={styles.titleTable}>Create at</Typography>,
+                },
+                {
+                  flex: 1,
+                  field: "updatedAt",
+                  renderHeader: () => <Typography style={styles.titleTable}>Update at</Typography>,
+                },
 
-            // {
-            //   flex: 1,
-            //   field: "active",
-            //   renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
-            // },
-            {
-              flex: 1,
-              field: "generate",
-              renderHeader: () => <Typography style={styles.titleTable}>Generate exam</Typography>,
-              renderCell: (items: any) => {
-                return (
-                  <Button
-                    variant="contained"
-                    style={styles.buttonOpenModal}
-                    onClick={() => history.push({ pathname: RouteBase.GenerateExam, search: `?id=${items?.id}` })}
-                  >
-                    Generate exam
-                  </Button>
-                );
-              },
-            },
-            {
-              flex: 0.7,
-              field: "active",
-              renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
-              renderCell: (items: any) => {
-                return items?.row?.active === true ? (
-                  <CommonStyles.Button
-                    variant="contained"
-                    style={{ borderRadius: 20 }}
-                    // disabled={items?.row?.active || items?.row?._id === dataItemIds}
-                    onClick={() => onChangeStatusActive(items)}
-                  >
-                    Actived
-                  </CommonStyles.Button>
-                ) : (
-                  <CommonStyles.Button
-                    variant="contained"
-                    style={styles.buttonOpenModal}
-                    onClick={() => onChangeStatusActive(items)}
-                  >
-                    Start Active
-                  </CommonStyles.Button>
-                );
-              },
-            },
-            {
-              flex: 0.7,
-              field: "canStart",
-              renderHeader: () => <Typography style={styles.titleTable}>Can Start</Typography>,
-              renderCell: (items: any) => {
-                return items?.row?.canStart === true ? (
-                  <CommonStyles.Button
-                    variant="contained"
-                    style={{ borderRadius: 20 }}
-                    // disabled={items?.row?.canStart || items?.row?.id === dataItemId}
-                    onClick={() => onChangeStatus(items)}
-                  >
-                    Testing
-                  </CommonStyles.Button>
-                ) : (
-                  <CommonStyles.Button
-                    variant="contained"
-                    style={styles.buttonOpenModal}
-                    onClick={() => onChangeStatus(items)}
-                  >
-                    Start exam
-                  </CommonStyles.Button>
-                );
-              },
-            },
-            {
-              flex: 0.4,
-              field: "action",
-              filterable: false,
-              hideSortIcons: true,
-              disableColumnMenu: true,
-              renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-              renderCell: (items: any) => {
-                return (
-                  <CommonActionMenu
-                    onEdit={() => {
-                      history.push({
-                        pathname: RouteBase.UpdateContestManagementWId(items?.row?.name),
-                        search: `?id=${items?.id}`,
-                      });
-                    }}
-                    onSubmitRemove={onDeletePart}
-                    row={items}
-                  />
-                );
-              },
-            },
-          ]}
-          pagination={{
-            page: metaPart?.page,
-            pageSize: metaPart?.pageSize,
-            totalRow: metaPart?.totalRow,
-          }}
-          loading={loading}
-          checkboxSelection
-          rows={dataContest}
-          onPageChange={onPageChange}
-          onPageSizeChange={onPageSizeChange}
-        />
-      </Card>
-    </div>
+                // {
+                //   flex: 1,
+                //   field: "active",
+                //   renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
+                // },
+                {
+                  flex: 1,
+                  field: "generate",
+                  renderHeader: () => <Typography style={styles.titleTable}>Generate exam</Typography>,
+                  renderCell: (items: any) => {
+                    return (
+                      <Button
+                        variant="contained"
+                        style={styles.buttonOpenModal}
+                        onClick={() => history.push({ pathname: RouteBase.GenerateExam, search: `?id=${items?.id}` })}
+                      >
+                        Generate exam
+                      </Button>
+                    );
+                  },
+                },
+                {
+                  flex: 0.7,
+                  field: "active",
+                  renderHeader: () => <Typography style={styles.titleTable}>Active</Typography>,
+                  renderCell: (items: any) => {
+                    return items?.row?.active === true ? (
+                      <CommonStyles.Button
+                        variant="contained"
+                        style={{ borderRadius: 20 }}
+                        // disabled={items?.row?.active || items?.row?._id === dataItemIds}
+                        onClick={() => onChangeStatusActive(items)}
+                      >
+                        Actived
+                      </CommonStyles.Button>
+                    ) : (
+                      <CommonStyles.Button
+                        variant="contained"
+                        style={styles.buttonOpenModal}
+                        onClick={() => onChangeStatusActive(items)}
+                      >
+                        Start Active
+                      </CommonStyles.Button>
+                    );
+                  },
+                },
+                {
+                  flex: 0.7,
+                  field: "canStart",
+                  renderHeader: () => <Typography style={styles.titleTable}>Can Start</Typography>,
+                  renderCell: (items: any) => {
+                    return items?.row?.canStart === true ? (
+                      <CommonStyles.Button
+                        variant="contained"
+                        style={{ borderRadius: 20 }}
+                        // disabled={items?.row?.canStart || items?.row?.id === dataItemId}
+                        onClick={() => onChangeStatus(items)}
+                      >
+                        Testing
+                      </CommonStyles.Button>
+                    ) : (
+                      <CommonStyles.Button
+                        variant="contained"
+                        style={styles.buttonOpenModal}
+                        onClick={() => onChangeStatus(items)}
+                      >
+                        Start exam
+                      </CommonStyles.Button>
+                    );
+                  },
+                },
+                {
+                  flex: 0.4,
+                  field: "action",
+                  filterable: false,
+                  hideSortIcons: true,
+                  disableColumnMenu: true,
+                  renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
+                  renderCell: (items: any) => {
+                    return (
+                      <CommonActionMenu
+                        onEdit={() => {
+                          history.push({
+                            pathname: RouteBase.UpdateContestManagementWId(items?.row?.name),
+                            search: `?id=${items?.id}`,
+                          });
+                        }}
+                        onSubmitRemove={onDeletePart}
+                        row={items}
+                      />
+                    );
+                  },
+                },
+              ]}
+              pagination={{
+                page: metaPart?.page,
+                pageSize: metaPart?.pageSize,
+                totalRow: metaPart?.totalRow,
+              }}
+              loading={loading}
+              checkboxSelection
+              rows={dataContest}
+              onPageChange={onPageChange}
+              onPageSizeChange={onPageSizeChange}
+            />
+          </Card>
+        </div>
+      )}
+    </>
   );
 };
 

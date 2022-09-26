@@ -13,7 +13,6 @@ const DetailExam = () => {
   const { search } = useLocation<any>();
   const [tab, setTab] = useState<string>("LISTENING");
   const urlId = search.split("=")[1];
-  console.log("urlId", urlId);
 
   const id = urlId.split("?")[1];
   const idExam = urlId.split("?")[0];
