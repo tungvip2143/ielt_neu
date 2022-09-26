@@ -39,8 +39,9 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
+
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
-  const { values, handleSubmit } = useFormikContext();
+  const { values, handleSubmit, setFieldValue } = useFormikContext();
 
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
@@ -72,7 +73,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
 
   //
   useEffect(() => {
-    cacheService.cache("answers", values);
+    // cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 

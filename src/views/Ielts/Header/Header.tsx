@@ -82,7 +82,7 @@ const Header = ({
   const { handleSubmit } = useFormikContext();
   const classes = useStyles();
   const history = useHistory();
-  const { mutateAsync: updateIeltsSkillFinish, isLoading: skillFinishLoading } = useFinishIeltsSkill();
+  const { mutateAsync: updateIeltsSkillFinish } = useFinishIeltsSkill();
 
   const btnHelp = {
     cursor: "pointer",
@@ -100,7 +100,7 @@ const Header = ({
 
   const handleSubmitWhenEndedTime = useCallback(async () => {
     handleSubmit();
-    await updateIeltsSkillFinish({ testCode, skill: typeExam }).then(() => {
+    await updateIeltsSkillFinish({ testCode, skill: typeExam?.toLocaleLowerCase() }).then(() => {
       cacheService.clearCacheData();
       if (typeExam === "LISTENING") {
         history.push(RouteBase.IeltsReading);
