@@ -43,12 +43,13 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       const input = docFragment.querySelector("input");
       const textarea = docFragment.querySelector("textarea");
       const p = docFragment.querySelector("p");
+      const span = docFragment.querySelector("span");
       const clickNumber = event.detail;
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste
       // });
-      if (clickNumber < 2 && !input && !textarea && !p) {
+      if (clickNumber < 2 && !input && !textarea && !p && !span) {
         if (selection_text) {
           highlight.current = highlight.current + 1;
 
