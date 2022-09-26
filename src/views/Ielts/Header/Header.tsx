@@ -16,6 +16,11 @@ import Volum from "../../../components/Volum/Volum";
 import { TypeExam } from "constants/enum";
 import { makeStyles } from "@mui/styles";
 import authServices from "services/authServices";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useFinishIeltsSkill } from "hooks/ielts/useIelts";
+import cacheService from "services/cacheService";
+import { useHistory } from "react-router-dom";
+import { RouteBase } from "constants/routeUrl";
 
 // ! type
 interface HeaderExamI {
@@ -73,9 +78,12 @@ const Header = ({
 }: HeaderExamI) => {
   //! State
 
-  const { step } = useStepExam();
+  const { step, handler } = useStepExam();
   const { handleSubmit } = useFormikContext();
   const classes = useStyles();
+  const history = useHistory();
+  const { mutateAsync: updateIeltsSkillFinish } = useFinishIeltsSkill();
+
   const btnHelp = {
     cursor: "pointer",
   };
@@ -88,8 +96,19 @@ const Header = ({
     return user;
   }, []);
 
-  const handleSubmitWhenEndedTime = useCallback(() => {
+  const { testCode } = useGetTestCode();
+
+  const handleSubmitWhenEndedTime = useCallback(async () => {
     handleSubmit();
+    await updateIeltsSkillFinish({ testCode, skill: typeExam?.toLocaleLowerCase() }).then(() => {
+      cacheService.clearCacheData();
+      if (typeExam === "LISTENING") {
+        history.push(RouteBase.IeltsReading);
+      }
+      if (typeExam === "READING") {
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+      }
+    });
   }, [handleSubmit]);
 
   //! Render

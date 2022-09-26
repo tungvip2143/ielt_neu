@@ -104,7 +104,9 @@ const ItemQuestion = ({
 
     //* da map roi
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion displayNumber={displayNumber} data={dataQuestionItem} onClickPage={onClickPage} />;
+      return (
+        <SentenceCompletetion displayNumber={displayNumber} questionItem={dataQuestionItem} onClickPage={onClickPage} />
+      );
     }
 
     if (

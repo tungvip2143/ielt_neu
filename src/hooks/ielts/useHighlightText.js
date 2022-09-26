@@ -3,6 +3,20 @@ import { useEffect, useRef } from "react";
 
 export const useHightLightText = ({ noted, toggleNote }) => {
   const highlight = useRef(0);
+  const inputsTag = document.getElementsByTagName("input");
+
+  if (inputsTag) {
+    const arrInputs = Object.values(inputsTag);
+    arrInputs.forEach(function (input) {
+      input.addEventListener(
+        "select",
+        function () {
+          this.selectionStart = this.selectionEnd;
+        },
+        false
+      );
+    });
+  }
 
   useEffect(() => {
     function getSelectedText() {
@@ -29,37 +43,13 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       const input = docFragment.querySelector("input");
       const textarea = docFragment.querySelector("textarea");
       const p = docFragment.querySelector("p");
-      const inputsTag = document.getElementsByTagName("input");
+      const span = docFragment.querySelector("span");
       const clickNumber = event.detail;
-
-      const unFocus = function () {
-        if (document.selection) {
-          document.selection.empty();
-        } else {
-          window.getSelection().removeAllRanges();
-        }
-      };
-
-      if (inputsTag) {
-        const arrInputs = Object.values(inputsTag);
-        arrInputs.forEach((input) => {
-          input.addEventListener(
-            "select",
-            function () {
-              this.selectionStart = this.selectionEnd;
-            },
-            false
-          );
-          // input.onmousemove = () => {
-          //   unFocus();
-          // };
-        });
-      }
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste
       // });
-      if (clickNumber < 2 && !input && !textarea && !p) {
+      if (clickNumber < 2 && !input && !textarea && !p && !span) {
         if (selection_text) {
           highlight.current = highlight.current + 1;
 

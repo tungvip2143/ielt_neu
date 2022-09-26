@@ -8,7 +8,7 @@ import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
 import useSagaCreators from "hooks/useSagaCreators";
 import { isEmpty } from "lodash";
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
 import { authActions } from "redux/creators/modules/auth";
@@ -17,33 +17,33 @@ import ieltsService from "services/ieltsService";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
+import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 
-interface Props {
-  data: any;
-  valueVolum?: any;
+interface AllQuestionsDataPropsI {
+  data: AllQuestionsDataI[];
+  valueVolum?: number;
+}
+interface ExamTest {
+  valueVolum: number;
 }
 
-const ExamTest = (props: Props) => {
+const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum } = props;
-
-  // console.log("ngocanhdeptrai", data);
-
   const audioData = data || [];
   const dataCache = cacheService.getDataCache();
   const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
   const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
-  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(0);
-  const { values } = useFormikContext();
 
-  console.log("formik value", values);
+  const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
+  const { values, handleSubmit, setFieldValue } = useFormikContext();
+
   const [groupSelected, setGroupSelected] = React.useState({
     part: 0,
     group: 0,
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
-  const [questionType, setQuestionType] = useState();
 
   const part = data;
   const group = audioData[groupSelected.part]?.groups;
@@ -51,24 +51,34 @@ const ExamTest = (props: Props) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
-  console.log("groupSelected", groupSelected);
-  console.log("groupSelected", data);
+  // console.log("groupSelected", groupSelected);
+  // console.log("groupSelected", data);
+  var inputIndex = 0;
+  useEffect(() => {
+    data.map((part: any) => {
+      return part.groups.map((group: any) => {
+        return group.questions.map((question: any) => {
+          inputIndex++;
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "");
+        });
+      });
+    });
+  }, []);
 
   useEffect(() => {
-    cacheService.cache("answers", values);
+    // cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
-  const onClickPage = (groupRenderSelected: any) => {
-    console.log("groupRenderSelected", groupRenderSelected);
+  useEffect(() => {
+    handleSubmit();
+  }, [displayNumber]);
 
+  const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
   const onClickShowQuestion = (displayNumber: any) => {
     setShowQuestion(displayNumber);
-  };
-  const onClickQuestionType = (questionType: any) => {
-    setQuestionType(questionType);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -77,7 +87,7 @@ const ExamTest = (props: Props) => {
       return audioData[groupSelected?.part];
     }
 
-    return null;
+    return { groups: [], partAudio: "" };
   }, [groupSelected]);
 
   //! Function
@@ -88,6 +98,20 @@ const ExamTest = (props: Props) => {
 
     setIdxAudioPlaying(idxAudioPlaying + 1);
   };
+
+  useEffect(() => {
+    const audio: any = document.getElementById("audio");
+    const cache = cacheService.getDataCache();
+    const current_time = cache?.audio_current_time;
+    current_time ? (audio.currentTime = current_time) : (audio.currentTime = 0);
+    const setAudioCurrentTime = () => {
+      cacheService.cache("audio_current_time", audio.currentTime);
+    };
+
+    window.addEventListener("beforeunload", setAudioCurrentTime);
+
+    return () => window.removeEventListener("beforeunload", setAudioCurrentTime);
+  }, []);
 
   //! Render
   const container = {
@@ -108,17 +132,17 @@ const ExamTest = (props: Props) => {
             style={{ display: "none" }}
             onEnded={onEachAudioEnded}
             volume={valueVolum}
+            id="audio"
           />
         </div>
         <Box>
           <CardExercise
             content={
               <ContentQuestion
-                ContentQuestion={partRenderSelected?.groups[groupSelected.group]}
-                audio={partRenderSelected?.partAudio}
+                partTypeQuestions={partRenderSelected.groups[groupSelected.group]}
+                audio={partRenderSelected.partAudio}
                 displayNumber={displayNumber}
                 onClickPage={onClickPage}
-                onClickQuestionType={onClickQuestionType}
               />
             }
             styleAdd={styleHeight}
@@ -139,7 +163,7 @@ const ExamTest = (props: Props) => {
   );
 };
 
-const IeltsListeningContainer = ({ valueVolum }: any) => {
+const IeltsListeningContainer = ({ valueVolum }: ExamTest) => {
   const { dispatch } = useSagaCreators();
 
   const testCode = useMemo(() => {
