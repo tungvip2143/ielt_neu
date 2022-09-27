@@ -183,9 +183,15 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 {step === TypeStepExamEnum.STEP1 && <DetailUser />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP3 && (
-                  <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
+                  <RuleExam
+                    stepRuleExam={stepRuleExam}
+                    prevStep={TypeStepExamEnum.STEP2}
+                    nextStep={TypeStepExamEnum.STEP4}
+                  />
                 )}
-                {step === TypeStepExamEnum.STEP4 && <ExamTest valueVolum={changeValueVolum} />}
+                {step === TypeStepExamEnum.STEP4 && (
+                  <ExamTest valueVolum={changeValueVolum} prevStep={TypeStepExamEnum.STEP3} />
+                )}
                 {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>

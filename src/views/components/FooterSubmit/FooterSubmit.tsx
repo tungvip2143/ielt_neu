@@ -49,7 +49,7 @@ const FooterSubmit = (props: Props) => {
       refetch();
       if (canStart) {
         handler?.setStep && handler.setStep(nextStep);
-        cacheService.cache("step", nextStep);
+        // cacheService.cache("step", nextStep);
       }
       if (!canStart) {
         showError("Exam have not started yet");

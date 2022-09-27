@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/system";
 import ImgHelp from "assets/image/exam/help.png";
 import HelpFooter from "../HelpFooter/HelpFooter";
@@ -7,6 +7,9 @@ import FooterSubmit from "../FooterSubmit/FooterSubmit";
 import { makeStyles } from "@mui/styles";
 import { warningDetailUser, textBtnSubmit, titleRulesDetailCandidates } from "../../../constants/constants";
 import CommonStyles from "components/CommonStyles";
+import { useStepExam } from "provider/StepExamProvider";
+import { useGetExamInformation } from "hooks/ielts/useIelts";
+import cacheService from "services/cacheService";
 // ! type
 interface Props {
   stepRuleExam: {
@@ -16,6 +19,7 @@ interface Props {
     intructionsToCandidates?: React.ReactNode;
   };
   nextStep?: string;
+  prevStep?: any;
 }
 
 const useStyles = makeStyles((theme) => {
@@ -45,6 +49,7 @@ const RuleExam = (props: Props) => {
 
   const {
     nextStep,
+    prevStep,
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
   const classes = useStyles();
