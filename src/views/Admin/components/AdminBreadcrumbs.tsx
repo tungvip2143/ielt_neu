@@ -8,6 +8,7 @@ import useSagaCreators from "hooks/useSagaCreators";
 import { authActions } from "redux/creators/modules/auth";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { RouteBase } from "constants/routeUrl";
+import useInfoUser from "hooks/auth/useInfoUser";
 
 function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
   event.preventDefault();
@@ -16,12 +17,13 @@ function handleClick(event: React.MouseEvent<HTMLDivElement, MouseEvent>) {
 
 export default function AdminBreadcrumbs() {
   const location = useLocation();
+  const [userDetail] = useInfoUser();
 
   const { dispatch } = useSagaCreators();
   const pathSplit = location.pathname.split("/").filter((path) => path);
   const history = useHistory();
   const onLogout = () => {
-    dispatch(authActions.logout, { role: "admin" });
+    dispatch(authActions.logout, { role: userDetail });
     history.push(RouteBase.AdminLogin);
   };
 
@@ -30,6 +32,7 @@ export default function AdminBreadcrumbs() {
       <Breadcrumbs aria-label="breadcrumb">
         {pathSplit.map((el: string, index: number) => {
           const to = `/${pathSplit.slice(0, index + 1).join("/")}`;
+
           if (index === pathSplit.length - 1) {
             return (
               <Typography key={index} color="text.primary" style={{ textTransform: "capitalize", fontWeight: "bold" }}>
