@@ -20,6 +20,7 @@ import { RouteBase } from "constants/routeUrl";
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Styles.scss";
+import useInfoUser from "hooks/auth/useInfoUser";
 interface Menu {
   id?: number;
   titleMenu?: string;
@@ -102,7 +103,7 @@ const AdminDrawer = () => {
   const [active, setActive] = React.useState<any>({});
   const [selectItem, setSelectItem] = React.useState<any>();
   const [showMenu, setShowMenu] = React.useState<number>(-1);
-
+  const [userType] = useInfoUser();
   const drawerWidth = 240;
 
   const handleClick = (id: number) => {

@@ -212,61 +212,28 @@ const ModalCreateQuestion = (props: Props) => {
 
   const renderMultiChoice = (item: any, index: number, indexQuestion: number) => {
     return (
-      <InputCommon
-        control={control}
-        id="standard-basic"
-        label={item.title}
-        variant="standard"
-        name={`questions[${indexQuestion}].options[${index}]`}
-        InputProps={{
-          startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-        }}
-        disabled={openModal.type === "detailQuestion"}
-      />
-    );
-  };
-  const renderMultiChoiceAnswer = (item: any, index: number, indexQuestion: number) => {
-    return (
-      <>
-        {fieldsAnswer.length === 0 ? (
-          <InputCommon
-            control={control}
-            id="standard-basic"
-            label={item.title}
-            variant="standard"
-            name={`answer[${index}].name[${index}]`}
-            InputProps={{
-              startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-            }}
-            disabled={openModal.type === "detailQuestion"}
+      <div>
+        <InputCommon
+          control={control}
+          id="standard-basic"
+          label={item.title}
+          variant="standard"
+          name={`questions[${indexQuestion}].options[${index}]`}
+          InputProps={{
+            startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
+          }}
+          disabled={openModal.type === "detailQuestion"}
+        />
+        {item.length > 1 && openModal.type !== "detailQuestion" && (
+          <RemoveCircleOutlineIcon
+            className="text-[#F44335] cursor-grab ml-[20px]"
+            onClick={() => onRemoveQuestion(index)}
           />
-        ) : (
-          <>
-            {fieldsAnswer.map((field, index) => {
-              <InputCommon
-                key={field.id}
-                control={control}
-                id="standard-basic"
-                label={item.title}
-                variant="standard"
-                name={`answer[${index}].name[${index}]`}
-                InputProps={{
-                  startAdornment: <InputAdornment position="start">{item.answer}</InputAdornment>,
-                }}
-                disabled={openModal.type === "detailQuestion"}
-              />;
-              fieldsAnswer.length > 1 && openModal.type !== "detailQuestion" && (
-                <RemoveCircleOutlineIcon
-                  className="text-[#F44335] cursor-grab ml-[20px]"
-                  onClick={() => onRemoveAnswer(index)}
-                />
-              );
-            })}
-          </>
         )}
-      </>
+      </div>
     );
   };
+
   const renderViewAnswer = (type: number | undefined | string, index: number) => {
     switch (type) {
       case "MULTIPLE_CHOICE_1_ANSWER":
@@ -303,50 +270,13 @@ const ModalCreateQuestion = (props: Props) => {
     switch (type) {
       case "MATCHING_SENTENCE_ENDINGS":
         return (
-          <div className="mt-5">
-            <TinyMceCommon
-              ref={matchingRef}
-              initialValue={
-                dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Sentence Endings"
-              }
-              disabled={openModal.type === "detailQuestion"}
-            />
-            {openModal.type !== "detailQuestion" && (
-              <div className="text-end">
-                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-              </div>
-            )}
-
-            {fields.map((field, index) => {
-              return (
-                <div className="flex items-end justify-between mt-2">
-                  <InputCommon
-                    control={control}
-                    id="standard-basic"
-                    label="Section"
-                    variant="standard"
-                    name={`questions[${index}].questionText`}
-                    disabled={openModal.type === "detailQuestion"}
-                  />
-                  <InputCommon
-                    control={control}
-                    id="standard-basic"
-                    label="Answer"
-                    variant="standard"
-                    name={`questions[${index}].answer`}
-                    disabled={openModal.type === "detailQuestion"}
-                    style={{ marginLeft: 20 }}
-                  />
-                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
-                    <RemoveCircleOutlineIcon
-                      className="text-[#F44335] cursor-grab ml-[20px]"
-                      onClick={() => onRemoveQuestion(index)}
-                    />
-                  )}
-                </div>
-              );
-            })}
-          </div>
+          <CommonReading
+            openModal={openModal}
+            fields={fields}
+            control={control}
+            onAddQuestion={onAddQuestion}
+            onRemoveQuestion={onRemoveQuestion}
+          />
         );
 
       case "MULTIPLE_CHOICE_1_ANSWER":

@@ -34,6 +34,8 @@ import useToggleDialog from "hooks/useToggleDialog";
 import CommonStyles from "components/CommonStyles";
 import RemoveQuestionGroup from "./Components/RemoveQuestionGroup";
 import { ROOT_URL } from "constants/api";
+import { getErrorMsg } from "helpers";
+import { showError } from "helpers/toast";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -70,6 +72,7 @@ const CreateQuestionListening = (props: Props) => {
   const validationSchema = yup.object().shape({
     partTitle: yup.string().required("This field is required!"),
     partNumber: yup.string().required("This field is required!"),
+    // audio: yup.mixed().required("This field is required!"),
     // questionTip: yup.string().required("This field is required!"),
     // questionSimple: yup
     //   .string()
@@ -180,7 +183,7 @@ const CreateQuestionListening = (props: Props) => {
           onSubmit;
         }
       } catch (error: any) {
-        toast.error(error);
+        showError(getErrorMsg(error));
         setIsLoading(false);
       }
     }
@@ -281,7 +284,6 @@ const CreateQuestionListening = (props: Props) => {
 
       {(selectFile || dataPartDetail?.partAudio) && (
         <AudioPlayer
-          // autoPlay
           preload="none"
           style={{ borderRadius: "1rem", textAlign: "center", marginTop: 20, marginBottom: 20 }}
           src={selectFile ? URL.createObjectURL(selectFile) : `${AUDIO_URL}/${dataPartDetail?.partAudio}`}
@@ -292,6 +294,7 @@ const CreateQuestionListening = (props: Props) => {
         />
       )}
       <input ref={fileRef} className="hidden" type="file" name="listenFile" onChange={onChangeFile} />
+      {/* <InputCommon ref={fileRef} type="file" name="audio" onChange={onChangeFile} control={control} /> */}
       <div className="text-end mb-2">
         <CommonStyles.Button
           style={{ display: "flex" }}

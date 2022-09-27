@@ -12,6 +12,8 @@ import { makeStyles } from "@mui/styles";
 import CommonStyles from "components/CommonStyles";
 import LoadingCircular from "components/CommonStyles/LoadingCircular/LoadingCircular";
 import moment from "moment";
+import { toast } from "react-toastify";
+import useInfoUser from "hooks/auth/useInfoUser";
 
 const useStyle = makeStyles((theme) => {
   return {
@@ -34,6 +36,8 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
+  const [userDetail] = useInfoUser();
+  console.log("userDetail", userDetail);
 
   const history = useHistory();
   const rows = dataParts?.map((el: any) => ({
@@ -49,11 +53,13 @@ const ListeningSkill = () => {
   const onDeletePart = async (item: any) => {
     try {
       await listeningService.deletePart(item?.id);
+      toast.success("Delete part success!");
       refetchDataTable();
     } catch (error) {
-      console.log("error");
+      toast.error("error");
     }
   };
+  //! Function
 
   //! Render
   return (

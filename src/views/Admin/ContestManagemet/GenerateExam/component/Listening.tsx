@@ -23,19 +23,7 @@ const Listening = (props: Props) => {
 
   const renderQuestion = (group: any) => {
     const { questionType } = group;
-    if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-      return (
-        <MatchingType
-          //   onHightLightNumberPage={onHightLightNumberPage}
-          answerList={group?.answerList}
-          questionBox={group?.questionBox}
-          questions={group?.questions}
-          isView={true}
-          // onClickPage={onClickPage}
-          displayNumber={1}
-        />
-      );
-    }
+
     if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
         <QuestionBox
@@ -92,7 +80,8 @@ const Listening = (props: Props) => {
     if (
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
-      questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
+      questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS ||
+      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS
     ) {
       return <MultiChoice isView onClickPage={() => null} questions={group?.questions} />;
     }

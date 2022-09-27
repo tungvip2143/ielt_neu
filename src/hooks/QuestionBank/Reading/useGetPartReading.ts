@@ -6,7 +6,6 @@ import ReadingService from "services/ReadingService";
 
 const useGetPartReading = () => {
   const [dataParts, setDataParts] = useState<MPartReading[]>([]);
-  console.log("dataParts1", dataParts);
 
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);

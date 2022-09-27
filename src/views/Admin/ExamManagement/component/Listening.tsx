@@ -9,6 +9,7 @@ const Listening = (props: Props) => {
   return (
     <Card className="mt-[10px] p-[20px]">
       <Typography sx={{ fontWeight: "bold" }}>Score: {dataListening?.score?.listening}</Typography>
+      <Typography sx={{ fontWeight: "bold", textTransform: "uppercase" }}>Listening Part Exam</Typography>
       <p>
         {(dataListening?.listeningDetail || []).map((e: any, index: number) => {
           return (

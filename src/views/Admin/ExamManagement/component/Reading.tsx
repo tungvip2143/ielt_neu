@@ -1,4 +1,5 @@
 import { Card, Typography } from "@mui/material";
+import useInfoUser from "hooks/auth/useInfoUser";
 
 export interface Props {
   dataReading?: any;
@@ -6,6 +7,7 @@ export interface Props {
 
 const Reading = (props: Props) => {
   const { dataReading } = props;
+
   return (
     <Card className="mt-[10px] p-[20px]">
       <Typography sx={{ fontWeight: "bold" }}>Score: {dataReading?.score?.reading || 0}</Typography>

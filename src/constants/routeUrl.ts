@@ -23,7 +23,6 @@ export const RouteBase = {
   AdminLogin: "/admin/login",
   AdminDashboard: "/admin/dashboard",
   ExamManagement: "/admin/exammagement",
-  GenerateExam: "/admin/generate",
   ViewExam: "/admin/exammagement/Exam/:id",
   ViewExamId: (id: string | number) => `/admin/exammagement/Exam/${id}`,
 
@@ -61,15 +60,22 @@ export const RouteBase = {
   CreateContestManagement: "/admin/examination/create",
   UpdateContestManagement: "/admin/examination/:id",
   UpdateContestManagementWId: (id: string | number) => `/admin/examination/${id}`,
-  generateExam: `/admin/generate`,
-  generateExamDetail: `/admin/generate/:id`,
-  generateExamDetailWid: (id: string | number) => `/admin/generate/${id}`,
+  GenerateExam: `/admin/generate`,
+  GenerateExamDetail: `/admin/generate/:id`,
+  GenerateExamDetailWid: (id: string | number) => `/admin/generate/${id}`,
   //Static
   StaticManagement: "/admin/staticManagement",
+
+  // UserTesting
+  CreateUserTesting: "/admin/examination/createUserTesting",
+  UpdateCreateUserTesting: "/admin/examination/UserTesting/:id",
+  UpdateCreateUserTestingWId: (id: string | number) => `/admin/examination/UserTesting/${id}`,
 
   //Test bank
   TestBank: "/admin/testbank",
   CreateTest: "/admin/testbank/create",
   UpdateTest: "/admin/testbank/:id",
   UpdateTestWId: (id: string | number) => `/admin/testbank/${id}`,
+  //Examination
+  Scores: `/admin/examination/scores`,
 };

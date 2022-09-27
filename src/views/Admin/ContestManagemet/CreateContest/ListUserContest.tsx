@@ -6,6 +6,9 @@ import useGetListStudents from "hooks/UserManagement/students/useGetListStudents
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import studentService from "services/studentService";
+import moment from "moment";
+import { GridValueGetterParams } from "@mui/x-data-grid";
+import { getRowGrid } from "helpers";
 
 const styles = {
   titleTable: {
@@ -15,6 +18,8 @@ const styles = {
 };
 
 const ListUserContest = ({ dataFileExcel }: any) => {
+  console.log("dataFileExcel", moment(dataFileExcel[0]?.dob).format("DD/MM/YYYY"));
+
   //! State
   const { data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange } = useGetListStudents();
 
@@ -29,21 +34,10 @@ const ListUserContest = ({ dataFileExcel }: any) => {
   //     toast.error("Error!");
   //   }
   // };
-
+  const rows = {};
   //! Render
   return (
     <div>
-      {/* <div style={{ textAlign: "end", marginBottom: 10 }}>
-        <Link to={RouteBase.CreateUser}>
-          <ButtonUpload
-            titleButton="Create User"
-            icon={<AddIcon />}
-            onClick={() => {}}
-            style={{ background: "#9155FE" }}
-          />
-        </Link>
-      </div> */}
-
       <Card>
         <CommonDataGrid
           columns={[
@@ -54,37 +48,89 @@ const ListUserContest = ({ dataFileExcel }: any) => {
             },
             {
               flex: 1,
+              field: "gender",
+              renderHeader: () => <Typography style={styles.titleTable}>Gender</Typography>,
+            },
+            {
+              flex: 1,
               field: "fullname",
               renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
             },
             {
               flex: 1,
-              field: "candidateCode",
-              renderHeader: () => <Typography style={styles.titleTable}>Candidate Code</Typography>,
+              field: "birthday",
+              renderHeader: () => <Typography style={styles.titleTable}>Date of birth</Typography>,
+              valueGetter: (params: GridValueGetterParams) => {
+                const { dob } = getRowGrid(params);
+                if (!dob) {
+                  return "-";
+                }
+                return moment(dob).format("DD/MM/YYYY");
+              },
             },
-            // {
-            //   flex: 0.3,
-            //   field: "action",
-            //   filterable: false,
-            //   hideSortIcons: true,
-            //   disableColumnMenu: true,
-            //   renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-            //   //   renderCell: (items: any) => {
-            //   //     return (
-            //   //       <CommonActionMenu
-            //   //         onEdit={() => {
-            //   //           console.log("123");
-            //   //           //   history.push({
-            //   //           //     pathname: RouteBase.UpdateUserWID(items?.row?.fullname),
-            //   //           //     search: `?id=${items?.id}`,
-            //   //           //   });
-            //   //         }}
-            //   //         // onSubmitRemove={onDeletePart}
-            //   //         // row={items}
-            //   //       />
-            //   //     );
-            //   //   },
-            // },
+            {
+              flex: 1,
+              field: "day",
+              renderHeader: () => <Typography style={styles.titleTable}>Day of birth</Typography>,
+              valueGetter: (params: GridValueGetterParams) => {
+                const { dob } = getRowGrid(params);
+                if (!dob) {
+                  return "-";
+                }
+                return moment(dob).toDate().getDate();
+              },
+            },
+            {
+              flex: 1,
+              field: "month",
+              renderHeader: () => <Typography style={styles.titleTable}>Month of birth</Typography>,
+              valueGetter: (params: GridValueGetterParams) => {
+                const { dob } = getRowGrid(params);
+                console.log(" moment(dob).toDate()", moment(dob).toDate());
+
+                if (!dob) {
+                  return "-";
+                }
+                return moment(dob).toDate().getMonth() + 1;
+              },
+            },
+            {
+              flex: 1,
+              field: "year",
+              renderHeader: () => <Typography style={styles.titleTable}>Year of birth</Typography>,
+              valueGetter: (params: GridValueGetterParams) => {
+                const { dob } = getRowGrid(params);
+                if (!dob) {
+                  return "-";
+                }
+                return moment(dob).toDate().getFullYear();
+              },
+            },
+            {
+              flex: 1,
+              field: "idCardNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Identify Card</Typography>,
+            },
+            {
+              flex: 1,
+              field: "phone",
+              renderHeader: () => <Typography style={styles.titleTable}>Phone Number</Typography>,
+            },
+            {
+              flex: 1,
+              field: "email",
+              renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
+            },
+            {
+              flex: 1,
+              field: "majors",
+              renderHeader: () => <Typography style={styles.titleTable}>Speciality</Typography>,
+            },
+            {
+              flex: 1,
+              field: "classroom",
+              renderHeader: () => <Typography style={styles.titleTable}>Class</Typography>,
+            },
           ]}
           checkboxSelection
           rows={dataFileExcel}
