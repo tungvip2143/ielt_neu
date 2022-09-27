@@ -63,7 +63,6 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
     const load = () => {
       handler?.setStep && handler.setStep(prevStep);
       cacheService.cache("step", prevStep);
-      console.log("jfkdsfjldsfds");
     };
 
     window.addEventListener("load", load);
@@ -73,7 +72,6 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
 
   //
   useEffect(() => {
-    // cacheService.cache("answers", values);
     cacheService.cache("idxAudioPlaying", idxAudioPlaying);
   }, [values, idxAudioPlaying]);
 
@@ -89,7 +87,6 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   };
 
   const partRenderSelected = useMemo(() => {
-    // const questionsWithPageNumberTemp = data as any;
     if (!isEmpty(audioData[groupSelected?.part])) {
       return audioData[groupSelected?.part];
     }
