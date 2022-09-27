@@ -56,6 +56,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     FINISH_IELTS_EXAM: `${ROOT_URL}/tests`,
     START_TEST: `${ROOT_URL}`,
     EXAM_INFORMATION: `${ROOT_URL}/tests/examination`,
+    EXAM_PROGRESS: `${ROOT_URL}/tests`,
   };
 };
 

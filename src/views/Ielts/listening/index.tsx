@@ -6,7 +6,7 @@ import ExamTest from "./components/ExamTest";
 import { Box } from "@mui/material";
 //
 import { Form, Formik } from "formik";
-import { useFinishIeltsSkill, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
+import { useFinishIeltsSkill, useGetExamProgress, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
 import Header from "views/Ielts/Header/Header";
 import DetailUser from "../../components/DetailUser/DetailUser";
@@ -31,6 +31,7 @@ import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
 import authServices from "services/authServices";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -55,7 +56,11 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const { step } = useStepExam();
   console.log("4234", step);
+  // const { testCode } = useGetTestCode();
+  const testCode = localStorage.getItem("testCode");
+  console.log("testCode", testCode);
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
+  const { data } = useGetExamProgress({ testCode, skill: "listening" });
   // const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
