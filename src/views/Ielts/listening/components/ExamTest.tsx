@@ -1,6 +1,5 @@
 import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
-import TypeQuestions from "components/Card/TypeQuestions";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import { useFormikContext } from "formik";
@@ -8,19 +7,16 @@ import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
 import useSagaCreators from "hooks/useSagaCreators";
 import { isEmpty } from "lodash";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
 import { authActions } from "redux/creators/modules/auth";
 import cacheService from "services/cacheService";
 import ieltsService from "services/ieltsService";
 import { themeCssSx } from "ThemeCssSx/ThemeCssSx";
+import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 import CardPage from "./CardPage";
 import ContentQuestion from "./ContentQuestion";
-import { AllQuestionsDataI } from "../../../../constants/typeData.types";
-import { useStepExam } from "provider/StepExamProvider";
-import { useGetExamInformation } from "hooks/ielts/useIelts";
-import { TypeStepExamEnum } from "constants/enum";
 
 interface AllQuestionsDataPropsI {
   data: AllQuestionsDataI[];
@@ -56,18 +52,16 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   const questionData = audioData[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
 
-  //
-  const { handler, step } = useStepExam();
-
+  let inputIndex = 0;
   useEffect(() => {
-    const load = () => {
-      handler?.setStep && handler.setStep(prevStep);
-      cacheService.cache("step", prevStep);
-    };
-
-    window.addEventListener("load", load);
-
-    return () => window.removeEventListener("load", load);
+    data.map((part: any) => {
+      return part.groups.map((group: any) => {
+        return group.questions.map((question: any) => {
+          inputIndex++;
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "");
+        });
+      });
+    });
   }, []);
 
   //

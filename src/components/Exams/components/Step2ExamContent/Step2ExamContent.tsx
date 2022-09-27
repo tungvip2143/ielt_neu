@@ -60,7 +60,7 @@ const Step2ExamContent = (props: any) => {
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
   const { values, setFieldValue } = useFormikContext();
 
-  var inputIndex = 0;
+  let inputIndex = 0;
   useEffect(() => {
     data.map((part: any) => {
       return part.groups.map((group: any) => {
