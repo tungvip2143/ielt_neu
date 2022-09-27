@@ -46,6 +46,8 @@ const CreateUsers = (props: Props) => {
 
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
   const [dataFileExcel, setDataFileExcel] = useState([]);
+  console.log("dataFileExcel", dataFileExcel);
+
   const formController = useForm<ResponseParams>({
     mode: "onChange",
     resolver: yupResolver(validationSchema),

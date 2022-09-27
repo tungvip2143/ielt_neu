@@ -34,6 +34,8 @@ import useToggleDialog from "hooks/useToggleDialog";
 import CommonStyles from "components/CommonStyles";
 import RemoveQuestionGroup from "./Components/RemoveQuestionGroup";
 import { ROOT_URL } from "constants/api";
+import { getErrorMsg } from "helpers";
+import { showError } from "helpers/toast";
 export interface Props {
   openCreateScreen: {
     type: string;
@@ -181,7 +183,7 @@ const CreateQuestionListening = (props: Props) => {
           onSubmit;
         }
       } catch (error: any) {
-        toast.error(error);
+        showError(getErrorMsg(error));
         setIsLoading(false);
       }
     }

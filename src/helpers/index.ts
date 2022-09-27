@@ -1,3 +1,4 @@
+import { GridValueGetterParams } from "@mui/x-data-grid";
 import { List } from "interfaces";
 
 export const convertToFormSelect = (
@@ -49,4 +50,8 @@ export const getErrorMsg = (error: any) => {
   }
 
   return "Something wrong!";
+};
+
+export const getRowGrid = (params: GridValueGetterParams) => {
+  return params?.row || {};
 };
