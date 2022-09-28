@@ -55,12 +55,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [changeValueVolum, setChangeValueVolum] = React.useState<number>(0.5);
 
   const { step } = useStepExam();
-  console.log("4234", step);
-  // const { testCode } = useGetTestCode();
-  const testCode = localStorage.getItem("testCode");
-  console.log("testCode", testCode);
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
-  const { data } = useGetExamProgress({ testCode, skill: "listening" });
   // const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;

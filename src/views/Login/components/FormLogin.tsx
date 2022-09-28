@@ -88,13 +88,12 @@ const FormLogin = () => {
         onSubmit={async (values) => {
           try {
             const response = await login(values);
-            console.log("user login", response?.data?.data?.data?.user);
             dispatch(authActions.saveInfoUser, {
               token: response?.data?.data?.data?.access_token,
               user: response?.data?.data?.data?.user,
               userType: "user",
             });
-            onSubmitTestCode(response?.data?.data?.data?.examination?.id);
+            await onSubmitTestCode(response?.data?.data?.data?.examination?.id);
           } catch (err) {
             showError(getErrorMsg(err));
           }

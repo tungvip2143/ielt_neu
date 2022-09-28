@@ -5,6 +5,8 @@ import { ROOT_ORIGINAL_URL } from "constants/api";
 import { useFormikContext } from "formik";
 import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useGetExamProgress, useUpdateExamProgress } from "hooks/ielts/useIelts";
 import useSagaCreators from "hooks/useSagaCreators";
 import { isEmpty } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
@@ -22,6 +24,7 @@ interface AllQuestionsDataPropsI {
   data: AllQuestionsDataI[];
   valueVolum?: number;
   prevStep?: any;
+  examProgress: any;
 }
 interface ExamTest {
   valueVolum: number;
@@ -30,12 +33,11 @@ interface ExamTest {
 
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
-  const { data, valueVolum, prevStep } = props;
+  const { data, valueVolum, prevStep, examProgress } = props;
+  const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
   const audioData = data || [];
-  const dataCache = cacheService.getDataCache();
-  const { idxAudioPlaying: initialAudioIndxPlaying } = dataCache;
-  const audioInitialIndex = initialAudioIndxPlaying ? initialAudioIndxPlaying : 0;
-
+  const audioInitialIndex = examProgress?.currentPart ? examProgress?.currentPart : 0;
+  const { testCode } = useGetTestCode();
   const [idxAudioPlaying, setIdxAudioPlaying] = React.useState(audioInitialIndex);
   const { values, handleSubmit, setFieldValue } = useFormikContext();
 
@@ -70,7 +72,18 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   }, [values, idxAudioPlaying]);
 
   useEffect(() => {
+    const audio: any = document.getElementById("audio");
     handleSubmit();
+    const cache = cacheService.getDataCache();
+    const body = {
+      currentPart: idxAudioPlaying,
+      audioPlayedTime: audio?.currentTime,
+      timeRemain: cache.LEFT_TIME,
+    };
+    const saveExamProgress = async () => {
+      await updateExamProgress({ testCode, skill: "listening", body });
+    };
+    saveExamProgress();
   }, [displayNumber]);
 
   const onClickPage = (groupRenderSelected: any) => {
@@ -99,9 +112,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
 
   useEffect(() => {
     const audio: any = document.getElementById("audio");
-    const cache = cacheService.getDataCache();
-    const current_time = cache?.audio_current_time;
-    current_time ? (audio.currentTime = current_time) : (audio.currentTime = 0);
+    examProgress?.audioPlayedTime ? (audio.currentTime = examProgress?.audioPlayedTime) : (audio.currentTime = 0);
     const setAudioCurrentTime = () => {
       cacheService.cache("audio_current_time", audio.currentTime);
     };
@@ -167,7 +178,7 @@ const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
-
+  const { data: examProgress } = useGetExamProgress({ testCode, skill: "listening" });
   const { data, isLoading } = useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
     onSuccess: () => {
       cacheService.cache("skill", "LISTENING");
@@ -186,7 +197,14 @@ const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
     return <LoadingPage />;
   }
 
-  return <ExamTest valueVolum={valueVolum} prevStep={prevStep} data={data?.data.data} />;
+  return (
+    <ExamTest
+      valueVolum={valueVolum}
+      examProgress={examProgress?.data?.data}
+      prevStep={prevStep}
+      data={data?.data.data}
+    />
+  );
 };
 
 export default IeltsListeningContainer;

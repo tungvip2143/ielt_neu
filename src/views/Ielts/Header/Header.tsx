@@ -30,7 +30,7 @@ interface HeaderExamI {
   timeExam?: any;
   handleSubmitWhenEndedTime?: () => void;
   handleChangeValueVolum?: (value: any) => void;
-  typeExam?: string;
+  typeExam: string;
 }
 
 const useStyles = makeStyles((theme) => {
@@ -125,7 +125,7 @@ const Header = ({
           )}
 
           {step === numberStep && (
-            <CountDown handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+            <CountDown typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
           )}
           <div className="flex">
             {typeExam === TypeExam.LISTENING &&
