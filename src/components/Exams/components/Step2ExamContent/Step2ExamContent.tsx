@@ -11,7 +11,7 @@ import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import FooterExamResponsive from "./FooterExamResponsive";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
-import { useIeltsReading } from "hooks/ielts/useIelts";
+import { useIeltsReading, useUpdateExamProgress } from "hooks/ielts/useIelts";
 import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
@@ -58,7 +58,9 @@ const Step2ExamContent = (props: any) => {
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
-  const { values, setFieldValue } = useFormikContext();
+  const { values, setFieldValue, handleSubmit } = useFormikContext();
+  const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
+  const { testCode } = useGetTestCode();
 
   let inputIndex = 0;
   useEffect(() => {
@@ -71,6 +73,15 @@ const Step2ExamContent = (props: any) => {
       });
     });
   }, []);
+
+  useEffect(() => {
+    handleSubmit();
+    const cache = cacheService.getDataCache();
+    const saveExamProgress = async () => {
+      await updateExamProgress({ testCode, skill: "reading", body: cache.LEFT_TIME });
+    };
+    saveExamProgress();
+  }, [displayNumber]);
 
   const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });

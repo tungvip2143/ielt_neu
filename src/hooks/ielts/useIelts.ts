@@ -115,3 +115,13 @@ export const useGetExamInformation = () => {
     onError: (error) => showError(getErrorMsg(error)),
   });
 };
+
+export const useGetExamProgress = ({ testCode, skill }: any) => {
+  return useQuery("get exam progress", () => ieltsService.getExamProgress({ testCode, skill }), {
+    onError: (error) => showError(getErrorMsg(error)),
+  });
+};
+
+export const useUpdateExamProgress = () => {
+  return useMutation(ieltsService.updateExamProgress);
+};

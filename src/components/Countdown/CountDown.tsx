@@ -7,12 +7,14 @@ import Stack from "@mui/material/Stack";
 import AccessAlarmIcon from "@mui/icons-material/AccessAlarm";
 import CountDownItem from "./CountDownItem";
 import Countdown from "react-countdown";
+import { TypeExam } from "constants/enum";
 interface Props {
   timeExam?: any;
   handleSubmitWhenEndedTime?: () => void;
+  typeExam: string;
 }
 const CountDown = (props: Props) => {
-  const { timeExam, handleSubmitWhenEndedTime } = props;
+  const { timeExam, handleSubmitWhenEndedTime, typeExam } = props;
   const Countdown = {
     color: "#FEE49B",
     fontWeight: 700,
@@ -20,7 +22,7 @@ const CountDown = (props: Props) => {
   return (
     <Stack direction="row" spacing={1} sx={Countdown}>
       <AccessAlarmIcon />
-      <CountDownItem handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+      <CountDownItem typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
       <Typography
         sx={{
           color: "#FEE49B",

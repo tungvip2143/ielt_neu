@@ -81,6 +81,15 @@ class IeltsService {
     return httpServices.get(IELTS_URL().EXAM_INFORMATION);
   }
 
+  getExamProgress({ testCode, skill }: any) {
+    console.log("getExamProgress", testCode);
+    return httpServices.get(`${IELTS_URL().EXAM_PROGRESS}/${testCode}/${skill}/progress`);
+  }
+
+  updateExamProgress({ testCode, skill, body }: any) {
+    return httpServices.patch(`${IELTS_URL().EXAM_PROGRESS}/${testCode}/${skill}/progress`, body);
+  }
+
   // updateIeltExamination(body:any){
   //   return httpServices.
   // }
