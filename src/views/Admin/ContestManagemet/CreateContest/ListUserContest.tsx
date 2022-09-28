@@ -42,12 +42,12 @@ const ListUserContest = ({ dataFileExcel }: any) => {
         <CommonDataGrid
           columns={[
             {
-              flex: 1,
+              flex: 0.8,
               field: "studentCode",
               renderHeader: () => <Typography style={styles.titleTable}>Student Code</Typography>,
             },
             {
-              flex: 1,
+              flex: 0.5,
               field: "gender",
               renderHeader: () => <Typography style={styles.titleTable}>Gender</Typography>,
             },
@@ -57,7 +57,7 @@ const ListUserContest = ({ dataFileExcel }: any) => {
               renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
             },
             {
-              flex: 1,
+              flex: 0.8,
               field: "birthday",
               renderHeader: () => <Typography style={styles.titleTable}>Date of birth</Typography>,
               valueGetter: (params: GridValueGetterParams) => {
@@ -68,56 +68,56 @@ const ListUserContest = ({ dataFileExcel }: any) => {
                 return moment(dob).format("DD/MM/YYYY");
               },
             },
-            {
-              flex: 1,
-              field: "day",
-              renderHeader: () => <Typography style={styles.titleTable}>Day of birth</Typography>,
-              valueGetter: (params: GridValueGetterParams) => {
-                const { dob } = getRowGrid(params);
-                if (!dob) {
-                  return "-";
-                }
-                return moment(dob).toDate().getDate();
-              },
-            },
-            {
-              flex: 1,
-              field: "month",
-              renderHeader: () => <Typography style={styles.titleTable}>Month of birth</Typography>,
-              valueGetter: (params: GridValueGetterParams) => {
-                const { dob } = getRowGrid(params);
-                console.log(" moment(dob).toDate()", moment(dob).toDate());
+            // {
+            //   flex: 1,
+            //   field: "day",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Day of birth</Typography>,
+            //   valueGetter: (params: GridValueGetterParams) => {
+            //     const { dob } = getRowGrid(params);
+            //     if (!dob) {
+            //       return "-";
+            //     }
+            //     return moment(dob).toDate().getDate();
+            //   },
+            // },
+            // {
+            //   flex: 1,
+            //   field: "month",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Month of birth</Typography>,
+            //   valueGetter: (params: GridValueGetterParams) => {
+            //     const { dob } = getRowGrid(params);
+            //     console.log(" moment(dob).toDate()", moment(dob).toDate());
 
-                if (!dob) {
-                  return "-";
-                }
-                return moment(dob).toDate().getMonth() + 1;
-              },
-            },
-            {
-              flex: 1,
-              field: "year",
-              renderHeader: () => <Typography style={styles.titleTable}>Year of birth</Typography>,
-              valueGetter: (params: GridValueGetterParams) => {
-                const { dob } = getRowGrid(params);
-                if (!dob) {
-                  return "-";
-                }
-                return moment(dob).toDate().getFullYear();
-              },
-            },
+            //     if (!dob) {
+            //       return "-";
+            //     }
+            //     return moment(dob).toDate().getMonth() + 1;
+            //   },
+            // },
+            // {
+            //   flex: 1,
+            //   field: "year",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Year of birth</Typography>,
+            //   valueGetter: (params: GridValueGetterParams) => {
+            //     const { dob } = getRowGrid(params);
+            //     if (!dob) {
+            //       return "-";
+            //     }
+            //     return moment(dob).toDate().getFullYear();
+            //   },
+            // },
             {
               flex: 1,
               field: "idCardNumber",
               renderHeader: () => <Typography style={styles.titleTable}>Identify Card</Typography>,
             },
             {
-              flex: 1,
+              flex: 0.8,
               field: "phone",
               renderHeader: () => <Typography style={styles.titleTable}>Phone Number</Typography>,
             },
             {
-              flex: 1,
+              flex: 1.2,
               field: "email",
               renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
             },
