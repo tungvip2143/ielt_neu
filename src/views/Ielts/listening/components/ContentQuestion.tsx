@@ -6,22 +6,22 @@ import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
-import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
+import MatchingType from "components/Ielts/components/MachingType";
 import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
 import CommonStyles from "components/CommonStyles";
 import { useClearHighlight } from "hooks/ielts/useClearHighlight";
+import { PartContentQuestionsI, QuestionItemI } from "constants/typeData.types";
 // ! type
-interface Props {
-  ContentQuestion?: any;
-  audio?: any;
+interface PartRenderSlectedI {
+  partTypeQuestions: PartContentQuestionsI;
+  audio?: string;
   displayNumber: number;
-  onClickPage: (options: any) => void;
-  onClickQuestionType?: any;
+  onClickPage: (options: object) => void;
 }
-const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, onClickQuestionType }: Props) => {
-  const questionType = ContentQuestion?.questionType;
+const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage }: PartRenderSlectedI) => {
+  const questionType = partTypeQuestions?.questionType;
   // console.log("ContentQuestion", ContentQuestion);
   // console.log("questionType", questionType);
 
@@ -31,37 +31,48 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
   useHightLightText({ noted, toggleNote });
   const { clearAll, clearMarkItem } = useClearHighlight({ className });
 
-  const renderPartValueGroup = (ContentQuestion: any) => {
-    // console.log("ContentQuestion", ContentQuestion);
+  const renderPartValueGroup = (partTypeQuestions: PartContentQuestionsI) => {
+    if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
+      return (
+        //     <MachingTypeListening
+        //       answerList={partTypeQuestions.answerList}
+        //       questionBox={partTypeQuestions.questionBox ?? ""}
+        //       questions={partTypeQuestions.questions}
+        //       onClickPage={onClickPage}
+        //       displayNumber={displayNumber}
+        //     />
+        //   );
+        // }
+        <MatchingType
+          answerList={partTypeQuestions?.answerList ?? ""}
+          questionBox={partTypeQuestions?.questionBox ?? ""}
+          questions={partTypeQuestions.questions}
+          onClickPage={onClickPage}
+          displayNumber={displayNumber}
+        />
+      );
+    }
 
-    // if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-    //   return (
-    //     <MachingTypeListening
-    //       answerList={ContentQuestion?.answerList}
-    //       questionBox={ContentQuestion?.questionBox}
-    //       data={ContentQuestion?.questions}
-    //       onClickPage={onClickPage}
-    //       displayNumber={displayNumber}
-    //     />
-    //   );
-    // }
-
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER ||
+      questionType === QUESTION_TYPE.SHORT_ANSWER_QUESTION
+    ) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}
-          groupData={ContentQuestion}
-          questionBox={ContentQuestion?.questionBox}
+          questions={partTypeQuestions.questions}
+          questionBox={partTypeQuestions.questionBox ?? ""}
           onClickPage={onClickPage}
         />
       );
     }
 
-    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS || questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
+    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
       return (
         <MachingHeading
-          questions={ContentQuestion?.questions}
-          answerList={ContentQuestion?.answerList}
+          questions={partTypeQuestions.questions}
+          answerList={partTypeQuestions.answerList}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
         />
@@ -79,22 +90,22 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       return (
         <FlowChart
           onClickPage={onClickPage}
-          question={ContentQuestion?.questions}
+          questions={partTypeQuestions.questions}
           displayNumber={displayNumber}
-          image={ContentQuestion}
+          image={partTypeQuestions.image}
         />
       );
     }
 
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return ContentQuestion?.questions.map((question: any) => {
+      return partTypeQuestions?.questions.map((question: QuestionItemI) => {
         return (
           <>
             <SentenceCompletetion
-              key={question._id}
+              key={question.questionId}
               onClickPage={onClickPage}
               displayNumber={displayNumber}
-              data={question}
+              questionItem={question}
             />
           </>
         );
@@ -106,15 +117,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      return <MultiChoice onClickPage={onClickPage} dataQuestions={ContentQuestion?.questions} audio={audio} />;
-    }
-
-    if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER) {
-      return (
-        <>
-          <MultichoiceAnswer />
-        </>
-      );
+      return <MultiChoice onClickPage={onClickPage} questions={partTypeQuestions?.questions} />;
     }
 
     return null;
@@ -122,11 +125,10 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
 
   return (
     <>
-      <TitleExam title={ContentQuestion} />
+      <TitleExam title={partTypeQuestions} />
 
       <div className="exam">
-        {renderPartValueGroup(ContentQuestion)}
-        {onClickQuestionType(ContentQuestion?.questionType)}
+        {renderPartValueGroup(partTypeQuestions)}
         {isAction && (
           <CommonStyles.HightLightDialog
             clearAll={clearAll}

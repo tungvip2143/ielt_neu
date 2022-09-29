@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Box } from "@mui/system";
 import ImgHelp from "assets/image/exam/help.png";
 import HelpFooter from "../HelpFooter/HelpFooter";
@@ -7,6 +7,10 @@ import FooterSubmit from "../FooterSubmit/FooterSubmit";
 import { makeStyles } from "@mui/styles";
 import { warningDetailUser, textBtnSubmit, titleRulesDetailCandidates } from "../../../constants/constants";
 import CommonStyles from "components/CommonStyles";
+import { useStepExam } from "provider/StepExamProvider";
+import { useGetExamInformation, useGetExamProgress } from "hooks/ielts/useIelts";
+import cacheService from "services/cacheService";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 // ! type
 interface Props {
   stepRuleExam: {
@@ -16,6 +20,7 @@ interface Props {
     intructionsToCandidates?: React.ReactNode;
   };
   nextStep?: string;
+  prevStep?: any;
 }
 
 const useStyles = makeStyles((theme) => {
@@ -45,9 +50,12 @@ const RuleExam = (props: Props) => {
 
   const {
     nextStep,
+    prevStep,
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
   const classes = useStyles();
+  const { testCode } = useGetTestCode();
+  const { data: examProgress } = useGetExamProgress({ testCode, skill: "listening" });
 
   //! Render
   return (
@@ -69,7 +77,11 @@ const RuleExam = (props: Props) => {
       <Box className={classes.textWarning}>
         <HelpFooter textHelp={warningDetailUser.onStartTest} image={ImgHelp} />
       </Box>
-      <FooterSubmit textBtn={textBtnSubmit.startTest} nextStep={nextStep} />
+      <FooterSubmit
+        examProgress={examProgress?.data?.data?.timeRemain}
+        textBtn={textBtnSubmit.startTest}
+        nextStep={nextStep}
+      />
     </Box>
   );
 };

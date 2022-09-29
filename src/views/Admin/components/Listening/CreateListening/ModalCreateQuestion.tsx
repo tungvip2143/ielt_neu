@@ -136,9 +136,9 @@ const ModalCreateQuestion = (props: Props) => {
         image: image ? image : "",
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
-          questionType === "SUMMARY_COMPLETION" ||
           questionType === "NOTE_COMPLETION" ||
-          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" ||
+          questionType === "SHORT_ANSWER_QUESTION"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
@@ -173,9 +173,9 @@ const ModalCreateQuestion = (props: Props) => {
         image: image ? image : dataQuestionDetail?.image,
         questionTypeTips: editorRef && editorRef?.current?.getContent(),
         questionBox:
-          questionType === "SUMMARY_COMPLETION" ||
           questionType === "NOTE_COMPLETION" ||
-          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" ||
+          questionType === "SHORT_ANSWER_QUESTION"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
@@ -270,13 +270,50 @@ const ModalCreateQuestion = (props: Props) => {
     switch (type) {
       case "MATCHING_SENTENCE_ENDINGS":
         return (
-          <CommonReading
-            openModal={openModal}
-            fields={fields}
-            control={control}
-            onAddQuestion={onAddQuestion}
-            onRemoveQuestion={onRemoveQuestion}
-          />
+          <div className="mt-5">
+            <TinyMceCommon
+              ref={matchingRef}
+              initialValue={
+                dataQuestionDetail?.answerList ? dataQuestionDetail?.answerList : "Matching Sentence Endings"
+              }
+              disabled={openModal.type === "detailQuestion"}
+            />
+            {openModal.type !== "detailQuestion" && (
+              <div className="text-end">
+                <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
+              </div>
+            )}
+
+            {fields.map((field, index) => {
+              return (
+                <div className="flex items-end justify-between mt-2">
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Section"
+                    variant="standard"
+                    name={`questions[${index}].questionText`}
+                    disabled={openModal.type === "detailQuestion"}
+                  />
+                  <InputCommon
+                    control={control}
+                    id="standard-basic"
+                    label="Answer"
+                    variant="standard"
+                    name={`questions[${index}].answer`}
+                    disabled={openModal.type === "detailQuestion"}
+                    style={{ marginLeft: 20 }}
+                  />
+                  {fields.length > 1 && openModal.type !== "detailQuestion" && (
+                    <RemoveCircleOutlineIcon
+                      className="text-[#F44335] cursor-grab ml-[20px]"
+                      onClick={() => onRemoveQuestion(index)}
+                    />
+                  )}
+                </div>
+              );
+            })}
+          </div>
         );
 
       case "MULTIPLE_CHOICE_1_ANSWER":
@@ -406,6 +443,7 @@ const ModalCreateQuestion = (props: Props) => {
             })}
           </div>
         );
+      case "SHORT_ANSWER_QUESTION":
       case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
       case "NOTE_COMPLETION":
         return (
@@ -421,16 +459,7 @@ const ModalCreateQuestion = (props: Props) => {
             textType="Note Completion"
           />
         );
-      case "SHORT_ANSWER_QUESTION":
-        return (
-          <CommonReading
-            openModal={openModal}
-            fields={fields}
-            control={control}
-            onAddQuestion={onAddQuestion}
-            onRemoveQuestion={onRemoveQuestion}
-          />
-        );
+
       default:
         break;
     }
@@ -440,7 +469,8 @@ const ModalCreateQuestion = (props: Props) => {
     if (
       questionType !== "SUMMARY_COMPLETION" &&
       questionType !== "NOTE_COMPLETION" &&
-      questionType !== "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+      questionType !== "MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
+      questionType !== "SHORT_ANSWER_QUESTION"
     ) {
       return (
         <>

@@ -2,13 +2,14 @@ import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
-
-type Props = {
-  questionBox?: any;
-  groupData?: any;
+import { QuestionItemI } from "../../../../../constants/typeData.types";
+interface NoteCompletionI {
+  questionBox: string;
+  questions: QuestionItemI[];
   displayNumber: number;
-  onClickPage: (options: any) => void;
-};
+  onClickPage: (options: object) => void;
+  isView?: boolean;
+}
 
 const CODE = "-@X$";
 
@@ -17,22 +18,19 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
   return questionBox;
 };
 
-const NoteCompletion = (props: Props) => {
+const NoteCompletion = (props: NoteCompletionI) => {
   //! State
   const inputDebounce = React.useRef(new Timer());
   const queueAnswers = React.useRef<any>({});
-  const { questionBox, groupData, displayNumber, onClickPage } = props;
+  const { questionBox, questions, displayNumber, onClickPage, isView } = props;
   const { setFieldValue, values }: any = useFormikContext();
-
-  console.log("groupData", groupData);
+  // console.log("questionBox", questionBox, questions);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
-
-    groupData.questions.forEach((el: any, index: any) => {
-      // console.log("groupData", index);
-
+    questions.forEach((el: QuestionItemI) => {
       const { blankNumber, displayNumber } = el.question;
+      // console.log("elfgsgsg", el);-
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
@@ -41,7 +39,9 @@ const NoteCompletion = (props: Props) => {
 
     tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
     return tempQuestionBox;
-  }, [groupData, questionBox]);
+  }, [questions, questionBox]);
+
+  // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
 
   useEffect(() => {
     const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
@@ -53,18 +53,18 @@ const NoteCompletion = (props: Props) => {
   const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed);
 
   let inputIndex = 0;
-  Handlebars.registerHelper("blank", function (blankId: any) {
-    console.log("blankId", blankId);
+  Handlebars.registerHelper("blank", function (blankId: number) {
     inputIndex++;
-    const input: any = document.querySelector(`[id=input-${blankId}]`);
+    const input: Element | any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1]?.studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
       `
       <strong>${blankId}</strong>
-      <input
+      <input class="${inputIndex}" ${isView ? "disabled" : ""}
           key="input-${blankId}"
+          value=""
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
@@ -75,7 +75,7 @@ const NoteCompletion = (props: Props) => {
   });
 
   //! Function
-  const onChangeInputHandleBars = (e: any) => {
+  const onChangeInputHandleBars = (e: Event | any) => {
     queueAnswers.current = {
       ...queueAnswers.current,
       [e.target.name]: e.target.value,

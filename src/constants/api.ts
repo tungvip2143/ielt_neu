@@ -40,7 +40,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     TEST_CODE: `${ROOT_URL}/tests/prepare`,
     SUBMIT_READING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_WRITING_TEST: `${ROOT_URL}/tests/${testCode}`,
-    SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}/`,
+    SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}`,
     FINISH_READING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_IELTS_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
@@ -57,6 +57,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     FINISH_IELTS_EXAM: `${ROOT_URL}/tests`,
     START_TEST: `${ROOT_URL}`,
     EXAM_INFORMATION: `${ROOT_URL}/tests/examination`,
+    EXAM_PROGRESS: `${ROOT_URL}/tests`,
   };
 };
 

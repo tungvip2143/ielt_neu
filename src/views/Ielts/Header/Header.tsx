@@ -16,6 +16,11 @@ import Volum from "../../../components/Volum/Volum";
 import { TypeExam } from "constants/enum";
 import { makeStyles } from "@mui/styles";
 import authServices from "services/authServices";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { useFinishIeltsSkill, useUpdateExamProgress } from "hooks/ielts/useIelts";
+import cacheService from "services/cacheService";
+import { useHistory } from "react-router-dom";
+import { RouteBase } from "constants/routeUrl";
 
 // ! type
 interface HeaderExamI {
@@ -25,7 +30,7 @@ interface HeaderExamI {
   timeExam?: any;
   handleSubmitWhenEndedTime?: () => void;
   handleChangeValueVolum?: (value: any) => void;
-  typeExam?: string;
+  typeExam: string;
 }
 
 const useStyles = makeStyles((theme) => {
@@ -73,9 +78,13 @@ const Header = ({
 }: HeaderExamI) => {
   //! State
 
-  const { step } = useStepExam();
+  const { step, handler } = useStepExam();
   const { handleSubmit } = useFormikContext();
   const classes = useStyles();
+  const history = useHistory();
+  const { mutateAsync: updateIeltsSkillFinish } = useFinishIeltsSkill();
+  const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
+
   const btnHelp = {
     cursor: "pointer",
   };
@@ -88,8 +97,20 @@ const Header = ({
     return user;
   }, []);
 
-  const handleSubmitWhenEndedTime = useCallback(() => {
+  const handleSubmitWhenEndedTime = useCallback(async () => {
+    const testCode = localStorage.getItem("testCode");
     handleSubmit();
+    await updateIeltsSkillFinish({ testCode, skill: typeExam?.toLocaleLowerCase() }).then(async () => {
+      cacheService.clearCacheData();
+      if (typeExam === "LISTENING") {
+        history.push(RouteBase.IeltsReading);
+      }
+      if (typeExam === "READING") {
+        handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
+      }
+    });
+    const body = { timeRemain: 0 };
+    await updateExamProgress({ testCode, skill: typeExam?.toLocaleLowerCase(), body });
   }, [handleSubmit]);
 
   //! Render
@@ -106,7 +127,7 @@ const Header = ({
           )}
 
           {step === numberStep && (
-            <CountDown handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+            <CountDown typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} />
           )}
           <div className="flex">
             {typeExam === TypeExam.LISTENING &&

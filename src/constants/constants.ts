@@ -58,3 +58,10 @@ export const testHeadPhone = {
   play: "Play sound",
   stop: "Stop sound",
 };
+
+export const chooseAnswer = {
+  a: "A",
+  b: "B",
+  c: "C",
+  d: "D",
+};

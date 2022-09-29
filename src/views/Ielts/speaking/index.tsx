@@ -86,11 +86,11 @@ const IeltsSpeaking = (props: IeltsSpeakingProps) => {
       {(formik) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header
+            {/* <Header
               numberStep={TypeStepExamEnum.STEP4}
               handleOpenModalHelp={handleOpenModalHelp}
               handleOpenModalHide={handleOpenModalHide}
-            />
+            /> */}
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser />}
               {step === TypeStepExamEnum.STEP2 && <StepTestMic nextStep={TypeStepExamEnum.STEP3} />}

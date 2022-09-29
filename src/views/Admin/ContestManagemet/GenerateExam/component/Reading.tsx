@@ -13,6 +13,10 @@ import IdentifyInformationType from "components/Ielts/components/IdentifyInforma
 import ReactHtmlParser from "react-html-parser";
 import { Form, Formik } from "formik";
 import MultiChoice from "views/Ielts/listening/components/CardRender/MultiChoice";
+import MachingTypeListening from "views/Ielts/listening/components/CardRender/MachingTypeListening";
+import { QuestionItemI } from "constants/typeData.types";
+import NoteCompletion from "views/Ielts/listening/components/CardRender/NoteCompletion";
+import MatchingParagrapInformation from "components/Ielts/components/MatchingParagrapInformation";
 
 export interface Props {
   dataReading?: [];
@@ -21,29 +25,39 @@ export interface Props {
 const Reading = (props: Props) => {
   const { dataReading } = props;
   const renderQuestion = (group: any) => {
+    console.log("group", group);
+
     const { questionType } = group;
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
-        <MatchingType
+        <MachingTypeListening
           answerList={group?.answerList}
-          questionBox={group?.questionBox}
+          questionBox={group?.questionBox ?? ""}
           questions={group?.questions}
-          isView={true}
+          onClickPage={() => null}
           displayNumber={1}
+          isView={true}
         />
       );
     }
-    if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-      return <QuestionBox displayNumber={1} questions={group?.questions} questionBox={group?.questionBox} isView />;
-    }
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {
+    // if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    //   return (
+    //     <QuestionBox displayNumber={1} questions={group?.questions} questionBox={group?.questionBox} isView={true} />
+    //   );
+    // }
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER ||
+      questionType === QUESTION_TYPE.SHORT_ANSWER_QUESTION
+    ) {
       return (
         <QuestionBox
-          onClickPage={() => {}}
+          onClickPage={() => null}
           displayNumber={1}
           questions={group?.questions}
-          questionBox={group?.questionBox}
-          isView
+          questionBox={group?.questionBox ?? ""}
+          isView={true}
         />
       );
     }
@@ -54,29 +68,78 @@ const Reading = (props: Props) => {
           answerList={group?.answerList}
           onClickPage={() => {}}
           displayNumber={1}
-          isView
+          isView={true}
         />
       );
     }
-    if (questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION || questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM) {
+    if (
+      questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION
+    ) {
       return (
-        <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} isView />
+        <FlowChart
+          onClickPage={() => null}
+          question={group.questions}
+          image={group?.image}
+          displayNumber={1}
+          isView={true}
+        />
       );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return group?.questions.map((question: any) => {
-        return <SentenceCompletetion data={question} isView />;
+      return group?.questions.map((question: QuestionItemI) => {
+        return (
+          <>
+            <SentenceCompletetion
+              key={question.questionId}
+              onClickPage={() => null}
+              displayNumber={1}
+              questionItem={question}
+              isView={true}
+            />
+          </>
+        );
       });
     }
     if (
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
-      questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS ||
-      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS ||
-      questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION
+      questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      return <MultiChoice isView onClickPage={() => null} dataQuestions={group?.questions} audio={null} />;
+      // return <MultiChoice isView={true} onClickPage={() => null} questions={group?.questions} />;
+      return group?.questions?.map((question: QuestionItemI, questionIdx: number) => {
+        return (
+          <div key={question?.questionId}>
+            <IdentifyInformationType
+              questionType={questionType}
+              QUESTION_TYPE={QUESTION_TYPE}
+              question={question}
+              // expanded={expanded}
+              // onCollapse={onCollapse}
+              displayNumber={1}
+              questionIdx={questionIdx}
+              onClickPage={() => null}
+              isView={true}
+            />
+          </div>
+        );
+      });
     }
+    // if (questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION) {
+    //   return group?.questions.map((question: QuestionItemI) => {
+    //     return (
+    //       <div key={question?.questionId}>
+    //         <MatchingParagrapInformation
+    //           questions={questions}
+    //           displayNumber={1}
+    //           onClickPage={() => null}
+    //           question={question}
+    //         />
+    //       </div>
+    //     );
+    //   });
+    // }
   };
 
   return (
@@ -95,18 +158,7 @@ const Reading = (props: Props) => {
                   </div>
                   <div className="listeningWrapper" style={{ marginLeft: "20px" }}>
                     {el?.groups?.map((group: any) => {
-                      return (
-                        <div>
-                          {/* {group?.questionType === QUESTION_TYPE.NOTE_COMPLETION &&
-                          group?.questionType === QUESTION_TYPE.SUMMARY_COMPLETION ? (
-                            <div dangerouslySetInnerHTML={{ __html: group?.questionBox }} />
-                          ) : (
-                            <Typography className="titlePart">{group?.questionBox}</Typography>
-                          )} */}
-
-                          {renderQuestion(group)}
-                        </div>
-                      );
+                      return <div>{renderQuestion(group)}</div>;
                     })}
                   </div>
                 </div>

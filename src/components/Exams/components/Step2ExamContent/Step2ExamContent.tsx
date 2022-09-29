@@ -5,20 +5,18 @@ import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import TypeQuestions from "components/Card/TypeQuestions";
 //
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import FooterExamResponsive from "./FooterExamResponsive";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
-import { useIeltsReading } from "hooks/ielts/useIelts";
+import { useIeltsReading, useUpdateExamProgress } from "hooks/ielts/useIelts";
 import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { makeStyles } from "@mui/styles";
-import { AllQuestionsDataI } from "../../../../constants/typeData.types";
 //
 // interface Props {
 //   data?: AllQuestionsDataI[];
@@ -43,6 +41,8 @@ const useStyles = makeStyles((theme) => {
 });
 const Step2ExamContent = (props: any) => {
   const { data } = props;
+  console.log("3232", data);
+
   //! State
   const [questions, setQuestions] = useState(data);
   const [text, setText] = useState("");
@@ -53,16 +53,46 @@ const Step2ExamContent = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
 
-  // console.log("fsdfdsfs", groupSelected);
+  console.log("data123", data);
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
-  const { values, setFieldValue } = useFormikContext();
-  console.log("values formik", values);
+  const { values, setFieldValue, handleSubmit } = useFormikContext();
+  const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
+  const { testCode } = useGetTestCode();
+  const cache = cacheService.getDataCache();
+
+  let inputIndex = 0;
   useEffect(() => {
-    cacheService.cache("answers", values);
-  }, [values]);
+    data.map((part: any) => {
+      return part.groups.map((group: any) => {
+        return group.questions.map((question: any, index: number) => {
+          inputIndex++;
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "");
+        });
+      });
+    });
+  }, []);
+
+  useEffect(() => {
+    handleSubmit();
+  }, [displayNumber]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cache = cacheService.getDataCache();
+      const body = {
+        timeRemain: cache.LEFT_TIME,
+        // timeRemain: 60000,
+      };
+      const saveExamProgress = async () => {
+        await updateExamProgress({ testCode, skill: "reading", body });
+      };
+      saveExamProgress();
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });

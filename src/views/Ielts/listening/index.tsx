@@ -6,7 +6,7 @@ import ExamTest from "./components/ExamTest";
 import { Box } from "@mui/material";
 //
 import { Form, Formik } from "formik";
-import { useFinishIeltsSkill, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
+import { useFinishIeltsSkill, useGetExamProgress, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
 import Header from "views/Ielts/Header/Header";
 import DetailUser from "../../components/DetailUser/DetailUser";
@@ -31,6 +31,7 @@ import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
 import authServices from "services/authServices";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -54,9 +55,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const [changeValueVolum, setChangeValueVolum] = React.useState<number>(0.5);
 
   const { step } = useStepExam();
-  console.log("4234", step);
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
-  const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
+  // const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
 
@@ -90,14 +90,14 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);
-      await updateIeltsListeningFinish({ testCode, skill: "listening" }).then(() => {
-        cacheService.clearCacheData();
-      });
+      // await updateIeltsListeningFinish({ testCode, skill: "listening" }).then(() => {
+      //   cacheService.clearCacheData();
+      // });
     } catch (err) {
       showError(getErrorMsg(err));
     }
 
-    history.push(RouteBase.IeltsReading);
+    // history.push(RouteBase.IeltsReading);
   }, []);
 
   const handleOpenModalHelp = useCallback(() => {
@@ -134,7 +134,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const heightHeaderExam = theme.custom?.heightHeaderExamListening ?? 80;
     const paddingTopStep123 = heightHeaderLogo + heightHeaderExam - 17;
     const paddingTopExam = heightHeaderLogo + heightHeaderExam + 16;
-    console.log("42423", paddingTopExam);
 
     const handlePaddingTop = () => {
       if (step === TypeStepExamEnum.STEP1 || step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3) {
@@ -163,14 +162,12 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const classes = useStyles();
 
   //! Render
-  if (isLoading || listeningFinishLoading) {
-    return <LoadingPage />;
-  }
+  // if (isLoading) {
+  //   return <LoadingPage />;
+  // }
   return (
     <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
-        console.log("formik values", formik.values);
-
         return (
           <Form>
             <Header
@@ -186,9 +183,15 @@ const IeltsListening = (props: IeltsListeningProps) => {
                 {step === TypeStepExamEnum.STEP1 && <DetailUser />}
                 {step === TypeStepExamEnum.STEP2 && <TestHeadPhoneAbc valueVolum={changeValueVolum} />}
                 {step === TypeStepExamEnum.STEP3 && (
-                  <RuleExam stepRuleExam={stepRuleExam} nextStep={TypeStepExamEnum.STEP4} />
+                  <RuleExam
+                    stepRuleExam={stepRuleExam}
+                    prevStep={TypeStepExamEnum.STEP2}
+                    nextStep={TypeStepExamEnum.STEP4}
+                  />
                 )}
-                {step === TypeStepExamEnum.STEP4 && <ExamTest valueVolum={changeValueVolum} />}
+                {step === TypeStepExamEnum.STEP4 && (
+                  <ExamTest valueVolum={changeValueVolum} prevStep={TypeStepExamEnum.STEP3} />
+                )}
                 {step === TypeStepExamEnum.STEP5 && <EndTest test={IELT_TEST.LISTENING} />}
               </Box>
             </Box>
