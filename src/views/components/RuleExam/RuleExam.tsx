@@ -8,8 +8,9 @@ import { makeStyles } from "@mui/styles";
 import { warningDetailUser, textBtnSubmit, titleRulesDetailCandidates } from "../../../constants/constants";
 import CommonStyles from "components/CommonStyles";
 import { useStepExam } from "provider/StepExamProvider";
-import { useGetExamInformation } from "hooks/ielts/useIelts";
+import { useGetExamInformation, useGetExamProgress } from "hooks/ielts/useIelts";
 import cacheService from "services/cacheService";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
 // ! type
 interface Props {
   stepRuleExam: {
@@ -53,6 +54,8 @@ const RuleExam = (props: Props) => {
     stepRuleExam: { typeExam, time, informationsForCandidates, intructionsToCandidates },
   } = props;
   const classes = useStyles();
+  const { testCode } = useGetTestCode();
+  const { data: examProgress } = useGetExamProgress({ testCode, skill: "listening" });
 
   //! Render
   return (
@@ -74,7 +77,11 @@ const RuleExam = (props: Props) => {
       <Box className={classes.textWarning}>
         <HelpFooter textHelp={warningDetailUser.onStartTest} image={ImgHelp} />
       </Box>
-      <FooterSubmit textBtn={textBtnSubmit.startTest} nextStep={nextStep} />
+      <FooterSubmit
+        examProgress={examProgress?.data?.data?.timeRemain}
+        textBtn={textBtnSubmit.startTest}
+        nextStep={nextStep}
+      />
     </Box>
   );
 };
