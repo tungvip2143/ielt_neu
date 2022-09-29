@@ -14,7 +14,6 @@ const warningUser = {
 };
 const HelpFooter = (props: Props) => {
   const { image, textHelp } = props;
-  console.log("image", image);
   return (
     <>
       <Stack direction="row" spacing={1} sx={warningUser}>

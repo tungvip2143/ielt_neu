@@ -39,7 +39,6 @@ const LoginPage = () => {
   const auth = GetAuthSelector();
   const location = useGetLocation();
   const { isLogin } = auth;
-  console.log("isLogin", isLogin);
 
   if (isLogin) {
     const dataCache = cacheService.getDataCache();

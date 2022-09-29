@@ -38,7 +38,6 @@ const ReadingReview = (props: any) => {
   //! State
   const classes = useStyles();
   const { data } = props;
-  console.log("data789", data);
   // const [questions, setQuestions] = useState([]);
 
   const [questionSelected, setQuestionSelected] = useState<any>("1");

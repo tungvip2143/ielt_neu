@@ -41,7 +41,6 @@ const useStyles = makeStyles((theme) => {
 });
 const Step2ExamContent = (props: any) => {
   const { data } = props;
-  console.log("3232", data);
 
   //! State
   const [questions, setQuestions] = useState(data);
@@ -53,7 +52,6 @@ const Step2ExamContent = (props: any) => {
   });
   const [showQuestion, setShowQuestion] = useState("1");
 
-  console.log("data123", data);
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];

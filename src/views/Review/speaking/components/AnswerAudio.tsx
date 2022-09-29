@@ -8,7 +8,6 @@ interface Props {
 }
 const AnswerAudio = (props: Props) => {
   const { dataAudio } = props;
-  console.log(dataAudio, "dataAudio");
   const correctAnser = {
     color: "#000000",
     mb: "20px",

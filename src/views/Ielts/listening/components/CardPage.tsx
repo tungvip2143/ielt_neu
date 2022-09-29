@@ -101,7 +101,6 @@ const CardPage = ({
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
 
-  console.log("SentenceCompletetion", values);
   // console.log("ngocanhdeptrai", questions);
   // const check = () => {
   //   const flat_questions = questions.reduce((return_questions: any, part_elm: any) => {

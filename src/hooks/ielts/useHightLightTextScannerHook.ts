@@ -39,17 +39,14 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
   }, [textHightlighted, text]);
 
   const handleRightClick = (e: any) => {
-    console.log("hello", e);
     const domNode: any = ReactDOM.findDOMNode(e.target);
     const tagName = domNode?.tagName;
-    console.log("tagName", tagName);
     if (tagName === "MARK") {
       const valueInnerTag = domNode.innerHTML.split("<")[0];
       setClearItem(valueInnerTag);
       setIsOpenOptionClear(true);
     }
     if (tagName === tagName && tagName != "MARK") {
-      console.log("abcdef");
       setIsHightLight(true);
     }
     e?.preventDefault();
@@ -106,11 +103,7 @@ export const useHightLightText = ({ text, values, onChangeInput, tagName }: Prop
       return newTextHightlighted;
     });
 
-    console.log("newValues markTagId", markTagId);
-
-    onChangeInput((field: any) => {
-      console.log("123456", field);
-    });
+    onChangeInput((field: any) => {});
 
     delete values[markTagId];
   };

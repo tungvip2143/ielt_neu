@@ -44,7 +44,11 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER
+    ) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}

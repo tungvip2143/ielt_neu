@@ -38,7 +38,6 @@ export const authSagas = {
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
       const { token, userType, user } = action.payload;
-      console.log("checkout", token, userType, user);
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token, user });
       yield authServices.saveUserTypeToLocalStorage(userType);
