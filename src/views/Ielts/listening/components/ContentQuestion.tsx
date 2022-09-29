@@ -6,7 +6,7 @@ import FlowChart from "./CardRender/FlowChart";
 import SentenceCompletetion from "components/Ielts/components/SentenceCompletetion";
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
-import MultichoiceAnswer from "./CardRender/MultichoiceAnswer";
+import MatchingType from "components/Ielts/components/MachingType";
 import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
@@ -34,9 +34,18 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
   const renderPartValueGroup = (partTypeQuestions: PartContentQuestionsI) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
-        <MachingTypeListening
-          answerList={partTypeQuestions.answerList}
-          questionBox={partTypeQuestions.questionBox ?? ""}
+        //     <MachingTypeListening
+        //       answerList={partTypeQuestions.answerList}
+        //       questionBox={partTypeQuestions.questionBox ?? ""}
+        //       questions={partTypeQuestions.questions}
+        //       onClickPage={onClickPage}
+        //       displayNumber={displayNumber}
+        //     />
+        //   );
+        // }
+        <MatchingType
+          answerList={partTypeQuestions?.answerList ?? ""}
+          questionBox={partTypeQuestions?.questionBox ?? ""}
           questions={partTypeQuestions.questions}
           onClickPage={onClickPage}
           displayNumber={displayNumber}
@@ -44,7 +53,11 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER ||
+      questionType === QUESTION_TYPE.SHORT_ANSWER_QUESTION
+    ) {
       return (
         <NoteCompletion
           displayNumber={displayNumber}
@@ -105,14 +118,6 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
       return <MultiChoice onClickPage={onClickPage} questions={partTypeQuestions?.questions} />;
-    }
-
-    if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER) {
-      return (
-        <>
-          <MultichoiceAnswer />
-        </>
-      );
     }
 
     return null;

@@ -13,6 +13,10 @@ import IdentifyInformationType from "components/Ielts/components/IdentifyInforma
 import ReactHtmlParser from "react-html-parser";
 import { Form, Formik } from "formik";
 import MultiChoice from "views/Ielts/listening/components/CardRender/MultiChoice";
+import NoteCompletion from "views/Ielts/listening/components/CardRender/NoteCompletion";
+import MultichoiceAnswer from "views/Ielts/listening/components/CardRender/MultichoiceAnswer";
+import MachingTypeListening from "views/Ielts/listening/components/CardRender/MachingTypeListening";
+import { QuestionItemI } from "constants/typeData.types";
 
 export interface Props {
   dataListening?: [];
@@ -24,65 +28,80 @@ const Listening = (props: Props) => {
   const renderQuestion = (group: any) => {
     const { questionType } = group;
 
-    if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-      return (
-        <QuestionBox
-          // onClickPage={onClickPage}
-          displayNumber={1}
-          questions={group?.questions}
-          questionBox={group?.questionBox}
-          isView
-        />
-      );
-    }
+    // if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    //   return (
+    //     <QuestionBox
+    //       // onClickPage={onClickPage}
+    //       displayNumber={1}
+    //       questions={group?.questions}
+    //       questionBox={group?.questionBox}
+    //       isView
+    //     />
+    //   );
+    // }
+
     if (
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
-      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER ||
+      questionType === QUESTION_TYPE.SHORT_ANSWER_QUESTION
     ) {
       return (
-        <QuestionBox
-          onClickPage={() => {}}
+        <NoteCompletion
           displayNumber={1}
           questions={group?.questions}
-          questionBox={group?.questionBox}
-          isView
+          questionBox={group?.questionBox ?? ""}
+          onClickPage={() => {}}
+          isView={true}
         />
       );
     }
-    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
-      return group?.questions?.map((el: any) => {
-        return (
-          <MachingHeading
-            questions={group?.questions}
-            answerList={group?.answerList}
-            onClickPage={() => {}}
-            displayNumber={1}
-            isView
-          />
-        );
-      });
+
+    if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
+      return (
+        <MachingTypeListening
+          answerList={group?.answerList}
+          questionBox={group?.questionBox ?? ""}
+          questions={group?.questions}
+          onClickPage={() => null}
+          displayNumber={1}
+          isView={true}
+        />
+      );
     }
+
     if (
       questionType === QUESTION_TYPE.FORM_COMPLETION ||
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP ||
-      questionType === QUESTION_TYPE.DIAGRAM_LABELING
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION
     ) {
       return (
-        <FlowChart onClickPage={() => null} question={group.questions} image={group?.image} displayNumber={1} isView />
+        <FlowChart
+          onClickPage={() => null}
+          question={group.questions}
+          image={group?.image}
+          displayNumber={1}
+          isView={true}
+        />
       );
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return group?.questions.map((question: any) => {
-        return <SentenceCompletetion questionItem={question} isView />;
+      return group?.questions.map((question: QuestionItemI) => {
+        return (
+          <>
+            <SentenceCompletetion
+              key={question.questionId}
+              onClickPage={() => null}
+              displayNumber={1}
+              questionItem={question}
+              isView={true}
+            />
+          </>
+        );
       });
     }
-    if (
-      questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
-      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
-      questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS ||
-      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS
-    ) {
+    if (questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER) {
       return <MultiChoice isView onClickPage={() => null} questions={group?.questions} />;
     }
   };

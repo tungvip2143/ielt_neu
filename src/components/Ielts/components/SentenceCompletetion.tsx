@@ -11,7 +11,7 @@ interface SentenceCompletionI {
 
 const SentenceCompletetion = (props: SentenceCompletionI) => {
   //! State
-  const { questionItem, displayNumber, onClickPage, isView = false } = props;
+  const { questionItem, displayNumber, onClickPage, isView } = props;
 
   const displayNumberI = Number(questionItem.question.displayNumber);
 

@@ -81,7 +81,7 @@ const MachingTypeListening = (props: MatchingSentenceEndingI) => {
           );
         })}
       </div>
-      <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>
+      {isView ? "" : <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>}
     </div>
   );
 };

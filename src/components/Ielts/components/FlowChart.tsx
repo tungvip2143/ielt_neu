@@ -36,7 +36,7 @@ type Props = {
 const FlowChart = (props: Props) => {
   //! State
   const classes = useStyles();
-  const { image, question, onClickPage, displayNumber, isView = false } = props;
+  const { image, question, onClickPage, displayNumber, isView } = props;
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 

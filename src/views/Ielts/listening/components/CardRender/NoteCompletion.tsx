@@ -8,6 +8,7 @@ interface NoteCompletionI {
   questions: QuestionItemI[];
   displayNumber: number;
   onClickPage: (options: object) => void;
+  isView?: boolean;
 }
 
 const CODE = "-@X$";
@@ -21,13 +22,15 @@ const NoteCompletion = (props: NoteCompletionI) => {
   //! State
   const inputDebounce = React.useRef(new Timer());
   const queueAnswers = React.useRef<any>({});
-  const { questionBox, questions, displayNumber, onClickPage } = props;
+  const { questionBox, questions, displayNumber, onClickPage, isView } = props;
   const { setFieldValue, values }: any = useFormikContext();
+  // console.log("questionBox", questionBox, questions);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el: QuestionItemI) => {
       const { blankNumber, displayNumber } = el.question;
+      // console.log("elfgsgsg", el);-
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
@@ -37,6 +40,8 @@ const NoteCompletion = (props: NoteCompletionI) => {
     tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
     return tempQuestionBox;
   }, [questions, questionBox]);
+
+  // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
 
   useEffect(() => {
     const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
@@ -52,14 +57,14 @@ const NoteCompletion = (props: NoteCompletionI) => {
     inputIndex++;
     const input: Element | any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1]?.studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
       `
       <strong>${blankId}</strong>
-      <input
+      <input class="${inputIndex}" ${isView ? "disabled" : ""}
           key="input-${blankId}"
-          value="quang"
+          value=""
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
