@@ -23,6 +23,7 @@ function CountDownItem({ handleSubmitWhenEndedTime, typeExam }: Props) {
   const { data, isLoading } = useGetExamProgress({ testCode, skill: typeExam.toLowerCase() });
 
   let timeExam = data?.data?.data?.timeRemain || 600000;
+  console.log("data567", timeExam);
 
   const countdownRef: any = useRef(null);
 

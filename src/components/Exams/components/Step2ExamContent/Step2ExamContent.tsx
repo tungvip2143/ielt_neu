@@ -77,12 +77,22 @@ const Step2ExamContent = (props: any) => {
 
   useEffect(() => {
     handleSubmit();
-    const body = { timeRemain: cache.LEFT_TIME };
-    const saveExamProgress = async () => {
-      await updateExamProgress({ testCode, skill: "reading", body });
-    };
-    saveExamProgress();
   }, [displayNumber]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cache = cacheService.getDataCache();
+      const body = {
+        timeRemain: cache.LEFT_TIME,
+        // timeRemain: 60000,
+      };
+      const saveExamProgress = async () => {
+        await updateExamProgress({ testCode, skill: "reading", body });
+      };
+      saveExamProgress();
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
 
   const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });

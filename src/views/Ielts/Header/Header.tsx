@@ -97,9 +97,8 @@ const Header = ({
     return user;
   }, []);
 
-  const { testCode } = useGetTestCode();
-
   const handleSubmitWhenEndedTime = useCallback(async () => {
+    const testCode = localStorage.getItem("testCode");
     handleSubmit();
     await updateIeltsSkillFinish({ testCode, skill: typeExam?.toLocaleLowerCase() }).then(async () => {
       cacheService.clearCacheData();
@@ -109,9 +108,9 @@ const Header = ({
       if (typeExam === "READING") {
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       }
-      const body = { timeRemain: 0 };
-      await updateExamProgress({ testCode, skill: typeExam?.toLocaleLowerCase(), body });
     });
+    const body = { timeRemain: 0 };
+    await updateExamProgress({ testCode, skill: typeExam?.toLocaleLowerCase(), body });
   }, [handleSubmit]);
 
   //! Render
