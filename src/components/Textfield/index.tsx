@@ -71,9 +71,9 @@ export const TextField = (props: Props) => {
       value={value}
       size={size}
       fullWidth={fullWidth}
-      className={classnames(props.className)}
+      className={classnames("noselect", props.className)}
       onChange={handleChange}
-      inputProps={{ className: "noselect" }}
+      // inputProps={{ className: "noselect" }}
       {...rest}
       // error={isTouched && Boolean(errorMessage)}
       // helperText={isTouched && errorMessage}

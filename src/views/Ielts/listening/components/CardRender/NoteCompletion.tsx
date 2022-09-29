@@ -56,15 +56,15 @@ const NoteCompletion = (props: NoteCompletionI) => {
     }
     return new Handlebars.SafeString(
       `
-      <strong>${blankId}</strong>
+      <span class="noselect"><strong>${blankId}</strong>
       <input
           key="input-${blankId}"
           value="quang"
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
-          class='${inputIndex} noselect'
-        />
+          class='${inputIndex}'
+        /></span>
       `
     );
   });

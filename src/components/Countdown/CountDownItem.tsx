@@ -22,15 +22,12 @@ function CountDownItem({ handleSubmitWhenEndedTime, typeExam }: Props) {
   const { testCode } = useGetTestCode();
   const { data, isLoading } = useGetExamProgress({ testCode, skill: typeExam.toLowerCase() });
 
-  let timeExam = data?.data?.data?.timeRemain || 600000;
+  let timeExam = data?.data?.data?.timeRemain || 1000;
   console.log("data567", timeExam);
 
   const countdownRef: any = useRef(null);
 
   useEffect(() => {
-    if (data?.data?.data?.timeRemain === 0) {
-      handleSubmitWhenEndedTime && handleSubmitWhenEndedTime();
-    }
     return () => cacheService.cache(TimeExamLeft.LEFT_TIME, countdownRef?.current?.state?.timeDelta?.total);
   }, []);
 

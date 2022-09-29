@@ -45,6 +45,8 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       const p = docFragment.querySelector("p");
       const span = docFragment.querySelector("span");
       const clickNumber = event.detail;
+      console.log("input1234", input);
+      console.log("input12346789", docFragment.inClu);
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste
@@ -74,4 +76,9 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       }
     });
   }, []);
+  useEffect(() => {
+    $(".noselect").mouseup(function (e) {
+      e.stopPropagation();
+    });
+  });
 };

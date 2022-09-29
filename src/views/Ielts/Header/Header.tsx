@@ -109,7 +109,7 @@ const Header = ({
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       }
     });
-    const body = { timeRemain: 0 };
+    const body = { timeRemain: 1000 };
     await updateExamProgress({ testCode, skill: typeExam?.toLocaleLowerCase(), body });
   }, [handleSubmit]);
 
