@@ -49,14 +49,13 @@ const FooterSubmit = (props: Props) => {
   const { data, refetch } = useGetExamInformation();
 
   const canStart = data?.data?.data?.canStart;
-  console.log("examProgress678", examProgress);
 
   const onStartExam = () => {
     if (step === TypeStepExamEnum.STEP3) {
       refetch();
       if (canStart) {
         handler?.setStep && handler.setStep(nextStep);
-        if (examProgress <= 1000) {
+        if (examProgress === 1000) {
           history.push(RouteBase.IeltsReading);
         }
         // cacheService.cache("step", nextStep);

@@ -93,7 +93,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
       saveExamProgress();
     }, 3000);
     return () => clearInterval(interval);
-  }, []);
+  }, [idxAudioPlaying]);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
