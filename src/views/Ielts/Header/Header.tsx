@@ -17,7 +17,7 @@ import { TypeExam } from "constants/enum";
 import { makeStyles } from "@mui/styles";
 import authServices from "services/authServices";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
-import { useFinishIeltsSkill } from "hooks/ielts/useIelts";
+import { useFinishIeltsSkill, useUpdateExamProgress } from "hooks/ielts/useIelts";
 import cacheService from "services/cacheService";
 import { useHistory } from "react-router-dom";
 import { RouteBase } from "constants/routeUrl";
@@ -83,6 +83,7 @@ const Header = ({
   const classes = useStyles();
   const history = useHistory();
   const { mutateAsync: updateIeltsSkillFinish } = useFinishIeltsSkill();
+  const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
 
   const btnHelp = {
     cursor: "pointer",
@@ -100,7 +101,7 @@ const Header = ({
 
   const handleSubmitWhenEndedTime = useCallback(async () => {
     handleSubmit();
-    await updateIeltsSkillFinish({ testCode, skill: typeExam?.toLocaleLowerCase() }).then(() => {
+    await updateIeltsSkillFinish({ testCode, skill: typeExam?.toLocaleLowerCase() }).then(async () => {
       cacheService.clearCacheData();
       if (typeExam === "LISTENING") {
         history.push(RouteBase.IeltsReading);
@@ -108,6 +109,8 @@ const Header = ({
       if (typeExam === "READING") {
         handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       }
+      const body = { timeRemain: 0 };
+      await updateExamProgress({ testCode, skill: typeExam?.toLocaleLowerCase(), body });
     });
   }, [handleSubmit]);
 
@@ -125,7 +128,7 @@ const Header = ({
           )}
 
           {step === numberStep && (
-            <CountDown typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+            <CountDown typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} />
           )}
           <div className="flex">
             {typeExam === TypeExam.LISTENING &&

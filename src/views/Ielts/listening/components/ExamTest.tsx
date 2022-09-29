@@ -73,8 +73,9 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
 
   useEffect(() => {
     const audio: any = document.getElementById("audio");
-    handleSubmit();
     const cache = cacheService.getDataCache();
+
+    handleSubmit();
     const body = {
       currentPart: idxAudioPlaying,
       audioPlayedTime: audio?.currentTime,

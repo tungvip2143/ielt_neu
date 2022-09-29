@@ -61,6 +61,7 @@ const Step2ExamContent = (props: any) => {
   const { values, setFieldValue, handleSubmit } = useFormikContext();
   const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
   const { testCode } = useGetTestCode();
+  const cache = cacheService.getDataCache();
 
   let inputIndex = 0;
   useEffect(() => {
@@ -76,9 +77,9 @@ const Step2ExamContent = (props: any) => {
 
   useEffect(() => {
     handleSubmit();
-    const cache = cacheService.getDataCache();
+    const body = { timeRemain: cache.LEFT_TIME };
     const saveExamProgress = async () => {
-      await updateExamProgress({ testCode, skill: "reading", body: cache.LEFT_TIME });
+      await updateExamProgress({ testCode, skill: "reading", body });
     };
     saveExamProgress();
   }, [displayNumber]);
