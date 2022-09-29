@@ -22,7 +22,7 @@ const CountDown = (props: Props) => {
   return (
     <Stack direction="row" spacing={1} sx={Countdown}>
       <AccessAlarmIcon />
-      <CountDownItem typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} timeExam={timeExam} />
+      <CountDownItem typeExam={typeExam} handleSubmitWhenEndedTime={handleSubmitWhenEndedTime} />
       <Typography
         sx={{
           color: "#FEE49B",

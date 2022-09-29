@@ -9,12 +9,16 @@ import { TypeStepExamEnum } from "constants/enum";
 import { useStepExam } from "../../../provider/StepExamProvider";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
-import { useGetExamInformation } from "hooks/ielts/useIelts";
+import { useGetExamInformation, useGetExamProgress } from "hooks/ielts/useIelts";
 import { showError } from "helpers/toast";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { RouteBase } from "constants/routeUrl";
+import { useHistory } from "react-router-dom";
 // !type
 interface Props {
   textBtn?: string;
   nextStep?: any;
+  examProgress?: any;
 }
 const containerBtn = {
   ...themeCssSx.flexBox.flexBetWeen,
@@ -39,16 +43,22 @@ const btn = {
   },
 };
 const FooterSubmit = (props: Props) => {
-  const { textBtn, nextStep } = props;
+  const { textBtn, nextStep, examProgress } = props;
+  const history = useHistory();
   const { handler, step } = useStepExam();
   const { data, refetch } = useGetExamInformation();
+
   const canStart = data?.data?.data?.canStart;
+  console.log("examProgress678", examProgress);
 
   const onStartExam = () => {
     if (step === TypeStepExamEnum.STEP3) {
       refetch();
       if (canStart) {
         handler?.setStep && handler.setStep(nextStep);
+        if (examProgress === 1000) {
+          history.push(RouteBase.IeltsReading);
+        }
         // cacheService.cache("step", nextStep);
       }
       if (!canStart) {

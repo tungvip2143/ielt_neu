@@ -2,6 +2,7 @@ import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
+import { RouteBase } from "constants/routeUrl";
 import { useFormikContext } from "formik";
 import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
@@ -12,6 +13,7 @@ import { isEmpty } from "lodash";
 import React, { useEffect, useMemo, useState } from "react";
 import ReactAudioPlayer from "react-audio-player";
 import { useQuery } from "react-query";
+import { useHistory } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import cacheService from "services/cacheService";
 import ieltsService from "services/ieltsService";
@@ -72,19 +74,26 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
   }, [values, idxAudioPlaying]);
 
   useEffect(() => {
-    const audio: any = document.getElementById("audio");
     handleSubmit();
-    const cache = cacheService.getDataCache();
-    const body = {
-      currentPart: idxAudioPlaying,
-      audioPlayedTime: audio?.currentTime,
-      timeRemain: cache.LEFT_TIME,
-    };
-    const saveExamProgress = async () => {
-      await updateExamProgress({ testCode, skill: "listening", body });
-    };
-    saveExamProgress();
   }, [displayNumber]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const audio: any = document.getElementById("audio");
+      const cache = cacheService.getDataCache();
+      const body = {
+        currentPart: idxAudioPlaying,
+        audioPlayedTime: audio?.currentTime,
+        timeRemain: cache.LEFT_TIME,
+        // timeRemain: 60000,
+      };
+      const saveExamProgress = async () => {
+        await updateExamProgress({ testCode, skill: "listening", body });
+      };
+      saveExamProgress();
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   const onClickPage = (groupRenderSelected: any) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
@@ -174,11 +183,14 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
 
 const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
   const { dispatch } = useSagaCreators();
+  const history = useHistory();
 
   const testCode = useMemo(() => {
     return localStorage.getItem("testCode");
   }, []);
-  const { data: examProgress } = useGetExamProgress({ testCode, skill: "listening" });
+  const { data: examProgress, isLoading: examProgressLoading } = useGetExamProgress({ testCode, skill: "listening" });
+  const examDataProgress = examProgress?.data?.data;
+  console.log("examDataProgress", examDataProgress);
   const { data, isLoading } = useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
     onSuccess: () => {
       cacheService.cache("skill", "LISTENING");
@@ -189,21 +201,22 @@ const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
       localStorage.removeItem("testCode");
       setTimeout(() => {
         dispatch(authActions.logout);
-      }, 1000);
+      }, 6000);
     },
   });
 
-  if (isLoading) {
+  useEffect(() => {
+    if (examDataProgress?.timeRemain === 1000) {
+      history.push(RouteBase.IeltsReading);
+    }
+  }, []);
+
+  if (isLoading || examProgressLoading) {
     return <LoadingPage />;
   }
 
   return (
-    <ExamTest
-      valueVolum={valueVolum}
-      examProgress={examProgress?.data?.data}
-      prevStep={prevStep}
-      data={data?.data.data}
-    />
+    <ExamTest valueVolum={valueVolum} examProgress={examDataProgress} prevStep={prevStep} data={data?.data.data} />
   );
 };
 

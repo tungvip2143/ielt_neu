@@ -9,6 +9,10 @@ import { useFormikContext } from "formik";
 import NextQuestion from "assets/image/exam/prev-exercise.png";
 import CacheService from "services/cacheService";
 import PrevQuestion from "assets/image/exam/next-exercise.png";
+import { useGetExamProgress } from "hooks/ielts/useIelts";
+import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { RouteBase } from "constants/routeUrl";
+import { useHistory } from "react-router-dom";
 interface CardTotalPageExamsI {
   questions: any;
   onClickPage: any;
@@ -100,29 +104,14 @@ const CardPage = ({
   displayNumber,
 }: CardTotalPageExamsI) => {
   const { values }: any = useFormikContext();
-
-  console.log("SentenceCompletetion", values);
-  // console.log("ngocanhdeptrai", questions);
-  // const check = () => {
-  //   const flat_questions = questions.reduce((return_questions: any, part_elm: any) => {
-  //     const flat_group = part_elm?.groups.reduce((return_group: any, group_elm: any) => {
-  //       const group_elm_list = group_elm.questions.reduce((return_questions_list: any, question_elm: any) => {
-  //         return_questions_list.push(question_elm);
-  //         return return_questions_list;
-  //       }, []);
-  //       return_group = [...return_group, ...group_elm_list];
-  //       return return_group;
-  //     }, []);
-  //     return_questions = [...return_questions, ...flat_group];
-  //     return return_questions;
-  //   }, []);
-  //   console.log("ngocanhdeptrai", flat_questions);
-  // };
-  // useEffect(() => check(), []);
+  const { testCode } = useGetTestCode();
+  const history = useHistory();
 
   const [inReviewListQuestions, setInReviewListQuestions] = useState<number[]>(
     CacheService.getDataCache()?.inReviewList || []
   );
+
+  const { data } = useGetExamProgress({ testCode, skill: "listening" });
 
   const classes = useStyles();
   const { handleSubmit } = useFormikContext();
@@ -163,6 +152,9 @@ const CardPage = ({
       sectionRender.group = 0;
       sectionRender.question = 0;
       return sectionRender;
+    }
+    if (data?.data?.data?.timeRemain === 0) {
+      history.push(RouteBase.IeltsReading);
     }
     handleSubmit();
     return;
