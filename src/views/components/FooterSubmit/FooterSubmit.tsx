@@ -56,7 +56,7 @@ const FooterSubmit = (props: Props) => {
       refetch();
       if (canStart) {
         handler?.setStep && handler.setStep(nextStep);
-        if (examProgress === 1000) {
+        if (examProgress <= 1000) {
           history.push(RouteBase.IeltsReading);
         }
         // cacheService.cache("step", nextStep);
