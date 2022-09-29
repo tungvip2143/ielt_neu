@@ -72,7 +72,8 @@ const Reading = (props: Props) => {
       questionType === QUESTION_TYPE.IDENTIFYING_INFORMATION ||
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS ||
-      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS
+      questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS ||
+      questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION
     ) {
       return <MultiChoice isView onClickPage={() => null} dataQuestions={group?.questions} audio={null} />;
     }

@@ -34,17 +34,17 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
   const renderPartValueGroup = (ContentQuestion: any) => {
     // console.log("ContentQuestion", ContentQuestion);
 
-    if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-      return (
-        <MachingTypeListening
-          answerList={ContentQuestion?.answerList}
-          questionBox={ContentQuestion?.questionBox}
-          data={ContentQuestion?.questions}
-          onClickPage={onClickPage}
-          displayNumber={displayNumber}
-        />
-      );
-    }
+    // if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
+    //   return (
+    //     <MachingTypeListening
+    //       answerList={ContentQuestion?.answerList}
+    //       questionBox={ContentQuestion?.questionBox}
+    //       data={ContentQuestion?.questions}
+    //       onClickPage={onClickPage}
+    //       displayNumber={displayNumber}
+    //     />
+    //   );
+    // }
 
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
       return (
@@ -57,7 +57,7 @@ const ContentQuestion = ({ ContentQuestion, audio, displayNumber, onClickPage, o
       );
     }
 
-    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS) {
+    if (questionType === QUESTION_TYPE.MATCHING_HEADINGS || questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MachingHeading
           questions={ContentQuestion?.questions}
