@@ -38,11 +38,11 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
     }
 
     return new Handlebars.SafeString(
-      `<strong>${questionItem?.question?.displayNumber}</strong> <input ${
+      `<span class="noselect"><strong>${questionItem?.question?.displayNumber}</strong> <input ${
         isView ? "disabled" : ""
-      } class="${displayNumberI} noselect" name='answers.[${
+      } class="${displayNumberI}" name='answers.[${
         displayNumberI - 1
-      }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30">`
+      }].studentAnswer' style={{border:"1px solid #ccc"}} id="${blankId}" type="text" value="" maxlength="30"></span>`
     );
   });
   const test: any = Handlebars.compile(text || "");
