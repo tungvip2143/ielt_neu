@@ -29,7 +29,6 @@ const ListStudentId = ({ studentIds, studentDetails }: any) => {
   //   onPageChange,
   //   onPageSizeChange,
   // } = useGetListStudents();
-  console.log("studentDetails", studentDetails);
 
   const history = useHistory();
 

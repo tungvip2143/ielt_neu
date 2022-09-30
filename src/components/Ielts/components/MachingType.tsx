@@ -75,7 +75,7 @@ const MachingType = (props: MatchSentenceEndingI) => {
 
   return (
     <div className={classes.container}>
-      <div>{ReactHtmlParser(directionText ?? "")}</div>
+      {/* <div>{ReactHtmlParser(directionText ?? "")}</div> */}
       <div className={classes.root}>
         {questions?.map((question: any, questionIndex: number) => {
           const index = Number(question?.question?.displayNumber) - 1;
