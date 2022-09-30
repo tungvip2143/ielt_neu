@@ -138,6 +138,7 @@ const Listening = (props: Props) => {
                           ) : (
                             <Typography className="titlePart">{group?.questionBox}</Typography>
                           )} */}
+                          {ReactHtmlParser(group?.directionText ?? "")}
                           {renderQuestion(group)}
                         </div>
                       );

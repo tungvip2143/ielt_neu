@@ -26,10 +26,12 @@ type MultiChoiceOneAnswerI = {
   questionIdx?: number;
   onClickPage?: (options: object) => void;
   isView?: boolean;
+  directionText?: string;
 };
 
 const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
-  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView } = props;
+  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView, directionText } =
+    props;
   // console.log("question", question);
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
@@ -45,6 +47,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
 
   return (
     <>
+      {/* <div>{ReactHtmlParser(directionText ?? "")}</div> */}
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
