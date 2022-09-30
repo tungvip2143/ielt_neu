@@ -20,9 +20,9 @@ export const authSagas = {
       const infoLocalStorage = authServices.getUserLocalStorage();
       const userType = authServices.getUserTypeFromLocalStorage();
       if (!isEmpty(infoLocalStorage) && !isEmpty(userType)) {
-        const { token, user } = infoLocalStorage;
+        const { token, user, student } = infoLocalStorage;
         yield httpServices.attachTokenToHeader(token);
-        yield put({ type: authActions.saveInfoUser, payload: { token, userType, user } });
+        yield put({ type: authActions.saveInfoUser, payload: { token, userType, user, student } });
       } else {
         yield put({ type: authActions.saveInfoUserFailed });
       }
@@ -37,12 +37,12 @@ export const authSagas = {
   },
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
-      const { token, userType, user } = action.payload;
-      console.log("checkout", token, userType, user);
+      const { token, userType, user, student } = action.payload;
+      console.log("checkout", token, userType, user, student);
       yield httpServices.attachTokenToHeader(token);
-      yield authServices.saveUserToLocalStorage({ token, user });
+      yield authServices.saveUserToLocalStorage({ token, user, student });
       yield authServices.saveUserTypeToLocalStorage(userType);
-      yield put({ type: authActions.saveInfoUserSuccess, token, user });
+      yield put({ type: authActions.saveInfoUserSuccess, token, user, student });
     },
   },
 };

@@ -31,9 +31,9 @@ const DetailUser = (props: Props) => {
   const classes = useStyles();
 
   const nextStep = TypeStepExamEnum.STEP2;
-  const user: any = useMemo(() => {
-    const { user } = authServices.getUserLocalStorage();
-    return user;
+  const student: any = useMemo(() => {
+    const { student } = authServices.getUserLocalStorage();
+    return student;
   }, []);
 
   //! Render
@@ -42,7 +42,7 @@ const DetailUser = (props: Props) => {
       <Box>
         <Title image={ImgUser} text={textHeaderModal.confirmDetail} />
         <Container>
-          <p className={classes.introduceUser}>Student code : {user?.username}</p>
+          <p className={classes.introduceUser}>Student code : {student?.studentCode}</p>
           <HelpFooter textHelp={warningDetailUser.checkInformation} image={ImgHelp} />
           <FooterSubmit textBtn={textBtnSubmit.detailUser} nextStep={nextStep} />
         </Container>

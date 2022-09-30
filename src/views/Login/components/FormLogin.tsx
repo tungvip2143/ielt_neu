@@ -91,6 +91,7 @@ const FormLogin = () => {
             dispatch(authActions.saveInfoUser, {
               token: response?.data?.data?.data?.access_token,
               user: response?.data?.data?.data?.user,
+              student: response?.data?.data?.data?.student,
               userType: "user",
             });
             await onSubmitTestCode(response?.data?.data?.data?.examination?.id);
