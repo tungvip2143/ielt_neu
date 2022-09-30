@@ -15,6 +15,7 @@ interface MatchSentenceEndingI {
   getTextEachPart?: (text: string) => void;
   passageTextWithHighlightTexted?: string;
   onScannerText?: (data: string) => void;
+  directionText?: string;
 }
 
 const useStyles = makeStyles((theme) => ({
@@ -52,7 +53,9 @@ const MachingType = (props: MatchSentenceEndingI) => {
     getTextEachPart,
     passageTextWithHighlightTexted,
     onScannerText,
+    directionText,
   } = props;
+
   const inputRef = useRef<any>([]);
   useEffect(() => {
     inputRef?.current[displayNumber]?.focus();
@@ -72,6 +75,7 @@ const MachingType = (props: MatchSentenceEndingI) => {
 
   return (
     <div className={classes.container}>
+      <div>{ReactHtmlParser(directionText ?? "")}</div>
       <div className={classes.root}>
         {questions?.map((question: any, questionIndex: number) => {
           const index = Number(question?.question?.displayNumber) - 1;
@@ -99,14 +103,14 @@ const MachingType = (props: MatchSentenceEndingI) => {
           );
         })}
       </div>
-      {/* <div className={classes.questionBox}>
+      <div className={classes.questionBox}>
         <div
           onClick={(data: any) => {
             onScannerText && onScannerText(data);
           }}
           dangerouslySetInnerHTML={{ __html: passageTextWithHighlightTexted || answerList }}
         />
-      </div> */}
+      </div>
     </div>
   );
 };
