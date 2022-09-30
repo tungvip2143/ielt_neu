@@ -141,17 +141,14 @@ const ModalCreateQuestion = (props: Props) => {
         questionBox:
           questionType === "SUMMARY_COMPLETION" ||
           questionType === "NOTE_COMPLETION" ||
-          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" ||
+          questionType === "SHORT_ANSWER_QUESTION"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
-            // options:
-            //   data.questionType === "MULTIPLE_CHOICE_1_ANSWER" ||  data.questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
-            //   ? el.options?.map((e: any, index: number) => ({ key: keys?.[index], text: e }))
-            //   :[],
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
                 ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
@@ -182,17 +179,14 @@ const ModalCreateQuestion = (props: Props) => {
         questionBox:
           questionType === "SUMMARY_COMPLETION" ||
           questionType === "NOTE_COMPLETION" ||
-          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+          questionType === "MULTIPLE_CHOICE_MULTIPLE_ANSWER" ||
+          questionType === "SHORT_ANSWER_QUESTION"
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
-            // options:
-            //   data.questionType === ("MULTIPLE_CHOICE_1_ANSWER" || "MULTIPLE_CHOICE_MULTIPLE_ANSWER") &&
-            //   // ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
-            //   [],
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
                 ? el.options?.map((e: any, index: number) => ({ key: index, text: e }))
@@ -236,13 +230,7 @@ const ModalCreateQuestion = (props: Props) => {
         return DataAnswer.map((item: QuestionTypeI, indexAnswer: number) => {
           return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
         });
-      case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
-      // return DataAnswerMulti.map((item: any, indexAnswer: number) => {
-      //   if (indexAnswer > 3) {
-      //     return null;
-      //   }
-      //   return <div key={indexAnswer}>{renderMultiChoice(item, indexAnswer, index)}</div>;
-      // });
+
       default:
         return (
           <InputCommon
@@ -268,7 +256,6 @@ const ModalCreateQuestion = (props: Props) => {
   const renderViewType = (type?: any, data?: any) => {
     switch (type) {
       case "IDENTIFYING_VIEWS_CLAIMS":
-      case "SHORT_ANSWER_QUESTION":
       case "MATCHING_FEATURES":
       case "MATCHING_PARAGRAPH_INFORMATION":
       case "IDENTIFYING_INFORMATION":
@@ -507,6 +494,7 @@ const ModalCreateQuestion = (props: Props) => {
       case "MULTIPLE_CHOICE_MULTIPLE_ANSWER":
       case "SUMMARY_COMPLETION":
       case "NOTE_COMPLETION":
+      case "SHORT_ANSWER_QUESTION":
         return (
           <CommonReading
             openModal={openModal}
@@ -545,28 +533,6 @@ const ModalCreateQuestion = (props: Props) => {
           />
         );
       case "MULTIPLE_CHOICE_1_ANSWER":
-        // return (
-        //   <>
-        //     {openModal.type !== "detailQuestion" && (
-        //       <div className="text-end">
-        //         <AddCircleOutlineIcon className="text-[#9155FF] cursor-grab mt-[20px]" onClick={onAddQuestion} />
-        //       </div>
-        //     )}
-        //     {fields.map((fieldQuestion, indexQuestion) => {
-        //       return (
-        //         <QuestionGrops
-        //           fieldQuestion={fieldQuestion}
-        //           indexQuestion={indexQuestion}
-        //           control={control}
-        //           openModal={openModal}
-        //           questionType={questionType}
-        //           onRemoveQuestion={onRemoveQuestion}
-        //           fields={fields}
-        //         />
-        //       );
-        //     })}
-        //   </>
-        // );
         return (
           <>
             {openModal.type !== "detailQuestion" && (
@@ -630,7 +596,8 @@ const ModalCreateQuestion = (props: Props) => {
     if (
       questionType !== "SUMMARY_COMPLETION" &&
       questionType !== "NOTE_COMPLETION" &&
-      questionType !== "MULTIPLE_CHOICE_MULTIPLE_ANSWER"
+      questionType !== "MULTIPLE_CHOICE_MULTIPLE_ANSWER" &&
+      questionType !== "SHORT_ANSWER_QUESTION"
     ) {
       return (
         <>

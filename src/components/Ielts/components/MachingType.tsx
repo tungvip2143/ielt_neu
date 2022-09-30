@@ -99,14 +99,14 @@ const MachingType = (props: MatchSentenceEndingI) => {
           );
         })}
       </div>
-      <div className={classes.questionBox}>
+      {/* <div className={classes.questionBox}>
         <div
           onClick={(data: any) => {
             onScannerText && onScannerText(data);
           }}
           dangerouslySetInnerHTML={{ __html: passageTextWithHighlightTexted || answerList }}
         />
-      </div>
+      </div> */}
     </div>
   );
 };

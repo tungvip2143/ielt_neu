@@ -25,14 +25,14 @@ const QuestionBox = (props: NoteCompletionI) => {
     questions,
     displayNumber,
     onClickPage,
-    isView = false,
+    isView,
     getTextEachPart,
     passageTextWithHighlightTexted,
   } = props;
   const { handleChange, values, setFieldValue }: any = useFormikContext();
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
-    questions.forEach((el) => {
+    questions?.forEach((el) => {
       const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       // console.log("543543", el);
@@ -64,9 +64,9 @@ const QuestionBox = (props: NoteCompletionI) => {
     }
     return new Handlebars.SafeString(
       `<span class="noselect">
-      <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name='answers.[${
+      <strong>${blankId}</strong> <input class="${inputIndex}" ${isView ? "disabled" : ""}  name="answers.[${
         blankId - 1
-      }].studentAnswer' 
+      }].studentAnswer"
        id="input-${blankId}" type="text" maxlength="30">
       </span>`
     );

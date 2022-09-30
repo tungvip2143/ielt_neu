@@ -1,5 +1,5 @@
 // import TableCommon from "./TableCommon";
-import { Card, Typography } from "@mui/material";
+import { Card, Tooltip, Typography } from "@mui/material";
 import CommonDataGrid from "components/CommonDataGrid";
 import useGetListStudents from "hooks/UserManagement/students/useGetListStudents";
 // import ListUserContest from "models/Exam/ListUserContest";
@@ -120,6 +120,15 @@ const ListUserContest = ({ dataFileExcel }: any) => {
               flex: 1.2,
               field: "email",
               renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
+              // renderCell: (items: any) => {
+              //   console.log("items", items);
+
+              //   return (
+              //     <Tooltip sx={{ cursor: "pointer" }} title={items?.row?.email ? items?.row?.email : "No measurement"}>
+              //       {items?.row?.email}
+              //     </Tooltip>
+              //   );
+              // },
             },
             {
               flex: 1,

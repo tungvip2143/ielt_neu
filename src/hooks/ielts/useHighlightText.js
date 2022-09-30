@@ -3,20 +3,20 @@ import { useEffect, useRef } from "react";
 
 export const useHightLightText = ({ noted, toggleNote }) => {
   const highlight = useRef(0);
-  const inputsTag = document.getElementsByTagName("input");
+  // const inputsTag = document.getElementsByTagName("input");
 
-  if (inputsTag) {
-    const arrInputs = Object.values(inputsTag);
-    arrInputs.forEach(function (input) {
-      input.addEventListener(
-        "select",
-        function () {
-          this.selectionStart = this.selectionEnd;
-        },
-        false
-      );
-    });
-  }
+  // if (inputsTag) {
+  //   const arrInputs = Object.values(inputsTag);
+  //   arrInputs.forEach(function (input) {
+  //     input.addEventListener(
+  //       "select",
+  //       function () {
+  //         this.selectionStart = this.selectionEnd;
+  //       },
+  //       false
+  //     );
+  //   });
+  // }
 
   useEffect(() => {
     function getSelectedText() {
@@ -45,8 +45,7 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       const p = docFragment.querySelector("p");
       const span = docFragment.querySelector("span");
       const clickNumber = event.detail;
-      console.log("input1234", input);
-      console.log("input12346789", docFragment.inClu);
+      console.log("hjhjhjkh", input);
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste

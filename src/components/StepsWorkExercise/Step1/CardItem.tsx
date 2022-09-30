@@ -38,10 +38,12 @@ const ItemQuestion = ({
   onClickPage,
   ...remainProps
 }: PropsItemQuestion) => {
-  // console.log("questionTYpe", questionType);
+  console.log("questionTYpe", questionType);
   // console.log("432424", question);
 
   const renderQuestion = (data: any) => {
+    console.log("datadfdff", data);
+
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
@@ -54,7 +56,12 @@ const ItemQuestion = ({
       );
     }
 
-    if (questionType === QUESTION_TYPE.NOTE_COMPLETION || questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
+    if (
+      questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER ||
+      questionType === QUESTION_TYPE.SHORT_ANSWER_QUESTION
+    ) {
       return (
         <QuestionBox
           onClickPage={onClickPage}
@@ -92,7 +99,8 @@ const ItemQuestion = ({
     if (
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
-      questionType === QUESTION_TYPE.TABLE_COMPLETION
+      questionType === QUESTION_TYPE.TABLE_COMPLETION ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING
     ) {
       return <FlowChart onClickPage={onClickPage} question={question} image={image} displayNumber={displayNumber} />;
     }

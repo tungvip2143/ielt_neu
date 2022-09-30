@@ -50,6 +50,7 @@ const FooterSubmit = (props: Props) => {
 
   const canStart = data?.data?.data?.canStart;
 
+  console.log("examProgress", examProgress);
   const onStartExam = () => {
     if (step === TypeStepExamEnum.STEP3) {
       refetch();

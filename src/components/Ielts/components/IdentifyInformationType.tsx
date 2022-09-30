@@ -25,14 +25,15 @@ type MultiChoiceOneAnswerI = {
   displayNumber: number;
   questionIdx?: number;
   onClickPage?: (options: object) => void;
+  isView?: boolean;
 };
 
 const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
-  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage } = props;
-  console.log("question", question);
+  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView } = props;
+  // console.log("question", question);
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
-  console.log("31323", displayNumberT);
+  // console.log("31323", displayNumberT);
 
   const { values }: any = useFormikContext();
 
@@ -47,7 +48,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={displayNumber === question?.question?.displayNumber}
+        expanded={isView ? true : displayNumber === question?.question?.displayNumber}
         disableGutters
       >
         <Stack
@@ -72,7 +73,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={values?.answers[displayNumberT]?.studentAnswer}
+                value={isView ? false : values?.answers[displayNumberT]?.studentAnswer}
               >
                 {question?.question?.options.map((answer: any, index: number) => {
                   const checkSortIndex = () => {
@@ -92,6 +93,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                   };
                   return (
                     <FormControlLabel
+                      disabled={isView}
                       key={answer._id}
                       value={answer.key}
                       control={
@@ -119,9 +121,10 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
                   name="controlled-radio-buttons-group"
-                  value={values?.answers[displayNumberT]?.studentAnswer}
+                  value={isView ? false : values?.answers[displayNumberT]?.studentAnswer}
                 >
                   <FormControlLabel
+                    disabled={isView}
                     value={true}
                     control={
                       <Field

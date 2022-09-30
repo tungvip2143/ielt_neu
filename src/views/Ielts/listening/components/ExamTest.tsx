@@ -91,7 +91,7 @@ const ExamTest = (props: AllQuestionsDataPropsI) => {
         await updateExamProgress({ testCode, skill: "listening", body });
       };
       saveExamProgress();
-    }, 3000);
+    }, 20000);
     return () => clearInterval(interval);
   }, [idxAudioPlaying]);
 
