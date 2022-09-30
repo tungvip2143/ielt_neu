@@ -116,8 +116,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
           </Stack>
         </AccordionDetails>
 
-        {(QUESTION_TYPE.IDENTIFYING_INFORMATION === questionType ||
-          questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS) && (
+        {QUESTION_TYPE.IDENTIFYING_INFORMATION === questionType && (
           <AccordionDetails>
             <Stack spacing={2}>
               <FormControl>
@@ -152,6 +151,60 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                       />
                     }
                     label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
+                  />
+                  <FormControlLabel
+                    disabled={isView}
+                    value={"not_given"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Stack>
+          </AccordionDetails>
+        )}
+        {questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS && (
+          <AccordionDetails>
+            <Stack spacing={2}>
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  defaultValue=""
+                  name="controlled-radio-buttons-group"
+                  value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
+                >
+                  <FormControlLabel
+                    disabled={isView}
+                    value={"yes"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>YES</Typography>}
+                  />
+                  <FormControlLabel
+                    disabled={isView}
+                    value={"no"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>NO</Typography>}
                   />
                   <FormControlLabel
                     disabled={isView}
