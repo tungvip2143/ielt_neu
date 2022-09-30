@@ -36,8 +36,6 @@ const ListeningSkill = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetParts();
-  const [userDetail] = useInfoUser();
-  console.log("userDetail", userDetail);
 
   const history = useHistory();
   const rows = dataParts?.map((el: any) => ({
