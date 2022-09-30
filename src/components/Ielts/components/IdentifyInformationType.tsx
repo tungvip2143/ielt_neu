@@ -26,10 +26,12 @@ type MultiChoiceOneAnswerI = {
   questionIdx?: number;
   onClickPage?: (options: object) => void;
   isView?: boolean;
+  directionText?: string;
 };
 
 const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
-  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView } = props;
+  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView, directionText } =
+    props;
   // console.log("question", question);
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
@@ -45,6 +47,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
 
   return (
     <>
+      {/* <div>{ReactHtmlParser(directionText ?? "")}</div> */}
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
@@ -73,7 +76,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={isView ? false : values?.answers[displayNumberT]?.studentAnswer}
+                value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
               >
                 {question?.question?.options.map((answer: any, index: number) => {
                   const checkSortIndex = () => {
@@ -120,8 +123,9 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
+                  defaultValue=""
                   name="controlled-radio-buttons-group"
-                  value={isView ? false : values?.answers[displayNumberT]?.studentAnswer}
+                  value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
                 >
                   <FormControlLabel
                     disabled={isView}
@@ -137,6 +141,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                     label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
                   />
                   <FormControlLabel
+                    disabled={isView}
                     value={false}
                     control={
                       <Field
@@ -149,6 +154,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                     label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
                   />
                   <FormControlLabel
+                    disabled={isView}
                     value={"not_given"}
                     control={
                       <Field

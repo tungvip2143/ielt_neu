@@ -28,9 +28,22 @@ const Reading = (props: Props) => {
     console.log("group", group);
 
     const { questionType } = group;
+    // if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
+    //   return (
+    //     <MachingTypeListening
+    //       answerList={group?.answerList}
+    //       questionBox={group?.questionBox ?? ""}
+    //       questions={group?.questions}
+    //       onClickPage={() => null}
+    //       displayNumber={1}
+    //       isView={true}
+    //     />
+    //   );
+    // }
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
-        <MachingTypeListening
+        <MatchingType
+          directionText={group?.directionText}
           answerList={group?.answerList}
           questionBox={group?.questionBox ?? ""}
           questions={group?.questions}
@@ -109,9 +122,12 @@ const Reading = (props: Props) => {
     ) {
       // return <MultiChoice isView={true} onClickPage={() => null} questions={group?.questions} />;
       return group?.questions?.map((question: QuestionItemI, questionIdx: number) => {
+        console.log("question", question);
+
         return (
           <div key={question?.questionId}>
             <IdentifyInformationType
+              directionText={group?.directionText}
               questionType={questionType}
               QUESTION_TYPE={QUESTION_TYPE}
               question={question}
@@ -158,7 +174,12 @@ const Reading = (props: Props) => {
                   </div>
                   <div className="listeningWrapper" style={{ marginLeft: "20px" }}>
                     {el?.groups?.map((group: any) => {
-                      return <div>{renderQuestion(group)}</div>;
+                      return (
+                        <div>
+                          {ReactHtmlParser(group?.directionText ?? "")}
+                          {renderQuestion(group)}
+                        </div>
+                      );
                     })}
                   </div>
                 </div>
