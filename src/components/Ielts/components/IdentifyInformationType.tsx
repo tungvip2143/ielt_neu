@@ -73,7 +73,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={isView ? false : values?.answers[displayNumberT]?.studentAnswer}
+                value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
               >
                 {question?.question?.options.map((answer: any, index: number) => {
                   const checkSortIndex = () => {
@@ -120,8 +120,9 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
+                  defaultValue=""
                   name="controlled-radio-buttons-group"
-                  value={isView ? false : values?.answers[displayNumberT]?.studentAnswer}
+                  value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
                 >
                   <FormControlLabel
                     disabled={isView}
@@ -137,6 +138,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                     label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
                   />
                   <FormControlLabel
+                    disabled={isView}
                     value={false}
                     control={
                       <Field
@@ -149,6 +151,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                     label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
                   />
                   <FormControlLabel
+                    disabled={isView}
                     value={"not_given"}
                     control={
                       <Field
