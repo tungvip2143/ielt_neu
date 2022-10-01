@@ -60,16 +60,15 @@ const NoteCompletion = (props: NoteCompletionI) => {
       input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `
-      <strong>${blankId}</strong>
+      `<span class="noselect"><strong>${blankId}</strong>
       <input class="${inputIndex}" ${isView ? "disabled" : ""}
           key="input-${blankId}"
           value=""
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
-          class='${inputIndex} noselect'
-        />
+          class='${inputIndex}'
+        /></span>
       `
     );
   });
