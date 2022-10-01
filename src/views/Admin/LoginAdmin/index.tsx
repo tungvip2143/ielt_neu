@@ -10,6 +10,7 @@ import { useGetLocation } from "provider/LocationProvider";
 import { Redirect } from "react-router-dom";
 import { authActions } from "redux/creators/modules/auth";
 import { GetAuthSelector } from "redux/selectors/auth";
+import authServices from "services/authServices";
 import CardView from "views/Login/components/CardView";
 import Footer from "views/Login/components/Footer";
 import Title from "views/Login/components/Title";
@@ -42,7 +43,7 @@ const btn = {
 const LoginAdminPage = (props: any) => {
   const { dispatch } = useSagaCreators();
   const auth = GetAuthSelector();
-
+  const userType = authServices.getUserTypeFromLocalStorage();
   const { mutateAsync: login } = useLogin();
   const validate = Yup.object({
     email: Yup.string().min(5, "*Must be 5 characters").required("Required"),
@@ -56,7 +57,7 @@ const LoginAdminPage = (props: any) => {
   const { isLogin } = auth;
   const { initialPathName } = useGetLocation();
 
-  if (isLogin) {
+  if (isLogin && (userType === "SUPER_ADMIN" || userType === "ADMIN" || userType === "TEACHER")) {
     if (initialPathName === RouteBase.AdminLogin) {
       return <Redirect to={RouteBase.Listening} />;
     }
