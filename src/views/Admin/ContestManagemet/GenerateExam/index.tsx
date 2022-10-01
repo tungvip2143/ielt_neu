@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Stack, TextField, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
@@ -13,7 +13,7 @@ import "./style.scss";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { RouteBase } from "constants/routeUrl";
 import ProgressBar from "components/ProgressBar";
-
+import UndoIcon from "@mui/icons-material/Undo";
 const validationSchema = yup.object().shape({
   //   name: yup.string().required("This field is required!"),
   //   active: yup.string().required("This field is required!"),
@@ -54,11 +54,20 @@ const GenerateExam = () => {
       });
     }
   };
-
+  const renderButtonBack = () => {
+    return (
+      <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.goBack()}>
+          Back
+        </Button>
+      </Stack>
+    );
+  };
   //! Render
 
   return (
     <div className="cardWrapper">
+      <div>{renderButtonBack()}</div>
       <ProgressBar isVisible={visible} />
       <Typography sx={{ fontWeight: "bold", marginBottom: "10px" }}>Select original exams</Typography>
       <Autocomplete

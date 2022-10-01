@@ -29,15 +29,17 @@ const Listening = (props: Props) => {
                       </p>
                     </div>
                     {(group?.questions || []).map((question: any) => {
+                      console.log("question", question);
+
                       return (
                         <>
                           <div className="flex justify-between ml-5 mr-5">
-                            {question?.studentAnswer === question?.question?.answer ? (
-                              <p className="text-green-600 capitalize">
+                            {question?.isCorrect === true ? (
+                              <p className="text-green-600 ">
                                 Your Answer: {question?.studentAnswer === null ? "V" : question?.studentAnswer}
                               </p>
                             ) : (
-                              <p className="text-red-600 capitalize">
+                              <p className="text-red-600 ">
                                 Your Answer: {question?.studentAnswer === null ? "X" : question?.studentAnswer}
                               </p>
                             )}
