@@ -49,23 +49,23 @@ const ViewExam = (props: Props) => {
         <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
           <TabList onChange={handleChange} aria-label="lab API tabs example">
             <Tab label="Listening" value="LISTENING" />
-            <Tab label="Writing" value="WRITING" />
+            {/* <Tab label="Writing" value="WRITING" /> */}
             <Tab label="Reading" value="READING" />
-            <Tab label="Speaking" value="SPEAKING" />
+            {/* <Tab label="Speaking" value="SPEAKING" /> */}
           </TabList>
         </Box>
         <TabPanel sx={{ p: 0 }} value="LISTENING">
           {renderViewExam("LISTENING")}
         </TabPanel>
-        <TabPanel sx={{ p: 0 }} value="WRITING">
+        {/* <TabPanel sx={{ p: 0 }} value="WRITING">
           {renderViewExam("WRITING")}
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel sx={{ p: 0 }} value="READING">
           {renderViewExam("READING")}
         </TabPanel>
-        <TabPanel sx={{ p: 0 }} value="SPEAKING">
+        {/* <TabPanel sx={{ p: 0 }} value="SPEAKING">
           {renderViewExam("SPEAKING")}
-        </TabPanel>
+        </TabPanel> */}
       </TabContext>
     </Box>
     // </Card>

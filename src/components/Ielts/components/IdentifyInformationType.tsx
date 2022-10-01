@@ -154,7 +154,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                   />
                   <FormControlLabel
                     disabled={isView}
-                    value={"not given"}
+                    value={"NOT GIVEN"}
                     control={
                       <Field
                         questionId={question?.question?._id}
