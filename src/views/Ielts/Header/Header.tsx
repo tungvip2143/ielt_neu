@@ -92,9 +92,9 @@ const Header = ({
     cursor: "pointer",
   };
 
-  const user: any = useMemo(() => {
-    const { user } = authServices.getUserLocalStorage();
-    return user;
+  const student: any = useMemo(() => {
+    const { student } = authServices.getUserLocalStorage();
+    return student;
   }, []);
 
   const handleSubmitWhenEndedTime = useCallback(async () => {
@@ -122,7 +122,7 @@ const Header = ({
           {(step === TypeStepExamEnum.STEP2 || step === TypeStepExamEnum.STEP3 || step === TypeStepExamEnum.STEP4) && (
             <Stack direction="row" spacing={1} className={classes.containerUser}>
               <img className={classes.imgUser} src={NumberUser} alt="" />
-              <p className={classes.textUser}>{user?.username}</p>
+              <p className={classes.textUser}>{student?.studentCode}</p>
             </Stack>
           )}
 
