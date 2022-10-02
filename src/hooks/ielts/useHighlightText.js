@@ -39,18 +39,19 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       let selection = getSelectedText();
       let selection_text = selection.toString();
       let range = selection.getRangeAt(0);
+      // disable highligh inside input
+      const noselect = selection.anchorNode?.className === "noselect";
       const docFragment = range.cloneContents();
       const input = docFragment.querySelector("input");
       const textarea = docFragment.querySelector("textarea");
       const p = docFragment.querySelector("p");
       const span = docFragment.querySelector("span");
       const clickNumber = event.detail;
-      console.log("hjhjhjkh", input);
 
       // $("input,textarea").bind("cut copy paste", function (e) {
       //   e.preventDefault(); //disable cut,copy,paste
       // });
-      if (clickNumber < 2 && !input && !textarea && !p && !span) {
+      if (clickNumber < 2 && !input && !textarea && !p && !span && !noselect) {
         if (selection_text) {
           highlight.current = highlight.current + 1;
 
@@ -77,6 +78,7 @@ export const useHightLightText = ({ noted, toggleNote }) => {
   }, []);
   useEffect(() => {
     $(".noselect").mouseup(function (e) {
+      e.preventDefault();
       e.stopPropagation();
     });
   });
