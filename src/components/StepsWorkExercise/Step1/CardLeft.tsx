@@ -10,67 +10,50 @@ import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 import { decode } from "html-entities";
 import { useMemo, useRef } from "react";
 import { useFormikContext } from "formik";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
 import CommonStyles from "components/CommonStyles";
+import { useHightLightText } from "hooks/ielts/useHighlightText";
+import { useClearHighlight } from "hooks/ielts/useClearHighlight";
+import { useRightClick } from "hooks/ielts/useRightClick";
+import { useNoted } from "hooks/ielts/useNoted";
 
 // !type
 
 interface Props {
   dataChangePart: any;
-  test?: string;
 }
 
-const CardLeft = ({ dataChangePart, test }: Props) => {
+const CardLeft = ({ dataChangePart }: Props) => {
   //! State
   let text = dataChangePart.passageText;
-  const { values, setFieldValue } = useFormikContext();
-  // console.log("dataChangePart", dataChangePart);
-  // console.log("fsdfsdfsdf", dataChangePart.passageText);
 
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
+  const { isAction, position, toggleAction, className } = useRightClick();
+  const { clearAll, clearMarkItem } = useClearHighlight({ className });
+  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
+  useHightLightText({ noted, toggleNote });
 
   //! Render
   return (
     <>
-      <div style={{ height: "100%" }}>
-        <div
-          onClick={(data) => onScannerText(data)}
-          style={{ zIndex: 999 }}
-          dangerouslySetInnerHTML={{ __html: decode(passageTextWithHighlightTexted) || "" }}
-        ></div>
-        {isHightLight && (
+      <div style={{ height: "100%" }} className="exam">
+        <div style={{ zIndex: 999 }} dangerouslySetInnerHTML={{ __html: decode(text) || "" }}></div>
+        {isAction && (
           <CommonStyles.HightLightDialog
-            onClickHighlight={onHightlight}
+            clearAll={clearAll}
+            clearMarkItem={clearMarkItem}
+            onCloseAction={toggleAction}
             onClickNote={onClickNote}
             position={position}
           />
         )}
-        {isOpenOptionClear && (
-          <CommonStyles.ClearDialog
-            onClearHightlight={onClearHightLight}
-            onClearHightlightAll={onClearHightLightAll}
+        {isNoted && (
+          <CommonStyles.Note
+            onCloseNote={toggleNote}
+            noted={noted}
             position={position}
+            onChangeTextNote={onChangeInput}
+            className={className}
           />
         )}
-        <CommonStyles.Note
-          isOpenNote={isNoted}
-          onCloseNote={onCloseNote}
-          onChangeTextNote={onInputChange}
-          position={position}
-        />
       </div>
     </>
   );

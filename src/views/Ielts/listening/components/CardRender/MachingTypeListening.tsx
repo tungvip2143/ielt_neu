@@ -3,16 +3,16 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
-
-type Props = {
-  data: any;
+import { QuestionItemI } from "constants/typeData.types";
+interface MatchingSentenceEndingI {
+  questions: QuestionItemI[];
   questionBox: string;
   answerList: string;
-  onClickPage?: (options: number) => void;
+  onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
   disabled?: boolean;
-};
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -37,10 +37,10 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MachingTypeListening = (props: Props) => {
+const MachingTypeListening = (props: MatchingSentenceEndingI) => {
   // !Style
   const classes = useStyles();
-  const { data, answerList, onClickPage, displayNumber, isView = false } = props;
+  const { questions, answerList, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
 
   useEffect(() => {
@@ -48,10 +48,6 @@ const MachingTypeListening = (props: Props) => {
   }, [displayNumber]);
 
   const { setFieldValue } = useFormikContext();
-
-  const handleFocus = (index: number) => {
-    setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
-  };
 
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
@@ -62,17 +58,20 @@ const MachingTypeListening = (props: Props) => {
   return (
     <div className={classes.container}>
       <div className={classes.root}>
-        {data?.map((question: any, questionIndex: number) => {
+        {questions?.map((question: QuestionItemI, questionIndex: number) => {
           const index = Number(question?.question?.displayNumber) - 1;
+          const handleFocus = (index: number) => {
+            setFieldValue(`answers[${index}].questionId`, question.questionId || "");
+          };
           return (
-            <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
+            <div className={classes.question} key={question.questionId} onClick={() => onClickQuestion(questionIndex)}>
               <div>
                 <strong>{`${question?.question?.displayNumber}.`}</strong>
               </div>
               {ReactHtmlParser(question?.question?.questionText)}
               <FastField
                 disabled={isView}
-                inputRef={(el: any) => (inputRef.current[index + 1] = el)}
+                inputRef={(el: Event | any) => (inputRef.current[index + 1] = el)}
                 onFocus={() => handleFocus(index)}
                 component={TextField}
                 name={`answers[${index}].studentAnswer`}
@@ -82,7 +81,7 @@ const MachingTypeListening = (props: Props) => {
           );
         })}
       </div>
-      <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>
+      {isView ? "" : <div className={classes.questionBox}>{ReactHtmlParser(answerList)}</div>}
     </div>
   );
 };

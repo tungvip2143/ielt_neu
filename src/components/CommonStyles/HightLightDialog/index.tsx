@@ -2,12 +2,13 @@ import React from "react";
 import imgHightLight from "assets/image/exam/hight-light-note.png";
 import imgNote from "assets/image/exam/note.png";
 import { makeStyles } from "@mui/styles";
+import imgCloseNote from "assets/image/exam/test-help/img-close.png";
 
 const useStyle = makeStyles((theme) => ({
   option: {
     background: theme.custom?.background.noteReading.optionNote,
     width: "150px",
-    padding: "0px 0px 10px 10px",
+    padding: "5px",
     boxShadow: theme.custom?.boxShadow.optionNote,
     border: `1px solid ${theme.custom?.border.noteReading.optionItem}`,
     transform: (position: any) => `translate(${position.x}px,${position.y}px)`,
@@ -28,29 +29,59 @@ const useStyle = makeStyles((theme) => ({
     marginTop: "10px",
     cursor: "pointer",
   },
+  noteHeader: {
+    background: theme.custom?.background.noteReading.header,
+    borderBottom: "1px solid",
+    padding: "5px 5px",
+  },
+  imgClose: {
+    marginLeft: "auto",
+    display: "flex",
+    cursor: "pointer",
+  },
 }));
 
 type Props = {
-  onClickHighlight: () => void;
-  onClickNote: () => void;
+  onClickHighlight?: () => void;
+  onClickNote?: () => void;
   position: any;
+  onCloseAction: () => void;
+  clearAll: () => void;
+  clearMarkItem: () => void;
 };
 
 const HightLightDialog = (props: Props) => {
   // !State
-  const { onClickHighlight, onClickNote, position } = props;
+  const { onClickHighlight, onClickNote, position, onCloseAction, clearAll, clearMarkItem } = props;
   const classes = useStyle(position);
+
+  const onClearAllMark = () => {
+    clearAll();
+    onCloseAction();
+  };
+
+  const onClearMark = () => {
+    clearMarkItem();
+    onCloseAction();
+  };
 
   // !Render
   return (
     <div className={classes.option}>
-      <div onClick={onClickHighlight} className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgHightLight} alt="" />
-        <p>Hight Light</p>
+      <div className={classes.noteHeader}>
+        <img src={imgCloseNote} alt="" onClick={onCloseAction} className={classes.imgClose} />
       </div>
-      <div onClick={onClickNote} className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgNote} alt="" />
+      <div onClick={onClickNote} id="note" className={classes.noteItem}>
+        <img className={classes.imgNote} src={imgHightLight} alt="" />
         <p>Note</p>
+      </div>
+      <div id="clear-all" onClick={onClearMark} className={classes.noteItem}>
+        <img className={classes.imgNote} src={imgNote} alt="" />
+        <p>Clear</p>
+      </div>
+      <div id="clear-all" onClick={onClearAllMark} className={classes.noteItem}>
+        <img className={classes.imgNote} src={imgNote} alt="" />
+        <p>Clear all</p>
       </div>
     </div>
   );

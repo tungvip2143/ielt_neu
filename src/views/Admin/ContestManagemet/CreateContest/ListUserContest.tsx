@@ -1,10 +1,14 @@
 // import TableCommon from "./TableCommon";
-import { Card, Typography } from "@mui/material";
+import { Card, Tooltip, Typography } from "@mui/material";
 import CommonDataGrid from "components/CommonDataGrid";
+import useGetListStudents from "hooks/UserManagement/students/useGetListStudents";
 // import ListUserContest from "models/Exam/ListUserContest";
 import { useHistory } from "react-router-dom";
 import { toast } from "react-toastify";
 import studentService from "services/studentService";
+import moment from "moment";
+import { GridValueGetterParams } from "@mui/x-data-grid";
+import { getRowGrid } from "helpers";
 
 const styles = {
   titleTable: {
@@ -14,50 +18,38 @@ const styles = {
 };
 
 const ListUserContest = ({ dataFileExcel }: any) => {
+  console.log("dataFileExcel", moment(dataFileExcel[0]?.dob).format("DD/MM/YYYY"));
+
   //! State
-  //   const {
-  //     data: dataFileExcel,
-  //     loading,
-  //     error,
-  //     refetchDataTable,
-  //     meta: metaPart,
-  //     onPageChange,
-  //     onPageSizeChange,
-  //   } = useGetListStudents();
+  const { data, loading, error, refetchDataTable, meta, onPageChange, onPageSizeChange } = useGetListStudents();
 
   const history = useHistory();
 
-  const onDeletePart = async (item: any) => {
-    try {
-      await studentService.deletePart(item?.row?._id);
-      //   await refetchDataTable();
-      await toast.success("Delete success!");
-    } catch (error) {
-      toast.error("Error!");
-    }
-  };
-
+  // const onDeletePart = async (item: any) => {
+  //   try {
+  //     await studentService.deletePart(item?.row?._id);
+  //     //   await refetchDataTable();
+  //     await toast.success("Delete success!");
+  //   } catch (error) {
+  //     toast.error("Error!");
+  //   }
+  // };
+  const rows = {};
   //! Render
   return (
     <div>
-      {/* <div style={{ textAlign: "end", marginBottom: 10 }}>
-        <Link to={RouteBase.CreateUser}>
-          <ButtonUpload
-            titleButton="Create User"
-            icon={<AddIcon />}
-            onClick={() => {}}
-            style={{ background: "#9155FE" }}
-          />
-        </Link>
-      </div> */}
-
       <Card>
         <CommonDataGrid
           columns={[
             {
-              flex: 1,
+              flex: 0.8,
               field: "studentCode",
               renderHeader: () => <Typography style={styles.titleTable}>Student Code</Typography>,
+            },
+            {
+              flex: 0.5,
+              field: "gender",
+              renderHeader: () => <Typography style={styles.titleTable}>Gender</Typography>,
             },
             {
               flex: 1,
@@ -65,44 +57,95 @@ const ListUserContest = ({ dataFileExcel }: any) => {
               renderHeader: () => <Typography style={styles.titleTable}>Fullname</Typography>,
             },
             {
-              flex: 1,
-              field: "candidateCode",
-              renderHeader: () => <Typography style={styles.titleTable}>Candidate Code</Typography>,
+              flex: 0.8,
+              field: "birthday",
+              renderHeader: () => <Typography style={styles.titleTable}>Date of birth</Typography>,
+              valueGetter: (params: GridValueGetterParams) => {
+                const { dob } = getRowGrid(params);
+                if (!dob) {
+                  return "-";
+                }
+                return moment(dob).format("DD/MM/YYYY");
+              },
             },
             // {
-            //   flex: 0.3,
-            //   field: "action",
-            //   filterable: false,
-            //   hideSortIcons: true,
-            //   disableColumnMenu: true,
-            //   renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-            //   //   renderCell: (items: any) => {
-            //   //     return (
-            //   //       <CommonActionMenu
-            //   //         onEdit={() => {
-            //   //           console.log("123");
-            //   //           //   history.push({
-            //   //           //     pathname: RouteBase.UpdateUserWID(items?.row?.fullname),
-            //   //           //     search: `?id=${items?.id}`,
-            //   //           //   });
-            //   //         }}
-            //   //         // onSubmitRemove={onDeletePart}
-            //   //         // row={items}
-            //   //       />
-            //   //     );
-            //   //   },
+            //   flex: 1,
+            //   field: "day",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Day of birth</Typography>,
+            //   valueGetter: (params: GridValueGetterParams) => {
+            //     const { dob } = getRowGrid(params);
+            //     if (!dob) {
+            //       return "-";
+            //     }
+            //     return moment(dob).toDate().getDate();
+            //   },
             // },
+            // {
+            //   flex: 1,
+            //   field: "month",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Month of birth</Typography>,
+            //   valueGetter: (params: GridValueGetterParams) => {
+            //     const { dob } = getRowGrid(params);
+            //     console.log(" moment(dob).toDate()", moment(dob).toDate());
+
+            //     if (!dob) {
+            //       return "-";
+            //     }
+            //     return moment(dob).toDate().getMonth() + 1;
+            //   },
+            // },
+            // {
+            //   flex: 1,
+            //   field: "year",
+            //   renderHeader: () => <Typography style={styles.titleTable}>Year of birth</Typography>,
+            //   valueGetter: (params: GridValueGetterParams) => {
+            //     const { dob } = getRowGrid(params);
+            //     if (!dob) {
+            //       return "-";
+            //     }
+            //     return moment(dob).toDate().getFullYear();
+            //   },
+            // },
+            {
+              flex: 1,
+              field: "idCardNumber",
+              renderHeader: () => <Typography style={styles.titleTable}>Identify Card</Typography>,
+            },
+            {
+              flex: 0.8,
+              field: "phone",
+              renderHeader: () => <Typography style={styles.titleTable}>Phone Number</Typography>,
+            },
+            {
+              flex: 1.2,
+              field: "email",
+              renderHeader: () => <Typography style={styles.titleTable}>Email</Typography>,
+              // renderCell: (items: any) => {
+              //   console.log("items", items);
+
+              //   return (
+              //     <Tooltip sx={{ cursor: "pointer" }} title={items?.row?.email ? items?.row?.email : "No measurement"}>
+              //       {items?.row?.email}
+              //     </Tooltip>
+              //   );
+              // },
+            },
+            {
+              flex: 1,
+              field: "majors",
+              renderHeader: () => <Typography style={styles.titleTable}>Speciality</Typography>,
+            },
+            {
+              flex: 1,
+              field: "classroom",
+              renderHeader: () => <Typography style={styles.titleTable}>Class</Typography>,
+            },
           ]}
           checkboxSelection
-          //   pagination={{
-          //     page: metaPart?.page,
-          //     pageSize: metaPart?.pageSize,
-          //     totalRow: metaPart?.total,
-          //   }}
-          //   loading={loading}
           rows={dataFileExcel}
-          //   onPageChange={onPageChange}
-          //   onPageSizeChange={onPageSizeChange}
+          onPageChange={onPageChange}
+          onPageSizeChange={onPageSizeChange}
+          hideFooter={true}
           getRowId={(row: any) => row._id}
         />
       </Card>

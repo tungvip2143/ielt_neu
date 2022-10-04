@@ -26,6 +26,7 @@ export const textHeaderModal = {
   confirmDetail: "Confirm your details",
   testSound: "Test sound",
   help: "Help",
+  screenHidden: "Screen hidden",
 };
 export const warningDetailUser = {
   checkInformation: "If your details are not correct, please inform the invigilator.",
@@ -56,4 +57,11 @@ export const testHeadPhone = {
   putHeadPhone: "Put on your headphones and click on the Play sound button to play a sample sound.",
   play: "Play sound",
   stop: "Stop sound",
+};
+
+export const chooseAnswer = {
+  a: "A",
+  b: "B",
+  c: "C",
+  d: "D",
 };

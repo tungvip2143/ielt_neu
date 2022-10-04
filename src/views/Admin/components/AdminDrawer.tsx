@@ -20,6 +20,7 @@ import { RouteBase } from "constants/routeUrl";
 import * as React from "react";
 import { Link, useLocation } from "react-router-dom";
 import "./Styles.scss";
+import useInfoUser from "hooks/auth/useInfoUser";
 interface Menu {
   id?: number;
   titleMenu?: string;
@@ -102,7 +103,7 @@ const AdminDrawer = () => {
   const [active, setActive] = React.useState<any>({});
   const [selectItem, setSelectItem] = React.useState<any>();
   const [showMenu, setShowMenu] = React.useState<number>(-1);
-
+  const [userType] = useInfoUser();
   const drawerWidth = 240;
 
   const handleClick = (id: number) => {
@@ -139,7 +140,7 @@ const AdminDrawer = () => {
       </Toolbar>
       <Divider />
 
-      {MenuData?.map((el: any) => {
+      {MenuData?.map((el: any, index: number) => {
         return (
           <List
             sx={{ width: "100%", maxWidth: 240, color: "white" }}
@@ -149,13 +150,24 @@ const AdminDrawer = () => {
           >
             {el?.subMenu?.length > 0 ? (
               <div>
-                <Link to={el?.path} style={{ color: "white" }}>
-                  <ListItemButton onClick={() => handleClick(el?.id)}>
-                    <ListItemIcon style={{ color: "white", minWidth: 0, marginRight: 10 }}>{el.icon}</ListItemIcon>
-                    <ListItemText primary={el.titleMenu} />
-                    {active[el?.id] ? <ExpandLess /> : <ExpandMore />}
-                  </ListItemButton>
-                </Link>
+                {index === 0 ? (
+                  <div style={{ color: "white" }}>
+                    <ListItemButton onClick={() => handleClick(el?.id)}>
+                      <ListItemIcon style={{ color: "white", minWidth: 0, marginRight: 10 }}>{el.icon}</ListItemIcon>
+                      <ListItemText primary={el.titleMenu} />
+                      {active[el?.id] ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                  </div>
+                ) : (
+                  <Link to={el?.path} style={{ color: "white" }}>
+                    <ListItemButton onClick={() => handleClick(el?.id)}>
+                      <ListItemIcon style={{ color: "white", minWidth: 0, marginRight: 10 }}>{el.icon}</ListItemIcon>
+                      <ListItemText primary={el.titleMenu} />
+                      {active[el?.id] ? <ExpandLess /> : <ExpandMore />}
+                    </ListItemButton>
+                  </Link>
+                )}
+
                 <Collapse in={active[el?.id]} timeout="auto" unmountOnExit style={{ background: "#2a2641" }}>
                   <List component="div" disablePadding>
                     {el?.subMenu?.map((items: any) => {

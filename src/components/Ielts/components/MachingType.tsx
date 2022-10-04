@@ -3,19 +3,20 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { useEffect, useRef } from "react";
 import ReactHtmlParser from "react-html-parser";
-
-type Props = {
-  data: any;
+import { QuestionItemI } from "../../../constants/typeData.types";
+interface MatchSentenceEndingI {
+  questions: QuestionItemI[];
   questionBox: string;
   answerList: string;
-  onClickPage?: (options: number) => void;
+  onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
   disabled?: boolean;
   getTextEachPart?: (text: string) => void;
   passageTextWithHighlightTexted?: string;
   onScannerText?: (data: string) => void;
-};
+  directionText?: string;
+}
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,11 +41,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const MachingType = (props: Props) => {
+const MachingType = (props: MatchSentenceEndingI) => {
   // !Style
   const classes = useStyles();
   const {
-    data,
+    questions,
     answerList,
     onClickPage,
     displayNumber,
@@ -52,26 +53,19 @@ const MachingType = (props: Props) => {
     getTextEachPart,
     passageTextWithHighlightTexted,
     onScannerText,
+    directionText,
   } = props;
+
   const inputRef = useRef<any>([]);
   useEffect(() => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
-  console.log("passageTextWithHighlightTexted", passageTextWithHighlightTexted);
   useEffect(() => {
     getTextEachPart && getTextEachPart(answerList);
   }, []);
 
   const { setFieldValue } = useFormikContext();
-
-  const handleFocus = (index: number, questionIndex: number) => {
-    // console.log("fsdf", questionIndex);
-    setFieldValue(`answers[${index}].questionId`, data?.questionId || "");
-    let sectionRender: any = {};
-    sectionRender.question = questionIndex;
-    onClickPage && onClickPage(sectionRender);
-  };
 
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
@@ -81,9 +75,16 @@ const MachingType = (props: Props) => {
 
   return (
     <div className={classes.container}>
+      {/* <div>{ReactHtmlParser(directionText ?? "")}</div> */}
       <div className={classes.root}>
-        {data?.map((question: any, questionIndex: number) => {
+        {questions?.map((question: any, questionIndex: number) => {
           const index = Number(question?.question?.displayNumber) - 1;
+          const handleFocus = (index: number, questionIndex: number) => {
+            setFieldValue(`answers[${index}].questionId`, question?.questionId || "");
+            let sectionRender: any = {};
+            sectionRender.question = questionIndex;
+            onClickPage && onClickPage(sectionRender);
+          };
           return (
             <div className={classes.question} key={question._id} onClick={() => onClickQuestion(questionIndex)}>
               <div>

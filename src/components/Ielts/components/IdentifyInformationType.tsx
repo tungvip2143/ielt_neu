@@ -13,20 +13,30 @@ import Text from "components/Typography/index";
 import ReactHtmlParser from "react-html-parser";
 import { Field, useFormikContext } from "formik";
 import Radio from "components/Radio";
+import { QuestionItemI } from "../../../constants/typeData.types";
 
-type Props = {
-  question: any;
-  questionType: any;
-  QUESTION_TYPE?: any;
+type MultiChoiceOneAnswerI = {
+  question: QuestionItemI;
+  questionType: string;
+  QUESTION_TYPE: {
+    IDENTIFYING_INFORMATION: string;
+    IDENTIFYING_VIEWS_CLAIMS: string;
+  };
   displayNumber: number;
   questionIdx?: number;
-  onClickPage?: (options: any) => void;
+  onClickPage?: (options: object) => void;
+  isView?: boolean;
+  directionText?: string;
 };
 
-const IdentifyInformationType = (props: Props) => {
-  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage } = props;
+const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
+  const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView, directionText } =
+    props;
+  // console.log("question", question);
 
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
+  // console.log("31323", displayNumberT);
+
   const { values }: any = useFormikContext();
 
   const onClickQuestion = () => {
@@ -34,12 +44,14 @@ const IdentifyInformationType = (props: Props) => {
     sectionRender.question = questionIdx;
     onClickPage && onClickPage(sectionRender);
   };
+
   return (
     <>
+      {/* <div>{ReactHtmlParser(directionText ?? "")}</div> */}
       <Accordion
         sx={{ boxShadow: "none" }}
         className="accordion-title"
-        expanded={displayNumber === question?.question?.displayNumber}
+        expanded={isView ? true : displayNumber === question?.question?.displayNumber}
         disableGutters
       >
         <Stack
@@ -64,22 +76,38 @@ const IdentifyInformationType = (props: Props) => {
               <RadioGroup
                 aria-labelledby="demo-controlled-radio-buttons-group"
                 name="controlled-radio-buttons-group"
-                value={values?.answers[displayNumberT]?.studentAnswer}
+                value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
               >
-                {question?.question?.options.map((answer: any) => {
+                {question?.question?.options.map((answer: any, index: number) => {
+                  const checkSortIndex = () => {
+                    if (index === 0) {
+                      return "A";
+                    }
+                    if (index === 1) {
+                      return "B";
+                    }
+                    if (index === 2) {
+                      return "C";
+                    }
+                    if (index === 3) {
+                      return "D";
+                    }
+                    return;
+                  };
                   return (
                     <FormControlLabel
+                      disabled={isView}
                       key={answer._id}
                       value={answer.key}
                       control={
                         <Field
                           questionId={question?.question?._id}
-                          index={displayNumber}
+                          index={displayNumberT}
                           component={Radio}
                           name={`answers[${displayNumberT}].studentAnswer`}
                         />
                       }
-                      label={`${answer?.text}`}
+                      label={`${checkSortIndex()}. ${answer?.text}`}
                     />
                   );
                 })}
@@ -88,17 +116,18 @@ const IdentifyInformationType = (props: Props) => {
           </Stack>
         </AccordionDetails>
 
-        {(QUESTION_TYPE.IDENTIFYING_INFORMATION === questionType ||
-          questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS) && (
+        {QUESTION_TYPE.IDENTIFYING_INFORMATION === questionType && (
           <AccordionDetails>
             <Stack spacing={2}>
               <FormControl>
                 <RadioGroup
                   aria-labelledby="demo-controlled-radio-buttons-group"
+                  defaultValue=""
                   name="controlled-radio-buttons-group"
-                  value={values?.answers[displayNumberT]?.studentAnswer}
+                  value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
                 >
                   <FormControlLabel
+                    disabled={isView}
                     value={true}
                     control={
                       <Field
@@ -111,6 +140,7 @@ const IdentifyInformationType = (props: Props) => {
                     label={<Typography style={{ fontSize: 14 }}>TRUE</Typography>}
                   />
                   <FormControlLabel
+                    disabled={isView}
                     value={false}
                     control={
                       <Field
@@ -123,7 +153,62 @@ const IdentifyInformationType = (props: Props) => {
                     label={<Typography style={{ fontSize: 14 }}>FALSE</Typography>}
                   />
                   <FormControlLabel
-                    value={"not_given"}
+                    disabled={isView}
+                    value={"NOT GIVEN"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>NOT GIVEN</Typography>}
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Stack>
+          </AccordionDetails>
+        )}
+        {questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS && (
+          <AccordionDetails>
+            <Stack spacing={2}>
+              <FormControl>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  defaultValue=""
+                  name="controlled-radio-buttons-group"
+                  value={isView ? "" : values?.answers[displayNumberT]?.studentAnswer}
+                >
+                  <FormControlLabel
+                    disabled={isView}
+                    value={"YES"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>YES</Typography>}
+                  />
+                  <FormControlLabel
+                    disabled={isView}
+                    value={"NO"}
+                    control={
+                      <Field
+                        questionId={question?.question?._id}
+                        index={displayNumberT}
+                        component={Radio}
+                        name={`answers[${displayNumberT}].studentAnswer`}
+                      />
+                    }
+                    label={<Typography style={{ fontSize: 14 }}>NO</Typography>}
+                  />
+                  <FormControlLabel
+                    disabled={isView}
+                    value={"NOT GIVEN"}
                     control={
                       <Field
                         questionId={question?.question?._id}

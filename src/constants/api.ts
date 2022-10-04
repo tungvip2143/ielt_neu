@@ -13,6 +13,7 @@ export const POST_UPLOAD_AUDIO = `${ROOT_URL}/upload/single`;
 
 export const POST_FILE_EXCEL = `${ROOT_URL}/examinations/import-excel`;
 export const AUTH_URL = {
+  AUTH_INFORMATION: `${ROOT_URL}/auth/me`,
   SIGNUP: `${ROOT_URL}/auth/signup`,
   LOGIN: `${ROOT_URL}/auth/signin`,
   STUDENT_LOGIN: `${ROOT_URL}/auth/student/signin`,
@@ -39,7 +40,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     TEST_CODE: `${ROOT_URL}/tests/prepare`,
     SUBMIT_READING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_WRITING_TEST: `${ROOT_URL}/tests/${testCode}`,
-    SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}/`,
+    SUBMIT_LISTENING_TEST: `${ROOT_URL}/tests/${testCode}`,
     SUBMIT_SPEAKING_TEST: `${ROOT_URL}/tests/${testCode}`,
     FINISH_READING_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
     FINISH_IELTS_TEST: `${ROOT_URL}/tests/${testCode}/finish`,
@@ -56,6 +57,7 @@ export const IELTS_URL = (testCode?: any, questionId?: string) => {
     FINISH_IELTS_EXAM: `${ROOT_URL}/tests`,
     START_TEST: `${ROOT_URL}`,
     EXAM_INFORMATION: `${ROOT_URL}/tests/examination`,
+    EXAM_PROGRESS: `${ROOT_URL}/tests`,
   };
 };
 
@@ -113,6 +115,7 @@ export const ADMIN_SPEAKING_URL = (id?: string | number) => {
     GET_DETAIL_QUESTION_GROUP: `${ROOT_URL}/question-groups/speaking/`,
     POST_LIST_SPEAKING_QUESTIONS: `${ROOT_URL}/question-groups/speaking`,
     POST_CREATE_PART: `${ROOT_URL}/question-parts/speaking`,
+    GET_LIST_QUESTION_TYPE: `${ROOT_URL}/configs/question-types?skill=SPEAKING`,
   };
 };
 export const ADMIN_USER_URL = (id?: string | number) => {

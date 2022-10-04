@@ -3,13 +3,14 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { makeStyles } from "@mui/styles";
 import { ROOT_ORIGINAL_URL } from "constants/api";
+import { QuestionItemI } from "../../../../../constants/typeData.types";
 
 const useStyles = makeStyles((theme) => ({
   container: {
     display: "flex",
     gap: 30,
   },
-  answer: {
+  question: {
     display: "flex",
     gap: 8,
     alignItems: "center",
@@ -31,27 +32,30 @@ const useStyles = makeStyles((theme) => ({
     },
   },
 }));
-type Props = {
-  image?: any;
-  question?: any;
-  onClickPage?: (options: any) => void;
+interface FlowChartI {
+  image: string;
+  questions: QuestionItemI[];
+  onClickPage?: (options: object) => void;
   displayNumber: number;
-};
+}
 
-const FlowChart = (props: Props) => {
+const FlowChart = (props: FlowChartI) => {
   const classes = useStyles();
-  const { image, question, onClickPage, displayNumber } = props;
+  const { image, questions, onClickPage, displayNumber } = props;
 
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
-  const handleFocus = (id: string, index: any, questionIndx: number) => {
+  const handleFocus = (id: string, index: number, questionIndx: number) => {
     setFieldValue(`answers[${index}].questionId`, id);
-    onClickPage && onClickPage({ question: questionIndx }); //!
+    onClickPage && onClickPage({ question: questionIndx });
   };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
+
     sectionRender.question = questionIndx;
+    console.log("sectionRender", sectionRender);
+
     onClickPage && onClickPage(sectionRender);
   };
 
@@ -62,21 +66,23 @@ const FlowChart = (props: Props) => {
   return (
     <div className={classes.container}>
       <div className={classes.imgBox}>
-        <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image?.image}`} alt="flow chart" />
+        <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       </div>
       <div className={classes.answerBox}>
-        {question?.map((answer: any, questionIndx: number) => {
-          const displayNumberT = answer?.question?.displayNumber;
+        {questions.map((question: QuestionItemI, questionIndx: number) => {
+          const displayNumberT = question?.question?.displayNumber;
+          const saveStudentAnswer = question.studentAnswer ?? "test student answer";
           return (
-            <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
-              <strong style={{ minWidth: "20px" }}>{`${answer?.question?.displayNumber}.`}</strong>
+            <div key={question.questionId} className={classes.question} onClick={() => onClickQuestion(questionIndx)}>
+              <strong style={{ minWidth: "20px" }}>{`${question?.question?.displayNumber}.`}</strong>
               <FastField
-                inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
+                inputRef={(el: Event | any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() =>
-                  handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
+                  handleFocus(question?.questionId, Number(question?.question?.displayNumber) - 1, questionIndx)
                 }
                 component={TextField}
-                name={`answers[${Number(answer?.question?.displayNumber) - 1}].studentAnswer`}
+                name={`answers[${Number(question?.question?.displayNumber) - 1}].studentAnswer`}
+                saveStudentAnswer={saveStudentAnswer}
               />
             </div>
           );

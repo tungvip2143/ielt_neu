@@ -5,25 +5,22 @@ import CardExercise from "components/Card/CardExercise";
 import CardLeft from "components/StepsWorkExercise/Step1/CardLeft";
 import TOFFL from "views/TOFFL/index";
 import { ieltsReadingDataDummy } from "api/ieltsResults";
-import TypeQuestions from "components/Card/TypeQuestions";
 //
 import CardTotalPageExams from "components/Card/CardTotalPageExams";
 import { isEmpty } from "lodash";
 import { useEffect, useMemo, useState } from "react";
 import FooterExamResponsive from "./FooterExamResponsive";
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
-import { useIeltsReading } from "hooks/ielts/useIelts";
+import { useIeltsReading, useUpdateExamProgress } from "hooks/ielts/useIelts";
 import LoadingPage from "components/Loading";
 import { useFormikContext } from "formik";
 import cacheService from "services/cacheService";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
-import CommonStyles from "components/CommonStyles";
 import { makeStyles } from "@mui/styles";
 //
-interface Props {
-  data?: any;
-}
+// interface Props {
+//   data?: AllQuestionsDataI[];
+// }
 const useStyles = makeStyles((theme) => {
   return {
     typeQuestion: {
@@ -34,7 +31,7 @@ const useStyles = makeStyles((theme) => {
     },
     containerContent: {
       padding: "0 15px",
-      marginTop: "15px",
+      paddingTop: "15px",
     },
     containerExercises: {
       justifyContent: "space-between",
@@ -43,7 +40,8 @@ const useStyles = makeStyles((theme) => {
   };
 });
 const Step2ExamContent = (props: any) => {
-  const { data, test } = props;
+  const { data } = props;
+  console.log("3232", data);
 
   //! State
   const [questions, setQuestions] = useState(data);
@@ -54,51 +52,54 @@ const Step2ExamContent = (props: any) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
-  const [questionType, setQuestionType] = useState();
 
-  const [hightLightNumberPage, setHightLightNumberPage] = useState<any>("1");
+  console.log("data123", data);
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];
   const displayNumber = questionData[groupSelected.question]?.question?.displayNumber;
-  const { values, setFieldValue } = useFormikContext();
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text, values, onChangeInput: setFieldValue, tagName: "DIV" });
+  const { values, setFieldValue, handleSubmit } = useFormikContext();
+  const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
+  const { testCode } = useGetTestCode();
+  const cache = cacheService.getDataCache();
+
+  let inputIndex = 0;
+  useEffect(() => {
+    data.map((part: any) => {
+      return part.groups.map((group: any) => {
+        return group.questions.map((question: any, index: number) => {
+          inputIndex++;
+          setFieldValue(`answers[${inputIndex - 1}].studentAnswer`, question.studentAnswer ?? "");
+        });
+      });
+    });
+  }, []);
 
   useEffect(() => {
-    cacheService.cache("answers", values);
-  }, [values]);
+    handleSubmit();
+  }, [displayNumber]);
 
-  const onClickPage = (groupRenderSelected: any) => {
+  useEffect(() => {
+    const interval = setInterval(() => {
+      const cache = cacheService.getDataCache();
+      const body = {
+        timeRemain: cache.LEFT_TIME,
+        // timeRemain: 60000,
+      };
+      const saveExamProgress = async () => {
+        await updateExamProgress({ testCode, skill: "reading", body });
+      };
+      saveExamProgress();
+    }, 6000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const onClickPage = (groupRenderSelected: object) => {
     setGroupSelected({ ...groupSelected, ...groupRenderSelected });
   };
 
-  const onClickShowQuestion = (displayNumber: any) => {
+  const onClickShowQuestion = (displayNumber: string | any) => {
     setShowQuestion(displayNumber);
-  };
-
-  const hightLightNumberPageClickQuestion = (displayNumber: any) => {
-    setHightLightNumberPage(displayNumber);
-  };
-
-  const onClickQuestionType = (questionType: any) => {
-    setQuestionType(questionType);
-  };
-
-  const getTextEachPart = (text: string) => {
-    setText(text);
   };
 
   const partRenderSelected = useMemo(() => {
@@ -111,20 +112,20 @@ const Step2ExamContent = (props: any) => {
   }, [ieltsReadingDataDummy, groupSelected]);
   //
   const styleAddExercise = {
-    height: "calc(100vh - 275px)",
+    height: "calc(100vh - 210px)",
   };
   const classes = useStyles();
   //! Render
   return (
     <>
-      <Box className={classes.typeQuestion}>
+      {/* <Box className={classes.typeQuestion}>
         <TypeQuestions content={questionType}></TypeQuestions>
-      </Box>
+      </Box> */}
       <Box className={classes.containerDad}>
         <Box className={classes.containerContent}>
           <Grid container className={classes.containerExercises}>
             <CardExercise
-              content={<CardLeft test={test} dataChangePart={partRenderSelected} />}
+              content={<CardLeft dataChangePart={partRenderSelected} />}
               width={5.9}
               styleAdd={styleAddExercise}
             />
@@ -135,12 +136,7 @@ const Step2ExamContent = (props: any) => {
                   onClickPage={onClickPage}
                   partRenderSelected={group[groupSelected.group]}
                   showQuestion={showQuestion}
-                  onHightLightNumberPage={hightLightNumberPageClickQuestion}
                   displayNumber={displayNumber}
-                  onClickQuestionType={onClickQuestionType}
-                  getTextEachPart={getTextEachPart}
-                  passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-                  onScannerText={onScannerText}
                 />
               }
               width={6}
@@ -152,7 +148,6 @@ const Step2ExamContent = (props: any) => {
         <CardTotalPageExams
           onClickPage={onClickPage}
           questions={questions}
-          test={test}
           setDisplayNumber={onClickShowQuestion}
           groupSelected={groupSelected}
           part={part}
@@ -160,24 +155,8 @@ const Step2ExamContent = (props: any) => {
           question={questionData}
           displayNumber={displayNumber}
         />
-        <FooterExamResponsive />
+        {/* <FooterExamResponsive /> */}
       </Box>
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };

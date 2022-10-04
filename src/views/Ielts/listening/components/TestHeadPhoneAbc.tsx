@@ -17,15 +17,17 @@ import { makeStyles } from "@mui/styles";
 import { warningDetailUser, textBtnSubmit, textHeaderModal, testHeadPhone } from "../../../../constants/constants";
 import CommonStyles from "components/CommonStyles";
 
+console.log("audio", audio);
+
 //! type
 interface TestHeadPhoneI {
-  valueVolum?: any;
+  valueVolum?: number;
 }
 const useStyles = makeStyles((theme) => {
   return {
     containerTest: {
       ...theme.custom?.flexBox.flexJusCenter,
-      marginTop: "60px",
+      paddingTop: "60px",
     },
     btn: {
       color: `${theme.custom?.text.btnSubmit} !important`,

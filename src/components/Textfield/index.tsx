@@ -2,6 +2,7 @@ import { TextField as TextFieldMui, TextFieldProps, TextareaAutosize, TextareaAu
 import { makeStyles, withStyles } from "@mui/styles";
 import { FastFieldProps } from "formik";
 import { getIn } from "formik";
+import classnames from "classnames";
 const useStyles = makeStyles((theme) => ({
   textarea: {
     border: "none",
@@ -70,8 +71,9 @@ export const TextField = (props: Props) => {
       value={value}
       size={size}
       fullWidth={fullWidth}
-      className={props.className}
+      className={classnames("noselect", props.className)}
       onChange={handleChange}
+      // inputProps={{ className: "noselect" }}
       {...rest}
       // error={isTouched && Boolean(errorMessage)}
       // helperText={isTouched && errorMessage}

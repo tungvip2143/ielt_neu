@@ -98,11 +98,12 @@ const IeltsWriting = (props: IeltsReadingProps) => {
       {(formik: any) => (
         <Form>
           <Box sx={{ height: "100vh", overflow: "hidden" }}>
-            <Header
+            {/* <Header
               handleOpenModalHelp={handleOpenModalHelp}
               handleOpenModalHide={handleOpenModalHide}
               numberStep={TypeStepExamEnum.STEP3}
-            />
+              
+            /> */}
             <Box sx={containerSteps}>
               {step === TypeStepExamEnum.STEP1 && <DetailUser />}
               {step === TypeStepExamEnum.STEP2 && (

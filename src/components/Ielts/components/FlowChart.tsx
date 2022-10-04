@@ -3,6 +3,8 @@ import { TextField } from "components/Textfield";
 import { FastField, useFormikContext } from "formik";
 import { makeStyles } from "@mui/styles";
 import { ROOT_ORIGINAL_URL } from "constants/api";
+import { QuestionItemI } from "../../../constants/typeData.types";
+import { Object } from "lodash";
 
 const useStyles = makeStyles((theme) => ({
   container: {
@@ -25,22 +27,19 @@ const useStyles = makeStyles((theme) => ({
 }));
 type Props = {
   image?: string;
-  question?: any;
-  onClickPage?: (options: any) => void;
+  question?: QuestionItemI[];
+  onClickPage?: (options: object) => void;
   displayNumber: number;
   isView?: boolean;
 };
 
 const FlowChart = (props: Props) => {
+  //! State
   const classes = useStyles();
-  const { image, question, onClickPage, displayNumber, isView = false } = props;
+  const { image, question, onClickPage, displayNumber, isView } = props;
   const { setFieldValue } = useFormikContext();
   const inputRef = useRef<any>([]);
 
-  const handleFocus = (id: string, index: any, questionIndx: number) => {
-    setFieldValue(`answers[${index}].questionId`, id);
-    onClickPage && onClickPage({ question: questionIndx }); //!
-  };
   const onClickQuestion = (questionIndx: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndx;
@@ -51,20 +50,26 @@ const FlowChart = (props: Props) => {
     inputRef?.current[displayNumber]?.focus();
   }, [displayNumber]);
 
+  //! Render
   return (
     <div className={classes.container}>
       <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />
       <div className={classes.answerBox}>
-        {question?.map((answer: any, questionIndx: number) => {
+        {question?.map((answer: QuestionItemI, questionIndx: number) => {
+          const handleFocus = (id: string, index: number, questionIndx: number) => {
+            setFieldValue(`answers[${index}].questionId`, id);
+            onClickPage && onClickPage({ question: questionIndx }); //!
+          };
+
           const displayNumberT = answer?.question?.displayNumber;
           return (
-            <div className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
+            <div key={answer.questionId} className={classes.answer} onClick={() => onClickQuestion(questionIndx)}>
               <span>
                 <strong>{`${answer?.question?.displayNumber}.`}</strong>
               </span>
               <FastField
                 disabled={isView}
-                inputRef={(el: any) => (inputRef.current[displayNumberT] = el)}
+                inputRef={(el: Event | any) => (inputRef.current[displayNumberT] = el)}
                 onFocus={() =>
                   handleFocus(answer?.questionId, Number(answer?.question?.displayNumber) - 1, questionIndx)
                 }

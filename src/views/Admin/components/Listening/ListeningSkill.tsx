@@ -11,6 +11,9 @@ import { RouteBase } from "constants/routeUrl";
 import { makeStyles } from "@mui/styles";
 import CommonStyles from "components/CommonStyles";
 import LoadingCircular from "components/CommonStyles/LoadingCircular/LoadingCircular";
+import moment from "moment";
+import { toast } from "react-toastify";
+import useInfoUser from "hooks/auth/useInfoUser";
 
 const useStyle = makeStyles((theme) => {
   return {
@@ -35,15 +38,26 @@ const ListeningSkill = () => {
   } = useGetParts();
 
   const history = useHistory();
+  const rows = dataParts?.map((el: any) => ({
+    id: el?.id,
+    partTitle: el?.partTitle,
+    partNumber: el?.partNumber,
+    studentCode: el?.studentCode,
+    candidateCode: el?.candidateCode,
+    updatedAt: moment(el?.updatedAt).format("DD-MM-YYYY HH:mm"),
+    createdAt: moment(el?.createdAt).format("DD-MM-YYYY HH:mm"),
+  }));
   const classes = useStyle();
   const onDeletePart = async (item: any) => {
     try {
       await listeningService.deletePart(item?.id);
+      toast.success("Delete part success!");
       refetchDataTable();
     } catch (error) {
-      console.log("error");
+      toast.error("error");
     }
   };
+  //! Function
 
   //! Render
   return (
@@ -108,12 +122,12 @@ const ListeningSkill = () => {
             ]}
             checkboxSelection
             pagination={{
-              page: metaPart?.page,
+              page: metaPart?.page ? metaPart?.page - 1 : 0,
               pageSize: metaPart?.pageSize,
               totalRow: metaPart?.total,
             }}
             loading={loading}
-            rows={dataParts}
+            rows={rows}
             onPageChange={onPageChange}
             onPageSizeChange={onPageSizeChange}
           />

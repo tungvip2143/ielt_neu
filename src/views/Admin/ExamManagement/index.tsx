@@ -26,11 +26,13 @@ const ExamManagement = () => {
 
   const rows = dataExam?.map((el: any) => ({
     id: el?.id,
+    msv: el?.userDetail?.username,
     fullname: el?.userDetail?.fullname,
     email: el?.userDetail?.email,
     finishedDate: moment(el?.finishedDate).format("DD-MM-YYYY"),
     status: el?.status,
   }));
+  console.log("dataExam", dataExam);
 
   const [openModal, setOpenModal] = useState({});
 
@@ -42,6 +44,11 @@ const ExamManagement = () => {
         <Card>
           <CommonDataGrid
             columns={[
+              {
+                flex: 1,
+                field: "msv",
+                renderHeader: () => <Typography style={styles.titleTable}>Student Code</Typography>,
+              },
               {
                 flex: 1,
                 field: "fullname",

@@ -1,3 +1,4 @@
+import useInfoUser from "hooks/auth/useInfoUser";
 import React from "react";
 import { Route, Redirect } from "react-router-dom";
 import { GetAuthSelector } from "redux/selectors/auth";
@@ -7,13 +8,13 @@ const PrivateRoute = (props: any) => {
   const auth = GetAuthSelector();
   const { isLogin } = auth;
   const userType = authServices.getUserTypeFromLocalStorage();
-
-  // Render
+  const [userDetail] = useInfoUser();
+  //! Render
   if (isLogin) {
     return <Route {...props} />;
   }
 
-  if (userType === "admin") {
+  if (userType === "SUPER_ADMIN" || userType === "ADMIN") {
     return <Redirect to="/admin/login" />;
   } else {
     return <Redirect to="/login" />;

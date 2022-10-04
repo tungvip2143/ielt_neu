@@ -3,7 +3,7 @@ import contestService from "services/contestService";
 import MContestManagemet from "models/ContestManagemet/ContestManagemet.model";
 
 const useGetPartDetail = (id: any) => {
-  const [dataPartDetail, setDataPartDetail] = useState<MContestManagemet>({});
+  const [dataPartDetail, setDataPartDetail] = useState<any[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<any>(null);
 

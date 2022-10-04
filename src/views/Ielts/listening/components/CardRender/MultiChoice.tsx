@@ -2,14 +2,14 @@ import { Box, FormControl, FormControlLabel, RadioGroup, Stack } from "@mui/mate
 import Radio from "components/Radio";
 import { Field, useFormikContext } from "formik";
 import ReactHtmlParser from "react-html-parser";
-import Text from "../../../../../components/Typography/index";
-import { themeCssSx } from "../../../../../ThemeCssSx/ThemeCssSx";
+import Text from "components/Typography/index";
 import { makeStyles } from "@mui/styles";
+import { QuestionItemI } from "constants/typeData.types";
+import { chooseAnswer } from "constants/constants";
 // ! type
-interface Props {
-  dataQuestions?: any;
-  audio?: any;
-  onClickPage: (options: any) => void;
+interface MultichoiceOneAnswerI {
+  questions: QuestionItemI[];
+  onClickPage: (options: object) => void;
 
   isView?: boolean;
 }
@@ -42,7 +42,7 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
-const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Props) => {
+const MultiChoice = ({ questions, onClickPage, isView = false }: MultichoiceOneAnswerI) => {
   const classes = useStyles();
   const { values }: any = useFormikContext();
 
@@ -56,21 +56,34 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
     <>
       <Box sx={{ mb: "20px" }}></Box>
       <Box className={classes.formAnswer}>
-        {dataQuestions.map((item: any, questionIdx: number) => {
+        {questions.map((question: QuestionItemI, questionIdx: number) => {
           return (
-            <Box className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
+            <Box key={question.questionId} className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
               <Stack direction="row" className={classes.title}>
-                <Text.DescSmall className={classes.questionNumber}>{item.question.displayNumber}.</Text.DescSmall>
+                <Text.DescSmall className={classes.questionNumber}>{question.question.displayNumber}.</Text.DescSmall>
                 <Text.DescSmall className={classes.question}>
-                  {ReactHtmlParser(item.question.questionText)}
+                  {ReactHtmlParser(question.question.questionText)}
                 </Text.DescSmall>
               </Stack>
 
               <FormControl sx={{ padding: "0 20px" }}>
-                {item?.question?.options.map((answerChoice: any) => {
-                  const displayNumber = Number(item.question.displayNumber) - 1;
+                {question?.question?.options.map((answerChoice: any, index: number) => {
+                  const checkSortIndex = () => {
+                    if (index === 0) {
+                      return `${chooseAnswer.a}`;
+                    }
+                    if (index === 1) {
+                      return `${chooseAnswer.b}`;
+                    }
+                    if (index === 2) {
+                      return `${chooseAnswer.c}`;
+                    }
+                    return;
+                  };
+                  const displayNumber = Number(question.question.displayNumber) - 1;
                   return (
                     <RadioGroup
+                      key={answerChoice._id}
                       aria-labelledby="demo-radio-buttons-group-label"
                       defaultValue=""
                       name="radio-buttons-group"
@@ -80,10 +93,10 @@ const MultiChoice = ({ dataQuestions, audio, onClickPage, isView = false }: Prop
                         disabled={isView}
                         key={answerChoice._id}
                         value={answerChoice.key}
-                        label={`${answerChoice.text}`}
+                        label={`${checkSortIndex()}. ${answerChoice.text}`}
                         control={
                           <Field
-                            questionId={item.question._id}
+                            questionId={question.question._id}
                             index={displayNumber}
                             component={Radio}
                             name={`answers[${displayNumber}].studentAnswer`}

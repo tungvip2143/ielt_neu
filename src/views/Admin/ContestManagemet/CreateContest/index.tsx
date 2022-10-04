@@ -41,8 +41,6 @@ const CreateContest = (props: Props) => {
   const [openModal, setOpenModal] = useState<boolean>(false);
   const [valueUserId, setValueUserId] = useState<string[]>([]);
 
-  console.log("valueUserId", valueUserId);
-
   const validationSchema = yup.object().shape({
     name: yup.string().required("This field is required!"),
     active: yup.string().required("This field is required!"),
@@ -53,7 +51,6 @@ const CreateContest = (props: Props) => {
   const [dataContest, loading, error, refetchDataTable, metaPart, onPageChange, onPageSizeChange] =
     useContestManagemet();
   const [dataPartDetail, , , refetchData] = useGetPartDetail(id);
-  console.log("dataPartDetailasd", dataPartDetail);
 
   const [dataFileExcel, setDataFileExcel] = useState([]);
   const formController = useForm<ResponseParams>({
@@ -100,7 +97,6 @@ const CreateContest = (props: Props) => {
   //! Function
   const resetAsyncForm = useCallback(
     async (data: any) => {
-      console.log("1111", data);
       reset({
         name: data?.name,
         active: data?.active,
@@ -162,7 +158,7 @@ const CreateContest = (props: Props) => {
           history.goBack();
         }
       } catch (error: any) {
-        toast.error(error);
+        toast.error("Max student of examination is 40!");
       }
     }
     if (openCreateScreen.type === "update") {

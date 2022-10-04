@@ -4,55 +4,44 @@ import Stack from "@mui/material/Stack";
 import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
-
+import { PartContentQuestionsI, QuestionItemI } from "../../constants/typeData.types";
 // !type
-interface TOFFLI {
-  partRenderSelected?: any;
-  onClickPage: (id: string) => void;
-  onHightLightNumberPage: (displayNumber: number) => void;
-  showQuestion?: any;
+interface PartRenderSlectedI {
+  partRenderSelected: PartContentQuestionsI;
+  onClickPage: (id: object) => void;
+  showQuestion?: string;
   displayNumber: number;
-  onClickQuestionType?: any;
-  getTextEachPart?: (text: string) => void;
-  passageTextWithHighlightTexted: string;
-  onScannerText: (data: any) => void;
 }
 
-const TOFFL = ({
-  partRenderSelected,
-  onClickPage,
-  showQuestion,
-  onHightLightNumberPage,
-  displayNumber,
-  onClickQuestionType,
-  getTextEachPart,
-  passageTextWithHighlightTexted,
-  onScannerText,
-}: TOFFLI) => {
+const TOFFL = ({ partRenderSelected, onClickPage, showQuestion, displayNumber }: PartRenderSlectedI) => {
   const [expanded, setExpanded] = useState(showQuestion);
   //! Number
-  // console.log("Fsdfs", partRenderSelected);
   const dataNumber = {
     from: "1",
     to: "6",
   };
   //
-  const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
+  const handleCollapse = (id: Event | any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? id : false);
     onClickPage(id);
   };
   useEffect(() => {
     setExpanded(showQuestion);
   }, [showQuestion]);
-  const renderPartValueGroup = (partRenderSelected: any) => {
+  const renderPartValueGroup = (partRenderSelected: PartContentQuestionsI) => {
     const questionType = partRenderSelected?.questionType;
     if (
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
+      questionType === QUESTION_TYPE.MULTIPLE_CHOICE_MULTIPLE_ANSWER ||
+      questionType === QUESTION_TYPE.SHORT_ANSWER_QUESTION ||
       questionType === QUESTION_TYPE.FLOW_CHART_COMPLETION ||
       questionType === QUESTION_TYPE.LABELLING_A_DIAGRAM ||
+      questionType === QUESTION_TYPE.TABLE_COMPLETION ||
+      questionType === QUESTION_TYPE.DIAGRAM_LABELING ||
       questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS ||
-      questionType === QUESTION_TYPE.MATCHING_HEADINGS
+      questionType === QUESTION_TYPE.MATCHING_HEADINGS ||
+      questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION
     ) {
       return (
         <ItemQuestion
@@ -61,31 +50,24 @@ const TOFFL = ({
           questionBox={partRenderSelected?.questionBox}
           question={partRenderSelected?.questions}
           answerList={partRenderSelected?.answerList}
-          onHightLightNumberPage={onHightLightNumberPage}
           displayNumber={displayNumber}
           onClickPage={onClickPage}
-          getTextEachPart={getTextEachPart}
-          passageTextWithHighlightTexted={passageTextWithHighlightTexted}
-          onScannerText={onScannerText}
         />
       );
     }
-    return partRenderSelected?.questions?.map((question: any, questionIdx: number) => {
+    return partRenderSelected?.questions?.map((question: QuestionItemI, questionIdx: number) => {
       return (
         <>
           <ItemQuestion
-            key={question._id}
+            key={question.questionId}
             question={question}
             questionIdx={questionIdx}
             questionType={questionType}
             expanded={expanded}
             onCollapse={handleCollapse}
             questionBox={partRenderSelected?.questionBox}
-            onHightLightNumberPage={onHightLightNumberPage}
             displayNumber={displayNumber}
             onClickPage={onClickPage}
-            getTextEachPart={getTextEachPart}
-            passageTextWithHighlightTexted={passageTextWithHighlightTexted}
           />
         </>
       );
@@ -95,10 +77,9 @@ const TOFFL = ({
   //! Render
   return (
     <Box>
-      <TitleExam dataNumber={dataNumber} title={partRenderSelected} />
-      <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
+      <TitleExam title={partRenderSelected} />
+      <Stack direction="column" spacing={1} sx={{ pb: "100px" }} className="exam">
         {renderPartValueGroup(partRenderSelected)}
-        {onClickQuestionType(partRenderSelected?.questionType)}
       </Stack>
     </Box>
   );

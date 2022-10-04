@@ -1,4 +1,4 @@
-import { Autocomplete, TextField, Typography } from "@mui/material";
+import { Autocomplete, Button, Stack, TextField, Typography } from "@mui/material";
 import ButtonUpload from "components/Button/ButtonUpload";
 import CommonActionMenu from "components/CommonActionMenu";
 import CommonDataGrid from "components/CommonDataGrid";
@@ -13,7 +13,7 @@ import "./style.scss";
 import InfoOutlinedIcon from "@mui/icons-material/InfoOutlined";
 import { RouteBase } from "constants/routeUrl";
 import ProgressBar from "components/ProgressBar";
-
+import UndoIcon from "@mui/icons-material/Undo";
 const validationSchema = yup.object().shape({
   //   name: yup.string().required("This field is required!"),
   //   active: yup.string().required("This field is required!"),
@@ -22,8 +22,9 @@ const validationSchema = yup.object().shape({
 const GenerateExam = () => {
   //!State
   const history = useHistory();
-  const search = useLocation<any>();
-  const id = search.state?.id;
+  const { search } = useLocation<any>();
+
+  const id = search.split("=")[1];
   const [examId, setExamId] = useState<any>([]);
 
   const [dataTest, , , , , ,] = useGetListTest();
@@ -42,7 +43,7 @@ const GenerateExam = () => {
     try {
       const response = await testBankService.generateExam(id, body);
       if (response?.data?.statusCode === 200) {
-        toast.success("Gender success");
+        toast.success("Generate success");
         refetchDataTable();
         setVisible(false);
       }
@@ -53,11 +54,20 @@ const GenerateExam = () => {
       });
     }
   };
-
+  const renderButtonBack = () => {
+    return (
+      <Stack spacing={2} direction="row" className="justify-end mb-[10px]">
+        <Button component="a" href="#as-link" startIcon={<UndoIcon />} onClick={() => history.goBack()}>
+          Back
+        </Button>
+      </Stack>
+    );
+  };
   //! Render
 
   return (
     <div className="cardWrapper">
+      <div>{renderButtonBack()}</div>
       <ProgressBar isVisible={visible} />
       <Typography sx={{ fontWeight: "bold", marginBottom: "10px" }}>Select original exams</Typography>
       <Autocomplete
@@ -92,7 +102,6 @@ const GenerateExam = () => {
             field: "updatedAt",
             renderHeader: () => <Typography>Update at</Typography>,
           },
-
           {
             flex: 0.3,
             field: "action",
@@ -103,9 +112,8 @@ const GenerateExam = () => {
                   sx={{ color: "#5048E5", cursor: "pointer" }}
                   onClick={() => {
                     history.push({
-                      pathname: RouteBase.generateExamDetailWid(items?.row?.id),
-                      search: `?id=${items?.id}`,
-                      state: { id: id },
+                      pathname: RouteBase.GenerateExamDetailWid(items?.row?.stt),
+                      search: `?id=${items?.id}?${id}`,
                     });
                   }}
                 />

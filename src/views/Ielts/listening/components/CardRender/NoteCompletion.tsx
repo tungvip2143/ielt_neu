@@ -2,15 +2,14 @@ import React, { useEffect, useMemo } from "react";
 import Handlebars from "handlebars";
 import { useFormikContext } from "formik";
 import Timer from "helpers/timer";
-import { useHightLightText } from "hooks/ielts/useHightLightTextScannerHook";
-import CommonStyles from "components/CommonStyles";
-
-type Props = {
-  questionBox?: any;
-  groupData?: any;
+import { QuestionItemI } from "../../../../../constants/typeData.types";
+interface NoteCompletionI {
+  questionBox: string;
+  questions: QuestionItemI[];
   displayNumber: number;
-  onClickPage: (options: any) => void;
-};
+  onClickPage: (options: object) => void;
+  isView?: boolean;
+}
 
 const CODE = "-@X$";
 
@@ -19,42 +18,30 @@ const convertBlankIdToQuestionId = (questionBox = "", blankId: number, questionI
   return questionBox;
 };
 
-const NoteCompletion = (props: Props) => {
+const NoteCompletion = (props: NoteCompletionI) => {
   //! State
   const inputDebounce = React.useRef(new Timer());
   const queueAnswers = React.useRef<any>({});
-  const { questionBox, groupData, displayNumber, onClickPage } = props;
+  const { questionBox, questions, displayNumber, onClickPage, isView } = props;
   const { setFieldValue, values }: any = useFormikContext();
-  // console.log("questionBox", questionBox);
-
-  const {
-    onScannerText,
-    onHightlight,
-    passageTextWithHighlightTexted,
-    position,
-    isOpenOptionClear,
-    clearItem,
-    onCloseNote,
-    onClearHightLightAll,
-    onClickNote,
-    onClearHightLight,
-    markTagId,
-    isNoted,
-    isHightLight,
-    onInputChange,
-  } = useHightLightText({ text: questionBox, values, onChangeInput: setFieldValue, tagName: "DIV" });
+  // console.log("questionBox", questionBox, questions);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
-    groupData.questions.forEach((el: any) => {
-      const { blankNumber, displayNumberT } = el.question;
+    questions.forEach((el: QuestionItemI) => {
+      const { blankNumber, displayNumber } = el.question;
+      // console.log("elfgsgsg", el);-
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
 
+    // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
+
     tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
     return tempQuestionBox;
-  }, [groupData, questionBox]);
+  }, [questions, questionBox]);
+
+  // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
 
   useEffect(() => {
     const input = document.querySelector(`[id=input-${displayNumber}]`) as any;
@@ -66,29 +53,28 @@ const NoteCompletion = (props: Props) => {
   const questionBoxHTML: any = Handlebars.compile(newQuestionBoxParsed);
 
   let inputIndex = 0;
-  Handlebars.registerHelper("blank", function (blankId: any) {
-    console.log("blankId", blankId);
+  Handlebars.registerHelper("blank", function (blankId: number) {
     inputIndex++;
-    const input: any = document.querySelector(`[id=input-${blankId}]`);
+    const input: Element | any = document.querySelector(`[id=input-${blankId}]`);
     if (input) {
-      input.value = values.answers[blankId - 1]?.studentAnswer;
+      input.value = isView ? "" : values.answers[blankId - 1].studentAnswer;
     }
     return new Handlebars.SafeString(
-      `
-      ${blankId}
-      <input
+      `<span class="noselect"><strong>${blankId}</strong>
+      <input class="${inputIndex}" ${isView ? "disabled" : ""}
           key="input-${blankId}"
+          value=""
           name="answers[${blankId - 1}].studentAnswer"
           id="input-${blankId}"
           type="text"
           class='${inputIndex}'
-        />
+        /></span>
       `
     );
   });
 
   //! Function
-  const onChangeInputHandleBars = (e: any) => {
+  const onChangeInputHandleBars = (e: Event | any) => {
     queueAnswers.current = {
       ...queueAnswers.current,
       [e.target.name]: e.target.value,
@@ -102,35 +88,20 @@ const NoteCompletion = (props: Props) => {
   };
 
   const onClickInput = (data: any) => {
-    const inputIdx: any = data.target.getAttribute("class") - 1;
-    onClickPage && onClickPage({ question: inputIdx });
-    onScannerText(data);
+    const InputClass = data.target.classList[0] - 1;
+
+    onClickPage && onClickPage({ question: InputClass });
   };
 
   //! Render
   return (
     <>
       <div
-        onClick={(data) => onClickInput(data)}
+        // onClick={(data) => onClickInput(data)}
+        onFocus={(event) => onClickInput(event)}
         dangerouslySetInnerHTML={{ __html: questionBoxHTML() }}
         onInput={onChangeInputHandleBars}
       />
-      {isHightLight && (
-        <CommonStyles.HightLightDialog onClickHighlight={onHightlight} onClickNote={onClickNote} position={position} />
-      )}
-      <CommonStyles.Note
-        position={position}
-        isOpenNote={isNoted}
-        onCloseNote={onCloseNote}
-        onChangeTextNote={onInputChange}
-      />
-      {isOpenOptionClear && (
-        <CommonStyles.ClearDialog
-          position={position}
-          onClearHightlight={onClearHightLight}
-          onClearHightlightAll={onClearHightLightAll}
-        />
-      )}
     </>
   );
 };

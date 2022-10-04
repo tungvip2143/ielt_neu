@@ -10,19 +10,19 @@ const useGetParts = () => {
   const [error, setError] = useState<any>(null);
   const [meta, setMeta] = useState<MPagination>({
     page: 0,
-    pageSize: PAGE_SIZE[0],
+    pageSize: 100,
     total: 0,
   });
 
   const [params, setParams] = useState({
     page: 1,
-    pageSize: PAGE_SIZE[0],
+    pageSize: 100,
   });
 
   const refetchDataTable = async () => {
     setParams({
       page: 1,
-      pageSize: PAGE_SIZE[0],
+      pageSize: 100,
     });
   };
 
