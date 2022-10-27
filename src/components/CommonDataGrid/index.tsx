@@ -29,6 +29,8 @@ export default function CommonDataGrid({
   hideFooterPagination,
   hideFooter,
 }: ICommonDataGrid) {
+  const [pageSize, setPageSize] = React.useState<number>(PAGE_SIZE[0]);
+  const [page, setPage] = React.useState(0);
   return (
     <DataGrid
       getRowId={getRowId}
@@ -42,12 +44,8 @@ export default function CommonDataGrid({
       checkboxSelection={false}
       disableSelectionOnClick
       keepNonExistentRowsSelected
-      onPageChange={(page, detail) => {
-        onPageChange(page + 1);
-      }}
-      onPageSizeChange={(pageSize, detail) => {
-        onPageSizeChange(pageSize);
-      }}
+      onPageChange={(newPage) => setPage(newPage)}
+      onPageSizeChange={(newPageSize) => setPageSize(newPageSize)}
       pagination
       paginationMode="server"
       autoHeight
