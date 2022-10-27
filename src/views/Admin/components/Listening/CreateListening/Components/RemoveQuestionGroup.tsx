@@ -15,7 +15,7 @@ const RemoveQuestionGroup = ({ item, onDelete = () => {} }: any) => {
     //! State
     const { open: openRemove, toggle: toggleRemove, shouldRender: shouldRenderRemove } = useToggleDialog();
     //! Render
-    0;
+
     return (
       <>
         {shouldRenderRemove && (
@@ -36,7 +36,8 @@ const RemoveQuestionGroup = ({ item, onDelete = () => {} }: any) => {
                 <CommonStyles.Button
                   variant="contained"
                   style={{ background: "#9155FF" }}
-                  onClick={() => onDelete(item.id)}
+                  // onClick={() => onDelete(item.id)}
+                  onClick={() => console.log("sdf")}
                 >
                   Delete
                 </CommonStyles.Button>

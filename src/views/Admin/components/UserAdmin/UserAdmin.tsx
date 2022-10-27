@@ -29,6 +29,7 @@ const UserAdmin = () => {
     onPageChange,
     onPageSizeChange,
   } = useGetListStudents();
+  console.log("dataParts", dataParts);
 
   const history = useHistory();
   const rows = dataParts?.map((el: any) => ({
@@ -39,9 +40,11 @@ const UserAdmin = () => {
     updatedAt: moment(el?.updatedAt).format("DD-MM-YYYY HH:mm"),
     createdAt: moment(el?.createdAt).format("DD-MM-YYYY HH:mm"),
   }));
+
   const onDeletePart = async (item: any) => {
+    console.log("item", item);
     try {
-      await studentService.deletePart(item?.row?._id);
+      await studentService.deletePart(item?.row?.id);
       await refetchDataTable();
       await toast.success("Delete success!");
     } catch (error) {

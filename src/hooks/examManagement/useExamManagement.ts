@@ -9,18 +9,18 @@ const useExamManagement = (skill?: any, isGrade?: any) => {
   const [error, setError] = useState<any>(null);
   const [metaPart, setMetaPart] = useState<MPagination>({
     page: 0,
-    pageSize: 100,
+    pageSize: PAGE_SIZE[0],
     totalRow: 0,
   });
   const [params, setParams] = useState({
     page: 1,
-    pageSize: 100,
+    pageSize: PAGE_SIZE[0],
   });
 
   const refetchDataTable = async () => {
     setParams({
       page: 1,
-      pageSize: 100,
+      pageSize: PAGE_SIZE[0],
     });
   };
 
