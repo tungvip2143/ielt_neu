@@ -97,8 +97,8 @@ const ExamManagement = () => {
             }}
             loading={loading}
             rows={rows}
-            onPageChange={onPageChange}
-            onPageSizeChange={onPageSizeChange}
+            // onPageChange={onPageChange}
+            // onPageSizeChange={onPageSizeChange}
           />
         </Card>
       )}
