@@ -14,7 +14,6 @@ type Props = {
 const NoteCompletion = (props: Props) => {
   const { questionBox, data } = props;
   const { values, handleChange }: any = useFormikContext();
-  console.log("data noteCompletion", data);
 
   Handlebars.registerHelper("blank", function (blankId: any) {
     const studentAnswer = data[blankId]?.studentAnswer ? data[blankId]?.studentAnswer : "";

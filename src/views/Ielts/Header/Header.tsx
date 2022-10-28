@@ -27,7 +27,6 @@ interface HeaderExamI {
   handleOpenModalHelp?: () => void;
   handleOpenModalHide?: () => void;
   numberStep?: string;
-  timeExam?: any;
   handleSubmitWhenEndedTime?: () => void;
   handleChangeValueVolum?: (value: any) => void;
   typeExam: string;
@@ -68,11 +67,17 @@ const useStyles = makeStyles((theme) => {
   };
 });
 
+const btnHelp = {
+  cursor: "pointer",
+};
+const optionBtn = {
+  cursor: "pointer",
+};
+
 const Header = ({
   handleOpenModalHelp,
   handleOpenModalHide,
   numberStep,
-  timeExam,
   handleChangeValueVolum,
   typeExam,
 }: HeaderExamI) => {
@@ -84,13 +89,6 @@ const Header = ({
   const history = useHistory();
   const { mutateAsync: updateIeltsSkillFinish } = useFinishIeltsSkill();
   const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
-
-  const btnHelp = {
-    cursor: "pointer",
-  };
-  const optionBtn = {
-    cursor: "pointer",
-  };
 
   const student: any = useMemo(() => {
     const { student } = authServices.getUserLocalStorage();

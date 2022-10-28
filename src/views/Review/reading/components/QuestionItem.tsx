@@ -34,10 +34,6 @@ const QuestionItem = ({
   hightLightNumberPage,
   ...remainProps
 }: PropsQuestionItem) => {
-  const { values } = useFormikContext();
-  console.log("questionType", questionType);
-  console.log("hightLightNumberPage", hightLightNumberPage);
-
   const renderQuestion = (data: any) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return <MatchingType questionBox={questionBox} data={data} numberPage={hightLightNumberPage} />;

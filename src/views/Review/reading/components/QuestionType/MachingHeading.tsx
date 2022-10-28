@@ -48,8 +48,6 @@ const MachingHeading = (props: Props) => {
   // !State
   const classes = useStyles();
   const { data, answerList } = props;
-  console.log("data", data);
-  // const index = Number(data.question.displayNumber) - 1;
 
   // !Function
 
@@ -65,7 +63,6 @@ const MachingHeading = (props: Props) => {
 
 const Answer = (props: any) => {
   const { data } = props;
-  console.log("answerMachingHeading", data);
   // !State
   const classes = useStyles();
   const [showExplanation, setShowExplanation] = useState<boolean>(false);

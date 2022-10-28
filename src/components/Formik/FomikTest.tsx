@@ -112,9 +112,7 @@ const FormikCom = (props: FormikComProps) => {
       initialValues={initialValues}
       stepNumber={stepNumber}
       onStep={setStepNumber}
-      onSubmit={async (values: object) => {
-        console.log("values", values);
-      }}
+      onSubmit={async (values: object) => {}}
       text={text}
     >
       {children}

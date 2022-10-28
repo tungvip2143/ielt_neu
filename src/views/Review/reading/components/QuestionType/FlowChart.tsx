@@ -41,8 +41,6 @@ type Props = {
 const FlowChart = (props: Props) => {
   const classes = useStyles();
   const { image, question } = props;
-  console.log("question 345", image);
-
   return (
     <div>
       <img className={classes.img} src={`${ROOT_ORIGINAL_URL}/${image}`} alt="flow chart" />

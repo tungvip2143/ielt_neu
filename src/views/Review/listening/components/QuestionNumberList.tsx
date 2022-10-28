@@ -30,7 +30,6 @@ const QuestionNumberList = ({ questions, onClickPage, displayNumberOnclickPage }
 
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
       return partGroup.questions.map((item: any, index: number) => {
-        console.log("itemDad", item);
         const handleClickQuestion = (part: any, group: any) => {
           sectionRender.part = partValues.partNumber - 1;
           sectionRender.group = partGroup.groupNumber - 1;
@@ -65,8 +64,6 @@ const QuestionNumberList = ({ questions, onClickPage, displayNumberOnclickPage }
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
           <Box sx={{ width: { md: "100%", display: "flex", flexWrap: "wrap", gap: 4 } }}>
             {questions?.map((group: any, index: number) => {
-              console.log("partKey", group);
-
               return <>{renderPartValues(group, index)}</>;
             })}
           </Box>

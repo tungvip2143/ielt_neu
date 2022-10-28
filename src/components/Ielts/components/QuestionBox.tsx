@@ -35,8 +35,6 @@ const QuestionBox = (props: NoteCompletionI) => {
     questions?.forEach((el) => {
       const { blankNumber, displayNumber } = el.question;
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
-      // console.log("543543", el);
-
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
 

@@ -78,8 +78,6 @@ const LoginAdminPage = (props: any) => {
         onSubmit={async (values) => {
           await login(values, {
             onSuccess: (response) => {
-              console.log("response", response);
-
               dispatch(authActions.saveInfoUser, {
                 token: response?.data?.data?.data?.access_token,
                 userType: response?.data?.data?.data?.user?.userType,

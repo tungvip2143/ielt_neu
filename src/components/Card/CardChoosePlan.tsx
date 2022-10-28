@@ -20,7 +20,7 @@ interface Data {
 import ButtonBuyNow from "components/Button/ButtonBuyNow";
 const CardChoosePlan = ({ header, headerNoSale, desc, discounted, isShowSale, className, footer }: Data) => {
   // ! State
-  console.log(isShowSale);
+
   // ! Function
   const card = {
     p: "25px 20px",

@@ -27,7 +27,6 @@ const MatchingParagrapInformation = (props: MatchingParagrapInformationI) => {
     inputRef.current[displayNumber]?.focus();
   }, [displayNumber]);
   const classes = useStyles();
-  // console.log("fsfdsf", question);
   const { setFieldValue } = useFormikContext();
 
   const onClickQuestion = (questionIndex: number) => {

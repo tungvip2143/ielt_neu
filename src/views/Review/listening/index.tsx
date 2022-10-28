@@ -135,8 +135,6 @@ const ListeningReviewContainer = () => {
   if (isLoading) {
     return <LoadingPage />;
   }
-  console.log("listening data ", data?.data?.data);
-
   return (
     <>
       <ListeningReview data={data?.data?.data?.listening} />

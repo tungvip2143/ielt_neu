@@ -28,10 +28,7 @@ const QuestionAnswer = ({
   onHightLightNumberPage,
   hightLightNumberPage,
 }: QuestionAnswerI) => {
-  // console.log(partRenderSelected.questions.group?.[0]?.index);
   const [expanded, setExpanded] = useState(showQuestion);
-  const [dataPartGruop, setDataPartGroup] = useState();
-
   //
   const handleCollapse = (id: any) => (event: React.SyntheticEvent, newExpanded: boolean) => {
     setExpanded(newExpanded ? id : false);
@@ -40,10 +37,7 @@ const QuestionAnswer = ({
   useEffect(() => {
     setExpanded(showQuestion);
   }, [showQuestion]);
-  // useEffect(() => {
-  //   setExpanded(questionSelected);
-  // }, [questionSelected]);
-  //
+
   const renderPartValueGroup = (partRenderSelected: any) => {
     const questionType = partRenderSelected?.questionType;
     if (
