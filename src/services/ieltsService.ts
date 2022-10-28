@@ -82,7 +82,6 @@ class IeltsService {
   }
 
   getExamProgress({ testCode, skill }: any) {
-    console.log("getExamProgress", testCode);
     return httpServices.get(`${IELTS_URL().EXAM_PROGRESS}/${testCode}/${skill}/progress`);
   }
 

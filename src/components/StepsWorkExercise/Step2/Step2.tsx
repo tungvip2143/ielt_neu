@@ -20,7 +20,6 @@ const Step2 = () => {
   useEffect(() => {
     fetch();
   }, []);
-  //   console.log(data.part1);
   const dataNumber = {
     from: 14,
     to: 26,

@@ -32,11 +32,7 @@ type MultiChoiceOneAnswerI = {
 const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
   const { question, questionType, QUESTION_TYPE, displayNumber, questionIdx, onClickPage, isView, directionText } =
     props;
-  // console.log("question", question);
-
   const displayNumberT = Number(question?.question?.displayNumber || 0) - 1;
-  // console.log("31323", displayNumberT);
-
   const { values }: any = useFormikContext();
 
   const onClickQuestion = () => {

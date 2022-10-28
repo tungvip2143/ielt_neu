@@ -54,8 +54,6 @@ const FlowChart = (props: FlowChartI) => {
     let sectionRender: any = {};
 
     sectionRender.question = questionIndx;
-    console.log("sectionRender", sectionRender);
-
     onClickPage && onClickPage(sectionRender);
   };
 

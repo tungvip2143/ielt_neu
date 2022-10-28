@@ -38,8 +38,6 @@ const ReadingReview = (props: any) => {
   //! State
   const classes = useStyles();
   const { data } = props;
-  console.log("data789", data);
-  // const [questions, setQuestions] = useState([]);
 
   const [questionSelected, setQuestionSelected] = useState<any>("1");
   const [groupSelected, setGroupSelected] = useState({
@@ -76,9 +74,6 @@ const ReadingReview = (props: any) => {
     return null;
   }, [data, groupSelected]);
 
-  //
-
-  console.log("partRenderSelected11", partRenderSelected);
   //! Render
   const container = {
     position: "relative",

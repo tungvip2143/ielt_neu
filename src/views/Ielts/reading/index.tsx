@@ -20,6 +20,8 @@ import IeltsReadingContainer from "components/Exams/components/Step2ExamContent/
 import cacheService from "services/cacheService";
 import { rulesdetailExam } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
+import { showError } from "helpers/toast";
+import { getErrorMsg } from "helpers";
 
 //
 const styleListRule = {
@@ -94,7 +96,7 @@ const IeltsReading = () => {
       //   handler?.setStep && handler.setStep(TypeStepExamEnum.STEP4);
       // });
     } catch (err) {
-      console.log(err);
+      showError(getErrorMsg(err));
     }
   }, []);
 

@@ -33,7 +33,6 @@ const Card = () => {
     fontWeight: "bold",
     marginTop: "35px !important",
   };
-  console.log(isShowSale);
   const footer = {
     alignItems: "center",
     background: "rgba(255, 255, 255, 0.5)",

@@ -8,7 +8,6 @@ interface Props {
 }
 const QuestionItem = (props: Props) => {
   const { question } = props;
-  //   console.log("questionItemSpeaking", question);
   return (
     <div>
       <Box sx={{ mb: "20px", mt: "50px" }}>

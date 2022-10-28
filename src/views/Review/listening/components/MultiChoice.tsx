@@ -49,7 +49,6 @@ const studentAnswerCss = {
   borderRadius: "5px",
 };
 const MultiChoice = ({ dataQuestions }: Props) => {
-  console.log("dataQuestions", dataQuestions);
   return (
     <>
       <Box className="" sx={container}>

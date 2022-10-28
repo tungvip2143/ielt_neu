@@ -40,10 +40,8 @@ const useStyles = makeStyles((theme) => {
   };
 });
 const Step2ExamContent = (props: any) => {
-  const { data } = props;
-  console.log("3232", data);
-
   //! State
+  const { data } = props;
   const [questions, setQuestions] = useState(data);
   const [text, setText] = useState("");
   const [groupSelected, setGroupSelected] = useState({
@@ -52,8 +50,6 @@ const Step2ExamContent = (props: any) => {
     question: 0,
   });
   const [showQuestion, setShowQuestion] = useState("1");
-
-  console.log("data123", data);
   const part = data;
   const group = data[groupSelected.part]?.groups;
   const questionData = data[groupSelected.part]?.groups[groupSelected.group]?.questions || [];

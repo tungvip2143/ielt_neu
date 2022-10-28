@@ -40,8 +40,6 @@ const MachingHeading = (props: MachingHeadingI) => {
   const { answerList, questions, onClickPage, displayNumber, isView = false } = props;
   const inputRef = useRef<any>([]);
   const { setFieldValue } = useFormikContext();
-  // console.log("5675", question);
-
   const onClickQuestion = (questionIndex: number) => {
     let sectionRender: any = {};
     sectionRender.question = questionIndex;

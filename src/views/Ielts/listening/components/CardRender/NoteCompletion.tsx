@@ -24,24 +24,18 @@ const NoteCompletion = (props: NoteCompletionI) => {
   const queueAnswers = React.useRef<any>({});
   const { questionBox, questions, displayNumber, onClickPage, isView } = props;
   const { setFieldValue, values }: any = useFormikContext();
-  // console.log("questionBox", questionBox, questions);
 
   const newQuestionBoxParsed = useMemo(() => {
     let tempQuestionBox = questionBox;
     questions.forEach((el: QuestionItemI) => {
       const { blankNumber, displayNumber } = el.question;
-      // console.log("elfgsgsg", el);-
       setFieldValue(`answers[${displayNumber - 1}].questionId`, el.questionId);
       tempQuestionBox = convertBlankIdToQuestionId(tempQuestionBox, Number(blankNumber), Number(displayNumber));
     });
 
-    // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
-
     tempQuestionBox = tempQuestionBox.replaceAll(CODE, "");
     return tempQuestionBox;
   }, [questions, questionBox]);
-
-  // console.log("newQuestionBoxParsed", newQuestionBoxParsed);
 
   useEffect(() => {
     const input = document.querySelector(`[id=input-${displayNumber}]`) as any;

@@ -190,7 +190,6 @@ const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
   }, []);
   const { data: examProgress, isLoading: examProgressLoading } = useGetExamProgress({ testCode, skill: "listening" });
   const examDataProgress = examProgress?.data?.data;
-  console.log("examDataProgress", examDataProgress);
   const { data, isLoading } = useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
     onSuccess: () => {
       cacheService.cache("skill", "LISTENING");

@@ -66,8 +66,6 @@ const Record = (props) => {
     audio: true,
     echoCancellation: true,
   });
-  console.log("deed", mediaBlobUrl);
-
   const convertFileToBase64 = (file) =>
     new Promise((resolve, reject) => {
       const reader = new FileReader();

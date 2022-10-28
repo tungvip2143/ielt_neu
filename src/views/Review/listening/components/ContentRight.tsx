@@ -12,9 +12,6 @@ interface Props {
 }
 const ContentRight = ({ partRenderSelected, displayNumber }: Props) => {
   const questionType = partRenderSelected?.questionType;
-  // console.log("dataListeningImage", partRenderSelected.image);
-
-  // console.log("partRenderSelected", partRenderSelected);
 
   const renderPartValueGroup = (partRenderSelected: any, displayNumber: any) => {
     if (questionType === QUESTION_TYPE.NOTE_COMPLETION) {

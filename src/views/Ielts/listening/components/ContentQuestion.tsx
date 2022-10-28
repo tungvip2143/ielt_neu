@@ -22,8 +22,6 @@ interface PartRenderSlectedI {
 }
 const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage }: PartRenderSlectedI) => {
   const questionType = partTypeQuestions?.questionType;
-  // console.log("ContentQuestion", ContentQuestion);
-  // console.log("questionType", questionType);
 
   // !Hook
   const { isAction, position, toggleAction, className } = useRightClick();
@@ -34,15 +32,6 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
   const renderPartValueGroup = (partTypeQuestions: PartContentQuestionsI) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
-        //     <MachingTypeListening
-        //       answerList={partTypeQuestions.answerList}
-        //       questionBox={partTypeQuestions.questionBox ?? ""}
-        //       questions={partTypeQuestions.questions}
-        //       onClickPage={onClickPage}
-        //       displayNumber={displayNumber}
-        //     />
-        //   );
-        // }
         <MatchingType
           answerList={partTypeQuestions?.answerList ?? ""}
           questionBox={partTypeQuestions?.questionBox ?? ""}

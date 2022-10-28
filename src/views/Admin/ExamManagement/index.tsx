@@ -32,8 +32,6 @@ const ExamManagement = () => {
     finishedDate: moment(el?.finishedDate).format("DD-MM-YYYY"),
     status: el?.status,
   }));
-  console.log("dataExam", dataExam);
-
   const [openModal, setOpenModal] = useState({});
 
   return (

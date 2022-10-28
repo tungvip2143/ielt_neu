@@ -52,13 +52,8 @@ const QuestionNumberList = ({
   hightLightNumberPage,
   onClickPageNumber,
 }: QuestionNumberListI) => {
-  // console.log("showAnswerTrue", showAnswerTrue);
-  const [highlightPage, setHighlightPage] = useState();
-
   //! State
   const classes = useStyles();
-  const { values }: any = useFormikContext();
-  //
   const renderPartValues = (partValues: any, index: number) => {
     let sectionRender: any = {};
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {

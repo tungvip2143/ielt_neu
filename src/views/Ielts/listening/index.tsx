@@ -2,16 +2,13 @@ import { TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
-//
 import { Box } from "@mui/material";
-//
 import { Form, Formik } from "formik";
-import { useFinishIeltsSkill, useGetExamProgress, useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
+import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
 import { useHistory } from "react-router-dom";
 import Header from "views/Ielts/Header/Header";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
-//
 import HandleQuestionProvider from "providers/HandleQuestionProvider";
 import InformationForCandidatesListening from "views/components/dataSteps/DataContentListening/InformationForCandidates";
 import IntructionsToCandidatesListening from "views/components/dataSteps/DataContentListening/IntructionsToCandidates";
@@ -20,18 +17,12 @@ import ModalHelpExam from "../../../components/Modal/ModalHelpExam";
 import ModalHide from "../../../components/Modal/ModalHide";
 import { IELT_TEST } from "../../../interfaces/testType";
 import TestHeadPhoneAbc from "./components/TestHeadPhoneAbc";
-//
-import LoadingPage from "components/Loading";
-import { RouteBase } from "constants/routeUrl";
 import { rulesdetailExam } from "../../../constants/constants";
-//
 import { makeStyles } from "@mui/styles";
-import cacheService from "services/cacheService";
-import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
-import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
-import authServices from "services/authServices";
-import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { showError } from "helpers/toast";
+import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
+import cacheService from "services/cacheService";
 
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -56,11 +47,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const { step } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
-  // const { mutateAsync: updateIeltsListeningFinish, isLoading: listeningFinishLoading } = useFinishIeltsSkill();
   const dataCache = cacheService.getDataCache();
-  const { LEFT_TIME } = dataCache;
-
-  const history = useHistory();
   const genInitialValue = useMemo(() => {
     let value = {
       questionId: "",
@@ -90,14 +77,9 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);
-      // await updateIeltsListeningFinish({ testCode, skill: "listening" }).then(() => {
-      //   cacheService.clearCacheData();
-      // });
     } catch (err) {
       showError(getErrorMsg(err));
     }
-
-    // history.push(RouteBase.IeltsReading);
   }, []);
 
   const handleOpenModalHelp = useCallback(() => {
@@ -113,11 +95,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const handleCloseModalHide = () => {
     setIsOpenModalHide(false);
   };
-  //
-
-  const timeExam = useMemo(() => {
-    return LEFT_TIME ? Number(LEFT_TIME) : 1800000;
-  }, []);
 
   useConfirmCloseBrowser();
   //
@@ -162,9 +139,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const classes = useStyles();
 
   //! Render
-  // if (isLoading) {
-  //   return <LoadingPage />;
-  // }
   return (
     <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {
@@ -174,7 +148,6 @@ const IeltsListening = (props: IeltsListeningProps) => {
               handleOpenModalHelp={handleOpenModalHelp}
               handleOpenModalHide={handleOpenModalHide}
               numberStep={TypeStepExamEnum.STEP4}
-              timeExam={timeExam}
               handleChangeValueVolum={handleChangeValueVolum}
               typeExam={TypeExam.LISTENING}
             />

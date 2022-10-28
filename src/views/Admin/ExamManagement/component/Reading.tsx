@@ -32,8 +32,6 @@ const Reading = (props: Props) => {
                       </p>
                     </div>
                     {(group?.questions || []).map((question: any) => {
-                      console.log("questioná", question);
-
                       return (
                         <>
                           <div className="flex justify-between ml-5 mr-5">

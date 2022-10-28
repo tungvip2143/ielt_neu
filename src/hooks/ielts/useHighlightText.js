@@ -3,20 +3,6 @@ import { useEffect, useRef } from "react";
 
 export const useHightLightText = ({ noted, toggleNote }) => {
   const highlight = useRef(0);
-  // const inputsTag = document.getElementsByTagName("input");
-
-  // if (inputsTag) {
-  //   const arrInputs = Object.values(inputsTag);
-  //   arrInputs.forEach(function (input) {
-  //     input.addEventListener(
-  //       "select",
-  //       function () {
-  //         this.selectionStart = this.selectionEnd;
-  //       },
-  //       false
-  //     );
-  //   });
-  // }
 
   useEffect(() => {
     function getSelectedText() {
@@ -60,7 +46,6 @@ export const useHightLightText = ({ noted, toggleNote }) => {
           mark.className = `mark-${highlight.current}`;
           mark.ref = highlight;
           mark.setAttribute("style", "font-size:inherit");
-          console.log("abcd");
 
           range.deleteContents();
           range.insertNode(mark);
