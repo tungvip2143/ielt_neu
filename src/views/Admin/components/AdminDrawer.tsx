@@ -159,7 +159,7 @@ const AdminDrawer = () => {
                     </ListItemButton>
                   </div>
                 ) : (
-                  <Link to={el?.path} style={{ color: "white" }}>
+                  <Link to={el?.path} style={{ color: "white", textDecoration: "none" }}>
                     <ListItemButton onClick={() => handleClick(el?.id)}>
                       <ListItemIcon style={{ color: "white", minWidth: 0, marginRight: 10 }}>{el.icon}</ListItemIcon>
                       <ListItemText primary={el.titleMenu} />
@@ -199,7 +199,7 @@ const AdminDrawer = () => {
                 </Collapse>
               </div>
             ) : (
-              <Link to={el?.path} style={{ color: "white" }}>
+              <Link to={el?.path} style={{ color: "white", textDecoration: "none" }}>
                 <ListItemButton
                   onClick={() => {
                     setSelectItem(el.path);

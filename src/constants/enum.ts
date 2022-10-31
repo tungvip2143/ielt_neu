@@ -44,3 +44,10 @@ export const examSemester = [
   { id: 4, label: "Exam 4" },
   { id: 5, label: "Exam 5" },
 ];
+
+export enum ROLE {
+  SUPER_ADMIN = "SUPER_ADMIN",
+  USER = "USER",
+  ADMIN = "ADMIN",
+  TEACHER = "TEACHER",
+}

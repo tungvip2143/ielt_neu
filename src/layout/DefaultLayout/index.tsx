@@ -1,12 +1,11 @@
-import React, { Fragment, Suspense, useState } from "react";
-import { Route, Switch, BrowserRouter } from "react-router-dom";
-import Footer from "components/Footer";
+import { Box } from "@mui/system";
 import Header from "components/Header";
-import routes from "routes";
 import PrivateRoute from "components/PrivateRoute";
+import React, { Suspense, useState } from "react";
+import { Route, Switch } from "react-router-dom";
+import routes from "routes";
 import HeaderResponsive from "../../components/Header/HeaderResponsive";
 import NavResponsive from "../../components/Header/NavResponsive";
-import { Box } from "@mui/system";
 //
 const DefaultLayout: React.FC = (props) => {
   const [isShowNav, setIsShowNav] = useState(false);
@@ -16,6 +15,7 @@ const DefaultLayout: React.FC = (props) => {
   const handleCloseNavResponsive = (event: any) => {
     setIsShowNav(false);
   };
+
   return (
     <Box>
       <Header />

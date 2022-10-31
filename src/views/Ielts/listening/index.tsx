@@ -1,11 +1,11 @@
-import { TypeExam, TypeStepExamEnum } from "constants/enum";
+import { ROLE, TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 import ExamTest from "./components/ExamTest";
 import { Box } from "@mui/material";
 import { Form, Formik } from "formik";
 import { useUpdateIeltsListeningTest } from "hooks/ielts/useIelts";
-import { useHistory } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import Header from "views/Ielts/Header/Header";
 import DetailUser from "../../components/DetailUser/DetailUser";
 import RuleExam from "../../components/RuleExam/RuleExam";
@@ -23,6 +23,8 @@ import { getErrorMsg } from "helpers";
 import { showError } from "helpers/toast";
 import { useConfirmCloseBrowser } from "hooks/ielts/useCloseTagConfirmHook";
 import cacheService from "services/cacheService";
+import { GetAuthSelector } from "redux/selectors";
+import { RouteBase } from "constants/routeUrl";
 
 const stepRuleExam = {
   typeExam: rulesdetailExam.listening.title,
@@ -48,6 +50,8 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const { step } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
   const dataCache = cacheService.getDataCache();
+  const auth = GetAuthSelector();
+  const { userType } = auth;
   const genInitialValue = useMemo(() => {
     let value = {
       questionId: "",
@@ -139,6 +143,11 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const classes = useStyles();
 
   //! Render
+
+  if (userType === ROLE.ADMIN || userType === ROLE.SUPER_ADMIN || userType === ROLE.TEACHER) {
+    return <Redirect to={RouteBase.Listening} />;
+  }
+
   return (
     <Formik initialValues={initialValues} enableReinitialize onSubmit={(values) => handleSubmitForm(values)}>
       {(formik) => {

@@ -30,6 +30,7 @@ import LocationProvider from "provider/LocationProvider";
 import ForgotPassword from "views/ForgotPassword";
 import LoginAdminPage from "views/Admin/LoginAdmin";
 import { useDisableCtrlF } from "hooks/useDisableCtrlFBrowser";
+import "./App.css";
 
 //
 

@@ -1,5 +1,5 @@
 import EndTest from "components/Exams/EndTest";
-import { TypeExam, TypeStepExamEnum } from "constants/enum";
+import { ROLE, TypeExam, TypeStepExamEnum } from "constants/enum";
 import StepExamProvider, { useStepExam } from "provider/StepExamProvider";
 import React, { useCallback, useMemo } from "react";
 //
@@ -22,6 +22,9 @@ import { rulesdetailExam } from "../../../constants/constants";
 import { makeStyles } from "@mui/styles";
 import { showError } from "helpers/toast";
 import { getErrorMsg } from "helpers";
+import { GetAuthSelector } from "redux/selectors";
+import { Redirect } from "react-router-dom";
+import { RouteBase } from "constants/routeUrl";
 
 //
 const styleListRule = {
@@ -65,6 +68,8 @@ const IeltsReading = () => {
   const { mutateAsync: submitIeltsReadingTest } = useUpdateIeltsReadingTest();
   const { mutateAsync: ieltsReadingFinish } = useFinishIeltsSkill();
   const { testCode } = useGetTestCode();
+  const auth = GetAuthSelector();
+  const { userType } = auth;
 
   const genInitialValue = useMemo(() => {
     let value = {
@@ -121,6 +126,13 @@ const IeltsReading = () => {
 
   const dataCache = cacheService.getDataCache();
   const { LEFT_TIME } = dataCache;
+
+  // !Render
+
+  if (userType === ROLE.ADMIN || userType === ROLE.SUPER_ADMIN || userType === ROLE.TEACHER) {
+    return <Redirect to={RouteBase.Listening} />;
+  }
+
   return (
     <Formik initialValues={initialValues} onSubmit={handleSubmit}>
       {(formik: any) => (
