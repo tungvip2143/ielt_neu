@@ -1,7 +1,7 @@
 import { lazy } from "react";
 import withErrorBoundary from "components/HOCs/withErrorBoundary";
 
-// const HomePage = lazy(() => import("views/Home"));
+const HomePage = lazy(() => import("views/Home"));
 // const Ielts = lazy(() => import("views/Ielts"));
 const TOFFL = lazy(() => import("views/TOFFL"));
 const IeltsListening = lazy(() => import("views/Ielts/listening"));
@@ -22,18 +22,12 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: "/TOFFL",
-    name: "TOFFL",
-    component: TOFFL,
+    path: "/",
+    exact: true,
+    name: "Home",
+    component: HomePage,
     isPrivate: false,
   },
-  // {
-  //   path: "/",
-  //   exact: true,
-  //   name: "Home",
-  //   component: HomePage,
-  //   isPrivate: false,
-  // },
   { name: "404", component: Page404 },
 ];
 

@@ -1,3 +1,4 @@
+import { Payload } from "./../../../interfaces/redux";
 import cacheService from "services/cacheService";
 import isEmpty from "lodash/isEmpty";
 import produce from "immer";
@@ -38,11 +39,11 @@ export const authSagas = {
   [authActions.saveInfoUser]: {
     saga: function* (action: any) {
       const { token, userType, user, student } = action.payload;
-      console.log("checkout", token, userType, user, student);
       yield httpServices.attachTokenToHeader(token);
       yield authServices.saveUserToLocalStorage({ token, user, student });
       yield authServices.saveUserTypeToLocalStorage(userType);
       yield put({ type: authActions.saveInfoUserSuccess, token, user, student });
+      yield put({ type: authActions.saveUserType, userType });
     },
   },
 };

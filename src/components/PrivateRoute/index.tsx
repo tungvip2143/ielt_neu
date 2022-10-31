@@ -1,20 +1,19 @@
+import { ROLE } from "constants/enum";
 import useInfoUser from "hooks/auth/useInfoUser";
-import React from "react";
-import { Route, Redirect } from "react-router-dom";
+import { Redirect, Route } from "react-router-dom";
 import { GetAuthSelector } from "redux/selectors/auth";
-import authServices from "services/authServices";
 
 const PrivateRoute = (props: any) => {
   const auth = GetAuthSelector();
-  const { isLogin } = auth;
-  const userType = authServices.getUserTypeFromLocalStorage();
+  const { isLogin, userType } = auth;
+  // const userType = authServices.getUserTypeFromLocalStorage();
   const [userDetail] = useInfoUser();
   //! Render
   if (isLogin) {
     return <Route {...props} />;
   }
 
-  if (userType === "SUPER_ADMIN" || userType === "ADMIN") {
+  if (userType === ROLE.SUPER_ADMIN || userType === ROLE.ADMIN) {
     return <Redirect to="/admin/login" />;
   } else {
     return <Redirect to="/login" />;
