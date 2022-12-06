@@ -3,6 +3,8 @@ import imgHightLight from "assets/image/exam/hight-light-note.png";
 import imgNote from "assets/image/exam/note.png";
 import { makeStyles } from "@mui/styles";
 import imgCloseNote from "assets/image/exam/test-help/img-close.png";
+import clearItem from "assets/image/exam/clear-item.png";
+import clearAll from "assets/image/exam/clear-all.png";
 
 const useStyle = makeStyles((theme) => ({
   option: {
@@ -82,15 +84,15 @@ const HightLightDialog = (props: Props) => {
         <p>Highlight</p>
       </div>
       <div onClick={onClickNote} id="note" className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgHightLight} alt="" />
+        <img className={classes.imgNote} src={imgNote} alt="" />
         <p>Note</p>
       </div>
       <div id="clear-all" onClick={onClearMark} className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgNote} alt="" />
+        <img className={classes.imgNote} src={clearItem} alt="" />
         <p>Clear</p>
       </div>
       <div id="clear-all" onClick={onClearAllMark} className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgNote} alt="" />
+        <img className={classes.imgNote} src={clearItem} alt="" />
         <p>Clear all</p>
       </div>
     </div>
