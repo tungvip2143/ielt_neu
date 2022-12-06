@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { QuestionItemI } from "../../../constants/typeData.types";
 interface SentenceCompletionI {
   questionItem: QuestionItemI;
-  displayNumber?: number;
+  displayNumber: number;
   onClickPage?: (option: object) => void;
   isView?: boolean;
 }
@@ -47,40 +47,22 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
   });
   const test: any = Handlebars.compile(text || "");
 
-  // <<<<<<< HEAD
-  //   const onClickInput = (event: any) => {
-  //     const inputIdx: any = event.target.classList[0] - 1;
-  //     setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
-  //     onClickPage && onClickPage({ question: inputIdx });
-  //   };
-  //   const onFocusInput = useCallback((event: any) => {
-  //     const inputIdx: any = event.target.classList[0] - 1;
-  //     setFieldValue(`answers[${inputIdx}].questionId`, data?.questionId);
-  // =======
   const onClickInput = (data: any) => {
     const inputIdx: number = data.target.getAttribute("id") - 1;
     onClickPage && onClickPage({ question: inputIdx });
+    setFieldValue(`answers[${displayNumberI - 1}].questionId`, questionItem.questionId);
   };
-
-  const onFocusInput = useCallback((event: any, displayNumber: any) => {
-    const inputIdx: number = event.target.getAttribute("id") - 1;
-
-    onClickPage && onClickPage({ question: inputIdx });
-    setFieldValue(`answers[${displayNumber - 1}].questionId`, questionItem.questionId);
-  }, []);
 
   //! Render
   return (
-    <>
-      <div
-        onClick={(data) => onClickInput(data)}
-        onFocus={(event) => onFocusInput(event, displayNumber)}
-        dangerouslySetInnerHTML={{
-          __html: test(questionItem.questionId),
-        }}
-        onInput={handleChange}
-      />
-    </>
+    <div
+      key={questionItem.questionId}
+      onClick={(data) => onClickInput(data)}
+      dangerouslySetInnerHTML={{
+        __html: test(questionItem.questionId),
+      }}
+      onInput={handleChange}
+    />
   );
 };
 

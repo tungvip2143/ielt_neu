@@ -18,7 +18,7 @@ const ContentRight = ({ partRenderSelected, displayNumber }: Props) => {
       return <NoteCompletion questionBox={partRenderSelected?.questionBox} data={partRenderSelected?.questions} />;
     }
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
-      return <SentenceCompletetion questionItem={partRenderSelected} />;
+      // return <SentenceCompletetion questionItem={partRenderSelected} />;
     }
     if (questionType === QUESTION_TYPE.LABELLING_A_PLAN_MAP) {
       return <FlowChart image={partRenderSelected?.image} question={partRenderSelected?.questions} />;

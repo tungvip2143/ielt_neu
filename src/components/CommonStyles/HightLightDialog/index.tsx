@@ -3,6 +3,8 @@ import imgHightLight from "assets/image/exam/hight-light-note.png";
 import imgNote from "assets/image/exam/note.png";
 import { makeStyles } from "@mui/styles";
 import imgCloseNote from "assets/image/exam/test-help/img-close.png";
+import clearItem from "assets/image/exam/clear-item.png";
+import clearAll from "assets/image/exam/clear-all.png";
 
 const useStyle = makeStyles((theme) => ({
   option: {
@@ -48,11 +50,12 @@ type Props = {
   onCloseAction: () => void;
   clearAll: () => void;
   clearMarkItem: () => void;
+  highlightText?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const HightLightDialog = (props: Props) => {
   // !State
-  const { onClickHighlight, onClickNote, position, onCloseAction, clearAll, clearMarkItem } = props;
+  const { onClickHighlight, onClickNote, position, onCloseAction, clearAll, clearMarkItem, highlightText } = props;
   const classes = useStyle(position);
 
   const onClearAllMark = () => {
@@ -71,16 +74,25 @@ const HightLightDialog = (props: Props) => {
       <div className={classes.noteHeader}>
         <img src={imgCloseNote} alt="" onClick={onCloseAction} className={classes.imgClose} />
       </div>
-      <div onClick={onClickNote} id="note" className={classes.noteItem}>
+      <div
+        className={classes.noteItem}
+        onMouseDown={(e) => {
+          highlightText && highlightText(e);
+        }}
+      >
         <img className={classes.imgNote} src={imgHightLight} alt="" />
+        <p>Highlight</p>
+      </div>
+      <div onClick={onClickNote} id="note" className={classes.noteItem}>
+        <img className={classes.imgNote} src={imgNote} alt="" />
         <p>Note</p>
       </div>
       <div id="clear-all" onClick={onClearMark} className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgNote} alt="" />
+        <img className={classes.imgNote} src={clearItem} alt="" />
         <p>Clear</p>
       </div>
       <div id="clear-all" onClick={onClearAllMark} className={classes.noteItem}>
-        <img className={classes.imgNote} src={imgNote} alt="" />
+        <img className={classes.imgNote} src={clearItem} alt="" />
         <p>Clear all</p>
       </div>
     </div>

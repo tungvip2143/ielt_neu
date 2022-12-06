@@ -7,12 +7,13 @@ import SentenceCompletetion from "components/Ielts/components/SentenceCompleteti
 import MachingTypeListening from "./CardRender/MachingTypeListening";
 import MachingHeading from "../../../../components/Ielts/components/MachingHeading";
 import MatchingType from "components/Ielts/components/MachingType";
-import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
 import CommonStyles from "components/CommonStyles";
 import { useClearHighlight } from "hooks/ielts/useClearHighlight";
 import { PartContentQuestionsI, QuestionItemI } from "constants/typeData.types";
+import { useRightClick } from "hooks/ielts/useRightClick";
+import { useCallback, useMemo } from "react";
 // ! type
 interface PartRenderSlectedI {
   partTypeQuestions: PartContentQuestionsI;
@@ -24,10 +25,17 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
   const questionType = partTypeQuestions?.questionType;
 
   // !Hook
-  const { isAction, position, toggleAction, className } = useRightClick();
-  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
-  useHightLightText({ noted, toggleNote });
+  const { isAction, position, toggleAction, className, selectioned } = useRightClick();
   const { clearAll, clearMarkItem } = useClearHighlight({ className });
+  const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
+  const { onHighlightText } = useHightLightText();
+
+  const highlightText = (e: React.MouseEvent<HTMLElement>) => {
+    toggleAction();
+    e.stopPropagation();
+    e.preventDefault();
+    onHighlightText(selectioned);
+  };
 
   const renderPartValueGroup = (partTypeQuestions: PartContentQuestionsI) => {
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
@@ -89,14 +97,12 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
     if (questionType === QUESTION_TYPE.SENTENCE_COMPLETION) {
       return partTypeQuestions?.questions.map((question: QuestionItemI) => {
         return (
-          <>
-            <SentenceCompletetion
-              key={question.questionId}
-              onClickPage={onClickPage}
-              displayNumber={displayNumber}
-              questionItem={question}
-            />
-          </>
+          <SentenceCompletetion
+            key={question.questionId}
+            onClickPage={onClickPage}
+            displayNumber={displayNumber}
+            questionItem={question}
+          />
         );
       });
     }
@@ -125,6 +131,7 @@ const ContentQuestion = ({ partTypeQuestions, audio, displayNumber, onClickPage 
             onClickNote={onClickNote}
             position={position}
             clearMarkItem={clearMarkItem}
+            highlightText={highlightText}
           />
         )}
         {isNoted && (
