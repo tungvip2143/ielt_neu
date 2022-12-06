@@ -14,7 +14,6 @@ import ReactHtmlParser from "react-html-parser";
 import { Form, Formik } from "formik";
 import MultiChoice from "views/Ielts/listening/components/CardRender/MultiChoice";
 import NoteCompletion from "views/Ielts/listening/components/CardRender/NoteCompletion";
-import MultichoiceAnswer from "views/Ielts/listening/components/CardRender/MultichoiceAnswer";
 import MachingTypeListening from "views/Ielts/listening/components/CardRender/MachingTypeListening";
 import { QuestionItemI } from "constants/typeData.types";
 
@@ -112,6 +111,8 @@ const Listening = (props: Props) => {
         <Form>
           <div>
             {dataListening?.map((el: any) => {
+              console.log("el", el);
+
               return (
                 <div className="listening">
                   <div className="listeningWrapper">
