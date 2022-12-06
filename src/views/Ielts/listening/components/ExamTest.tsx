@@ -36,6 +36,8 @@ interface ExamTest {
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum, prevStep, examProgress } = props;
+  // console.log("data", data);
+
   const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
   const audioData = data || [];
   const audioInitialIndex = examProgress?.currentPart ? examProgress?.currentPart : 0;

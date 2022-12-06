@@ -14,10 +14,12 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
   const { questionItem, displayNumber, onClickPage, isView } = props;
 
   const displayNumberI = Number(questionItem.question.displayNumber);
+  // console.log("displayNumberI", displayNumberI);
 
   const text = questionItem.question.questionText;
 
   const { handleChange, values, setFieldValue }: any = useFormikContext() ?? {};
+  // console.log("values", values);
 
   useEffect(() => {
     let input = document.getElementsByClassName(`${displayNumber}`) as Element | any;
@@ -29,11 +31,15 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
   let inputIndex = 0;
 
   Handlebars.registerHelper("blank", function (blankId: number, option) {
+    // console.log("blankId", blankId);
+
     const questionId = option.data.root;
     inputIndex++;
     const input: any = document.getElementById(`${blankId}`);
+
     if (input) {
       input.value = isView ? "" : values.answers?.[displayNumberI - 1]?.studentAnswer;
+
       values?.answers?.[displayNumberI - 1]?.questionId === questionId;
     }
 
@@ -59,6 +65,7 @@ const SentenceCompletetion = (props: SentenceCompletionI) => {
   // =======
   const onClickInput = (data: any) => {
     const inputIdx: number = data.target.getAttribute("id") - 1;
+
     onClickPage && onClickPage({ question: inputIdx });
   };
 

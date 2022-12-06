@@ -99,41 +99,7 @@ const ListStudentId = ({ studentIds, studentDetails }: any) => {
                 );
               },
             },
-            // {
-            //   flex: 1,
-            //   field: "candidateCode",
-            //   renderHeader: () => <Typography style={styles.titleTable}>Candidate Code</Typography>,
-            // },
-            // {
-            //   flex: 0.3,
-            //   field: "action",
-            //   filterable: false,
-            //   hideSortIcons: true,
-            //   disableColumnMenu: true,
-            //   renderHeader: () => <Typography style={styles.titleTable}>Action</Typography>,
-            //   //   renderCell: (items: any) => {
-            //   //     return (
-            //   //       <CommonActionMenu
-            //   //         onEdit={() => {
-            //   //           console.log("123");
-            //   //           //   history.push({
-            //   //           //     pathname: RouteBase.UpdateUserWID(items?.row?.fullname),
-            //   //           //     search: `?id=${items?.id}`,
-            //   //           //   });
-            //   //         }}
-            //   //         // onSubmitRemove={onDeletePart}
-            //   //         // row={items}
-            //   //       />
-            //   //     );
-            //   //   },
-            // },
           ]}
-          // checkboxSelection
-          // pagination={{
-          //   page: metaPart?.page,
-          //   pageSize: metaPart?.pageSize,
-          //   totalRow: studentDetails.length,
-          // }}
           rows={studentDetails.map((e: any) => ({
             id: e._id,
             orderNumber: e.orderNumber,
