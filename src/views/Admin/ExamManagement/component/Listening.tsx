@@ -22,7 +22,7 @@ const Listening = (props: Props) => {
               {(e?.groups || []).map((group: any, index: number) => {
                 return (
                   <>
-                    <div style={{ textTransform: "capitalize" }}>
+                    <div>
                       <p className="font-bold mt-2">
                         Type of question:{" "}
                         <span style={{ fontWeight: "normal" }}>{group.questionType.replaceAll("_", " ")}</span>

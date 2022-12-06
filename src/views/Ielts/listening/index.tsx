@@ -49,7 +49,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
 
   const { step } = useStepExam();
   const { mutateAsync: updateIeltsListening, isLoading } = useUpdateIeltsListeningTest();
-  const dataCache = cacheService.getDataCache();
+
   const auth = GetAuthSelector();
   const { userType } = auth;
   const genInitialValue = useMemo(() => {
@@ -68,6 +68,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
   const initialValues: any = useMemo(() => {
     const dataCache = cacheService.getDataCache();
     const { answers } = dataCache;
+
     return answers ? answers : genInitialValue;
   }, []);
 
@@ -78,6 +79,7 @@ const IeltsListening = (props: IeltsListeningProps) => {
     const answers = values.answers.filter((el: any) => {
       return el.questionId && el.studentAnswer;
     });
+
     const body = { values: { answers }, testCode };
     try {
       await updateIeltsListening(body);

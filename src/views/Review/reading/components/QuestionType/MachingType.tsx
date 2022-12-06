@@ -59,7 +59,6 @@ const MachingType = (props: Props) => {
   // !Style
   const classes = useStyles();
   const { data, questionBox, numberPage } = props;
-  console.log("123numberPage", data);
 
   return (
     <div className={classes.container}>
@@ -80,7 +79,6 @@ const MachingType = (props: Props) => {
 };
 
 const Answer = ({ question, numberPage }: any) => {
-  console.log("questionMaching", numberPage);
   // !State
 
   const classes = useStyles();
