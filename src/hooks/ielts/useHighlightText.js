@@ -1,17 +1,10 @@
 import $ from "jquery";
 import { useEffect, useRef } from "react";
 
-export const useHightLightText = ({ noted, toggleNote }) => {
+export const useHightLightText = () => {
   const highlight = useRef(0);
 
-  useEffect(() => {
-    function getSelectedText() {
-      let t = document.all
-        ? document?.selection.createRange().text
-        : document.getSelection();
-      return t;
-    }
-
+  const onHighlightText = (selectioned) => {
     function clearSelection() {
       if (document.selection && document.selection.empty) {
         document.selection.empty();
@@ -21,50 +14,49 @@ export const useHightLightText = ({ noted, toggleNote }) => {
       }
     }
 
-    $(".exam").mouseup(function (event) {
-      let selection = getSelectedText();
-      let selection_text = selection.toString();
-      let range = selection.getRangeAt(0);
-      // disable highligh inside input
-      const noselect = selection.anchorNode?.className === "noselect";
-      const docFragment = range.cloneContents();
-      const input = docFragment.querySelector("input");
-      const textarea = docFragment.querySelector("textarea");
-      const p = docFragment.querySelector("p");
-      const span = docFragment.querySelector("span");
-      const clickNumber = event.detail;
+    // $(".exam").mouseup(function (event) {
+    let selection_text = selectioned.toString();
 
-      // $("input,textarea").bind("cut copy paste", function (e) {
-      //   e.preventDefault(); //disable cut,copy,paste
-      // });
-      if (clickNumber < 2 && !input && !textarea && !p && !span && !noselect) {
-        if (selection_text) {
-          highlight.current = highlight.current + 1;
+    let range = selectioned.getRangeAt(0);
+    // // disable highligh inside input
+    // const noselect = selection.anchorNode?.className === "noselect";
+    const docFragment = range.cloneContents();
+    const input = docFragment.querySelector("input");
+    const textarea = docFragment.querySelector("textarea");
+    const p = docFragment.querySelector("p");
+    const span = docFragment.querySelector("span");
+    const clickNumber = event.detail;
 
-          let mark = document.createElement("MARK");
-          mark.textContent = selection_text;
-          mark.className = `mark-${highlight.current}`;
-          mark.ref = highlight;
-          mark.setAttribute("style", "font-size:inherit");
+    // $("input,textarea").bind("cut copy paste", function (e) {
+    //   e.preventDefault(); //disable cut,copy,paste
+    // });
+    // if (clickNumber < 2 && !input && !textarea && !p && !span && !noselect) {
+    if (selection_text) {
+      highlight.current = highlight.current + 1;
 
-          range.deleteContents();
-          range.insertNode(mark);
+      let mark = document.createElement("MARK");
+      mark.textContent = selection_text;
+      mark.className = `mark-${highlight.current}`;
+      mark.ref = highlight;
+      mark.setAttribute("style", "font-size:inherit");
 
-          // mark.onclick = () => {
-          //   let text = mark.textContent || mark.innerText;
-          //   let node = document.createTextNode(text);
-          //   mark.parentNode.replaceChild(node, mark);
-          // };
-        }
-      } else {
-        clearSelection();
-      }
-    });
-  }, []);
-  useEffect(() => {
-    $(".noselect").mouseup(function (e) {
-      e.preventDefault();
-      e.stopPropagation();
-    });
-  });
+      range.deleteContents();
+      range.insertNode(mark);
+
+      console.log("mark", mark);
+
+      // mark.onclick = () => {
+      //   let text = mark.textContent || mark.innerText;
+      //   let node = document.createTextNode(text);
+      //   mark.parentNode.replaceChild(node, mark);
+      // };
+    }
+    // } else {
+    //   // clearSelection();
+    // }
+    // });
+  };
+  return {
+    onHighlightText,
+  };
 };

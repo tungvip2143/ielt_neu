@@ -48,11 +48,12 @@ type Props = {
   onCloseAction: () => void;
   clearAll: () => void;
   clearMarkItem: () => void;
+  highlightText?: (e: React.MouseEvent<HTMLElement>) => void;
 };
 
 const HightLightDialog = (props: Props) => {
   // !State
-  const { onClickHighlight, onClickNote, position, onCloseAction, clearAll, clearMarkItem } = props;
+  const { onClickHighlight, onClickNote, position, onCloseAction, clearAll, clearMarkItem, highlightText } = props;
   const classes = useStyle(position);
 
   const onClearAllMark = () => {
@@ -70,6 +71,15 @@ const HightLightDialog = (props: Props) => {
     <div className={classes.option}>
       <div className={classes.noteHeader}>
         <img src={imgCloseNote} alt="" onClick={onCloseAction} className={classes.imgClose} />
+      </div>
+      <div
+        className={classes.noteItem}
+        onMouseDown={(e) => {
+          highlightText && highlightText(e);
+        }}
+      >
+        <img className={classes.imgNote} src={imgHightLight} alt="" />
+        <p>Highlight</p>
       </div>
       <div onClick={onClickNote} id="note" className={classes.noteItem}>
         <img className={classes.imgNote} src={imgHightLight} alt="" />
