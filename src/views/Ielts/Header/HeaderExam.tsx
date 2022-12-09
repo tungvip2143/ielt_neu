@@ -17,6 +17,7 @@ const useStyles = makeStyles((theme) => {
       padding: "10px 20px",
       // zIndex: 9999,
       background: theme.custom?.background.white,
+      zIndex: 999,
     },
   };
 });
