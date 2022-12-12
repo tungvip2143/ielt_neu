@@ -83,7 +83,7 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultichoiceOneA
                     }
                     return;
                   };
-                  const displayNumber = Number(question.question.displayNumber);
+                  const displayNumber = Number(question.question.displayNumber) -1 ;
 
                   return (
                     <RadioGroup
