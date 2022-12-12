@@ -57,9 +57,6 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultichoiceOneA
       <Box sx={{ mb: "20px" }}></Box>
       <Box className={classes.formAnswer}>
         {questions.map((question: QuestionItemI, questionIdx: number) => {
-    
-          console.log("questions",questions);
-          
           return (
             <Box key={question.questionId} className={classes.itemAnswer} onClick={() => onClickQuestion(questionIdx)}>
               <Stack direction="row" className={classes.title}>
@@ -71,8 +68,6 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultichoiceOneA
 
               <FormControl sx={{ padding: "0 20px" }}>
                 {question?.question?.options.map((answerChoice: any, index: number) => {
-                  console.log('answerChoice',answerChoice);
-                  
                   const checkSortIndex = () => {
                     if (index === 0) {
                       return `${chooseAnswer.a}`;
@@ -88,7 +83,7 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultichoiceOneA
                     }
                     return;
                   };
-                  const displayNumber = Number(question.question.displayNumber)-1;
+                  const displayNumber = Number(question.question.displayNumber);
 
                   return (
                     <RadioGroup
