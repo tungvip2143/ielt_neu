@@ -124,7 +124,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                 >
                   <FormControlLabel
                     disabled={isView}
-                    value={true}
+                    value={"TRUE"}
                     control={
                       <Field
                         questionId={question?.question?._id}
@@ -137,7 +137,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                   />
                   <FormControlLabel
                     disabled={isView}
-                    value={false}
+                    value={"FALSE"}
                     control={
                       <Field
                         questionId={question?.question?._id}
@@ -150,7 +150,7 @@ const IdentifyInformationType = (props: MultiChoiceOneAnswerI) => {
                   />
                   <FormControlLabel
                     disabled={isView}
-                    value={"not given"}
+                    value={"NOT GIVEN"}
                     control={
                       <Field
                         questionId={question?.question?._id}
