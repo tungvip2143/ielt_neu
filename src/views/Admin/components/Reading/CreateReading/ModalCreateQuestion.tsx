@@ -149,7 +149,7 @@ const ModalCreateQuestion = (props: Props) => {
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
-            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toLowerCase() : el?.answer,
+            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toUpperCase() : el?.answer,
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
                 ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
