@@ -131,8 +131,6 @@ const ModalCreateQuestion = (props: Props) => {
   };
 
   const onSubmit = async (data: any) => {
-    
-    
     const keys = ["A", "B", "C", "D"];
     if (openModal.type === "createQuestion") {
       const body = {
@@ -148,12 +146,10 @@ const ModalCreateQuestion = (props: Props) => {
             ? editorRef && editorRef?.current?.getContent()
             : data.questionBox,
         questionType: data.questionType,
-        questions: data?.questions?.map((el: any) => {       
-
-                                                
+        questions: data?.questions?.map((el: any) => {
           return {
             ...el,
-            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toLowerCase()  : el?.answer,
+            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toUpperCase() : el?.answer,
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
                 ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
@@ -162,10 +158,8 @@ const ModalCreateQuestion = (props: Props) => {
         }),
         partId: id,
       };
-    
-      
+
       try {
-        
         const response = await ReadingService.postCreateQuestionGroupReading(body);
         if (response.data.statusCode === 200) {
           toast.success("Create question group success!");
@@ -178,8 +172,6 @@ const ModalCreateQuestion = (props: Props) => {
     }
 
     if (openModal.type === "updateQuestion") {
-  
-      
       const body = {
         level: "A1",
         answerList: matchingRef && matchingRef?.current?.getContent(),
@@ -197,7 +189,7 @@ const ModalCreateQuestion = (props: Props) => {
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
-            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toLowerCase()  : el?.answer,
+            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toUpperCase() : el?.answer,
 
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
