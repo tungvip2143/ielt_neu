@@ -31,7 +31,7 @@ export const useHightLightText = () => {
     //   e.preventDefault(); //disable cut,copy,paste
     // });
     // if (clickNumber < 2 && !input && !textarea && !p && !span && !noselect) {
-    if (selection_text) {
+    if (selection_text && !input && !textarea && !p && !span) {
       highlight.current = highlight.current + 1;
 
       let mark = document.createElement("MARK");
