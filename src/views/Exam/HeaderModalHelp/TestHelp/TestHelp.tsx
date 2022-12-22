@@ -8,8 +8,6 @@ interface TestHelpI {
 const TestHelp = (props: TestHelpI) => {
   //! State
   const { typeExam } = props;
-  console.log("type", typeExam);
-
   //! Function
   const showModalHelpExam = () => {
     if (TypeExam.LISTENING === typeExam) {

@@ -32,8 +32,6 @@ const ExamManagement = () => {
     finishedDate: moment(el?.finishedDate).format("DD-MM-YYYY"),
     status: el?.status,
   }));
-  console.log("dataExam", dataExam);
-
   const [openModal, setOpenModal] = useState({});
 
   return (
@@ -99,8 +97,8 @@ const ExamManagement = () => {
             }}
             loading={loading}
             rows={rows}
-            onPageChange={onPageChange}
-            onPageSizeChange={onPageSizeChange}
+            // onPageChange={onPageChange}
+            // onPageSizeChange={onPageSizeChange}
           />
         </Card>
       )}

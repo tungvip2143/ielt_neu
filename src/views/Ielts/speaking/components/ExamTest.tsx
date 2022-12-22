@@ -67,8 +67,6 @@ const ExamTest = (props: Props) => {
     speakingDatas[groupSelected.part]?.groups[groupSelected.group]?.questions[groupSelected.question]?.question
       .displayNumber;
 
-  console.log("audioURL", audioURL);
-
   // !Function
 
   // -----Audio------

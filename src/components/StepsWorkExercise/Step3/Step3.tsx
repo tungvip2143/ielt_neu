@@ -20,19 +20,10 @@ const Step3 = () => {
   useEffect(() => {
     fetch();
   }, []);
-  //   console.log(data.part1);
-  const dataNumber = {
-    from: 27,
-    to: 29,
-  };
   return (
     <Box>
       <TitleExam />
-      <Stack direction="column" spacing={1} sx={{ pb: "100px" }}>
-        {/* {data?.part3?.map((item: any) => {
-          return <ItemQuestion key={item.id} question={item} />;
-        })} */}
-      </Stack>
+      <Stack direction="column" spacing={1} sx={{ pb: "100px" }}></Stack>
     </Box>
   );
 };

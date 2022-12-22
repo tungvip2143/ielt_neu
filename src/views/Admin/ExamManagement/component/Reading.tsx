@@ -25,15 +25,13 @@ const Reading = (props: Props) => {
               {(e?.groups || []).map((group: any, index: number) => {
                 return (
                   <>
-                    <div style={{ textTransform: "capitalize" }}>
+                    <div>
                       <p className="font-bold mt-2">
                         Type of question:{" "}
                         <span style={{ fontWeight: "normal" }}>{group.questionType.replaceAll("_", " ")}</span>
                       </p>
                     </div>
                     {(group?.questions || []).map((question: any) => {
-                      console.log("questioná", question);
-
                       return (
                         <>
                           <div className="flex justify-between ml-5 mr-5">

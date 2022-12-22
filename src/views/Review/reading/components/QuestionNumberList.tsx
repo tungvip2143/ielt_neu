@@ -52,13 +52,8 @@ const QuestionNumberList = ({
   hightLightNumberPage,
   onClickPageNumber,
 }: QuestionNumberListI) => {
-  // console.log("showAnswerTrue", showAnswerTrue);
-  const [highlightPage, setHighlightPage] = useState();
-
   //! State
   const classes = useStyles();
-  const { values }: any = useFormikContext();
-  //
   const renderPartValues = (partValues: any, index: number) => {
     let sectionRender: any = {};
     return partValues?.groups?.map((partGroup: any, groupIndex: number) => {
@@ -73,7 +68,6 @@ const QuestionNumberList = ({
         const hightLightTrueAnswer = () => {
           return item?.studentAnswer?.toUpperCase() === item?.question?.answer;
         };
-        console.log("absabdjb", hightLightTrueAnswer());
 
         const hightLightNumberPageOnclickQuestion = () => {
           if (hightLightNumberPage == item.question.displayNumber) {
@@ -106,8 +100,6 @@ const QuestionNumberList = ({
         <Box sx={{ display: "flex", justifyContent: "space-between", flexWrap: "wrap" }}>
           <Box sx={{ width: { md: "100%", display: "flex", flexWrap: "wrap", gap: 4 } }}>
             {questions?.map((group: any, index: number) => {
-              console.log("partKey", group);
-
               return <>{renderPartValues(group, index)}</>;
             })}
           </Box>

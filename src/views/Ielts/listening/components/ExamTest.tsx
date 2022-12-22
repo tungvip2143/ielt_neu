@@ -1,5 +1,6 @@
 import { Box } from "@mui/system";
 import CardExercise from "components/Card/CardExercise";
+import FormikDebug from "components/CommonStyles/FormikDebug";
 import LoadingPage from "components/Loading";
 import { ROOT_ORIGINAL_URL } from "constants/api";
 import { RouteBase } from "constants/routeUrl";
@@ -36,6 +37,8 @@ interface ExamTest {
 const ExamTest = (props: AllQuestionsDataPropsI) => {
   //! State
   const { data, valueVolum, prevStep, examProgress } = props;
+  // console.log("data", data);
+
   const { mutateAsync: updateExamProgress } = useUpdateExamProgress();
   const audioData = data || [];
   const audioInitialIndex = examProgress?.currentPart ? examProgress?.currentPart : 0;
@@ -190,7 +193,6 @@ const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
   }, []);
   const { data: examProgress, isLoading: examProgressLoading } = useGetExamProgress({ testCode, skill: "listening" });
   const examDataProgress = examProgress?.data?.data;
-  console.log("examDataProgress", examDataProgress);
   const { data, isLoading } = useQuery("get ielts listening data", () => ieltsService.getIeltsListening(testCode), {
     onSuccess: () => {
       cacheService.cache("skill", "LISTENING");
@@ -216,7 +218,10 @@ const IeltsListeningContainer = ({ valueVolum, prevStep }: ExamTest) => {
   }
 
   return (
-    <ExamTest valueVolum={valueVolum} examProgress={examDataProgress} prevStep={prevStep} data={data?.data.data} />
+    <>
+      <ExamTest valueVolum={valueVolum} examProgress={examDataProgress} prevStep={prevStep} data={data?.data.data} />
+      {/* <FormikDebug /> */}
+    </>
   );
 };
 

@@ -11,6 +11,8 @@ import LoadingPage from "components/Loading";
 import { useFinishIeltsTest } from "hooks/ielts/useIelts";
 
 import { useGetTestCode } from "hooks/ielts/useGetTestCodeHook";
+import { showError } from "helpers/toast";
+import { getErrorMsg } from "helpers";
 const card = {
   p: "48px 32px",
   width: { xs: "90%", md: "80%" },
@@ -42,7 +44,7 @@ const EndTest = (props: Props) => {
       dispatch(authActions.logout);
       localStorage.removeItem("testCode");
     } catch (err) {
-      console.log(err);
+      showError(getErrorMsg(err));
     }
   };
 

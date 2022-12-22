@@ -13,8 +13,8 @@ import { useFormikContext } from "formik";
 import CommonStyles from "components/CommonStyles";
 import { useHightLightText } from "hooks/ielts/useHighlightText";
 import { useClearHighlight } from "hooks/ielts/useClearHighlight";
-import { useRightClick } from "hooks/ielts/useRightClick";
 import { useNoted } from "hooks/ielts/useNoted";
+import { useRightClick } from "hooks/ielts/useRightClick";
 
 // !type
 
@@ -26,10 +26,17 @@ const CardLeft = ({ dataChangePart }: Props) => {
   //! State
   let text = dataChangePart.passageText;
 
-  const { isAction, position, toggleAction, className } = useRightClick();
+  const { isAction, position, toggleAction, className, selectioned } = useRightClick();
   const { clearAll, clearMarkItem } = useClearHighlight({ className });
   const { onChangeInput, onClickNote, isNoted, noted, toggleNote } = useNoted({ toggleAction, className });
-  useHightLightText({ noted, toggleNote });
+  const { onHighlightText } = useHightLightText();
+
+  const highlightText = (e: React.MouseEvent<HTMLElement>) => {
+    toggleAction();
+    e.stopPropagation();
+    e.preventDefault();
+    onHighlightText(selectioned);
+  };
 
   //! Render
   return (
@@ -43,6 +50,7 @@ const CardLeft = ({ dataChangePart }: Props) => {
             onCloseAction={toggleAction}
             onClickNote={onClickNote}
             position={position}
+            highlightText={highlightText}
           />
         )}
         {isNoted && (

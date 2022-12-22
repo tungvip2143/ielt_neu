@@ -22,12 +22,6 @@ const routes = [
     isPrivate: true,
   },
   {
-    path: "/TOFFL",
-    name: "TOFFL",
-    component: TOFFL,
-    isPrivate: false,
-  },
-  {
     path: "/",
     exact: true,
     name: "Home",

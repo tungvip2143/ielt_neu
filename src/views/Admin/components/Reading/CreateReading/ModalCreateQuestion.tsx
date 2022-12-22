@@ -22,7 +22,7 @@ import ReadingService from "services/ReadingService";
 import CommonReading from "views/components/CommonReading/CommonReading";
 import CommonUploadImage from "views/components/CommonReading/CommonUploadImage";
 import * as yup from "yup";
-
+import ReactHtmlParser from "react-html-parser";
 export interface Props {
   openModal: any;
   onCloseModal?: () => void;
@@ -149,6 +149,7 @@ const ModalCreateQuestion = (props: Props) => {
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
+            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toUpperCase() : el?.answer,
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
                 ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
@@ -157,6 +158,7 @@ const ModalCreateQuestion = (props: Props) => {
         }),
         partId: id,
       };
+
       try {
         const response = await ReadingService.postCreateQuestionGroupReading(body);
         if (response.data.statusCode === 200) {
@@ -187,15 +189,16 @@ const ModalCreateQuestion = (props: Props) => {
         questions: data?.questions?.map((el: any) => {
           return {
             ...el,
+            answer: data?.questionType === "IDENTIFYING_INFORMATION" ? el?.answer.toUpperCase() : el?.answer,
+
             options:
               data.questionType === "MULTIPLE_CHOICE_1_ANSWER"
-                ? el.options?.map((e: any, index: number) => ({ key: index, text: e }))
-                : [],
+              ? el.options?.map((e: any, index: number) => ({ key: keys[index], text: e }))
+              : [],
           };
         }),
         partId: id,
       };
-      console.log("questions", body.questions);
       try {
         const response = await ReadingService.patchUpdateQuestionGroup(dataQuestionDetail?.id, body);
         if (response.data.statusCode === 200) {

@@ -14,7 +14,6 @@ interface Data {
 }
 
 const CardStep = ({ reverse, right, left, bg }: Data) => {
-  // console.log(bg?.background);
   return (
     <Box sx={{ p: "100px 0", background: bg?.background }}>
       <div className="container">

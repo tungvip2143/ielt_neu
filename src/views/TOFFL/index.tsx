@@ -5,6 +5,7 @@ import ItemQuestion from "components/StepsWorkExercise/Step1/CardItem";
 import TitleExam from "components/StepsWorkExercise/TitleExam/TitleExam";
 import { QUESTION_TYPE } from "interfaces/ieltsQuestionType";
 import { PartContentQuestionsI, QuestionItemI } from "../../constants/typeData.types";
+import FormikDebug from "components/CommonStyles/FormikDebug";
 // !type
 interface PartRenderSlectedI {
   partRenderSelected: PartContentQuestionsI;
@@ -81,6 +82,7 @@ const TOFFL = ({ partRenderSelected, onClickPage, showQuestion, displayNumber }:
       <Stack direction="column" spacing={1} sx={{ pb: "100px" }} className="exam">
         {renderPartValueGroup(partRenderSelected)}
       </Stack>
+      {/* <FormikDebug /> */}
     </Box>
   );
 };

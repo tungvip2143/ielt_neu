@@ -78,9 +78,13 @@ const MultiChoice = ({ questions, onClickPage, isView = false }: MultichoiceOneA
                     if (index === 2) {
                       return `${chooseAnswer.c}`;
                     }
+                    if (index === 3) {
+                      return `${chooseAnswer.d}`;
+                    }
                     return;
                   };
-                  const displayNumber = Number(question.question.displayNumber) - 1;
+                  const displayNumber = Number(question.question.displayNumber) -1 ;
+
                   return (
                     <RadioGroup
                       key={answerChoice._id}

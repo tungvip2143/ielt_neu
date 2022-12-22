@@ -14,7 +14,6 @@ export const useClearHighlight = ({ className }) => {
   };
 
   const clearMarkItem = () => {
-    console.log("className", className);
     const tag = document.querySelector(`[class = ${className}]`);
     if (tag) {
       let text = tag.textContent || tag.innerText;

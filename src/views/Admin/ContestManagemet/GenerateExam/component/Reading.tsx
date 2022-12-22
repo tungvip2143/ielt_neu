@@ -25,21 +25,8 @@ export interface Props {
 const Reading = (props: Props) => {
   const { dataReading } = props;
   const renderQuestion = (group: any) => {
-    console.log("group", group);
-
     const { questionType } = group;
-    // if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
-    //   return (
-    //     <MachingTypeListening
-    //       answerList={group?.answerList}
-    //       questionBox={group?.questionBox ?? ""}
-    //       questions={group?.questions}
-    //       onClickPage={() => null}
-    //       displayNumber={1}
-    //       isView={true}
-    //     />
-    //   );
-    // }
+
     if (questionType === QUESTION_TYPE.MATCHING_SENTENCE_ENDINGS) {
       return (
         <MatchingType
@@ -53,11 +40,7 @@ const Reading = (props: Props) => {
         />
       );
     }
-    // if (questionType === QUESTION_TYPE.SUMMARY_COMPLETION) {
-    //   return (
-    //     <QuestionBox displayNumber={1} questions={group?.questions} questionBox={group?.questionBox} isView={true} />
-    //   );
-    // }
+
     if (
       questionType === QUESTION_TYPE.NOTE_COMPLETION ||
       questionType === QUESTION_TYPE.SUMMARY_COMPLETION ||
@@ -120,10 +103,7 @@ const Reading = (props: Props) => {
       questionType === QUESTION_TYPE.MULTIPLE_CHOICE_1_ANSWER ||
       questionType === QUESTION_TYPE.IDENTIFYING_VIEWS_CLAIMS
     ) {
-      // return <MultiChoice isView={true} onClickPage={() => null} questions={group?.questions} />;
       return group?.questions?.map((question: QuestionItemI, questionIdx: number) => {
-        console.log("question", question);
-
         return (
           <div key={question?.questionId}>
             <IdentifyInformationType
@@ -131,8 +111,6 @@ const Reading = (props: Props) => {
               questionType={questionType}
               QUESTION_TYPE={QUESTION_TYPE}
               question={question}
-              // expanded={expanded}
-              // onCollapse={onCollapse}
               displayNumber={1}
               questionIdx={questionIdx}
               onClickPage={() => null}
@@ -142,20 +120,6 @@ const Reading = (props: Props) => {
         );
       });
     }
-    // if (questionType === QUESTION_TYPE.MATCHING_PARAGRAPH_INFORMATION) {
-    //   return group?.questions.map((question: QuestionItemI) => {
-    //     return (
-    //       <div key={question?.questionId}>
-    //         <MatchingParagrapInformation
-    //           questions={questions}
-    //           displayNumber={1}
-    //           onClickPage={() => null}
-    //           question={question}
-    //         />
-    //       </div>
-    //     );
-    //   });
-    // }
   };
 
   return (

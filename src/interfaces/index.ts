@@ -27,5 +27,4 @@ export interface ResponseGenerator<T = any> {
 export interface CommonPaginated {
   page: number;
   pageSize: number;
-
 }

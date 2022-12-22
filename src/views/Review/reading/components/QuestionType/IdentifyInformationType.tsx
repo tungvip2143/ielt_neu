@@ -52,8 +52,6 @@ const roundedCheck = {
 };
 const IdentifyInformationType = (props: Props) => {
   const [showExplainBoolean, setShowExplainBoolean] = React.useState();
-  console.log("showExplainBoolean", showExplainBoolean);
-
   const classes = useStyles();
 
   const {
@@ -66,8 +64,6 @@ const IdentifyInformationType = (props: Props) => {
     onHightLightNumberPage,
     hightLightNumberPage,
   } = props;
-  console.log("questionItem", question);
-
   const displayNumber = Number(question.question.displayNumber) - 1;
   const { values }: any = useFormikContext();
 
@@ -141,7 +137,6 @@ const IdentifyInformationType = (props: Props) => {
         <AccordionDetails>
           <Stack direction="column" spacing={2}>
             {question.question.options.map((answer: any) => {
-              console.log("answer", answer);
               const showYourAnswer = () => {
                 return question.studentAnswer === answer.key ? { background: "red", color: "#fff" } : {};
               };

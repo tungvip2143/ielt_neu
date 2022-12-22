@@ -9,14 +9,14 @@ interface Props {
   numberPage?: any;
 }
 
+const contianer = {
+  ...themeCssSx.flexBox.flexJusAlign,
+  height: "100%",
+};
+
 const CardLeft = (props: Props) => {
   const { ContentQuestion, numberPage } = props;
-  // console.log("audio", audio);
 
-  const contianer = {
-    ...themeCssSx.flexBox.flexJusAlign,
-    height: "100%",
-  };
   return (
     <div style={{ height: "70%" }}>
       {ContentQuestion?.questions?.map((question: any) => {

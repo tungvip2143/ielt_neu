@@ -43,12 +43,10 @@ const LoginPage = () => {
   const auth = GetAuthSelector();
   const location = useGetLocation();
   const { isLogin } = auth;
-  console.log("isLogin", isLogin);
 
   if (isLogin) {
     const dataCache = cacheService.getDataCache();
     const testCode = localStorage.getItem("testCode");
-    console.log("testCode", testCode);
     const { skill } = dataCache;
     if (skill === "READING") {
       return <Redirect to={RouteBase.IeltsReading} />;
